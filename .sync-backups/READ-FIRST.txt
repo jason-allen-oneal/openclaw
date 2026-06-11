@@ -1,0 +1,10 @@
+Read this if inspecting sync markers.
+
+A sequence of marker commits was created while preparing a sync. The important refs are:
+
+- Clean fork main before marker commits: b85a13d97d9f28ba23deee042ea9bdd72b033b5b
+- Latest marker commit: e2356396347a3d311884b473e86dddf970280365
+- Target stable OpenClaw release: v2026.6.5
+- Target release commit: 5181e4f7c82bd373cb215a5619b0fa03c13862b7
+
+The proper final sync should preserve e2356396347a3d311884b473e86dddf970280365 or b85a13d97d9f28ba23deee042ea9bdd72b033b5b on a backup branch, then move main to 5181e4f7c82bd373cb215a5619b0fa03c13862b7 if stable release sync is intended.
