@@ -213,6 +213,18 @@ export function shouldSkipLocalCliCredentialEpoch(params: {
   );
 }
 
+function shouldRefreshAuthProfileForExecution(params: {
+  backendId: string;
+  authProfileId?: string;
+  authCredential?: AuthProfileCredential;
+}): boolean {
+  return Boolean(
+    params.backendId === "google-gemini-cli" &&
+    params.authProfileId &&
+    params.authCredential?.type === "oauth",
+  );
+}
+
 /** Builds the complete context required to execute a CLI-backed agent run. */
 export async function prepareCliRunContext(
   params: RunCliAgentParams,
@@ -275,9 +287,11 @@ export async function prepareCliRunContext(
     authCredential = authStore.profiles[effectiveAuthProfileId];
   }
   if (
-    backendResolved.resolveAuthProfileForExecution === true &&
-    effectiveAuthProfileId &&
-    authCredential?.type === "oauth"
+    shouldRefreshAuthProfileForExecution({
+      backendId: backendResolved.id,
+      authProfileId: effectiveAuthProfileId,
+      authCredential,
+    })
   ) {
     const writableAuthStore = loadAuthProfileStoreForRuntime(agentDir, {
       externalCli: externalCliDiscoveryForProviderAuth({
@@ -411,7 +425,11 @@ export async function prepareCliRunContext(
     provider: params.provider,
     modelId,
     authProfileId: effectiveAuthProfileId,
+    // Private bridge for bundled Gemini CLI. This is intentionally not part
+    // of the public Plugin SDK until a credential-forwarding contract exists.
     authCredential,
+  } as Parameters<NonNullable<typeof backendResolved.prepareExecution>>[0] & {
+    authCredential?: AuthProfileCredential;
   });
   const skipLocalCredentialEpoch = shouldSkipLocalCliCredentialEpoch({
     authEpochMode: backendResolved.authEpochMode,

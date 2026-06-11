@@ -49,8 +49,6 @@ export type ResolvedCliBackend = {
   textTransforms?: PluginTextTransforms;
   defaultAuthProfileId?: string;
   authEpochMode?: CliBackendAuthEpochMode;
-  acceptsAuthProfileForwarding?: boolean;
-  resolveAuthProfileForExecution?: boolean;
   contextEngineHostCapabilities?: readonly ContextEngineHostCapability[];
   ownsNativeCompaction?: boolean;
   prepareExecution?: CliBackendPlugin["prepareExecution"];
@@ -86,8 +84,6 @@ type FallbackCliBackendPolicy = {
   textTransforms?: PluginTextTransforms;
   defaultAuthProfileId?: string;
   authEpochMode?: CliBackendAuthEpochMode;
-  acceptsAuthProfileForwarding?: boolean;
-  resolveAuthProfileForExecution?: boolean;
   contextEngineHostCapabilities?: readonly ContextEngineHostCapability[];
   ownsNativeCompaction?: boolean;
   prepareExecution?: CliBackendPlugin["prepareExecution"];
@@ -129,8 +125,6 @@ function resolveSetupCliBackendPolicy(provider: string): FallbackCliBackendPolic
     textTransforms: entry.backend.textTransforms,
     defaultAuthProfileId: entry.backend.defaultAuthProfileId,
     authEpochMode: entry.backend.authEpochMode,
-    acceptsAuthProfileForwarding: entry.backend.acceptsAuthProfileForwarding,
-    resolveAuthProfileForExecution: entry.backend.resolveAuthProfileForExecution,
     contextEngineHostCapabilities: entry.backend.contextEngineHostCapabilities,
     ownsNativeCompaction: entry.backend.ownsNativeCompaction,
     prepareExecution: entry.backend.prepareExecution,
@@ -431,8 +425,6 @@ export function resolveCliBackendConfig(
       textTransforms: mergePluginTextTransforms(runtimeTextTransforms, registered.textTransforms),
       defaultAuthProfileId: registered.defaultAuthProfileId,
       authEpochMode: registered.authEpochMode,
-      acceptsAuthProfileForwarding: registered.acceptsAuthProfileForwarding,
-      resolveAuthProfileForExecution: registered.resolveAuthProfileForExecution,
       contextEngineHostCapabilities: registered.contextEngineHostCapabilities,
       ownsNativeCompaction: registered.ownsNativeCompaction,
       prepareExecution: registered.prepareExecution,
@@ -466,8 +458,6 @@ export function resolveCliBackendConfig(
       ),
       defaultAuthProfileId: fallbackPolicy.defaultAuthProfileId,
       authEpochMode: fallbackPolicy.authEpochMode,
-      acceptsAuthProfileForwarding: fallbackPolicy.acceptsAuthProfileForwarding,
-      resolveAuthProfileForExecution: fallbackPolicy.resolveAuthProfileForExecution,
       contextEngineHostCapabilities: fallbackPolicy.contextEngineHostCapabilities,
       ownsNativeCompaction: fallbackPolicy.ownsNativeCompaction,
       prepareExecution: fallbackPolicy.prepareExecution,
@@ -498,8 +488,6 @@ export function resolveCliBackendConfig(
     ),
     defaultAuthProfileId: fallbackPolicy?.defaultAuthProfileId,
     authEpochMode: fallbackPolicy?.authEpochMode,
-    acceptsAuthProfileForwarding: fallbackPolicy?.acceptsAuthProfileForwarding,
-    resolveAuthProfileForExecution: fallbackPolicy?.resolveAuthProfileForExecution,
     contextEngineHostCapabilities: fallbackPolicy?.contextEngineHostCapabilities,
     ownsNativeCompaction: fallbackPolicy?.ownsNativeCompaction,
     prepareExecution: fallbackPolicy?.prepareExecution,
