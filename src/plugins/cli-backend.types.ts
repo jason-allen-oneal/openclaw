@@ -62,6 +62,23 @@ export type CliBackendResolveExecutionArgs = (
 
 export type CliBackendAuthEpochMode = "combined" | "profile-only";
 
+export type CliBackendAuthProfileForwarding = {
+  /**
+   * Allows the runtime to select an OpenClaw auth profile for this backend's
+   * provider-owned execution bridge.
+   */
+  enabled: boolean;
+  /**
+   * Auth profile providers this backend accepts, for example
+   * `google-gemini-cli`. Empty or omitted means the CLI execution provider id.
+   */
+  acceptedProfileProviders?: readonly string[];
+  /**
+   * Credential shapes this backend can consume through its execution bridge.
+   */
+  acceptedCredentialTypes?: readonly ("oauth" | "api_key" | "token")[];
+};
+
 export type CliBackendNativeToolMode = "none" | "always-on";
 
 export type CliBackendNormalizeConfigContext = {
@@ -166,6 +183,13 @@ export type CliBackendPlugin = {
    * owner for session invalidation when one is present.
    */
   authEpochMode?: CliBackendAuthEpochMode;
+  /**
+   * Declares whether this backend may receive a selected OpenClaw auth profile.
+   *
+   * Keep credential projection in the trusted runtime. This flag only declares
+   * that the backend is compatible with profile-owned execution setup.
+   */
+  authProfileForwarding?: CliBackendAuthProfileForwarding;
   /**
    * Backend-owned execution bridge.
    *

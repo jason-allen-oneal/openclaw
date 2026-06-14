@@ -25,7 +25,8 @@ vi.mock("../model-selection.js", () => ({
   isCliProvider: (provider: string) =>
     provider.trim().toLowerCase() === "claude-cli" ||
     provider.trim().toLowerCase() === "codex-cli" ||
-    provider.trim().toLowerCase() === "google-gemini-cli",
+    provider.trim().toLowerCase() === "google-gemini-cli" ||
+    provider.trim().toLowerCase() === "google-test-cli",
   normalizeProviderId: (provider: string) => provider.trim().toLowerCase(),
 }));
 
@@ -774,6 +775,98 @@ describe("CLI attempt execution", () => {
     expect(runCliAgentMock).toHaveBeenCalledTimes(1);
     expect(firstRunCliAgentArg().provider).toBe("google-gemini-cli");
     expect(firstRunCliAgentArg().authProfileId).toBe("google-gemini-cli:user@example.test");
+  });
+
+  it("forwards auth profiles through any CLI backend declaring authProfileForwarding", async () => {
+    const sessionKey = "agent:main:direct:google-test-cli-auth-forwarding";
+    const sessionEntry: SessionEntry = {
+      sessionId: "openclaw-session-google-test-cli",
+      updatedAt: Date.now(),
+    };
+    const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
+    await fs.writeFile(storePath, JSON.stringify(sessionStore, null, 2), "utf-8");
+    await fs.writeFile(
+      path.join(tmpDir, "auth-profiles.json"),
+      JSON.stringify(
+        {
+          version: 1,
+          profiles: {
+            "google-test-cli:user@example.test": {
+              type: "oauth",
+              provider: "google-test-cli",
+              access: "access-token",
+              refresh: "refresh-token",
+              expires: Date.now() + 3_600_000,
+              email: "user@example.test",
+            },
+          },
+        },
+        null,
+        2,
+      ),
+      "utf-8",
+    );
+    runCliAgentMock.mockResolvedValueOnce(makeCliResult("google test cli response"));
+
+    await runAgentAttempt({
+      providerOverride: "google",
+      originalProvider: "google",
+      modelOverride: "gemini-3.1-pro-preview",
+      cfg: {
+        auth: {
+          order: {
+            "google-test-cli": ["google-test-cli:user@example.test"],
+          },
+        },
+        agents: {
+          defaults: {
+            cliBackends: {
+              "google-test-cli": {
+                command: "google-test-cli",
+                args: ["--model", "{model}", "--prompt", "{prompt}"],
+                authProfileForwarding: {
+                  enabled: true,
+                  acceptedProfileProviders: ["google-test-cli"],
+                  acceptedCredentialTypes: ["oauth"],
+                },
+              },
+            },
+            models: {
+              "google/gemini-3.1-pro-preview": {
+                agentRuntime: { id: "google-test-cli" },
+              },
+            },
+          },
+        },
+      } as OpenClawConfig,
+      sessionEntry,
+      sessionId: sessionEntry.sessionId,
+      sessionKey,
+      sessionAgentId: "main",
+      sessionFile: path.join(tmpDir, "session.jsonl"),
+      workspaceDir: tmpDir,
+      body: "continue",
+      isFallbackRetry: false,
+      resolvedThinkLevel: "medium",
+      timeoutMs: 1_000,
+      runId: "run-google-test-cli-auth-forwarding",
+      opts: {} as Parameters<typeof runAgentAttempt>[0]["opts"],
+      runContext: {} as Parameters<typeof runAgentAttempt>[0]["runContext"],
+      spawnedBy: undefined,
+      messageChannel: undefined,
+      skillsSnapshot: undefined,
+      resolvedVerboseLevel: undefined,
+      agentDir: tmpDir,
+      onAgentEvent: vi.fn(),
+      authProfileProvider: "google",
+      sessionStore,
+      storePath,
+      sessionHasHistory: false,
+    });
+
+    expect(runCliAgentMock).toHaveBeenCalledTimes(1);
+    expect(firstRunCliAgentArg().provider).toBe("google-test-cli");
+    expect(firstRunCliAgentArg().authProfileId).toBe("google-test-cli:user@example.test");
   });
 
   it("persists CLI replies into the session transcript", async () => {

@@ -222,7 +222,7 @@ function cliBackendAcceptsAuthProfileForwarding(params: {
   const backend = resolveCliBackendConfig(params.provider, params.config, {
     agentId: params.agentId,
   });
-  return backend?.id === "google-gemini-cli";
+  return backend?.authProfileForwarding?.enabled === true;
 }
 
 function resolveCliExecutionAuthProfileId(params: {
@@ -230,11 +230,24 @@ function resolveCliExecutionAuthProfileId(params: {
   config: OpenClawConfig;
   agentDir: string;
   selected: HarnessAuthProfileSelection;
+  agentId?: string;
 }): string | undefined {
+  const backend = resolveCliBackendConfig(params.cliExecutionProvider, params.config, {
+    agentId: params.agentId,
+  });
+  const acceptedProviders = backend?.authProfileForwarding?.acceptedProfileProviders;
+  const acceptsProvider = (provider: string): boolean =>
+    !acceptedProviders?.length || acceptedProviders.includes(provider);
+
   if (params.selected.authProfileId) {
-    return params.selected.authProfileProvider === params.cliExecutionProvider
+    return params.selected.authProfileProvider === params.cliExecutionProvider &&
+      acceptsProvider(params.selected.authProfileProvider)
       ? params.selected.authProfileId
       : undefined;
+  }
+
+  if (!acceptsProvider(params.cliExecutionProvider)) {
+    return undefined;
   }
 
   const store = ensureAuthProfileStore(params.agentDir, {
@@ -587,6 +600,7 @@ export function runAgentAttempt(params: {
         config: params.cfg,
         agentDir: params.agentDir,
         selected: harnessAuthSelection,
+        agentId: params.sessionAgentId,
       })
     : undefined;
   const authProfileId = cliAuthProfileId ?? runtimeAuthPlan.forwardedAuthProfileId;
