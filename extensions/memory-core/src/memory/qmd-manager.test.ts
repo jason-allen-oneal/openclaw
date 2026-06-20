@@ -203,7 +203,11 @@ import {
   resolveMemoryBackendConfig,
 } from "openclaw/plugin-sdk/memory-core-host-engine-storage";
 import { MAX_TIMER_TIMEOUT_MS } from "openclaw/plugin-sdk/number-runtime";
-import { QmdMemoryManager, resolveQmdMcporterSearchProcessTimeoutMs } from "./qmd-manager.js";
+import {
+  QmdMemoryManager,
+  resolveQmdMcporterSearchProcessTimeoutMs,
+  resolveQmdWholeSearchTimeoutMs,
+} from "./qmd-manager.js";
 
 const spawnMock = mockedSpawn as unknown as Mock;
 const originalPath = process.env.PATH;
@@ -273,6 +277,39 @@ describe("QmdMemoryManager", () => {
     expect(resolveQmdMcporterSearchProcessTimeoutMs(MAX_TIMER_TIMEOUT_MS - 100)).toBe(
       MAX_TIMER_TIMEOUT_MS,
     );
+  });
+
+  it("budgets qmd whole-search lifecycles beyond one command timeout", () => {
+    expect(
+      resolveQmdWholeSearchTimeoutMs({
+        timeoutMs: 60_000,
+        updateTimeoutMs: 20_000,
+        embedTimeoutMs: 30_000,
+        searchMode: "vsearch",
+        collectionCount: 3,
+        mcporterEnabled: false,
+        onSearchSync: true,
+      }),
+    ).toBe(782_500);
+  });
+
+  it("keeps qmd memory_search on the old guard unless the qmd search timeout is raised", async () => {
+    cfg = {
+      ...cfg,
+      memory: {
+        backend: "qmd",
+        qmd: {
+          includeDefaultMemory: false,
+          limits: { timeoutMs: 6_000 },
+          update: { interval: "0s", debounceMs: 60_000, onBoot: false },
+          paths: [{ path: workspaceDir, pattern: "**/*.md", name: "workspace" }],
+        },
+      },
+    } as OpenClawConfig;
+
+    const { manager } = await createManager();
+
+    expect(manager.getSearchTimeoutMs()).toBe(15_000);
   });
 
   async function expectPathMissing(targetPath: string): Promise<void> {

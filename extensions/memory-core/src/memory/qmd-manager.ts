@@ -80,6 +80,8 @@ const log = createSubsystemLogger("memory");
 
 const SNIPPET_HEADER_RE = /@@\s*-([0-9]+),([0-9]+)/;
 const SEARCH_PENDING_UPDATE_WAIT_MS = 500;
+const QMD_WHOLE_SEARCH_OVERHEAD_MS = 2_000;
+const MEMORY_SEARCH_DEFAULT_OUTER_TIMEOUT_MS = 15_000;
 const MAX_QMD_OUTPUT_CHARS = 200_000;
 const NUL_MARKER_RE = /(?:\^@|\\0|\\x00|\\u0000|null\s*byte|nul\s*byte)/i;
 const QMD_EMBED_BACKOFF_BASE_MS = 60_000;
@@ -214,6 +216,38 @@ function resolveQmdWriteLockOptions(expectedMs: number, minWaitMs: number) {
 
 export function resolveQmdMcporterSearchProcessTimeoutMs(timeoutMs: number): number {
   return Math.max(addTimerTimeoutGraceMs(timeoutMs, 2_000) ?? 1, 5_000);
+}
+
+export function resolveQmdWholeSearchTimeoutMs(params: {
+  timeoutMs: number;
+  updateTimeoutMs: number;
+  embedTimeoutMs: number;
+  searchMode: ResolvedQmdConfig["searchMode"];
+  collectionCount: number;
+  mcporterEnabled: boolean;
+  onSearchSync: boolean;
+}): number {
+  const qmdCommandTimeoutMs = normalizePositiveInteger(params.timeoutMs, 1);
+  const collectionCount = Math.max(1, Math.floor(params.collectionCount));
+  const searchModeAttempts = params.searchMode === "query" ? 1 : 2;
+  const missingCollectionRepairAttempts = 2;
+  const directMultiCollectionProbeMs =
+    params.mcporterEnabled || collectionCount <= 1 ? 0 : Math.min(qmdCommandTimeoutMs, 5_000);
+  const searchCommandBudgetMs =
+    directMultiCollectionProbeMs +
+    collectionCount * searchModeAttempts * missingCollectionRepairAttempts * qmdCommandTimeoutMs;
+  const dirtySyncBudgetMs = params.onSearchSync
+    ? normalizePositiveInteger(params.updateTimeoutMs, 1) +
+      (qmdUsesVectors(params.searchMode) ? normalizePositiveInteger(params.embedTimeoutMs, 1) : 0)
+    : 0;
+  return (
+    addTimerTimeoutGraceMs(
+      searchCommandBudgetMs +
+        dirtySyncBudgetMs +
+        SEARCH_PENDING_UPDATE_WAIT_MS +
+        QMD_WHOLE_SEARCH_OVERHEAD_MS,
+    ) ?? qmdCommandTimeoutMs
+  );
 }
 
 // Cross-process serialization for qmd embeds (heavy ML work, serialized globally).
@@ -1254,6 +1288,21 @@ export class QmdMemoryManager implements MemorySearchManager {
     return true;
   }
 
+  getSearchTimeoutMs(): number {
+    if (this.qmd.limits.timeoutMs <= MEMORY_SEARCH_DEFAULT_OUTER_TIMEOUT_MS) {
+      return MEMORY_SEARCH_DEFAULT_OUTER_TIMEOUT_MS;
+    }
+    return resolveQmdWholeSearchTimeoutMs({
+      timeoutMs: this.qmd.limits.timeoutMs,
+      updateTimeoutMs: this.qmd.update.updateTimeoutMs,
+      embedTimeoutMs: this.qmd.update.embedTimeoutMs,
+      searchMode: this.qmd.searchMode,
+      collectionCount: this.qmd.collections.length,
+      mcporterEnabled: this.qmd.mcporter.enabled,
+      onSearchSync: this.syncSettings?.onSearch === true,
+    });
+  }
+
   async search(
     query: string,
     opts?: {
@@ -1263,6 +1312,7 @@ export class QmdMemoryManager implements MemorySearchManager {
       qmdSearchModeOverride?: "query" | "search" | "vsearch";
       onDebug?: (debug: MemorySearchRuntimeDebug) => void;
       sources?: MemorySource[];
+      signal?: AbortSignal;
     },
   ): Promise<MemorySearchResult[]> {
     if (!this.isScopeAllowed(opts?.sessionKey)) {

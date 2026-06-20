@@ -117,5 +117,6 @@ export interface MemorySearchManager {
   probeEmbeddingAvailability(): Promise<MemoryEmbeddingProbeResult>;
   probeVectorStoreAvailability?(): Promise<boolean>;
   probeVectorAvailability(): Promise<boolean>;
+  getSearchTimeoutMs?(): number;
   close?(): Promise<void>;
 }
