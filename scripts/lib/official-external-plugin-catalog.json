@@ -140,7 +140,7 @@
       }
     },
     {
-      "name": "@openclaw/ard-plugin",
+      "name": "@jason-allen-oneal/ard-plugin",
       "description": "OpenClaw Agent Resource Discovery catalog plugin",
       "source": "official",
       "kind": "plugin",
@@ -150,8 +150,8 @@
           "label": "Agent Resource Discovery"
         },
         "install": {
-          "clawhubSpec": "clawhub:@openclaw/ard-plugin",
-          "npmSpec": "@openclaw/ard-plugin",
+          "clawhubSpec": "clawhub:@jason-allen-oneal/ard-plugin",
+          "npmSpec": "@jason-allen-oneal/ard-plugin",
           "defaultChoice": "clawhub",
           "minHostVersion": ">=2026.6.8"
         }

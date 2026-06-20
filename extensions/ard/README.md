@@ -1,4 +1,4 @@
-# @openclaw/ard-plugin
+# @jason-allen-oneal/ard-plugin
 
 Official Agent Resource Discovery catalog plugin for OpenClaw.
 
@@ -10,7 +10,7 @@ referenced resources.
 ## Install
 
 ```bash
-openclaw plugins install clawhub:@openclaw/ard-plugin
+openclaw plugins install clawhub:@jason-allen-oneal/ard-plugin
 ```
 
 Restart the Gateway after installing or updating the plugin.

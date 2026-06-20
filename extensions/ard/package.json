@@ -1,5 +1,5 @@
 {
-  "name": "@openclaw/ard-plugin",
+  "name": "@jason-allen-oneal/ard-plugin",
   "version": "2026.6.8",
   "description": "OpenClaw Agent Resource Discovery plugin",
   "repository": {
@@ -15,8 +15,8 @@
       "./index.ts"
     ],
     "install": {
-      "clawhubSpec": "clawhub:@openclaw/ard-plugin",
-      "npmSpec": "@openclaw/ard-plugin",
+      "clawhubSpec": "clawhub:@jason-allen-oneal/ard-plugin",
+      "npmSpec": "@jason-allen-oneal/ard-plugin",
       "localPath": "extensions/ard",
       "defaultChoice": "clawhub",
       "minHostVersion": ">=2026.6.8"
