@@ -45,7 +45,7 @@ type MemorySearchToolResult =
 type MemoryManagerContext = Awaited<ReturnType<typeof getMemoryManagerContextWithPurpose>>;
 type ActiveMemoryManagerContext = Extract<MemoryManagerContext, { manager: unknown }>;
 
-const MEMORY_SEARCH_TOOL_TIMEOUT_MS = 15_000;
+const DEFAULT_MEMORY_SEARCH_TOOL_TIMEOUT_MS = 15_000;
 const MEMORY_SEARCH_TOOL_COOLDOWN_MS = 60_000;
 
 const memorySearchToolCooldowns = new Map<string, { until: number; error: string }>();
@@ -412,10 +412,19 @@ export function createMemorySearchTool(options: {
           }
         };
 
+        const { resolveMemoryBackendConfig } = await loadMemoryToolRuntime();
+        const resolvedMemoryBackend = resolveMemoryBackendConfig({ cfg, agentId });
+        const memorySearchToolTimeoutMs =
+          resolvedMemoryBackend.backend === "qmd"
+            ? Math.max(
+                DEFAULT_MEMORY_SEARCH_TOOL_TIMEOUT_MS,
+                resolvedMemoryBackend.qmd?.limits.timeoutMs ?? 0,
+              )
+            : DEFAULT_MEMORY_SEARCH_TOOL_TIMEOUT_MS;
+
         const outcome = await runMemorySearchToolWithDeadline({
-          timeoutMs: MEMORY_SEARCH_TOOL_TIMEOUT_MS,
+          timeoutMs: memorySearchToolTimeoutMs,
           run: async (deadlineSignal) => {
-            const { resolveMemoryBackendConfig } = await loadMemoryToolRuntime();
             const shouldQuerySupplements = requestedCorpus === "wiki" || requestedCorpus === "all";
             const shouldQueryMemory = requestedCorpus !== "wiki" && !cooldown;
             if (cooldown && !shouldQuerySupplements) {
