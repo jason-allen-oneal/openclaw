@@ -1657,7 +1657,7 @@ export class QmdMemoryManager implements MemorySearchManager {
     }
   }
 
-  async close(): Promise<void> {
+  async close(timeoutMs?: number): Promise<void> {
     if (this.closed) {
       return;
     }
@@ -1680,8 +1680,30 @@ export class QmdMemoryManager implements MemorySearchManager {
       this.watcher = null;
     }
     this.queuedForcedRuns = 0;
-    await this.pendingUpdate?.catch(() => undefined);
-    await this.queuedForcedUpdate?.catch(() => undefined);
+    const awaitWithTimeout = async (
+      label: string,
+      p: Promise<void> | null | undefined,
+    ): Promise<void> => {
+      if (!p) {
+        return;
+      }
+      if (timeoutMs === undefined || timeoutMs <= 0) {
+        await p.catch(() => undefined);
+        return;
+      }
+      const timeoutPromise = new Promise<void>((resolve) => {
+        const timer = setTimeout(() => {
+          log.warn(
+            `qmd close timed out waiting for ${label} after ${timeoutMs}ms; proceeding with cleanup`,
+          );
+          resolve();
+        }, timeoutMs);
+        timer.unref?.();
+      });
+      await Promise.race([p.catch(() => undefined), timeoutPromise]);
+    };
+    await awaitWithTimeout("pending update", this.pendingUpdate);
+    await awaitWithTimeout("queued forced update", this.queuedForcedUpdate);
     if (this.db) {
       this.db.close();
       this.db = null;

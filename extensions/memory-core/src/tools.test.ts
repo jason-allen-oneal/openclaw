@@ -1,6 +1,7 @@
 // Memory Core tests cover tools plugin behavior.
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  getMemoryCloseMockArgs,
   getMemoryCloseMockCalls,
   getMemorySearchManagerMockCalls,
   getMemorySearchManagerMockConfigs,
@@ -348,6 +349,54 @@ describe("memory_search unavailable payloads", () => {
       expect(searchCalls).toBe(2);
       expect(getMemorySyncMockCalls()).toBe(1);
       expect(retrySignal?.aborted).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("closes one-shot CLI qmd manager with timeout when forced sync never settles", async () => {
+    vi.useFakeTimers();
+    try {
+      setMemoryBackend("qmd");
+      setMemorySearchTimeoutMs(60_000);
+      let searchCalls = 0;
+      setMemorySearchImpl(async (opts) => {
+        searchCalls += 1;
+        if (searchCalls === 1) {
+          return await new Promise((resolve) => {
+            setTimeout(() => resolve([]), 10_000);
+          });
+        }
+        return await new Promise(() => {});
+      });
+      setMemorySyncImpl(async () => await new Promise(() => {}));
+      const tool = createMemorySearchToolOrThrow({
+        config: {
+          agents: { list: [{ id: "main", default: true }] },
+          memory: { citations: "off", backend: "qmd", qmd: { limits: { timeoutMs: 60_000 } } },
+        },
+        oneShotCliRun: true,
+      });
+
+      const resultPromise = tool.execute("cli-qmd-forced-sync-timeout", { query: "hello" });
+      await vi.advanceTimersByTimeAsync(10_000);
+      await vi.advanceTimersByTimeAsync(10_000);
+      await vi.advanceTimersByTimeAsync(40_000);
+
+      const result = await resultPromise;
+      expectUnavailableMemorySearchDetails(result.details, {
+        error: "memory_search timed out after 60s",
+        warning: "Memory search is unavailable due to an embedding/provider error.",
+        action: "Check embedding provider configuration and retry memory_search.",
+      });
+      // The forced sync never settles, so the deadline fires after the first
+      // search + sync attempt. The retry search is never reached because the
+      // sync timeout throws before the second search can run.
+      expect(searchCalls).toBe(1);
+      expect(getMemorySyncMockCalls()).toBe(1);
+      expect(getMemoryCloseMockCalls()).toBe(1);
+      const closeArgs = getMemoryCloseMockArgs();
+      expect(closeArgs[0]?.timeoutMs).toBe(5_000);
     } finally {
       vi.useRealTimers();
     }

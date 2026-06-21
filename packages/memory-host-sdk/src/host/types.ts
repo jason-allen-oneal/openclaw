@@ -118,5 +118,5 @@ export interface MemorySearchManager {
   probeVectorStoreAvailability?(): Promise<boolean>;
   probeVectorAvailability(): Promise<boolean>;
   getSearchTimeoutMs?(): number;
-  close?(): Promise<void>;
+  close?(timeoutMs?: number): Promise<void>;
 }

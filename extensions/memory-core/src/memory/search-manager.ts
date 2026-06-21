@@ -688,13 +688,13 @@ class FallbackMemoryManager implements MemorySearchManager {
     return (await fallback?.probeVectorAvailability()) ?? false;
   }
 
-  async close() {
+  async close(timeoutMs?: number) {
     if (this.closed) {
       return;
     }
     this.closed = true;
-    await this.deps.primary.close?.();
-    await this.fallback?.close?.();
+    await this.deps.primary.close?.(timeoutMs);
+    await this.fallback?.close?.(timeoutMs);
     this.evictCacheEntry();
   }
 

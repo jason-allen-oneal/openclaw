@@ -92,12 +92,14 @@ function isActiveMemoryManagerContext(
   return context !== null && "manager" in context;
 }
 
+const QMD_CLOSE_CLEANUP_TIMEOUT_MS = 5_000;
+
 async function closeMemoryManagers(
   managers: Iterable<ActiveMemoryManagerContext["manager"]>,
 ): Promise<void> {
   for (const manager of managers) {
     try {
-      await manager.close?.();
+      await manager.close?.(QMD_CLOSE_CLEANUP_TIMEOUT_MS);
     } catch {
       // Search results should not be hidden by best-effort transient cleanup.
     }
