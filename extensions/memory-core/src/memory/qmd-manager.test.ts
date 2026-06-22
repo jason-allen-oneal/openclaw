@@ -312,6 +312,52 @@ describe("QmdMemoryManager", () => {
     expect(manager.getSearchTimeoutMs()).toBe(15_000);
   });
 
+  it("clears qmd close timeout timers when pending updates settle first", async () => {
+    vi.useFakeTimers();
+    const { manager } = await createManager();
+    const managerInternals = manager as unknown as {
+      pendingUpdate: Promise<void> | null;
+      queuedForcedUpdate: Promise<void> | null;
+    };
+    managerInternals.pendingUpdate = Promise.resolve();
+    managerInternals.queuedForcedUpdate = Promise.resolve();
+
+    await manager.close(5_000);
+    await vi.advanceTimersByTimeAsync(5_000);
+
+    expectMockMessageNotContains(logWarnMock, "qmd close timed out waiting");
+  });
+
+  it("uses one qmd close cleanup deadline across pending and queued updates", async () => {
+    vi.useFakeTimers();
+    const { manager } = await createManager();
+    const managerInternals = manager as unknown as {
+      pendingUpdate: Promise<void> | null;
+      queuedForcedUpdate: Promise<void> | null;
+    };
+    managerInternals.pendingUpdate = new Promise(() => {});
+    managerInternals.queuedForcedUpdate = new Promise(() => {});
+
+    let closeSettled = false;
+    const closePromise = manager.close(5_000).finally(() => {
+      closeSettled = true;
+    });
+
+    await vi.advanceTimersByTimeAsync(4_999);
+    await Promise.resolve();
+    expect(closeSettled).toBe(false);
+
+    await vi.advanceTimersByTimeAsync(1);
+    await closePromise;
+
+    expect(closeSettled).toBe(true);
+    expect(
+      mockMessages(logWarnMock).filter((message) =>
+        message.includes("qmd close timed out waiting"),
+      ),
+    ).toHaveLength(2);
+  });
+
   async function expectPathMissing(targetPath: string): Promise<void> {
     try {
       await fs.lstat(targetPath);

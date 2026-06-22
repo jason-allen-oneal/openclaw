@@ -1680,30 +1680,50 @@ export class QmdMemoryManager implements MemorySearchManager {
       this.watcher = null;
     }
     this.queuedForcedRuns = 0;
-    const awaitWithTimeout = async (
+    const cleanupTimeoutMs =
+      typeof timeoutMs === "number" && Number.isFinite(timeoutMs) && timeoutMs > 0
+        ? Math.floor(timeoutMs)
+        : undefined;
+    const cleanupDeadlineAt =
+      cleanupTimeoutMs === undefined ? undefined : Date.now() + cleanupTimeoutMs;
+    const awaitUntilCleanupDeadline = async (
       label: string,
       p: Promise<void> | null | undefined,
     ): Promise<void> => {
       if (!p) {
         return;
       }
-      if (timeoutMs === undefined || timeoutMs <= 0) {
+      if (cleanupTimeoutMs === undefined || cleanupDeadlineAt === undefined) {
         await p.catch(() => undefined);
         return;
       }
+      const remainingMs = cleanupDeadlineAt - Date.now();
+      if (remainingMs <= 0) {
+        log.warn(
+          `qmd close timed out waiting for ${label} after ${cleanupTimeoutMs}ms; proceeding with cleanup`,
+        );
+        return;
+      }
+      let timer: ReturnType<typeof setTimeout> | undefined;
       const timeoutPromise = new Promise<void>((resolve) => {
-        const timer = setTimeout(() => {
+        timer = setTimeout(() => {
           log.warn(
-            `qmd close timed out waiting for ${label} after ${timeoutMs}ms; proceeding with cleanup`,
+            `qmd close timed out waiting for ${label} after ${cleanupTimeoutMs}ms; proceeding with cleanup`,
           );
           resolve();
-        }, timeoutMs);
+        }, remainingMs);
         timer.unref?.();
       });
-      await Promise.race([p.catch(() => undefined), timeoutPromise]);
+      try {
+        await Promise.race([p.catch(() => undefined), timeoutPromise]);
+      } finally {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      }
     };
-    await awaitWithTimeout("pending update", this.pendingUpdate);
-    await awaitWithTimeout("queued forced update", this.queuedForcedUpdate);
+    await awaitUntilCleanupDeadline("pending update", this.pendingUpdate);
+    await awaitUntilCleanupDeadline("queued forced update", this.queuedForcedUpdate);
     if (this.db) {
       this.db.close();
       this.db = null;
