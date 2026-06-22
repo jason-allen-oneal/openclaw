@@ -360,7 +360,7 @@ describe("memory_search unavailable payloads", () => {
       setMemoryBackend("qmd");
       setMemorySearchTimeoutMs(60_000);
       let searchCalls = 0;
-      setMemorySearchImpl(async (opts) => {
+      setMemorySearchImpl(async (_opts) => {
         searchCalls += 1;
         if (searchCalls === 1) {
           return await new Promise((resolve) => {
