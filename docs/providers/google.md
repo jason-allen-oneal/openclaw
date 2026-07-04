@@ -131,6 +131,58 @@ Choose your preferred auth method and follow the setup steps.
     runtime when they want local Gemini CLI execution.
 
 </Tab>
+  <Tab title="Antigravity (agy)">
+    **Best for:** using a local signed-in Antigravity / `agy` session without importing raw Google OAuth tokens into OpenClaw.
+
+    <Note>
+    OpenClaw delegates Antigravity execution to the local `agy --print` runtime. Antigravity owns the Google sign-in/session. OpenClaw only records a local provider profile and forwards the selected Antigravity user-data directory when one is configured.
+    </Note>
+
+    <Steps>
+      <Step title="Sign in to Antigravity / agy">
+        Install and sign in to Antigravity first, then verify the local CLI can answer:
+
+        ```bash
+        agy --print "Reply exactly: AGY_OK" --print-timeout 2m0s
+        ```
+      </Step>
+      <Step title="Optional: pin the Antigravity user-data directory">
+        If Antigravity uses a non-default profile directory, set:
+
+        ```bash
+        export ANTIGRAVITY_USER_DATA_DIR="$HOME/.config/Antigravity"
+        ```
+      </Step>
+      <Step title="Create the OpenClaw provider profile">
+        ```bash
+        openclaw models auth login --provider google-antigravity --set-default
+        ```
+      </Step>
+      <Step title="Use an Antigravity model ref">
+        ```json5
+        {
+          agents: {
+            defaults: {
+              model: { primary: "google-antigravity/gemini-3-flash" },
+            },
+          },
+        }
+        ```
+      </Step>
+    </Steps>
+
+    - Provider: `google-antigravity`
+    - Runtime: local `agy --print`
+    - Default model: `google-antigravity/gemini-3-flash`
+    - Supported model aliases include `flash`, `pro-low`, `pro-high`, `gemini-3-flash`, `gemini-3-pro-low`, and `gemini-3-pro-high`
+    - Optional env: `ANTIGRAVITY_USER_DATA_DIR`
+
+    <Warning>
+    Do not configure Gemini API keys, Google ADC, or Gemini CLI OAuth secrets for this path. The Antigravity backend clears inherited Google API-key and ADC environment variables before launching `agy`.
+    </Warning>
+
+  </Tab>
+
 </Tabs>
 
 ## Capabilities

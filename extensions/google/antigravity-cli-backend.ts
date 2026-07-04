@@ -71,6 +71,12 @@ export function buildGoogleAntigravityCliBackend(): CliBackendPlugin {
       sessionMode: "none",
       reseedFromRawTranscriptWhenUncompacted: true,
       serialize: true,
+      reliability: {
+        failOnEmptySuccessfulOutput: {
+          message: "Google Antigravity CLI exited successfully without stdout or stderr.",
+          code: "cli_empty_output",
+        },
+      },
     },
   };
 }

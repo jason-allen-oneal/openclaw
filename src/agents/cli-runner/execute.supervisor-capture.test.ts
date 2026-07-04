@@ -59,6 +59,10 @@ function buildPreparedCliRunContext(params: {
   provider?: string;
   runId?: string;
   beforeExecution?: () => Promise<void>;
+  failOnEmptySuccessfulOutput?: {
+    message?: string;
+    code?: string;
+  };
 }): PreparedCliRunContext {
   const provider = params.provider ?? "codex-cli";
   const backend = {
@@ -67,6 +71,9 @@ function buildPreparedCliRunContext(params: {
     output: params.output,
     input: "stdin" as const,
     serialize: true,
+    ...(params.failOnEmptySuccessfulOutput
+      ? { reliability: { failOnEmptySuccessfulOutput: params.failOnEmptySuccessfulOutput } }
+      : {}),
   };
 
   return {
@@ -177,7 +184,7 @@ describe("executePreparedCliRun supervisor output capture", () => {
     expect(events).toEqual(["stage:first", "spawn:first", "stage:second", "spawn:second"]);
   });
 
-  it("fails closed when Antigravity exits successfully with empty stdout and stderr", async () => {
+  it("fails closed when backend policy rejects successful empty stdout and stderr", async () => {
     supervisorSpawnMock.mockImplementationOnce(async () =>
       createManagedRun({
         reason: "exit",
@@ -195,10 +202,14 @@ describe("executePreparedCliRun supervisor output capture", () => {
       executePreparedCliRun(
         buildPreparedCliRunContext({
           output: "text",
-          provider: "google-antigravity",
+          provider: "custom-cli",
+          failOnEmptySuccessfulOutput: {
+            message: "Custom CLI exited successfully without output.",
+            code: "custom_cli_empty_output",
+          },
         }),
       ),
-    ).rejects.toThrow("Google Antigravity CLI exited successfully without stdout or stderr.");
+    ).rejects.toThrow("Custom CLI exited successfully without output.");
   });
 
   it("disables supervisor capture without parsing from the diagnostic stdout tail", async () => {

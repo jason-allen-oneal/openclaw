@@ -647,6 +647,9 @@
         "id": "google-gemini-cli",
         "authMethods": [
           "oauth"
+        ],
+        "envVars": [
+          "GEMINI_CLI_HOME"
         ]
       },
       {
@@ -683,7 +686,7 @@
       "choiceLabel": "Google Gemini API key",
       "groupId": "google",
       "groupLabel": "Google",
-      "groupHint": "Gemini API key, official Gemini CLI OAuth cache, or Antigravity session",
+      "groupHint": "Gemini API key, official Gemini CLI cache import, or signed-in Antigravity / agy session",
       "onboardingFeatured": true,
       "optionKey": "geminiApiKey",
       "cliFlag": "--gemini-api-key",
@@ -694,11 +697,11 @@
       "provider": "google-gemini-cli",
       "method": "oauth",
       "choiceId": "google-gemini-cli",
-      "choiceLabel": "Gemini CLI OAuth",
-      "choiceHint": "Import the official Gemini CLI OAuth cache after running `gemini` and signing in with Google",
+      "choiceLabel": "Gemini CLI official OAuth cache",
+      "choiceHint": "Run `gemini`, sign in with Google, then import the official Gemini CLI OAuth cache from GEMINI_CLI_HOME or ~/.gemini.",
       "groupId": "google",
       "groupLabel": "Google",
-      "groupHint": "Gemini API key, official Gemini CLI OAuth cache, or Antigravity session",
+      "groupHint": "Gemini API key, official Gemini CLI cache import, or signed-in Antigravity / agy session",
       "onboardingFeatured": true
     },
     {
@@ -706,10 +709,10 @@
       "method": "oauth",
       "choiceId": "google-antigravity",
       "choiceLabel": "Antigravity session",
-      "choiceHint": "Use the signed-in Antigravity / agy session without importing raw Google OAuth tokens",
+      "choiceHint": "Run and sign in to Antigravity / agy first; OpenClaw delegates to that session and does not import raw Google OAuth tokens",
       "groupId": "google",
       "groupLabel": "Google",
-      "groupHint": "Gemini API key, official Gemini CLI OAuth cache, or Antigravity session",
+      "groupHint": "Gemini API key, official Gemini CLI cache import, or signed-in Antigravity / agy session",
       "onboardingFeatured": true
     }
   ],

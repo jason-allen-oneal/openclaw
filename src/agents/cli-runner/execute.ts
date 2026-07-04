@@ -105,26 +105,26 @@ const CLI_MESSAGING_EVIDENCE_MAX_CALLS = 64;
 const CLI_MCP_DELIVERY_DRAIN_GRACE_MS = 5_000;
 const CLI_MCP_REQUEST_ADMISSION_GRACE_MS = 250;
 const OPENCLAW_MCP_TOOL_PREFIX = "mcp__openclaw__";
-const GOOGLE_ANTIGRAVITY_CLI_BACKEND_ID = "google-antigravity";
-const GOOGLE_ANTIGRAVITY_EMPTY_OUTPUT_ERROR =
-  "Google Antigravity CLI exited successfully without stdout or stderr.";
+const DEFAULT_EMPTY_SUCCESSFUL_OUTPUT_ERROR = "CLI exited successfully without stdout or stderr.";
 
-function isGoogleAntigravityCliBackend(backendId: string): boolean {
-  return backendId.trim().toLowerCase() === GOOGLE_ANTIGRAVITY_CLI_BACKEND_ID;
-}
-
-function shouldFailClosedOnEmptySuccessfulCliOutput(params: {
-  backendId: string;
+function resolveEmptySuccessfulOutputFailure(params: {
+  backend: PreparedCliRunContext["backendResolved"]["config"];
   stdout: string;
   stderr: string;
   observedCliActivity: boolean;
-}): boolean {
-  return (
-    isGoogleAntigravityCliBackend(params.backendId) &&
-    params.stdout.trim().length === 0 &&
-    params.stderr.trim().length === 0 &&
-    !params.observedCliActivity
-  );
+}): { message: string; code?: string } | null {
+  const policy = params.backend.reliability?.failOnEmptySuccessfulOutput;
+  if (
+    !policy ||
+    params.stdout.trim().length > 0 ||
+    params.stderr.trim().length > 0 ||
+    params.observedCliActivity
+  ) {
+    return null;
+  }
+  const message = policy.message?.trim() || DEFAULT_EMPTY_SUCCESSFUL_OUTPUT_ERROR;
+  const code = policy.code?.trim() || "cli_empty_output";
+  return { message, code };
 }
 
 function normalizeCliMessagingToolName(toolName: string): string {
@@ -1241,24 +1241,24 @@ export async function executePreparedCliRun(
             }
           }
 
-          if (
-            result.exitCode === 0 &&
-            result.reason === "exit" &&
-            shouldFailClosedOnEmptySuccessfulCliOutput({
-              backendId: context.backendResolved.id,
-              stdout,
-              stderr,
-              observedCliActivity,
-            })
-          ) {
-            throw new FailoverError(GOOGLE_ANTIGRAVITY_EMPTY_OUTPUT_ERROR, {
+          const emptySuccessfulOutputFailure =
+            result.exitCode === 0 && result.reason === "exit"
+              ? resolveEmptySuccessfulOutputFailure({
+                  backend,
+                  stdout,
+                  stderr,
+                  observedCliActivity,
+                })
+              : null;
+          if (emptySuccessfulOutputFailure) {
+            throw new FailoverError(emptySuccessfulOutputFailure.message, {
               reason: "format",
               provider: params.provider,
               model: context.modelId,
               sessionId: params.sessionId,
               lane: params.lane,
               status: resolveFailoverStatus("format"),
-              code: "cli_empty_output",
+              code: emptySuccessfulOutputFailure.code,
             });
           }
 

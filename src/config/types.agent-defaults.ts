@@ -191,6 +191,13 @@ export type CliBackendConfig = {
       /** Max raw JSONL lines retained for one live CLI turn. */
       maxTurnLines?: number;
     };
+    /** Fail closed when a CLI exits successfully without stdout/stderr or streaming activity. */
+    failOnEmptySuccessfulOutput?: {
+      /** Optional backend-owned failure message. */
+      message?: string;
+      /** Optional backend-owned failover code. */
+      code?: string;
+    };
     /** No-output watchdog tuning (fresh vs resumed runs). */
     watchdog?: {
       /** Fresh/new sessions (non-resume). */
