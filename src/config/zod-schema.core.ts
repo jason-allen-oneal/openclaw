@@ -790,6 +790,14 @@ const CliBackendWatchdogModeSchema = z
   .strict()
   .optional();
 
+const CliBackendEmptySuccessfulOutputSchema = z
+  .object({
+    message: z.string().optional(),
+    code: z.string().optional(),
+  })
+  .strict()
+  .optional();
+
 const CliBackendOutputLimitsSchema = z
   .object({
     maxTurnRawChars: z
@@ -842,6 +850,7 @@ export const CliBackendSchema = z
     reliability: z
       .object({
         outputLimits: CliBackendOutputLimitsSchema,
+        failOnEmptySuccessfulOutput: CliBackendEmptySuccessfulOutputSchema,
         watchdog: z
           .object({
             fresh: CliBackendWatchdogModeSchema,

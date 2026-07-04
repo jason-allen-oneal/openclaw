@@ -265,6 +265,14 @@ export function resolveSessionIdToSend(params: {
   return { sessionId: crypto.randomUUID(), isNew: true };
 }
 
+function cliBackendArgsContainPromptPlaceholder(backend: CliBackendConfig): boolean {
+  return [
+    ...(backend.args ?? []),
+    ...(backend.resumeArgs ?? []),
+    ...(backend.sessionArgs ?? []),
+  ].some((entry) => entry === "{prompt}");
+}
+
 /** Routes prompt text to argv or stdin based on backend input policy. */
 export function resolvePromptInput(params: { backend: CliBackendConfig; prompt: string }): {
   argsPrompt?: string;
@@ -274,7 +282,14 @@ export function resolvePromptInput(params: { backend: CliBackendConfig; prompt: 
   if (inputMode === "stdin") {
     return { stdin: params.prompt };
   }
-  if (params.backend.maxPromptArgChars && params.prompt.length > params.backend.maxPromptArgChars) {
+  const maxPromptArgChars = params.backend.maxPromptArgChars;
+  if (maxPromptArgChars && params.prompt.length > maxPromptArgChars) {
+    if (cliBackendArgsContainPromptPlaceholder(params.backend)) {
+      throw new Error(
+        `CLI backend prompt length ${params.prompt.length} exceeds maxPromptArgChars ${maxPromptArgChars}, but backend args contain {prompt}; configure stdin input or raise maxPromptArgChars.`,
+      );
+    }
+
     return { stdin: params.prompt };
   }
   return { argsPrompt: params.prompt };
