@@ -117,6 +117,11 @@ Choose your preferred auth method and follow the setup steps.
     Retired OpenClaw-owned Gemini CLI OAuth env vars are not the setup path anymore: `OPENCLAW_GEMINI_OAUTH_CLIENT_ID`, `OPENCLAW_GEMINI_OAUTH_CLIENT_SECRET`, `GEMINI_CLI_OAUTH_CLIENT_ID`, and `GEMINI_CLI_OAUTH_CLIENT_SECRET`. Do not add OAuth client ids or secrets to `openclaw.json`.
     </Warning>
 
+     <Note>
+     Upgrade policy: `google-gemini-cli` only uses credentials imported from the official Gemini CLI cache. Legacy OpenClaw Gemini CLI OAuth profiles are recovered only when the official cache is present and its Google account identity matches the selected profile. Missing account identity, missing official cache, or identity mismatch fails closed and requires re-importing the official Gemini CLI cache.
+     </Note>
+
+
     <Note>
     If Gemini CLI requests fail after import, set `GOOGLE_CLOUD_PROJECT` or
     `GOOGLE_CLOUD_PROJECT_ID` on the gateway host and import the cache again.

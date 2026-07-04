@@ -15,6 +15,7 @@ import {
 import { createCapturedThinkingConfigStream } from "openclaw/plugin-sdk/provider-test-contracts";
 import type { RealtimeVoiceProviderPlugin } from "openclaw/plugin-sdk/realtime-voice";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { sessionRouteStateOwners } from "./doctor-contract-api.js";
 import { registerGoogleGeminiCliProvider } from "./gemini-cli-provider.js";
 import googlePlugin from "./index.js";
 import googleProviderDiscovery from "./provider-discovery.js";
@@ -247,6 +248,33 @@ describe("google provider plugin hooks", () => {
         onboardingFeatured: true,
       }),
     );
+  });
+
+  it("registers Google doctor runtime ownership for Gemini CLI and Antigravity", () => {
+    expect(sessionRouteStateOwners).toEqual([
+      expect.objectContaining({
+        id: "google",
+        providerIds: expect.arrayContaining([
+          "google",
+          "google-antigravity",
+          "google-gemini-cli",
+          "google-vertex",
+        ]),
+        runtimeIds: expect.arrayContaining(["google-gemini-cli", "google-antigravity"]),
+        cliSessionKeys: expect.arrayContaining([
+          "google-gemini-cli",
+          "google-antigravity",
+          "gemini-cli",
+        ]),
+        authProfilePrefixes: expect.arrayContaining([
+          "google:",
+          "google-antigravity:",
+          "google-gemini-cli:",
+          "google-vertex:",
+          "gemini-cli:",
+        ]),
+      }),
+    ]);
   });
 
   it("keeps google-vertex hook aliases on native reasoning mode", async () => {

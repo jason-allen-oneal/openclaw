@@ -6,8 +6,8 @@ export const sessionRouteStateOwners: DoctorSessionRouteStateOwner[] = [
     id: "google",
     label: "Google",
     providerIds: ["google", "google-antigravity", "google-gemini-cli", "google-vertex"],
-    runtimeIds: ["google-gemini-cli"],
-    cliSessionKeys: ["google-gemini-cli", "gemini-cli"],
+    runtimeIds: ["google-gemini-cli", "google-antigravity"],
+    cliSessionKeys: ["google-gemini-cli", "google-antigravity", "gemini-cli"],
     authProfilePrefixes: [
       "google:",
       "google-antigravity:",
