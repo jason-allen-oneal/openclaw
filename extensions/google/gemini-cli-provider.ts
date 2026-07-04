@@ -193,8 +193,9 @@ export function buildGoogleGeminiCliProvider(): ProviderPlugin {
     wizard: {
       setup: {
         choiceId: "google-gemini-cli",
-        choiceLabel: "Gemini CLI OAuth",
-        choiceHint: "Google OAuth with project-aware token payload",
+        choiceLabel: "Gemini CLI official OAuth cache",
+        choiceHint:
+          "Run `gemini`, sign in with Google, then import the official Gemini CLI OAuth cache from GEMINI_CLI_HOME or ~/.gemini.",
         methodId: "oauth",
       },
     },
