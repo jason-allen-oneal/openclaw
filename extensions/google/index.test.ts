@@ -190,6 +190,65 @@ describe("google provider plugin hooks", () => {
     );
   });
 
+  it("declares Google CLI setup provider, backend, and auth-choice metadata", async () => {
+    const manifest = JSON.parse(
+      await readFile(new URL("./openclaw.plugin.json", import.meta.url), "utf8"),
+    ) as {
+      setup?: {
+        providers?: Array<{ id?: string; authMethods?: string[]; envVars?: string[] }>;
+        cliBackends?: string[];
+      };
+      providerAuthChoices?: Array<{
+        provider?: string;
+        method?: string;
+        choiceId?: string;
+        choiceHint?: string;
+        onboardingFeatured?: boolean;
+      }>;
+    };
+
+    expect(
+      manifest.setup?.providers?.find((provider) => provider.id === "google-gemini-cli"),
+    ).toEqual(
+      expect.objectContaining({
+        id: "google-gemini-cli",
+        authMethods: ["oauth"],
+      }),
+    );
+    expect(
+      manifest.setup?.providers?.find((provider) => provider.id === "google-antigravity"),
+    ).toEqual(
+      expect.objectContaining({
+        id: "google-antigravity",
+        authMethods: ["oauth"],
+        envVars: ["ANTIGRAVITY_USER_DATA_DIR"],
+      }),
+    );
+    expect(manifest.setup?.cliBackends).toContain("google-gemini-cli");
+    expect(manifest.setup?.cliBackends).toContain("google-antigravity");
+    expect(
+      manifest.providerAuthChoices?.find((choice) => choice.provider === "google-gemini-cli"),
+    ).toEqual(
+      expect.objectContaining({
+        provider: "google-gemini-cli",
+        method: "oauth",
+        choiceId: "google-gemini-cli",
+        choiceHint: expect.stringContaining("official Gemini CLI OAuth cache"),
+        onboardingFeatured: true,
+      }),
+    );
+    expect(
+      manifest.providerAuthChoices?.find((choice) => choice.provider === "google-antigravity"),
+    ).toEqual(
+      expect.objectContaining({
+        provider: "google-antigravity",
+        method: "oauth",
+        choiceId: "google-antigravity",
+        onboardingFeatured: true,
+      }),
+    );
+  });
+
   it("keeps google-vertex hook aliases on native reasoning mode", async () => {
     const { providers } = await registerProviderPlugin({
       plugin: googleProviderPlugin,

@@ -177,6 +177,30 @@ describe("executePreparedCliRun supervisor output capture", () => {
     expect(events).toEqual(["stage:first", "spawn:first", "stage:second", "spawn:second"]);
   });
 
+  it("fails closed when Antigravity exits successfully with empty stdout and stderr", async () => {
+    supervisorSpawnMock.mockImplementationOnce(async () =>
+      createManagedRun({
+        reason: "exit",
+        exitCode: 0,
+        exitSignal: null,
+        durationMs: 50,
+        stdout: "",
+        stderr: "",
+        timedOut: false,
+        noOutputTimedOut: false,
+      }),
+    );
+
+    await expect(
+      executePreparedCliRun(
+        buildPreparedCliRunContext({
+          output: "text",
+          provider: "google-antigravity",
+        }),
+      ),
+    ).rejects.toThrow("Google Antigravity CLI exited successfully without stdout or stderr.");
+  });
+
   it("disables supervisor capture without parsing from the diagnostic stdout tail", async () => {
     const fullText = `start-${"x".repeat(80 * 1024)}-end`;
 

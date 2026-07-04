@@ -105,6 +105,27 @@ const CLI_MESSAGING_EVIDENCE_MAX_CALLS = 64;
 const CLI_MCP_DELIVERY_DRAIN_GRACE_MS = 5_000;
 const CLI_MCP_REQUEST_ADMISSION_GRACE_MS = 250;
 const OPENCLAW_MCP_TOOL_PREFIX = "mcp__openclaw__";
+const GOOGLE_ANTIGRAVITY_CLI_BACKEND_ID = "google-antigravity";
+const GOOGLE_ANTIGRAVITY_EMPTY_OUTPUT_ERROR =
+  "Google Antigravity CLI exited successfully without stdout or stderr.";
+
+function isGoogleAntigravityCliBackend(backendId: string): boolean {
+  return backendId.trim().toLowerCase() === GOOGLE_ANTIGRAVITY_CLI_BACKEND_ID;
+}
+
+function shouldFailClosedOnEmptySuccessfulCliOutput(params: {
+  backendId: string;
+  stdout: string;
+  stderr: string;
+  observedCliActivity: boolean;
+}): boolean {
+  return (
+    isGoogleAntigravityCliBackend(params.backendId) &&
+    params.stdout.trim().length === 0 &&
+    params.stderr.trim().length === 0 &&
+    !params.observedCliActivity
+  );
+}
 
 function normalizeCliMessagingToolName(toolName: string): string {
   return toolName.startsWith(OPENCLAW_MCP_TOOL_PREFIX)
@@ -1218,6 +1239,27 @@ export async function executePreparedCliRun(
             if (stderrDiagnostic) {
               cliBackendLog.debug(`cli stderr:\n${stderrDiagnostic}`);
             }
+          }
+
+          if (
+            result.exitCode === 0 &&
+            result.reason === "exit" &&
+            shouldFailClosedOnEmptySuccessfulCliOutput({
+              backendId: context.backendResolved.id,
+              stdout,
+              stderr,
+              observedCliActivity,
+            })
+          ) {
+            throw new FailoverError(GOOGLE_ANTIGRAVITY_EMPTY_OUTPUT_ERROR, {
+              reason: "format",
+              provider: params.provider,
+              model: context.modelId,
+              sessionId: params.sessionId,
+              lane: params.lane,
+              status: resolveFailoverStatus("format"),
+              code: "cli_empty_output",
+            });
           }
 
           if (result.exitCode !== 0 || result.reason !== "exit") {
