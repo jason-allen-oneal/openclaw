@@ -644,12 +644,25 @@
         ]
       },
       {
+        "id": "google-antigravity",
+        "authMethods": [
+          "oauth"
+        ],
+        "envVars": [
+          "ANTIGRAVITY_USER_DATA_DIR"
+        ]
+      },
+      {
         "id": "google",
         "envVars": [
           "GEMINI_API_KEY",
           "GOOGLE_API_KEY"
         ]
       }
+    ],
+    "cliBackends": [
+      "google-gemini-cli",
+      "google-antigravity"
     ]
   },
   "cliBackends": [
@@ -679,7 +692,18 @@
       "choiceHint": "Google OAuth with project-aware token payload",
       "groupId": "google",
       "groupLabel": "Google",
-      "groupHint": "Gemini API key or Gemini CLI OAuth",
+      "groupHint": "Gemini API key, Gemini CLI OAuth, or Antigravity session",
+      "onboardingFeatured": true
+    },
+    {
+      "provider": "google-antigravity",
+      "method": "oauth",
+      "choiceId": "google-antigravity",
+      "choiceLabel": "Antigravity session",
+      "choiceHint": "Use the signed-in Antigravity / agy session without importing raw Google OAuth tokens",
+      "groupId": "google",
+      "groupLabel": "Google",
+      "groupHint": "Gemini API key, Gemini CLI OAuth, or Antigravity session",
       "onboardingFeatured": true
     }
   ],

@@ -152,6 +152,28 @@ describe("buildCliArgs", () => {
     ).toEqual(["exec", "resume", "thread-123", "--model", "gpt-5.4"]);
   });
 
+  it("passes Antigravity non-default model refs through agy --model", () => {
+    expect(
+      buildCliArgs({
+        backend: {
+          command: "agy",
+          modelArg: "--model",
+        },
+        baseArgs: ["--print", "{prompt}", "--print-timeout", "5m0s"],
+        modelId: "gemini-3-pro-high",
+        promptArg: "reply exactly: antigravity model proof",
+        useResume: false,
+      }),
+    ).toEqual([
+      "--print",
+      "reply exactly: antigravity model proof",
+      "--print-timeout",
+      "5m0s",
+      "--model",
+      "gemini-3-pro-high",
+    ]);
+  });
+
   it("strips the internal cache boundary from CLI system prompt args", () => {
     // The boundary is internal prompt-cache metadata and must never reach the
     // downstream CLI as literal text.

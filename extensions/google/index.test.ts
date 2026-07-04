@@ -1,5 +1,5 @@
 // Google tests cover index plugin behavior.
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import type { Context, Model } from "openclaw/plugin-sdk/llm";
@@ -150,6 +150,44 @@ describe("google provider plugin hooks", () => {
         modelId: "gemini-3-pro-low",
       } as never),
     ).toBe("tagged");
+  });
+
+  it("declares Antigravity setup provider, backend, and auth-choice metadata", async () => {
+    const manifest = JSON.parse(
+      await readFile(new URL("./openclaw.plugin.json", import.meta.url), "utf8"),
+    ) as {
+      setup?: {
+        providers?: Array<{ id?: string; authMethods?: string[]; envVars?: string[] }>;
+        cliBackends?: string[];
+      };
+      providerAuthChoices?: Array<{
+        provider?: string;
+        method?: string;
+        choiceId?: string;
+        onboardingFeatured?: boolean;
+      }>;
+    };
+
+    expect(
+      manifest.setup?.providers?.find((provider) => provider.id === "google-antigravity"),
+    ).toEqual(
+      expect.objectContaining({
+        id: "google-antigravity",
+        authMethods: ["oauth"],
+        envVars: ["ANTIGRAVITY_USER_DATA_DIR"],
+      }),
+    );
+    expect(manifest.setup?.cliBackends).toContain("google-antigravity");
+    expect(
+      manifest.providerAuthChoices?.find((choice) => choice.provider === "google-antigravity"),
+    ).toEqual(
+      expect.objectContaining({
+        provider: "google-antigravity",
+        method: "oauth",
+        choiceId: "google-antigravity",
+        onboardingFeatured: true,
+      }),
+    );
   });
 
   it("keeps google-vertex hook aliases on native reasoning mode", async () => {

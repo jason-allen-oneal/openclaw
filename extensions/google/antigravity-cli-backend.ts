@@ -2,6 +2,18 @@ import type { CliBackendPlugin } from "openclaw/plugin-sdk/cli-backend";
 
 const ANTIGRAVITY_DEFAULT_MODEL_REF = "google-antigravity/gemini-3-flash";
 
+const ANTIGRAVITY_MODEL_ALIASES: Record<string, string> = {
+  flash: "gemini-3-flash",
+  pro: "gemini-3-pro-low",
+  "pro-low": "gemini-3-pro-low",
+  "pro-high": "gemini-3-pro-high",
+  "gemini-3.1-pro": "gemini-3-pro-low",
+  "gemini-3-pro": "gemini-3-pro-low",
+  "gemini-3-pro-low": "gemini-3-pro-low",
+  "gemini-3-pro-high": "gemini-3-pro-high",
+  "gemini-3-flash": "gemini-3-flash",
+};
+
 function normalizeString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
 }
@@ -54,6 +66,8 @@ export function buildGoogleAntigravityCliBackend(): CliBackendPlugin {
       output: "text",
       input: "arg",
       maxPromptArgChars: 8000,
+      modelArg: "--model",
+      modelAliases: ANTIGRAVITY_MODEL_ALIASES,
       sessionMode: "none",
       serialize: true,
     },
