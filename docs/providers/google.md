@@ -63,8 +63,8 @@ Choose your preferred auth method and follow the setup steps.
 
   </Tab>
 
-  <Tab title="Gemini CLI (OAuth)">
-    **Best for:** importing an existing official Gemini CLI **Sign in with Google** cache instead of using a separate API key.
+  <Tab title="Gemini CLI cache import">
+    **Best for:** reusing credentials from an existing official Gemini CLI sign-in instead of configuring a separate API key in OpenClaw.
 
     <Note>
     OpenClaw does not start its own Google OAuth browser/callback flow for `google-gemini-cli`. Run the official `gemini` CLI first, choose **Sign in with Google**, complete the browser flow, then import the resulting cache with OpenClaw.
