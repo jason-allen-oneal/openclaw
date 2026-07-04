@@ -2,12 +2,28 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { withEnvAsync } from "../test-utils/env.js";
-import { clearRuntimeAuthProfileStoreSnapshots } from "./auth-profiles.js";
+import {
+  clearRuntimeAuthProfileStoreSnapshots,
+  ensureAuthProfileStoreWithoutExternalProfiles,
+} from "./auth-profiles.js";
 import { clearCurrentProviderAuthState } from "./model-provider-auth.js";
 import { runProviderAuthWarmWorkerInput } from "./model-provider-auth.worker.js";
+
+vi.mock("./model-provider-auth.js", () => ({
+  buildCurrentProviderAuthStateSnapshot: vi.fn(async () => ({
+    agents: [
+      {
+        agentId: "main",
+        configFingerprint: "test",
+        providers: [["runtime-only", true]],
+      },
+    ],
+  })),
+  clearCurrentProviderAuthState: vi.fn(),
+}));
 
 const tempDirs: string[] = [];
 
@@ -68,6 +84,11 @@ describe("provider auth warm worker", () => {
           return;
         }
         expect(result.snapshot.agents[0]?.providers).toContainEqual(["runtime-only", true]);
+
+        const hydrated = ensureAuthProfileStoreWithoutExternalProfiles(agentDir, {
+          allowKeychainPrompt: false,
+        });
+        expect(hydrated.profiles["runtime-only:default"]?.provider).toBe("runtime-only");
       },
     );
   }, 30_000);
