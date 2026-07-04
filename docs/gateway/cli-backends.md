@@ -66,7 +66,13 @@ explicitly references that backend in a model ref or under
 `agents.defaults.cliBackends`.
 
 <Note>
-The bundled Google plugin registers the API-backed `google` provider and the direct `google-gemini-cli` CLI backend/provider by default. Use `google` for API-key-backed Google models. Use `google-gemini-cli` only when the official Gemini CLI is installed and already authenticated on the gateway host with Sign in with Google.
+The bundled Google plugin registers the API-backed `google` provider plus local Google CLI runtime paths.
+
+Use `google` for Gemini API-key-backed Google models.
+
+Use `google-gemini-cli` when the official Gemini CLI is installed and already authenticated on the gateway host with **Sign in with Google**. OpenClaw imports the official Gemini CLI OAuth cache from `GEMINI_CLI_HOME` or `~/.gemini`; it does not launch an OpenClaw-owned Google OAuth browser flow for this runtime.
+
+Use `google-antigravity` when Antigravity / `agy` is installed and already signed in on the gateway host. OpenClaw delegates execution to local `agy --print`, forwards `ANTIGRAVITY_USER_DATA_DIR` when configured, and does not import raw Google OAuth tokens from Antigravity.
 </Note>
 
 ## Using it as a fallback
