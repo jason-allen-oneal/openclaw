@@ -97,8 +97,10 @@ describe("google setup entry", () => {
       },
     } as never);
 
-    expect(providerIds).toEqual(["google-vertex"]);
-    expect(cliBackendIds).toEqual(["google-gemini-cli"]);
+    expect(providerIds).toEqual(["google-antigravity", "google-vertex"]);
+    expect(cliBackendIds).toEqual(["google-antigravity", "google-gemini-cli"]);
+    expect(providerIds).toContain("google-antigravity");
+    expect(cliBackendIds).toContain("google-antigravity");
   });
 });
 
