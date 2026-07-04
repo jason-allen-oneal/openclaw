@@ -1204,6 +1204,65 @@ describe("shouldSkipLocalCliCredentialEpoch", () => {
     }
   });
 
+  it("cleans prepared execution resources when skills plugin setup fails", async () => {
+    const { dir, sessionFile } = createSessionFile();
+    const preparedExecutionCleanup = vi.fn(async () => undefined);
+    const prepareExecution = vi.fn(async () => ({ cleanup: preparedExecutionCleanup }));
+    const prepareClaudeCliSkillsPlugin = vi.fn(async () => {
+      throw new Error("skills plugin setup failed");
+    });
+
+    cliBackendsTesting.setDepsForTest({
+      resolvePluginSetupCliBackend: () => undefined,
+      resolveRuntimeCliBackends: () => [
+        {
+          id: "test-cli",
+          pluginId: "test",
+          bundleMcp: false,
+          prepareExecution,
+          config: {
+            command: "test-cli",
+            args: ["--print"],
+            systemPromptArg: "--system-prompt",
+            systemPromptWhen: "first",
+            output: "text",
+            input: "arg",
+            sessionMode: "existing",
+          },
+        },
+      ],
+    });
+    setCliRunnerPrepareTestDeps({
+      prepareClaudeCliSkillsPlugin,
+    });
+
+    try {
+      await expect(
+        prepareCliRunContext({
+          sessionId: "session-test",
+          sessionKey: "agent:main:main",
+          sessionFile,
+          workspaceDir: dir,
+          prompt: "latest ask",
+          provider: "test-cli",
+          model: "test-model",
+          timeoutMs: 1_000,
+          runId: "run-test-cleanup-on-skills-plugin-setup-failure",
+          config: {},
+        }),
+      ).rejects.toThrow("skills plugin setup failed");
+
+      expect(prepareExecution).toHaveBeenCalledOnce();
+      expect(prepareClaudeCliSkillsPlugin).toHaveBeenCalledWith({
+        backendId: "test-cli",
+        skillsSnapshot: undefined,
+      });
+      expect(preparedExecutionCleanup).toHaveBeenCalledOnce();
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   it("cleans prepared MCP and skills plugin dirs when mid-prepare reference lookup fails", async () => {
     const { dir, sessionFile } = createSessionFile();
     const tempEnvSnapshot = captureEnv(["TMPDIR", "TMP", "TEMP"]);

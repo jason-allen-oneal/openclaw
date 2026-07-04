@@ -774,12 +774,24 @@ export async function prepareCliRunContext(
           await preparedExecution?.beforeExecution?.();
         }
       : undefined;
-  const claudeSkillsPlugin = isSideQuestion
-    ? { args: [], cleanup: async () => {} }
-    : await prepareDeps.prepareClaudeCliSkillsPlugin({
-        backendId: backendResolved.id,
-        skillsSnapshot: params.skillsSnapshot,
-      });
+  let claudeSkillsPlugin: { args: string[]; cleanup: () => Promise<void> };
+  try {
+    claudeSkillsPlugin = isSideQuestion
+      ? { args: [], cleanup: async () => {} }
+      : await prepareDeps.prepareClaudeCliSkillsPlugin({
+          backendId: backendResolved.id,
+          skillsSnapshot: params.skillsSnapshot,
+        });
+  } catch (err) {
+    try {
+      await preparedBackendCleanup?.();
+    } catch (cleanupErr) {
+      cliBackendLog.warn(
+        `cli backend cleanup after skills plugin prepare failure failed: ${String(cleanupErr)}`,
+      );
+    }
+    throw err;
+  }
   const preparedCleanup =
     preparedBackendCleanup || claudeSkillsPlugin.args.length > 0
       ? async () => {
