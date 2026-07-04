@@ -69,6 +69,7 @@ export function buildGoogleAntigravityCliBackend(): CliBackendPlugin {
       modelArg: "--model",
       modelAliases: ANTIGRAVITY_MODEL_ALIASES,
       sessionMode: "none",
+      reseedFromRawTranscriptWhenUncompacted: true,
       serialize: true,
     },
   };
