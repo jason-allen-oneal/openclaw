@@ -72,6 +72,11 @@ export function buildGoogleGeminiCliBackend(): CliBackendPlugin {
     bundleMcpMode: "gemini-system-settings",
     nativeToolMode: "always-on",
     authEpochMode: "profile-only",
+    authProfileForwarding: {
+      supported: true,
+      providers: ["google", "google-gemini-cli"],
+      credentialKinds: ["api_key", "oauth"],
+    },
     normalizeConfig: normalizeGeminiCliBackendConfig,
     prepareExecution: async (ctx) => {
       const { prepareGeminiCliAuthHome } = await import("./cli-backend-auth.runtime.js");

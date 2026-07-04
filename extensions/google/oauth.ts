@@ -9,11 +9,17 @@ import {
   shouldUseManualOAuthFlow,
   waitForLocalCallback,
 } from "./oauth.flow.js";
+import { importOfficialGeminiCliOAuthCredentials } from "./oauth.official-cache.js";
 import type { GeminiCliOAuthContext, GeminiCliOAuthCredentials } from "./oauth.shared.js";
-import { exchangeCodeForTokens, refreshTokensForGeminiCli } from "./oauth.token.js";
+import { exchangeCodeForTokens } from "./oauth.token.js";
 
 export { clearCredentialsCache, extractGeminiCliCredentials };
 export type { GeminiCliOAuthContext, GeminiCliOAuthCredentials };
+
+function normalizeOfficialGeminiCliEmail(value: string | undefined): string | undefined {
+  const normalized = value?.trim().toLowerCase();
+  return normalized && normalized.includes("@") ? normalized : undefined;
+}
 
 export async function loginGeminiCliOAuth(
   ctx: GeminiCliOAuthContext,
@@ -97,7 +103,33 @@ async function manualFlow(
 export async function refreshGeminiCliOAuthToken(
   credentials: Pick<GeminiCliOAuthCredentials, "refresh" | "email" | "projectId">,
 ): Promise<OAuthCredential> {
-  const refreshed = await refreshTokensForGeminiCli(credentials);
+  const imported = importOfficialGeminiCliOAuthCredentials();
+  if (imported) {
+    const expectedEmail = normalizeOfficialGeminiCliEmail(credentials.email);
+    const importedEmail = normalizeOfficialGeminiCliEmail(imported.email);
+    if (!importedEmail) {
+      throw new Error(
+        "Gemini CLI OAuth refresh requires a validated active Google account identity.",
+      );
+    }
+    if (expectedEmail && expectedEmail !== importedEmail) {
+      throw new Error(
+        "Gemini CLI OAuth refresh refused to update a profile for a different Google account.",
+      );
+    }
+  }
+  const refreshed = imported ?? {
+    access: "",
+    refresh: credentials.refresh,
+    expires: 0,
+    email: credentials.email,
+    projectId: credentials.projectId,
+  };
+  if (!refreshed.access) {
+    throw new Error(
+      "Gemini CLI OAuth refresh now uses the official Gemini CLI credential cache. Run `gemini`, choose Sign in with Google, then retry.",
+    );
+  }
   return {
     type: "oauth",
     provider: "google-gemini-cli",

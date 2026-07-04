@@ -22,7 +22,7 @@ export function createGoogleProvider(): ProviderPlugin {
           choiceLabel: "Google Gemini API key",
           groupId: "google",
           groupLabel: "Google",
-          groupHint: "Gemini API key + OAuth",
+          groupHint: "Gemini API key",
         },
       },
     ],
@@ -51,18 +51,13 @@ export function createGoogleGeminiCliProvider(): ProviderPlugin {
     label: "Gemini CLI OAuth",
     docsPath: "/providers/models",
     aliases: ["gemini-cli"],
-    envVars: [
-      "OPENCLAW_GEMINI_OAUTH_CLIENT_ID",
-      "OPENCLAW_GEMINI_OAUTH_CLIENT_SECRET",
-      "GEMINI_CLI_OAUTH_CLIENT_ID",
-      "GEMINI_CLI_OAUTH_CLIENT_SECRET",
-    ],
+    envVars: ["GEMINI_CLI_HOME", "GOOGLE_CLOUD_PROJECT", "GOOGLE_CLOUD_PROJECT_ID"],
     auth: [
       {
         id: "oauth",
         kind: "oauth",
         label: "Google OAuth",
-        hint: "PKCE + localhost callback",
+        hint: "Import official Gemini CLI sign-in cache",
         run: noopAuth,
       },
     ],
@@ -70,7 +65,7 @@ export function createGoogleGeminiCliProvider(): ProviderPlugin {
       setup: {
         choiceId: "google-gemini-cli",
         choiceLabel: "Gemini CLI OAuth",
-        choiceHint: "Google OAuth with project-aware token payload",
+        choiceHint: "Use credentials created by official `gemini` Sign in with Google",
         methodId: "oauth",
       },
     },

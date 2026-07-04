@@ -360,9 +360,9 @@ Narrow, explicit allowlists are fastest and least flaky:
 - Z.AI Coding Plan GLM-5.2 direct smoke:
   - `ZAI_CODING_LIVE_TEST=1 pnpm test:live src/agents/zai.live.test.ts`
 
-- Google focus (Gemini API key + Antigravity):
+- Google focus:
   - Gemini (API key): `OPENCLAW_LIVE_GATEWAY_MODELS="google/gemini-3-flash-preview" pnpm test:live src/gateway/gateway-models.profiles.live.test.ts`
-  - Antigravity (OAuth): `OPENCLAW_LIVE_GATEWAY_MODELS="google-antigravity/claude-opus-4-6-thinking,google-antigravity/gemini-3-pro-high" pnpm test:live src/gateway/gateway-models.profiles.live.test.ts`
+  - Antigravity headless bridge: `pnpm openclaw qa manual --provider-mode live-frontier --model google-antigravity/gemini-3-flash --message "Reply exactly: OPENCLAW_AGY_OPENCLAW_OK" --timeout-ms 240000`
 
 - Google adaptive thinking smoke:
   - Gemini 3 dynamic default: `pnpm openclaw qa manual --provider-mode live-frontier --model google/gemini-3.1-pro-preview --alt-model google/gemini-3.1-pro-preview --message '/think adaptive Reply exactly: GEMINI_ADAPTIVE_OK' --timeout-ms 180000`
@@ -371,7 +371,7 @@ Narrow, explicit allowlists are fastest and least flaky:
 Notes:
 
 - `google/...` uses the Gemini API (API key).
-- `google-antigravity/...` uses the Antigravity OAuth bridge (Cloud Code Assist-style agent endpoint).
+- `google-antigravity/...` uses the Antigravity provider-owned session bridge and routes prompts through `agy --print`. Antigravity owns the Google OAuth session; OpenClaw does not import or persist raw Google OAuth tokens for Antigravity.
 - `google-gemini-cli/...` uses the local Gemini CLI on your machine (separate auth + tooling quirks).
 - Gemini API vs Gemini CLI:
   - API: OpenClaw calls Google's hosted Gemini API over HTTP (API key / profile auth); this is what most users mean by "Gemini".

@@ -65,6 +65,10 @@ gateway host, OpenClaw now auto-loads the owning bundled plugin when your config
 explicitly references that backend in a model ref or under
 `agents.defaults.cliBackends`.
 
+<Note>
+The bundled Google plugin registers the API-backed `google` provider and the direct `google-gemini-cli` CLI backend/provider by default. Use `google` for API-key-backed Google models. Use `google-gemini-cli` only when the official Gemini CLI is installed and already authenticated on the gateway host with Sign in with Google.
+</Note>
+
 ## Using it as a fallback
 
 Add a CLI backend to your fallback list so it only runs when primary models fail:

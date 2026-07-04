@@ -21,10 +21,17 @@ import { resolveMcpLoopbackScopedTools } from "../../gateway/mcp-http.runtime.js
 import { isClaudeCliProvider } from "../../plugin-sdk/anthropic-cli.js";
 import type {
   CliBackendAuthEpochMode,
+  CliBackendForwardedCredentialKind,
+  CliBackendPlugin,
   CliBackendPreparedExecution,
 } from "../../plugins/cli-backend.types.js";
 import { buildAgentHookContextChannelFields } from "../../plugins/hook-agent-context.js";
 import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
+import {
+  hasProviderCliBackendAuthCredentialResolver,
+  resolveProviderCliBackendAuthCredential,
+} from "../../plugins/provider-runtime.runtime.js";
+import type { ProviderResolvedCliBackendAuthCredential } from "../../plugins/types.js";
 import { isSubagentSessionKey } from "../../routing/session-key.js";
 import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
 import { resolveSkillsPromptForRun } from "../../skills/loading/workspace.js";
@@ -109,7 +116,10 @@ const prepareDeps = {
   claudeCliSessionTranscriptHasContent,
   claudeCliSessionTranscriptHasOrphanedToolUse,
   resolveApiKeyForProfile,
+  hasProviderCliBackendAuthCredentialResolver,
+  resolveProviderCliBackendAuthCredential,
 };
+const defaultPrepareDeps = { ...prepareDeps };
 
 function resolveReusableCliSessionId(reusableCliSession: CliReusableSession): string | undefined {
   return reusableCliSession.mode === "reuse" || reusableCliSession.mode === "reuse-with-drift"
@@ -254,11 +264,16 @@ export function setCliRunnerPrepareTestDeps(overrides: Partial<typeof prepareDep
   Object.assign(prepareDeps, overrides);
 }
 
+/** Restores CLI runner preparation dependencies after isolated tests. */
+export function resetCliRunnerPrepareTestDeps(): void {
+  Object.assign(prepareDeps, defaultPrepareDeps);
+}
+
 /** Returns whether profile-owned prepared execution should skip local CLI epoch hashing. */
 export function shouldSkipLocalCliCredentialEpoch(params: {
   authEpochMode?: CliBackendAuthEpochMode;
   authProfileId?: string;
-  authCredential?: AuthProfileCredential;
+  authCredential?: unknown;
   preparedExecution?: CliBackendPreparedExecution | null;
 }): boolean {
   return Boolean(
@@ -269,18 +284,146 @@ export function shouldSkipLocalCliCredentialEpoch(params: {
   );
 }
 
-function shouldRefreshAuthProfileForExecution(params: {
-  backendId: string;
+type ForwardableAuthCredential = AuthProfileCredential | ProviderResolvedCliBackendAuthCredential;
+
+function resolveForwardedCredentialProviderId(
+  credential: ForwardableAuthCredential | undefined,
+): string | undefined {
+  if (!credential) {
+    return undefined;
+  }
+  return "providerId" in credential ? credential.providerId : credential.provider;
+}
+
+function resolveForwardedCredentialKind(
+  credential: ForwardableAuthCredential | undefined,
+): string | undefined {
+  if (!credential) {
+    return undefined;
+  }
+  return "kind" in credential ? credential.kind : credential.type;
+}
+
+function isForwardedCredentialKind(
+  value: string | undefined,
+): value is CliBackendForwardedCredentialKind {
+  return value === "api_key" || value === "oauth" || value === "token";
+}
+
+export function shouldForwardAuthCredentialToCliBackend(params: {
+  backend: Pick<CliBackendPlugin, "authProfileForwarding">;
   authProfileId?: string;
-  authCredential?: AuthProfileCredential;
+  authCredential?: ForwardableAuthCredential;
 }): boolean {
+  const capability = params.backend.authProfileForwarding;
+  if (!capability?.supported || !params.authProfileId || !params.authCredential) {
+    return false;
+  }
+  const providerId = resolveForwardedCredentialProviderId(params.authCredential);
+  const credentialKind = resolveForwardedCredentialKind(params.authCredential);
   return Boolean(
-    params.backendId === "google-gemini-cli" &&
-    params.authProfileId &&
-    (params.authCredential?.type === "oauth" ||
-      params.authCredential?.type === "api_key" ||
-      params.authCredential?.type === "token"),
+    providerId &&
+    isForwardedCredentialKind(credentialKind) &&
+    capability.providers.includes(providerId) &&
+    capability.credentialKinds.includes(credentialKind),
   );
+}
+
+async function resolveDefaultCliBackendAuthCredential(params: {
+  cfg?: RunCliAgentParams["config"];
+  store: AuthProfileStore;
+  profileId: string;
+  agentDir?: string;
+}): Promise<ProviderResolvedCliBackendAuthCredential | undefined> {
+  const resolved = await prepareDeps.resolveApiKeyForProfile({
+    cfg: params.cfg,
+    store: params.store,
+    profileId: params.profileId,
+    agentDir: params.agentDir,
+  });
+  if (!resolved) {
+    return undefined;
+  }
+  const credential = resolved.credential ?? params.store.profiles[resolved.profileId];
+  if (resolved.profileType === "api_key") {
+    return {
+      kind: "api_key",
+      providerId: resolved.provider,
+      profileId: resolved.profileId,
+      apiKey: resolved.apiKey,
+      ...(resolved.email ? { email: resolved.email } : {}),
+    };
+  }
+  if (resolved.profileType === "token") {
+    return {
+      kind: "token",
+      providerId: resolved.provider,
+      profileId: resolved.profileId,
+      token: resolved.apiKey,
+      ...(credential?.type === "token" && typeof credential.expires === "number"
+        ? { expiresAt: credential.expires }
+        : {}),
+      ...(resolved.email ? { email: resolved.email } : {}),
+    };
+  }
+  return {
+    kind: "oauth",
+    providerId: resolved.provider,
+    profileId: resolved.profileId,
+    accessToken:
+      credential?.type === "oauth" && credential.access ? credential.access : resolved.apiKey,
+    ...(credential?.type === "oauth" && credential.refresh
+      ? { refreshToken: credential.refresh }
+      : {}),
+    ...(credential?.type === "oauth" && typeof credential.expires === "number"
+      ? { expiresAt: credential.expires }
+      : {}),
+    ...(credential?.type === "oauth" && credential.projectId
+      ? { projectId: credential.projectId }
+      : {}),
+    ...(resolved.email ? { email: resolved.email } : {}),
+  };
+}
+
+async function resolveCliBackendAuthCredential(params: {
+  cfg?: RunCliAgentParams["config"];
+  workspaceDir: string;
+  agentDir?: string;
+  provider: string;
+  modelId: string;
+  profileId: string;
+  credential: AuthProfileCredential;
+  store: AuthProfileStore;
+}): Promise<ProviderResolvedCliBackendAuthCredential | undefined> {
+  const providerHookParams = {
+    config: params.cfg,
+    workspaceDir: params.workspaceDir,
+    provider: params.provider,
+  };
+  if (await prepareDeps.hasProviderCliBackendAuthCredentialResolver(providerHookParams)) {
+    return await prepareDeps.resolveProviderCliBackendAuthCredential({
+      config: params.cfg,
+      workspaceDir: params.workspaceDir,
+      provider: params.provider,
+      context: {
+        config: params.cfg,
+        agentDir: params.agentDir,
+        workspaceDir: params.workspaceDir,
+        provider: params.provider,
+        modelId: params.modelId,
+        profileId: params.profileId,
+        credential: params.credential,
+        store: params.store,
+      },
+    });
+  }
+
+  return await resolveDefaultCliBackendAuthCredential({
+    cfg: params.cfg,
+    store: params.store,
+    profileId: params.profileId,
+    agentDir: params.agentDir,
+  });
 }
 
 /** Builds the complete context required to execute a CLI-backed agent run. */
@@ -315,6 +458,9 @@ export async function prepareCliRunContext(
   if (!backendResolved) {
     throw new Error(`Unknown CLI backend: ${params.provider}`);
   }
+  const modelId = (params.model ?? "default").trim() || "default";
+  const normalizedModel = normalizeCliModel(modelId, backendResolved.config);
+  const modelDisplay = `${params.provider}/${modelId}`;
   if (params.toolsAllow !== undefined) {
     throw new Error(
       `CLI backend ${backendResolved.id} cannot enforce runtime toolsAllow; use an embedded runtime for restricted tool policy`,
@@ -341,7 +487,7 @@ export async function prepareCliRunContext(
   let effectiveAuthProfileId =
     requestedAuthProfileId ?? backendResolved.defaultAuthProfileId?.trim() ?? undefined;
   let authStore: AuthProfileStore | undefined;
-  let authCredential: AuthProfileCredential | undefined;
+  let authCredential: ForwardableAuthCredential | undefined;
   const loadScopedAuthStore = (options: { profileId?: string; readOnly?: boolean } = {}) =>
     loadAuthProfileStoreForRuntime(agentDir, {
       readOnly: options.readOnly ?? true,
@@ -366,34 +512,50 @@ export async function prepareCliRunContext(
       authCredential = authStore.profiles[effectiveAuthProfileId];
     }
   }
-  if (
-    effectiveAuthProfileId &&
-    shouldRefreshAuthProfileForExecution({
-      backendId: backendResolved.id,
-      authProfileId: effectiveAuthProfileId,
-      authCredential,
-    })
-  ) {
+  if (effectiveAuthProfileId) {
     const authProfileId = effectiveAuthProfileId;
-    const writableAuthStore = loadScopedAuthStore({ profileId: authProfileId, readOnly: false });
-    const resolvedAuth = await prepareDeps.resolveApiKeyForProfile({
-      cfg: params.config,
-      store: writableAuthStore,
-      profileId: authProfileId,
-      agentDir,
+    const shouldForwardAuthCredential = shouldForwardAuthCredentialToCliBackend({
+      backend: backendResolved,
+      authProfileId,
+      authCredential,
     });
-    const resolvedAuthProfileId = resolvedAuth?.profileId ?? authProfileId;
-    const resolvedAuthCredential = resolvedAuth?.credential;
-    authStore = loadScopedAuthStore({ profileId: resolvedAuthProfileId });
-    authCredential = resolvedAuthCredential ?? authStore.profiles[resolvedAuthProfileId];
-    if (resolvedAuth && authCredential) {
-      effectiveAuthProfileId = resolvedAuthProfileId;
-      // Apply resolved strings only to static credentials with secret refs.
-      // OAuth CLI bridges need raw refreshed fields from the reloaded store.
-      if (authCredential.type === "api_key") {
-        authCredential = { ...authCredential, key: resolvedAuth.apiKey };
-      } else if (authCredential.type === "token") {
-        authCredential = { ...authCredential, token: resolvedAuth.apiKey };
+    if (shouldForwardAuthCredential) {
+      const selectedProviderId = resolveForwardedCredentialProviderId(authCredential);
+
+      // Fail closed at the public Plugin SDK boundary. Never pass the raw
+      // persisted auth-profile object into prepareExecution; only a typed,
+      // resolver-produced credential may cross into backend code.
+      authCredential = undefined;
+
+      if (selectedProviderId) {
+        const writableAuthStore = loadScopedAuthStore({
+          profileId: authProfileId,
+          readOnly: false,
+        });
+        const selectedCredential = writableAuthStore.profiles[authProfileId];
+        const resolvedAuthCredential =
+          selectedCredential &&
+          (await resolveCliBackendAuthCredential({
+            cfg: params.config,
+            workspaceDir,
+            provider: selectedProviderId,
+            agentDir,
+            modelId,
+            profileId: authProfileId,
+            credential: selectedCredential,
+            store: writableAuthStore,
+          }));
+        if (
+          resolvedAuthCredential &&
+          shouldForwardAuthCredentialToCliBackend({
+            backend: backendResolved,
+            authProfileId: resolvedAuthCredential.profileId,
+            authCredential: resolvedAuthCredential,
+          })
+        ) {
+          effectiveAuthProfileId = resolvedAuthCredential.profileId;
+          authCredential = resolvedAuthCredential;
+        }
       }
     }
   }
@@ -428,9 +590,6 @@ export async function prepareCliRunContext(
       )
     : undefined;
 
-  const modelId = (params.model ?? "default").trim() || "default";
-  const normalizedModel = normalizeCliModel(modelId, backendResolved.config);
-  const modelDisplay = `${params.provider}/${modelId}`;
   const isClaudeCli = isClaudeCliProvider(params.provider);
   const modelContextTokens = isClaudeCli
     ? resolveContextTokensForModel({
@@ -493,158 +652,168 @@ export async function prepareCliRunContext(
     try {
       await prepareDeps.ensureMcpLoopbackServer();
     } catch (error) {
-      throw new Error(
-        `Bundled MCP is enabled, but the OpenClaw MCP loopback server failed to start: ${String(error)}`,
-        { cause: error },
-      );
+      cliBackendLog.warn(`mcp loopback server failed to start: ${String(error)}`);
+      throw error;
     }
     mcpLoopbackRuntime = prepareDeps.getActiveMcpLoopbackRuntime();
-  }
-  if (bundleMcpEnabled && !mcpLoopbackRuntime) {
-    throw new Error(
-      "Bundled MCP is enabled, but the OpenClaw MCP loopback server did not publish a runtime after startup.",
-    );
+    if (!mcpLoopbackRuntime) {
+      throw new Error("mcp loopback server failed to start");
+    }
   }
   const mcpDeliveryCaptureEnabled = bundleMcpEnabled && Boolean(mcpLoopbackRuntime);
-  let cleanupPreparedResources: (() => Promise<void>) | undefined;
+  const preparedBackend = await prepareCliBundleMcpConfig({
+    enabled: bundleMcpEnabled,
+    mode: backendResolved.bundleMcpMode,
+    backend: backendResolved.config,
+    workspaceDir,
+    config: params.config,
+    additionalConfig: mcpLoopbackRuntime
+      ? prepareDeps.createMcpLoopbackServerConfig(mcpLoopbackRuntime.port)
+      : undefined,
+    env: mcpLoopbackRuntime
+      ? {
+          OPENCLAW_MCP_TOKEN: prepareDeps.resolveMcpLoopbackBearerToken(
+            mcpLoopbackRuntime,
+            params.senderIsOwner === true,
+          ),
+          OPENCLAW_MCP_AGENT_ID: sessionAgentId ?? "",
+          OPENCLAW_MCP_ACCOUNT_ID: params.agentAccountId ?? "",
+          OPENCLAW_MCP_SESSION_KEY: params.sessionKey ?? "",
+          OPENCLAW_MCP_SESSION_ID: params.sessionId,
+          OPENCLAW_MCP_MESSAGE_CHANNEL: params.messageChannel ?? params.messageProvider ?? "",
+          OPENCLAW_MCP_CURRENT_CHANNEL_ID: params.currentChannelId ?? "",
+          OPENCLAW_MCP_CURRENT_THREAD_TS: params.currentThreadTs ?? "",
+          OPENCLAW_MCP_CURRENT_MESSAGE_ID:
+            params.currentMessageId != null ? String(params.currentMessageId) : "",
+          OPENCLAW_MCP_CURRENT_INBOUND_AUDIO: params.currentInboundAudio === true ? "true" : "",
+          OPENCLAW_MCP_INBOUND_EVENT_KIND: params.currentInboundEventKind ?? "",
+          OPENCLAW_MCP_SOURCE_REPLY_DELIVERY_MODE: params.sourceReplyDeliveryMode ?? "",
+          OPENCLAW_MCP_REQUIRE_EXPLICIT_MESSAGE_TARGET: requireExplicitMessageTarget ? "true" : "",
+          OPENCLAW_MCP_CLI_CAPTURE_KEY: "",
+        }
+      : undefined,
+    warn: (message) => cliBackendLog.warn(message),
+  });
+  const prepareExecutionContext = {
+    config: params.config,
+    workspaceDir,
+    agentDir,
+    provider: params.provider,
+    modelId,
+    authProfileId: effectiveAuthProfileId,
+    executionMode,
+    env: preparedBackend.env,
+  } as Parameters<NonNullable<typeof backendResolved.prepareExecution>>[0];
   let preparedExecution: Awaited<ReturnType<NonNullable<typeof backendResolved.prepareExecution>>> =
     undefined;
   try {
-    const preparedBackend = await prepareCliBundleMcpConfig({
-      enabled: bundleMcpEnabled,
-      mode: backendResolved.bundleMcpMode,
-      backend: backendResolved.config,
-      workspaceDir,
-      config: params.config,
-      additionalConfig: mcpLoopbackRuntime
-        ? prepareDeps.createMcpLoopbackServerConfig(mcpLoopbackRuntime.port)
-        : undefined,
-      env: mcpLoopbackRuntime
-        ? {
-            OPENCLAW_MCP_TOKEN: prepareDeps.resolveMcpLoopbackBearerToken(
-              mcpLoopbackRuntime,
-              params.senderIsOwner === true,
-            ),
-            OPENCLAW_MCP_AGENT_ID: sessionAgentId ?? "",
-            OPENCLAW_MCP_ACCOUNT_ID: params.agentAccountId ?? "",
-            OPENCLAW_MCP_SESSION_KEY: params.sessionKey ?? "",
-            OPENCLAW_MCP_SESSION_ID: params.sessionId,
-            OPENCLAW_MCP_MESSAGE_CHANNEL: params.messageChannel ?? params.messageProvider ?? "",
-            OPENCLAW_MCP_CURRENT_CHANNEL_ID: params.currentChannelId ?? "",
-            OPENCLAW_MCP_CURRENT_THREAD_TS: params.currentThreadTs ?? "",
-            OPENCLAW_MCP_CURRENT_MESSAGE_ID:
-              params.currentMessageId != null ? String(params.currentMessageId) : "",
-            OPENCLAW_MCP_CURRENT_INBOUND_AUDIO: params.currentInboundAudio === true ? "true" : "",
-            OPENCLAW_MCP_INBOUND_EVENT_KIND: params.currentInboundEventKind ?? "",
-            OPENCLAW_MCP_SOURCE_REPLY_DELIVERY_MODE: params.sourceReplyDeliveryMode ?? "",
-            OPENCLAW_MCP_REQUIRE_EXPLICIT_MESSAGE_TARGET: requireExplicitMessageTarget
-              ? "true"
-              : "",
-            OPENCLAW_MCP_CLI_CAPTURE_KEY: "",
-          }
-        : undefined,
-      warn: (message) => cliBackendLog.warn(message),
-    });
-    cleanupPreparedResources = preparedBackend.cleanup;
-    const prepareExecutionContext = {
-      config: params.config,
-      workspaceDir,
-      agentDir,
-      provider: params.provider,
-      modelId,
-      authProfileId: effectiveAuthProfileId,
-      executionMode,
-      env: preparedBackend.env,
-    } as Parameters<NonNullable<typeof backendResolved.prepareExecution>>[0];
-    preparedExecution = await backendResolved.prepareExecution?.(
-      (backendResolved.id === "google-gemini-cli"
-        ? {
-            ...prepareExecutionContext,
-            // Private bridge for bundled Gemini CLI. This is intentionally not
-            // part of the public Plugin SDK until a credential-forwarding
-            // contract exists.
-            authCredential,
-          }
-        : prepareExecutionContext) as typeof prepareExecutionContext & {
-        authCredential?: AuthProfileCredential;
-      },
-    );
-    const preparedBackendCleanup =
-      preparedBackend.cleanup || preparedExecution?.cleanup
-        ? async () => {
-            try {
-              await preparedExecution?.cleanup?.();
-            } finally {
-              await preparedBackend.cleanup?.();
-            }
-          }
-        : undefined;
-    cleanupPreparedResources = preparedBackendCleanup;
-    const skipLocalCredentialEpoch = shouldSkipLocalCliCredentialEpoch({
-      authEpochMode: backendResolved.authEpochMode,
+    const forwardAuthCredential = shouldForwardAuthCredentialToCliBackend({
+      backend: backendResolved,
       authProfileId: effectiveAuthProfileId,
       authCredential,
-      preparedExecution,
     });
-    const authEpoch = await resolveCliAuthEpoch({
+    preparedExecution = await backendResolved.prepareExecution?.(
+      forwardAuthCredential
+        ? {
+            ...prepareExecutionContext,
+            authCredential,
+          }
+        : prepareExecutionContext,
+    );
+  } catch (err) {
+    try {
+      await preparedBackend.cleanup?.();
+    } catch (cleanupErr) {
+      cliBackendLog.warn(`cli backend cleanup after prepare failure failed: ${String(cleanupErr)}`);
+    }
+    throw err;
+  }
+  const skipLocalCredentialEpoch = shouldSkipLocalCliCredentialEpoch({
+    authEpochMode: backendResolved.authEpochMode,
+    authProfileId: effectiveAuthProfileId,
+    authCredential,
+    preparedExecution,
+  });
+  let authEpoch: Awaited<ReturnType<typeof resolveCliAuthEpoch>>;
+  try {
+    authEpoch = await resolveCliAuthEpoch({
       provider: params.provider,
       agentDir,
       authProfileId: effectiveAuthProfileId,
       skipLocalCredential: skipLocalCredentialEpoch,
     });
-    const preparedBackendEnv =
-      preparedExecution?.env && Object.keys(preparedExecution.env).length > 0
-        ? { ...preparedBackend.env, ...preparedExecution.env }
-        : preparedBackend.env;
-    const preparedBackendBeforeExecution =
-      preparedBackend.beforeExecution || preparedExecution?.beforeExecution
-        ? async () => {
-            await preparedBackend.beforeExecution?.();
-            await preparedExecution?.beforeExecution?.();
+  } catch (err) {
+    try {
+      await preparedExecution?.cleanup?.();
+      await preparedBackend.cleanup?.();
+    } catch (cleanupErr) {
+      cliBackendLog.warn(
+        `cli backend cleanup after auth epoch failure failed: ${String(cleanupErr)}`,
+      );
+    }
+    throw err;
+  }
+  const preparedBackendEnv =
+    preparedExecution?.env && Object.keys(preparedExecution.env).length > 0
+      ? { ...preparedBackend.env, ...preparedExecution.env }
+      : preparedBackend.env;
+  const preparedBackendCleanup =
+    preparedBackend.cleanup || preparedExecution?.cleanup
+      ? async () => {
+          try {
+            await preparedExecution?.cleanup?.();
+          } finally {
+            await preparedBackend.cleanup?.();
           }
-        : undefined;
-    const claudeSkillsPlugin = isSideQuestion
-      ? { args: [], cleanup: async () => {} }
-      : await prepareDeps.prepareClaudeCliSkillsPlugin({
-          backendId: backendResolved.id,
-          skillsSnapshot: params.skillsSnapshot,
-        });
-    const preparedCleanup =
-      preparedBackendCleanup || claudeSkillsPlugin.args.length > 0
-        ? async () => {
-            try {
-              await claudeSkillsPlugin.cleanup();
-            } finally {
-              await preparedBackendCleanup?.();
-            }
+        }
+      : undefined;
+  const preparedBackendBeforeExecution =
+    preparedBackend.beforeExecution || preparedExecution?.beforeExecution
+      ? async () => {
+          await preparedBackend.beforeExecution?.();
+          await preparedExecution?.beforeExecution?.();
+        }
+      : undefined;
+  const claudeSkillsPlugin = isSideQuestion
+    ? { args: [], cleanup: async () => {} }
+    : await prepareDeps.prepareClaudeCliSkillsPlugin({
+        backendId: backendResolved.id,
+        skillsSnapshot: params.skillsSnapshot,
+      });
+  const preparedCleanup =
+    preparedBackendCleanup || claudeSkillsPlugin.args.length > 0
+      ? async () => {
+          try {
+            await claudeSkillsPlugin.cleanup();
+          } finally {
+            await preparedBackendCleanup?.();
           }
-        : undefined;
-    cleanupPreparedResources = preparedCleanup ?? preparedBackendCleanup;
-    const preparedBackendClearEnv = [
-      ...(preparedBackend.backend.clearEnv ?? []),
-      ...(preparedExecution?.clearEnv ?? []),
-    ];
-    const sideQuestionBackend = (() => {
-      const { liveSession: _liveSession, ...backend } = preparedBackend.backend;
-      return {
-        ...backend,
-        sessionMode: "none" as const,
-      };
-    })();
-    const preparedBackendFinal = {
-      ...preparedBackend,
-      backend: {
-        ...(isSideQuestion ? sideQuestionBackend : preparedBackend.backend),
-        ...(preparedBackendClearEnv.length > 0
-          ? { clearEnv: uniqueStrings(preparedBackendClearEnv) }
-          : {}),
-      },
-      ...(preparedBackendEnv ? { env: preparedBackendEnv } : {}),
-      ...(preparedBackendBeforeExecution
-        ? { beforeExecution: preparedBackendBeforeExecution }
-        : {}),
-      ...(preparedCleanup ? { cleanup: preparedCleanup } : {}),
+        }
+      : undefined;
+  const preparedBackendClearEnv = [
+    ...(preparedBackend.backend.clearEnv ?? []),
+    ...(preparedExecution?.clearEnv ?? []),
+  ];
+  const sideQuestionBackend = (() => {
+    const { liveSession: _liveSession, ...backend } = preparedBackend.backend;
+    return {
+      ...backend,
+      sessionMode: "none" as const,
     };
+  })();
+  const preparedBackendFinal = {
+    ...preparedBackend,
+    backend: {
+      ...(isSideQuestion ? sideQuestionBackend : preparedBackend.backend),
+      ...(preparedBackendClearEnv.length > 0
+        ? { clearEnv: uniqueStrings(preparedBackendClearEnv) }
+        : {}),
+    },
+    ...(preparedBackendEnv ? { env: preparedBackendEnv } : {}),
+    ...(preparedBackendBeforeExecution ? { beforeExecution: preparedBackendBeforeExecution } : {}),
+    ...(preparedCleanup ? { cleanup: preparedCleanup } : {}),
+  };
+  try {
     const promptTools =
       bundleMcpEnabled && mcpLoopbackRuntime
         ? prepareDeps.resolveMcpLoopbackScopedTools({
@@ -1057,7 +1226,7 @@ export async function prepareCliRunContext(
     };
   } catch (err) {
     try {
-      await cleanupPreparedResources?.();
+      await preparedBackendFinal.cleanup?.();
     } catch (cleanupErr) {
       cliBackendLog.warn(`cli backend cleanup after prepare failure failed: ${String(cleanupErr)}`);
     }

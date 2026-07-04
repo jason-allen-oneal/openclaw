@@ -11,7 +11,11 @@ type BuildProviderMissingAuthMessageWithPlugin =
   ProviderRuntimeModule["buildProviderMissingAuthMessageWithPlugin"];
 type FormatProviderAuthProfileApiKeyWithPlugin =
   ProviderRuntimeModule["formatProviderAuthProfileApiKeyWithPlugin"];
+type HasProviderCliBackendAuthCredentialResolver =
+  ProviderRuntimeModule["hasProviderCliBackendAuthCredentialResolver"];
 type PrepareProviderRuntimeAuth = ProviderRuntimeModule["prepareProviderRuntimeAuth"];
+type ResolveProviderCliBackendAuthCredential =
+  ProviderRuntimeModule["resolveProviderCliBackendAuthCredential"];
 type RefreshProviderOAuthCredentialWithPlugin =
   ProviderRuntimeModule["refreshProviderOAuthCredentialWithPlugin"];
 
@@ -63,6 +67,22 @@ export async function prepareProviderRuntimeAuth(
 ): Promise<Awaited<ReturnType<PrepareProviderRuntimeAuth>>> {
   const runtime = await loadProviderRuntime();
   return runtime.prepareProviderRuntimeAuth(...args);
+}
+
+/** Lazily resolves a provider-owned CLI backend auth credential. */
+export async function resolveProviderCliBackendAuthCredential(
+  ...args: Parameters<ResolveProviderCliBackendAuthCredential>
+): Promise<Awaited<ReturnType<ResolveProviderCliBackendAuthCredential>>> {
+  const runtime = await loadProviderRuntime();
+  return runtime.resolveProviderCliBackendAuthCredential(...args);
+}
+
+/** Lazily checks whether a provider owns CLI backend auth credential resolution. */
+export async function hasProviderCliBackendAuthCredentialResolver(
+  ...args: Parameters<HasProviderCliBackendAuthCredentialResolver>
+): Promise<Awaited<ReturnType<HasProviderCliBackendAuthCredentialResolver>>> {
+  const runtime = await loadProviderRuntime();
+  return runtime.hasProviderCliBackendAuthCredentialResolver(...args);
 }
 
 /** Lazily refreshes OAuth credentials through provider plugin runtime hooks. */
