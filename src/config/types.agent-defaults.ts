@@ -140,7 +140,10 @@ export type CliBackendConfig = {
   liveSession?: "claude-stdio";
   /** Prompt input mode (default: arg). */
   input?: "arg" | "stdin";
-  /** Max prompt length for arg mode (if exceeded, stdin is used). */
+  /**
+   * Max prompt length for arg mode. Oversized prompts fall back to stdin unless
+   * backend args contain `{prompt}`; that placeholder path fails closed before spawn.
+   */
   maxPromptArgChars?: number;
   /** Extra env vars injected for this CLI. */
   env?: Record<string, string>;

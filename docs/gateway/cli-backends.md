@@ -313,7 +313,8 @@ Input modes:
 
 - `input: "arg"` (default) passes the prompt as the last CLI arg.
 - `input: "stdin"` sends the prompt via stdin.
-- If the prompt is very long and `maxPromptArgChars` is set, stdin is used.
+- If the prompt is very long and `maxPromptArgChars` is set, stdin is used unless backend `args` contain `{prompt}`.
+- If backend `args` contain `{prompt}`, oversized prompts fail closed before spawn because OpenClaw cannot safely replace argv prompt delivery with stdin while the placeholder remains in the configured argv. Configure `input: "stdin"`, remove `{prompt}`, or raise `maxPromptArgChars`.
 
 ## Defaults (plugin-owned)
 
