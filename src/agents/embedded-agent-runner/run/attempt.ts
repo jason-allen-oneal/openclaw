@@ -1237,6 +1237,9 @@ export async function runEmbeddedAttempt(
           config: params.config,
           agentId: sessionAgentId,
           sessionKey: sandboxSessionKey,
+          modelProvider: params.provider,
+          modelApi: params.model.api,
+          modelId: params.modelId,
         });
     const toolSearchConfig = resolveToolSearchConfig(toolSearchRuntimeConfig);
     const codeModeControlsEnabledForRun =
@@ -1328,6 +1331,9 @@ export async function runEmbeddedAttempt(
       config: params.config,
       agentId: sessionAgentId,
       sessionKey: params.sessionKey,
+      modelProvider: params.provider,
+      modelApi: params.model.api,
+      modelId: params.modelId,
     });
     const localModelLeanPreserveToolNames = resolveLocalModelLeanPreserveToolNames({
       toolNames: runtimeCapabilityProfile.policy.explicitToolOverrideAllowlist,
@@ -1712,6 +1718,9 @@ export async function runEmbeddedAttempt(
       tools: [...tools, ...normalizedBundledTools],
       config: params.config,
       agentId: sessionAgentId,
+      modelProvider: params.provider,
+      modelApi: params.model.api,
+      modelId: params.modelId,
       preserveToolNames: localModelLeanPreserveToolNames,
     });
     if (cronCreatorToolAllowlist.length > 0) {
@@ -1834,6 +1843,9 @@ export async function runEmbeddedAttempt(
       tools: toolSearch.tools,
       config: params.config,
       agentId: sessionAgentId,
+      modelProvider: params.provider,
+      modelApi: params.model.api,
+      modelId: params.modelId,
       preserveToolNames: localModelLeanPreserveToolNames,
     });
     const toolSearchSchemaProjection = filterRuntimeCompatibleTools(projectedToolSearchTools);

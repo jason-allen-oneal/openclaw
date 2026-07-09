@@ -337,6 +337,104 @@ describe("local model lean tool filtering", () => {
     expect(applyLocalModelLeanToolSearchDefaults({ config: cfg, agentId: "main" })).toBe(cfg);
   });
 
+  it("does not enable lean mode for non-local model overrides", () => {
+    const cfg: OpenClawConfig = {
+      agents: {
+        list: [
+          {
+            id: "main",
+            experimental: {
+              localModelLean: true,
+            },
+          },
+        ],
+      },
+    };
+
+    expect(
+      isLocalModelLeanEnabled({
+        config: cfg,
+        agentId: "main",
+        sessionKey: "agent:main:meta-smoke",
+        modelProvider: "meta",
+        modelApi: "openai-completions",
+        modelId: "muse-spark-1.1",
+      }),
+    ).toBe(false);
+
+    expect(
+      filterLocalModelLeanTools({
+        tools: tools(["read", "browser", "cron", "message", "exec"]),
+        config: cfg,
+        agentId: "main",
+        sessionKey: "agent:main:meta-smoke",
+        modelProvider: "meta",
+        modelApi: "openai-completions",
+        modelId: "muse-spark-1.1",
+      }).map((tool) => tool.name),
+    ).toEqual(["read", "browser", "cron", "message", "exec"]);
+  });
+
+  it("still enables lean mode for local model providers", () => {
+    const cfg: OpenClawConfig = {
+      agents: {
+        list: [
+          {
+            id: "main",
+            experimental: {
+              localModelLean: true,
+            },
+          },
+        ],
+      },
+    };
+
+    expect(
+      isLocalModelLeanEnabled({
+        config: cfg,
+        agentId: "main",
+        sessionKey: "agent:main:ollama-smoke",
+        modelProvider: "ollama",
+        modelApi: "ollama",
+        modelId: "qwen3-coder:cloud",
+      }),
+    ).toBe(true);
+
+    expect(
+      filterLocalModelLeanTools({
+        tools: tools(["read", "browser", "cron", "message", "exec"]),
+        config: cfg,
+        agentId: "main",
+        sessionKey: "agent:main:ollama-smoke",
+        modelProvider: "ollama",
+        modelApi: "ollama",
+        modelId: "qwen3-coder:cloud",
+      }).map((tool) => tool.name),
+    ).toEqual(["read", "exec"]);
+  });
+
+  it("does not inject lean Tool Search defaults for non-local model overrides", () => {
+    const cfg: OpenClawConfig = {
+      agents: {
+        defaults: {
+          experimental: {
+            localModelLean: true,
+          },
+        },
+      },
+    };
+
+    expect(
+      applyLocalModelLeanToolSearchDefaults({
+        config: cfg,
+        agentId: "main",
+        modelProvider: "meta",
+        modelApi: "openai-completions",
+        modelId: "muse-spark-1.1",
+      }),
+    ).toBe(cfg);
+  });
+
   it("keeps exec outside the lean Tool Search catalog", () => {
     expect(shouldCatalogToolForLocalModelLean({ name: "exec" } as AnyAgentTool)).toBe(false);
     expect(shouldCatalogToolForLocalModelLean({ name: "read" } as AnyAgentTool)).toBe(true);

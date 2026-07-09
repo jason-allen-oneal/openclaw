@@ -28,6 +28,36 @@ const LOCAL_MODEL_LEAN_TOOL_SEARCH_DEFAULTS = {
   maxSearchLimit: 10,
 } as const;
 
+type LocalModelLeanModelScope = {
+  modelProvider?: string;
+  modelApi?: string;
+  modelId?: string;
+};
+
+function hasResolvedModelScope(params: LocalModelLeanModelScope): boolean {
+  return (
+    params.modelProvider !== undefined ||
+    params.modelApi !== undefined ||
+    params.modelId !== undefined
+  );
+}
+
+function isLocalLeanEligibleModel(params: LocalModelLeanModelScope): boolean {
+  const provider = (params.modelProvider ?? "").trim().toLowerCase();
+  const api = (params.modelApi ?? "").trim().toLowerCase();
+  const modelId = (params.modelId ?? "").trim().toLowerCase();
+
+  return (
+    provider === "ollama" ||
+    provider === "ollama-local" ||
+    provider === "llama-cpp" ||
+    api === "ollama" ||
+    api === "llama-cpp" ||
+    modelId.startsWith("ollama/") ||
+    modelId.startsWith("ollama-local/")
+  );
+}
+
 function resolvePreservedLocalModelLeanToolNames(names?: Iterable<string>) {
   if (!names) {
     return [];
@@ -73,11 +103,17 @@ function resolveLocalModelLeanAgentId(params: {
 }
 
 /** Returns true when local-model lean mode is enabled for the selected agent. */
-export function isLocalModelLeanEnabled(params: {
-  config?: OpenClawConfig;
-  agentId?: string;
-  sessionKey?: string;
-}): boolean {
+export function isLocalModelLeanEnabled(
+  params: {
+    config?: OpenClawConfig;
+    agentId?: string;
+    sessionKey?: string;
+  } & LocalModelLeanModelScope,
+): boolean {
+  if (hasResolvedModelScope(params) && !isLocalLeanEligibleModel(params)) {
+    return false;
+  }
+
   const normalizedAgentId = resolveLocalModelLeanAgentId(params);
   const resolvedExperimental =
     params.config && normalizedAgentId
@@ -88,13 +124,15 @@ export function isLocalModelLeanEnabled(params: {
 }
 
 /** Filters tools for local-model lean mode while preserving required delivery tools. */
-export function filterLocalModelLeanTools(params: {
-  tools: AnyAgentTool[];
-  config?: OpenClawConfig;
-  agentId?: string;
-  sessionKey?: string;
-  preserveToolNames?: Iterable<string>;
-}): AnyAgentTool[] {
+export function filterLocalModelLeanTools(
+  params: {
+    tools: AnyAgentTool[];
+    config?: OpenClawConfig;
+    agentId?: string;
+    sessionKey?: string;
+    preserveToolNames?: Iterable<string>;
+  } & LocalModelLeanModelScope,
+): AnyAgentTool[] {
   if (!isLocalModelLeanEnabled(params)) {
     return params.tools;
   }
@@ -114,11 +152,13 @@ export function shouldCatalogToolForLocalModelLean(tool: AnyAgentTool): boolean 
   return !LOCAL_MODEL_LEAN_DIRECT_TOOL_NAMES.has(normalizeToolName(tool.name));
 }
 
-export function applyLocalModelLeanToolSearchDefaults(params: {
-  config?: OpenClawConfig;
-  agentId?: string;
-  sessionKey?: string;
-}): OpenClawConfig | undefined {
+export function applyLocalModelLeanToolSearchDefaults(
+  params: {
+    config?: OpenClawConfig;
+    agentId?: string;
+    sessionKey?: string;
+  } & LocalModelLeanModelScope,
+): OpenClawConfig | undefined {
   if (!params.config || !isLocalModelLeanEnabled(params)) {
     return params.config;
   }
