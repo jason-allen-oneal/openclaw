@@ -51,12 +51,16 @@ function isLocalLeanEligibleModel(params: LocalModelLeanModelScope): boolean {
     provider === "ollama" ||
     provider === "ollama-local" ||
     provider === "llama-cpp" ||
-    provider === "openai" ||
+    provider === "lmstudio" ||
+    provider === "lm-studio" ||
     api === "ollama" ||
     api === "llama-cpp" ||
-    api.startsWith("openai") ||
+    api === "lmstudio" ||
+    api === "lm-studio" ||
     modelId.startsWith("ollama/") ||
-    modelId.startsWith("ollama-local/")
+    modelId.startsWith("ollama-local/") ||
+    modelId.startsWith("lmstudio/") ||
+    modelId.startsWith("lm-studio/")
   );
 }
 
