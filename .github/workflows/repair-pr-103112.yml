@@ -17,193 +17,96 @@ jobs:
           fetch-depth: 0
 
       - name: Apply canonical resolved-endpoint locality repair
+        id: repair
+        continue-on-error: true
         shell: bash
         run: |
+          exec > >(tee /tmp/pr-103112-repair.log) 2>&1
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin fix/local-model-lean-provider-scope
           git checkout -B repair-target origin/fix/local-model-lean-provider-scope
+
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
-          def replace_once(path: str, old: str, new: str) -> None:
+          def sub(path: str, pattern: str, replacement: str, count: int = 1, flags: int = 0) -> None:
               p = Path(path)
               text = p.read_text()
-              count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f"{path}: expected one match, found {count}: {old[:100]!r}")
-              p.write_text(text.replace(old, new))
+              updated, matches = re.subn(pattern, replacement, text, count=count, flags=flags)
+              if matches != count:
+                  raise SystemExit(f"{path}: expected {count} replacements for {pattern!r}, found {matches}")
+              p.write_text(updated)
 
           path = "src/agents/local-model-lean.ts"
-          replace_once(
+          sub(path, r"(type LocalModelLeanModelScope = \{\n  modelProvider\?: string;\n  modelApi\?: string;\n)(  modelId\?: string;)", r"\1  modelBaseUrl?: string;\n\2")
+          sub(path, r'(  "meta",\n)', r'\1  "minimax",\n')
+          sub(path, r'(  "moonshot",\n)', r'\1  "opencode",\n  "opencode-go",\n')
+          sub(
               path,
-              '''type LocalModelLeanModelScope = {
-            modelProvider?: string;
-            modelApi?: string;
-            modelId?: string;
-          };''',
-              '''type LocalModelLeanModelScope = {
-            modelProvider?: string;
-            modelApi?: string;
-            modelBaseUrl?: string;
-            modelId?: string;
-          };''',
-          )
-          replace_once(
-              path,
-              '''  "meta",
-            "mistral",
-            "moonshot",''',
-              '''  "meta",
-            "minimax",
-            "mistral",
-            "moonshot",
-            "opencode",
-            "opencode-go",''',
-          )
-          replace_once(
-              path,
-              '''  const providerConfig = resolveConfiguredModelProvider(params);
-            if (providerConfig?.localService) {''',
-              '''  const resolvedEndpointLocality = resolveConfiguredEndpointLocality(params.modelBaseUrl);
-            if (resolvedEndpointLocality !== undefined) {
-              return resolvedEndpointLocality;
-            }
-
-            const providerConfig = resolveConfiguredModelProvider(params);
-            if (providerConfig?.localService) {''',
+              r"(  const modelId = normalizeModelScopeValue\(params\.modelId\);\n\n)(  const providerConfig = resolveConfiguredModelProvider\(params\);)",
+              r"\1  const resolvedEndpointLocality = resolveConfiguredEndpointLocality(params.modelBaseUrl);\n  if (resolvedEndpointLocality !== undefined) {\n    return resolvedEndpointLocality;\n  }\n\n\2",
           )
 
           path = "src/agents/agent-tools.ts"
-          replace_once(
+          sub(
               path,
-              '''    modelProvider?: string;
-                modelApi?: string;
-                modelId?: string;''',
-              '''    modelProvider?: string;
-                modelApi?: string;
-                modelBaseUrl?: string;
-                modelId?: string;''',
+              r"(function applyModelProviderToolPolicy\([\s\S]*?modelProvider\?: string;\n    modelApi\?: string;\n)(    modelId\?: string;)",
+              r"\1    modelBaseUrl?: string;\n\2",
           )
-          replace_once(
+          sub(
               path,
-              '''    modelProvider: params?.modelProvider,
-                modelApi: params?.modelApi,
-                modelId: params?.modelId,''',
-              '''    modelProvider: params?.modelProvider,
-                modelApi: params?.modelApi,
-                modelBaseUrl: params?.modelBaseUrl,
-                modelId: params?.modelId,''',
+              r"(    modelProvider: params\?\.modelProvider,\n    modelApi: params\?\.modelApi,\n)(    modelId: params\?\.modelId,)",
+              r"\1    modelBaseUrl: params?.modelBaseUrl,\n\2",
           )
-          replace_once(
+          sub(
               path,
-              '''  /** Model API for the current provider (used for provider-native tool arbitration). */
-            modelApi?: string;
-            /** Model context window in tokens (used to scale read-tool output budget). */''',
-              '''  /** Model API for the current provider (used for provider-native tool arbitration). */
-            modelApi?: string;
-            /** Resolved endpoint used by the active model transport. */
-            modelBaseUrl?: string;
-            /** Model context window in tokens (used to scale read-tool output budget). */''',
+              r"(  /\*\* Model API for the current provider \(used for provider-native tool arbitration\)\. \*/\n  modelApi\?: string;\n)",
+              r"\1  /** Resolved endpoint used by the active model transport. */\n  modelBaseUrl?: string;\n",
           )
-          replace_once(
+          sub(
               path,
-              '''    modelProvider: options?.modelProvider,
-                modelApi: options?.modelApi,
-                modelId: options?.modelId,''',
-              '''    modelProvider: options?.modelProvider,
-                modelApi: options?.modelApi,
-                modelBaseUrl: options?.modelBaseUrl,
-                modelId: options?.modelId,''',
+              r"(    modelProvider: options\?\.modelProvider,\n    modelApi: options\?\.modelApi,\n)(    modelId: options\?\.modelId,)",
+              r"\1    modelBaseUrl: options?.modelBaseUrl,\n\2",
           )
 
           path = "src/agents/embedded-agent-runner/run/attempt.ts"
-          text = Path(path).read_text()
-          replacements = [
-              (
-                  '''          modelProvider: params.provider,
-                    modelApi: params.model.api,
-                    modelId: params.modelId,''',
-                  '''          modelProvider: params.provider,
-                    modelApi: params.model.api,
-                    modelBaseUrl: params.model.baseUrl,
-                    modelId: params.modelId,''',
-              ),
-              (
-                  '''      modelProvider: params.provider,
-                    modelId: params.modelId,
-                    modelApi: params.model.api,''',
-                  '''      modelProvider: params.provider,
-                    modelId: params.modelId,
-                    modelApi: params.model.api,
-                    modelBaseUrl: params.model.baseUrl,''',
-              ),
-              (
-                  '''      modelProvider: params.provider,
-                    modelApi: params.model.api,
-                    modelId: params.modelId,''',
-                  '''      modelProvider: params.provider,
-                    modelApi: params.model.api,
-                    modelBaseUrl: params.model.baseUrl,
-                    modelId: params.modelId,''',
-              ),
-              (
-                  '''            modelProvider: params.provider,
-                        modelId: params.modelId,
-                        modelCompat: extractModelCompat(params.model),
-                        modelApi: params.model.api,''',
-                  '''            modelProvider: params.provider,
-                        modelId: params.modelId,
-                        modelCompat: extractModelCompat(params.model),
-                        modelApi: params.model.api,
-                        modelBaseUrl: params.model.baseUrl,''',
-              ),
-          ]
-          for old, new in replacements:
-              count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f"{path}: expected one match, found {count}: {old[:100]!r}")
-              text = text.replace(old, new)
-          Path(path).write_text(text)
+          p = Path(path)
+          text = p.read_text()
+          updated, matches = re.subn(
+              r"(modelApi: params\.model\.api,\n)(\s+)(?!modelBaseUrl:)",
+              r"\1\2modelBaseUrl: params.model.baseUrl,\n\2",
+              text,
+          )
+          if matches < 4:
+              raise SystemExit(f"{path}: expected at least 4 model API propagation sites, found {matches}")
+          p.write_text(updated)
 
           path = "src/agents/harness/tool-surface-bridge.ts"
-          replace_once(
-              path,
-              '''  modelId?: string;
-            modelProvider?: string;
-            modelToolsEnabled: boolean;''',
-              '''  modelId?: string;
-            modelProvider?: string;
-            modelBaseUrl?: string;
-            modelToolsEnabled: boolean;''',
+          sub(path, r"(  modelId\?: string;\n  modelProvider\?: string;\n)(  modelToolsEnabled: boolean;)", r"\1  modelBaseUrl?: string;\n\2")
+          p = Path(path)
+          text = p.read_text()
+          updated, matches = re.subn(
+              r"(    modelProvider: params\.modelProvider,\n)(    modelId: params\.modelId,)",
+              r"\1    modelBaseUrl: params.modelBaseUrl,\n\2",
+              text,
           )
-          text = Path(path).read_text()
-          old = '''    modelProvider: params.modelProvider,
-                modelId: params.modelId,'''
-          new = '''    modelProvider: params.modelProvider,
-                modelBaseUrl: params.modelBaseUrl,
-                modelId: params.modelId,'''
-          count = text.count(old)
-          if count != 4:
-              raise SystemExit(f"{path}: expected four local-lean model-scope matches, found {count}")
-          text = text.replace(old, new)
-          Path(path).write_text(text)
+          if matches < 4:
+              raise SystemExit(f"{path}: expected at least 4 model-scope propagation sites, found {matches}")
+          p.write_text(updated)
 
           path = "extensions/copilot/src/tool-bridge.ts"
-          replace_once(
+          sub(
               path,
-              '''    modelId: input.modelId,
-                modelProvider: input.modelProvider,
-                modelToolsEnabled: true,''',
-              '''    modelId: input.modelId,
-                modelProvider: input.modelProvider,
-                modelBaseUrl: attemptParams.model?.baseUrl,
-                modelToolsEnabled: true,''',
+              r"(    modelId: input\.modelId,\n    modelProvider: input\.modelProvider,\n)(    modelToolsEnabled: true,)",
+              r"\1    modelBaseUrl: attemptParams.model?.baseUrl,\n\2",
           )
 
           path = "src/agents/local-model-lean-provider-scope.test.ts"
-          text = Path(path).read_text()
-          marker = '''  it("keeps LM Studio eligible when only provider and model id are resolved", () => {'''
+          p = Path(path)
+          text = p.read_text()
+          marker = '  it("keeps LM Studio eligible when only provider and model id are resolved", () => {'
           test = '''  it.each(["minimax", "opencode", "opencode-go"])(
             "disables lean mode from the resolved hosted endpoint for %s",
             (modelProvider) => {
@@ -233,17 +136,18 @@ jobs:
 
           '''
           if marker not in text:
-              raise SystemExit(f"{path}: test insertion marker missing")
-          Path(path).write_text(text.replace(marker, test + marker, 1))
+              raise SystemExit(f"{path}: insertion marker missing")
+          p.write_text(text.replace(marker, test + marker, 1))
 
           path = "src/agents/harness/tool-surface-bridge.test.ts"
-          text = Path(path).read_text()
-          replace = '''  modelScope: { modelProvider?: string; modelId?: string } = {},'''
-          replacement = '''  modelScope: { modelProvider?: string; modelBaseUrl?: string; modelId?: string } = {},'''
-          if text.count(replace) != 1:
+          p = Path(path)
+          text = p.read_text()
+          old_scope = "  modelScope: { modelProvider?: string; modelId?: string } = {},"
+          new_scope = "  modelScope: { modelProvider?: string; modelBaseUrl?: string; modelId?: string } = {},"
+          if text.count(old_scope) != 1:
               raise SystemExit(f"{path}: createRuntime model scope marker missing")
-          text = text.replace(replace, replacement)
-          marker = '''  it("still applies lean filtering for known local harness providers", () => {'''
+          text = text.replace(old_scope, new_scope, 1)
+          marker = '  it("still applies lean filtering for known local harness providers", () => {'
           test = '''  it("keeps the full harness surface for a resolved hosted endpoint", () => {
             const config: OpenClawConfig = {
               agents: {
@@ -273,8 +177,8 @@ jobs:
 
           '''
           if marker not in text:
-              raise SystemExit(f"{path}: test insertion marker missing")
-          Path(path).write_text(text.replace(marker, test + marker, 1))
+              raise SystemExit(f"{path}: insertion marker missing")
+          p.write_text(text.replace(marker, test + marker, 1))
           PY
 
           corepack enable
@@ -308,3 +212,14 @@ jobs:
             src/agents/harness/tool-surface-bridge.test.ts
           git commit -m "fix(agents): use resolved endpoint for lean locality"
           git push origin HEAD:fix/local-model-lean-provider-scope
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr-103112-repair-log
+          path: /tmp/pr-103112-repair.log
+          if-no-files-found: warn
+
+      - name: Fail when repair failed
+        if: steps.repair.outcome == 'failure'
+        run: exit 1
