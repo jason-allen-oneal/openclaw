@@ -4,6 +4,7 @@
  * preserving explicitly required delivery tools.
  */
 import { isPrivateOrLoopbackIpAddress } from "@openclaw/net-policy/ip";
+import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.js";
 import { resolveAgentConfig, resolveDefaultAgentId } from "./agent-scope-config.js";
@@ -157,8 +158,34 @@ function resolveConfiguredEndpointLocality(baseUrl: string | undefined): boolean
   }
 }
 
+function resolveConfiguredPrimaryModelProvider(params: {
+  config?: OpenClawConfig;
+  agentId?: string;
+}): string | undefined {
+  if (!params.config) {
+    return undefined;
+  }
+  const agentModel = params.agentId
+    ? resolveAgentConfig(params.config, params.agentId)?.model
+    : undefined;
+  const primaryModel =
+    resolveAgentModelPrimaryValue(agentModel) ??
+    resolveAgentModelPrimaryValue(params.config.agents?.defaults?.model);
+  if (!primaryModel) {
+    return undefined;
+  }
+  const slashIndex = primaryModel.indexOf("/");
+  if (slashIndex <= 0) {
+    return undefined;
+  }
+  return normalizeModelScopeValue(primaryModel.slice(0, slashIndex));
+}
+
 function resolveLocalModelLeanModelLocality(
-  params: { config?: OpenClawConfig } & LocalModelLeanModelScope,
+  params: {
+    config?: OpenClawConfig;
+    configuredPrimaryProvider?: string;
+  } & LocalModelLeanModelScope,
 ): boolean | undefined {
   const provider = normalizeModelScopeValue(params.modelProvider);
   const api = normalizeModelScopeValue(params.modelApi);
@@ -191,11 +218,16 @@ function resolveLocalModelLeanModelLocality(
     return true;
   }
   if (KNOWN_HOSTED_MODEL_PROVIDERS.has(provider)) {
-    return false;
+    const configuredPrimaryProvider = normalizeModelScopeValue(
+      params.configuredPrimaryProvider,
+    );
+    if (configuredPrimaryProvider && configuredPrimaryProvider !== provider) {
+      return false;
+    }
   }
 
-  // Unknown/custom providers without an authoritative endpoint retain the
-  // existing opt-in behavior instead of being silently treated as hosted.
+  // When endpoint or configured-provider facts do not establish locality,
+  // preserve the existing explicit opt-in behavior.
   return undefined;
 }
 
@@ -260,7 +292,15 @@ export function isLocalModelLeanEnabled(
   if (resolvedExperimental?.localModelLean !== true) {
     return false;
   }
-  return resolveLocalModelLeanModelLocality(params) !== false;
+  return (
+    resolveLocalModelLeanModelLocality({
+      ...params,
+      configuredPrimaryProvider: resolveConfiguredPrimaryModelProvider({
+        config: params.config,
+        agentId: normalizedAgentId,
+      }),
+    }) !== false
+  );
 }
 
 /** Filters tools for local-model lean mode while preserving required delivery tools. */
