@@ -1,0 +1,20 @@
+name: Repair PR 103112 Final
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply and validate repair
+        shell: bash
+        run: bash .github/scripts/repair-103112.sh
