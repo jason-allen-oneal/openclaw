@@ -70,7 +70,7 @@ describe("createAgentHarnessToolSurfaceRuntime", () => {
     runtime.cleanup();
   });
 
-  it("keeps the full harness surface for a resolved hosted endpoint", () => {
+  it("keeps the full harness surface for an unknown provider on a public endpoint", () => {
     const config: OpenClawConfig = {
       agents: {
         list: [
@@ -83,7 +83,7 @@ describe("createAgentHarnessToolSurfaceRuntime", () => {
       },
     };
     const runtime = createRuntime(config, {
-      modelProvider: "opencode",
+      modelProvider: "custom-provider",
       modelBaseUrl: "https://models.example.com/v1",
       modelId: "hosted-model",
     });
@@ -94,6 +94,34 @@ describe("createAgentHarnessToolSurfaceRuntime", () => {
         .compactTools(tools(["read", "browser", "cron", "message", "exec"]))
         .tools.map((tool) => tool.name),
     ).toEqual(["read", "browser", "cron", "message", "exec"]);
+    runtime.cleanup();
+  });
+
+  it("applies lean filtering for an unknown provider on a private endpoint", () => {
+    const config: OpenClawConfig = {
+      agents: {
+        list: [
+          {
+            id: "main",
+            model: "ollama/qwen3-coder",
+            experimental: { localModelLean: true },
+          },
+        ],
+      },
+      tools: { toolSearch: { enabled: false } },
+    };
+    const runtime = createRuntime(config, {
+      modelProvider: "custom-provider",
+      modelBaseUrl: "http://192.168.1.50:1234/v1",
+      modelId: "local-model",
+    });
+
+    expect(runtime.toolSearchControlsEnabled).toBe(false);
+    expect(
+      runtime
+        .compactTools(tools(["read", "browser", "cron", "message", "exec"]))
+        .tools.map((tool) => tool.name),
+    ).toEqual(["read", "exec"]);
     runtime.cleanup();
   });
 
