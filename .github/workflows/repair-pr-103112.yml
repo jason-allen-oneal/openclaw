@@ -1,0 +1,310 @@
+name: Repair PR 103112
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply canonical resolved-endpoint locality repair
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin fix/local-model-lean-provider-scope
+          git checkout -B repair-target origin/fix/local-model-lean-provider-scope
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected one match, found {count}: {old[:100]!r}")
+              p.write_text(text.replace(old, new))
+
+          path = "src/agents/local-model-lean.ts"
+          replace_once(
+              path,
+              '''type LocalModelLeanModelScope = {
+            modelProvider?: string;
+            modelApi?: string;
+            modelId?: string;
+          };''',
+              '''type LocalModelLeanModelScope = {
+            modelProvider?: string;
+            modelApi?: string;
+            modelBaseUrl?: string;
+            modelId?: string;
+          };''',
+          )
+          replace_once(
+              path,
+              '''  "meta",
+            "mistral",
+            "moonshot",''',
+              '''  "meta",
+            "minimax",
+            "mistral",
+            "moonshot",
+            "opencode",
+            "opencode-go",''',
+          )
+          replace_once(
+              path,
+              '''  const providerConfig = resolveConfiguredModelProvider(params);
+            if (providerConfig?.localService) {''',
+              '''  const resolvedEndpointLocality = resolveConfiguredEndpointLocality(params.modelBaseUrl);
+            if (resolvedEndpointLocality !== undefined) {
+              return resolvedEndpointLocality;
+            }
+
+            const providerConfig = resolveConfiguredModelProvider(params);
+            if (providerConfig?.localService) {''',
+          )
+
+          path = "src/agents/agent-tools.ts"
+          replace_once(
+              path,
+              '''    modelProvider?: string;
+                modelApi?: string;
+                modelId?: string;''',
+              '''    modelProvider?: string;
+                modelApi?: string;
+                modelBaseUrl?: string;
+                modelId?: string;''',
+          )
+          replace_once(
+              path,
+              '''    modelProvider: params?.modelProvider,
+                modelApi: params?.modelApi,
+                modelId: params?.modelId,''',
+              '''    modelProvider: params?.modelProvider,
+                modelApi: params?.modelApi,
+                modelBaseUrl: params?.modelBaseUrl,
+                modelId: params?.modelId,''',
+          )
+          replace_once(
+              path,
+              '''  /** Model API for the current provider (used for provider-native tool arbitration). */
+            modelApi?: string;
+            /** Model context window in tokens (used to scale read-tool output budget). */''',
+              '''  /** Model API for the current provider (used for provider-native tool arbitration). */
+            modelApi?: string;
+            /** Resolved endpoint used by the active model transport. */
+            modelBaseUrl?: string;
+            /** Model context window in tokens (used to scale read-tool output budget). */''',
+          )
+          replace_once(
+              path,
+              '''    modelProvider: options?.modelProvider,
+                modelApi: options?.modelApi,
+                modelId: options?.modelId,''',
+              '''    modelProvider: options?.modelProvider,
+                modelApi: options?.modelApi,
+                modelBaseUrl: options?.modelBaseUrl,
+                modelId: options?.modelId,''',
+          )
+
+          path = "src/agents/embedded-agent-runner/run/attempt.ts"
+          text = Path(path).read_text()
+          replacements = [
+              (
+                  '''          modelProvider: params.provider,
+                    modelApi: params.model.api,
+                    modelId: params.modelId,''',
+                  '''          modelProvider: params.provider,
+                    modelApi: params.model.api,
+                    modelBaseUrl: params.model.baseUrl,
+                    modelId: params.modelId,''',
+              ),
+              (
+                  '''      modelProvider: params.provider,
+                    modelId: params.modelId,
+                    modelApi: params.model.api,''',
+                  '''      modelProvider: params.provider,
+                    modelId: params.modelId,
+                    modelApi: params.model.api,
+                    modelBaseUrl: params.model.baseUrl,''',
+              ),
+              (
+                  '''      modelProvider: params.provider,
+                    modelApi: params.model.api,
+                    modelId: params.modelId,''',
+                  '''      modelProvider: params.provider,
+                    modelApi: params.model.api,
+                    modelBaseUrl: params.model.baseUrl,
+                    modelId: params.modelId,''',
+              ),
+              (
+                  '''            modelProvider: params.provider,
+                        modelId: params.modelId,
+                        modelCompat: extractModelCompat(params.model),
+                        modelApi: params.model.api,''',
+                  '''            modelProvider: params.provider,
+                        modelId: params.modelId,
+                        modelCompat: extractModelCompat(params.model),
+                        modelApi: params.model.api,
+                        modelBaseUrl: params.model.baseUrl,''',
+              ),
+          ]
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected one match, found {count}: {old[:100]!r}")
+              text = text.replace(old, new)
+          Path(path).write_text(text)
+
+          path = "src/agents/harness/tool-surface-bridge.ts"
+          replace_once(
+              path,
+              '''  modelId?: string;
+            modelProvider?: string;
+            modelToolsEnabled: boolean;''',
+              '''  modelId?: string;
+            modelProvider?: string;
+            modelBaseUrl?: string;
+            modelToolsEnabled: boolean;''',
+          )
+          text = Path(path).read_text()
+          old = '''    modelProvider: params.modelProvider,
+                modelId: params.modelId,'''
+          new = '''    modelProvider: params.modelProvider,
+                modelBaseUrl: params.modelBaseUrl,
+                modelId: params.modelId,'''
+          count = text.count(old)
+          if count != 4:
+              raise SystemExit(f"{path}: expected four local-lean model-scope matches, found {count}")
+          text = text.replace(old, new)
+          Path(path).write_text(text)
+
+          path = "extensions/copilot/src/tool-bridge.ts"
+          replace_once(
+              path,
+              '''    modelId: input.modelId,
+                modelProvider: input.modelProvider,
+                modelToolsEnabled: true,''',
+              '''    modelId: input.modelId,
+                modelProvider: input.modelProvider,
+                modelBaseUrl: attemptParams.model?.baseUrl,
+                modelToolsEnabled: true,''',
+          )
+
+          path = "src/agents/local-model-lean-provider-scope.test.ts"
+          text = Path(path).read_text()
+          marker = '''  it("keeps LM Studio eligible when only provider and model id are resolved", () => {'''
+          test = '''  it.each(["minimax", "opencode", "opencode-go"])(
+            "disables lean mode from the resolved hosted endpoint for %s",
+            (modelProvider) => {
+              const config: OpenClawConfig = {
+                agents: {
+                  list: [
+                    {
+                      id: "main",
+                      model: "ollama/qwen3-coder",
+                      experimental: { localModelLean: true },
+                    },
+                  ],
+                },
+              };
+
+              expect(
+                isLocalModelLeanEnabled({
+                  config,
+                  agentId: "main",
+                  modelProvider,
+                  modelBaseUrl: "https://models.example.com/v1",
+                  modelId: "hosted-model",
+                }),
+              ).toBe(false);
+            },
+          );
+
+          '''
+          if marker not in text:
+              raise SystemExit(f"{path}: test insertion marker missing")
+          Path(path).write_text(text.replace(marker, test + marker, 1))
+
+          path = "src/agents/harness/tool-surface-bridge.test.ts"
+          text = Path(path).read_text()
+          replace = '''  modelScope: { modelProvider?: string; modelId?: string } = {},'''
+          replacement = '''  modelScope: { modelProvider?: string; modelBaseUrl?: string; modelId?: string } = {},'''
+          if text.count(replace) != 1:
+              raise SystemExit(f"{path}: createRuntime model scope marker missing")
+          text = text.replace(replace, replacement)
+          marker = '''  it("still applies lean filtering for known local harness providers", () => {'''
+          test = '''  it("keeps the full harness surface for a resolved hosted endpoint", () => {
+            const config: OpenClawConfig = {
+              agents: {
+                list: [
+                  {
+                    id: "main",
+                    model: "ollama/qwen3-coder",
+                    experimental: { localModelLean: true },
+                  },
+                ],
+              },
+            };
+            const runtime = createRuntime(config, {
+              modelProvider: "opencode",
+              modelBaseUrl: "https://models.example.com/v1",
+              modelId: "hosted-model",
+            });
+
+            expect(runtime.toolSearchControlsEnabled).toBe(false);
+            expect(
+              runtime
+                .compactTools(tools(["read", "browser", "cron", "message", "exec"]))
+                .tools.map((tool) => tool.name),
+            ).toEqual(["read", "browser", "cron", "message", "exec"]);
+            runtime.cleanup();
+          });
+
+          '''
+          if marker not in text:
+              raise SystemExit(f"{path}: test insertion marker missing")
+          Path(path).write_text(text.replace(marker, test + marker, 1))
+          PY
+
+          corepack enable
+          pnpm install --frozen-lockfile
+          node_modules/.bin/oxfmt --write \
+            src/agents/local-model-lean.ts \
+            src/agents/agent-tools.ts \
+            src/agents/embedded-agent-runner/run/attempt.ts \
+            src/agents/harness/tool-surface-bridge.ts \
+            extensions/copilot/src/tool-bridge.ts \
+            src/agents/local-model-lean-provider-scope.test.ts \
+            src/agents/harness/tool-surface-bridge.test.ts
+          node_modules/.bin/oxlint \
+            src/agents/local-model-lean.ts \
+            src/agents/agent-tools.ts \
+            src/agents/embedded-agent-runner/run/attempt.ts \
+            src/agents/harness/tool-surface-bridge.ts \
+            extensions/copilot/src/tool-bridge.ts \
+            src/agents/local-model-lean-provider-scope.test.ts \
+            src/agents/harness/tool-surface-bridge.test.ts
+          node scripts/test-projects.mjs \
+            src/agents/local-model-lean.test.ts \
+            src/agents/local-model-lean-provider-scope.test.ts \
+            src/agents/harness/tool-surface-bridge.test.ts \
+            src/agents/embedded-agent-runner/run/attempt.spawn-workspace.context-engine.test.ts
+          git add src/agents/local-model-lean.ts src/agents/agent-tools.ts \
+            src/agents/embedded-agent-runner/run/attempt.ts \
+            src/agents/harness/tool-surface-bridge.ts \
+            extensions/copilot/src/tool-bridge.ts \
+            src/agents/local-model-lean-provider-scope.test.ts \
+            src/agents/harness/tool-surface-bridge.test.ts
+          git commit -m "fix(agents): use resolved endpoint for lean locality"
+          git push origin HEAD:fix/local-model-lean-provider-scope
