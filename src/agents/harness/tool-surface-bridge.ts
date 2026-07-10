@@ -95,6 +95,7 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
         agentId: params.agentId,
         sessionKey: params.sessionKey,
         modelProvider: params.modelProvider,
+        modelBaseUrl: params.modelBaseUrl,
         modelId: params.modelId,
       });
   const toolSearchConfig = resolveToolSearchConfig(toolSearchRuntimeConfig);
@@ -150,6 +151,7 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
           agentId: params.agentId,
           sessionKey: params.sessionKey,
           modelProvider: params.modelProvider,
+          modelBaseUrl: params.modelBaseUrl,
           modelId: params.modelId,
           preserveToolNames,
         });
@@ -229,6 +231,7 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
           agentId: params.agentId,
           sessionKey: params.sessionKey,
           modelProvider: params.modelProvider,
+          modelBaseUrl: params.modelBaseUrl,
           modelId: params.modelId,
           preserveToolNames,
         });
