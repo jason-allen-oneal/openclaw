@@ -82,6 +82,8 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
     config: params.config,
     agentId: params.agentId,
     sessionKey: params.sessionKey,
+    modelProvider: params.modelProvider,
+    modelId: params.modelId,
   });
   const codeModeConfig = resolveCodeModeConfig(params.config, params.agentId);
   const toolSearchRuntimeConfig = forceDirectMessageTool
@@ -90,6 +92,8 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
         config: params.config,
         agentId: params.agentId,
         sessionKey: params.sessionKey,
+        modelProvider: params.modelProvider,
+        modelId: params.modelId,
       });
   const toolSearchConfig = resolveToolSearchConfig(toolSearchRuntimeConfig);
   const toolsAvailable =
@@ -142,6 +146,8 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
           config: params.config,
           agentId: params.agentId,
           sessionKey: params.sessionKey,
+          modelProvider: params.modelProvider,
+          modelId: params.modelId,
           preserveToolNames,
         });
     const uncompactedProjection = filterRuntimeCompatibleTools(projectedUncompactedTools);
@@ -219,6 +225,8 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
           config: params.config,
           agentId: params.agentId,
           sessionKey: params.sessionKey,
+          modelProvider: params.modelProvider,
+          modelId: params.modelId,
           preserveToolNames,
         });
     effectiveTools = [...filterRuntimeCompatibleTools(projectedCompactedTools).tools];
