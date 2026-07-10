@@ -2,11 +2,12 @@
 
 set -e
 
+cp .github/scripts/repair-103112.py /tmp/repair-103112.py
 git config user.name "github-actions[bot]"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git fetch origin fix/local-model-lean-provider-scope
 git checkout -B repair-target origin/fix/local-model-lean-provider-scope
-python3 .github/scripts/repair-103112.py
+python3 /tmp/repair-103112.py
 
 corepack enable
 pnpm install --frozen-lockfile
