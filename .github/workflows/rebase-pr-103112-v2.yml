@@ -1,0 +1,27 @@
+name: Rebase PR 103112
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebase and validate PR 103112
+        shell: bash
+        run: bash .github/scripts/rebase-103112-v2.sh 2>&1 | tee pr-103112-rebase.log
+      - name: Upload rebase log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-103112-rebase-log
+          path: pr-103112-rebase.log
+          if-no-files-found: warn
