@@ -119,6 +119,33 @@ if [ -n "$(git diff --name-only --diff-filter=U)" ]; then
 fi
 
 rm -f .github/workflows/repair-95347.yml .github/scripts/repair-95347.sh
+
+python3 - <<'PY'
+from pathlib import Path
+
+path = Path("extensions/memory-core/src/tools.test.ts")
+text = path.read_text()
+old_title = 'it("keeps qmd zero-hit forced-sync retry inside one whole-search deadline", async () => {'
+new_title = 'it("keeps one-shot qmd zero-hit retry inside one whole-search deadline", async () => {'
+if text.count(old_title) != 1:
+    raise SystemExit("expected one long-lived QMD deadline test")
+text = text.replace(old_title, new_title, 1)
+start = text.index(new_title)
+end_marker = '  it("closes one-shot CLI qmd manager with timeout when forced sync never settles"'
+end = text.index(end_marker, start)
+segment = text[start:end]
+needle = '''        },
+      });'''
+replacement = '''        },
+        oneShotCliRun: true,
+      });'''
+if segment.count(needle) != 1:
+    raise SystemExit("expected one tool construction site in QMD deadline test")
+segment = segment.replace(needle, replacement, 1)
+text = text[:start] + segment + text[end:]
+path.write_text(text)
+PY
+
 git add -A
 
 corepack enable
