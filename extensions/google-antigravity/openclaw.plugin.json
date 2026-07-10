@@ -1,0 +1,52 @@
+{
+  "id": "google-antigravity",
+  "name": "Google Antigravity (experimental)",
+  "description": "Experimental delegated text inference through a local signed-in agy CLI.",
+  "icon": "https://cdn.simpleicons.org/google",
+  "activation": {
+    "onStartup": false
+  },
+  "enabledByDefault": true,
+  "providers": ["google-antigravity"],
+  "cliBackends": ["google-antigravity"],
+  "syntheticAuthRefs": ["google-antigravity"],
+  "nonSecretAuthMarkers": ["antigravity-local-session"],
+  "modelIdNormalization": {
+    "providers": {
+      "google-antigravity": {
+        "aliases": {
+          "flash": "gemini-3-flash",
+          "pro": "gemini-3-pro-low",
+          "pro-low": "gemini-3-pro-low",
+          "pro-high": "gemini-3-pro-high"
+        }
+      }
+    }
+  },
+  "setup": {
+    "providers": [
+      {
+        "id": "google-antigravity",
+        "envVars": ["ANTIGRAVITY_USER_DATA_DIR"]
+      }
+    ]
+  },
+  "providerAuthChoices": [
+    {
+      "provider": "google-antigravity",
+      "method": "custom",
+      "choiceId": "google-antigravity",
+      "choiceLabel": "Google Antigravity (experimental)",
+      "choiceHint": "Delegate text inference to a local signed-in agy CLI",
+      "groupId": "google-antigravity",
+      "groupLabel": "Google Antigravity",
+      "groupHint": "Experimental local CLI runtime",
+      "onboardingScopes": ["text-inference"]
+    }
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}
