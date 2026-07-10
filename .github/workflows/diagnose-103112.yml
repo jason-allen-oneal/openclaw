@@ -1,0 +1,133 @@
+name: Repair PR 103112
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repair target branch and validate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_BRANCH: fix/local-model-lean-provider-scope
+        run: |
+          git init "$GITHUB_WORKSPACE"
+          git -C "$GITHUB_WORKSPACE" config user.name "github-actions[bot]"
+          git -C "$GITHUB_WORKSPACE" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$GITHUB_WORKSPACE" remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$GITHUB_WORKSPACE" fetch --no-tags origin "+refs/heads/${TARGET_BRANCH}:refs/remotes/origin/${TARGET_BRANCH}"
+          git -C "$GITHUB_WORKSPACE" checkout -B "$TARGET_BRANCH" "refs/remotes/origin/${TARGET_BRANCH}"
+
+          cd "$GITHUB_WORKSPACE"
+          python3 - <<'PY'
+          from pathlib import Path
+
+          attempt_path = Path("src/agents/embedded-agent-runner/run/attempt.ts")
+          text = attempt_path.read_text()
+          removed = sum(1 for line in text.splitlines() if "modelBaseUrl: params.model.baseUrl," in line)
+          text = "\n".join(
+              line for line in text.splitlines() if "modelBaseUrl: params.model.baseUrl," not in line
+          ) + "\n"
+
+          replacements = [
+              (
+                  """          sessionKey: sandboxSessionKey,
+          modelProvider: params.provider,
+          modelApi: params.model.api,
+          modelId: params.modelId,
+        });""",
+                  """          sessionKey: sandboxSessionKey,
+          modelProvider: params.provider,
+          modelApi: params.model.api,
+          modelBaseUrl: params.model.baseUrl,
+          modelId: params.modelId,
+        });""",
+                  1,
+              ),
+              (
+                  """      sessionKey: params.sessionKey,
+      modelProvider: params.provider,
+      modelApi: params.model.api,
+      modelId: params.modelId,
+    });""",
+                  """      sessionKey: params.sessionKey,
+      modelProvider: params.provider,
+      modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
+      modelId: params.modelId,
+    });""",
+                  1,
+              ),
+              (
+                  """            modelId: params.modelId,
+            modelCompat: extractModelCompat(params.model),
+            modelApi: params.model.api,
+            modelContextWindowTokens: params.model.contextWindow,""",
+                  """            modelId: params.modelId,
+            modelCompat: extractModelCompat(params.model),
+            modelApi: params.model.api,
+            modelBaseUrl: params.model.baseUrl,
+            modelContextWindowTokens: params.model.contextWindow,""",
+                  1,
+              ),
+              (
+                  """      modelProvider: params.provider,
+      modelApi: params.model.api,
+      modelId: params.modelId,
+      preserveToolNames: localModelLeanPreserveToolNames,""",
+                  """      modelProvider: params.provider,
+      modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
+      modelId: params.modelId,
+      preserveToolNames: localModelLeanPreserveToolNames,""",
+                  2,
+              ),
+          ]
+
+          for old, new, expected in replacements:
+              actual = text.count(old)
+              if actual != expected:
+                  raise SystemExit(f"attempt.ts replacement count mismatch: expected {expected}, got {actual}")
+              text = text.replace(old, new)
+
+          final_count = sum(1 for line in text.splitlines() if "modelBaseUrl: params.model.baseUrl," in line)
+          if final_count != 5:
+              raise SystemExit(f"attempt.ts expected 5 scoped modelBaseUrl entries, got {final_count}; removed {removed}")
+          attempt_path.write_text(text)
+
+          harness_path = Path("src/agents/harness/tool-surface-bridge.ts")
+          harness = harness_path.read_text()
+          old = """    modelProvider: params.modelProvider,
+    modelBaseUrl: params.modelBaseUrl,
+    modelId: params.modelId,
+    runtimeToolAllowlist,"""
+          new = """    modelProvider: params.modelProvider,
+    modelId: params.modelId,
+    runtimeToolAllowlist,"""
+          if harness.count(old) != 1:
+              raise SystemExit("tool-surface capability-profile cleanup did not match exactly once")
+          harness_path.write_text(harness.replace(old, new, 1))
+          PY
+
+          corepack enable
+          pnpm install --frozen-lockfile
+          node_modules/.bin/oxfmt --write \
+            src/agents/embedded-agent-runner/run/attempt.ts \
+            src/agents/harness/tool-surface-bridge.ts
+          node scripts/run-vitest.mjs \
+            src/agents/local-model-lean-provider-scope.test.ts \
+            src/agents/harness/tool-surface-bridge.test.ts
+          pnpm tsgo:core:test
+          git diff --check
+
+          git add \
+            src/agents/embedded-agent-runner/run/attempt.ts \
+            src/agents/harness/tool-surface-bridge.ts
+          git commit -m "fix: scope model endpoint propagation to lean tool decisions"
+          git push origin "HEAD:refs/heads/${TARGET_BRANCH}"
