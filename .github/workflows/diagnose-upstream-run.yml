@@ -1,0 +1,43 @@
+name: Diagnose Upstream PR 103112
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch compact upstream job list
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: "29110884478"
+        run: |
+          curl --fail --silent --show-error --location \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/openclaw/openclaw/actions/runs/${RUN_ID}/jobs?per_page=100" \
+            > upstream-jobs.json
+          jq -r '.jobs[] | [.id, .name, .status, (.conclusion // "")] | @tsv' \
+            upstream-jobs.json > upstream-jobs.tsv
+          jq -r '.jobs[] | select(.conclusion == "failure") | [.id, .name] | @tsv' \
+            upstream-jobs.json > failed-jobs.tsv
+          cat upstream-jobs.tsv
+          echo "Failed jobs:"
+          cat failed-jobs.tsv
+          test -s failed-jobs.tsv
+
+      - name: Upload diagnosis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-103112-upstream-run-diagnosis
+          path: |
+            upstream-jobs.tsv
+            failed-jobs.tsv
+          if-no-files-found: warn
