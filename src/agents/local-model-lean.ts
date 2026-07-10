@@ -106,7 +106,9 @@ function resolveConfiguredModelBaseUrl(params: {
 }): string | undefined {
   const modelId = normalizeModelScopeValue(params.modelId);
   if (modelId) {
-    const unqualifiedModelId = modelId.includes("/") ? modelId.slice(modelId.indexOf("/") + 1) : modelId;
+    const unqualifiedModelId = modelId.includes("/")
+      ? modelId.slice(modelId.indexOf("/") + 1)
+      : modelId;
     const configuredModel = params.providerConfig.models?.find((candidate) => {
       const candidateId = normalizeModelScopeValue(candidate.id);
       return candidateId === modelId || candidateId === unqualifiedModelId;
