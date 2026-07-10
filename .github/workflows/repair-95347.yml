@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  diagnose:
+  repair:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,41 +17,142 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Capture merge inputs against upstream main
+      - name: Rebase feature onto upstream main and resolve tools conflict
+        id: repair
+        continue-on-error: true
         shell: bash
         run: |
+          exec > >(tee /tmp/pr-95347-repair.log) 2>&1
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote add upstream https://github.com/openclaw/openclaw.git
           git fetch upstream main
           old_head=$(git rev-parse HEAD)
-          base=$(git merge-base upstream/main "$old_head")
-          mkdir -p /tmp/pr-95347
-          git show upstream/main:extensions/memory-core/src/tools.ts > /tmp/pr-95347/tools-main.ts
-          git show "$old_head":extensions/memory-core/src/tools.ts > /tmp/pr-95347/tools-old.ts
-          git diff "$base" "$old_head" -- extensions/memory-core/src/tools.ts > /tmp/pr-95347/tools-pr.patch
-          {
-            echo "OLD_HEAD=$old_head"
-            echo "MERGE_BASE=$base"
-            echo "UPSTREAM_MAIN=$(git rev-parse upstream/main)"
-            git reset --hard upstream/main
-            git merge --no-commit --no-ff "$old_head" || true
-            cp extensions/memory-core/src/tools.ts /tmp/pr-95347/tools-conflict.ts
-            echo "--- STATUS ---"
-            git status --short
-            echo "--- CONFLICT FILES ---"
-            git diff --name-only --diff-filter=U
-            echo "--- CONFLICT MARKERS ---"
-            while IFS= read -r file; do
-              [ -n "$file" ] || continue
-              echo "===== $file ====="
-              grep -n -C 12 -E '^(<<<<<<<|=======|>>>>>>>)' "$file" || true
-            done < <(git diff --name-only --diff-filter=U)
-          } > /tmp/pr-95347/diagnostic.txt 2>&1
-          cat /tmp/pr-95347/diagnostic.txt
+          git reset --hard upstream/main
+          git merge --no-commit --no-ff "$old_head" || true
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("extensions/memory-core/src/tools.ts")
+          text = path.read_text()
+          if text.count("<<<<<<< HEAD\n") != 1 or text.count("=======\n") != 1 or text.count(">>>>>>> ") != 1:
+              raise SystemExit("unexpected tools.ts conflict shape")
+
+          before, rest = text.split("<<<<<<< HEAD\n", 1)
+          _head, rest = rest.split("=======\n", 1)
+          theirs, after = re.split(r">>>>>>> [^\n]+\n", rest, maxsplit=1)
+
+          obsolete_retry = '''                if (rawResults.length === 0 && activeMemory.manager.sync) {
+                  const timeoutMs = resolveMemoryManagerSearchPhaseTimeoutMs(activeMemoryDeadline);
+                  await runMemorySearchTaskWithDeadline({
+                    timeoutMs,
+                    timeoutMessageMs: activeMemoryDeadline.timeoutMs,
+                    run: async () =>
+                      await activeMemory.manager.sync?.({ reason: "search", force: true }),
+                  });
+                  rawResults = await runActiveMemorySearch(activeMemory, activeMemoryDeadline);
+                  pausedIndexIdentityReason = resolvePausedMemoryIndexIdentityReason(
+                    activeMemory.manager.status(),
+                  );
+                  if (pausedIndexIdentityReason) {
+                    return;
+                  }
+'''
+          if not before.endswith(obsolete_retry):
+              raise SystemExit("pre-conflict retry block did not match expected feature branch shape")
+          before = before[: -len(obsolete_retry)]
+
+          if theirs.startswith("                }\n"):
+              theirs = theirs[len("                }\n") :]
+
+          resolved_retry = '''                // One-shot CLI managers have no background lifecycle, so keep their bootstrap
+                // retry. Long-lived QMD managers must not run update work in the tool hot path.
+                if (
+                  rawResults.length === 0 &&
+                  activeMemory.manager.sync &&
+                  (statusBeforeRetry.backend !== "qmd" || options.oneShotCliRun === true)
+                ) {
+                  const timeoutMs = resolveMemoryManagerSearchPhaseTimeoutMs(activeMemoryDeadline);
+                  await runMemorySearchTaskWithDeadline({
+                    timeoutMs,
+                    timeoutMessageMs: activeMemoryDeadline.timeoutMs,
+                    run: async () =>
+                      await activeMemory.manager.sync?.({ reason: "search", force: true }),
+                  });
+                  rawResults = await runActiveMemorySearch(activeMemory, activeMemoryDeadline);
+                  pausedIndexIdentityReason = resolvePausedMemoryIndexIdentityReason(
+                    activeMemory.manager.status(),
+                  );
+                  if (pausedIndexIdentityReason) {
+                    return;
+                  }
+                }
+'''
+
+          resolved = before + resolved_retry + theirs + after
+          old_supplement = '''                        await searchMemoryCorpusSupplements({
+                          query,
+                          maxResults,
+                          agentSessionKey: options.agentSessionKey,
+                          corpus: requestedCorpus,
+                        }),'''
+          new_supplement = '''                        await searchMemoryCorpusSupplements({
+                          query,
+                          maxResults,
+                          agentId,
+                          agentSessionKey: options.agentSessionKey,
+                          sandboxed: options.sandboxed,
+                          corpus: requestedCorpus,
+                        }),'''
+          if resolved.count(old_supplement) != 1:
+              raise SystemExit("supplement call did not match expected feature branch shape")
+          resolved = resolved.replace(old_supplement, new_supplement, 1)
+          if "<<<<<<<" in resolved or "=======" in resolved or ">>>>>>>" in resolved:
+              raise SystemExit("conflict markers remain after resolution")
+          path.write_text(resolved)
+          PY
+
+          rm -f .github/workflows/repair-95347.yml
+          git add -A
+
+          corepack enable
+          pnpm install --frozen-lockfile
+          node_modules/.bin/oxfmt --write \
+            packages/memory-host-sdk/src/host/types.ts \
+            extensions/memory-core/src/memory-tool-manager.test-mocks.ts \
+            extensions/memory-core/src/memory/qmd-manager.ts \
+            extensions/memory-core/src/memory/qmd-manager.test.ts \
+            extensions/memory-core/src/memory/search-manager.ts \
+            extensions/memory-core/src/memory/search-manager.test.ts \
+            extensions/memory-core/src/tools.ts \
+            extensions/memory-core/src/tools.test.ts
+          node_modules/.bin/oxlint \
+            packages/memory-host-sdk/src/host/types.ts \
+            extensions/memory-core/src/memory-tool-manager.test-mocks.ts \
+            extensions/memory-core/src/memory/qmd-manager.ts \
+            extensions/memory-core/src/memory/qmd-manager.test.ts \
+            extensions/memory-core/src/memory/search-manager.ts \
+            extensions/memory-core/src/memory/search-manager.test.ts \
+            extensions/memory-core/src/tools.ts \
+            extensions/memory-core/src/tools.test.ts
+          node scripts/test-projects.mjs \
+            extensions/memory-core/src/memory/qmd-manager.test.ts \
+            extensions/memory-core/src/memory/search-manager.test.ts \
+            extensions/memory-core/src/tools.test.ts
+
+          git add -A
+          git commit -m "fix(memory): rebase configurable search deadlines"
+          git push --force-with-lease origin HEAD:fix/memory-search-timeout-config
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: pr-95347-merge-inputs
-          path: /tmp/pr-95347
-          if-no-files-found: error
+          name: pr-95347-repair-log
+          path: /tmp/pr-95347-repair.log
+          if-no-files-found: warn
+
+      - name: Fail when repair failed
+        if: steps.repair.outcome == 'failure'
+        run: exit 1
