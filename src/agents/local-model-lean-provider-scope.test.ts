@@ -9,6 +9,7 @@ function configWithLeanEnabled(): OpenClawConfig {
       list: [
         {
           id: "main",
+          model: "ollama/qwen3-coder",
           experimental: {
             localModelLean: true,
           },
@@ -40,6 +41,28 @@ describe("local model lean provider scope", () => {
         ...modelScope,
       }).map((tool) => tool.name),
     ).toEqual(["read", "browser", "cron", "message", "exec"]);
+  });
+
+  it("preserves lean behavior when no configured model establishes an override", () => {
+    const config: OpenClawConfig = {
+      agents: {
+        defaults: {
+          experimental: {
+            localModelLean: true,
+          },
+        },
+      },
+    };
+
+    expect(
+      isLocalModelLeanEnabled({
+        config,
+        agentId: "main",
+        modelProvider: "openai",
+        modelApi: "openai-responses",
+        modelId: "gpt-test",
+      }),
+    ).toBe(true);
   });
 
   it("keeps arbitrary custom local OpenAI-compatible providers eligible", () => {
