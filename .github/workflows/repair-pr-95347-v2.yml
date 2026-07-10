@@ -1,0 +1,26 @@
+name: Repair PR 95347
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebase and validate PR 95347
+        shell: bash
+        run: bash .github/scripts/repair-95347-v2.sh 2>&1 | tee /tmp/pr-95347-repair.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr-95347-repair-log
+          path: /tmp/pr-95347-repair.log
+          if-no-files-found: warn
