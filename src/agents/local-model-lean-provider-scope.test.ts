@@ -23,7 +23,7 @@ function tools(names: string[]): AnyAgentTool[] {
 }
 
 describe("local model lean provider scope", () => {
-  it("does not treat a hosted OpenAI-compatible provider as local", () => {
+  it("does not treat a known hosted provider override as local", () => {
     const config = configWithLeanEnabled();
     const modelScope = {
       modelProvider: "meta",
@@ -42,6 +42,61 @@ describe("local model lean provider scope", () => {
     ).toEqual(["read", "browser", "cron", "message", "exec"]);
   });
 
+  it("keeps arbitrary custom local OpenAI-compatible providers eligible", () => {
+    const config: OpenClawConfig = {
+      ...configWithLeanEnabled(),
+      models: {
+        providers: {
+          "custom-local": {
+            baseUrl: "http://192.168.1.25:1234/v1",
+            api: "openai-completions",
+            models: [],
+          },
+        },
+      },
+    };
+    const modelScope = {
+      modelProvider: "custom-local",
+      modelApi: "openai-completions",
+      modelId: "qwen3-coder",
+    } as const;
+
+    expect(isLocalModelLeanEnabled({ config, agentId: "main", ...modelScope })).toBe(true);
+    expect(
+      filterLocalModelLeanTools({
+        tools: tools(["read", "browser", "cron", "message", "exec"]),
+        config,
+        agentId: "main",
+        ...modelScope,
+      }).map((tool) => tool.name),
+    ).toEqual(["read", "exec"]);
+  });
+
+  it("disables lean mode for configured custom hosted endpoints", () => {
+    const config: OpenClawConfig = {
+      ...configWithLeanEnabled(),
+      models: {
+        providers: {
+          "custom-hosted": {
+            baseUrl: "https://models.example.com/v1",
+            api: "openai-completions",
+            models: [],
+          },
+        },
+      },
+    };
+
+    expect(
+      isLocalModelLeanEnabled({
+        config,
+        agentId: "main",
+        modelProvider: "custom-hosted",
+        modelApi: "openai-completions",
+        modelId: "hosted-model",
+      }),
+    ).toBe(false);
+  });
+
   it("keeps LM Studio eligible when only provider and model id are resolved", () => {
     const config = configWithLeanEnabled();
     const modelScope = {
@@ -58,6 +113,20 @@ describe("local model lean provider scope", () => {
         ...modelScope,
       }).map((tool) => tool.name),
     ).toEqual(["read", "exec"]);
+  });
+
+  it("preserves opt-in behavior for unknown providers without endpoint facts", () => {
+    const config = configWithLeanEnabled();
+
+    expect(
+      isLocalModelLeanEnabled({
+        config,
+        agentId: "main",
+        modelProvider: "custom-unresolved",
+        modelApi: "openai-completions",
+        modelId: "custom-model",
+      }),
+    ).toBe(true);
   });
 
   it("preserves legacy config-only resolution when model scope is unavailable", () => {
