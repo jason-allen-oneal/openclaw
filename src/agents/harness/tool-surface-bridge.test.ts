@@ -49,7 +49,12 @@ describe("createAgentHarnessToolSurfaceRuntime", () => {
 
   it("keeps the full harness tool surface for hosted provider overrides", () => {
     const config: OpenClawConfig = {
-      agents: { defaults: { experimental: { localModelLean: true } } },
+      agents: {
+        defaults: {
+          model: "ollama/qwen3-coder",
+          experimental: { localModelLean: true },
+        },
+      },
     };
     const runtime = createRuntime(config, {
       modelProvider: "meta",
