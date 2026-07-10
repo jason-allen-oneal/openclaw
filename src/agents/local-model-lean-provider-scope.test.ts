@@ -120,6 +120,33 @@ describe("local model lean provider scope", () => {
     ).toBe(false);
   });
 
+  it.each(["minimax", "opencode", "opencode-go"])(
+    "disables lean mode from the resolved hosted endpoint for %s",
+    (modelProvider) => {
+      const config: OpenClawConfig = {
+        agents: {
+          list: [
+            {
+              id: "main",
+              model: "ollama/qwen3-coder",
+              experimental: { localModelLean: true },
+            },
+          ],
+        },
+      };
+
+      expect(
+        isLocalModelLeanEnabled({
+          config,
+          agentId: "main",
+          modelProvider,
+          modelBaseUrl: "https://models.example.com/v1",
+          modelId: "hosted-model",
+        }),
+      ).toBe(false);
+    },
+  );
+
   it("keeps LM Studio eligible when only provider and model id are resolved", () => {
     const config = configWithLeanEnabled();
     const modelScope = {

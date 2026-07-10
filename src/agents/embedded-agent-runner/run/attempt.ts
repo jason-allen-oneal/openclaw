@@ -1239,6 +1239,7 @@ export async function runEmbeddedAttempt(
           sessionKey: sandboxSessionKey,
           modelProvider: params.provider,
           modelApi: params.model.api,
+          modelBaseUrl: params.model.baseUrl,
           modelId: params.modelId,
         });
     const toolSearchConfig = resolveToolSearchConfig(toolSearchRuntimeConfig);
@@ -1316,6 +1317,7 @@ export async function runEmbeddedAttempt(
       modelProvider: params.provider,
       modelId: params.modelId,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       modelContextWindowTokens: params.model.contextWindow,
       modelHasVision: params.model.input?.includes("image") ?? false,
       workspaceDir: effectiveWorkspace,
@@ -1333,6 +1335,7 @@ export async function runEmbeddedAttempt(
       sessionKey: params.sessionKey,
       modelProvider: params.provider,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       modelId: params.modelId,
     });
     const localModelLeanPreserveToolNames = resolveLocalModelLeanPreserveToolNames({
@@ -1397,6 +1400,7 @@ export async function runEmbeddedAttempt(
             modelId: params.modelId,
             modelCompat: extractModelCompat(params.model),
             modelApi: params.model.api,
+            modelBaseUrl: params.model.baseUrl,
             modelContextWindowTokens: params.model.contextWindow,
             modelAuthMode: resolveModelAuthMode(params.model.provider, params.config, undefined, {
               workspaceDir: effectiveWorkspace,
@@ -1607,6 +1611,7 @@ export async function runEmbeddedAttempt(
     const runtimePlanModelContext = {
       workspaceDir: effectiveWorkspace,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       model: params.model,
     };
     const tools = normalizeAgentRuntimeTools({
@@ -1618,6 +1623,7 @@ export async function runEmbeddedAttempt(
       env: process.env,
       modelId: params.modelId,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       model: params.model,
       runtimeHandle: getProviderRuntimeHandle(),
       onPreNormalizationSchemaDiagnostics: (diagnostics, sourceTools) =>
@@ -1701,6 +1707,7 @@ export async function runEmbeddedAttempt(
             env: process.env,
             modelId: params.modelId,
             modelApi: params.model.api,
+            modelBaseUrl: params.model.baseUrl,
             model: params.model,
             runtimeHandle: getProviderRuntimeHandle(),
             onPreNormalizationSchemaDiagnostics: (diagnostics, sourceTools) =>
@@ -1720,6 +1727,7 @@ export async function runEmbeddedAttempt(
       agentId: sessionAgentId,
       modelProvider: params.provider,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       modelId: params.modelId,
       preserveToolNames: localModelLeanPreserveToolNames,
     });
@@ -1845,6 +1853,7 @@ export async function runEmbeddedAttempt(
       agentId: sessionAgentId,
       modelProvider: params.provider,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       modelId: params.modelId,
       preserveToolNames: localModelLeanPreserveToolNames,
     });
@@ -1912,6 +1921,7 @@ export async function runEmbeddedAttempt(
       env: process.env,
       modelId: params.modelId,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       model: params.model,
       runtimeHandle: getProviderRuntimeHandle(),
     });
@@ -1949,6 +1959,7 @@ export async function runEmbeddedAttempt(
       env: process.env,
       modelId: params.modelId,
       modelApi: params.model.api,
+      modelBaseUrl: params.model.baseUrl,
       model: params.model,
       runtimeHandle: getProviderRuntimeHandle(),
     });
@@ -2840,6 +2851,7 @@ export async function runEmbeddedAttempt(
         provider: params.provider,
         modelId: params.modelId,
         modelApi: params.model.api,
+        modelBaseUrl: params.model.baseUrl,
         workspaceDir: params.workspaceDir,
       });
       const anthropicPayloadLogger = createAnthropicPayloadLogger({
@@ -2850,6 +2862,7 @@ export async function runEmbeddedAttempt(
         provider: params.provider,
         modelId: params.modelId,
         modelApi: params.model.api,
+        modelBaseUrl: params.model.baseUrl,
         workspaceDir: params.workspaceDir,
       });
       trajectoryRecorder = createTrajectoryRuntimeRecorder({
@@ -2862,6 +2875,7 @@ export async function runEmbeddedAttempt(
         provider: params.provider,
         modelId: params.modelId,
         modelApi: params.model.api,
+        modelBaseUrl: params.model.baseUrl,
         workspaceDir: params.workspaceDir,
       });
       trajectoryRecorder?.recordEvent("session.started", {
@@ -2891,6 +2905,7 @@ export async function runEmbeddedAttempt(
           provider: params.provider,
           modelId: params.modelId,
           modelApi: params.model.api,
+          modelBaseUrl: params.model.baseUrl,
           timeoutMs: params.timeoutMs,
           fastMode: trajectoryFastMode,
           thinkLevel: params.thinkLevel,
@@ -3189,6 +3204,7 @@ export async function runEmbeddedAttempt(
         shouldRepairMalformedToolCallArguments({
           provider: params.provider,
           modelApi: params.model.api,
+          modelBaseUrl: params.model.baseUrl,
         })
       ) {
         activeSession.agent.streamFn = wrapStreamFnRepairMalformedToolCallArguments(
@@ -3335,6 +3351,7 @@ export async function runEmbeddedAttempt(
           const prior = await sanitizeSessionHistory({
             messages: activeSession.messages,
             modelApi: params.model.api,
+            modelBaseUrl: params.model.baseUrl,
             modelId: params.modelId,
             provider: params.provider,
             allowedToolNames: replayAllowedToolNames,
@@ -3350,6 +3367,7 @@ export async function runEmbeddedAttempt(
           const validated = await validateReplayTurns({
             messages: prior,
             modelApi: params.model.api,
+            modelBaseUrl: params.model.baseUrl,
             modelId: params.modelId,
             provider: params.provider,
             config: params.config,
@@ -4227,6 +4245,7 @@ export async function runEmbeddedAttempt(
             provider: params.provider,
             modelId: params.modelId,
             modelApi: params.model.api,
+            modelBaseUrl: params.model.baseUrl,
             cacheRetention: effectivePromptCacheRetention,
             streamStrategy,
             transport: effectiveAgentTransport,
@@ -5328,6 +5347,7 @@ export async function runEmbeddedAttempt(
             provider: params.provider,
             modelId: params.modelId,
             modelApi: params.model.api,
+            modelBaseUrl: params.model.baseUrl,
             isCacheTtlEligibleProvider,
           });
 

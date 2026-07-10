@@ -16,7 +16,7 @@ function tools(names: string[]) {
 
 function createRuntime(
   config: OpenClawConfig,
-  modelScope: { modelProvider?: string; modelId?: string } = {},
+  modelScope: { modelProvider?: string; modelBaseUrl?: string; modelId?: string } = {},
 ) {
   return createAgentHarnessToolSurfaceRuntime({
     config,
@@ -59,6 +59,33 @@ describe("createAgentHarnessToolSurfaceRuntime", () => {
     const runtime = createRuntime(config, {
       modelProvider: "meta",
       modelId: "muse-spark-1.1",
+    });
+
+    expect(runtime.toolSearchControlsEnabled).toBe(false);
+    expect(
+      runtime
+        .compactTools(tools(["read", "browser", "cron", "message", "exec"]))
+        .tools.map((tool) => tool.name),
+    ).toEqual(["read", "browser", "cron", "message", "exec"]);
+    runtime.cleanup();
+  });
+
+  it("keeps the full harness surface for a resolved hosted endpoint", () => {
+    const config: OpenClawConfig = {
+      agents: {
+        list: [
+          {
+            id: "main",
+            model: "ollama/qwen3-coder",
+            experimental: { localModelLean: true },
+          },
+        ],
+      },
+    };
+    const runtime = createRuntime(config, {
+      modelProvider: "opencode",
+      modelBaseUrl: "https://models.example.com/v1",
+      modelId: "hosted-model",
     });
 
     expect(runtime.toolSearchControlsEnabled).toBe(false);

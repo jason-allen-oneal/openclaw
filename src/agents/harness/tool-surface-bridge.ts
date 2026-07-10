@@ -67,6 +67,7 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
   isRawModelRun?: boolean;
   modelId?: string;
   modelProvider?: string;
+  modelBaseUrl?: string;
   modelToolsEnabled: boolean;
   prompt?: string;
   runId?: string;
@@ -83,6 +84,7 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
     agentId: params.agentId,
     sessionKey: params.sessionKey,
     modelProvider: params.modelProvider,
+    modelBaseUrl: params.modelBaseUrl,
     modelId: params.modelId,
   });
   const codeModeConfig = resolveCodeModeConfig(params.config, params.agentId);
@@ -125,6 +127,7 @@ export function createAgentHarnessToolSurfaceRuntime(params: {
     agentId: params.agentId,
     sessionKey: params.sessionKey,
     modelProvider: params.modelProvider,
+    modelBaseUrl: params.modelBaseUrl,
     modelId: params.modelId,
     runtimeToolAllowlist,
   });

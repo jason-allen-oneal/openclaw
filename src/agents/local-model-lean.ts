@@ -56,8 +56,11 @@ const KNOWN_HOSTED_MODEL_PROVIDERS = new Set([
   "google-vertex",
   "groq",
   "meta",
+  "minimax",
   "mistral",
   "moonshot",
+  "opencode",
+  "opencode-go",
   "openai",
   "openrouter",
   "perplexity",
@@ -70,6 +73,7 @@ const KNOWN_HOSTED_MODEL_PROVIDERS = new Set([
 type LocalModelLeanModelScope = {
   modelProvider?: string;
   modelApi?: string;
+  modelBaseUrl?: string;
   modelId?: string;
 };
 
@@ -191,6 +195,11 @@ function resolveLocalModelLeanModelLocality(
   const api = normalizeModelScopeValue(params.modelApi);
   const modelId = normalizeModelScopeValue(params.modelId);
 
+  const resolvedEndpointLocality = resolveConfiguredEndpointLocality(params.modelBaseUrl);
+  if (resolvedEndpointLocality !== undefined) {
+    return resolvedEndpointLocality;
+  }
+
   const providerConfig = resolveConfiguredModelProvider(params);
   if (providerConfig?.localService) {
     return true;
@@ -218,9 +227,7 @@ function resolveLocalModelLeanModelLocality(
     return true;
   }
   if (KNOWN_HOSTED_MODEL_PROVIDERS.has(provider)) {
-    const configuredPrimaryProvider = normalizeModelScopeValue(
-      params.configuredPrimaryProvider,
-    );
+    const configuredPrimaryProvider = normalizeModelScopeValue(params.configuredPrimaryProvider);
     if (configuredPrimaryProvider && configuredPrimaryProvider !== provider) {
       return false;
     }
