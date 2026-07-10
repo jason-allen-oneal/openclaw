@@ -26,19 +26,27 @@ jobs:
           git fetch upstream main
           old_head=$(git rev-parse HEAD)
           base=$(git merge-base upstream/main "$old_head")
-          echo "OLD_HEAD=$old_head"
-          echo "MERGE_BASE=$base"
-          echo "UPSTREAM_MAIN=$(git rev-parse upstream/main)"
-          git reset --hard upstream/main
-          git merge --no-commit --no-ff "$old_head" || true
-          echo "--- STATUS ---"
-          git status --short
-          echo "--- CONFLICT FILES ---"
-          git diff --name-only --diff-filter=U
-          echo "--- CONFLICT MARKERS ---"
-          while IFS= read -r file; do
-            [ -n "$file" ] || continue
-            echo "===== $file ====="
-            grep -n -C 8 -E '^(<<<<<<<|=======|>>>>>>>)' "$file" || true
-          done < <(git diff --name-only --diff-filter=U)
-          exit 1
+          {
+            echo "OLD_HEAD=$old_head"
+            echo "MERGE_BASE=$base"
+            echo "UPSTREAM_MAIN=$(git rev-parse upstream/main)"
+            git reset --hard upstream/main
+            git merge --no-commit --no-ff "$old_head" || true
+            echo "--- STATUS ---"
+            git status --short
+            echo "--- CONFLICT FILES ---"
+            git diff --name-only --diff-filter=U
+            echo "--- CONFLICT MARKERS ---"
+            while IFS= read -r file; do
+              [ -n "$file" ] || continue
+              echo "===== $file ====="
+              grep -n -C 12 -E '^(<<<<<<<|=======|>>>>>>>)' "$file" || true
+            done < <(git diff --name-only --diff-filter=U)
+          } > /tmp/pr-95347-diagnostic.txt 2>&1
+          cat /tmp/pr-95347-diagnostic.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr-95347-diagnostic
+          path: /tmp/pr-95347-diagnostic.txt
+          if-no-files-found: error
