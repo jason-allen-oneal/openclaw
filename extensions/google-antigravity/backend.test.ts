@@ -31,13 +31,13 @@ describe("google-antigravity CLI backend", () => {
       GEMINI_API_KEY: "secret",
     });
 
-    await expect(
-      backend.prepareExecution?.({
-        workspaceDir: "/tmp/workspace",
-        provider: "google-antigravity",
-        modelId: "gemini-3-flash",
-      }),
-    ).resolves.toEqual({
+    const prepared = await backend.prepareExecution?.({
+      workspaceDir: "/tmp/workspace",
+      provider: "google-antigravity",
+      modelId: "gemini-3-flash",
+    });
+
+    expect(prepared).toEqual({
       env: { ANTIGRAVITY_USER_DATA_DIR: "/tmp/antigravity-profile" },
       clearEnv: [
         "GEMINI_API_KEY",
