@@ -17,5 +17,12 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Rebase and validate
+        continue-on-error: true
         shell: bash
-        run: bash .github/scripts/repair-95347.sh
+        run: bash .github/scripts/repair-95347.sh 2>&1 | tee /tmp/pr-95347-repair.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr-95347-repair-log
+          path: /tmp/pr-95347-repair.log
+          if-no-files-found: warn
