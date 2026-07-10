@@ -1,0 +1,44 @@
+name: Repair PR 95347
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Diagnose merge conflicts against upstream main
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/openclaw/openclaw.git
+          git fetch upstream main
+          old_head=$(git rev-parse HEAD)
+          base=$(git merge-base upstream/main "$old_head")
+          echo "OLD_HEAD=$old_head"
+          echo "MERGE_BASE=$base"
+          echo "UPSTREAM_MAIN=$(git rev-parse upstream/main)"
+          git reset --hard upstream/main
+          git merge --no-commit --no-ff "$old_head" || true
+          echo "--- STATUS ---"
+          git status --short
+          echo "--- CONFLICT FILES ---"
+          git diff --name-only --diff-filter=U
+          echo "--- CONFLICT MARKERS ---"
+          while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            echo "===== $file ====="
+            grep -n -C 8 -E '^(<<<<<<<|=======|>>>>>>>)' "$file" || true
+          done < <(git diff --name-only --diff-filter=U)
+          exit 1
