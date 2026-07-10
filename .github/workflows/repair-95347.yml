@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Diagnose merge conflicts against upstream main
+      - name: Capture merge inputs against upstream main
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -26,12 +26,17 @@ jobs:
           git fetch upstream main
           old_head=$(git rev-parse HEAD)
           base=$(git merge-base upstream/main "$old_head")
+          mkdir -p /tmp/pr-95347
+          git show upstream/main:extensions/memory-core/src/tools.ts > /tmp/pr-95347/tools-main.ts
+          git show "$old_head":extensions/memory-core/src/tools.ts > /tmp/pr-95347/tools-old.ts
+          git diff "$base" "$old_head" -- extensions/memory-core/src/tools.ts > /tmp/pr-95347/tools-pr.patch
           {
             echo "OLD_HEAD=$old_head"
             echo "MERGE_BASE=$base"
             echo "UPSTREAM_MAIN=$(git rev-parse upstream/main)"
             git reset --hard upstream/main
             git merge --no-commit --no-ff "$old_head" || true
+            cp extensions/memory-core/src/tools.ts /tmp/pr-95347/tools-conflict.ts
             echo "--- STATUS ---"
             git status --short
             echo "--- CONFLICT FILES ---"
@@ -42,11 +47,11 @@ jobs:
               echo "===== $file ====="
               grep -n -C 12 -E '^(<<<<<<<|=======|>>>>>>>)' "$file" || true
             done < <(git diff --name-only --diff-filter=U)
-          } > /tmp/pr-95347-diagnostic.txt 2>&1
-          cat /tmp/pr-95347-diagnostic.txt
+          } > /tmp/pr-95347/diagnostic.txt 2>&1
+          cat /tmp/pr-95347/diagnostic.txt
 
       - uses: actions/upload-artifact@v4
         with:
-          name: pr-95347-diagnostic
-          path: /tmp/pr-95347-diagnostic.txt
+          name: pr-95347-merge-inputs
+          path: /tmp/pr-95347
           if-no-files-found: error
