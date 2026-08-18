@@ -1,0 +1,437 @@
+name: Temporary OpenClaw upstream security audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "audit-trigger/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openclaw-security-audit-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+env:
+  CI: "true"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  TARGET_REPOSITORY: openclaw/openclaw
+  TARGET_SHA: 52eb01333049ad1f3d8887741cfdb29f923b1ff9
+  PNPM_VERSION: 11.15.1
+  NODE_VERSION: 24.15.0
+
+jobs:
+  snapshot:
+    name: Exact source snapshot and inventory
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact upstream target
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify and archive source
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$TARGET_SHA"
+          mkdir -p audit-snapshot
+          printf '%s\n' "$actual" > audit-snapshot/commit-sha.txt
+          git show -s --format=fuller HEAD > audit-snapshot/commit.txt
+          git status --short --branch > audit-snapshot/git-status.txt
+          git submodule status > audit-snapshot/submodules.txt 2>&1 || true
+          git ls-files -z | tr '\0' '\n' > audit-snapshot/tracked-files.txt
+          git archive --format=tar.gz --prefix="openclaw-${TARGET_SHA}/" HEAD > audit-snapshot/openclaw-source.tar.gz
+          sha256sum audit-snapshot/openclaw-source.tar.gz > audit-snapshot/openclaw-source.tar.gz.sha256
+
+          python3 - <<'PY'
+          from collections import Counter
+          from pathlib import Path
+          import json
+
+          root = Path('.')
+          files = [Path(p) for p in Path('audit-snapshot/tracked-files.txt').read_text().splitlines() if p]
+          source_exts = {'.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.py', '.sh', '.swift', '.kt', '.kts', '.java', '.rs', '.go', '.c', '.cc', '.cpp', '.h', '.hpp'}
+          by_ext = Counter()
+          line_counts = Counter()
+          total_lines = 0
+          production_lines = 0
+          test_lines = 0
+          for rel in files:
+              by_ext[rel.suffix.lower() or '<none>'] += 1
+              if rel.suffix.lower() not in source_exts:
+                  continue
+              try:
+                  lines = (root / rel).read_text(encoding='utf-8', errors='replace').count('\n') + 1
+              except OSError:
+                  continue
+              line_counts[rel.suffix.lower()] += lines
+              total_lines += lines
+              normalized = rel.as_posix().lower()
+              if any(token in normalized for token in ('/test/', '/tests/', '.test.', '.spec.', '/fixtures/', '/qa/', '/e2e/')):
+                  test_lines += lines
+              else:
+                  production_lines += lines
+          report = {
+              'targetSha': Path('audit-snapshot/commit-sha.txt').read_text().strip(),
+              'trackedFiles': len(files),
+              'filesByExtension': dict(sorted(by_ext.items())),
+              'sourceLinesByExtension': dict(sorted(line_counts.items())),
+              'sourceLinesTotal': total_lines,
+              'productionSourceLines': production_lines,
+              'testAndFixtureSourceLines': test_lines,
+          }
+          Path('audit-snapshot/inventory.json').write_text(json.dumps(report, indent=2) + '\n')
+          PY
+
+      - name: Upload exact source snapshot
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-source-52eb0133
+          path: audit-snapshot/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+  static-audit:
+    name: OpenGrep, dependencies, secrets, and repository policy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - name: Checkout exact upstream target
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify target
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install audit prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global "pnpm@${PNPM_VERSION}"
+          python3 -m pip install --user --disable-pip-version-check pre-commit==4.2.0
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          mkdir -p audit/logs audit/results
+          printf 'target_sha\t%s\n' "$TARGET_SHA" > audit/metadata.tsv
+          printf 'node\t%s\n' "$(node --version)" >> audit/metadata.tsv
+          printf 'pnpm\t%s\n' "$(pnpm --version)" >> audit/metadata.tsv
+          printf 'python\t%s\n' "$(python3 --version)" >> audit/metadata.tsv
+
+      - name: Install dependencies without lifecycle scripts
+        shell: bash
+        run: |
+          set +e
+          timeout --signal=TERM --kill-after=30s 75m pnpm install --frozen-lockfile --ignore-scripts >audit/logs/pnpm-install.log 2>&1
+          rc=$?
+          set -e
+          printf 'pnpm-install\t%s\n' "$rc" > audit/checks.tsv
+
+      - name: Install pinned OpenGrep
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="v1.25.0"
+          expected="9ac4aebb47ba3f7b0d8fc641ac8749cb6c2f253f616131a67d9631e00d4bea33"
+          curl -fsSL --retry 4 --retry-all-errors --retry-delay 2 \
+            --connect-timeout 10 --max-time 300 \
+            -o /tmp/opengrep \
+            "https://github.com/opengrep/opengrep/releases/download/${version}/opengrep_manylinux_x86"
+          printf '%s  %s\n' "$expected" /tmp/opengrep | sha256sum --check
+          install -m 0755 /tmp/opengrep /usr/local/bin/opengrep
+          opengrep --version | tee audit/results/opengrep-version.txt
+
+      - name: Run repository security gates
+        shell: bash
+        run: |
+          set -uo pipefail
+          touch audit/checks.tsv
+
+          run_check() {
+            local name="$1"
+            local duration="$2"
+            shift 2
+            local log="audit/logs/${name}.log"
+            set +e
+            timeout --signal=TERM --kill-after=30s "$duration" "$@" >"$log" 2>&1
+            local rc=$?
+            set -e
+            printf '%s\t%s\n' "$name" "$rc" >> audit/checks.tsv
+          }
+
+          run_check opengrep-full 90m bash -lc 'mkdir -p .opengrep-out && scripts/run-opengrep.sh --sarif --error'
+          cp -f .opengrep-out/precise.sarif audit/results/opengrep-precise.sarif 2>/dev/null || true
+
+          run_check opengrep-metadata 15m bash -lc 'pnpm check:opengrep-rule-metadata'
+          run_check dependency-vulnerability-gate 35m bash -lc 'pnpm deps:vuln:gate'
+          run_check pnpm-audit-production 35m bash -lc 'pnpm audit --prod --json > audit/results/pnpm-audit-production.json'
+          run_check dependency-pins 20m bash -lc 'pnpm deps:pins:check'
+          run_check dependency-transitive-risk 25m bash -lc 'pnpm deps:transitive-risk:report > audit/results/dependency-transitive-risk.txt'
+          run_check dependency-ownership 25m bash -lc 'pnpm deps:ownership-surface:report > audit/results/dependency-ownership.txt'
+          run_check private-key-scan 35m bash -lc 'pre-commit run --all-files detect-private-key'
+          run_check audit-seams 25m bash -lc 'pnpm audit:seams'
+          run_check workflow-policy 25m bash -lc 'pnpm check:workflows'
+          run_check auth-no-pairing-store-group 15m bash -lc 'pnpm lint:auth:no-pairing-store-group'
+          run_check auth-pairing-account-scope 15m bash -lc 'pnpm lint:auth:pairing-account-scope'
+          run_check ingress-owner 15m bash -lc 'pnpm lint:agent:ingress-owner'
+          run_check webhook-body-order 15m bash -lc 'pnpm lint:webhook:no-low-level-body-read'
+          run_check temp-path-guardrails 15m bash -lc 'pnpm check:temp-path-guardrails'
+          run_check no-random-messaging-temp 15m bash -lc 'pnpm lint:tmp:no-random-messaging'
+          run_check no-raw-channel-fetch 15m bash -lc 'pnpm lint:tmp:no-raw-channel-fetch'
+          run_check web-fetch-boundaries 15m bash -lc 'pnpm lint:web-fetch-provider-boundaries'
+          run_check plugin-http-registration-boundary 15m bash -lc 'pnpm lint:plugins:no-register-http-handler'
+          run_check runtime-action-config-boundary 15m bash -lc 'pnpm check:no-runtime-action-load-config'
+          run_check host-env-policy-swift 15m bash -lc 'pnpm check:host-env-policy:swift'
+          run_check config-policy-coverage 25m bash -lc 'pnpm policy:config-coverage'
+          run_check plugin-boundary-report 25m bash -lc 'pnpm plugins:boundary-report:json > audit/results/plugin-boundary-report.json'
+          run_check media-download-helper-roundtrip 15m bash -lc 'pnpm check:media-download-helpers'
+          run_check runtime-sidecar-loaders 15m bash -lc 'pnpm check:runtime-sidecar-loaders'
+          run_check assertion-safety 20m bash -lc 'pnpm check:assertion-safety'
+
+          pnpm run > audit/results/package-scripts.txt 2>&1 || true
+
+          git grep -nE '(child_process|execFile|execFileSync|spawn\(|spawnSync\(|shell:[[:space:]]*true|eval\(|new Function\(|vm\.|dangerouslySetInnerHTML|innerHTML[[:space:]]*=|createWriteStream|writeFile\(|writeFileSync\(|rename\(|copyFile\(|extract|untar|unzip|Authorization|x-forwarded|trustedProx|allowUnsafeExternalContent)' \
+            -- 'src/**' 'packages/**' 'extensions/**' 'apps/**' 'scripts/**' \
+            > audit/results/high-risk-sink-inventory.txt || true
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          patterns = {
+              'private-key': re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'),
+              'github-token': re.compile(r'\b(?:github_pat_|gh[opsur]_)[A-Za-z0-9_]{20,}\b'),
+              'openai-like': re.compile(r'\bsk-[A-Za-z0-9_-]{20,}\b'),
+              'google-api-key': re.compile(r'\bAIza[0-9A-Za-z_-]{20,}\b'),
+              'aws-access-key': re.compile(r'\bA[KS]IA[0-9A-Z]{16}\b'),
+              'slack-token': re.compile(r'\bxox[baprs]-[A-Za-z0-9-]{20,}\b'),
+              'jwt': re.compile(r'\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b'),
+          }
+          ignored_parts = {'.git', 'node_modules', 'dist', 'build', '.opengrep-out'}
+          allowed_exts = {'.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.json', '.json5', '.yaml', '.yml', '.toml', '.env', '.md', '.sh', '.py', '.swift', '.kt', '.kts', '.java', '.xml', '.properties', '.txt'}
+          rows = []
+          for path in Path('.').rglob('*'):
+              if not path.is_file() or any(part in ignored_parts for part in path.parts):
+                  continue
+              if path.suffix.lower() not in allowed_exts and path.name not in {'Dockerfile', 'Makefile'}:
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8', errors='replace')
+              except OSError:
+                  continue
+              for line_no, line in enumerate(text.splitlines(), 1):
+                  for rule, regex in patterns.items():
+                      if regex.search(line):
+                          rows.append(f'{path.as_posix()}\t{line_no}\t{rule}')
+          Path('audit/results/secret-pattern-candidates.tsv').write_text('\n'.join(rows) + ('\n' if rows else ''))
+          PY
+
+          git ls-files '.github/workflows/*' '.github/actions/*' > audit/results/workflow-source-files.txt
+          sort -u audit/checks.tsv -o audit/checks.tsv
+
+      - name: Upload static audit evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-static-audit-52eb0133
+          path: audit/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
+
+  build-and-tests:
+    name: Build, full tests, and security-focused regressions
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - name: Checkout exact upstream target
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify target
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies in an isolated no-secret runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global "pnpm@${PNPM_VERSION}"
+          pnpm install --frozen-lockfile
+          mkdir -p audit-tests/logs audit-tests/results
+
+      - name: Run build and test lanes
+        shell: bash
+        run: |
+          set -uo pipefail
+          touch audit-tests/results/checks.tsv
+
+          run_check() {
+            local name="$1"
+            local duration="$2"
+            shift 2
+            local log="audit-tests/logs/${name}.log"
+            set +e
+            timeout --signal=TERM --kill-after=30s "$duration" "$@" >"$log" 2>&1
+            local rc=$?
+            set -e
+            printf '%s\t%s\n' "$name" "$rc" >> audit-tests/results/checks.tsv
+          }
+
+          run_check build 75m bash -lc 'pnpm build'
+          run_check check 90m bash -lc 'pnpm check'
+          run_check full-unit-tests 150m bash -lc 'pnpm test'
+          run_check auth-compat 75m bash -lc 'pnpm test:auth:compat'
+
+          if node -e 'const p=require("./package.json"); process.exit(p.scripts?.["test:security"] ? 0 : 1)'; then
+            run_check explicit-security-tests 75m bash -lc 'pnpm test:security'
+          else
+            printf 'explicit-security-tests\tSKIPPED_NO_SCRIPT\n' >> audit-tests/results/checks.tsv
+          fi
+
+          mkdir -p "$RUNNER_TEMP/openclaw-audit-home"
+          run_check built-in-deep-audit 30m bash -lc 'HOME="$RUNNER_TEMP/openclaw-audit-home" pnpm openclaw security audit --deep --json > audit-tests/results/openclaw-security-audit-deep.json'
+
+          sort -u audit-tests/results/checks.tsv -o audit-tests/results/checks.tsv
+
+      - name: Upload build and test evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-build-tests-52eb0133
+          path: audit-tests/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
+
+  codeql-javascript:
+    name: CodeQL JavaScript and TypeScript
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - name: Checkout exact upstream target
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify target
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@7188fc363630916deb702c7fdcf4e481b751f97a
+        with:
+          languages: javascript-typescript
+          queries: security-extended,security-and-quality
+
+      - name: Analyze without publishing alerts
+        id: analyze
+        continue-on-error: true
+        uses: github/codeql-action/analyze@7188fc363630916deb702c7fdcf4e481b751f97a
+        with:
+          upload: never
+          output: codeql-javascript-results
+          category: openclaw-audit-javascript-typescript
+
+      - name: Record result
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p codeql-javascript-audit
+          printf 'target_sha\t%s\n' "$TARGET_SHA" > codeql-javascript-audit/metadata.tsv
+          printf 'analyze_outcome\t%s\n' "${{ steps.analyze.outcome }}" >> codeql-javascript-audit/metadata.tsv
+          cp -R codeql-javascript-results/. codeql-javascript-audit/ 2>/dev/null || true
+
+      - name: Upload CodeQL JavaScript evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-codeql-javascript-52eb0133
+          path: codeql-javascript-audit/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
+
+  codeql-actions:
+    name: CodeQL GitHub Actions workflows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout exact upstream target
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify target
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+
+      - name: Initialize CodeQL for Actions
+        uses: github/codeql-action/init@7188fc363630916deb702c7fdcf4e481b751f97a
+        with:
+          languages: actions
+          config-file: ./.github/codeql/codeql-actions-critical-security.yml
+
+      - name: Analyze without publishing alerts
+        id: analyze
+        continue-on-error: true
+        uses: github/codeql-action/analyze@7188fc363630916deb702c7fdcf4e481b751f97a
+        with:
+          upload: never
+          output: codeql-actions-results
+          category: openclaw-audit-actions
+
+      - name: Record result
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p codeql-actions-audit
+          printf 'target_sha\t%s\n' "$TARGET_SHA" > codeql-actions-audit/metadata.tsv
+          printf 'analyze_outcome\t%s\n' "${{ steps.analyze.outcome }}" >> codeql-actions-audit/metadata.tsv
+          cp -R codeql-actions-results/. codeql-actions-audit/ 2>/dev/null || true
+
+      - name: Upload CodeQL Actions evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-codeql-actions-52eb0133
+          path: codeql-actions-audit/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
