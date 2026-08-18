@@ -1,0 +1,342 @@
+name: OpenClaw isolated security audit
+
+on:
+  push:
+    branches:
+      - audit/openclaw-main-603b0ec7
+    paths:
+      - .github/workflows/openclaw-security-audit.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openclaw-security-audit-603b0ec7
+  cancel-in-progress: false
+
+env:
+  TARGET_SHA: 603b0ec7f58cae3b2c0b5eaf47dc30a084e655d9
+  TARGET_REPOSITORY: openclaw/openclaw
+  CI: "true"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  NPM_CONFIG_IGNORE_SCRIPTS: "true"
+
+jobs:
+  snapshot:
+    name: Exact source snapshot
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact upstream commit
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify and archive source
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$TARGET_SHA"
+          mkdir -p audit-snapshot
+          printf '%s\n' "$actual" > audit-snapshot/commit-sha.txt
+          git show -s --format=fuller HEAD > audit-snapshot/commit.txt
+          git archive --format=tar.gz --prefix="openclaw-${TARGET_SHA}/" HEAD > audit-snapshot/openclaw-source.tar.gz
+          sha256sum audit-snapshot/openclaw-source.tar.gz > audit-snapshot/openclaw-source.tar.gz.sha256
+
+      - name: Upload exact source snapshot
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-source-603b0ec7
+          path: audit-snapshot/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+  static-audit:
+    name: Static, dependency, policy, and secret audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - name: Checkout exact upstream commit
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify target
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.18.0"
+          cache: "pnpm"
+
+      - name: Install pinned package manager and audit prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global pnpm@11.15.1
+          python3 -m pip install --user pre-commit==4.2.0
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          mkdir -p audit/logs audit/results
+          printf 'target_sha\t%s\n' "$TARGET_SHA" > audit/metadata.tsv
+          printf 'node\t%s\n' "$(node --version)" >> audit/metadata.tsv
+          printf 'pnpm\t%s\n' "$(pnpm --version)" >> audit/metadata.tsv
+
+      - name: Install dependencies without lifecycle scripts
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p audit/logs audit/results
+          set +e
+          timeout --signal=TERM --kill-after=30s 75m pnpm install --frozen-lockfile --ignore-scripts >audit/logs/pnpm-install.log 2>&1
+          rc=$?
+          set -e
+          printf 'pnpm-install\t%s\n' "$rc" > audit/checks.tsv
+          exit 0
+
+      - name: Install pinned OpenGrep
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="v1.25.0"
+          expected="9ac4aebb47ba3f7b0d8fc641ac8749cb6c2f253f616131a67d9631e00d4bea33"
+          curl -fsSL --retry 4 --retry-all-errors --retry-delay 2 \
+            --connect-timeout 10 --max-time 300 \
+            -o /tmp/opengrep \
+            "https://github.com/opengrep/opengrep/releases/download/${version}/opengrep_manylinux_x86"
+          printf '%s  %s\n' "$expected" /tmp/opengrep | sha256sum --check
+          install -m 0755 /tmp/opengrep /usr/local/bin/opengrep
+          opengrep --version | tee audit/results/opengrep-version.txt
+
+      - name: Run repository security gates
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p audit/logs audit/results
+          touch audit/checks.tsv
+
+          run_check() {
+            local name="$1"
+            local duration="$2"
+            shift 2
+            local log="audit/logs/${name}.log"
+            set +e
+            timeout --signal=TERM --kill-after=30s "$duration" bash -lc "$*" >"$log" 2>&1
+            local rc=$?
+            set -e
+            printf '%s\t%s\n' "$name" "$rc" >> audit/checks.tsv
+          }
+
+          run_check opengrep-full 75m 'mkdir -p .opengrep-out && scripts/run-opengrep.sh --sarif --error'
+          cp -f .opengrep-out/precise.sarif audit/results/opengrep-precise.sarif 2>/dev/null || true
+
+          run_check opengrep-metadata 10m 'pnpm check:opengrep-rule-metadata'
+          run_check dependency-vulnerability-gate 30m 'pnpm deps:vuln:gate'
+          run_check pnpm-audit-production 30m 'pnpm audit --prod --json > audit/results/pnpm-audit-production.json'
+          run_check dependency-pins 15m 'pnpm deps:pins:check'
+          run_check dependency-transitive-risk 20m 'pnpm deps:transitive-risk:report > audit/results/dependency-transitive-risk.txt'
+          run_check dependency-ownership 20m 'pnpm deps:ownership-surface:report > audit/results/dependency-ownership.txt'
+          run_check private-key-scan 30m 'pre-commit run --all-files detect-private-key'
+          run_check audit-seams 20m 'pnpm audit:seams'
+          run_check workflow-policy 20m 'pnpm check:workflows'
+          run_check auth-no-pairing-store-group 10m 'pnpm lint:auth:no-pairing-store-group'
+          run_check auth-pairing-account-scope 10m 'pnpm lint:auth:pairing-account-scope'
+          run_check ingress-owner 10m 'pnpm lint:agent:ingress-owner'
+          run_check webhook-body-order 10m 'pnpm lint:webhook:no-low-level-body-read'
+          run_check temp-path-guardrails 10m 'pnpm check:temp-path-guardrails'
+          run_check no-random-messaging-temp 10m 'pnpm lint:tmp:no-random-messaging'
+          run_check no-raw-channel-fetch 10m 'pnpm lint:tmp:no-raw-channel-fetch'
+          run_check web-fetch-boundaries 10m 'pnpm lint:web-fetch-provider-boundaries'
+          run_check plugin-http-registration-boundary 10m 'pnpm lint:plugins:no-register-http-handler'
+          run_check runtime-action-config-boundary 10m 'pnpm check:no-runtime-action-load-config'
+          run_check host-env-policy-swift 10m 'pnpm check:host-env-policy:swift'
+          run_check config-policy-coverage 20m 'pnpm policy:config-coverage'
+          run_check plugin-boundary-report 20m 'pnpm plugins:boundary-report:json > audit/results/plugin-boundary-report.json'
+          run_check media-download-helper-roundtrip 10m 'pnpm check:media-download-helpers'
+          run_check runtime-sidecar-loaders 10m 'pnpm check:runtime-sidecar-loaders'
+          run_check assertion-safety 15m 'pnpm check:assertion-safety'
+
+          # High-signal textual inventories for manual source validation. These are candidates, not findings.
+          git grep -nE '(child_process|execFile|execFileSync|spawn\(|spawnSync\(|shell:[[:space:]]*true|eval\(|new Function\(|vm\.|dangerouslySetInnerHTML|innerHTML[[:space:]]*=|createWriteStream|writeFile\(|writeFileSync\(|rename\(|copyFile\(|extract|untar|unzip|redirect:[[:space:]]*["'"']manual["'"']|Authorization|x-forwarded|trustedProx|allowUnsafeExternalContent)' \
+            -- 'src/**' 'packages/**' 'extensions/**' 'apps/**' 'scripts/**' > audit/results/high-risk-sink-inventory.txt || true
+          git grep -nEI '(api[_-]?key|access[_-]?token|client[_-]?secret|private[_-]?key|password)[[:space:]]*[:=][[:space:]]*["'"'][^"'"']{12,}["'"']' \
+            -- ':!**/*.snap' ':!**/fixtures/**' ':!**/*.test.*' ':!CHANGELOG.md' > audit/results/secret-literal-candidates.txt || true
+
+          sort -u audit/checks.tsv -o audit/checks.tsv
+
+      - name: Upload static audit results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-static-audit-603b0ec7
+          path: audit/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
+
+  security-tests:
+    name: Security-focused regression tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - name: Checkout exact upstream commit
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify target
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.18.0"
+          cache: "pnpm"
+
+      - name: Install dependencies without lifecycle scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global pnpm@11.15.1
+          pnpm install --frozen-lockfile --ignore-scripts
+          mkdir -p audit-tests/logs audit-tests/results
+
+      - name: Select security-focused production regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          roots = [Path('src'), Path('packages'), Path('extensions'), Path('apps')]
+          strong = re.compile(r'(security|auth|credential|secret|token|device-pair|pairing|approval|allowlist|sandbox|ssrf|origin|trusted-proxy|proxy-attribution|webhook|signature|exec|command-policy|archive|extract|path-safety|file-access|temp-path|plugin.*http|node.*capability)', re.I)
+          exclude = re.compile(r'/(qa|test/e2e|benchmark|fixtures?)/', re.I)
+          priority = ('src/gateway/', 'src/security/', 'src/agents/', 'src/infra/', 'src/plugins/', 'packages/')
+          paths = []
+          for root in roots:
+              if not root.exists():
+                  continue
+              for p in root.rglob('*'):
+                  s = p.as_posix()
+                  if not p.is_file() or not re.search(r'\.(test|spec)\.(ts|tsx|js|mjs)$', s):
+                      continue
+                  if exclude.search('/' + s):
+                      continue
+                  if strong.search(s):
+                      paths.append(s)
+          paths = sorted(set(paths), key=lambda s: (0 if s.startswith(priority) else 1, s))
+          # Bound the lane while retaining the highest-risk first-party surfaces.
+          paths = paths[:180]
+          Path('audit-tests/results/security-test-files.txt').write_text('\n'.join(paths) + ('\n' if paths else ''))
+          print(f'selected {len(paths)} files')
+          PY
+
+      - name: Run auth compatibility suite
+        shell: bash
+        run: |
+          set +e
+          timeout --signal=TERM --kill-after=30s 60m pnpm test:auth:compat >audit-tests/logs/auth-compat.log 2>&1
+          rc=$?
+          set -e
+          printf 'auth-compat\t%s\n' "$rc" > audit-tests/results/checks.tsv
+          exit 0
+
+      - name: Run selected security tests in bounded batches
+        shell: bash
+        run: |
+          set -uo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+
+          files = [line.strip() for line in Path('audit-tests/results/security-test-files.txt').read_text().splitlines() if line.strip()]
+          checks = Path('audit-tests/results/checks.tsv')
+          for index in range(0, len(files), 30):
+              batch = files[index:index+30]
+              batch_no = index // 30 + 1
+              log = Path(f'audit-tests/logs/security-tests-batch-{batch_no}.log')
+              cmd = ['timeout', '--signal=TERM', '--kill-after=30s', '55m', 'pnpm', 'test', '--', *batch]
+              with log.open('wb') as handle:
+                  proc = subprocess.run(cmd, stdout=handle, stderr=subprocess.STDOUT, check=False)
+              with checks.open('a') as handle:
+                  handle.write(f'security-tests-batch-{batch_no}\t{proc.returncode}\n')
+          PY
+
+      - name: Upload focused test evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-security-tests-603b0ec7
+          path: audit-tests/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
+
+  codeql-javascript:
+    name: CodeQL JavaScript and TypeScript
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact upstream commit
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify target
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          queries: security-extended,security-and-quality
+
+      - name: Analyze without uploading repository alerts
+        id: analyze
+        continue-on-error: true
+        uses: github/codeql-action/analyze@v4
+        with:
+          upload: never
+          output: codeql-results
+          category: openclaw-audit-javascript-typescript
+
+      - name: Record CodeQL result
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p codeql-audit
+          printf 'target_sha\t%s\n' "$TARGET_SHA" > codeql-audit/metadata.tsv
+          printf 'analyze_outcome\t%s\n' "${{ steps.analyze.outcome }}" >> codeql-audit/metadata.tsv
+          cp -R codeql-results/. codeql-audit/ 2>/dev/null || true
+
+      - name: Upload CodeQL SARIF
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: openclaw-codeql-603b0ec7
+          path: codeql-audit/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
