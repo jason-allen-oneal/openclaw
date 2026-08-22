@@ -1,0 +1,286 @@
+{
+  "head": "8aa2638863fbea3c22d711afe7db43caeea8ce46",
+  "environment": {
+    "ui": "patched Vite Control UI",
+    "gateway": "existing local OpenClaw 2026.8.1 Gateway",
+    "browser": "system Chromium"
+  },
+  "refreshedRequest": {
+    "view": "configured",
+    "agentId": "main",
+    "refresh": true
+  },
+  "responseModels": [
+    {
+      "id": "backup",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (backup)",
+      "available": true
+    },
+    {
+      "id": "auto",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (Auto)",
+      "available": true
+    },
+    {
+      "id": "gpt-4o",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (GPT-4o)",
+      "available": true
+    },
+    {
+      "id": "o3-mini",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (o3-mini)",
+      "available": true
+    },
+    {
+      "id": "gpt-5",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (GPT-5)",
+      "available": true
+    },
+    {
+      "id": "gpt-5-thinking",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (GPT-5 Thinking)",
+      "available": true
+    },
+    {
+      "id": "gpt-5-pro",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (GPT-5 Pro)",
+      "available": true
+    },
+    {
+      "id": "gpt-5.5",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (GPT-5.5)",
+      "available": true
+    },
+    {
+      "id": "gpt-5.5-mini",
+      "provider": "chatgpt-web",
+      "name": "ChatGPT Web (GPT-5.5 mini)",
+      "available": true
+    },
+    {
+      "id": "gpt-5.5",
+      "provider": "github-copilot",
+      "name": "GPT-5.5",
+      "available": false
+    },
+    {
+      "id": "gpt-5.4-mini",
+      "provider": "github-copilot",
+      "name": "GPT-5.4 mini",
+      "available": false
+    },
+    {
+      "id": "gemini-3.5-flash",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.5 Flash",
+      "available": true
+    },
+    {
+      "id": "claude-opus-4.6",
+      "provider": "google-antigravity-cli",
+      "name": "Claude Opus 4.6 (Thinking)",
+      "available": true
+    },
+    {
+      "id": "claude-sonnet-4.6",
+      "provider": "google-antigravity-cli",
+      "name": "Claude Sonnet 4.6 (Thinking)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.1-pro-high",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.1 Pro (High)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.1-pro-low",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.1 Pro (Low)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.5-flash-high",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.5 Flash (High)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.5-flash-low",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.5 Flash (Low)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.5-flash-medium",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.5 Flash (Medium)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.6-flash-high",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.6 Flash (High)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.6-flash-low",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.6 Flash (Low)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.6-flash-medium",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.6 Flash (Medium)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.7-flash-high",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.7 Flash (High)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.7-flash-low",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.7 Flash (Low)",
+      "available": true
+    },
+    {
+      "id": "gemini-3.7-flash-medium",
+      "provider": "google-antigravity-cli",
+      "name": "Gemini 3.7 Flash (Medium)",
+      "available": true
+    },
+    {
+      "id": "gpt-oss-120b",
+      "provider": "google-antigravity-cli",
+      "name": "GPT-OSS 120B (Medium)",
+      "available": true
+    },
+    {
+      "id": "gemma4:31b-cloud",
+      "provider": "ollama",
+      "name": "gemma4:31b-cloud",
+      "available": true
+    },
+    {
+      "id": "minimax-m3:cloud",
+      "provider": "ollama",
+      "name": "minimax-m3:cloud",
+      "available": true
+    },
+    {
+      "id": "nomic-embed-text:latest",
+      "provider": "ollama",
+      "name": "nomic-embed-text:latest",
+      "available": true
+    },
+    {
+      "id": "gpt-5.6-sol",
+      "provider": "openai",
+      "name": "GPT-5.6-Sol",
+      "available": true
+    },
+    {
+      "id": "gpt-5.6-terra",
+      "provider": "openai",
+      "name": "GPT-5.6-Terra",
+      "available": true
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "provider": "openai",
+      "name": "GPT-5.6-Luna",
+      "available": true
+    },
+    {
+      "id": "gpt-daybreak-blue-latest",
+      "provider": "openai",
+      "name": "gpt-daybreak-blue-latest",
+      "available": true
+    },
+    {
+      "id": "gpt-5.5",
+      "provider": "openai",
+      "name": "GPT-5.5",
+      "available": true
+    },
+    {
+      "id": "gpt-5.4",
+      "provider": "openai",
+      "name": "GPT-5.4",
+      "available": true
+    },
+    {
+      "id": "gpt-5.4-mini",
+      "provider": "openai",
+      "name": "GPT-5.4-Mini",
+      "available": true
+    },
+    {
+      "id": "gpt-5.3-codex-spark",
+      "provider": "openai",
+      "name": "gpt-5.3-codex-spark",
+      "available": true
+    },
+    {
+      "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "provider": "openrouter",
+      "name": "NVIDIA: Nemotron 3 Ultra (free)",
+      "available": true
+    }
+  ],
+  "visibleModels": [
+    "GPT-5.6-Sol Default",
+    "GPT-5.6-Terra",
+    "GPT-5.6-Luna",
+    "gpt-daybreak-blue-latest",
+    "GPT-5.5",
+    "GPT-5.4",
+    "GPT-5.4-Mini",
+    "gpt-5.3-codex-spark",
+    "C (backup) 128k",
+    "C (Auto) 128k",
+    "C (GPT-4o) 128k",
+    "C (o3-mini) 128k",
+    "C (GPT-5) 128k",
+    "C (GPT-5 Thinking) 128k",
+    "C (GPT-5 Pro) 128k",
+    "C (GPT-5.5) 128k",
+    "C (GPT-5.5 mini) 128k",
+    "G Gemini 3.5 Flash 1M · Google-antigravity-cli",
+    "G Claude Opus 4.6 (Thinking) 200k · Google-antigravity-cli",
+    "G Claude Sonnet 4.6 (Thinking) 200k · Google-antigravity-cli",
+    "G Gemini 3.1 Pro (High) 1M · Google-antigravity-cli",
+    "G Gemini 3.1 Pro (Low) 1M · Google-antigravity-cli",
+    "G Gemini 3.5 Flash (High) 1M · Google-antigravity-cli",
+    "G Gemini 3.5 Flash (Low) 1M · Google-antigravity-cli",
+    "G Gemini 3.5 Flash (Medium) 1M · Google-antigravity-cli",
+    "G Gemini 3.6 Flash (High) 1M · Google-antigravity-cli",
+    "G Gemini 3.6 Flash (Low) 1M · Google-antigravity-cli",
+    "G Gemini 3.6 Flash (Medium) 1M · Google-antigravity-cli",
+    "G Gemini 3.7 Flash (High) 1M · Google-antigravity-cli",
+    "G Gemini 3.7 Flash (Low) 1M · Google-antigravity-cli",
+    "G Gemini 3.7 Flash (Medium) 1M · Google-antigravity-cli",
+    "G GPT-OSS 120B (Medium) 128k · Google-antigravity-cli",
+    "gemma4:31b-cloud 128k",
+    "minimax-m3:cloud 128k",
+    "nomic-embed-text:latest 2k · Chat only",
+    "NVIDIA: Nemotron 3 Ultra (free) 1M",
+    "GPT-5.5 · github-copilot 1M · Copilot · Sign-in needed",
+    "GPT-5.4 mini 400k · Copilot · Sign-in needed"
+  ],
+  "requestCountAfterFirstOpen": 1,
+  "requestCountAfterImmediateReopen": 1,
+  "immediateReopenIssuedAnotherProbe": false
+}
