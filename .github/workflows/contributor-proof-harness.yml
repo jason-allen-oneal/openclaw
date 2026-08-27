@@ -220,6 +220,20 @@ jobs:
           tag_dir="$RUNNER_TEMP/posix-tag-checkout"
           tag_home="$RUNNER_TEMP/posix-tag-home"
           tag_log="$RUNNER_TEMP/posix-tag-install.log"
+          stale_log="$RUNNER_TEMP/posix-stale-install.log"
+          on_failure() {
+            status=$?
+            if [[ "$status" -ne 0 ]]; then
+              for log_file in "$tag_log" "$stale_log"; do
+                if [[ -f "$log_file" ]]; then
+                  echo "=== $(basename "$log_file") ==="
+                  sed 's/proof-token/[redacted]/g' "$log_file" | tail -n 100
+                fi
+              done
+            fi
+            return "$status"
+          }
+          trap on_failure EXIT
           OPENCLAW_NO_ONBOARD=1 OPENCLAW_NO_PROMPT=1 OPENCLAW_GIT_UPDATE=0 HOME="$tag_home" bash scripts/install.sh --install-method git --version clawsweeper-proof --git-dir "$tag_dir" --no-git-update --no-onboard --no-prompt >"$tag_log" 2>&1
           tag_head="$(git -C "$tag_dir" rev-parse HEAD)"
           tag_promisor="$(git -C "$tag_dir" config --get remote.origin.promisor || true)"
@@ -229,7 +243,6 @@ jobs:
           [[ "$tag_filter" == "blob:none" ]]
           stale_dir="$RUNNER_TEMP/posix-stale-main"
           stale_home="$RUNNER_TEMP/posix-stale-home"
-          stale_log="$RUNNER_TEMP/posix-stale-install.log"
           git clone "$git_url" "$stale_dir"
           git -C "$stale_dir" checkout -B main "$BASE_SHA"
           stale_before="$(git -C "$stale_dir" rev-parse HEAD)"
