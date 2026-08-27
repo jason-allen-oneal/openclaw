@@ -371,6 +371,19 @@ jobs:
           source_dir="$RUNNER_TEMP/gateway-source"
           first_log="$RUNNER_TEMP/gateway-first-install.log"
           second_log="$RUNNER_TEMP/gateway-second-install.log"
+          on_failure() {
+            status=$?
+            if [[ "$status" -ne 0 ]]; then
+              for log_file in "$first_log" "$RUNNER_TEMP/gateway-service-install.log" "$second_log" "$RUNNER_TEMP/gateway-final-health.log"; do
+                if [[ -f "$log_file" ]]; then
+                  echo "=== $(basename "$log_file") ==="
+                  sed 's/proof-token/[redacted]/g' "$log_file" | tail -n 80
+                fi
+              done
+            fi
+            return "$status"
+          }
+          trap on_failure EXIT
           bash scripts/install.sh --install-method git --version main --git-dir "$source_dir" --no-git-update --no-onboard --no-prompt >"$first_log" 2>&1
           mkdir -p "$OPENCLAW_STATE_DIR"
           printf '{"gateway":{"mode":"local","auth":{"mode":"token","token":"proof-token"}}}\n' > "$OPENCLAW_STATE_DIR/openclaw.json"
