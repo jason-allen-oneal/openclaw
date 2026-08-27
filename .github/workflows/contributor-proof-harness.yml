@@ -157,11 +157,11 @@ jobs:
             });
           };
           const stale = await probe("stale-bundled-build");
-          if (stale.healthy || stale.outcome !== "build-id-mismatch") {
+          if (stale.healthy || !stale.buildIdMismatch) {
             throw new Error("expected stale bundled build mismatch: " + JSON.stringify(stale));
           }
           const diagnostic = renderRestartDiagnostics(stale);
-          if (!diagnostic.includes("Gateway build mismatch")) {
+          if (!diagnostic.some((line) => line.includes("Gateway build mismatch"))) {
             throw new Error("missing mismatch diagnostic: " + diagnostic);
           }
           const fresh = await probe(buildId);
