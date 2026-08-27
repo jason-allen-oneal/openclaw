@@ -1,0 +1,250 @@
+name: Temporary Contributor Proof Harness
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha:
+        description: Exact contributor PR head SHA
+        required: true
+        type: string
+      proof:
+        description: Proof profile
+        required: true
+        type: choice
+        options:
+          - recovery
+          - windows-filter
+
+permissions:
+  contents: read
+
+jobs:
+  focused-installer-tests:
+    if: inputs.proof == 'recovery'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: openclaw/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install dependencies without lifecycle scripts
+        shell: bash
+        run: |
+          corepack enable
+          corepack install
+          pnpm install --frozen-lockfile --ignore-scripts
+      - name: Run focused installer tests
+        shell: bash
+        run: pnpm exec vitest run test/scripts/install-sh.test.ts test/scripts/install-cli.test.ts --reporter=verbose
+
+  real-posix-rebase-recovery:
+    if: inputs.proof == 'recovery'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: openclaw/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Exercise real POSIX rebase recovery in both installers
+        shell: bash
+        run: |
+          set -euo pipefail
+          run_recovery_case() {
+            local script_path="$1"
+            (
+              set -euo pipefail
+              export OPENCLAW_INSTALL_SH_NO_RUN=1
+              export OPENCLAW_INSTALL_CLI_SH_NO_RUN=1
+              source "$script_path"
+              if [[ "$script_path" == "scripts/install.sh" ]]; then
+                run_quiet_step() { shift; "$@"; }
+              fi
+
+              local tmp remote seed repo expected_head expected_status output status actual_head actual_status
+              local rebase_merge rebase_apply
+              tmp="$(mktemp -d)"
+              trap 'rm -rf "$tmp"' EXIT
+              remote="$tmp/remote.git"
+              seed="$tmp/seed"
+              repo="$tmp/repo"
+              git init --bare -q "$remote"
+              git init -q --initial-branch=main "$seed"
+              git -C "$seed" config user.email proof@example.invalid
+              git -C "$seed" config user.name proof
+              printf 'base\n' > "$seed/state.txt"
+              git -C "$seed" add state.txt
+              git -C "$seed" commit -qm base
+              git -C "$seed" remote add origin "$remote"
+              git -C "$seed" push -q -u origin main
+              git --git-dir="$remote" symbolic-ref HEAD refs/heads/main
+              git clone -q "$remote" "$repo"
+              git -C "$repo" config user.email proof@example.invalid
+              git -C "$repo" config user.name proof
+              printf 'remote\n' > "$seed/state.txt"
+              git -C "$seed" commit -qam remote
+              git -C "$seed" push -q origin main
+              printf 'local\n' > "$repo/state.txt"
+              git -C "$repo" commit -qam local
+              printf 'keep this user change\n' > "$repo/user-note.txt"
+              expected_head="$(git -C "$repo" rev-parse HEAD)"
+              expected_status="$(git -C "$repo" status --porcelain=v1 --untracked-files=all)"
+
+              set +e
+              output="$(checkout_git_openclaw_ref "$repo" main 2>&1)"
+              status=$?
+              set -e
+
+              [[ "$status" -ne 0 ]]
+              actual_head="$(git -C "$repo" rev-parse HEAD)"
+              actual_status="$(git -C "$repo" status --porcelain=v1 --untracked-files=all)"
+              rebase_merge="$(git -C "$repo" rev-parse --git-path rebase-merge)"
+              rebase_apply="$(git -C "$repo" rev-parse --git-path rebase-apply)"
+              [[ "$actual_head" == "$expected_head" ]]
+              [[ "$actual_status" == "$expected_status" ]]
+              [[ "$(cat "$repo/user-note.txt")" == "keep this user change" ]]
+              [[ ! -d "$rebase_merge" && ! -d "$rebase_apply" ]]
+              [[ "$output" == *"restored to its pre-update state"* ]]
+              printf 'case=%s expected-head=%s restored-head=%s status=%q recovery=head-restored user-change-preserved rebase-state-cleared\n' \
+                "$script_path" "$expected_head" "$actual_head" "$actual_status"
+            )
+          }
+
+          run_recovery_case scripts/install.sh
+          run_recovery_case scripts/install-cli.sh
+          printf 'real-posix-rebase-recovery=both-installers-verified\n'
+
+  real-windows-filter-proof:
+    if: inputs.proof == 'windows-filter'
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: openclaw/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install dependencies without lifecycle scripts
+        shell: pwsh
+        run: |
+          corepack enable
+          corepack install
+          pnpm install --frozen-lockfile --ignore-scripts
+      - name: Run focused PowerShell installer tests
+        shell: pwsh
+        run: pnpm exec vitest run test/scripts/install-ps1.test.ts --reporter=verbose
+      - name: Exercise real Git for Windows filtered clone and fallback
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git.exe --version
+          node.exe --version
+
+          $source = Get-Content -Raw scripts/install.ps1
+          $source = $source -replace '(?ms)\r?\n\$null = Main\r?\nComplete-Install\s*\z', ''
+          . ([scriptblock]::Create($source))
+          $ErrorActionPreference = 'Continue'
+
+          function Invoke-RealGit {
+            param([Parameter(Mandatory = $true)][string[]]$CommandArgs)
+            $output = & git.exe @CommandArgs 2>&1
+            $status = $LASTEXITCODE
+            if ($status -ne 0) {
+              throw "git $($CommandArgs -join ' ') failed with exit code ${status}: $($output -join ' ')"
+            }
+          }
+
+          function Get-RealGitValue {
+            param([Parameter(Mandatory = $true)][string[]]$CommandArgs)
+            $output = & git.exe @CommandArgs 2>&1
+            $status = $LASTEXITCODE
+            if ($status -ne 0) {
+              throw "git $($CommandArgs -join ' ') failed with exit code ${status}: $($output -join ' ')"
+            }
+            return ($output | Out-String).Trim()
+          }
+
+          $sandbox = Join-Path ([System.IO.Path]::GetTempPath()) ('openclaw-filter-proof-' + [guid]::NewGuid().ToString('N'))
+          New-Item -ItemType Directory -Path $sandbox | Out-Null
+
+          function New-LocalRemote {
+            param(
+              [Parameter(Mandatory = $true)][string]$Name,
+              [Parameter(Mandatory = $true)][bool]$AllowFilter
+            )
+            $root = Join-Path $sandbox $Name
+            $origin = Join-Path $root 'origin.git'
+            $seed = Join-Path $root 'seed'
+            $filterValue = if ($AllowFilter) { 'true' } else { 'false' }
+            New-Item -ItemType Directory -Path $root | Out-Null
+            Invoke-RealGit -CommandArgs @('init', '--bare', $origin)
+            Invoke-RealGit -CommandArgs @("--git-dir=$origin", 'config', 'uploadpack.allowFilter', $filterValue)
+            Invoke-RealGit -CommandArgs @('init', '--initial-branch=main', $seed)
+            Invoke-RealGit -CommandArgs @('-C', $seed, 'config', 'user.email', 'proof@example.invalid')
+            Invoke-RealGit -CommandArgs @('-C', $seed, 'config', 'user.name', 'proof')
+            Set-Content -LiteralPath (Join-Path $seed 'proof.txt') -Value 'proof'
+            Invoke-RealGit -CommandArgs @('-C', $seed, 'add', 'proof.txt')
+            Invoke-RealGit -CommandArgs @('-C', $seed, 'commit', '-m', 'proof')
+            Invoke-RealGit -CommandArgs @('-C', $seed, 'remote', 'add', 'origin', $origin)
+            Invoke-RealGit -CommandArgs @('-C', $seed, 'push', '-u', 'origin', 'main')
+            Invoke-RealGit -CommandArgs @("--git-dir=$origin", 'symbolic-ref', 'HEAD', 'refs/heads/main')
+            return $origin
+          }
+
+          try {
+            $filterOrigin = New-LocalRemote -Name 'filter' -AllowFilter $true
+            $filterTarget = Join-Path $sandbox 'filter-target'
+            $filterUrl = 'file:///' + ($filterOrigin -replace '\\', '/')
+            New-TransactionalGitCheckout -RepoUrl $filterUrl -RepoDir $filterTarget
+            $filterConfig = Get-RealGitValue -CommandArgs @('-C', $filterTarget, 'config', '--get', 'remote.origin.partialclonefilter')
+            $filterHead = Get-RealGitValue -CommandArgs @('-C', $filterTarget, 'rev-parse', 'HEAD')
+            if ($filterConfig -ne 'blob:none') { throw "filtered clone config was '$filterConfig'" }
+            if (-not (Test-Path -LiteralPath (Join-Path $filterTarget 'proof.txt'))) { throw 'filtered clone did not materialize proof.txt' }
+            Write-Output "filtered-clone=completed partialclonefilter=$filterConfig head=$filterHead"
+
+            $fallbackOrigin = New-LocalRemote -Name 'fallback' -AllowFilter $false
+            $fallbackTarget = Join-Path $sandbox 'fallback-target'
+            $fallbackUrl = 'file:///' + ($fallbackOrigin -replace '\\', '/')
+            $global:RealGitPath = (Get-Command git.exe).Source
+            $global:FallbackCloneArgs = @()
+            function global:git {
+              $commandArgs = @($args)
+              if ($commandArgs.Count -ge 2 -and $commandArgs[0] -eq 'clone' -and $commandArgs[1] -eq '-h') {
+                $global:FallbackCloneArgs = $commandArgs
+                Write-Output 'usage: git clone [options]'
+                $global:LASTEXITCODE = 129
+                return
+              }
+              if ($commandArgs.Count -gt 0 -and $commandArgs[0] -eq 'clone') {
+                $global:FallbackCloneArgs = $commandArgs
+              }
+              & $global:RealGitPath @commandArgs
+              $status = $LASTEXITCODE
+              $global:LASTEXITCODE = $status
+            }
+            New-TransactionalGitCheckout -RepoUrl $fallbackUrl -RepoDir $fallbackTarget
+            $fallbackHead = Get-RealGitValue -CommandArgs @('-C', $fallbackTarget, 'rev-parse', 'HEAD')
+            if ($global:FallbackCloneArgs -contains '--filter=blob:none') { throw 'fallback clone received a filter argument' }
+            if (-not (Test-Path -LiteralPath (Join-Path $fallbackTarget 'proof.txt'))) { throw 'fallback clone did not materialize proof.txt' }
+            Write-Output "fallback-clone=completed args=$($global:FallbackCloneArgs -join ' ') head=$fallbackHead"
+            Write-Output 'real-windows-filter-proof=filtered-clone-and-compatible-fallback-verified'
+          } finally {
+            Remove-Item -LiteralPath $sandbox -Recurse -Force -ErrorAction SilentlyContinue
+          }
