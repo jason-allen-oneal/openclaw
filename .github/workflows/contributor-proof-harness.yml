@@ -417,8 +417,9 @@ jobs:
           set -euo pipefail
           proof_home="$RUNNER_TEMP/proof-home"
           export HOME="$proof_home"
+          export XDG_CONFIG_HOME="$proof_home/xdg"
           export COREPACK_HOME="$proof_home/corepack"
-          mkdir -p "$HOME" "$COREPACK_HOME"
+          mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$COREPACK_HOME"
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
           pnpm install --frozen-lockfile --ignore-scripts
