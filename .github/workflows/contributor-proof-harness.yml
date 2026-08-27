@@ -448,8 +448,9 @@ jobs:
           set -euo pipefail
           proof_home="$(mktemp -d)"
           export HOME="$proof_home"
+          export XDG_CONFIG_HOME="$proof_home/xdg"
           export COREPACK_HOME="$proof_home/corepack"
-          mkdir -p "$HOME" "$COREPACK_HOME"
+          mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$COREPACK_HOME"
           corepack enable
           corepack prepare pnpm@11.22.0 --activate
           pnpm install --frozen-lockfile --ignore-scripts
@@ -515,21 +516,11 @@ jobs:
             }) + "\n",
           );
           await fs.writeFile(path.join(gitRoot, "config.mjs"), "console.log(JSON.stringify({ok:true}));\n");
-          const stablePnpmfile = "module.exports = { hooks: require('./pnpmfile-hook.cjs') };\n";
-          await fs.writeFile(path.join(gitRoot, "pnpmfile.cjs"), stablePnpmfile);
-          await fs.writeFile(
-            path.join(gitRoot, "pnpmfile-hook.cjs"),
-            "module.exports = { readPackage: (pkg) => ({ ...pkg, version: 'one' }) };\n",
-          );
           await fs.writeFile(path.join(gitRoot, "build.mjs"), "console.log('oldest candidate build passed');\n");
-          await git(gitRoot, "add", "package.json", "config.mjs", "pnpmfile.cjs", "pnpmfile-hook.cjs", "build.mjs");
+          await git(gitRoot, "add", "package.json", "config.mjs", "build.mjs");
           await git(gitRoot, "commit", "-m", "oldest candidate");
           const oldestSha = await git(gitRoot, "rev-parse", "HEAD");
 
-          await fs.writeFile(
-            path.join(gitRoot, "pnpmfile-hook.cjs"),
-            "module.exports = { readPackage: (pkg) => ({ ...pkg, version: 'two' }) };\n",
-          );
           await fs.writeFile(
             path.join(gitRoot, "build.mjs"),
             [
@@ -541,8 +532,8 @@ jobs:
               "",
             ].join("\n"),
           );
-          await git(gitRoot, "add", "pnpmfile-hook.cjs", "build.mjs");
-          await git(gitRoot, "commit", "-m", "middle candidate with changed imported hook");
+          await git(gitRoot, "add", "build.mjs");
+          await git(gitRoot, "commit", "-m", "middle candidate");
           const middleSha = await git(gitRoot, "rev-parse", "HEAD");
 
           await fs.writeFile(
@@ -561,6 +552,19 @@ jobs:
           const latestSha = await git(gitRoot, "rev-parse", "HEAD");
           await git(gitRoot, "remote", "add", "origin", remoteRoot);
           await git(gitRoot, "push", "--set-upstream", "origin", "main");
+
+          const globalPnpmfile = path.join(fixtureRoot, "global-pnpmfile.cjs");
+          await fs.writeFile(
+            globalPnpmfile,
+            "module.exports = { hooks: { readPackage: (pkg) => pkg } };\n",
+          );
+          const pnpmConfigDir = path.join(process.env.XDG_CONFIG_HOME, "pnpm");
+          await fs.mkdir(pnpmConfigDir, { recursive: true });
+          const globalPnpmfileConfig = globalPnpmfile.replaceAll("\\", "/").replaceAll("'", "''");
+          await fs.writeFile(
+            path.join(pnpmConfigDir, "config.yaml"),
+            `globalPnpmfile: '${globalPnpmfileConfig}'\n`,
+          );
 
           const steps = [];
           const step = (name, argv, cwd, env) => ({
@@ -606,12 +610,12 @@ jobs:
             throw new Error(`expected oldest candidate to be selected: ${JSON.stringify(proof)}`);
           }
           if (installSteps.length !== 3 || skipped.length !== 0) {
-            throw new Error(`expected three real installs and no reuse with an active pnpmfile: ${JSON.stringify(proof)}`);
+            throw new Error(`expected three real installs and no reuse with an external pnpmfile: ${JSON.stringify(proof)}`);
           }
           if (!middleBuild?.stdoutTail?.includes("middle candidate saw clean dependency snapshot")) {
             throw new Error(`clean candidate state was not observed: ${JSON.stringify(proof)}`);
           }
-          console.log("real-windows-preflight=active-pnpmfile-reuse-disabled-and-clean-state-verified");
+          console.log("real-windows-preflight=external-pnpmfile-reuse-disabled-and-clean-state-verified");
           NODE
 
   real-windows-filter-proof:
