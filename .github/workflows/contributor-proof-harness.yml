@@ -306,6 +306,7 @@ jobs:
             $installLog = Join-Path $env:RUNNER_TEMP "windows-source-install.log"
             & powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -InstallMethod git -GitDir $gitDir -NoOnboard -NoGitUpdate *> $installLog
             if ($LASTEXITCODE -ne 0) {
+              Get-Content $installLog | Select-Object -Last 120
               throw "Windows source installer failed with exit code $LASTEXITCODE"
             }
             $head = (git -C $gitDir rev-parse HEAD).Trim()
