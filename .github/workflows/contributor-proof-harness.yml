@@ -128,10 +128,9 @@ jobs:
             sleep 1
           done
           test -s "$RUNNER_TEMP/bundled-gateway.log"
-          node --input-type=module - "$port" "$build_id" "$token" <<'NODE'
-          import { probeGateway } from "./dist/gateway/probe.js";
-          import { inspectGatewayRestart } from "./dist/cli/daemon-cli/restart-health.js";
-          import { renderRestartDiagnostics } from "./dist/cli/daemon-cli/restart-health-diagnostics.js";
+          node --import tsx/esm --input-type=module - "$port" "$build_id" "$token" <<'NODE'
+          import { inspectGatewayRestart } from "./src/cli/daemon-cli/restart-health.ts";
+          import { renderRestartDiagnostics } from "./src/cli/daemon-cli/restart-health-diagnostics.ts";
           const [port, buildId, token] = process.argv.slice(2);
           const service = {
             label: "proof",
