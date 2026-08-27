@@ -79,6 +79,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          export HOME="$proof_home"
+          export XDG_CONFIG_HOME="$proof_home/xdg"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$COREPACK_HOME"
           pnpm exec vitest run test/scripts/install-sh.test.ts test/scripts/install-cli.test.ts \
             -t "preserves explicit pnpm prefer-offline settings" --reporter=verbose
           ! grep -Eq 'prefer\[-_\]offline' scripts/install.sh scripts/install-cli.sh
@@ -425,7 +430,14 @@ jobs:
           pnpm install --frozen-lockfile --ignore-scripts
       - name: Run focused updater suite
         shell: bash
-        run: pnpm exec vitest run src/infra/update-runner.test.ts --reporter=verbose
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          export HOME="$proof_home"
+          export XDG_CONFIG_HOME="$proof_home/xdg"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$COREPACK_HOME"
+          pnpm exec vitest run src/infra/update-runner.test.ts --reporter=verbose
 
   real-windows-preflight-pnpmfile:
     if: inputs.proof == 'update-preflight'
