@@ -71,7 +71,12 @@ jobs:
 
           async function runCommand(argv, options = {}) {
             try {
-              const result = await execFileAsync(argv[0], argv.slice(1), {
+              const executable =
+                process.platform === "win32" &&
+                ["bun", "corepack", "npm", "pnpm"].includes(argv[0])
+                  ? `${argv[0]}.cmd`
+                  : argv[0];
+              const result = await execFileAsync(executable, argv.slice(1), {
                 cwd: options.cwd,
                 env: { ...process.env, ...(options.env ?? {}) },
                 maxBuffer: 16 * 1024 * 1024,
