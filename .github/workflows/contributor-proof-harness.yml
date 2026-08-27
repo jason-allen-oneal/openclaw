@@ -81,8 +81,8 @@ jobs:
           set -euo pipefail
           pnpm exec vitest run test/scripts/install-sh.test.ts test/scripts/install-cli.test.ts \
             -t "preserves explicit pnpm prefer-offline settings" --reporter=verbose
-          ! rg -q 'prefer\[-_\]offline' scripts/install.sh scripts/install-cli.sh
-          rg -q 'npm_config_has_raw_key .*"prefer-offline"' scripts/install.sh scripts/install-cli.sh
+          ! grep -Eq 'prefer\[-_\]offline' scripts/install.sh scripts/install-cli.sh
+          grep -Eq 'npm_config_has_raw_key .*"prefer-offline"' scripts/install.sh scripts/install-cli.sh
           printf 'preference-policy=canonical-npmrc-key-and-env-spellings-verified\n'
 
   focused-runtime-build-tests:
