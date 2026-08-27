@@ -212,6 +212,12 @@ jobs:
           [[ "$explicit_install_line" != *"--prefer-offline"* ]]
           test -d "$explicit_project/node_modules/is-number"
 
+          redact_tmp() { sed "s#${tmp}#<proof-tmp>#g"; }
+          printf 'transcript-default-command=%s\n' "$default_install_line" | redact_tmp
+          printf 'transcript-default-result=%s\n' "$(grep 'Progress:.*downloaded' "$default_log" | tail -n 1)"
+          printf 'transcript-cached-command=%s\n' "$cached_install_line" | redact_tmp
+          printf 'transcript-cached-result=%s\n' "$(grep 'Progress:.*reused' "$cached_log" | tail -n 1)"
+          printf 'transcript-explicit-false-command=%s\n' "$explicit_install_line" | redact_tmp
           printf 'source-install=install.sh exact-head=%s\n' "$(git rev-parse HEAD)"
           printf 'online-fallback=missing-package-downloaded-from-registry\n'
           printf 'cache-preference=prefer-offline-observed-on-source-install\n'
