@@ -209,6 +209,7 @@ jobs:
           git daemon --export-all --base-path="$remote_root" --reuseaddr --listen=127.0.0.1 --port=9418 >"$RUNNER_TEMP/posix-git-daemon.log" 2>&1 &
           daemon_pid=$!
           trap 'kill "$daemon_pid" 2>/dev/null || true; wait "$daemon_pid" 2>/dev/null || true' EXIT
+          export GIT_CONFIG_GLOBAL="$RUNNER_TEMP/posix-proof.gitconfig"
           git config --global url."$git_url".insteadOf "https://github.com/openclaw/openclaw.git"
           ready=0
           for attempt in $(seq 1 30); do
