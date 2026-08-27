@@ -205,6 +205,13 @@ jobs:
               exitCode: entry.exitCode,
               stdout: entry.stdoutTail ?? "",
             })),
+            steps: steps.map((entry) => ({
+              name: entry.name,
+              command: entry.command,
+              exitCode: entry.exitCode,
+              stdout: entry.stdoutTail ?? "",
+              stderr: entry.stderrTail ?? "",
+            })),
             middleBuild: middleBuild?.stdoutTail ?? middleBuild?.stderrTail ?? null,
           };
           console.log(JSON.stringify(proof, null, 2));
