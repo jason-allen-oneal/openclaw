@@ -98,7 +98,7 @@ jobs:
       - name: Checkout exact contributor head
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          repository: openclaw/openclaw
+          repository: jason-allen-oneal/openclaw
           ref: ${{ inputs.target_sha }}
           fetch-depth: 1
           persist-credentials: false
@@ -537,7 +537,7 @@ jobs:
       - name: Checkout exact contributor head
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          repository: openclaw/openclaw
+          repository: jason-allen-oneal/openclaw
           ref: ${{ inputs.target_sha }}
           fetch-depth: 1
           persist-credentials: false
@@ -576,7 +576,7 @@ jobs:
       - name: Checkout exact contributor head
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          repository: openclaw/openclaw
+          repository: jason-allen-oneal/openclaw
           ref: ${{ inputs.target_sha }}
           fetch-depth: 1
           persist-credentials: false
@@ -768,7 +768,7 @@ jobs:
       - name: Checkout exact contributor head
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          repository: openclaw/openclaw
+          repository: jason-allen-oneal/openclaw
           ref: ${{ inputs.target_sha }}
           fetch-depth: 1
           persist-credentials: false
