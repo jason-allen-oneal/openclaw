@@ -283,7 +283,7 @@ jobs:
           git -C $remote config receive.shallowUpdate true
           git push $remote "$($env:TARGET_SHA):refs/heads/main" "$($env:TARGET_SHA):refs/tags/clawsweeper-proof"
           $gitUrl = "git://127.0.0.1:9419/openclaw.git"
-          $daemonArgs = @("daemon", "--verbose", "--export-all", "--reuseaddr", "--listen=127.0.0.1", "--port=9419", $remoteRoot)
+          $daemonArgs = @("daemon", "--verbose", "--export-all", "--base-path=$remoteRoot", "--reuseaddr", "--listen=127.0.0.1", "--port=9419")
           $daemon = Start-Process -FilePath "git.exe" -ArgumentList $daemonArgs -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $env:RUNNER_TEMP "windows-git-daemon.out") -RedirectStandardError (Join-Path $env:RUNNER_TEMP "windows-git-daemon.err")
           try {
             git config --global "url.$gitUrl.insteadOf" "https://github.com/openclaw/openclaw.git"
