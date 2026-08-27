@@ -314,8 +314,6 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       TARGET_SHA: ${{ inputs.target_sha }}
-      HOME: ${{ runner.temp }}/gateway-proof-home
-      OPENCLAW_STATE_DIR: ${{ runner.temp }}/gateway-proof-state
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -328,6 +326,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          export HOME="$RUNNER_TEMP/gateway-proof-home"
+          export OPENCLAW_STATE_DIR="$RUNNER_TEMP/gateway-proof-state"
           export COREPACK_HOME="$RUNNER_TEMP/gateway-proof-corepack"
           mkdir -p "$HOME" "$COREPACK_HOME" "$OPENCLAW_STATE_DIR"
           corepack enable
@@ -354,6 +354,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          export HOME="$RUNNER_TEMP/gateway-proof-home"
+          export OPENCLAW_STATE_DIR="$RUNNER_TEMP/gateway-proof-state"
           export COREPACK_HOME="$RUNNER_TEMP/gateway-proof-corepack"
           export OPENCLAW_NO_ONBOARD=1
           export OPENCLAW_NO_PROMPT=1
