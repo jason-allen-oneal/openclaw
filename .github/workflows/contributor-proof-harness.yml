@@ -16,6 +16,7 @@ on:
           - windows-filter
           - update-preflight
           - preference-policy
+          - runtime-build-identity
 
 permissions:
   contents: read
@@ -83,6 +84,156 @@ jobs:
           ! rg -q 'prefer\[-_\]offline' scripts/install.sh scripts/install-cli.sh
           rg -q 'npm_config_has_raw_key .*"prefer-offline"' scripts/install.sh scripts/install-cli.sh
           printf 'preference-policy=canonical-npmrc-key-and-env-spellings-verified\n'
+
+  focused-runtime-build-tests:
+    if: inputs.proof == 'runtime-build-identity'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install dependencies without lifecycle scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          export HOME="$proof_home"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+      - name: Run focused runtime identity tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec vitest run \
+            src/cli/daemon-cli/restart-health.test.ts \
+            src/cli/update-cli/update-command-service.test.ts \
+            src/infra/update-runner.test.ts \
+            src/gateway/server/ws-connection/connect-hello.update-scope.test.ts \
+            -t "build identity|Git identity|Gateway runtime build|reports Gateway build" \
+            --reporter=verbose
+          printf 'runtime-identity-tests=dev-scope-and-configured-root-regressions-verified\n'
+
+  real-runtime-build-identity:
+    if: inputs.proof == 'runtime-build-identity'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Exercise configured-root runtime identity against a real gateway
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HOME="$RUNNER_TEMP/proof-home"
+          export COREPACK_HOME="$RUNNER_TEMP/proof-corepack"
+          export OPENCLAW_STATE_DIR="$RUNNER_TEMP/proof-state"
+          configured_root="$RUNNER_TEMP/configured-control-ui"
+          mkdir -p "$HOME" "$COREPACK_HOME" "$OPENCLAW_STATE_DIR" "$configured_root"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm build
+          build_id="$(node -p "require('./dist/build-info.json').buildId")"
+          token=proof-token
+          node --input-type=module - "$OPENCLAW_STATE_DIR/openclaw.json" "$token" "$configured_root" <<'NODE'
+          const [configPath, token, controlUiRoot] = process.argv.slice(2);
+          const fs = await import("node:fs/promises");
+          await fs.writeFile(
+            configPath,
+            JSON.stringify({
+              gateway: {
+                mode: "local",
+                auth: { mode: "token", token },
+                controlUi: { root: controlUiRoot },
+              },
+            }) + "\n",
+          );
+          NODE
+          port=19093
+          node dist/entry.js gateway run --bind loopback --port "$port" --token "$token" >"$RUNNER_TEMP/configured-gateway.log" 2>&1 &
+          gateway_pid=$!
+          trap 'kill "$gateway_pid" 2>/dev/null || true; wait "$gateway_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 60); do
+            if node -e "const net=require('net'); const s=net.connect($port,'127.0.0.1'); s.on('connect',()=>{s.destroy();process.exit(0)}); s.on('error',()=>process.exit(1))"; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          [[ "$ready" -eq 1 ]]
+          test -s "$RUNNER_TEMP/configured-gateway.log"
+          node --import tsx/esm --input-type=module - "$port" "$build_id" "$token" <<'NODE'
+          import { inspectGatewayRestart } from "./src/cli/daemon-cli/restart-health.ts";
+          import { renderRestartDiagnostics } from "./src/cli/daemon-cli/restart-health-diagnostics.ts";
+
+          const [port, buildId, token] = process.argv.slice(2);
+          const service = {
+            label: "proof",
+            loadedText: "loaded",
+            notLoadedText: "not loaded",
+            stage: async () => {},
+            install: async () => {},
+            uninstall: async () => {},
+            start: async () => {},
+            stop: async () => {},
+            restart: async () => ({}),
+            isLoaded: async () => true,
+            readCommand: async () => null,
+            readRuntime: async () => ({ status: "unknown" }),
+          };
+          const probe = async (expectedBuildId) =>
+            await inspectGatewayRestart({
+              service,
+              port: Number(port),
+              env: {},
+              expectedBuildId,
+              probeAuth: { token },
+              probeHosts: ["127.0.0.1"],
+            });
+
+          const stale = await probe("stale-configured-build");
+          if (
+            stale.healthy ||
+            stale.controlUiBuildSource !== "configured" ||
+            !stale.buildIdMismatch
+          ) {
+            throw new Error("expected stale configured-root mismatch: " + JSON.stringify(stale));
+          }
+          const diagnostic = renderRestartDiagnostics(stale);
+          if (!diagnostic.some((line) => line.includes("Gateway build mismatch"))) {
+            throw new Error("missing mismatch diagnostic: " + diagnostic);
+          }
+          const fresh = await probe(buildId);
+          if (!fresh.healthy || fresh.controlUiBuildSource !== "configured") {
+            throw new Error("expected fresh configured-root health: " + JSON.stringify(fresh));
+          }
+          console.log(
+            "configured-ui-source=reported\nconfigured-stale-diagnostic=verified\nconfigured-fresh-health=verified\nbuild-id=" +
+              buildId,
+          );
+          NODE
 
   real-posix-rebase-recovery:
     if: inputs.proof == 'recovery'
