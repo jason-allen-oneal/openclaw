@@ -193,7 +193,7 @@ jobs:
 
           const installSteps = steps.filter((entry) => entry.name.startsWith("preflight deps install"));
           const skipped = installSteps.filter((entry) =>
-            entry.stdoutTail?.includes("known-clean dependency snapshot restored"),
+            String(entry.stdoutTail ?? "").includes("known-clean dependency snapshot restored"),
           );
           const middleBuild = steps.find((entry) =>
             entry.name === `preflight build (${middleSha.slice(0, 8)})`,
@@ -219,6 +219,7 @@ jobs:
               stderr: entry.stderrTail ?? "",
             })),
             middleBuild: middleBuild?.stdoutTail ?? middleBuild?.stderrTail ?? null,
+            counts: { installSteps: installSteps.length, skipped: skipped.length },
           };
           console.log(JSON.stringify(proof, null, 2));
           if (result.status !== "ok" || result.selectedSha !== changedHookSha) {
