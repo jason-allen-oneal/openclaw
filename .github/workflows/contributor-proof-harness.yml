@@ -81,6 +81,7 @@ jobs:
                 env: { ...process.env, ...(options.env ?? {}) },
                 maxBuffer: 16 * 1024 * 1024,
                 timeout: options.timeoutMs ?? timeoutMs,
+                shell: process.platform === "win32",
                 windowsHide: true,
               });
               return { stdout: String(result.stdout), stderr: String(result.stderr), code: 0 };
