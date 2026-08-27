@@ -15,6 +15,7 @@ on:
           - recovery
           - windows-filter
           - update-preflight
+          - preference-policy
 
 permissions:
   contents: read
@@ -45,6 +46,43 @@ jobs:
       - name: Run focused installer tests
         shell: bash
         run: pnpm exec vitest run test/scripts/install-sh.test.ts test/scripts/install-cli.test.ts --reporter=verbose
+
+  focused-preference-policy-tests:
+    if: inputs.proof == 'preference-policy'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: openclaw/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install dependencies without lifecycle scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          export HOME="$proof_home"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+      - name: Run focused preference-policy tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec vitest run test/scripts/install-sh.test.ts test/scripts/install-cli.test.ts \
+            -t "preserves explicit pnpm prefer-offline settings" --reporter=verbose
+          ! rg -q 'prefer\[-_\]offline' scripts/install.sh scripts/install-cli.sh
+          rg -q 'npm_config_has_raw_key .*"prefer-offline"' scripts/install.sh scripts/install-cli.sh
+          printf 'preference-policy=canonical-npmrc-key-and-env-spellings-verified\n'
 
   real-posix-rebase-recovery:
     if: inputs.proof == 'recovery'
