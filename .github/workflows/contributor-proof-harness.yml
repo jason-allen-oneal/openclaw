@@ -193,7 +193,7 @@ jobs:
 
           const installSteps = steps.filter((entry) => entry.name.startsWith("preflight deps install"));
           const skipped = installSteps.filter((entry) =>
-            String(entry.stdoutTail ?? "").includes("known-clean dependency snapshot restored"),
+            String(entry.stdoutTail ?? "").trimStart().startsWith("skipped;"),
           );
           const middleBuild = steps.find((entry) =>
             entry.name === `preflight build (${middleSha.slice(0, 8)})`,
