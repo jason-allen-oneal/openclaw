@@ -344,10 +344,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          export HOME="$RUNNER_TEMP/gateway-proof-home"
           export OPENCLAW_STATE_DIR="$RUNNER_TEMP/gateway-proof-state"
           export COREPACK_HOME="$RUNNER_TEMP/gateway-proof-corepack"
-          mkdir -p "$HOME" "$COREPACK_HOME" "$OPENCLAW_STATE_DIR"
+          mkdir -p "$COREPACK_HOME" "$OPENCLAW_STATE_DIR"
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
           git fetch --unshallow origin "$TARGET_SHA"
@@ -374,7 +373,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          export HOME="$RUNNER_TEMP/gateway-proof-home"
           export OPENCLAW_STATE_DIR="$RUNNER_TEMP/gateway-proof-state"
           export COREPACK_HOME="$RUNNER_TEMP/gateway-proof-corepack"
           export OPENCLAW_NO_ONBOARD=1
