@@ -90,6 +90,135 @@ jobs:
           grep -Eq 'npm_config_has_raw_key .*"prefer-offline"' scripts/install.sh scripts/install-cli.sh
           printf 'preference-policy=canonical-npmrc-key-and-env-spellings-verified\n'
 
+  real-preference-policy-source-install:
+    if: inputs.proof == 'preference-policy'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: openclaw/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Run real source-install preference transcript
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          export HOME="$proof_home"
+          export XDG_CONFIG_HOME="$proof_home/xdg"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare pnpm@11.22.0 --activate
+
+          tmp="$(mktemp -d)"
+          trap 'rm -rf "$tmp"' EXIT
+          real_pnpm="$(command -v pnpm)"
+          pnpm_bin="$tmp/pnpm"
+          pnpm_log="$tmp/pnpm.log"
+          store_dir="$tmp/store"
+          cat >"$pnpm_bin" <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          printf 'pnpm argv:' >> "$PNPM_PROOF_LOG"
+          printf ' %q' "$@" >> "$PNPM_PROOF_LOG"
+          printf '\n' >> "$PNPM_PROOF_LOG"
+          if [[ "${1:-}" == "--version" ]]; then
+            exec "$PNPM_PROOF_REAL" "$@"
+          fi
+          exec "$PNPM_PROOF_REAL" "$@" --store-dir "$PNPM_PROOF_STORE" --reporter=append-only
+          SH
+          chmod +x "$pnpm_bin"
+          export PNPM_PROOF_LOG="$pnpm_log"
+          export PNPM_PROOF_REAL="$real_pnpm"
+          export PNPM_PROOF_STORE="$store_dir"
+          export PATH="$tmp:$PATH"
+
+          run_source_install() {
+            local project_dir="$1"
+            local output_log="$2"
+            (
+              set -euo pipefail
+              export OPENCLAW_INSTALL_SH_NO_RUN=1
+              source scripts/install.sh
+              ensure_pnpm() { set_pnpm_cmd "$PNPM_PROOF_BIN"; }
+              ensure_pnpm_binary_for_scripts() { :; }
+              check_git() { return 0; }
+              validate_git_checkout_head() { return 0; }
+              cleanup_legacy_submodules() { :; }
+              activate_repo_pnpm_version() { :; }
+              resolve_git_openclaw_ref() { printf 'main\n'; }
+              checkout_git_openclaw_ref() { :; }
+              git_install_lockfile_flag() { printf '%s\n' '--no-frozen-lockfile'; }
+              ensure_user_local_bin_on_path() { :; }
+              publish_executable_wrapper() { cat >/dev/null; }
+              run_quiet_step() {
+                local title="$1"
+                shift
+                printf 'source-install-step=%s\n' "$title"
+                if [[ "$title" == "Installing dependencies" ]]; then
+                  "$@"
+                fi
+              }
+              install_openclaw_from_git "$project_dir"
+            ) >"$output_log" 2>&1
+          }
+
+          export PNPM_PROOF_BIN="$pnpm_bin"
+          make_project() {
+            local project_dir="$1"
+            mkdir -p "$project_dir/dist"
+            git init -q --initial-branch=main "$project_dir"
+            git -C "$project_dir" config user.name proof
+            git -C "$project_dir" config user.email proof@example.invalid
+            printf '{"name":"preference-proof","version":"1.0.0","private":true,"dependencies":{"is-number":"7.0.0"}}\n' >"$project_dir/package.json"
+            printf 'process.exit(0);\n' >"$project_dir/dist/entry.js"
+            git -C "$project_dir" add package.json dist/entry.js
+            git -C "$project_dir" commit -qm fixture
+          }
+
+          default_project="$tmp/default-project"
+          make_project "$default_project"
+          default_log="$tmp/default-install.log"
+          run_source_install "$default_project" "$default_log"
+          default_install_line="$(grep 'pnpm argv: .* install ' "$pnpm_log" | head -n 1)"
+          [[ "$default_install_line" == *"--prefer-offline"* ]]
+          grep -Eq 'downloaded [1-9][0-9]*' "$default_log"
+          test -d "$default_project/node_modules/is-number"
+
+          rm -rf "$default_project/node_modules"
+          : >"$pnpm_log"
+          cached_log="$tmp/cached-install.log"
+          run_source_install "$default_project" "$cached_log"
+          cached_install_line="$(grep 'pnpm argv: .* install ' "$pnpm_log" | head -n 1)"
+          [[ "$cached_install_line" == *"--prefer-offline"* ]]
+          grep -Eq 'reused [1-9][0-9]*' "$cached_log"
+          test -d "$default_project/node_modules/is-number"
+
+          explicit_project="$tmp/explicit-false-project"
+          make_project "$explicit_project"
+          printf 'prefer-offline=false\n' >"$explicit_project/.npmrc"
+          explicit_log="$tmp/explicit-false-install.log"
+          : >"$pnpm_log"
+          run_source_install "$explicit_project" "$explicit_log"
+          explicit_install_line="$(grep 'pnpm argv: .* install ' "$pnpm_log" | head -n 1)"
+          [[ "$explicit_install_line" != *"--prefer-offline"* ]]
+          test -d "$explicit_project/node_modules/is-number"
+
+          printf 'source-install=install.sh exact-head=%s\n' "$(git rev-parse HEAD)"
+          printf 'online-fallback=missing-package-downloaded-from-registry\n'
+          printf 'cache-preference=prefer-offline-observed-on-source-install\n'
+          printf 'cache-reuse=cached-package-reused-on-repeat-install\n'
+          printf 'explicit-false=.npmrc-prefer-offline-false-omitted-the-flag\n'
+          printf 'transcript=redacted-no-credentials\n'
+
   focused-runtime-build-tests:
     if: inputs.proof == 'runtime-build-identity'
     runs-on: ubuntu-24.04
