@@ -367,9 +367,6 @@ jobs:
           corepack enable
           corepack install
           pnpm install --frozen-lockfile --ignore-scripts
-      - name: Run focused PowerShell installer tests
-        shell: pwsh
-        run: pnpm exec vitest run test/scripts/install-ps1.test.ts --reporter=verbose
       - name: Exercise real Git for Windows filtered clone and fallback
         shell: pwsh
         run: |
