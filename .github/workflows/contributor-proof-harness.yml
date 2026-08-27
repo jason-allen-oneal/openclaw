@@ -195,12 +195,14 @@ jobs:
           mkdir -p "$HOME" "$COREPACK_HOME"
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          git fetch --unshallow origin "$TARGET_SHA"
           remote_root="$RUNNER_TEMP/posix-proof-remote"
           remote="$remote_root/openclaw.git"
           mkdir -p "$remote_root"
           git init --bare "$remote"
           git -C "$remote" config uploadpack.allowFilter true
           git -C "$remote" config uploadpack.allowAnySHA1InWant true
+          git -C "$remote" config receive.shallowUpdate true
           if [[ -n "$BASE_SHA" ]]; then git fetch --no-tags https://github.com/openclaw/openclaw.git "$BASE_SHA" --depth=1; fi
           git push "$remote" "$TARGET_SHA:refs/heads/main" "$TARGET_SHA:refs/tags/clawsweeper-proof"
           if [[ -n "$BASE_SHA" ]]; then git push "$remote" "$BASE_SHA:refs/heads/base"; fi
@@ -265,6 +267,7 @@ jobs:
           git init --bare $remote
           git -C $remote config uploadpack.allowFilter true
           git -C $remote config uploadpack.allowAnySHA1InWant true
+          git -C $remote config receive.shallowUpdate true
           git push $remote "$($env:TARGET_SHA):refs/heads/main" "$($env:TARGET_SHA):refs/tags/clawsweeper-proof"
           $gitUrl = "git://127.0.0.1:9419/openclaw.git"
           $daemonArgs = @("daemon", "--export-all", "--base-path=$env:RUNNER_TEMP", "--reuseaddr", "--listen=127.0.0.1", "--port=9419")
@@ -338,6 +341,7 @@ jobs:
           git init --bare "$remote"
           git -C "$remote" config uploadpack.allowFilter true
           git -C "$remote" config uploadpack.allowAnySHA1InWant true
+          git -C "$remote" config receive.shallowUpdate true
           git push "$remote" "$TARGET_SHA:refs/heads/main"
           git_url="git://127.0.0.1:9420/openclaw.git"
           git daemon --export-all --base-path="$remote_root" --reuseaddr --listen=127.0.0.1 --port=9420 >"$RUNNER_TEMP/gateway-git-daemon.log" 2>&1 &
