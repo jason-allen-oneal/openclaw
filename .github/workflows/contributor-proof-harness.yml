@@ -89,7 +89,7 @@ jobs:
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
           pnpm install --frozen-lockfile
-          pnpm exec vitest run src/infra/update-runner-git-preflight.test.ts -t "workspace package manifest changes" --reporter=verbose
+          pnpm exec vitest run src/infra/update-runner.test.ts -t "workspace package manifest changes" --reporter=verbose
 
   bundled-build-id:
     if: ${{ inputs.proof == 'bundled-build-id' }}
@@ -261,6 +261,7 @@ jobs:
           corepack enable
           $packageManager = node -p "require('./package.json').packageManager"
           corepack prepare $packageManager --activate
+          git fetch --unshallow origin $env:TARGET_SHA
           $remoteRoot = Join-Path $env:RUNNER_TEMP "windows-proof-remote"
           $remote = Join-Path $remoteRoot "openclaw.git"
           New-Item -ItemType Directory -Force -Path $remoteRoot | Out-Null
@@ -335,6 +336,7 @@ jobs:
           mkdir -p "$HOME" "$COREPACK_HOME" "$OPENCLAW_STATE_DIR"
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          git fetch --unshallow origin "$TARGET_SHA"
           remote_root="$RUNNER_TEMP/gateway-proof-remote"
           remote="$remote_root/openclaw.git"
           mkdir -p "$remote_root"
