@@ -1,0 +1,379 @@
+name: Temporary Contributor Proof Harness
+
+on:
+  workflow_dispatch:
+    inputs:
+      proof:
+        description: Proof lane
+        required: true
+        type: choice
+        options:
+          - npm-policy
+          - preflight
+          - posix-git-ref
+          - windows-blobless
+          - gateway-transition
+          - bundled-build-id
+      target_sha:
+        description: Exact contributor PR head SHA
+        required: true
+        type: string
+      base_sha:
+        description: Optional base SHA for a stale-main proof
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  npm-policy:
+    if: ${{ inputs.proof == 'npm-policy' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.19.0
+      - name: Run the real npm preference policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HOME="$RUNNER_TEMP/proof-home"
+          export COREPACK_HOME="$RUNNER_TEMP/proof-corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile
+          export OPENCLAW_INSTALL_CLI_SH_NO_RUN=1
+          source scripts/install-cli.sh
+          root="$RUNNER_TEMP/npm-policy"
+          mkdir -p "$root/default" "$root/npmrc-override"
+          printf '{"name":"proof-default","version":"1.0.0","private":true}\n' > "$root/default/package.json"
+          printf '{"name":"proof-override","version":"1.0.0","private":true}\n' > "$root/npmrc-override/package.json"
+          printf 'prefer-offline=false\n' > "$root/npmrc-override/.npmrc"
+          default_args=()
+          if should_prefer_offline_pnpm_install "$root/default"; then default_args=(--prefer-offline); fi
+          override_args=()
+          if should_prefer_offline_pnpm_install "$root/npmrc-override"; then override_args=(--prefer-offline); fi
+          (cd "$root/default" && pnpm install --lockfile=false --ignore-scripts "${default_args[@]}")
+          (cd "$root/npmrc-override" && pnpm install --lockfile=false --ignore-scripts "${override_args[@]}")
+          [[ "${default_args[*]:-}" == "--prefer-offline" ]]
+          [[ "${#override_args[@]}" -eq 0 ]]
+          printf 'default=prefer-offline\nnpmrc=preserved\n'
+
+  preflight:
+    if: ${{ inputs.proof == 'preflight' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.19.0
+      - name: Run the exact regression test
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HOME="$RUNNER_TEMP/proof-home"
+          export COREPACK_HOME="$RUNNER_TEMP/proof-corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile
+          pnpm exec vitest run src/infra/update-runner-git-preflight.test.ts -t "workspace package manifest changes" --reporter=verbose
+
+  bundled-build-id:
+    if: ${{ inputs.proof == 'bundled-build-id' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.19.0
+      - name: Exercise the bundled build identity and stale-build diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HOME="$RUNNER_TEMP/proof-home"
+          export COREPACK_HOME="$RUNNER_TEMP/proof-corepack"
+          export OPENCLAW_STATE_DIR="$RUNNER_TEMP/proof-state"
+          mkdir -p "$HOME" "$COREPACK_HOME" "$OPENCLAW_STATE_DIR"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile
+          pnpm build
+          build_id="$(node -p "require('./dist/build-info.json').buildId")"
+          port=19092
+          token=proof-token
+          printf '{"gateway":{"mode":"local","auth":{"mode":"token","token":"%s"}}}\n' "$token" > "$OPENCLAW_STATE_DIR/openclaw.json"
+          node dist/entry.js gateway run --bind loopback --port "$port" --token "$token" > "$RUNNER_TEMP/bundled-gateway.log" 2>&1 &
+          gateway_pid=$!
+          trap 'kill "$gateway_pid" 2>/dev/null || true; wait "$gateway_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 60); do
+            if node -e "const net=require('net'); const s=net.connect($port,'127.0.0.1'); s.on('connect',()=>{s.destroy();process.exit(0)}); s.on('error',()=>process.exit(1))"; then
+              break
+            fi
+            sleep 1
+          done
+          test -s "$RUNNER_TEMP/bundled-gateway.log"
+          node --input-type=module - "$port" "$build_id" "$token" <<'NODE'
+          import { probeGateway } from "./dist/gateway/probe.js";
+          import { inspectGatewayRestart } from "./dist/cli/daemon-cli/restart-health.js";
+          import { renderRestartDiagnostics } from "./dist/cli/daemon-cli/restart-health-diagnostics.js";
+          const [port, buildId, token] = process.argv.slice(2);
+          const service = {
+            label: "proof",
+            loadedText: "loaded",
+            notLoadedText: "not loaded",
+            stage: async () => {},
+            install: async () => {},
+            uninstall: async () => {},
+            start: async () => {},
+            stop: async () => {},
+            restart: async () => ({}),
+            isLoaded: async () => true,
+            readCommand: async () => null,
+            readRuntime: async () => ({ status: "unknown" }),
+          };
+          const probe = async (expectedBuildId) => {
+            return await inspectGatewayRestart({
+              service,
+              port: Number(port),
+              env: {},
+              expectedBuildId,
+              probeAuth: { token },
+              probeHosts: ["127.0.0.1"],
+            });
+          };
+          const stale = await probe("stale-bundled-build");
+          if (stale.healthy || stale.outcome !== "build-id-mismatch") {
+            throw new Error("expected stale bundled build mismatch: " + JSON.stringify(stale));
+          }
+          const diagnostic = renderRestartDiagnostics(stale);
+          if (!diagnostic.includes("Gateway build mismatch")) {
+            throw new Error("missing mismatch diagnostic: " + diagnostic);
+          }
+          const fresh = await probe(buildId);
+          if (!fresh.healthy) {
+            throw new Error("expected fresh bundled build health: " + JSON.stringify(fresh));
+          }
+          console.log("bundled-source=verified\nbuild-id=" + buildId + "\nstale-diagnostic=verified\nfresh-health=verified");
+          NODE
+
+  posix-git-ref:
+    if: ${{ inputs.proof == 'posix-git-ref' }}
+    runs-on: ubuntu-24.04
+    env:
+      TARGET_SHA: ${{ inputs.target_sha }}
+      BASE_SHA: ${{ inputs.base_sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.19.0
+      - name: Run exact tag and stale-main source installs
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HOME="$RUNNER_TEMP/posix-proof-home"
+          export COREPACK_HOME="$RUNNER_TEMP/posix-proof-corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          remote_root="$RUNNER_TEMP/posix-proof-remote"
+          remote="$remote_root/openclaw.git"
+          mkdir -p "$remote_root"
+          git init --bare "$remote"
+          git -C "$remote" config uploadpack.allowFilter true
+          git -C "$remote" config uploadpack.allowAnySHA1InWant true
+          if [[ -n "$BASE_SHA" ]]; then git fetch --no-tags https://github.com/openclaw/openclaw.git "$BASE_SHA" --depth=1; fi
+          git push "$remote" "$TARGET_SHA:refs/heads/main" "$TARGET_SHA:refs/tags/clawsweeper-proof"
+          if [[ -n "$BASE_SHA" ]]; then git push "$remote" "$BASE_SHA:refs/heads/base"; fi
+          git_url="git://127.0.0.1:9418/openclaw.git"
+          git daemon --export-all --base-path="$remote_root" --reuseaddr --listen=127.0.0.1 --port=9418 >"$RUNNER_TEMP/posix-git-daemon.log" 2>&1 &
+          daemon_pid=$!
+          trap 'kill "$daemon_pid" 2>/dev/null || true; wait "$daemon_pid" 2>/dev/null || true' EXIT
+          git config --global url."$git_url".insteadOf "https://github.com/openclaw/openclaw.git"
+          ready=0
+          for attempt in $(seq 1 30); do
+            if git ls-remote "$git_url" refs/heads/main >/dev/null 2>&1; then ready=1; break; fi
+            sleep 1
+          done
+          [[ "$ready" -eq 1 ]]
+          tag_dir="$RUNNER_TEMP/posix-tag-checkout"
+          tag_home="$RUNNER_TEMP/posix-tag-home"
+          tag_log="$RUNNER_TEMP/posix-tag-install.log"
+          OPENCLAW_NO_ONBOARD=1 OPENCLAW_NO_PROMPT=1 OPENCLAW_GIT_UPDATE=0 HOME="$tag_home" bash scripts/install.sh --install-method git --version clawsweeper-proof --git-dir "$tag_dir" --no-git-update --no-onboard --no-prompt >"$tag_log" 2>&1
+          tag_head="$(git -C "$tag_dir" rev-parse HEAD)"
+          tag_promisor="$(git -C "$tag_dir" config --get remote.origin.promisor || true)"
+          tag_filter="$(git -C "$tag_dir" config --get remote.origin.partialclonefilter || true)"
+          [[ "$tag_head" == "$TARGET_SHA" ]]
+          [[ "$tag_promisor" == "true" ]]
+          [[ "$tag_filter" == "blob:none" ]]
+          stale_dir="$RUNNER_TEMP/posix-stale-main"
+          stale_home="$RUNNER_TEMP/posix-stale-home"
+          stale_log="$RUNNER_TEMP/posix-stale-install.log"
+          git clone "$git_url" "$stale_dir"
+          git -C "$stale_dir" checkout -B main "$BASE_SHA"
+          stale_before="$(git -C "$stale_dir" rev-parse HEAD)"
+          [[ "$stale_before" == "$BASE_SHA" ]]
+          OPENCLAW_NO_ONBOARD=1 OPENCLAW_NO_PROMPT=1 OPENCLAW_GIT_UPDATE=1 HOME="$stale_home" bash scripts/install.sh --install-method git --version main --git-dir "$stale_dir" --no-onboard --no-prompt >"$stale_log" 2>&1
+          stale_after="$(git -C "$stale_dir" rev-parse HEAD)"
+          [[ "$stale_after" == "$TARGET_SHA" ]]
+          printf 'tag-head=%s\ntag-ref-kind=immutable\ntag-promisor=%s\ntag-filter=%s\nmain-before=%s\nmain-after=%s\nmain-refresh=verified\n' "$tag_head" "$tag_promisor" "$tag_filter" "$stale_before" "$stale_after"
+
+  windows-blobless:
+    if: ${{ inputs.proof == 'windows-blobless' }}
+    runs-on: windows-latest
+    env:
+      TARGET_SHA: ${{ inputs.target_sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.19.0
+      - name: Run the real Windows Git source installer
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $env:OPENCLAW_NO_ONBOARD = "1"
+          $env:OPENCLAW_NO_PROMPT = "1"
+          corepack enable
+          $packageManager = node -p "require('./package.json').packageManager"
+          corepack prepare $packageManager --activate
+          $remoteRoot = Join-Path $env:RUNNER_TEMP "windows-proof-remote"
+          $remote = Join-Path $remoteRoot "openclaw.git"
+          New-Item -ItemType Directory -Force -Path $remoteRoot | Out-Null
+          git init --bare $remote
+          git -C $remote config uploadpack.allowFilter true
+          git -C $remote config uploadpack.allowAnySHA1InWant true
+          git push $remote "$($env:TARGET_SHA):refs/heads/main" "$($env:TARGET_SHA):refs/tags/clawsweeper-proof"
+          $gitUrl = "git://127.0.0.1:9419/openclaw.git"
+          $daemonArgs = @("daemon", "--export-all", "--base-path=$env:RUNNER_TEMP", "--reuseaddr", "--listen=127.0.0.1", "--port=9419")
+          $daemon = Start-Process -FilePath "git.exe" -ArgumentList $daemonArgs -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $env:RUNNER_TEMP "windows-git-daemon.out") -RedirectStandardError (Join-Path $env:RUNNER_TEMP "windows-git-daemon.err")
+          try {
+            git config --global "url.$gitUrl.insteadOf" "https://github.com/openclaw/openclaw.git"
+            $ready = $false
+            for ($attempt = 0; $attempt -lt 30; $attempt++) {
+              git ls-remote $gitUrl refs/heads/main *> $null
+              if ($LASTEXITCODE -eq 0) {
+                $ready = $true
+                break
+              }
+              Start-Sleep -Seconds 1
+            }
+            if (-not $ready) {
+              throw "local Git daemon did not become ready"
+            }
+            $gitDir = Join-Path $env:RUNNER_TEMP "windows-source-checkout"
+            $installLog = Join-Path $env:RUNNER_TEMP "windows-source-install.log"
+            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -InstallMethod git -GitDir $gitDir -NoOnboard -NoGitUpdate *> $installLog
+            if ($LASTEXITCODE -ne 0) {
+              throw "Windows source installer failed with exit code $LASTEXITCODE"
+            }
+            $head = (git -C $gitDir rev-parse HEAD).Trim()
+            $promisor = (git -C $gitDir config --get remote.origin.promisor).Trim()
+            $filter = (git -C $gitDir config --get remote.origin.partialclonefilter).Trim()
+            if ($head -ne $env:TARGET_SHA) {
+              throw "Windows source checkout was not pinned to target SHA: $head"
+            }
+            if ($promisor -ne "true" -or $filter -ne "blob:none") {
+              throw "Windows source checkout did not retain partial-clone metadata: promisor=$promisor filter=$filter"
+            }
+            Write-Output "windows-head=$head"
+            Write-Output "windows-promisor=$promisor"
+            Write-Output "windows-filter=$filter"
+            Write-Output "windows-source-install=verified"
+            Get-Content $installLog | Select-String -Pattern "Installing OpenClaw|Git|OpenClaw installed" | Select-Object -Last 20
+          } finally {
+            if ($daemon -and -not $daemon.HasExited) {
+              Stop-Process -Id $daemon.Id -Force -ErrorAction SilentlyContinue
+            }
+          }
+
+  gateway-transition:
+    if: ${{ inputs.proof == 'gateway-transition' }}
+    runs-on: ubuntu-24.04
+    env:
+      TARGET_SHA: ${{ inputs.target_sha }}
+      HOME: ${{ runner.temp }}/gateway-proof-home
+      OPENCLAW_STATE_DIR: ${{ runner.temp }}/gateway-proof-state
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.19.0
+      - name: Prepare a secretless local Git source
+        shell: bash
+        run: |
+          set -euo pipefail
+          export COREPACK_HOME="$RUNNER_TEMP/gateway-proof-corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME" "$OPENCLAW_STATE_DIR"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          remote_root="$RUNNER_TEMP/gateway-proof-remote"
+          remote="$remote_root/openclaw.git"
+          mkdir -p "$remote_root"
+          git init --bare "$remote"
+          git -C "$remote" config uploadpack.allowFilter true
+          git -C "$remote" config uploadpack.allowAnySHA1InWant true
+          git push "$remote" "$TARGET_SHA:refs/heads/main"
+          git_url="git://127.0.0.1:9420/openclaw.git"
+          git daemon --export-all --base-path="$remote_root" --reuseaddr --listen=127.0.0.1 --port=9420 >"$RUNNER_TEMP/gateway-git-daemon.log" 2>&1 &
+          daemon_pid=$!
+          echo "GATEWAY_DAEMON_PID=$daemon_pid" >> "$GITHUB_ENV"
+          git config --global url."$git_url".insteadOf "https://github.com/openclaw/openclaw.git"
+          ready=0
+          for attempt in $(seq 1 30); do
+            if git ls-remote "$git_url" refs/heads/main >/dev/null 2>&1; then ready=1; break; fi
+            sleep 1
+          done
+          [[ "$ready" -eq 1 ]]
+      - name: Install, load, refresh, and health-check the gateway
+        shell: bash
+        run: |
+          set -euo pipefail
+          export COREPACK_HOME="$RUNNER_TEMP/gateway-proof-corepack"
+          export OPENCLAW_NO_ONBOARD=1
+          export OPENCLAW_NO_PROMPT=1
+          export PATH="$HOME/.local/bin:$PATH"
+          source_dir="$RUNNER_TEMP/gateway-source"
+          first_log="$RUNNER_TEMP/gateway-first-install.log"
+          second_log="$RUNNER_TEMP/gateway-second-install.log"
+          bash scripts/install.sh --install-method git --version main --git-dir "$source_dir" --no-git-update --no-onboard --no-prompt >"$first_log" 2>&1
+          mkdir -p "$OPENCLAW_STATE_DIR"
+          printf '{"gateway":{"mode":"local","auth":{"mode":"token","token":"proof-token"}}}\n' > "$OPENCLAW_STATE_DIR/openclaw.json"
+          openclaw gateway install --force >"$RUNNER_TEMP/gateway-service-install.log" 2>&1
+          service_json="$(openclaw gateway status --json)"
+          loaded="$(printf '%s' "$service_json" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); process.stdout.write(String(Boolean(d?.service?.loaded)));')"
+          [[ "$loaded" == "true" ]]
+          bash scripts/install.sh --install-method git --version main --git-dir "$source_dir" --no-git-update --no-onboard --no-prompt >"$second_log" 2>&1
+          openclaw gateway status --deep >"$RUNNER_TEMP/gateway-final-health.log" 2>&1
+          grep -F "Refreshing loaded gateway service" "$second_log"
+          grep -F "Gateway service metadata refreshed" "$second_log"
+          grep -F "Finalizing setup" "$second_log"
+          grep -F "Gateway daemon detected; restarting" "$second_log"
+          grep -F "Gateway restarted" "$second_log"
+          printf 'service-loaded=true\nrefresh=verified\nfinalization=verified\nfinal-health=verified\n'
+          grep -E "Refreshing loaded gateway service|Gateway service metadata refreshed|Finalizing setup|Gateway daemon detected; restarting|Gateway restarted" "$second_log"
