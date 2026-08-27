@@ -379,6 +379,7 @@ jobs:
           export COREPACK_HOME="$RUNNER_TEMP/gateway-proof-corepack"
           export OPENCLAW_NO_ONBOARD=1
           export OPENCLAW_NO_PROMPT=1
+          export OPENCLAW_INSTALL_PROBE_TIMEOUT_SECONDS=30
           export PATH="$HOME/.local/bin:$PATH"
           source_dir="$RUNNER_TEMP/gateway-source"
           first_log="$RUNNER_TEMP/gateway-first-install.log"
