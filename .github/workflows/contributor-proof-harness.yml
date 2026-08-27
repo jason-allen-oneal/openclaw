@@ -1,0 +1,224 @@
+name: Temporary Contributor Proof Harness
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha:
+        description: Exact contributor PR head SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  focused-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5021
+        with:
+          node-version: 24.19.0
+      - name: Run the focused updater suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HOME="$RUNNER_TEMP/proof-home"
+          export COREPACK_HOME="$RUNNER_TEMP/proof-corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm exec vitest run src/infra/update-runner.test.ts --reporter=verbose
+
+  real-windows-preflight:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5021
+        with:
+          node-version: 24.19.0
+      - name: Run real multi-candidate preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$(mktemp -d)"
+          export HOME="$proof_home"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare pnpm@11.22.0 --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+          node --import tsx/esm --input-type=module <<'NODE'
+          import { execFile } from "node:child_process";
+          import fs from "node:fs/promises";
+          import os from "node:os";
+          import path from "node:path";
+          import { promisify } from "node:util";
+          import { runGitDevPreflight } from "./src/infra/update-runner-git-preflight.ts";
+
+          const execFileAsync = promisify(execFile);
+          const timeoutMs = 180_000;
+
+          async function runCommand(argv, options = {}) {
+            try {
+              const result = await execFileAsync(argv[0], argv.slice(1), {
+                cwd: options.cwd,
+                env: { ...process.env, ...(options.env ?? {}) },
+                maxBuffer: 16 * 1024 * 1024,
+                timeout: options.timeoutMs ?? timeoutMs,
+                windowsHide: true,
+              });
+              return { stdout: String(result.stdout), stderr: String(result.stderr), code: 0 };
+            } catch (error) {
+              return {
+                stdout: String(error.stdout ?? ""),
+                stderr: String(error.stderr ?? error.message ?? error),
+                code: typeof error.code === "number" ? error.code : 1,
+              };
+            }
+          }
+
+          async function git(cwd, ...args) {
+            const result = await runCommand(["git", ...args], { cwd });
+            if (result.code !== 0) {
+              throw new Error(`git ${args.join(" ")} failed: ${result.stderr}`);
+            }
+            return result.stdout.trim();
+          }
+
+          const fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-preflight-proof-"));
+          const remoteRoot = path.join(fixtureRoot, "remote.git");
+          const gitRoot = path.join(fixtureRoot, "checkout");
+          await git(fixtureRoot, "init", "--bare", remoteRoot);
+          await git(fixtureRoot, "init", "--initial-branch=main", gitRoot);
+          await git(gitRoot, "config", "user.name", "OpenClaw Proof");
+          await git(gitRoot, "config", "user.email", "proof@example.invalid");
+          await fs.writeFile(
+            path.join(gitRoot, "package.json"),
+            JSON.stringify({
+              name: "preflight-proof",
+              version: "1.0.0",
+              private: true,
+              packageManager: "pnpm@11.22.0",
+              scripts: { build: "node build.mjs", openclaw: "node config.mjs" },
+            }) + "\n",
+          );
+          await fs.writeFile(path.join(gitRoot, "config.mjs"), "console.log(JSON.stringify({ok:true}));\n");
+          await fs.writeFile(
+            path.join(gitRoot, "pnpmfile.cjs"),
+            "module.exports = { hooks: { readPackage: (pkg) => pkg } };\n",
+          );
+          await fs.writeFile(
+            path.join(gitRoot, "build.mjs"),
+            "console.log('oldest candidate build passed');\n",
+          );
+          await git(gitRoot, "add", "package.json", "config.mjs", "pnpmfile.cjs", "build.mjs");
+          await git(gitRoot, "commit", "-m", "oldest candidate");
+          const oldestSha = await git(gitRoot, "rev-parse", "HEAD");
+
+          await fs.writeFile(
+            path.join(gitRoot, "pnpmfile.cjs"),
+            "module.exports = { hooks: {} };\n",
+          );
+          await fs.writeFile(
+            path.join(gitRoot, "build.mjs"),
+            [
+              "import fs from 'node:fs/promises';",
+              "const marker = 'node_modules/preflight-mutated.txt';",
+              "try { await fs.access(marker); console.error('dependency mutation leaked'); }",
+              "catch (error) { if (error.code !== 'ENOENT') throw error; console.log('middle candidate saw clean dependency snapshot'); }",
+              "process.exitCode = 1;",
+              "",
+            ].join("\n"),
+          );
+          await git(gitRoot, "add", "build.mjs");
+          await git(gitRoot, "add", "pnpmfile.cjs");
+          await git(gitRoot, "commit", "-m", "middle candidate");
+          const middleSha = await git(gitRoot, "rev-parse", "HEAD");
+
+          await fs.writeFile(
+            path.join(gitRoot, "build.mjs"),
+            [
+              "import fs from 'node:fs/promises';",
+              "await fs.mkdir('node_modules', { recursive: true });",
+              "await fs.writeFile('node_modules/preflight-mutated.txt', 'mutated by latest candidate');",
+              "console.error('latest candidate mutated dependency tree');",
+              "process.exitCode = 1;",
+              "",
+            ].join("\n"),
+          );
+          await git(gitRoot, "add", "build.mjs");
+          await git(gitRoot, "commit", "-m", "latest candidate");
+          const latestSha = await git(gitRoot, "rev-parse", "HEAD");
+          await git(gitRoot, "remote", "add", "origin", remoteRoot);
+          await git(gitRoot, "push", "--set-upstream", "origin", "main");
+
+          const steps = [];
+          const step = (name, argv, cwd, env) => ({
+            name,
+            argv,
+            cwd,
+            env,
+            timeoutMs,
+            runCommand,
+            results: steps,
+            stepIndex: steps.length,
+            totalSteps: 100,
+          });
+          const result = await runGitDevPreflight({
+            gitRoot,
+            needsCheckoutMain: true,
+            runCommand,
+            timeoutMs,
+            defaultCommandEnv: process.env,
+            steps,
+            step,
+          });
+
+          const installSteps = steps.filter((entry) => entry.name.startsWith("preflight deps install"));
+          const skipped = installSteps.filter((entry) =>
+            entry.stdoutTail?.includes("known-clean dependency snapshot restored"),
+          );
+          const middleBuild = steps.find((entry) =>
+            entry.name === `preflight build (${middleSha.slice(0, 8)})`,
+          );
+          const changedHookSha = oldestSha;
+          const changedHookInstall = installSteps.find((entry) =>
+            entry.name === `preflight deps install (ignore scripts) (${changedHookSha.slice(0, 8)})`,
+          );
+          const proof = {
+            status: result.status,
+            selectedSha: result.selectedSha ?? null,
+            candidates: { latestSha, middleSha, oldestSha, changedHookSha },
+            installs: installSteps.map((entry) => ({
+              name: entry.name,
+              exitCode: entry.exitCode,
+              stdout: entry.stdoutTail ?? "",
+            })),
+            middleBuild: middleBuild?.stdoutTail ?? middleBuild?.stderrTail ?? null,
+          };
+          console.log(JSON.stringify(proof, null, 2));
+          if (result.status !== "ok" || result.selectedSha !== changedHookSha) {
+            throw new Error(`expected changed-hook candidate to be selected: ${JSON.stringify(proof)}`);
+          }
+          if (installSteps.length !== 3 || skipped.length !== 1) {
+            throw new Error(`expected two real installs and one reuse: ${JSON.stringify(proof)}`);
+          }
+          if (!middleBuild?.stdoutTail?.includes("middle candidate saw clean dependency snapshot")) {
+            throw new Error(`clean snapshot was not observed by the middle candidate: ${JSON.stringify(proof)}`);
+          }
+          if (!changedHookInstall || changedHookInstall.stdoutTail?.includes("known-clean dependency snapshot restored")) {
+            throw new Error(`changed pnpmfile.cjs did not force a fresh install: ${JSON.stringify(proof)}`);
+          }
+          console.log("real-windows-preflight=reuse-and-changed-hook-reinstall-verified");
+          NODE
