@@ -1193,7 +1193,7 @@ jobs:
               String(entry.stdoutTail ?? "").trimStart().startsWith("skipped;"),
             );
             const resetSteps = steps.filter((entry) => entry.name.startsWith("preflight reset"));
-            const cleanSteps = steps.filter((entry) => entry.name.startsWith("preflight clean"));
+            const cleanSteps = steps.filter((entry) => entry.name.startsWith("preflight clean ("));
             const middleBuild = steps.find(
               (entry) => entry.name === `preflight build (${middleSha.slice(0, 8)})`,
             );
