@@ -896,9 +896,46 @@ jobs:
               scripts: { build: "node build.mjs", openclaw: "node config.mjs" },
             }) + "\n",
           );
+          await fs.mkdir(path.join(gitRoot, "packages", "example"), { recursive: true });
+          await fs.mkdir(path.join(gitRoot, "packages", "proof-dep"), { recursive: true });
+          await Promise.all([
+            fs.writeFile(
+              path.join(gitRoot, "pnpm-workspace.yaml"),
+              "packages:\n  - packages/*\n",
+            ),
+            fs.writeFile(
+              path.join(gitRoot, "packages", "example", "package.json"),
+              JSON.stringify({
+                name: "preflight-example",
+                version: "1.0.0",
+                private: true,
+                dependencies: { "preflight-proof-dep": "workspace:*" },
+              }) + "\n",
+            ),
+            fs.writeFile(
+              path.join(gitRoot, "packages", "proof-dep", "package.json"),
+              JSON.stringify({ name: "preflight-proof-dep", version: "1.0.0" }) + "\n",
+            ),
+          ]);
           await fs.writeFile(path.join(gitRoot, "config.mjs"), "console.log(JSON.stringify({ok:true}));\n");
-          await fs.writeFile(path.join(gitRoot, "build.mjs"), "console.log('oldest candidate build passed');\n");
-          await git(gitRoot, "add", "package.json", "config.mjs", "build.mjs");
+          await fs.writeFile(
+            path.join(gitRoot, "build.mjs"),
+            [
+              "import fs from 'node:fs/promises';",
+              "await fs.access('packages/example/node_modules/preflight-proof-dep/package.json');",
+              "console.log('oldest candidate saw restored workspace dependency');",
+              "",
+            ].join("\n"),
+          );
+          await git(
+            gitRoot,
+            "add",
+            "package.json",
+            "pnpm-workspace.yaml",
+            "packages",
+            "config.mjs",
+            "build.mjs",
+          );
           await git(gitRoot, "commit", "-m", "oldest candidate");
           const oldestSha = await git(gitRoot, "rev-parse", "HEAD");
 
@@ -906,9 +943,11 @@ jobs:
             path.join(gitRoot, "build.mjs"),
             [
               "import fs from 'node:fs/promises';",
-              "const marker = 'node_modules/preflight-mutated.txt';",
-              "try { await fs.access(marker); console.error('dependency mutation leaked'); }",
-              "catch (error) { if (error.code !== 'ENOENT') throw error; console.log('middle candidate saw clean dependency snapshot'); }",
+              "const installed = 'packages/example/node_modules/preflight-proof-dep/package.json';",
+              "const marker = 'packages/example/node_modules/preflight-mutated.txt';",
+              "await fs.access(installed);",
+              "try { await fs.access(marker); console.error('workspace dependency mutation leaked'); }",
+              "catch (error) { if (error.code !== 'ENOENT') throw error; console.log('middle candidate restored clean workspace dependency snapshot'); }",
               "process.exitCode = 1;",
               "",
             ].join("\n"),
@@ -921,9 +960,9 @@ jobs:
             path.join(gitRoot, "build.mjs"),
             [
               "import fs from 'node:fs/promises';",
-              "await fs.mkdir('node_modules', { recursive: true });",
-              "await fs.writeFile('node_modules/preflight-mutated.txt', 'mutated by latest candidate');",
-              "console.error('latest candidate mutated dependency tree');",
+              "await fs.mkdir('packages/example/node_modules', { recursive: true });",
+              "await fs.writeFile('packages/example/node_modules/preflight-mutated.txt', 'mutated by latest candidate');",
+              "console.error('latest candidate mutated workspace dependency tree');",
               "process.exitCode = 1;",
               "",
             ].join("\n"),
@@ -934,15 +973,97 @@ jobs:
           await git(gitRoot, "remote", "add", "origin", remoteRoot);
           await git(gitRoot, "push", "--set-upstream", "origin", "main");
 
+          async function runPreflightCase() {
+            const steps = [];
+            const step = (name, argv, cwd, env) => ({
+              name,
+              argv,
+              cwd,
+              env,
+              timeoutMs,
+              runCommand,
+              results: steps,
+              stepIndex: steps.length,
+              totalSteps: 100,
+            });
+            const result = await runGitDevPreflight({
+              gitRoot,
+              needsCheckoutMain: true,
+              runCommand,
+              timeoutMs,
+              defaultCommandEnv: process.env,
+              steps,
+              step,
+            });
+            return { result, steps };
+          }
+
+          function summarizePreflight({ result, steps }) {
+            const installSteps = steps.filter((entry) =>
+              entry.name.startsWith("preflight deps install"),
+            );
+            const skipped = installSteps.filter((entry) =>
+              String(entry.stdoutTail ?? "").trimStart().startsWith("skipped;"),
+            );
+            const middleBuild = steps.find(
+              (entry) => entry.name === `preflight build (${middleSha.slice(0, 8)})`,
+            );
+            const proof = {
+              status: result.status,
+              selectedSha: result.selectedSha ?? null,
+              candidates: { latestSha, middleSha, oldestSha },
+              installs: installSteps.map((entry) => ({
+                name: entry.name,
+                exitCode: entry.exitCode,
+                stdout: entry.stdoutTail ?? "",
+              })),
+              middleBuild: middleBuild?.stdoutTail ?? middleBuild?.stderrTail ?? null,
+              counts: {
+                installSteps: installSteps.length,
+                actualInstalls: installSteps.length - skipped.length,
+                skipped: skipped.length,
+              },
+            };
+            return { proof, installSteps, skipped, middleBuild };
+          }
+
+          const positiveLocalAppData = path.join(fixtureRoot, "positive-local-app-data");
+          process.env.LOCALAPPDATA = positiveLocalAppData;
+          delete process.env.XDG_CONFIG_HOME;
+          await fs.mkdir(positiveLocalAppData, { recursive: true });
+          const positive = summarizePreflight(await runPreflightCase());
+          console.log(JSON.stringify({ case: "positive-reuse", ...positive.proof }, null, 2));
+          if (positive.proof.status !== "ok" || positive.proof.selectedSha !== oldestSha) {
+            throw new Error(
+              `expected the positive-reuse case to select the oldest candidate: ${JSON.stringify(positive.proof)}`,
+            );
+          }
+          if (positive.installSteps.length !== 3 || positive.skipped.length !== 2) {
+            throw new Error(
+              `expected one real install and two restored snapshots: ${JSON.stringify(positive.proof)}`,
+            );
+          }
+          if (
+            !positive.middleBuild?.stdoutTail?.includes(
+              "middle candidate restored clean workspace dependency snapshot",
+            )
+          ) {
+            throw new Error(
+              `positive reuse did not restore the workspace-local dependency tree: ${JSON.stringify(positive.proof)}`,
+            );
+          }
+          console.log(
+            "real-windows-preflight-positive-reuse=one-install-two-restores-and-clean-workspace-tree-verified",
+          );
+
           const globalPnpmfile = path.join(fixtureRoot, "global-pnpmfile.cjs");
           await fs.writeFile(
             globalPnpmfile,
             "module.exports = { hooks: { readPackage: (pkg) => pkg } };\n",
           );
-          const localAppData = path.join(fixtureRoot, "local-app-data");
-          process.env.LOCALAPPDATA = localAppData;
-          delete process.env.XDG_CONFIG_HOME;
-          const pnpmConfigDir = path.join(localAppData, "pnpm", "config");
+          const unsafeLocalAppData = path.join(fixtureRoot, "unsafe-local-app-data");
+          process.env.LOCALAPPDATA = unsafeLocalAppData;
+          const pnpmConfigDir = path.join(unsafeLocalAppData, "pnpm", "config");
           await fs.mkdir(pnpmConfigDir, { recursive: true });
           const globalPnpmfileConfig = globalPnpmfile.replaceAll("\\", "/").replaceAll("'", "''");
           await fs.writeFile(
@@ -950,56 +1071,30 @@ jobs:
             `globalPnpmfile: '${globalPnpmfileConfig}'\n`,
           );
 
-          const steps = [];
-          const step = (name, argv, cwd, env) => ({
-            name,
-            argv,
-            cwd,
-            env,
-            timeoutMs,
-            runCommand,
-            results: steps,
-            stepIndex: steps.length,
-            totalSteps: 100,
-          });
-          const result = await runGitDevPreflight({
-            gitRoot,
-            needsCheckoutMain: true,
-            runCommand,
-            timeoutMs,
-            defaultCommandEnv: process.env,
-            steps,
-            step,
-          });
-
-          const installSteps = steps.filter((entry) => entry.name.startsWith("preflight deps install"));
-          const skipped = installSteps.filter((entry) =>
-            String(entry.stdoutTail ?? "").trimStart().startsWith("skipped;"),
+          const unsafe = summarizePreflight(await runPreflightCase());
+          console.log(JSON.stringify({ case: "external-pnpmfile", ...unsafe.proof }, null, 2));
+          if (unsafe.proof.status !== "ok" || unsafe.proof.selectedSha !== oldestSha) {
+            throw new Error(
+              `expected the external-pnpmfile case to select the oldest candidate: ${JSON.stringify(unsafe.proof)}`,
+            );
+          }
+          if (unsafe.installSteps.length !== 3 || unsafe.skipped.length !== 0) {
+            throw new Error(
+              `expected three real installs and no reuse with an external pnpmfile: ${JSON.stringify(unsafe.proof)}`,
+            );
+          }
+          if (
+            !unsafe.middleBuild?.stdoutTail?.includes(
+              "middle candidate restored clean workspace dependency snapshot",
+            )
+          ) {
+            throw new Error(
+              `external-pnpmfile case did not observe clean candidate state: ${JSON.stringify(unsafe.proof)}`,
+            );
+          }
+          console.log(
+            "real-windows-preflight-external-pnpmfile=three-installs-no-reuse-and-clean-state-verified",
           );
-          const middleBuild = steps.find((entry) => entry.name === `preflight build (${middleSha.slice(0, 8)})`);
-          const proof = {
-            status: result.status,
-            selectedSha: result.selectedSha ?? null,
-            candidates: { latestSha, middleSha, oldestSha },
-            installs: installSteps.map((entry) => ({
-              name: entry.name,
-              exitCode: entry.exitCode,
-              stdout: entry.stdoutTail ?? "",
-            })),
-            middleBuild: middleBuild?.stdoutTail ?? middleBuild?.stderrTail ?? null,
-            counts: { installSteps: installSteps.length, skipped: skipped.length },
-          };
-          console.log(JSON.stringify(proof, null, 2));
-          if (result.status !== "ok" || result.selectedSha !== oldestSha) {
-            throw new Error(`expected oldest candidate to be selected: ${JSON.stringify(proof)}`);
-          }
-          if (installSteps.length !== 3 || skipped.length !== 0) {
-            throw new Error(`expected three real installs and no reuse with an external pnpmfile: ${JSON.stringify(proof)}`);
-          }
-          if (!middleBuild?.stdoutTail?.includes("middle candidate saw clean dependency snapshot")) {
-            throw new Error(`clean candidate state was not observed: ${JSON.stringify(proof)}`);
-          }
-          console.log("real-windows-preflight=standard-localappdata-global-pnpmfile-reuse-disabled-and-clean-state-verified");
           NODE
 
   real-windows-filter-proof:
