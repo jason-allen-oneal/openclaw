@@ -1245,18 +1245,20 @@ jobs:
           corepack enable
           corepack install
           pnpm install --frozen-lockfile --ignore-scripts
-      - name: Run exact-head binding and lifecycle proof
+      - name: Run exact-head context, binding, and lifecycle proof
         shell: bash
         run: |
           set -euo pipefail
           pnpm exec vitest run \
             --config test/vitest/vitest.extension-codex.config.ts \
+            extensions/codex/src/app-server/attempt-context.test.ts \
+            extensions/codex/src/app-server/run-attempt.test.ts \
             extensions/codex/src/app-server/session-binding.test.ts \
             extensions/codex/src/app-server/thread-lifecycle.binding.test.ts \
             extensions/codex/src/app-server/thread-lifecycle.test.ts \
             --reporter=verbose
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
-          printf 'exact-head-binding-resume=focused-session-binding-and-lifecycle-proof-passed\n'
+          printf 'exact-head-binding-resume=context-binding-lifecycle-and-shared-sandbox-proof-passed\n'
 
   pinned-codex-contract-proof:
     if: inputs.proof == 'binding-resume'
