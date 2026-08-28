@@ -17,6 +17,7 @@ on:
           - update-preflight
           - preference-policy
           - runtime-build-identity
+          - binding-resume
 
 permissions:
   contents: read
@@ -935,3 +936,79 @@ jobs:
           } finally {
             Remove-Item -LiteralPath $sandbox -Recurse -Force -ErrorAction SilentlyContinue
           }
+
+  focused-binding-resume-tests:
+    if: inputs.proof == 'binding-resume'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install dependencies without lifecycle scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          export HOME="$proof_home"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack install
+          pnpm install --frozen-lockfile --ignore-scripts
+      - name: Run exact-head binding and lifecycle proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec vitest run \
+            --config test/vitest/vitest.extension-codex.config.ts \
+            extensions/codex/src/app-server/session-binding.test.ts \
+            extensions/codex/src/app-server/thread-lifecycle.binding.test.ts \
+            extensions/codex/src/app-server/thread-lifecycle.test.ts \
+            --reporter=verbose
+          test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
+          printf 'exact-head-binding-resume=focused-session-binding-and-lifecycle-proof-passed\n'
+
+  pinned-codex-contract-proof:
+    if: inputs.proof == 'binding-resume'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Checkout pinned sibling Codex source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: openai/codex
+          ref: d4fcb2873bf23464cfacd804a31d46529db943b0
+          path: codex-contract
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Inspect pinned native discovery and developer-input contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
+          test "$(git -C codex-contract rev-parse HEAD)" = d4fcb2873bf23464cfacd804a31d46529db943b0
+          test -s codex-contract/codex-rs/core/src/agents_md.rs
+          test -s codex-contract/codex-rs/core/src/agents_md_manager.rs
+          test -s codex-contract/codex-rs/app-server/src/request_processors/thread_processor.rs
+          test -s codex-contract/codex-rs/core/src/context/world_state/agents_md.rs
+          rg -q 'developerInstructions' codex-contract/codex-rs/app-server/src/request_processors/thread_processor.rs
+          rg -q 'LoadedAgentsMd|agents_md' codex-contract/codex-rs/core/src/context/world_state/agents_md.rs codex-contract/codex-rs/core/src/agents_md.rs
+          printf 'pinned-sibling-codex=d4fcb2873bf23464cfacd804a31d46529db943b0\n'
+          printf 'native-root-discovery-and-developer-input-contract=source-verified\n'
+          printf 'openclaw-head=%s\n' "$(git rev-parse HEAD)"
