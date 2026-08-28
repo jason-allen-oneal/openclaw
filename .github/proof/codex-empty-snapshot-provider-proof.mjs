@@ -26,8 +26,9 @@ const { buildTurnStartParams, startOrResumeThread } = await importTarget(
 
 const codexBin = process.env.CODEX_PROOF_BIN;
 if (!codexBin) throw new Error("CODEX_PROOF_BIN is missing");
-const lateGuidance = "LATE_ROOT_MUST_NOT_APPEAR_IN_RESUMED_PROVIDER_INPUT";
-const proofRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-late-root-proof-"));
+const capturedGuidance = "FROZEN_ROOT_MUST_REMAIN_IN_RESUMED_PROVIDER_INPUT";
+const replacementGuidance = "REPLACEMENT_ROOT_MUST_NOT_APPEAR_IN_RESUMED_PROVIDER_INPUT";
+const proofRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-changed-root-proof-"));
 const workspace = path.join(proofRoot, "workspace");
 const agentDir = path.join(proofRoot, "agent");
 const codexHome = path.join(proofRoot, "codex-home");
@@ -115,7 +116,7 @@ const stateStore = {
   clear: () => values.clear(),
 };
 const bindingStore = createCodexAppServerBindingStore(stateStore);
-const sessionId = "late-root-provider-proof";
+const sessionId = "changed-root-provider-proof";
 const sessionKey = `agent:main:${sessionId}`;
 const config = { tools: { web: { search: { enabled: false } } } };
 const createAttempt = (runId, prompt) => ({
@@ -211,6 +212,7 @@ try {
     fs.mkdir(agentDir, { recursive: true }),
     fs.mkdir(codexHome, { recursive: true }),
   ]);
+  await fs.writeFile(path.join(workspace, "AGENTS.md"), `${capturedGuidance}\n`);
   const providerBaseUrl = await startProvider();
   await fs.writeFile(
     path.join(codexHome, "config.toml"),
@@ -248,10 +250,10 @@ try {
     remoteAppsSubstrate: "preconfigured",
   };
 
-  const firstAttempt = createAttempt("real-empty-start", "FIRST_EMPTY_SNAPSHOT_TURN");
+  const firstAttempt = createAttempt("real-frozen-start", "FIRST_FROZEN_SNAPSHOT_TURN");
   const firstContext = await buildWorkspaceContext(firstAttempt);
-  if (firstContext.agentWorkspaceDeveloperInstructions !== undefined) {
-    throw new Error("initial workspace unexpectedly had project instructions");
+  if (!firstContext.agentWorkspaceDeveloperInstructions?.includes(capturedGuidance)) {
+    throw new Error("initial workspace snapshot did not contain the captured guidance");
   }
   const firstRuntime = await openClient(startOptions);
   const firstBinding = await startOrResumeThread({
@@ -270,23 +272,23 @@ try {
     nativeProjectDocsDisabledOnResume: false,
     userMcpServersEnabled: false,
     webSearchAllowed: false,
-    appServerRuntimeFingerprint: "late-root-proof-v1",
+    appServerRuntimeFingerprint: "changed-root-proof-v1",
   });
   await runTurn(firstRuntime.client, firstBinding, firstAttempt, appServer);
   const identity = sessionBindingIdentity({ sessionId, sessionKey, agentId: "main", config });
   const frozen = await bindingStore.read(identity);
-  if (frozen?.agentWorkspaceDeveloperInstructions !== null) {
-    throw new Error("production binding did not persist an explicit empty snapshot");
+  if (!frozen?.agentWorkspaceDeveloperInstructions?.includes(capturedGuidance)) {
+    throw new Error("production binding did not persist the nonempty snapshot");
   }
   const firstPid = firstRuntime.pid;
   if (!(await firstRuntime.client.closeAndWait({ exitTimeoutMs: 10000 }))) {
     throw new Error("first Codex process did not exit cleanly");
   }
 
-  await fs.writeFile(path.join(workspace, "AGENTS.md"), `${lateGuidance}\n`);
-  const resumeAttempt = createAttempt("real-empty-resume", "SECOND_COLD_RESUME_TURN");
+  await fs.writeFile(path.join(workspace, "AGENTS.md"), `${replacementGuidance}\n`);
+  const resumeAttempt = createAttempt("real-frozen-resume", "SECOND_COLD_RESUME_TURN");
   const changedContext = await buildWorkspaceContext(resumeAttempt);
-  if (!changedContext.agentWorkspaceDeveloperInstructions?.includes(lateGuidance)) {
+  if (!changedContext.agentWorkspaceDeveloperInstructions?.includes(replacementGuidance)) {
     throw new Error("changed workspace root was not observed before resume");
   }
   const resumeRuntime = await openClient(startOptions);
@@ -299,15 +301,14 @@ try {
     cwd: workspace,
     dynamicTools: [],
     appServer,
-    developerInstructions:
-      "The configured root was empty when this thread started; later project files do not apply.",
-    agentWorkspaceDeveloperInstructions: undefined,
+    developerInstructions: frozen.agentWorkspaceDeveloperInstructions,
+    agentWorkspaceDeveloperInstructions: frozen.agentWorkspaceDeveloperInstructions,
     agentWorkspaceDeveloperInstructionsAllowed:
       changedContext.agentWorkspaceDeveloperInstructionsAllowed,
     nativeProjectDocsDisabledOnResume: true,
     userMcpServersEnabled: false,
     webSearchAllowed: false,
-    appServerRuntimeFingerprint: "late-root-proof-v1",
+    appServerRuntimeFingerprint: "changed-root-proof-v1",
   });
   const resumeRequest = resumeRuntime.requests.find((entry) => entry.method === "thread/resume");
   if (resumeRequest?.params?.config?.project_doc_max_bytes !== 0) {
@@ -315,8 +316,11 @@ try {
   }
   await runTurn(resumeRuntime.client, resumedBinding, resumeAttempt, appServer);
   const resumedProviderInput = JSON.stringify(providerRequests.at(-1)?.body ?? {});
-  if (resumedProviderInput.includes(lateGuidance)) {
-    throw new Error("late root guidance reached the resumed provider request");
+  if (!resumedProviderInput.includes(capturedGuidance)) {
+    throw new Error("frozen root guidance was absent from the resumed provider request");
+  }
+  if (resumedProviderInput.includes(replacementGuidance)) {
+    throw new Error("replacement root guidance reached the resumed provider request");
   }
   if (
     resumedBinding.threadId !== firstBinding.threadId ||
@@ -337,13 +341,17 @@ try {
       codexVersion: resumeRuntime.identity?.serverVersion,
       sameNativeThread: resumedBinding.threadId === firstBinding.threadId,
       distinctAppServerProcesses: resumeRuntime.pid !== firstPid,
-      explicitEmptySnapshot: frozen.agentWorkspaceDeveloperInstructions === null,
+      frozenNonemptySnapshot: frozen.agentWorkspaceDeveloperInstructions.includes(capturedGuidance),
       resumeProjectDocMaxBytes: resumeRequest.params.config.project_doc_max_bytes,
       providerTurns: providerRequests.length,
-      lateRootAbsentFromResumedProviderInput: !resumedProviderInput.includes(lateGuidance),
+      frozenRootPresentInResumedProviderInput: resumedProviderInput.includes(capturedGuidance),
+      replacementRootAbsentFromResumedProviderInput:
+        !resumedProviderInput.includes(replacementGuidance),
     }),
   );
-  console.log("real-codex-empty-snapshot-cold-resume=late-root-absent-from-provider-input");
+  console.log(
+    "real-codex-changed-snapshot-cold-resume=frozen-present-replacement-absent-from-provider-input",
+  );
 } finally {
   await new Promise((resolve) => providerServer?.close(resolve));
   await fs.rm(proofRoot, { recursive: true, force: true });
