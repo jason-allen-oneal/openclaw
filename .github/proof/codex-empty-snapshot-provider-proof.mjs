@@ -14,9 +14,7 @@ const { buildCodexWorkspaceBootstrapContext } = await importTarget(
 const { ensureCodexAppServerClientRuntime } = await importTarget(
   "extensions/codex/src/app-server/client-runtime.ts",
 );
-const { CodexAppServerClient } = await importTarget(
-  "extensions/codex/src/app-server/client.ts",
-);
+const { CodexAppServerClient } = await importTarget("extensions/codex/src/app-server/client.ts");
 const { buildCodexAppServerConnectionFingerprint } = await importTarget(
   "extensions/codex/src/app-server/plugin-app-cache-key.ts",
 );
@@ -29,10 +27,12 @@ const { buildTurnStartParams, startOrResumeThread } = await importTarget(
 
 const codexBin = process.env.CODEX_PROOF_BIN;
 if (!codexBin) throw new Error("CODEX_PROOF_BIN is missing");
-const capturedGuidance = "FROZEN_ROOT_MUST_REMAIN_IN_RESUMED_PROVIDER_INPUT";
-const replacementGuidance = "REPLACEMENT_ROOT_MUST_NOT_APPEAR_IN_RESUMED_PROVIDER_INPUT";
+const capturedRootGuidance = "FROZEN_ROOT_MUST_REMAIN_IN_RESUMED_PROVIDER_INPUT";
+const capturedNestedGuidance = "FROZEN_NESTED_MUST_REMAIN_IN_RESUMED_PROVIDER_INPUT";
+const replacementRootGuidance = "REPLACEMENT_ROOT_MUST_NOT_APPEAR_IN_RESUMED_PROVIDER_INPUT";
 const proofRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-changed-root-proof-"));
 const workspace = path.join(proofRoot, "workspace");
+const nestedWorkspace = path.join(workspace, "packages", "worker");
 const agentDir = path.join(proofRoot, "agent");
 const codexHome = path.join(proofRoot, "codex-home");
 const sessionFile = path.join(proofRoot, "session.jsonl");
@@ -129,6 +129,7 @@ const createAttempt = (runId, prompt) => ({
   sessionFile,
   workspaceDir: workspace,
   bootstrapWorkspaceDir: workspace,
+  cwd: nestedWorkspace,
   runId,
   provider: "codex",
   modelId: "gpt-5.4-codex",
@@ -155,6 +156,7 @@ const buildWorkspaceContext = (attempt) =>
     resolvedWorkspace: workspace,
     executionWorkspace: workspace,
     effectiveWorkspace: workspace,
+    effectiveCwd: nestedWorkspace,
     sessionKey,
     sessionAgentId: "main",
     memoryToolNames: [],
@@ -184,7 +186,7 @@ async function runTurn(client, binding, attempt, appServer) {
     "turn/start",
     buildTurnStartParams(attempt, {
       threadId: binding.threadId,
-      cwd: workspace,
+      cwd: nestedWorkspace,
       appServer,
       promptText: attempt.prompt,
       preserveNativeTurnSettings: true,
@@ -211,11 +213,13 @@ async function openClient(startOptions) {
 
 try {
   await Promise.all([
-    fs.mkdir(workspace, { recursive: true }),
+    fs.mkdir(path.join(workspace, ".git"), { recursive: true }),
+    fs.mkdir(nestedWorkspace, { recursive: true }),
     fs.mkdir(agentDir, { recursive: true }),
     fs.mkdir(codexHome, { recursive: true }),
   ]);
-  await fs.writeFile(path.join(workspace, "AGENTS.md"), `${capturedGuidance}\n`);
+  await fs.writeFile(path.join(workspace, "AGENTS.md"), `${capturedRootGuidance}\n`);
+  await fs.writeFile(path.join(nestedWorkspace, "AGENTS.md"), `${capturedNestedGuidance}\n`);
   const providerBaseUrl = await startProvider();
   await fs.writeFile(
     path.join(codexHome, "config.toml"),
@@ -255,8 +259,11 @@ try {
 
   const firstAttempt = createAttempt("real-frozen-start", "FIRST_FROZEN_SNAPSHOT_TURN");
   const firstContext = await buildWorkspaceContext(firstAttempt);
-  if (!firstContext.agentWorkspaceDeveloperInstructions?.includes(capturedGuidance)) {
-    throw new Error("initial workspace snapshot did not contain the captured guidance");
+  if (!firstContext.agentWorkspaceDeveloperInstructions?.includes(capturedRootGuidance)) {
+    throw new Error("initial workspace snapshot did not contain the captured root guidance");
+  }
+  if (!firstContext.agentWorkspaceDeveloperInstructions.includes(capturedNestedGuidance)) {
+    throw new Error("initial workspace snapshot did not contain the captured nested guidance");
   }
   const firstRuntime = await openClient(startOptions);
   const firstBinding = await startOrResumeThread({
@@ -265,7 +272,7 @@ try {
     params: firstAttempt,
     agentId: "main",
     agentDir,
-    cwd: workspace,
+    cwd: nestedWorkspace,
     dynamicTools: [],
     appServer,
     developerInstructions: firstContext.threadDeveloperInstructions,
@@ -280,19 +287,25 @@ try {
   await runTurn(firstRuntime.client, firstBinding, firstAttempt, appServer);
   const identity = sessionBindingIdentity({ sessionId, sessionKey, agentId: "main", config });
   const frozen = await bindingStore.read(identity);
-  if (!frozen?.agentWorkspaceDeveloperInstructions?.includes(capturedGuidance)) {
-    throw new Error("production binding did not persist the nonempty snapshot");
+  if (!frozen?.agentWorkspaceDeveloperInstructions?.includes(capturedRootGuidance)) {
+    throw new Error("production binding did not persist the root snapshot");
+  }
+  if (!frozen.agentWorkspaceDeveloperInstructions.includes(capturedNestedGuidance)) {
+    throw new Error("production binding did not persist the nested snapshot");
   }
   const firstPid = firstRuntime.pid;
   if (!(await firstRuntime.client.closeAndWait({ exitTimeoutMs: 10000 }))) {
     throw new Error("first Codex process did not exit cleanly");
   }
 
-  await fs.writeFile(path.join(workspace, "AGENTS.md"), `${replacementGuidance}\n`);
+  await fs.writeFile(path.join(workspace, "AGENTS.md"), `${replacementRootGuidance}\n`);
   const resumeAttempt = createAttempt("real-frozen-resume", "SECOND_COLD_RESUME_TURN");
   const changedContext = await buildWorkspaceContext(resumeAttempt);
-  if (!changedContext.agentWorkspaceDeveloperInstructions?.includes(replacementGuidance)) {
+  if (!changedContext.agentWorkspaceDeveloperInstructions?.includes(replacementRootGuidance)) {
     throw new Error("changed workspace root was not observed before resume");
+  }
+  if (!changedContext.agentWorkspaceDeveloperInstructions.includes(capturedNestedGuidance)) {
+    throw new Error("unchanged nested guidance was not observed before resume");
   }
   const resumeRuntime = await openClient(startOptions);
   const resumedBinding = await startOrResumeThread({
@@ -301,7 +314,7 @@ try {
     params: resumeAttempt,
     agentId: "main",
     agentDir,
-    cwd: workspace,
+    cwd: nestedWorkspace,
     dynamicTools: [],
     appServer,
     developerInstructions: frozen.agentWorkspaceDeveloperInstructions,
@@ -319,10 +332,13 @@ try {
   }
   await runTurn(resumeRuntime.client, resumedBinding, resumeAttempt, appServer);
   const resumedProviderInput = JSON.stringify(providerRequests.at(-1)?.body ?? {});
-  if (!resumedProviderInput.includes(capturedGuidance)) {
+  if (!resumedProviderInput.includes(capturedRootGuidance)) {
     throw new Error("frozen root guidance was absent from the resumed provider request");
   }
-  if (resumedProviderInput.includes(replacementGuidance)) {
+  if (!resumedProviderInput.includes(capturedNestedGuidance)) {
+    throw new Error("frozen nested guidance was absent from the resumed provider request");
+  }
+  if (resumedProviderInput.includes(replacementRootGuidance)) {
     throw new Error("replacement root guidance reached the resumed provider request");
   }
   if (
@@ -353,7 +369,7 @@ try {
     params: rotationAttempt,
     agentId: "main",
     agentDir,
-    cwd: workspace,
+    cwd: nestedWorkspace,
     dynamicTools: [
       {
         type: "function",
@@ -378,10 +394,13 @@ try {
   if (rotationStartRequest?.params?.config?.project_doc_max_bytes !== 0) {
     throw new Error("replacement start did not disable native project-doc discovery");
   }
-  if (!rotationStartRequest.params.developerInstructions?.includes(capturedGuidance)) {
+  if (!rotationStartRequest.params.developerInstructions?.includes(capturedRootGuidance)) {
     throw new Error("replacement start omitted the frozen root guidance");
   }
-  if (rotationStartRequest.params.developerInstructions.includes(replacementGuidance)) {
+  if (!rotationStartRequest.params.developerInstructions.includes(capturedNestedGuidance)) {
+    throw new Error("replacement start omitted the frozen nested guidance");
+  }
+  if (rotationStartRequest.params.developerInstructions.includes(replacementRootGuidance)) {
     throw new Error("replacement start received the changed root guidance");
   }
   if (
@@ -392,10 +411,13 @@ try {
   }
   await runTurn(rotationRuntime.client, rotatedBinding, rotationAttempt, appServer);
   const rotatedProviderInput = JSON.stringify(providerRequests.at(-1)?.body ?? {});
-  if (!rotatedProviderInput.includes(capturedGuidance)) {
+  if (!rotatedProviderInput.includes(capturedRootGuidance)) {
     throw new Error("frozen root guidance was absent from the replacement provider request");
   }
-  if (rotatedProviderInput.includes(replacementGuidance)) {
+  if (!rotatedProviderInput.includes(capturedNestedGuidance)) {
+    throw new Error("frozen nested guidance was absent from the replacement provider request");
+  }
+  if (rotatedProviderInput.includes(replacementRootGuidance)) {
     throw new Error("changed root guidance reached the replacement provider request");
   }
   if (providerRequests.length !== 3) {
@@ -428,7 +450,7 @@ try {
     if: { kind: "absent" },
     binding: {
       threadId: resumedBinding.threadId,
-      cwd: workspace,
+      cwd: nestedWorkspace,
       connectionScope: "supervision",
       supervisionSourceThreadId: resumedBinding.threadId,
       preserveNativeModel: true,
@@ -447,7 +469,7 @@ try {
     params: supervisionAttempt,
     agentId: "main",
     agentDir,
-    cwd: workspace,
+    cwd: nestedWorkspace,
     dynamicTools: [],
     appServer,
     developerInstructions: frozen.agentWorkspaceDeveloperInstructions,
@@ -471,19 +493,25 @@ try {
     if (requestEntry?.params?.config?.project_doc_max_bytes !== 0) {
       throw new Error(`supervision ${label} did not disable native project-doc discovery`);
     }
-    if (!requestEntry.params.developerInstructions?.includes(capturedGuidance)) {
+    if (!requestEntry.params.developerInstructions?.includes(capturedRootGuidance)) {
       throw new Error(`supervision ${label} omitted the frozen root guidance`);
     }
-    if (requestEntry.params.developerInstructions.includes(replacementGuidance)) {
+    if (!requestEntry.params.developerInstructions.includes(capturedNestedGuidance)) {
+      throw new Error(`supervision ${label} omitted the frozen nested guidance`);
+    }
+    if (requestEntry.params.developerInstructions.includes(replacementRootGuidance)) {
       throw new Error(`supervision ${label} received the replacement root guidance`);
     }
   }
   await runTurn(supervisionRuntime.client, supervisedBinding, supervisionAttempt, appServer);
   const supervisedProviderInput = JSON.stringify(providerRequests.at(-1)?.body ?? {});
-  if (!supervisedProviderInput.includes(capturedGuidance)) {
+  if (!supervisedProviderInput.includes(capturedRootGuidance)) {
     throw new Error("frozen root guidance was absent from the supervised provider request");
   }
-  if (supervisedProviderInput.includes(replacementGuidance)) {
+  if (!supervisedProviderInput.includes(capturedNestedGuidance)) {
+    throw new Error("frozen nested guidance was absent from the supervised provider request");
+  }
+  if (supervisedProviderInput.includes(replacementRootGuidance)) {
     throw new Error("replacement root guidance reached the supervised provider request");
   }
   if (providerRequests.length !== 4) {
@@ -500,31 +528,37 @@ try {
       codexVersion: resumeRuntime.identity?.serverVersion,
       sameNativeThread: resumedBinding.threadId === firstBinding.threadId,
       distinctAppServerProcesses: resumeRuntime.pid !== firstPid,
-      frozenNonemptySnapshot: frozen.agentWorkspaceDeveloperInstructions.includes(capturedGuidance),
+      frozenRootSnapshot: frozen.agentWorkspaceDeveloperInstructions.includes(capturedRootGuidance),
+      frozenNestedSnapshot:
+        frozen.agentWorkspaceDeveloperInstructions.includes(capturedNestedGuidance),
       resumeProjectDocMaxBytes: resumeRequest.params.config.project_doc_max_bytes,
       providerTurns: providerRequests.length,
-      frozenRootPresentInResumedProviderInput: resumedProviderInput.includes(capturedGuidance),
+      frozenRootPresentInResumedProviderInput: resumedProviderInput.includes(capturedRootGuidance),
+      frozenNestedPresentInResumedProviderInput:
+        resumedProviderInput.includes(capturedNestedGuidance),
       replacementRootAbsentFromResumedProviderInput:
-        !resumedProviderInput.includes(replacementGuidance),
-      replacementStartProjectDocMaxBytes:
-        rotationStartRequest.params.config.project_doc_max_bytes,
+        !resumedProviderInput.includes(replacementRootGuidance),
+      replacementStartProjectDocMaxBytes: rotationStartRequest.params.config.project_doc_max_bytes,
       rotatedToFreshThread: rotatedBinding.threadId !== resumedBinding.threadId,
       frozenRootPresentInReplacementProviderInput:
-        rotatedProviderInput.includes(capturedGuidance),
+        rotatedProviderInput.includes(capturedRootGuidance),
+      frozenNestedPresentInReplacementProviderInput:
+        rotatedProviderInput.includes(capturedNestedGuidance),
       replacementRootAbsentFromReplacementProviderInput:
-        !rotatedProviderInput.includes(replacementGuidance),
-      supervisionForkProjectDocMaxBytes:
-        supervisionForkRequest.params.config.project_doc_max_bytes,
+        !rotatedProviderInput.includes(replacementRootGuidance),
+      supervisionForkProjectDocMaxBytes: supervisionForkRequest.params.config.project_doc_max_bytes,
       supervisionStartProjectDocMaxBytes:
         supervisionStartRequest.params.config.project_doc_max_bytes,
       frozenRootPresentInSupervisedProviderInput:
-        supervisedProviderInput.includes(capturedGuidance),
+        supervisedProviderInput.includes(capturedRootGuidance),
+      frozenNestedPresentInSupervisedProviderInput:
+        supervisedProviderInput.includes(capturedNestedGuidance),
       replacementRootAbsentFromSupervisedProviderInput:
-        !supervisedProviderInput.includes(replacementGuidance),
+        !supervisedProviderInput.includes(replacementRootGuidance),
     }),
   );
   console.log(
-    "real-codex-frozen-snapshot=cold-resume-rotated-replacement-and-supervised-provider-input-verified",
+    "real-codex-frozen-hierarchy=cold-resume-rotated-replacement-and-supervised-provider-input-verified",
   );
 } finally {
   await new Promise((resolve) => providerServer?.close(resolve));

@@ -1439,6 +1439,7 @@ jobs:
           pnpm exec vitest run \
             --config test/vitest/vitest.extension-codex.config.ts \
             extensions/codex/src/app-server/attempt-context.test.ts \
+            extensions/codex/src/app-server/project-doc-thread-config.test.ts \
             extensions/codex/src/app-server/run-attempt.test.ts \
             extensions/codex/src/app-server/session-binding.test.ts \
             extensions/codex/src/app-server/thread-lifecycle.binding.test.ts \
@@ -1482,7 +1483,7 @@ jobs:
           grep -Eq 'developerInstructions' codex-contract/codex-rs/app-server/src/request_processors/thread_processor.rs
           grep -Eq 'LoadedAgentsMd|agents_md' codex-contract/codex-rs/core/src/context/world_state/agents_md.rs codex-contract/codex-rs/core/src/agents_md.rs
           printf 'pinned-sibling-codex=d4fcb2873bf23464cfacd804a31d46529db943b0\n'
-          printf 'native-root-discovery-and-developer-input-contract=source-verified\n'
+          printf 'native-root-to-cwd-discovery-and-developer-input-contract=source-verified\n'
           printf 'openclaw-head=%s\n' "$(git rev-parse HEAD)"
 
   refresh-binding-prompt-snapshots:
@@ -1945,7 +1946,7 @@ jobs:
           test -x "$codex_bin"
           test "$($codex_bin --version)" = "codex-cli 0.150.1"
           printf 'CODEX_PROOF_BIN=%s\n' "$codex_bin" >> "$GITHUB_ENV"
-      - name: Prove frozen root through cold resume and supervised materialization
+      - name: Prove frozen hierarchy through cold resume and supervised materialization
         shell: bash
         run: |
           set -euo pipefail
