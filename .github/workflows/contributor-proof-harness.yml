@@ -1007,8 +1007,8 @@ jobs:
           test -s codex-contract/codex-rs/core/src/agents_md_manager.rs
           test -s codex-contract/codex-rs/app-server/src/request_processors/thread_processor.rs
           test -s codex-contract/codex-rs/core/src/context/world_state/agents_md.rs
-          rg -q 'developerInstructions' codex-contract/codex-rs/app-server/src/request_processors/thread_processor.rs
-          rg -q 'LoadedAgentsMd|agents_md' codex-contract/codex-rs/core/src/context/world_state/agents_md.rs codex-contract/codex-rs/core/src/agents_md.rs
+          grep -Eq 'developerInstructions' codex-contract/codex-rs/app-server/src/request_processors/thread_processor.rs
+          grep -Eq 'LoadedAgentsMd|agents_md' codex-contract/codex-rs/core/src/context/world_state/agents_md.rs codex-contract/codex-rs/core/src/agents_md.rs
           printf 'pinned-sibling-codex=d4fcb2873bf23464cfacd804a31d46529db943b0\n'
           printf 'native-root-discovery-and-developer-input-contract=source-verified\n'
           printf 'openclaw-head=%s\n' "$(git rev-parse HEAD)"
