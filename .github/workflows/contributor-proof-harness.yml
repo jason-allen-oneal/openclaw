@@ -1255,6 +1255,7 @@ jobs:
             extensions/codex/src/app-server/run-attempt.test.ts \
             extensions/codex/src/app-server/session-binding.test.ts \
             extensions/codex/src/app-server/thread-lifecycle.binding.test.ts \
+            extensions/codex/src/app-server/thread-lifecycle.supervision-policy.test.ts \
             extensions/codex/src/app-server/thread-lifecycle.test.ts \
             --reporter=verbose
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
