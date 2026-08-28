@@ -1714,7 +1714,7 @@ jobs:
           await fs.rm(proofRoot, { recursive: true, force: true });
           NODE
 
-  real-codex-changed-snapshot-provider-proof:
+  real-codex-frozen-snapshot-provider-proof:
     if: inputs.proof == 'binding-resume'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -1756,7 +1756,7 @@ jobs:
           test -x "$codex_bin"
           test "$($codex_bin --version)" = "codex-cli 0.150.1"
           printf 'CODEX_PROOF_BIN=%s\n' "$codex_bin" >> "$GITHUB_ENV"
-      - name: Prove frozen root replaces changed root in cold-resume provider input
+      - name: Prove frozen root through cold resume and supervised materialization
         shell: bash
         run: |
           set -euo pipefail

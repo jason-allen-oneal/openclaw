@@ -17,6 +17,9 @@ const { ensureCodexAppServerClientRuntime } = await importTarget(
 const { CodexAppServerClient } = await importTarget(
   "extensions/codex/src/app-server/client.ts",
 );
+const { buildCodexAppServerConnectionFingerprint } = await importTarget(
+  "extensions/codex/src/app-server/plugin-app-cache-key.ts",
+);
 const { createCodexAppServerBindingStore, sessionBindingIdentity } = await importTarget(
   "extensions/codex/src/app-server/session-binding.ts",
 );
@@ -196,7 +199,7 @@ async function openClient(startOptions) {
   const requests = [];
   const request = client.request.bind(client);
   client.request = async (method, params, options) => {
-    if (method === "thread/start" || method === "thread/resume") {
+    if (method === "thread/start" || method === "thread/resume" || method === "thread/fork") {
       requests.push({ method, params });
     }
     return request(method, params, options);
@@ -332,7 +335,103 @@ try {
   if (providerRequests.length !== 2) {
     throw new Error(`expected two provider requests, saw ${providerRequests.length}`);
   }
-  await resumeRuntime.client.closeAndWait({ exitTimeoutMs: 10000 });
+  const sourceRead = await resumeRuntime.client.request("thread/read", {
+    threadId: resumedBinding.threadId,
+    includeTurns: true,
+  });
+  const sourceLastTurnId = sourceRead.thread.turns?.at(-1)?.id;
+  if (!sourceLastTurnId) throw new Error("supervision source is missing its terminal turn");
+  if (!(await resumeRuntime.client.closeAndWait({ exitTimeoutMs: 10000 }))) {
+    throw new Error("resumed Codex process did not exit cleanly");
+  }
+
+  const supervisionSessionId = "changed-root-supervision-provider-proof";
+  const supervisionSessionKey = `agent:main:${supervisionSessionId}`;
+  const supervisionAttempt = {
+    ...createAttempt("real-frozen-supervision", "THIRD_SUPERVISED_SNAPSHOT_TURN"),
+    sessionId: supervisionSessionId,
+    sessionKey: supervisionSessionKey,
+  };
+  const supervisionIdentity = sessionBindingIdentity({
+    sessionId: supervisionSessionId,
+    sessionKey: supervisionSessionKey,
+    agentId: "main",
+    config,
+  });
+  const pendingSupervisionBranch = {
+    sourceThreadId: resumedBinding.threadId,
+    lastTurnId: sourceLastTurnId,
+    connectionFingerprint: buildCodexAppServerConnectionFingerprint(appServer, agentDir),
+  };
+  const supervisionSeeded = await bindingStore.mutate(supervisionIdentity, {
+    kind: "set",
+    if: { kind: "absent" },
+    binding: {
+      threadId: resumedBinding.threadId,
+      cwd: workspace,
+      connectionScope: "supervision",
+      supervisionSourceThreadId: resumedBinding.threadId,
+      preserveNativeModel: true,
+      pendingSupervisionBranch,
+      conversationSourceTransferComplete: true,
+      historyCoveredThrough: new Date(0).toISOString(),
+      agentWorkspaceDeveloperInstructions: frozen.agentWorkspaceDeveloperInstructions,
+    },
+  });
+  if (!supervisionSeeded) throw new Error("pending supervision binding was not seeded");
+
+  const supervisionRuntime = await openClient(startOptions);
+  const supervisedBinding = await startOrResumeThread({
+    client: supervisionRuntime.client,
+    bindingStore,
+    params: supervisionAttempt,
+    agentId: "main",
+    agentDir,
+    cwd: workspace,
+    dynamicTools: [],
+    appServer,
+    developerInstructions: frozen.agentWorkspaceDeveloperInstructions,
+    agentWorkspaceDeveloperInstructions: frozen.agentWorkspaceDeveloperInstructions,
+    agentWorkspaceDeveloperInstructionsAllowed: true,
+    nativeProjectDocsDisabledOnResume: true,
+    userMcpServersEnabled: false,
+    webSearchAllowed: false,
+    appServerRuntimeFingerprint: "changed-root-proof-v1",
+  });
+  const supervisionForkRequest = supervisionRuntime.requests.find(
+    (entry) => entry.method === "thread/fork",
+  );
+  const supervisionStartRequest = supervisionRuntime.requests.find(
+    (entry) => entry.method === "thread/start",
+  );
+  for (const [label, requestEntry] of [
+    ["fork", supervisionForkRequest],
+    ["start", supervisionStartRequest],
+  ]) {
+    if (requestEntry?.params?.config?.project_doc_max_bytes !== 0) {
+      throw new Error(`supervision ${label} did not disable native project-doc discovery`);
+    }
+    if (!requestEntry.params.developerInstructions?.includes(capturedGuidance)) {
+      throw new Error(`supervision ${label} omitted the frozen root guidance`);
+    }
+    if (requestEntry.params.developerInstructions.includes(replacementGuidance)) {
+      throw new Error(`supervision ${label} received the replacement root guidance`);
+    }
+  }
+  await runTurn(supervisionRuntime.client, supervisedBinding, supervisionAttempt, appServer);
+  const supervisedProviderInput = JSON.stringify(providerRequests.at(-1)?.body ?? {});
+  if (!supervisedProviderInput.includes(capturedGuidance)) {
+    throw new Error("frozen root guidance was absent from the supervised provider request");
+  }
+  if (supervisedProviderInput.includes(replacementGuidance)) {
+    throw new Error("replacement root guidance reached the supervised provider request");
+  }
+  if (providerRequests.length !== 3) {
+    throw new Error(`expected three provider requests, saw ${providerRequests.length}`);
+  }
+  if (!(await supervisionRuntime.client.closeAndWait({ exitTimeoutMs: 10000 }))) {
+    throw new Error("supervision Codex process did not exit cleanly");
+  }
 
   const targetHead = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
   console.log(
@@ -347,10 +446,18 @@ try {
       frozenRootPresentInResumedProviderInput: resumedProviderInput.includes(capturedGuidance),
       replacementRootAbsentFromResumedProviderInput:
         !resumedProviderInput.includes(replacementGuidance),
+      supervisionForkProjectDocMaxBytes:
+        supervisionForkRequest.params.config.project_doc_max_bytes,
+      supervisionStartProjectDocMaxBytes:
+        supervisionStartRequest.params.config.project_doc_max_bytes,
+      frozenRootPresentInSupervisedProviderInput:
+        supervisedProviderInput.includes(capturedGuidance),
+      replacementRootAbsentFromSupervisedProviderInput:
+        !supervisedProviderInput.includes(replacementGuidance),
     }),
   );
   console.log(
-    "real-codex-changed-snapshot-cold-resume=frozen-present-replacement-absent-from-provider-input",
+    "real-codex-frozen-snapshot=cold-resume-and-supervised-fork-start-provider-input-verified",
   );
 } finally {
   await new Promise((resolve) => providerServer?.close(resolve));
