@@ -259,11 +259,11 @@ try {
 
   const firstAttempt = createAttempt("real-frozen-start", "FIRST_FROZEN_SNAPSHOT_TURN");
   const firstContext = await buildWorkspaceContext(firstAttempt);
-  if (!firstContext.agentWorkspaceDeveloperInstructions?.includes(capturedRootGuidance)) {
-    throw new Error("initial workspace snapshot did not contain the captured root guidance");
+  if (firstContext.agentWorkspaceDeveloperInstructions !== undefined) {
+    throw new Error("same-workspace bootstrap duplicated Codex-native project instructions");
   }
-  if (!firstContext.agentWorkspaceDeveloperInstructions.includes(capturedNestedGuidance)) {
-    throw new Error("initial workspace snapshot did not contain the captured nested guidance");
+  if (firstContext.threadDeveloperInstructions !== undefined) {
+    throw new Error("same-workspace bootstrap injected an OpenClaw instruction carrier");
   }
   const firstRuntime = await openClient(startOptions);
   const firstBinding = await startOrResumeThread({
@@ -279,6 +279,7 @@ try {
     agentWorkspaceDeveloperInstructions: firstContext.agentWorkspaceDeveloperInstructions,
     agentWorkspaceDeveloperInstructionsAllowed:
       firstContext.agentWorkspaceDeveloperInstructionsAllowed,
+    captureNativeProjectInstructions: true,
     nativeProjectDocsDisabledOnResume: false,
     userMcpServersEnabled: false,
     webSearchAllowed: false,
@@ -301,11 +302,11 @@ try {
   await fs.writeFile(path.join(workspace, "AGENTS.md"), `${replacementRootGuidance}\n`);
   const resumeAttempt = createAttempt("real-frozen-resume", "SECOND_COLD_RESUME_TURN");
   const changedContext = await buildWorkspaceContext(resumeAttempt);
-  if (!changedContext.agentWorkspaceDeveloperInstructions?.includes(replacementRootGuidance)) {
-    throw new Error("changed workspace root was not observed before resume");
+  if (changedContext.agentWorkspaceDeveloperInstructions !== undefined) {
+    throw new Error("cold-resume bootstrap rediscovered changed project instructions");
   }
-  if (!changedContext.agentWorkspaceDeveloperInstructions.includes(capturedNestedGuidance)) {
-    throw new Error("unchanged nested guidance was not observed before resume");
+  if (changedContext.threadDeveloperInstructions !== undefined) {
+    throw new Error("cold-resume bootstrap injected an OpenClaw instruction carrier");
   }
   const resumeRuntime = await openClient(startOptions);
   const resumedBinding = await startOrResumeThread({
