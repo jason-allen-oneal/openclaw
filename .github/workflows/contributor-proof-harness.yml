@@ -1446,7 +1446,14 @@ jobs:
               if (method === "thread/start" || method === "thread/resume") {
                 requests.push({ method, params });
               }
-              return await request(method, params, options);
+              try {
+                return await request(method, params, options);
+              } catch (error) {
+                if (method === "thread/start" || method === "thread/resume") {
+                  console.error(`${label} ${method} failed`, error);
+                }
+                throw error;
+              }
             };
             await client.initialize();
             ensureCodexAppServerClientRuntime(client, { agentDir, config });
@@ -1491,6 +1498,12 @@ jobs:
           if (firstBinding.lifecycle.action !== "started") {
             throw new Error(`expected started lifecycle, got ${firstBinding.lifecycle.action}`);
           }
+          // A new native thread has no turn yet. Naming it through the real app-server
+          // forces its loaded metadata into Codex's durable store before process exit.
+          await firstRuntime.client.request("thread/name/set", {
+            threadId: firstBinding.threadId,
+            name: "OpenClaw cold-resume proof",
+          });
           const identity = sessionBindingIdentity({
             sessionId,
             sessionKey,
