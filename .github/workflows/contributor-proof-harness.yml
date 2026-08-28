@@ -412,6 +412,47 @@ jobs:
           printf 'explicit-false=.npmrc-prefer-offline-false-omitted-the-flag\n'
           printf 'transcript=redacted-no-credentials\n'
 
+  focused-windows-preference-policy:
+    if: inputs.proof == 'preference-policy'
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install dependencies without lifecycle scripts
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          corepack enable
+          corepack install
+          pnpm install --frozen-lockfile --ignore-scripts
+      - name: Prove PowerShell preference precedence on the exact head
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $actualHead = (git rev-parse HEAD).Trim()
+          $expectedHead = '${{ inputs.target_sha }}'
+          if ($actualHead -ne $expectedHead) {
+            throw "wrong proof head: expected=$expectedHead actual=$actualHead"
+          }
+          pnpm exec vitest run test/scripts/install-ps1.test.ts `
+            -t "preserves explicit pnpm prefer-offline settings for Git installs" `
+            --reporter=verbose
+          if ($LASTEXITCODE -ne 0) {
+            throw "focused PowerShell preference proof failed with exit code $LASTEXITCODE"
+          }
+          Write-Output "exact-head=$actualHead"
+          Write-Output 'powershell-preference-policy=default-added-environment-project-and-user-overrides-preserved'
+
   focused-runtime-build-tests:
     if: inputs.proof == 'runtime-build-identity'
     runs-on: ubuntu-24.04
