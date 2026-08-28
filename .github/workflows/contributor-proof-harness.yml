@@ -453,6 +453,152 @@ jobs:
           Write-Output "exact-head=$actualHead"
           Write-Output 'powershell-preference-policy=default-added-environment-project-and-user-overrides-preserved'
 
+  real-windows-powershell-source-install:
+    if: inputs.proof == 'preference-policy'
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Run native PowerShell source-install traces
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $actualHead = (git rev-parse HEAD).Trim()
+          $expectedHead = '${{ inputs.target_sha }}'
+          if ($actualHead -ne $expectedHead) {
+            throw "wrong proof head: expected=$expectedHead actual=$actualHead"
+          }
+
+          corepack enable
+          $pnpmVersion = (node -p "require('./package.json').packageManager.match(/^pnpm@([^+]+)/)[1]").Trim()
+          corepack prepare "pnpm@$pnpmVersion" --activate
+          $realPnpm = (Get-Command pnpm.cmd -ErrorAction Stop).Source
+          $basePath = $env:PATH
+
+          function Invoke-SourceInstallProofCase {
+            param(
+              [string]$Label,
+              [bool]$ExplicitFalse
+            )
+
+            $caseRoot = Join-Path $env:RUNNER_TEMP "openclaw-windows-source-$Label"
+            $repoDir = Join-Path $caseRoot 'checkout'
+            $proofHome = Join-Path $caseRoot 'home'
+            $captureBin = Join-Path $caseRoot 'capture-bin'
+            $tracePath = Join-Path $caseRoot 'pnpm-argv.log'
+            $userConfig = Join-Path $caseRoot 'user.npmrc'
+            $globalConfig = Join-Path $caseRoot 'global.npmrc'
+            $npmPrefix = Join-Path $caseRoot 'npm-prefix'
+            Remove-Item -LiteralPath $caseRoot -Recurse -Force -ErrorAction SilentlyContinue
+            New-Item -ItemType Directory -Force -Path $repoDir, $proofHome, $captureBin, $npmPrefix | Out-Null
+            Set-Content -LiteralPath $userConfig -Value '' -Encoding Ascii
+            Set-Content -LiteralPath $globalConfig -Value '' -Encoding Ascii
+
+            $package = @{
+              name = 'openclaw-windows-source-proof'
+              version = '0.0.0'
+              private = $true
+              packageManager = "pnpm@$pnpmVersion"
+              scripts = @{
+                'ui:build' = 'node -e "process.exit(0)"'
+                build = 'node -e "process.exit(0)"'
+              }
+              dependencies = @{
+                'is-number' = '7.0.0'
+              }
+            } | ConvertTo-Json -Depth 5
+            Set-Content -LiteralPath (Join-Path $repoDir 'package.json') -Value $package -Encoding Utf8
+            New-Item -ItemType Directory -Force -Path (Join-Path $repoDir 'dist') | Out-Null
+            @(
+              'if (process.argv.includes("--version")) process.stdout.write("0.0.0-proof\n");',
+              'else if (process.argv.includes("--json")) process.stdout.write("{}\n");'
+            ) | Set-Content -LiteralPath (Join-Path $repoDir 'dist/entry.js') -Encoding Utf8
+            if ($ExplicitFalse) {
+              Set-Content -LiteralPath (Join-Path $repoDir '.npmrc') -Value 'prefer-offline=false' -Encoding Ascii
+            }
+
+            git -C $repoDir init -q --initial-branch=main
+            git -C $repoDir config user.name proof
+            git -C $repoDir config user.email proof@example.invalid
+            git -C $repoDir add package.json dist/entry.js
+            if ($ExplicitFalse) {
+              git -C $repoDir add .npmrc
+            }
+            git -C $repoDir commit -qm fixture
+
+            @(
+              '@echo off',
+              'echo pnpm argv: %*>>"%PNPM_PROOF_LOG%"',
+              'call "%PNPM_PROOF_REAL%" %*',
+              'exit /b %ERRORLEVEL%'
+            ) | Set-Content -LiteralPath (Join-Path $captureBin 'pnpm.cmd') -Encoding Ascii
+
+            try {
+              $env:USERPROFILE = $proofHome
+              $env:HOME = $proofHome
+              $env:NPM_CONFIG_USERCONFIG = $userConfig
+              $env:NPM_CONFIG_GLOBALCONFIG = $globalConfig
+              $env:NPM_CONFIG_PREFIX = $npmPrefix
+              $env:PNPM_PROOF_REAL = $realPnpm
+              $env:PNPM_PROOF_LOG = $tracePath
+              $env:PATH = "$captureBin;$basePath"
+              Remove-Item Env:PNPM_CONFIG_PREFER_OFFLINE -ErrorAction SilentlyContinue
+              Remove-Item Env:pnpm_config_prefer_offline -ErrorAction SilentlyContinue
+
+              & "$env:GITHUB_WORKSPACE/scripts/install.ps1" `
+                -InstallMethod git `
+                -GitDir $repoDir `
+                -NoGitUpdate `
+                -NoOnboard
+              if ($LASTEXITCODE -ne 0) {
+                throw "native source install failed for $Label with exit code $LASTEXITCODE"
+              }
+
+              $installLines = @(
+                Get-Content -LiteralPath $tracePath |
+                  Where-Object { $_ -match '^pnpm argv: install(?:\s|$)' }
+              )
+              if ($installLines.Count -ne 1) {
+                throw "expected one pnpm install invocation for $Label; got $($installLines.Count)"
+              }
+              $installLine = $installLines[0]
+              $hasPreferOffline = $installLine -match '(?:^|\s)--prefer-offline(?:\s|$)'
+              if (-not $ExplicitFalse -and -not $hasPreferOffline) {
+                throw "default source install omitted --prefer-offline: $installLine"
+              }
+              if ($ExplicitFalse -and $hasPreferOffline) {
+                throw "explicit-false source install injected --prefer-offline: $installLine"
+              }
+              if (-not (Test-Path -LiteralPath (Join-Path $repoDir 'node_modules/is-number'))) {
+                throw "real pnpm install did not materialize the fixture dependency for $Label"
+              }
+              Write-Output "windows-source-install-$Label=$installLine"
+            } finally {
+              $env:PATH = $basePath
+              Remove-Item Env:PNPM_PROOF_REAL -ErrorAction SilentlyContinue
+              Remove-Item Env:PNPM_PROOF_LOG -ErrorAction SilentlyContinue
+              Remove-Item Env:NPM_CONFIG_USERCONFIG -ErrorAction SilentlyContinue
+              Remove-Item Env:NPM_CONFIG_GLOBALCONFIG -ErrorAction SilentlyContinue
+              Remove-Item Env:NPM_CONFIG_PREFIX -ErrorAction SilentlyContinue
+            }
+          }
+
+          Invoke-SourceInstallProofCase -Label 'default' -ExplicitFalse $false
+          Invoke-SourceInstallProofCase -Label 'explicit-false' -ExplicitFalse $true
+          Write-Output "exact-head=$actualHead"
+          Write-Output 'native-windows-source-install=unmodified-install-ps1-entrypoint-and-real-pnpm-verified'
+          Write-Output 'transcript=redacted-no-paths-no-credentials'
+
   focused-runtime-build-tests:
     if: inputs.proof == 'runtime-build-identity'
     runs-on: ubuntu-24.04
