@@ -1713,3 +1713,55 @@ jobs:
           );
           await fs.rm(proofRoot, { recursive: true, force: true });
           NODE
+
+  real-codex-empty-snapshot-provider-proof:
+    if: inputs.proof == 'binding-resume'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Checkout temporary proof helper
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: main
+          path: .proof-harness
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install exact-head dependencies and pinned Codex runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          codex_runtime="$RUNNER_TEMP/codex-runtime"
+          export HOME="$proof_home"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME" "$codex_runtime"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+          npm install --prefix "$codex_runtime" --ignore-scripts --no-audit --no-fund \
+            @openai/codex@0.150.1
+          codex_bin="$codex_runtime/node_modules/.bin/codex"
+          test -x "$codex_bin"
+          test "$($codex_bin --version)" = "codex-cli 0.150.1"
+          printf 'CODEX_PROOF_BIN=%s\n' "$codex_bin" >> "$GITHUB_ENV"
+      - name: Prove late root is absent from cold-resume provider input
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset OPENAI_API_KEY CODEX_API_KEY ANTHROPIC_API_KEY GEMINI_API_KEY \
+            KIMI_API_KEY OPENROUTER_API_KEY
+          node --import tsx/esm \
+            .proof-harness/.github/proof/codex-empty-snapshot-provider-proof.mjs
+          test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
