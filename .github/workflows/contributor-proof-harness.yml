@@ -1198,3 +1198,400 @@ jobs:
           printf 'pinned-sibling-codex=d4fcb2873bf23464cfacd804a31d46529db943b0\n'
           printf 'native-root-discovery-and-developer-input-contract=source-verified\n'
           printf 'openclaw-head=%s\n' "$(git rev-parse HEAD)"
+
+  refresh-binding-prompt-snapshots:
+    if: inputs.proof == 'binding-resume'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Generate exact-head prompt snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          export HOME="$proof_home"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm prompt:snapshots:gen
+          git diff --check
+          git diff --name-only -- test/fixtures/agents/prompt-snapshots/ \
+            | tee "$RUNNER_TEMP/prompt-snapshot-paths.txt"
+          test -s "$RUNNER_TEMP/prompt-snapshot-paths.txt"
+          test -z "$(git diff --name-only -- . ':!test/fixtures/agents/prompt-snapshots/**')"
+          git diff --binary --output="$RUNNER_TEMP/prompt-snapshots.patch" -- \
+            test/fixtures/agents/prompt-snapshots/
+          test -s "$RUNNER_TEMP/prompt-snapshots.patch"
+      - name: Upload generated prompt snapshot patch
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: prompt-snapshots-${{ inputs.target_sha }}
+          path: ${{ runner.temp }}/prompt-snapshots.patch
+          if-no-files-found: error
+          retention-days: 1
+
+  real-codex-cold-resume-proof:
+    if: inputs.proof == 'binding-resume'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact contributor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Install exact-head dependencies and pinned Codex runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_home="$RUNNER_TEMP/proof-home"
+          codex_runtime="$RUNNER_TEMP/codex-runtime"
+          export HOME="$proof_home"
+          export COREPACK_HOME="$proof_home/corepack"
+          mkdir -p "$HOME" "$COREPACK_HOME" "$codex_runtime"
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+          npm install --prefix "$codex_runtime" --ignore-scripts --no-audit --no-fund \
+            @openai/codex@0.150.1
+          codex_bin="$codex_runtime/node_modules/.bin/codex"
+          test -x "$codex_bin"
+          "$codex_bin" --version
+          printf 'CODEX_PROOF_BIN=%s\n' "$codex_bin" >> "$GITHUB_ENV"
+      - name: Exercise real Codex start, workspace change, and cold resume
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset OPENAI_API_KEY CODEX_API_KEY ANTHROPIC_API_KEY GEMINI_API_KEY \
+            KIMI_API_KEY OPENROUTER_API_KEY
+          node --import tsx/esm --input-type=module <<'NODE'
+          import { execFileSync } from "node:child_process";
+          import fs from "node:fs/promises";
+          import os from "node:os";
+          import path from "node:path";
+          import { buildCodexWorkspaceBootstrapContext } from "./extensions/codex/src/app-server/attempt-context.ts";
+          import { ensureCodexAppServerClientRuntime } from "./extensions/codex/src/app-server/client-runtime.ts";
+          import { CodexAppServerClient } from "./extensions/codex/src/app-server/client.ts";
+          import {
+            createCodexAppServerBindingStore,
+            sessionBindingIdentity,
+          } from "./extensions/codex/src/app-server/session-binding.ts";
+          import { startOrResumeThread } from "./extensions/codex/src/app-server/thread-lifecycle.ts";
+
+          const originalGuidance = "ROOT_NATIVE_ALPHA: preserve this frozen workspace authority.";
+          const changedGuidance = "ROOT_NATIVE_BRAVO: this change belongs only to a new thread.";
+          const proofRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-real-codex-proof-"));
+          const agentWorkspace = path.join(proofRoot, "agent-workspace");
+          const executionWorkspace = path.join(proofRoot, "execution-workspace");
+          const agentDir = path.join(proofRoot, "agent");
+          const codexHome = path.join(proofRoot, "codex-home");
+          const sessionFile = path.join(proofRoot, "session.jsonl");
+          await fs.mkdir(agentWorkspace, { recursive: true });
+          await fs.mkdir(executionWorkspace, { recursive: true });
+          await fs.mkdir(agentDir, { recursive: true });
+          await fs.mkdir(codexHome, { recursive: true });
+          await fs.writeFile(path.join(agentWorkspace, "AGENTS.md"), `${originalGuidance}\n`);
+          await fs.writeFile(
+            path.join(executionWorkspace, "AGENTS.md"),
+            "EXECUTION_NATIVE_ONLY: keep execution policy separate.\n",
+          );
+
+          const stateValues = new Map();
+          const stateStore = {
+            register(key, value) {
+              stateValues.set(key, value);
+            },
+            registerIfAbsent(key, value) {
+              if (stateValues.has(key)) return false;
+              stateValues.set(key, value);
+              return true;
+            },
+            update(key, updateValue) {
+              const next = updateValue(stateValues.get(key));
+              if (next === undefined) return false;
+              stateValues.set(key, next);
+              return true;
+            },
+            lookup(key) {
+              return stateValues.get(key);
+            },
+            consume(key) {
+              const value = stateValues.get(key);
+              stateValues.delete(key);
+              return value;
+            },
+            delete(key) {
+              return stateValues.delete(key);
+            },
+            deleteIf(key, predicate) {
+              const value = stateValues.get(key);
+              return value !== undefined && predicate(value) && stateValues.delete(key);
+            },
+            entries() {
+              return [...stateValues].map(([key, value]) => ({ key, value, createdAt: 0 }));
+            },
+            clear() {
+              stateValues.clear();
+            },
+          };
+          const bindingStore = createCodexAppServerBindingStore(stateStore);
+          const sessionId = "real-codex-cold-resume-proof";
+          const sessionKey = `agent:main:${sessionId}`;
+          const config = { tools: { web: { search: { enabled: false } } } };
+          const createAttempt = (runId) => ({
+            prompt: "proof",
+            sessionId,
+            sessionKey,
+            sessionFile,
+            workspaceDir: executionWorkspace,
+            bootstrapWorkspaceDir: agentWorkspace,
+            runId,
+            provider: "codex",
+            modelId: "gpt-5.4-codex",
+            model: {
+              id: "gpt-5.4-codex",
+              name: "gpt-5.4-codex",
+              api: "openai-codex-responses",
+              provider: "codex",
+              contextWindow: 200000,
+              maxTokens: 8192,
+              compat: { supportsTools: false },
+            },
+            contextTokenBudget: 150000,
+            contextWindowInfo: {
+              tokens: 150000,
+              referenceTokens: 200000,
+              source: "agentContextTokens",
+            },
+            thinkLevel: "medium",
+            disableTools: false,
+            config,
+            timeoutMs: 120000,
+            authStorage: {},
+            authProfileStore: { version: 1, profiles: {} },
+            modelRegistry: {},
+          });
+          const buildWorkspaceContext = (attempt) =>
+            buildCodexWorkspaceBootstrapContext({
+              params: attempt,
+              resolvedWorkspace: agentWorkspace,
+              executionWorkspace,
+              effectiveWorkspace: executionWorkspace,
+              sessionKey,
+              sessionAgentId: "main",
+              memoryToolNames: [],
+              ringZeroActive: false,
+              sandboxed: false,
+            });
+
+          const codexBin = process.env.CODEX_PROOF_BIN;
+          if (!codexBin) throw new Error("CODEX_PROOF_BIN is missing");
+          const startOptions = {
+            transport: "stdio",
+            command: codexBin,
+            commandSource: "config",
+            args: ["app-server", "--listen", "stdio://"],
+            headers: {},
+            env: {
+              HOME: proofRoot,
+              CODEX_HOME: codexHome,
+            },
+            clearEnv: [
+              "OPENAI_API_KEY",
+              "CODEX_API_KEY",
+              "ANTHROPIC_API_KEY",
+              "GEMINI_API_KEY",
+              "KIMI_API_KEY",
+              "OPENROUTER_API_KEY",
+            ],
+          };
+          const appServer = {
+            start: startOptions,
+            requestTimeoutMs: 120000,
+            turnCompletionIdleTimeoutMs: 120000,
+            approvalPolicy: "never",
+            approvalsReviewer: "user",
+            sandbox: "read-only",
+            codeModeOnly: false,
+            loopDetectionPreToolUseRelay: true,
+            connectionClass: "local-loopback",
+            remoteAppsSubstrate: "preconfigured",
+          };
+
+          async function openRealClient(label) {
+            const client = CodexAppServerClient.start(startOptions);
+            const pid = client.getTransportPid();
+            const requests = [];
+            const request = client.request.bind(client);
+            client.request = async (method, params, options) => {
+              if (method === "thread/start" || method === "thread/resume") {
+                requests.push({ method, params });
+              }
+              return await request(method, params, options);
+            };
+            await client.initialize();
+            ensureCodexAppServerClientRuntime(client, { agentDir, config });
+            const identity = client.getRuntimeIdentity();
+            if (identity?.serverVersion !== "0.150.1") {
+              throw new Error(`${label} used unexpected Codex ${identity?.serverVersion ?? "unknown"}`);
+            }
+            return { client, pid, requests, identity };
+          }
+
+          const firstAttempt = createAttempt("real-start");
+          const firstContext = await buildWorkspaceContext(firstAttempt);
+          if (!firstContext.agentWorkspaceDeveloperInstructions?.includes(originalGuidance)) {
+            throw new Error("OpenClaw did not capture the original AGENTS.md snapshot");
+          }
+          if (!firstContext.threadDeveloperInstructions?.includes(originalGuidance)) {
+            throw new Error("cross-workspace start did not carry the original AGENTS.md snapshot");
+          }
+          const firstRuntime = await openRealClient("start");
+          const firstBinding = await startOrResumeThread({
+            client: firstRuntime.client,
+            bindingStore,
+            params: firstAttempt,
+            agentId: "main",
+            agentDir,
+            cwd: executionWorkspace,
+            dynamicTools: [],
+            appServer,
+            developerInstructions: firstContext.threadDeveloperInstructions,
+            agentWorkspaceDeveloperInstructions:
+              firstContext.agentWorkspaceDeveloperInstructions,
+            agentWorkspaceDeveloperInstructionsAllowed:
+              firstContext.agentWorkspaceDeveloperInstructionsAllowed,
+            userMcpServersEnabled: false,
+            webSearchAllowed: false,
+            appServerRuntimeFingerprint: "real-codex-proof-v1",
+          });
+          const startRequest = firstRuntime.requests.find((entry) => entry.method === "thread/start");
+          if (!startRequest?.params?.developerInstructions?.includes(originalGuidance)) {
+            throw new Error("real Codex thread/start did not receive the original instructions");
+          }
+          if (firstBinding.lifecycle.action !== "started") {
+            throw new Error(`expected started lifecycle, got ${firstBinding.lifecycle.action}`);
+          }
+          const identity = sessionBindingIdentity({
+            sessionId,
+            sessionKey,
+            agentId: "main",
+            config,
+          });
+          const storedAfterStart = await bindingStore.read(identity);
+          const frozenInstructions = storedAfterStart?.agentWorkspaceDeveloperInstructions;
+          if (!frozenInstructions?.includes(originalGuidance)) {
+            throw new Error("production binding store did not persist the original snapshot");
+          }
+          const firstPid = firstRuntime.pid;
+          const serverVersion = firstRuntime.identity.serverVersion;
+          if (!(await firstRuntime.client.closeAndWait({ exitTimeoutMs: 10000 }))) {
+            throw new Error("first Codex app-server did not exit cleanly");
+          }
+
+          await fs.writeFile(path.join(agentWorkspace, "AGENTS.md"), `${changedGuidance}\n`);
+          const resumeAttempt = createAttempt("real-cold-resume");
+          const changedContext = await buildWorkspaceContext(resumeAttempt);
+          if (!changedContext.agentWorkspaceDeveloperInstructions?.includes(changedGuidance)) {
+            throw new Error("OpenClaw did not observe the changed AGENTS.md content");
+          }
+          if (frozenInstructions.includes(changedGuidance)) {
+            throw new Error("changed guidance contaminated the frozen snapshot");
+          }
+
+          const resumeRuntime = await openRealClient("resume");
+          const resumedBinding = await startOrResumeThread({
+            client: resumeRuntime.client,
+            bindingStore,
+            params: resumeAttempt,
+            agentId: "main",
+            agentDir,
+            cwd: executionWorkspace,
+            dynamicTools: [],
+            appServer,
+            developerInstructions: frozenInstructions,
+            agentWorkspaceDeveloperInstructions: frozenInstructions,
+            agentWorkspaceDeveloperInstructionsAllowed:
+              changedContext.agentWorkspaceDeveloperInstructionsAllowed,
+            userMcpServersEnabled: false,
+            webSearchAllowed: false,
+            appServerRuntimeFingerprint: "real-codex-proof-v1",
+          });
+          const resumeRequest = resumeRuntime.requests.find(
+            (entry) => entry.method === "thread/resume",
+          );
+          if (!resumeRequest?.params?.developerInstructions?.includes(originalGuidance)) {
+            throw new Error("real Codex thread/resume did not receive the frozen instructions");
+          }
+          if (resumeRequest.params.developerInstructions.includes(changedGuidance)) {
+            throw new Error("real Codex thread/resume received changed workspace instructions");
+          }
+          if (
+            resumedBinding.lifecycle.action !== "resumed" ||
+            resumedBinding.threadId !== firstBinding.threadId
+          ) {
+            throw new Error(
+              `expected a cold resume of ${firstBinding.threadId}, got ${resumedBinding.lifecycle.action} ${resumedBinding.threadId}`,
+            );
+          }
+          if (firstPid === resumeRuntime.pid) {
+            throw new Error("cold resume reused the original Codex process");
+          }
+          const readBack = await resumeRuntime.client.request("thread/read", {
+            threadId: resumedBinding.threadId,
+            includeTurns: false,
+          });
+          if (readBack.thread.id !== firstBinding.threadId) {
+            throw new Error("resumed Codex thread could not be read back");
+          }
+          await resumeRuntime.client.closeAndWait({ exitTimeoutMs: 10000 });
+
+          const targetHead = execFileSync("git", ["rev-parse", "HEAD"], {
+            encoding: "utf8",
+          }).trim();
+          console.log(
+            JSON.stringify(
+              {
+                targetHead,
+                codexVersion: serverVersion,
+                lifecycle: [firstBinding.lifecycle.action, resumedBinding.lifecycle.action],
+                sameNativeThread: firstBinding.threadId === resumedBinding.threadId,
+                distinctAppServerProcesses: firstPid !== resumeRuntime.pid,
+                workspaceChanged: changedContext.agentWorkspaceDeveloperInstructions.includes(
+                  changedGuidance,
+                ),
+                resumeReplayedFrozen: resumeRequest.params.developerInstructions.includes(
+                  originalGuidance,
+                ),
+                resumeRejectedChanged: !resumeRequest.params.developerInstructions.includes(
+                  changedGuidance,
+                ),
+              },
+              null,
+              2,
+            ),
+          );
+          console.log(
+            "real-codex-cold-resume=exact-head-start-change-new-process-same-thread-frozen-instructions-verified",
+          );
+          await fs.rm(proofRoot, { recursive: true, force: true });
+          NODE
