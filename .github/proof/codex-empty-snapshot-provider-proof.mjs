@@ -345,10 +345,70 @@ try {
     throw new Error("resumed Codex process did not exit cleanly");
   }
 
+  const rotationAttempt = createAttempt("real-frozen-rotation", "THIRD_ROTATED_SNAPSHOT_TURN");
+  const rotationRuntime = await openClient(startOptions);
+  const rotatedBinding = await startOrResumeThread({
+    client: rotationRuntime.client,
+    bindingStore,
+    params: rotationAttempt,
+    agentId: "main",
+    agentDir,
+    cwd: workspace,
+    dynamicTools: [
+      {
+        type: "function",
+        name: "rotated_workspace_policy_proof",
+        description: "Force a production lifecycle replacement for proof.",
+        inputSchema: { type: "object", properties: {} },
+      },
+    ],
+    appServer,
+    developerInstructions: frozen.agentWorkspaceDeveloperInstructions,
+    agentWorkspaceDeveloperInstructions: frozen.agentWorkspaceDeveloperInstructions,
+    agentWorkspaceDeveloperInstructionsAllowed:
+      changedContext.agentWorkspaceDeveloperInstructionsAllowed,
+    nativeProjectDocsDisabledOnResume: true,
+    userMcpServersEnabled: false,
+    webSearchAllowed: false,
+    appServerRuntimeFingerprint: "changed-root-proof-v1",
+  });
+  const rotationStartRequest = rotationRuntime.requests.find(
+    (entry) => entry.method === "thread/start",
+  );
+  if (rotationStartRequest?.params?.config?.project_doc_max_bytes !== 0) {
+    throw new Error("replacement start did not disable native project-doc discovery");
+  }
+  if (!rotationStartRequest.params.developerInstructions?.includes(capturedGuidance)) {
+    throw new Error("replacement start omitted the frozen root guidance");
+  }
+  if (rotationStartRequest.params.developerInstructions.includes(replacementGuidance)) {
+    throw new Error("replacement start received the changed root guidance");
+  }
+  if (
+    rotatedBinding.lifecycle.action !== "started" ||
+    rotatedBinding.threadId === resumedBinding.threadId
+  ) {
+    throw new Error("proof did not rotate to a fresh replacement thread");
+  }
+  await runTurn(rotationRuntime.client, rotatedBinding, rotationAttempt, appServer);
+  const rotatedProviderInput = JSON.stringify(providerRequests.at(-1)?.body ?? {});
+  if (!rotatedProviderInput.includes(capturedGuidance)) {
+    throw new Error("frozen root guidance was absent from the replacement provider request");
+  }
+  if (rotatedProviderInput.includes(replacementGuidance)) {
+    throw new Error("changed root guidance reached the replacement provider request");
+  }
+  if (providerRequests.length !== 3) {
+    throw new Error(`expected three provider requests, saw ${providerRequests.length}`);
+  }
+  if (!(await rotationRuntime.client.closeAndWait({ exitTimeoutMs: 10000 }))) {
+    throw new Error("replacement Codex process did not exit cleanly");
+  }
+
   const supervisionSessionId = "changed-root-supervision-provider-proof";
   const supervisionSessionKey = `agent:main:${supervisionSessionId}`;
   const supervisionAttempt = {
-    ...createAttempt("real-frozen-supervision", "THIRD_SUPERVISED_SNAPSHOT_TURN"),
+    ...createAttempt("real-frozen-supervision", "FOURTH_SUPERVISED_SNAPSHOT_TURN"),
     sessionId: supervisionSessionId,
     sessionKey: supervisionSessionKey,
   };
@@ -426,8 +486,8 @@ try {
   if (supervisedProviderInput.includes(replacementGuidance)) {
     throw new Error("replacement root guidance reached the supervised provider request");
   }
-  if (providerRequests.length !== 3) {
-    throw new Error(`expected three provider requests, saw ${providerRequests.length}`);
+  if (providerRequests.length !== 4) {
+    throw new Error(`expected four provider requests, saw ${providerRequests.length}`);
   }
   if (!(await supervisionRuntime.client.closeAndWait({ exitTimeoutMs: 10000 }))) {
     throw new Error("supervision Codex process did not exit cleanly");
@@ -446,6 +506,13 @@ try {
       frozenRootPresentInResumedProviderInput: resumedProviderInput.includes(capturedGuidance),
       replacementRootAbsentFromResumedProviderInput:
         !resumedProviderInput.includes(replacementGuidance),
+      replacementStartProjectDocMaxBytes:
+        rotationStartRequest.params.config.project_doc_max_bytes,
+      rotatedToFreshThread: rotatedBinding.threadId !== resumedBinding.threadId,
+      frozenRootPresentInReplacementProviderInput:
+        rotatedProviderInput.includes(capturedGuidance),
+      replacementRootAbsentFromReplacementProviderInput:
+        !rotatedProviderInput.includes(replacementGuidance),
       supervisionForkProjectDocMaxBytes:
         supervisionForkRequest.params.config.project_doc_max_bytes,
       supervisionStartProjectDocMaxBytes:
@@ -457,7 +524,7 @@ try {
     }),
   );
   console.log(
-    "real-codex-frozen-snapshot=cold-resume-and-supervised-fork-start-provider-input-verified",
+    "real-codex-frozen-snapshot=cold-resume-rotated-replacement-and-supervised-provider-input-verified",
   );
 } finally {
   await new Promise((resolve) => providerServer?.close(resolve));
