@@ -1216,6 +1216,7 @@ jobs:
         with:
           node-version: 24.19.0
       - name: Generate exact-head prompt snapshots
+        id: snapshots
         shell: bash
         run: |
           set -euo pipefail
@@ -1228,6 +1229,12 @@ jobs:
           pnpm install --frozen-lockfile --ignore-scripts
           pnpm prompt:snapshots:gen
           git diff --check
+          if git diff --quiet -- test/fixtures/agents/prompt-snapshots/; then
+            printf 'changed=false\n' >> "$GITHUB_OUTPUT"
+            printf 'prompt-snapshots=exact-head-generated-output-is-clean\n'
+            exit 0
+          fi
+          printf 'changed=true\n' >> "$GITHUB_OUTPUT"
           git diff --name-only -- test/fixtures/agents/prompt-snapshots/ \
             | tee "$RUNNER_TEMP/prompt-snapshot-paths.txt"
           test -s "$RUNNER_TEMP/prompt-snapshot-paths.txt"
@@ -1236,6 +1243,7 @@ jobs:
             test/fixtures/agents/prompt-snapshots/
           test -s "$RUNNER_TEMP/prompt-snapshots.patch"
       - name: Upload generated prompt snapshot patch
+        if: steps.snapshots.outputs.changed == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: prompt-snapshots-${{ inputs.target_sha }}
