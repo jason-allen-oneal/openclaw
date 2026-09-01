@@ -32,8 +32,7 @@ import { processResponsesStream } from "../transports/openai-responses-stream-in
 import {
   createOpenAIProviderAcceptanceHook,
   createOpenAIResponseHook,
-  readOpenAIResponseModelHeader,
-  readOpenAIResponseModelEvent,
+  createResponseModelTracker,
 } from "../transports/openai-transport-shared.js";
 import {
   assignTransportErrorDetails,
@@ -531,10 +530,7 @@ export const streamOpenAICodexResponses: StreamFunction<
       }
 
       const hookedResponseStream = withProviderResponseHook({
-        stream: mapCodexEvents(
-          parseOpenAIChatGptResponsesSse(response),
-          readOpenAIResponseModelHeader(response.headers),
-        ),
+        stream: mapCodexEvents(parseOpenAIChatGptResponsesSse(response), response.headers),
         signal: firstEventAbort.signal,
         abort: firstEventAbort.abort,
         hook: createOpenAIProviderAcceptanceHook(options, response, model),
@@ -796,16 +792,16 @@ function extractCodexEventError(event: Record<string, unknown>): {
 
 async function* mapCodexEvents(
   events: AsyncIterable<Record<string, unknown>>,
-  initialResponseModel?: string,
+  initialResponseHeaders?: Headers,
 ): AsyncGenerator<ResponseStreamEvent> {
-  let responseModel = initialResponseModel;
+  const responseModelTracker = createResponseModelTracker();
+  responseModelTracker.begin(initialResponseHeaders);
   for await (const event of events) {
+    responseModelTracker.observeEvent(event);
     const type = typeof event.type === "string" ? event.type : undefined;
     if (!type) {
       continue;
     }
-
-    responseModel = readOpenAIResponseModelEvent(event) ?? responseModel;
 
     if (type === "error") {
       const { code, message } = extractCodexEventError(event);
@@ -825,7 +821,7 @@ async function* mapCodexEvents(
         ? {
             ...response,
             status: normalizeCodexStatus(response.status),
-            model: responseModel,
+            model: responseModelTracker.resolve(),
           }
         : response;
       yield {
