@@ -13,6 +13,7 @@ on:
         type: choice
         options:
           - recovery
+          - source-server-dts
           - windows-filter
           - update-preflight
           - preference-policy
@@ -1959,3 +1960,54 @@ jobs:
           node --import tsx/esm \
             .proof-harness/.github/proof/codex-empty-snapshot-provider-proof.mjs
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
+
+  real-source-server-dts-proof:
+    if: inputs.proof == 'source-server-dts'
+    name: Source updater (${{ matrix.lane }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [cold-runtime, cold-declarations, existing-upgrade]
+    steps:
+      - name: Checkout immutable proof tooling
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: proof-tooling
+          sparse-checkout: .github/proof
+          persist-credentials: false
+      - name: Checkout exact product head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: ${{ inputs.target_sha }}
+          path: candidate
+          fetch-depth: 8
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.19.0
+      - name: Complete real shell updater and artifact proof
+        shell: bash
+        env:
+          TARGET_SHA: ${{ inputs.target_sha }}
+          PROOF_LANE: ${{ matrix.lane }}
+          PROOF_TOOLING_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          node "$GITHUB_WORKSPACE/proof-tooling/.github/proof/source-server-dts-proof.mjs" \
+            "$GITHUB_WORKSPACE/candidate" "$TARGET_SHA" "$PROOF_LANE" \
+            "$RUNNER_TEMP/pr-139392/$PROOF_LANE"
+      - name: Preserve logs and assertions, including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: pr-139392-${{ matrix.lane }}-${{ inputs.target_sha }}
+          path: |
+            ${{ runner.temp }}/pr-139392/${{ matrix.lane }}/*.log
+            ${{ runner.temp }}/pr-139392/${{ matrix.lane }}/*.json
+          if-no-files-found: error
+          retention-days: 30
