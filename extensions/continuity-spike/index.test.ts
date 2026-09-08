@@ -771,4 +771,50 @@ describe("continuity registration composition", { concurrent: false }, () => {
       await destination.rpc("lookup", { id: activityId, operationId: "unknown-operation" }, true),
     ).toMatchObject({ code: "FORBIDDEN", retryable: false, details: { category: "denied" } });
   });
+
+  it.each(
+    (["home", "company", "family"] as const).flatMap((role) =>
+      (["id", "list"] as const).map((form) => ({ role, form })),
+    ),
+  )("applies current $role status-read policy to the $form response", async ({ role, form }) => {
+    const root = registration(createStateNamespaces());
+    await root.start();
+    await root.rpc("init", { role });
+    for (const id of [activityId, "visible-control"]) {
+      await root.rpc(
+        role === "home" ? "enroll" : "destination.enroll",
+        role === "home"
+          ? { id, sessionKey: `agent:main:${id}`, destinationId: "company", mode: "next-turn" }
+          : { id },
+      );
+    }
+    const original = await root.rpc("status", { id: activityId });
+    const control = await root.rpc("status", { id: "visible-control" });
+    expect(await root.rpc("status", {})).toEqual({ role, activities: [original, control] });
+
+    await root.rpc("policy", { id: activityId, statusRead: false });
+    const assertRevoked = async () => {
+      if (form === "id") {
+        expect(await root.rpc("status", { id: activityId }, true)).toMatchObject({
+          code: "FORBIDDEN",
+          retryable: false,
+          details: {
+            category: "denied",
+            reason: role === "home" ? "home-status-denied" : "destination-status-denied",
+          },
+        });
+      } else {
+        expect(await root.rpc("status", {})).toEqual({ role, activities: [control] });
+      }
+      expect(await root.rpc("status", { id: "visible-control" })).toEqual(control);
+    };
+    await assertRevoked();
+    await root.stop();
+    await root.start();
+    await assertRevoked();
+
+    const restored = await root.rpc("policy", { id: activityId, statusRead: true });
+    expect(await root.rpc("status", { id: activityId })).toEqual(restored);
+    expect(await root.rpc("status", {})).toEqual({ role, activities: [restored, control] });
+  });
 });

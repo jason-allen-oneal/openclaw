@@ -68,6 +68,13 @@ arguments; the hook also scrubs parameters defensively, and the mock emits an em
 argument object. It cannot set decisions or permissions. Operator-admin controls
 setup, release, and policy; status-read is separate.
 
+`continuity_spike.status` checks the current activity's `statusRead` policy on
+both home and destination Gateways. A revoked ID returns nonretryable `FORBIDDEN`;
+enumeration omits the whole revoked aggregate, including receipt and artifact
+copies, while preserving readable activities. Internal lifecycle reads and
+admin-only mutation responses retain their separate action contracts. Regranting
+read access reveals the retained data again; revocation is not data deletion.
+
 ## Experimental consistency contracts
 
 | Mode        | An active A turn when B is accepted                                                                               |
@@ -101,6 +108,12 @@ late A completion; family progress while company is disconnected; home process
 replacement and lost-receipt recovery; not-found uncertainty resolved only by
 a terminal cancellation fence; destination revision conflicts and refresh;
 separate execute/status access; and source-scoped native prompt projection.
+
+The receipt-read scenario captures actual synthetic RPC responses from clients
+granted only `operator.read`: allowed lookup and aggregate reads, revoked lookup
+and ID denials, list omission with readable siblings intact, and regrant controls.
+It covers destination receipts/artifacts and the reconciled home receipt copy.
+The JSON report includes these payloads, not authentication or handshake frames.
 
 The admin-only held-call fixture controls admission timing, not model reasoning.
 It is bounded to 30 seconds and responds to abort. Unit coverage additionally

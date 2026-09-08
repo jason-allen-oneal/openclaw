@@ -586,7 +586,16 @@ export default definePluginEntry({
     register("status", "operator.read", (value) => {
       const p = shape(value, ["id"]);
       const owner = role === "home" ? home() : remote();
-      return p.id === undefined ? { role, activities: owner.list() } : owner.get(text(p, "id"));
+      // Gate whole aggregates: artifacts and home operation records also carry receipt data.
+      if (p.id === undefined) {
+        return { role, activities: owner.list().filter((state) => state.policy.statusRead) };
+      }
+      const state = owner.get(text(p, "id"));
+      requireValue(
+        state.policy.statusRead,
+        role === "home" ? "home-status-denied" : "destination-status-denied",
+      );
+      return state;
     });
     register("decision", "operator.admin", (value) => {
       const p = shape(value, ["id", "direction", "requestId"], ["id", "direction", "requestId"]);

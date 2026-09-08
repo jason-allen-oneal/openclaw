@@ -411,7 +411,7 @@ export async function runSpike(network: SpikeNetwork) {
     return { conflict, final: await home(id) };
   });
 
-  await scenario("execute revocation does not remove receipt-read authority", async () => {
+  await scenario("receipt-read policy gates lookup and both aggregate response forms", async () => {
     const id = "reconcile-policy";
     await enroll(id);
     await nativeTurn(id);
@@ -425,9 +425,122 @@ export async function runSpike(network: SpikeNetwork) {
     })) as DestinationStatus;
     assert.ok(status.outcome === "found");
     await settle(id, status.receipt);
-    await rpc("company", "policy", { id, statusRead: false });
-    await assert.rejects(() => rpc("company", "lookup", { id, operationId: operation.id }));
-    return { receipt: status.receipt, final: await home(id) };
+    const connections = [];
+    for (const role of ["company", "home"] as const) {
+      connections.push(
+        await network.withReadOnlyClient(role, async ({ grantedScopes, request }) => {
+          assert.deepEqual(grantedScopes, ["operator.read"]);
+          const exchanges: Array<{
+            phase: string;
+            method: string;
+            params: unknown;
+            ok: boolean;
+            payload?: unknown;
+            error?: unknown;
+          }> = [];
+          // Capture actual synthetic RPC payloads, never connection credentials or hello frames.
+          const read = async (phase: string, method: string, params: unknown) => {
+            const payload = await request(`continuity_spike.${method}`, params);
+            exchanges.push({
+              phase,
+              method: `continuity_spike.${method}`,
+              params,
+              ok: true,
+              payload,
+            });
+            return payload;
+          };
+          const denied = async (method: string, params: unknown) => {
+            await assert.rejects(
+              () => request(`continuity_spike.${method}`, params),
+              (error: unknown) => {
+                assert.ok(isGatewayClientRequestError(error));
+                assert.equal(error.gatewayCode, "FORBIDDEN");
+                assert.equal(error.retryable, false);
+                assert.deepEqual(error.details, {
+                  pluginId: "continuity-spike",
+                  category: "denied",
+                  reason: role === "home" ? "home-status-denied" : "destination-status-denied",
+                });
+                exchanges.push({
+                  phase: "revoked",
+                  method: `continuity_spike.${method}`,
+                  params,
+                  ok: false,
+                  error: {
+                    code: error.gatewayCode,
+                    message: error.message,
+                    retryable: error.retryable,
+                    details: error.details,
+                  },
+                });
+                return true;
+              },
+            );
+          };
+          const before = (await read("allowed", "status", { id })) as
+            | ActivityState
+            | DestinationState;
+          const records = before.kind === "home-activity" ? before.operations : before.records;
+          assert.deepEqual(
+            records.find((record) => record.operation.id === operation.id)?.receipt,
+            status.receipt,
+          );
+          const inventory = (await read("allowed", "status", {})) as {
+            role: string;
+            activities: Array<ActivityState | DestinationState>;
+          };
+          assert.deepEqual(
+            inventory.activities.find((activity) => activity.id === id),
+            before,
+          );
+          if (role === "company") {
+            assert.deepEqual(
+              await read("allowed", "lookup", { id, operationId: operation.id }),
+              status,
+            );
+          }
+
+          await rpc(role, "policy", { id, statusRead: false });
+          await denied("status", { id });
+          if (role === "company") {
+            await denied("lookup", { id, operationId: operation.id });
+          }
+          const filtered = await read("revoked", "status", {});
+          const visible = inventory.activities.filter((activity) => activity.id !== id);
+          assert.ok(
+            visible.some((activity) => activity.id === "baseline"),
+            "readable sibling must remain",
+          );
+          assert.deepEqual(filtered, { role, activities: visible });
+          assert.ok(
+            !JSON.stringify(filtered).includes(operation.id),
+            "no receipt or artifact copy may escape",
+          );
+          assert.deepEqual(
+            await read("revoked", "status", { id: "baseline" }),
+            visible.find((activity) => activity.id === "baseline"),
+          );
+
+          const restored = await rpc(role, "policy", { id, statusRead: true });
+          assert.deepEqual(await read("restored", "status", { id }), restored);
+          assert.deepEqual(await read("restored", "status", {}), {
+            role,
+            activities: inventory.activities.map((activity) =>
+              activity.id === id ? restored : activity,
+            ),
+          });
+          if (role === "company") {
+            assert.deepEqual(
+              await read("restored", "lookup", { id, operationId: operation.id }),
+              status,
+            );
+          }
+          return { role, grantedScopes, exchanges };
+        }),
+      );
+    }
+    return { receipt: status.receipt, connections, final: await home(id) };
   });
 
   await scenario(
