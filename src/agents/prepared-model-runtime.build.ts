@@ -36,7 +36,6 @@ import {
 import {
   fingerprintPreparedRuntimeFacts,
   preparedModelInventoryKey,
-  prepareAgentCatalogSource,
   prepareConfiguredRuntimeFactsBatch,
   prepareWorkspaceBuildGroup,
 } from "./prepared-model-runtime.facts.js";
@@ -54,6 +53,7 @@ import {
   preparedModelRuntimeWorkspaceFactsKey,
 } from "./prepared-model-runtime.inbound-registry.js";
 import { createCatalogAttemptReporter } from "./prepared-model-runtime.publication-events.js";
+import { prepareAgentCatalogSource } from "./prepared-model-runtime.scoped-catalog.js";
 import type {
   PreparedModelRuntimeBuildStats,
   PreparedModelRuntimeCatalogMode,
@@ -180,7 +180,7 @@ function createFullModelCatalogAccess(params: {
       metadataSnapshot: params.pluginGeneration.pluginMetadataSnapshot,
       providers: params.pluginGeneration.pluginRegistry?.providers,
     });
-    return projected;
+    return attempt.withRefreshStatus(projected);
   };
   const inventoryKey = preparedModelInventoryKey(params.agentFacts.input);
   const normalizeProvider = createPreparedModelCatalogProviderNormalizer(
@@ -236,6 +236,7 @@ function createFullModelCatalogAccess(params: {
   });
   return {
     isCurrent: params.isCurrent,
+    withRefreshStatus: attempt.withRefreshStatus,
     loadAuth: ({ providerIds, profileIds }) => {
       const cacheKey = [providerIds, profileIds ?? []]
         .map((ids) =>
