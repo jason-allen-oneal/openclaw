@@ -32,7 +32,6 @@ function renderSubmissionResult(result: UpdateFailureReportSubmitResult): string
     result.message,
     ...(result.url ? [`Existing issue: ${result.url}`] : []),
     ...(result.fallbackUrl ? [`Existing prefilled issue: ${result.fallbackUrl}`] : []),
-    `Saved sanitized report: ${result.savedReportPath}`,
   ];
 }
 

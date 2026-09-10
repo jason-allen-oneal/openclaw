@@ -58,6 +58,7 @@ import {
   retainPreparedModelRuntimeGenerationResources,
 } from "./prepared-model-runtime.resources.js";
 import { prepareAgentCatalogSource } from "./prepared-model-runtime.scoped-catalog.js";
+import { scopeSyntheticAuthProviderRefs } from "./prepared-model-runtime.synthetic-auth.js";
 import type {
   PreparedModelRuntimeBuildStats,
   PreparedModelRuntimeCatalogMode,
@@ -82,7 +83,7 @@ export type PreparedModelRuntimeBuildCandidate = Readonly<{
   isBuildCurrent?: () => boolean;
   /** Shared publication guards run before workspace preparation; registration guards do not. */
   isPreparationCurrent?: () => boolean;
-  ownsEphemeralRegistries?: boolean;
+  ownsRegistryResources?: boolean;
 }>;
 
 export type PreparedModelRuntimeBuildResult = Readonly<{
@@ -161,12 +162,11 @@ function createFullModelCatalogAccess(params: {
     const current = materializePreparedModelCatalog(
       configured,
       params.agentFacts.runtimeCapabilityModels,
-      configuredRuntimeModels,
     );
     const projected = materializePreparedModelCatalog(
       catalog,
       params.agentFacts.runtimeCapabilityModels,
-      configuredRuntimeModels,
+      current.staticEntries,
     );
     projected.entries = dedupeByKey(
       [...projected.entries, ...current.entries],
@@ -264,7 +264,10 @@ function createFullModelCatalogAccess(params: {
           const authModes = {
             ...resolveUsableAgentCredentialModes(params.agentFacts.credentials),
           };
-          for (const providerId of providerIds) {
+          for (const providerId of [
+            ...providerIds,
+            ...scopeSyntheticAuthProviderRefs(Object.keys(authModes), providerIds),
+          ]) {
             delete authModes[normalizeProviderId(providerId)];
           }
           Object.assign(authModes, refreshed.authModes);
@@ -384,8 +387,8 @@ async function buildSnapshotBatch(
     [
       ...groupBuildCandidates(generationCandidates, (candidate) => {
         const workspace = preparedModelRuntimeWorkspaceFactsKey(candidate.input);
-        if (candidate.ownsEphemeralRegistries) {
-          return `ephemeral\0${workspace}`;
+        if (candidate.ownsRegistryResources) {
+          return `owned\0${workspace}`;
         }
         const kind = candidate.prepareInboundPluginRegistry ? "configured" : "dynamic";
         return pluginGeneration ? workspace : `${kind}\0${workspace}`;
@@ -445,7 +448,7 @@ async function buildSnapshotBatch(
         includeCredentialProviders,
         getConfiguredHarnessRuntimes,
         onStage,
-        ...(groupCandidates.some((candidate) => candidate.ownsEphemeralRegistries)
+        ...(groupCandidates.some((candidate) => candidate.ownsRegistryResources)
           ? { registryResources }
           : {}),
       },
