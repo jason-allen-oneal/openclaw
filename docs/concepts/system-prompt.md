@@ -38,7 +38,15 @@ byte-for-byte. These prompt sections are advisory; they do not grant authority
 or replace tool policy, approvals, sandboxing, or allowlists. Core-owned
 security-sensitive sections such as **Safety** are not configurable through
 this surface. Dynamic exec-approval guidance also remains core-owned when
-`tool_call_style` is replaced or disabled.
+an operator replaces or disables `tool_call_style`; provider-only replacements
+retain their existing whole-section behavior when operator overrides are unset.
+
+Agent configuration hot-reloads into the active runtime snapshot. Section
+changes affect the next agent run, including the next turn of an existing
+embedded session; an in-flight run keeps the prompt it started with. Reusable
+CLI sessions follow the existing prompt-drift contract: supported backends
+resume with the changed system prompt, while backends that cannot receive a
+resumed prompt are invalidated and started again.
 
 Provider plugins can contribute cache-aware guidance without replacing the OpenClaw-owned prompt. A provider runtime can:
 

@@ -581,6 +581,16 @@ function buildLayeredPromptSection(params: {
   return content ? [content, ""] : [];
 }
 
+function hasConfiguredPromptSectionOverride(params: {
+  id: AgentSystemPromptSectionId;
+  configLayers?: readonly AgentSystemPromptSectionOverrides[];
+}): boolean {
+  return (params.configLayers ?? []).some((layer) => {
+    const override = layer[params.id];
+    return Boolean(override && override.mode !== "default");
+  });
+}
+
 function buildMessagingSection(params: {
   isMinimal: boolean;
   availableTools: Set<string>;
@@ -1051,6 +1061,10 @@ export function buildAgentSystemPrompt(params: {
       ])
       .filter(([, value]) => Boolean(value)),
   ) as Partial<Record<ProviderSystemPromptSectionId, string>>;
+  const hasConfiguredToolCallStyleOverride = hasConfiguredPromptSectionOverride({
+    id: "tool_call_style",
+    configLayers: params.systemPromptSectionOverrideLayers,
+  });
   const isMinimal = promptMode === "minimal";
   const includeToolGuidance =
     !isMinimal || availableTools.size > 0 || promptSurface === "cli_backend";
@@ -1519,8 +1533,10 @@ export function buildAgentSystemPrompt(params: {
         ]
       : []),
     // Approval UI and owner identity vary by turn, so keep both below the stable prefix.
-    // Approval guidance remains core-owned even when operators customize tool narration.
-    ...(!hasExec
+    // Preserve the shipped provider-only replacement contract while keeping approval
+    // guidance core-owned whenever an operator explicitly customizes tool narration.
+    ...(!hasExec ||
+    (providerSectionOverrides.tool_call_style && !hasConfiguredToolCallStyleOverride)
       ? []
       : [
           buildExecApprovalPromptGuidance({

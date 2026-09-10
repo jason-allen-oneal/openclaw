@@ -51,7 +51,14 @@ entry. Unset configuration leaves the generated prompt unchanged. Prompt text
 is advisory; use tool policy, approvals, sandboxing, and allowlists for hard
 enforcement. The core **Safety** section is not configurable here.
 Dynamic exec-approval guidance also remains core-owned when `tool_call_style`
-is replaced or disabled.
+is replaced or disabled by operator config. A provider-only replacement keeps
+the existing whole-section contract when operator overrides are unset.
+
+These settings hot-reload with other agent configuration and apply when the
+next agent run builds its prompt. Existing embedded sessions therefore use the
+new sections on their next turn; in-flight runs are unchanged. Reusable CLI
+sessions use the normal prompt-drift behavior: compatible backends resume with
+the changed prompt, and incompatible backends start a fresh CLI session.
 
 ## `agents.defaults.workspace`
 

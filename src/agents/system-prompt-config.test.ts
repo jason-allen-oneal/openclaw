@@ -113,6 +113,50 @@ describe("buildConfiguredAgentSystemPrompt", () => {
     expect(prompt).toContain("exec approval-pending:");
   });
 
+  it("preserves provider-only tool-call replacement behavior without operator overrides", () => {
+    const prompt = buildConfiguredAgentSystemPrompt({
+      config: {},
+      agentId: "main",
+      workspaceDir: "/tmp/openclaw",
+      toolNames: ["exec"],
+      promptContribution: {
+        sectionOverrides: {
+          tool_call_style: "## Provider Tool Style\nUse provider-owned tool guidance.",
+        },
+      },
+    });
+
+    expect(prompt).toContain("Use provider-owned tool guidance.");
+    expect(prompt).not.toContain("exec approval-pending:");
+  });
+
+  it("keeps approval guidance when operator config layers over a provider replacement", () => {
+    const prompt = buildConfiguredAgentSystemPrompt({
+      config: {
+        agents: {
+          defaults: {
+            systemPrompt: {
+              sections: {
+                tool_call_style: { mode: "disable" },
+              },
+            },
+          },
+        },
+      },
+      agentId: "main",
+      workspaceDir: "/tmp/openclaw",
+      toolNames: ["exec"],
+      promptContribution: {
+        sectionOverrides: {
+          tool_call_style: "## Provider Tool Style\nUse provider-owned tool guidance.",
+        },
+      },
+    });
+
+    expect(prompt).not.toContain("Use provider-owned tool guidance.");
+    expect(prompt).toContain("exec approval-pending:");
+  });
+
   it("keeps runtime approval guidance when tool-call guidance is only appended", () => {
     const prompt = buildConfiguredAgentSystemPrompt({
       config: {
