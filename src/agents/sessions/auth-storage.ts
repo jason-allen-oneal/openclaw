@@ -59,6 +59,11 @@ import {
   resolveAuthStoragePluginOAuthCredential,
 } from "./auth-storage-oauth-registry.js";
 import {
+  attachAuthStorageProfiles,
+  isAuthStorageCredentialFree,
+  registerAuthStorageRuntimeOverride,
+} from "./auth-storage-profiles.js";
+import {
   applyAuthStorageData,
   assertAuthStorageSecretRefsMaterialized,
   materializeAuthStorageStore,
@@ -171,6 +176,10 @@ class SqliteAuthStorageBackend implements AuthStorageBackend {
     private readonly scope: ReturnType<typeof createAuthProfileStoreReadScope>,
     private readonly preparedStore: AuthProfileStore,
   ) {}
+
+  getPreparedStore(): AuthProfileStore {
+    return this.preparedStore;
+  }
 
   private get agentDir(): string {
     return this.scope.agentDir;
@@ -408,11 +417,15 @@ export class AuthStorage {
   private storage: AuthStorageBackend;
   private constructor(storage: AuthStorageBackend) {
     this.storage = storage;
+    registerAuthStorageRuntimeOverride(this, (provider) => this.runtimeOverrides.get(provider));
     this.reload();
   }
 
   static forAgent(agentDir: string = getAgentDir(), config?: OpenClawConfig): AuthStorage {
-    return new AuthStorage(createSqliteAuthStorageBackend(agentDir, config));
+    const backend = createSqliteAuthStorageBackend(agentDir, config);
+    return attachAuthStorageProfiles(new AuthStorage(backend), backend.getPreparedStore(), {
+      liveDefault: true,
+    });
   }
 
   /**
@@ -604,8 +617,8 @@ export class AuthStorage {
    * Unlike getApiKey(), this doesn't refresh OAuth tokens.
    */
   hasAuth(provider: string): boolean {
-    if (this.runtimeOverrides.has(provider)) {
-      return true;
+    if (this.runtimeOverrides.has(provider) || isAuthStorageCredentialFree(this)) {
+      return this.runtimeOverrides.has(provider);
     }
     if (this.get(provider)) {
       return true;
@@ -623,6 +636,11 @@ export class AuthStorage {
    * Return auth status without exposing credential values or refreshing tokens.
    */
   getAuthStatus(provider: string): AuthStatus {
+    if (isAuthStorageCredentialFree(this)) {
+      return this.runtimeOverrides.has(provider)
+        ? { configured: false, source: "runtime", label: "--api-key" }
+        : { configured: false };
+    }
     if (this.get(provider)) {
       return { configured: true, source: "stored" };
     }
@@ -718,7 +736,7 @@ export class AuthStorage {
   ): Promise<string | undefined> {
     // Runtime override takes highest priority
     const runtimeKey = this.runtimeOverrides.get(providerId);
-    if (runtimeKey) {
+    if (runtimeKey || isAuthStorageCredentialFree(this)) {
       return runtimeKey;
     }
 

@@ -41,6 +41,7 @@ import type {
   PreparedModelRuntimeSnapshot,
   PreparedModelRuntimeStores,
 } from "./prepared-model-runtime.types.js";
+import { copyAuthStorageProfiles } from "./sessions/auth-storage-profiles.js";
 import { AuthStorage } from "./sessions/auth-storage.js";
 
 const fullModelCatalogSnapshots = new WeakSet<ModelCatalogSnapshot>();
@@ -309,7 +310,7 @@ export function createPreparedModelRuntimeSnapshot(
   catalogFacts: PreparedModelRuntimeCatalogFacts,
   catalogAccess: PreparedModelRuntimeCatalogAccess,
 ): PreparedModelRuntimeSnapshot {
-  const { credentials, input } = agentFacts;
+  const { credentials, input, templateAuthStorage } = agentFacts;
   const {
     mediaCapabilityProviders,
     mediaCapabilityProviderSource,
@@ -332,6 +333,7 @@ export function createPreparedModelRuntimeSnapshot(
     // Runtime API keys and session extensions mutate these objects. Fork them per run while the
     // credential map and parsed catalog remain owned by the lifecycle snapshot.
     const authStorage = AuthStorage.inMemory(credentials);
+    copyAuthStorageProfiles(templateAuthStorage, authStorage);
     return { authStorage, modelRegistry: templateModelRegistry.fork(authStorage) };
   };
   const snapshot: PreparedModelRuntimeSnapshot = Object.freeze({

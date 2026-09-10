@@ -54,6 +54,13 @@ function credentialMatches(
   );
 }
 
+function credentialProviderMatches(
+  credential: AuthProfileCredential | undefined,
+  provider: string,
+): boolean {
+  return normalizeProviderId(credential?.provider ?? "") === normalizeProviderId(provider);
+}
+
 function matchesProviderEnvRefMarker(
   cfg: OpenClawConfig,
   provider: string,
@@ -99,7 +106,7 @@ function collectCredentials(
       // An authored SecretRef owns this provider; generated catalog copies are never fallbacks.
       (cfg && resolveProviderConfigSecretInput(cfg, provider).ref) ||
       isNonSecretApiKeyMarker(key) ||
-      store.profiles[key] !== undefined ||
+      credentialProviderMatches(store.profiles[key], provider) ||
       findMatchingProfileId(store, credential, blockedStores) !== undefined
     ) {
       return [];
@@ -401,7 +408,7 @@ export async function maybeMigrateModelCatalogCredentials(params: {
 
   if (migrated > 0) {
     note(
-      `Copied and verified ${migrated} model credential${migrated === 1 ? "" : "s"} in agent SQLite. Existing catalog values remain active until the runtime migration lands.`,
+      `Copied and verified ${migrated} model credential${migrated === 1 ? "" : "s"} in agent SQLite. Refresh the model catalog to replace legacy credential values with profile references.`,
       "Doctor changes",
     );
   }

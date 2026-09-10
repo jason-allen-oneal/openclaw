@@ -9,7 +9,12 @@ import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot
 import type { ProviderCatalogOutcome } from "../plugins/provider-catalog.types.js";
 import type { PreparedProviderStaticCatalog } from "../plugins/provider-discovery.js";
 import { isRecord } from "../utils.js";
+import {
+  getRuntimeAuthProfileStoreSnapshot,
+  loadAuthProfileStoreForSecretsRuntime,
+} from "./auth-profiles.js";
 import type { AuthProfileStore } from "./auth-profiles/types.js";
+import { isNonSecretApiKeyMarker } from "./model-auth-markers.js";
 import {
   modelKey,
   createConfiguredProviderCatalogModelIdNormalizer,
@@ -36,6 +41,7 @@ import {
   resolvePluginModelCatalogOwnerPluginId,
   type PersistedPluginModelCatalog,
 } from "./plugin-model-catalog.js";
+import { resolveProviderIdForAuth } from "./provider-auth-aliases.js";
 
 type ModelsConfig = NonNullable<OpenClawConfig["models"]>;
 
@@ -276,6 +282,67 @@ function filterWritableProviders(
   return Object.keys(next).length === Object.keys(providers).length ? providers : next;
 }
 
+function resolveCatalogProfileId(params: {
+  apiKey: string;
+  provider: string;
+  store: AuthProfileStore;
+}): string | undefined {
+  const provider = resolveProviderIdForAuth(params.provider);
+  return Object.entries(params.store.profiles).find(
+    ([profileId, credential]) =>
+      resolveProviderIdForAuth(credential.provider) === provider &&
+      ((credential.type === "api_key" &&
+        (profileId === params.apiKey || credential.key === params.apiKey)) ||
+        (credential.type === "token" &&
+          (profileId === params.apiKey || credential.token === params.apiKey))),
+  )?.[0];
+}
+
+function replacePlaintextProviderApiKeysWithProfileIds(params: {
+  agentDir: string;
+  authStore?: AuthProfileStore;
+  config: OpenClawConfig;
+  env: NodeJS.ProcessEnv;
+  providers: Record<string, ProviderConfig>;
+  secretRefManagedProviders: ReadonlySet<string>;
+}): Record<string, ProviderConfig> {
+  let store = params.authStore;
+  let mutated = false;
+  const providers = Object.fromEntries(
+    Object.entries(params.providers).map(([providerId, provider]) => {
+      const apiKey = typeof provider.apiKey === "string" ? provider.apiKey.trim() : "";
+      if (
+        !apiKey ||
+        isNonSecretApiKeyMarker(apiKey) ||
+        params.secretRefManagedProviders.has(providerId)
+      ) {
+        return [providerId, provider];
+      }
+      store ??=
+        getRuntimeAuthProfileStoreSnapshot(params.agentDir) ??
+        loadAuthProfileStoreForSecretsRuntime(params.agentDir, { config: params.config });
+      const profileId = resolveCatalogProfileId({ apiKey, provider: providerId, store });
+      // Discovery providers return env-var names as opaque all-caps markers. Keep
+      // those markers even when the referenced variable is intentionally absent
+      // from this process; the generated catalog must not materialize the value.
+      if (!profileId && /^[A-Z_][A-Z0-9_]*$/.test(apiKey)) {
+        return [providerId, provider];
+      }
+      if (!profileId) {
+        throw new Error(
+          `Provider "${providerId}" has a plaintext catalog credential that is not in the credential store. Run openclaw doctor --fix before starting OpenClaw.`,
+        );
+      }
+      if (provider.apiKey === profileId) {
+        return [providerId, provider];
+      }
+      mutated = true;
+      return [providerId, { ...provider, apiKey: profileId }];
+    }),
+  );
+  return mutated ? providers : params.providers;
+}
+
 /** Recovers only generated providers; manual root declarations never enter this source. */
 function collectGeneratedCatalogProviders(params: {
   catalogs: readonly PersistedPluginModelCatalog[];
@@ -381,7 +448,14 @@ async function planOpenClawModelsJsonWithDeps(
       sourceConfigForSecrets: context.sourceConfigForSecrets,
       secretRefManagedProviders,
     }) ?? normalizedMergedProviders;
-  const finalProviders = filterWritableProviders(secretEnforcedProviders);
+  const finalProviders = replacePlaintextProviderApiKeysWithProfileIds({
+    agentDir,
+    ...(params.authStore ? { authStore: params.authStore } : {}),
+    config: cfg,
+    env,
+    providers: filterWritableProviders(secretEnforcedProviders),
+    secretRefManagedProviders,
+  });
   const splitProviders = splitProvidersByPluginOwner({
     providers: finalProviders,
     pluginMetadataSnapshot: context.pluginMetadataSnapshot,
