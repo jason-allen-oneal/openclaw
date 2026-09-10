@@ -114,7 +114,7 @@ function resolveFailedSteps(input: UpdateFailureReportInput): ReportedFailedStep
         name: REPORTABLE_RECORDED_PHASES.has(step.step)
           ? step.step.trim().replace(/\s+/gu, "-")
           : step.step,
-        exitCode: 1,
+        exitCode: null,
       };
       return reported;
     });

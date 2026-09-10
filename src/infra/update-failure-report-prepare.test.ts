@@ -186,10 +186,38 @@ describe("update report diagnostic command boundary", () => {
     );
 
     expect(report.body).toContain("- Failed phase: package-rollback\n");
-    expect(report.body).toContain("Failed phase activating: exit 1");
-    expect(report.body).toContain("Failed phase package-rollback: exit 1");
-    expect(report.body).toContain("Failed phase [redacted-command]: exit 1");
+    expect(report.body).toContain("Failed phase activating: exit unknown");
+    expect(report.body).toContain("Failed phase package-rollback: exit unknown");
+    expect(report.body).toContain("Failed phase [redacted-command]: exit unknown");
     expect(report.body).not.toContain("private-customer-text");
     expect(report.body).not.toContain("Gateway service ownership");
+  });
+
+  it("preserves a measured exit code when the same failure is also in the ledger", async () => {
+    const report = await prepareUpdateFailureReport(
+      {
+        attemptId: "measured-failure-history",
+        result: {
+          mode: "git",
+          status: "error",
+          reason: "activation-failed",
+          steps: [
+            {
+              name: "activating",
+              command: "not copied",
+              cwd: "/private",
+              durationMs: 1,
+              exitCode: 7,
+            },
+          ],
+          durationMs: 1,
+        },
+        recordedRun: { steps: [{ step: "activating", status: "failed" }] },
+      },
+      context,
+    );
+
+    expect(report.body).toContain("Failed phase activating: exit 7");
+    expect(report.body.match(/Failed phase activating:/gu)).toHaveLength(1);
   });
 });
