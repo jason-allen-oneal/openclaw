@@ -9,6 +9,7 @@ const mocks = vi.hoisted(() => ({
   prepare:
     vi.fn<typeof import("../../infra/update-failure-report.js").prepareUpdateFailureReport>(),
   submit: vi.fn<typeof import("../../infra/update-failure-report.js").submitUpdateFailureReport>(),
+  getUpdateRun: vi.fn<typeof import("../../infra/update-run-ledger.js").getUpdateRun>(),
 }));
 
 vi.mock("../../commands/configure.shared.js", () => ({
@@ -19,6 +20,7 @@ vi.mock("../../infra/update-failure-report.js", () => ({
   prepareUpdateFailureReport: mocks.prepare,
   submitUpdateFailureReport: mocks.submit,
 }));
+vi.mock("../../infra/update-run-ledger.js", () => ({ getUpdateRun: mocks.getUpdateRun }));
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 
@@ -56,6 +58,7 @@ function setup(
     status: "created" as const,
     url: "https://github.com/openclaw/openclaw/issues/123",
   });
+  mocks.getUpdateRun.mockReset().mockReturnValue(undefined);
   const runtime = { log: vi.fn(), error: vi.fn() };
   const actions = Array.isArray(action) ? [...action] : [action];
   const chooseAction = mocks.select
@@ -103,6 +106,26 @@ describe("interactive update failure action", () => {
     );
     expect(fixture.runtime.log).toHaveBeenCalledWith(
       "Created GitHub issue: https://github.com/openclaw/openclaw/issues/123",
+    );
+  });
+
+  it("passes durable failed phases when the handoff result omits them", async () => {
+    const fixture = setup("report", false);
+    const recordedRun = {
+      steps: [{ step: "activating", status: "failed" as const }],
+    } as NonNullable<ReturnType<typeof import("../../infra/update-run-ledger.js").getUpdateRun>>;
+    mocks.getUpdateRun.mockReturnValue(recordedRun);
+
+    await expect(fixture.run()).resolves.toBe("handled");
+
+    expect(mocks.getUpdateRun).toHaveBeenCalledWith("attempt-cli", {
+      env: { OPENCLAW_STATE_DIR: expect.any(String) },
+    });
+    expect(fixture.prepare).toHaveBeenCalledWith(
+      expect.objectContaining({ recordedRun }),
+      expect.objectContaining({
+        env: expect.objectContaining({ OPENCLAW_STATE_DIR: expect.any(String) }),
+      }),
     );
   });
 
