@@ -59,6 +59,7 @@ import type {
   ProviderPlugin,
 } from "../../plugins/types.js";
 import type { RuntimeEnv } from "../../runtime.js";
+import { ProviderAuthConfigApplyError } from "../../shared/provider-auth-result.js";
 import { isRecord } from "../../utils.js";
 import { normalizeSecretInput } from "../../utils/normalize-secret-input.js";
 import { createClackPrompter } from "../../wizard/clack-prompter.js";
@@ -71,7 +72,7 @@ import {
   type ModelsAuthCatalogAdmission,
 } from "./auth-catalog-admission.js";
 import { tryImportProviderCredential } from "./auth-credential-import.js";
-import { refreshRunningGatewayAuthState } from "./auth-refresh.js";
+import { refreshRunningGatewayAuthState, type ModelAuthRefreshOutcome } from "./auth-refresh.js";
 import {
   loadValidConfigSnapshotOrThrow,
   resolveModelsTargetAgent,
@@ -431,7 +432,7 @@ async function persistProviderAuthResult(params: {
   setDefault?: boolean;
   env?: NodeJS.ProcessEnv;
   beforePersistentEffect?: () => void | Promise<void>;
-}): Promise<ProviderAuthResult["profiles"]> {
+}): Promise<{ profiles: ProviderAuthResult["profiles"]; authRefresh: ModelAuthRefreshOutcome }> {
   const defaultModel = params.result.defaultModel
     ? normalizeAgentModelRefForConfig(params.result.defaultModel)
     : undefined;
@@ -531,10 +532,7 @@ async function persistProviderAuthResult(params: {
       if (persistedProfiles.length === 0) {
         throw error;
       }
-      throw new Error(
-        `Credentials saved, but provider settings could not be applied: ${error instanceof Error ? error.message : String(error)}`,
-        { cause: error },
-      );
+      throw new ProviderAuthConfigApplyError(error);
     });
     assertProfilesCurrent();
     if (defaultModel) {
@@ -555,7 +553,7 @@ async function persistProviderAuthResult(params: {
     logConfigUpdated(params.runtime);
   }
 
-  await refreshRunningGatewayAuthState(params.agentId, "login", params.runtime);
+  const authRefresh = await refreshRunningGatewayAuthState(params.agentId, "login", params.runtime);
   assertProfilesCurrent();
 
   if (params.result.notes && params.result.notes.length > 0) {
@@ -575,7 +573,7 @@ async function persistProviderAuthResult(params: {
         : `Default model available: ${defaultModel} (current default unchanged; run ${formatCliCommand(`openclaw models set ${defaultModel}`)} to apply)`,
     );
   }
-  return persistedProfiles;
+  return { profiles: persistedProfiles, authRefresh };
 }
 
 function resolveConfiguredAuthSelectionForProvider(
@@ -662,7 +660,11 @@ async function runProviderAuthMethod(params: {
   signal?: AbortSignal;
   openUrl?: (url: string) => Promise<void>;
   beforePersistentEffect?: () => void | Promise<void>;
-}): Promise<{ result: ProviderAuthResult; profiles: ProviderAuthResult["profiles"] }> {
+}): Promise<{
+  result: ProviderAuthResult;
+  profiles: ProviderAuthResult["profiles"];
+  authRefresh: ModelAuthRefreshOutcome;
+}> {
   params.signal?.throwIfAborted();
   params.admission.assertCurrent();
   const result = await params.method.run({
@@ -691,7 +693,7 @@ async function runProviderAuthMethod(params: {
     requestedProfileId: params.profileId,
   });
 
-  const persistedProfiles = await persistProviderAuthResult({
+  const { profiles: persistedProfiles, authRefresh } = await persistProviderAuthResult({
     admission: params.admission,
     result,
     profiles,
@@ -705,7 +707,7 @@ async function runProviderAuthMethod(params: {
     env: params.env ?? process.env,
     beforePersistentEffect: params.beforePersistentEffect,
   });
-  return { result, profiles: persistedProfiles };
+  return { result, profiles: persistedProfiles, authRefresh };
 }
 
 /** Runs an interactive provider setup-token auth flow. */
@@ -1048,6 +1050,7 @@ type LoginOptions = {
 export type ModelsAuthLoginFlowResult = {
   providerId: string;
   methodId: string;
+  authRefresh: ModelAuthRefreshOutcome;
   defaultModel?: string;
   imported?: boolean;
   profiles: Array<{
@@ -1230,7 +1233,11 @@ export async function runModelsAuthLoginFlowCore(
   } else if (imported) {
     const assertCurrent = expectDefined(assertImportedCurrent, "import completion");
     assertCurrent();
-    await refreshRunningGatewayAuthState(context.agentId, "login", opts.runtime);
+    const authRefresh = await refreshRunningGatewayAuthState(
+      context.agentId,
+      "login",
+      opts.runtime,
+    );
     assertCurrent();
     if (imported.configUpdated) {
       logConfigUpdated(opts.runtime);
@@ -1241,6 +1248,7 @@ export async function runModelsAuthLoginFlowCore(
     return {
       providerId: selectedProvider.id,
       methodId: chosenMethod.id,
+      authRefresh,
       imported: true,
       profiles: [
         { profileId: imported.profileId, provider: imported.provider, mode: imported.mode },
@@ -1284,7 +1292,7 @@ export async function runModelsAuthLoginFlowCore(
     await refreshRunningGatewayAuthState(context.agentId, "logout", opts.runtime);
   }
 
-  const { result, profiles } = await runProviderAuthMethod({
+  const { result, profiles, authRefresh } = await runProviderAuthMethod({
     admission,
     config: context.config,
     configSnapshot: context.configSnapshot,
@@ -1307,6 +1315,7 @@ export async function runModelsAuthLoginFlowCore(
   return {
     providerId: selectedProvider.id,
     methodId: chosenMethod.id,
+    authRefresh,
     ...(result.defaultModel ? { defaultModel: result.defaultModel } : {}),
     profiles: profiles.map((profile) => ({
       profileId: profile.profileId,
