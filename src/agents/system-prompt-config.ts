@@ -33,6 +33,19 @@ type ConfiguredAgentSystemPromptParams = AgentSystemPromptRenderParams & {
   agentId?: string;
 };
 
+export function resolveAgentSystemPromptSectionOverrideLayers(params: {
+  config?: OpenClawConfig;
+  agentId?: string;
+}): AgentSystemPromptSectionOverrides[] | undefined {
+  const layers = [
+    params.config?.agents?.defaults?.systemPrompt?.sections,
+    params.config && params.agentId
+      ? resolveAgentEntry(params.config, params.agentId)?.systemPrompt?.sections
+      : undefined,
+  ].filter((layer): layer is AgentSystemPromptSectionOverrides => Boolean(layer));
+  return layers.length > 0 ? layers : undefined;
+}
+
 function buildModelAliasLines(cfg?: OpenClawConfig) {
   const entries: Array<{ alias: string; model: string }> = [];
   for (const [keyRaw, entryRaw] of Object.entries(cfg?.agents?.defaults?.models ?? {})) {
@@ -57,10 +70,10 @@ function resolveAgentSystemPromptConfig(params: {
 }): ResolvedAgentSystemPromptConfig {
   const { config, agentId, sessionKey, sourceReplyDeliveryMode } = params;
   const includeFullSections = params.promptMode !== "minimal" && params.promptMode !== "none";
-  const systemPromptSectionOverrideLayers = [
-    config?.agents?.defaults?.systemPrompt?.sections,
-    config && agentId ? resolveAgentEntry(config, agentId)?.systemPrompt?.sections : undefined,
-  ].filter((layer): layer is AgentSystemPromptSectionOverrides => Boolean(layer));
+  const systemPromptSectionOverrideLayers = resolveAgentSystemPromptSectionOverrideLayers({
+    config,
+    agentId,
+  });
   return {
     ownerDisplay: "raw",
     ownerDisplaySecret: undefined,
@@ -74,8 +87,7 @@ function resolveAgentSystemPromptConfig(params: {
     modelAliasLines: includeFullSections ? buildModelAliasLines(config) : [],
     memoryCitationsMode: config?.memory?.citations,
     fsWorkspaceOnly: resolveEffectiveToolFsWorkspaceOnly({ cfg: config, agentId }),
-    systemPromptSectionOverrideLayers:
-      systemPromptSectionOverrideLayers.length > 0 ? systemPromptSectionOverrideLayers : undefined,
+    systemPromptSectionOverrideLayers,
   };
 }
 
