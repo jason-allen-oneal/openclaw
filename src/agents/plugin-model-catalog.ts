@@ -6,17 +6,8 @@
  * sidecars remain supported for migration and logout cleanup.
  */
 import { randomUUID } from "node:crypto";
-import {
-  linkSync,
-  readFileSync,
-  readdirSync,
-  renameSync,
-  unlinkSync,
-  writeFileSync,
-  type Dirent,
-} from "node:fs";
+import { linkSync, readFileSync, readdirSync, renameSync, unlinkSync, type Dirent } from "node:fs";
 import path from "node:path";
-import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { executeSqliteQuerySync, getNodeSqliteKysely } from "../infra/kysely-sync.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
@@ -29,10 +20,7 @@ import {
 } from "./auth-profiles/sqlite.js";
 import { withPluginModelCatalogWriteLockSync } from "./plugin-model-catalog-lock.js";
 import {
-  filterGeneratedPluginModelCatalogForLoggedOutProviders,
-  isActivePluginModelCatalogLogoutFence,
   PLUGIN_MODEL_CATALOG_GENERATION_SCOPE,
-  PLUGIN_MODEL_CATALOG_LOGOUT_SCOPE,
   retireCommittedPluginModelCatalogMigration,
 } from "./plugin-model-catalog-logout.js";
 import { decodePluginModelCatalogRelativePathPluginId } from "./plugin-model-catalog-ownership.js";
@@ -44,9 +32,8 @@ import {
 export { isGeneratedPluginModelCatalog };
 export { PLUGIN_MODEL_CATALOG_GENERATED_BY } from "./plugin-model-catalog-repair.js";
 export {
-  clearPersistedPluginModelCatalogProviderInvalidation,
   readPersistedPluginModelCatalogGeneration,
-  removePersistedPluginModelCatalogsForProvider,
+  removePersistedPluginModelCatalogCredentials,
 } from "./plugin-model-catalog-logout.js";
 export {
   decodePluginModelCatalogRelativePathPluginId,
@@ -212,17 +199,6 @@ function replacePersistedPluginModelCatalogEntries(params: {
     runOpenClawAgentWriteTransaction(
       (database) => {
         const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
-        const invalidatedProviders = new Set(
-          executeSqliteQuerySync(
-            database.db,
-            kysely
-              .selectFrom("cache_entries")
-              .select(["key", "value_json"])
-              .where("scope", "=", PLUGIN_MODEL_CATALOG_LOGOUT_SCOPE),
-          )
-            .rows.filter((row) => isActivePluginModelCatalogLogoutFence(row.value_json))
-            .map((row) => normalizeProviderId(row.key)),
-        );
         if (params.catalogGeneration) {
           const currentGeneration = executeSqliteQuerySync(
             database.db,
@@ -290,51 +266,16 @@ function replacePersistedPluginModelCatalogEntries(params: {
         };
         let changed = false;
         for (const [pluginId, contents] of params.planned) {
-          const filteredContents = filterGeneratedPluginModelCatalogForLoggedOutProviders({
-            contents,
-            providerIds: invalidatedProviders,
-          });
           const migrationPayload = params.migrationPayloads?.get(pluginId);
-          const filteredMigrationPayload = migrationPayload
-            ? filterGeneratedPluginModelCatalogForLoggedOutProviders({
-                contents: migrationPayload,
-                providerIds: invalidatedProviders,
-              })
-            : undefined;
-          if (
-            filteredMigrationPayload &&
-            existingMigrationPayloads?.get(pluginId) === filteredMigrationPayload
-          ) {
+          if (migrationPayload && existingMigrationPayloads?.get(pluginId) === migrationPayload) {
             continue;
           }
-          if (filteredContents === null) {
-            executeSqliteQuerySync(
-              database.db,
-              kysely
-                .deleteFrom("cache_entries")
-                .where("scope", "=", PLUGIN_MODEL_CATALOG_CACHE_SCOPE)
-                .where("key", "=", pluginId),
-            );
-            changed = true;
-          } else if (existingByPluginId.get(pluginId) !== filteredContents) {
-            upsertCacheEntry(PLUGIN_MODEL_CATALOG_CACHE_SCOPE, pluginId, filteredContents);
+          if (existingByPluginId.get(pluginId) !== contents) {
+            upsertCacheEntry(PLUGIN_MODEL_CATALOG_CACHE_SCOPE, pluginId, contents);
             changed = true;
           }
-          if (filteredMigrationPayload) {
-            upsertCacheEntry(
-              PLUGIN_MODEL_CATALOG_MIGRATION_SCOPE,
-              pluginId,
-              filteredMigrationPayload,
-            );
-            changed = true;
-          } else if (migrationPayload) {
-            executeSqliteQuerySync(
-              database.db,
-              kysely
-                .deleteFrom("cache_entries")
-                .where("scope", "=", PLUGIN_MODEL_CATALOG_MIGRATION_SCOPE)
-                .where("key", "=", pluginId),
-            );
+          if (migrationPayload) {
+            upsertCacheEntry(PLUGIN_MODEL_CATALOG_MIGRATION_SCOPE, pluginId, migrationPayload);
             changed = true;
           }
         }
@@ -451,11 +392,6 @@ export function migrateLegacyPluginModelCatalogs(params: {
     );
   }
   const pluginsDir = path.join(agentDir, "plugins");
-  const invalidatedProviders = new Set(
-    readPersistedPluginModelCatalogEntries(agentDir, PLUGIN_MODEL_CATALOG_LOGOUT_SCOPE)
-      .filter(({ contents }) => isActivePluginModelCatalogLogoutFence(contents))
-      .map(({ pluginId }) => normalizeProviderId(pluginId)),
-  );
   const warnings: string[] = [];
   let pluginDirs: Dirent[];
   try {
@@ -548,18 +484,6 @@ export function migrateLegacyPluginModelCatalogs(params: {
         continue;
       }
       if (isGeneratedPluginModelCatalog(parsed)) {
-        const filteredContents = filterGeneratedPluginModelCatalogForLoggedOutProviders({
-          contents,
-          providerIds: invalidatedProviders,
-        });
-        if (filteredContents !== contents) {
-          if (filteredContents === null) {
-            unlinkSync(pathname);
-          } else {
-            writeFileSync(pathname, filteredContents, "utf8");
-          }
-          continue;
-        }
         pluginLegacyCatalogs.push({ pluginId, pathname, contents });
       }
     }

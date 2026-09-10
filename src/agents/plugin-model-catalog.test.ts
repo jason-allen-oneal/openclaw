@@ -16,7 +16,6 @@ import { DatabaseSync } from "node:sqlite";
 import { afterEach, describe, expect, it } from "vitest";
 import { closeOpenClawAgentDatabasesForTest } from "../state/openclaw-agent-db.js";
 import {
-  clearPersistedPluginModelCatalogProviderInvalidation,
   decodePluginModelCatalogRelativePathPluginId,
   encodePluginModelCatalogRelativePath,
   loadPersistedPluginModelCatalogs,
@@ -24,7 +23,7 @@ import {
   migrateLegacyPluginModelCatalogs,
   PLUGIN_MODEL_CATALOG_GENERATED_BY,
   readPersistedPluginModelCatalogGeneration,
-  removePersistedPluginModelCatalogsForProvider,
+  removePersistedPluginModelCatalogCredentials,
   replacePersistedPluginModelCatalogs,
 } from "./plugin-model-catalog.js";
 
@@ -112,7 +111,7 @@ describe("SQLite-backed plugin model catalogs", () => {
     expect(existsSync(legacyPath)).toBe(true);
   });
 
-  it("removes a logged-out provider without discarding other generated providers", () => {
+  it("removes a logged-out credential without discarding generated provider inventory", () => {
     const agentDir = createAgentDir();
     const contents = JSON.stringify({
       generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY,
@@ -136,13 +135,21 @@ describe("SQLite-backed plugin model catalogs", () => {
       database.close();
     }
 
-    expect(removePersistedPluginModelCatalogsForProvider({ agentDir, provider: "OpenAI" })).toBe(2);
+    expect(
+      removePersistedPluginModelCatalogCredentials({
+        agentDirs: [agentDir],
+        profileId: "openai:retired",
+        profileReferenceAgentDirs: [agentDir],
+        credential: { type: "api_key", provider: "openai", key: "logged-out-provider-test-key" },
+      }),
+    ).toBe(2);
 
     const remaining = loadPersistedPluginModelCatalogsReadOnly(agentDir);
     expect(remaining).toHaveLength(1);
     expect(JSON.parse(remaining[0]?.contents ?? "{}")).toEqual({
       generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY,
       providers: {
+        openai: { models: [] },
         anthropic: { apiKey: "retained-provider-test-key", models: [] },
       },
     });
@@ -154,21 +161,7 @@ describe("SQLite-backed plugin model catalogs", () => {
     ).toBe(true);
   });
 
-  it("does not remove an unmarked catalog owned by a provider", () => {
-    const agentDir = createAgentDir();
-    const contents = JSON.stringify({
-      providers: { openai: { apiKey: "user-authored-provider-test-key" } },
-    });
-    replacePersistedPluginModelCatalogs({
-      agentDir,
-      pluginCatalogWrites: { [encodePluginModelCatalogRelativePath("openai")]: contents },
-    });
-
-    expect(removePersistedPluginModelCatalogsForProvider({ agentDir, provider: "openai" })).toBe(0);
-    expect(loadPersistedPluginModelCatalogsReadOnly(agentDir)[0]?.contents).toBe(contents);
-  });
-
-  it("removes generated legacy catalog sidecars and interrupted claims", () => {
+  it("scrubs generated roots, legacy sidecars, and interrupted claims", () => {
     const agentDir = createAgentDir();
     const contents = catalogContents("openai", "legacy-logged-out-provider-test-key");
     const pluginDir = join(agentDir, "plugins", "openai");
@@ -177,10 +170,22 @@ describe("SQLite-backed plugin model catalogs", () => {
     mkdirSync(pluginDir, { recursive: true });
     writeFileSync(sourcePath, contents, "utf8");
     writeFileSync(claimPath, contents, "utf8");
+    writeFileSync(join(agentDir, "models.json"), contents, "utf8");
 
-    expect(removePersistedPluginModelCatalogsForProvider({ agentDir, provider: "openai" })).toBe(2);
-    expect(existsSync(sourcePath)).toBe(false);
-    expect(existsSync(claimPath)).toBe(false);
+    expect(
+      removePersistedPluginModelCatalogCredentials({
+        agentDirs: [agentDir],
+        profileId: "openai:retired",
+        profileReferenceAgentDirs: [agentDir],
+        credential: {
+          type: "api_key",
+          provider: "openai",
+          key: "legacy-logged-out-provider-test-key",
+        },
+      }),
+    ).toBe(3);
+    expect(readFileSync(sourcePath, "utf8")).not.toContain("legacy-logged-out-provider-test-key");
+    expect(readFileSync(claimPath, "utf8")).toBe(readFileSync(sourcePath, "utf8"));
   });
 
   it("preserves an unmarked migration recovery payload", () => {
@@ -207,7 +212,18 @@ describe("SQLite-backed plugin model catalogs", () => {
       database.close();
     }
 
-    expect(removePersistedPluginModelCatalogsForProvider({ agentDir, provider: "openai" })).toBe(1);
+    expect(
+      removePersistedPluginModelCatalogCredentials({
+        agentDirs: [agentDir],
+        profileId: "openai:retired",
+        profileReferenceAgentDirs: [agentDir],
+        credential: {
+          type: "api_key",
+          provider: "openai",
+          key: "generated-logged-out-provider-test-key",
+        },
+      }),
+    ).toBe(1);
     const verified = new DatabaseSync(join(agentDir, "openclaw-agent.sqlite"), { readOnly: true });
     try {
       expect(
@@ -220,14 +236,21 @@ describe("SQLite-backed plugin model catalogs", () => {
     }
   });
 
-  it("blocks stale generated catalog writes until the provider logs in again", () => {
+  it("blocks stale catalog plans while allowing current same-provider credentials", () => {
     const agentDir = createAgentDir();
     const contents = catalogContents("openai", "stale-writer-provider-test-key");
     const catalog = { [encodePluginModelCatalogRelativePath("openai")]: contents };
     replacePersistedPluginModelCatalogs({ agentDir, pluginCatalogWrites: catalog });
     const staleGeneration = readPersistedPluginModelCatalogGeneration(agentDir);
 
-    expect(removePersistedPluginModelCatalogsForProvider({ agentDir, provider: "openai" })).toBe(1);
+    expect(
+      removePersistedPluginModelCatalogCredentials({
+        agentDirs: [agentDir],
+        profileId: "openai:retired",
+        profileReferenceAgentDirs: [agentDir],
+        credential: { type: "api_key", provider: "openai", key: "stale-writer-provider-test-key" },
+      }),
+    ).toBe(1);
     replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: catalog,
@@ -235,9 +258,8 @@ describe("SQLite-backed plugin model catalogs", () => {
     });
     expect(
       loadPersistedPluginModelCatalogsReadOnly(agentDir).map((entry) => entry.contents),
-    ).toEqual([JSON.stringify({ generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY, providers: {} })]);
+    ).toEqual([catalogContents("openai")]);
 
-    clearPersistedPluginModelCatalogProviderInvalidation({ agentDir, provider: "openai" });
     replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: catalog,
@@ -245,7 +267,7 @@ describe("SQLite-backed plugin model catalogs", () => {
     });
     expect(
       loadPersistedPluginModelCatalogsReadOnly(agentDir).map((entry) => entry.contents),
-    ).toEqual([JSON.stringify({ generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY, providers: {} })]);
+    ).toEqual([catalogContents("openai")]);
     replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: catalog,

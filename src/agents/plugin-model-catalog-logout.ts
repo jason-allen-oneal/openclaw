@@ -1,7 +1,6 @@
 import { randomUUID } from "node:crypto";
-import { readFileSync, readdirSync, unlinkSync, writeFileSync, type Dirent } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync, type Dirent } from "node:fs";
 import path from "node:path";
-import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { isErrno } from "../infra/errno.js";
 import { executeSqliteQuerySync, getNodeSqliteKysely } from "../infra/kysely-sync.js";
@@ -12,13 +11,13 @@ import {
   resolveAuthProfileDatabaseOwnerId,
   resolveAuthProfileDatabasePath,
 } from "./auth-profiles/sqlite.js";
+import type { AuthProfileCredential } from "./auth-profiles/types.js";
 import { withPluginModelCatalogWriteLockSync } from "./plugin-model-catalog-lock.js";
 import { isGeneratedPluginModelCatalog } from "./plugin-model-catalog-repair.js";
 
 const PLUGIN_MODEL_CATALOG_FILE = "catalog.json";
 const PLUGIN_MODEL_CATALOG_CACHE_SCOPE = "plugin-model-catalog-v1";
 const PLUGIN_MODEL_CATALOG_MIGRATION_SCOPE = "plugin-model-catalog-migration-v1";
-export const PLUGIN_MODEL_CATALOG_LOGOUT_SCOPE = "plugin-model-catalog-logout-v1";
 export const PLUGIN_MODEL_CATALOG_GENERATION_SCOPE = "plugin-model-catalog-generation-v1";
 const PLUGIN_MODEL_CATALOG_GENERATION_KEY = "catalog";
 const INITIAL_CATALOG_GENERATION = "initial";
@@ -54,18 +53,6 @@ export function readPersistedPluginModelCatalogGeneration(agentDir: string): str
       : INITIAL_CATALOG_GENERATION;
   } catch {
     return INITIAL_CATALOG_GENERATION;
-  }
-}
-
-export function isActivePluginModelCatalogLogoutFence(valueJson: string | null): boolean {
-  if (!valueJson) {
-    return true;
-  }
-  try {
-    const parsed = JSON.parse(valueJson);
-    return !isRecord(parsed) || parsed.loggedOut !== false;
-  } catch {
-    return true;
   }
 }
 
@@ -127,79 +114,133 @@ function readLegacyPluginModelCatalog(pathname: string): string | null {
   }
 }
 
-function rewriteCatalogWithoutProvider(params: { contents: string; providerId: string }): {
+type RetiredCatalogCredential = {
+  credential: AuthProfileCredential;
+  profileId?: string;
+};
+
+/** Strip attributable authentication, not another account's model inventory. */
+function rewriteCatalogWithoutCredential(
+  contents: string,
+  retired: RetiredCatalogCredential,
+): {
   contents: string;
-  generated: boolean;
   matched: boolean;
 } {
   let parsed: unknown;
   try {
-    parsed = JSON.parse(params.contents);
+    parsed = JSON.parse(contents);
   } catch {
-    return { contents: params.contents, generated: false, matched: false };
+    return { contents, matched: false };
   }
   if (!isGeneratedPluginModelCatalog(parsed) || !isRecord(parsed) || !isRecord(parsed.providers)) {
-    return { contents: params.contents, generated: false, matched: false };
+    return { contents, matched: false };
   }
-  const providers = Object.fromEntries(
-    Object.entries(parsed.providers).filter(
-      ([provider]) => normalizeProviderId(provider) !== params.providerId,
-    ),
+  const credential = retired.credential;
+  const values = new Set(
+    (credential.type === "api_key"
+      ? [credential.key]
+      : credential.type === "token"
+        ? [credential.token]
+        : [credential.access, credential.refresh]
+    ).filter((value): value is string => typeof value === "string" && value.length > 0),
   );
-  if (Object.keys(providers).length === Object.keys(parsed.providers).length) {
-    return { contents: params.contents, generated: true, matched: false };
+  if (retired.profileId) {
+    values.add(retired.profileId);
+    values.add(`auth-profile:${retired.profileId}`);
   }
-  return { contents: JSON.stringify({ ...parsed, providers }), generated: true, matched: true };
+  let matched = false;
+  const strip = (value: unknown): unknown => {
+    if (
+      typeof value === "string" &&
+      (values.has(value) || (value.startsWith("Bearer ") && values.has(value.slice(7))))
+    ) {
+      matched = true;
+      return undefined;
+    }
+    if (Array.isArray(value)) {
+      return value.map(strip).filter((item) => item !== undefined);
+    }
+    if (isRecord(value)) {
+      return Object.fromEntries(
+        Object.entries(value).flatMap(([key, item]) => {
+          const clean = strip(item);
+          return clean === undefined ? [] : [[key, clean]];
+        }),
+      );
+    }
+    return value;
+  };
+  for (const [provider, entry] of Object.entries(parsed.providers)) {
+    if (isRecord(entry)) {
+      // Authentication may be provider-wide or carried by per-model headers.
+      // Model ids, labels, endpoints, and other metadata must remain authored facts.
+      const clean = { ...entry };
+      for (const field of ["apiKey", "headers"]) {
+        if (field in clean) {
+          const value = strip(clean[field]);
+          if (value === undefined) {
+            delete clean[field];
+          } else {
+            clean[field] = value;
+          }
+        }
+      }
+      if (Array.isArray(clean.models)) {
+        clean.models = clean.models.map((model) => {
+          if (!isRecord(model)) {
+            return model;
+          }
+          const next = { ...model };
+          for (const field of ["apiKey", "headers"]) {
+            if (field in next) {
+              const value = strip(next[field]);
+              if (value === undefined) {
+                delete next[field];
+              } else {
+                next[field] = value;
+              }
+            }
+          }
+          return next;
+        });
+      }
+      parsed.providers[provider] = clean;
+    }
+  }
+  return { contents: matched ? JSON.stringify(parsed) : contents, matched };
 }
 
-/** Prevents a stale writer from republishing a provider after logout. */
-export function filterGeneratedPluginModelCatalogForLoggedOutProviders(params: {
-  contents: string;
-  providerIds: ReadonlySet<string>;
-}): string | null {
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(params.contents);
-  } catch {
-    return params.contents;
-  }
-  if (!isGeneratedPluginModelCatalog(parsed) || !isRecord(parsed) || !isRecord(parsed.providers)) {
-    return params.contents;
-  }
-  const providers = Object.fromEntries(
-    Object.entries(parsed.providers).filter(
-      ([provider]) => !params.providerIds.has(normalizeProviderId(provider)),
-    ),
-  );
-  if (Object.keys(providers).length === Object.keys(parsed.providers).length) {
-    return params.contents;
-  }
-  return Object.keys(providers).length > 0 ? JSON.stringify({ ...parsed, providers }) : null;
-}
-
-function hasNoRemainingProviders(contents: string): boolean {
-  const parsed: unknown = JSON.parse(contents);
-  return (
-    isRecord(parsed) && isRecord(parsed.providers) && Object.keys(parsed.providers).length === 0
-  );
-}
-
-function removeLegacyPluginModelCatalogsForProvider(params: {
+function removeLegacyPluginModelCatalogCredentials(params: {
   agentDir: string;
-  providerId: string;
+  retired: RetiredCatalogCredential;
 }): number {
+  let changed = 0;
+  const rewriteFile = (pathname: string) => {
+    const contents = readLegacyPluginModelCatalog(pathname);
+    if (contents === null) {
+      return;
+    }
+    const rewritten = rewriteCatalogWithoutCredential(contents, params.retired);
+    if (!rewritten.matched) {
+      return;
+    }
+    writeFileSync(pathname, rewritten.contents, "utf8");
+    changed += 1;
+  };
+  // An authored root is left byte-for-byte intact by the generated marker check.
+  rewriteFile(path.join(params.agentDir, "models.json"));
   const pluginsDir = path.join(params.agentDir, "plugins");
   let pluginDirs: Dirent[];
   try {
     pluginDirs = readdirSync(pluginsDir, { withFileTypes: true });
   } catch (error) {
     if (isErrno(error) && error.code === "ENOENT") {
-      return 0;
+      return changed;
     }
     throw error;
   }
 
-  let changed = 0;
   for (const pluginDir of pluginDirs) {
     if (!pluginDir.isDirectory()) {
       continue;
@@ -218,258 +259,96 @@ function removeLegacyPluginModelCatalogsForProvider(params: {
       if (!catalogFile.isFile() || !isPluginModelCatalogMigrationFile(catalogFile.name)) {
         continue;
       }
-      const pathname = path.join(pluginPath, catalogFile.name);
-      const contents = readLegacyPluginModelCatalog(pathname);
-      if (contents === null) {
-        continue;
-      }
-      const rewritten = rewriteCatalogWithoutProvider({
-        contents,
-        providerId: params.providerId,
-      });
-      if (!rewritten.generated || !rewritten.matched) {
-        continue;
-      }
-      if (hasNoRemainingProviders(rewritten.contents)) {
-        unlinkSync(pathname);
-      } else {
-        writeFileSync(pathname, rewritten.contents, "utf8");
-      }
-      changed += 1;
+      rewriteFile(path.join(pluginPath, catalogFile.name));
     }
   }
   return changed;
 }
 
-/** Removes generated catalog copies for a provider after its auth profile is logged out. */
-export function removePersistedPluginModelCatalogsForProvider(params: {
-  agentDir?: string;
-  agentDirs?: readonly string[];
-  provider: string;
+/** Retires only the selected credential's generated copies and invalidates older plans. */
+export function removePersistedPluginModelCatalogCredentials(params: {
+  agentDirs: readonly string[];
+  credential: AuthProfileCredential;
+  profileId: string;
+  /** Only these stores resolved the reference to the selected physical owner. */
+  profileReferenceAgentDirs: readonly string[];
   lockAlreadyHeld?: boolean;
 }): number {
-  const providerId = normalizeProviderId(params.provider);
-  const agentDirs = [
-    ...new Set(
-      [...(params.agentDirs ?? []), ...(params.agentDir ? [params.agentDir] : [])].map((agentDir) =>
-        path.resolve(agentDir),
-      ),
-    ),
-  ];
+  const referenceDirs = new Set(params.profileReferenceAgentDirs.map((dir) => path.resolve(dir)));
   let changedAcrossAgents = 0;
-  for (const agentDir of agentDirs) {
-    const runWithCatalogLock = <T>(run: () => T): T =>
-      params.lockAlreadyHeld ? run() : withPluginModelCatalogWriteLockSync(agentDir, run);
-    const legacyChanged = runWithCatalogLock(() =>
-      removeLegacyPluginModelCatalogsForProvider({
-        agentDir,
-        providerId,
-      }),
-    );
-    const persistedChanged = runWithCatalogLock(() =>
-      runOpenClawAgentWriteTransaction(
-        (database) => {
-          const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
-          const generation = randomUUID();
-          const now = Date.now();
-          executeSqliteQuerySync(
-            database.db,
-            kysely
-              .insertInto("cache_entries")
-              .values({
-                scope: PLUGIN_MODEL_CATALOG_GENERATION_SCOPE,
-                key: PLUGIN_MODEL_CATALOG_GENERATION_KEY,
-                value_json: JSON.stringify({ generation }),
-                blob: null,
-                expires_at: null,
-                updated_at: now,
-              })
-              .onConflict((conflict) =>
-                conflict.columns(["scope", "key"]).doUpdateSet({
-                  value_json: JSON.stringify({ generation }),
+  for (const agentDir of new Set(params.agentDirs.map((dir) => path.resolve(dir)))) {
+    const retired: RetiredCatalogCredential = {
+      credential: params.credential,
+      ...(referenceDirs.has(agentDir) ? { profileId: params.profileId } : {}),
+    };
+    const run = () => {
+      const legacyChanged = removeLegacyPluginModelCatalogCredentials({ agentDir, retired });
+      return (
+        legacyChanged +
+        runOpenClawAgentWriteTransaction(
+          (database) => {
+            const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
+            const now = Date.now();
+            const generation = JSON.stringify({ generation: randomUUID() });
+            executeSqliteQuerySync(
+              database.db,
+              kysely
+                .insertInto("cache_entries")
+                .values({
+                  scope: PLUGIN_MODEL_CATALOG_GENERATION_SCOPE,
+                  key: PLUGIN_MODEL_CATALOG_GENERATION_KEY,
+                  value_json: generation,
+                  blob: null,
+                  expires_at: null,
                   updated_at: now,
-                }),
-              ),
-          );
-          executeSqliteQuerySync(
-            database.db,
-            kysely
-              .insertInto("cache_entries")
-              .values({
-                scope: PLUGIN_MODEL_CATALOG_LOGOUT_SCOPE,
-                key: providerId,
-                value_json: JSON.stringify({ generation, loggedOut: true, loggedOutAt: now }),
-                blob: null,
-                expires_at: null,
-                updated_at: Date.now(),
-              })
-              .onConflict((conflict) =>
-                conflict.columns(["scope", "key"]).doUpdateSet({
-                  value_json: JSON.stringify({ generation, loggedOut: true, loggedOutAt: now }),
-                  updated_at: now,
-                }),
-              ),
-          );
-          const rows = executeSqliteQuerySync(
-            database.db,
-            kysely
-              .selectFrom("cache_entries")
-              .select(["scope", "key", "value_json"])
-              .where("scope", "in", [
-                PLUGIN_MODEL_CATALOG_CACHE_SCOPE,
-                PLUGIN_MODEL_CATALOG_MIGRATION_SCOPE,
-              ]),
-          ).rows;
-          let changed = 0;
-          for (const row of rows) {
-            if (row.value_json === null) {
-              continue;
-            }
-            const rewritten = rewriteCatalogWithoutProvider({
-              contents: row.value_json,
-              providerId,
-            });
-            const generatedPluginIdMatches =
-              rewritten.generated && normalizeProviderId(row.key) === providerId;
-            if (!rewritten.matched && !generatedPluginIdMatches) {
-              continue;
-            }
-            if (row.scope === PLUGIN_MODEL_CATALOG_MIGRATION_SCOPE) {
-              if (rewritten.matched) {
-                if (!hasNoRemainingProviders(rewritten.contents)) {
-                  executeSqliteQuerySync(
-                    database.db,
-                    kysely
-                      .updateTable("cache_entries")
-                      .set({ value_json: rewritten.contents, updated_at: Date.now() })
-                      .where("scope", "=", row.scope)
-                      .where("key", "=", row.key)
-                      .where("value_json", "=", row.value_json),
-                  );
-                } else {
-                  executeSqliteQuerySync(
-                    database.db,
-                    kysely
-                      .deleteFrom("cache_entries")
-                      .where("scope", "=", row.scope)
-                      .where("key", "=", row.key)
-                      .where("value_json", "=", row.value_json),
-                  );
-                }
-              } else {
-                executeSqliteQuerySync(
-                  database.db,
-                  kysely
-                    .deleteFrom("cache_entries")
-                    .where("scope", "=", row.scope)
-                    .where("key", "=", row.key)
-                    .where("value_json", "=", row.value_json),
-                );
+                })
+                .onConflict((conflict) =>
+                  conflict.columns(["scope", "key"]).doUpdateSet({
+                    value_json: generation,
+                    updated_at: now,
+                  }),
+                ),
+            );
+            const rows = executeSqliteQuerySync(
+              database.db,
+              kysely
+                .selectFrom("cache_entries")
+                .select(["scope", "key", "value_json"])
+                .where("scope", "in", [
+                  PLUGIN_MODEL_CATALOG_CACHE_SCOPE,
+                  PLUGIN_MODEL_CATALOG_MIGRATION_SCOPE,
+                ]),
+            ).rows;
+            let changed = 0;
+            for (const row of rows) {
+              if (row.value_json === null) {
+                continue;
               }
-              changed += 1;
-              continue;
-            }
-            if (rewritten.matched) {
+              const rewritten = rewriteCatalogWithoutCredential(row.value_json, retired);
+              if (!rewritten.matched) {
+                continue;
+              }
               executeSqliteQuerySync(
                 database.db,
                 kysely
                   .updateTable("cache_entries")
-                  .set({ value_json: rewritten.contents, updated_at: Date.now() })
+                  .set({ value_json: rewritten.contents, updated_at: now })
                   .where("scope", "=", row.scope)
                   .where("key", "=", row.key)
                   .where("value_json", "=", row.value_json),
               );
-            } else {
-              executeSqliteQuerySync(
-                database.db,
-                kysely
-                  .deleteFrom("cache_entries")
-                  .where("scope", "=", row.scope)
-                  .where("key", "=", row.key)
-                  .where("value_json", "=", row.value_json),
-              );
+              changed += 1;
             }
-            changed += 1;
-          }
-          return changed;
-        },
-        pluginModelCatalogDatabaseOptions(agentDir),
-        { operationLabel: "plugin-model-catalog.logout" },
-      ),
-    );
-    changedAcrossAgents += legacyChanged + persistedChanged;
+            return changed;
+          },
+          pluginModelCatalogDatabaseOptions(agentDir),
+          { operationLabel: "plugin-model-catalog.logout" },
+        )
+      );
+    };
+    changedAcrossAgents += params.lockAlreadyHeld
+      ? run()
+      : withPluginModelCatalogWriteLockSync(agentDir, run);
   }
   return changedAcrossAgents;
-}
-
-/** Clears the logout fence after a provider is authenticated again. */
-export function clearPersistedPluginModelCatalogProviderInvalidation(params: {
-  agentDir?: string;
-  agentDirs?: readonly string[];
-  provider: string;
-  lockAlreadyHeld?: boolean;
-}): void {
-  const providerId = normalizeProviderId(params.provider);
-  const agentDirs = [
-    ...new Set(
-      [...(params.agentDirs ?? []), ...(params.agentDir ? [params.agentDir] : [])].map((agentDir) =>
-        path.resolve(agentDir),
-      ),
-    ),
-  ];
-  for (const agentDir of agentDirs) {
-    const clear = () =>
-      runOpenClawAgentWriteTransaction(
-        (database) => {
-          const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
-          const generation = randomUUID();
-          const now = Date.now();
-          executeSqliteQuerySync(
-            database.db,
-            kysely
-              .insertInto("cache_entries")
-              .values({
-                scope: PLUGIN_MODEL_CATALOG_GENERATION_SCOPE,
-                key: PLUGIN_MODEL_CATALOG_GENERATION_KEY,
-                value_json: JSON.stringify({ generation }),
-                blob: null,
-                expires_at: null,
-                updated_at: now,
-              })
-              .onConflict((conflict) =>
-                conflict.columns(["scope", "key"]).doUpdateSet({
-                  value_json: JSON.stringify({ generation }),
-                  updated_at: now,
-                }),
-              ),
-          );
-          executeSqliteQuerySync(
-            database.db,
-            kysely
-              .insertInto("cache_entries")
-              .values({
-                scope: PLUGIN_MODEL_CATALOG_LOGOUT_SCOPE,
-                key: providerId,
-                value_json: JSON.stringify({ generation, loggedOut: false, loggedInAt: now }),
-                blob: null,
-                expires_at: null,
-                updated_at: now,
-              })
-              .onConflict((conflict) =>
-                conflict.columns(["scope", "key"]).doUpdateSet({
-                  value_json: JSON.stringify({ generation, loggedOut: false, loggedInAt: now }),
-                  updated_at: now,
-                }),
-              ),
-          );
-        },
-        pluginModelCatalogDatabaseOptions(agentDir),
-        { operationLabel: "plugin-model-catalog.login" },
-      );
-    if (params.lockAlreadyHeld) {
-      clear();
-    } else {
-      withPluginModelCatalogWriteLockSync(agentDir, clear);
-    }
-  }
 }

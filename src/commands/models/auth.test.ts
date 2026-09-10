@@ -96,6 +96,15 @@ vi.mock("../../plugins/provider-auth-persistence.js", () => ({
   persistProviderAuthProfilesAfterLogin: mocks.persistProviderAuthProfilesAfterLogin,
 }));
 
+// This suite stubs credential persistence; real owner checks live in the catalog completion suite.
+vi.mock("./auth-catalog-admission.js", () => ({
+  prepareModelsAuthCatalogAdmission: async () => ({
+    assertCurrent: () => {},
+    withPersistence: async <T>(persist: () => Promise<T>) => await persist(),
+    captureProfile: () => () => {},
+  }),
+}));
+
 vi.mock("../../plugins/provider-auth-helpers.js", () => ({
   applyAuthProfileConfig: (
     cfg: OpenClawConfig,
