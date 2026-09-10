@@ -198,6 +198,8 @@ describe("ModelRegistry catalog auth", () => {
     const model = registry.find("custom", "example-model")!;
     expect(registry.hasConfiguredAuth(model)).toBe(true);
     expect(registry.getAvailable()).toContainEqual(model);
+    expect(registry.getProviderAuthStatus("custom").configured).toBe(true);
+    await expect(registry.getApiKeyForProvider("custom")).resolves.toBe("endpoint-fixture");
     await expect(registry.getApiKeyAndHeaders(model)).resolves.toMatchObject({
       apiKey: "endpoint-fixture",
     });

@@ -130,7 +130,11 @@ function collectCredentials(
       // An authored SecretRef owns this provider; generated catalog copies are never fallbacks.
       (cfg && resolveProviderConfigSecretInput(cfg, provider).ref) ||
       isNonSecretApiKeyMarker(key) ||
-      credentialProviderMatches(store.profiles[key], provider, { ...aliasLookup, config: cfg }) ||
+      credentialProviderMatches(store.profiles[key], provider, {
+        ...aliasLookup,
+        config: cfg,
+        ...(typeof entry.baseUrl === "string" ? { baseUrl: entry.baseUrl } : {}),
+      }) ||
       (!includeVerified && findMatchingProfileId(store, credential, blockedStores) !== undefined)
     ) {
       return [];

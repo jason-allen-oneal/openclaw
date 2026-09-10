@@ -80,47 +80,52 @@ afterEach(() => {
 });
 
 describe("doctor model catalog credential migration", () => {
-  it("preserves legacy exact profiles belonging to a configured auth alias", async () => {
-    const state = createState();
-    const cfg: OpenClawConfig = {
-      models: {
-        providers: {
-          arcee: {
-            baseUrl: "https://openrouter.ai/api/v1",
-            models: [],
+  it.each([true, false])(
+    "preserves legacy exact profiles with an authored auth alias (config=%s)",
+    async (includeConfig) => {
+      const state = createState();
+      const cfg: OpenClawConfig = {
+        models: {
+          providers: {
+            arcee: {
+              baseUrl: "https://openrouter.ai/api/v1",
+              models: [],
+            },
           },
         },
-      },
-    };
-    saveAuthProfileStore(
-      {
-        version: 1,
-        profiles: {
-          named: { type: "api_key", provider: "openrouter", key: "alias-canonical-fixture" },
+      };
+      saveAuthProfileStore(
+        {
+          version: 1,
+          profiles: {
+            named: { type: "api_key", provider: "openrouter", key: "alias-canonical-fixture" },
+          },
         },
-      },
-      state.agentDir,
-    );
-    const rootPath = path.join(state.agentDir, "models.json");
-    const contents = JSON.stringify({
-      providers: {
-        arcee: {
-          ...provider("named"),
-          baseUrl: "https://openrouter.ai/api/v1",
+        state.agentDir,
+      );
+      const rootPath = path.join(state.agentDir, "models.json");
+      const contents = JSON.stringify({
+        providers: {
+          arcee: {
+            ...provider("named"),
+            baseUrl: "https://openrouter.ai/api/v1",
+          },
         },
-      },
-    });
-    fs.writeFileSync(rootPath, contents);
-    expect(await maybeMigrateModelCatalogCredentials(migrationParams(state, cfg))).toMatchObject({
-      detected: 0,
-      migrated: 0,
-      warnings: [],
-    });
-    expect(fs.readFileSync(rootPath, "utf8")).toBe(contents);
-    expect(loadPersistedAuthProfileStore(state.agentDir)?.profiles.named).toMatchObject({
-      key: "alias-canonical-fixture",
-    });
-  });
+      });
+      fs.writeFileSync(rootPath, contents);
+      expect(
+        await maybeMigrateModelCatalogCredentials(migrationParams(state, includeConfig ? cfg : {})),
+      ).toMatchObject({
+        detected: 0,
+        migrated: 0,
+        warnings: [],
+      });
+      expect(fs.readFileSync(rootPath, "utf8")).toBe(contents);
+      expect(loadPersistedAuthProfileStore(state.agentDir)?.profiles.named).toMatchObject({
+        key: "alias-canonical-fixture",
+      });
+    },
+  );
 
   it("copies config, root, and plugin catalog keys before runtime retires plaintext", async () => {
     const state = createState();
