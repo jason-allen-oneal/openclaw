@@ -9,6 +9,48 @@ title: "Configuration — agent workspace and bootstrap"
 
 `agents.defaults.*` keys for filesystem scope, bootstrap context injection, the context budget map, inbound image handling, and the agent timezone.
 
+## `agents.defaults.systemPrompt.sections`
+
+Overrides selected non-security sections of OpenClaw's generated system prompt.
+The supported IDs are `interaction_style`, `tool_call_style`, and
+`execution_bias`. Each section accepts `replace`, `prepend`, `append`,
+`disable`, or `default`; modes other than `disable` and `default` require
+literal `content` of at most 20,000 characters.
+
+```json5
+{
+  agents: {
+    defaults: {
+      systemPrompt: {
+        sections: {
+          interaction_style: {
+            mode: "replace",
+            content: "## Interaction Style\nBe terse and factual.",
+          },
+        },
+      },
+    },
+    entries: {
+      support: {
+        systemPrompt: {
+          sections: {
+            interaction_style: {
+              mode: "append",
+              content: "Ask for the ticket number when one is not provided.",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+Resolution order is provider contribution, defaults, then the matching agent
+entry. Unset configuration leaves the generated prompt unchanged. Prompt text
+is advisory; use tool policy, approvals, sandboxing, and allowlists for hard
+enforcement. The core **Safety** section is not configurable here.
+
 ## `agents.defaults.workspace`
 
 Default: `OPENCLAW_WORKSPACE_DIR` when set, otherwise `<state-dir>/workspace`. This is `~/.openclaw/workspace` for the default install and `~/.openclaw-<profile>/workspace` for a named profile. A custom `OPENCLAW_STATE_DIR` keeps the workspace under that state directory.

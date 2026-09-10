@@ -23,6 +23,120 @@ function buildPrompt(config: OpenClawConfig, agentId = "main", sessionKey?: stri
 }
 
 describe("buildConfiguredAgentSystemPrompt", () => {
+  it("applies provider, default, and per-agent section overrides in order", () => {
+    const prompt = buildConfiguredAgentSystemPrompt({
+      config: {
+        agents: {
+          defaults: {
+            systemPrompt: {
+              sections: {
+                interaction_style: { mode: "append", content: "Global interaction guidance." },
+              },
+            },
+          },
+          entries: {
+            main: {
+              systemPrompt: {
+                sections: {
+                  interaction_style: { mode: "prepend", content: "Agent interaction guidance." },
+                },
+              },
+            },
+          },
+        },
+      },
+      agentId: "main",
+      workspaceDir: "/tmp/openclaw",
+      promptContribution: {
+        sectionOverrides: {
+          interaction_style: "## Interaction Style\nProvider interaction guidance.",
+        },
+      },
+    });
+
+    expect(prompt).toContain(
+      [
+        "Agent interaction guidance.",
+        "## Interaction Style",
+        "Provider interaction guidance.",
+        "Global interaction guidance.",
+      ].join("\n"),
+    );
+  });
+
+  it("lets a per-agent replacement supersede the default layer", () => {
+    const prompt = buildPrompt({
+      agents: {
+        defaults: {
+          systemPrompt: {
+            sections: {
+              execution_bias: { mode: "replace", content: "Global execution guidance." },
+            },
+          },
+        },
+        entries: {
+          main: {
+            systemPrompt: {
+              sections: {
+                execution_bias: { mode: "replace", content: "Agent execution guidance." },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    expect(prompt).toContain("Agent execution guidance.");
+    expect(prompt).not.toContain("Global execution guidance.");
+    expect(prompt).not.toContain("## Execution Bias");
+  });
+
+  it("disables a configured section and its related approval guidance", () => {
+    const prompt = buildConfiguredAgentSystemPrompt({
+      config: {
+        agents: {
+          defaults: {
+            systemPrompt: {
+              sections: {
+                tool_call_style: { mode: "disable" },
+              },
+            },
+          },
+        },
+      },
+      agentId: "main",
+      workspaceDir: "/tmp/openclaw",
+      toolNames: ["exec"],
+    });
+
+    expect(prompt).not.toContain("## Tool Call Style");
+    expect(prompt).not.toContain("Approval preview:");
+    expect(prompt).not.toContain("exec approval-pending:");
+  });
+
+  it("keeps runtime approval guidance when tool-call guidance is only appended", () => {
+    const prompt = buildConfiguredAgentSystemPrompt({
+      config: {
+        agents: {
+          defaults: {
+            systemPrompt: {
+              sections: {
+                tool_call_style: { mode: "append", content: "Use terse tool narration." },
+              },
+            },
+          },
+        },
+      },
+      agentId: "main",
+      workspaceDir: "/tmp/openclaw",
+      toolNames: ["exec"],
+    });
+
+    expect(prompt).toContain("## Tool Call Style");
+    expect(prompt).toContain("Use terse tool narration.");
+    expect(prompt).toContain("exec approval-pending:");
+  });
+
   it.each(["minimal", "none"] as const)(
     "skips full-only preparation in %s mode and refreshes the next full prompt",
     (promptMode) => {

@@ -5,8 +5,10 @@
  * prompt so callers do not duplicate owner, TTS, alias, memory, or FS policy.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
+import type { AgentSystemPromptSectionOverrides } from "../config/agent-system-prompt-sections.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { buildTtsSystemPromptHint } from "../tts/tts-settings.js";
+import { resolveAgentEntry } from "./agent-scope-config.js";
 import { resolveMainSessionDelegationMode } from "./delegation-guidance.js";
 import { buildAgentSystemPrompt } from "./system-prompt.js";
 import { resolveEffectiveToolFsWorkspaceOnly } from "./tool-fs-policy.js";
@@ -23,6 +25,7 @@ type ResolvedAgentSystemPromptConfig = Pick<
   | "modelAliasLines"
   | "memoryCitationsMode"
   | "fsWorkspaceOnly"
+  | "systemPromptSectionOverrideLayers"
 >;
 
 type ConfiguredAgentSystemPromptParams = AgentSystemPromptRenderParams & {
@@ -54,6 +57,10 @@ function resolveAgentSystemPromptConfig(params: {
 }): ResolvedAgentSystemPromptConfig {
   const { config, agentId, sessionKey, sourceReplyDeliveryMode } = params;
   const includeFullSections = params.promptMode !== "minimal" && params.promptMode !== "none";
+  const systemPromptSectionOverrideLayers = [
+    config?.agents?.defaults?.systemPrompt?.sections,
+    config && agentId ? resolveAgentEntry(config, agentId)?.systemPrompt?.sections : undefined,
+  ].filter((layer): layer is AgentSystemPromptSectionOverrides => Boolean(layer));
   return {
     ownerDisplay: "raw",
     ownerDisplaySecret: undefined,
@@ -67,6 +74,8 @@ function resolveAgentSystemPromptConfig(params: {
     modelAliasLines: includeFullSections ? buildModelAliasLines(config) : [],
     memoryCitationsMode: config?.memory?.citations,
     fsWorkspaceOnly: resolveEffectiveToolFsWorkspaceOnly({ cfg: config, agentId }),
+    systemPromptSectionOverrideLayers:
+      systemPromptSectionOverrideLayers.length > 0 ? systemPromptSectionOverrideLayers : undefined,
   };
 }
 

@@ -16,6 +16,29 @@ Assembly has three layers:
 
 This keeps exported/debug prompt surfaces aligned with live runs without turning every runtime detail into one monolithic builder.
 
+## Operator section overrides
+
+Operators can customize the three non-security core sections that already have
+stable provider override IDs: `interaction_style`, `tool_call_style`, and
+`execution_bias`. Configure them under
+`agents.defaults.systemPrompt.sections` and, when needed, layer per-agent
+changes under `agents.entries.<id>.systemPrompt.sections`.
+
+Layers apply in this order: provider contribution, agent defaults, then the
+matching agent entry. Each override uses one of these modes:
+
+- `replace`: replace the fully resolved lower layer.
+- `prepend` / `append`: add literal text before or after the lower layer.
+- `disable`: omit the section.
+- `default`: leave lower layers unchanged.
+
+Configured content is literal (no template expansion) and limited to 20,000
+characters per section. Unset configuration preserves the generated prompt
+byte-for-byte. These prompt sections are advisory; they do not grant authority
+or replace tool policy, approvals, sandboxing, or allowlists. Core-owned
+security-sensitive sections such as **Safety** are not configurable through
+this surface.
+
 Provider plugins can contribute cache-aware guidance without replacing the OpenClaw-owned prompt. A provider runtime can:
 
 - replace one of three named core sections: `interaction_style`, `tool_call_style`, `execution_bias`
