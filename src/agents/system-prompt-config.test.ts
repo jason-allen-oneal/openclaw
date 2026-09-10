@@ -91,7 +91,7 @@ describe("buildConfiguredAgentSystemPrompt", () => {
     expect(prompt).not.toContain("## Execution Bias");
   });
 
-  it("disables a configured section and its related approval guidance", () => {
+  it("keeps core-owned approval guidance when tool-call style is disabled", () => {
     const prompt = buildConfiguredAgentSystemPrompt({
       config: {
         agents: {
@@ -110,8 +110,7 @@ describe("buildConfiguredAgentSystemPrompt", () => {
     });
 
     expect(prompt).not.toContain("## Tool Call Style");
-    expect(prompt).not.toContain("Approval preview:");
-    expect(prompt).not.toContain("exec approval-pending:");
+    expect(prompt).toContain("exec approval-pending:");
   });
 
   it("keeps runtime approval guidance when tool-call guidance is only appended", () => {

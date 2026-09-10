@@ -50,6 +50,8 @@ Resolution order is provider contribution, defaults, then the matching agent
 entry. Unset configuration leaves the generated prompt unchanged. Prompt text
 is advisory; use tool policy, approvals, sandboxing, and allowlists for hard
 enforcement. The core **Safety** section is not configurable here.
+Dynamic exec-approval guidance also remains core-owned when `tool_call_style`
+is replaced or disabled.
 
 ## `agents.defaults.workspace`
 

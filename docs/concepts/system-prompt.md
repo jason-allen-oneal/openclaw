@@ -37,7 +37,8 @@ characters per section. Unset configuration preserves the generated prompt
 byte-for-byte. These prompt sections are advisory; they do not grant authority
 or replace tool policy, approvals, sandboxing, or allowlists. Core-owned
 security-sensitive sections such as **Safety** are not configurable through
-this surface.
+this surface. Dynamic exec-approval guidance also remains core-owned when
+`tool_call_style` is replaced or disabled.
 
 Provider plugins can contribute cache-aware guidance without replacing the OpenClaw-owned prompt. A provider runtime can:
 

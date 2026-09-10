@@ -581,21 +581,6 @@ function buildLayeredPromptSection(params: {
   return content ? [content, ""] : [];
 }
 
-function doesLayeredPromptSectionReplaceCore(params: {
-  id: AgentSystemPromptSectionId;
-  providerOverride?: string;
-  configLayers?: readonly AgentSystemPromptSectionOverrides[];
-}): boolean {
-  let coreRetained = !normalizeProviderPromptBlock(params.providerOverride);
-  for (const layer of params.configLayers ?? []) {
-    const override = layer[params.id];
-    if (override?.mode === "replace" || override?.mode === "disable") {
-      coreRetained = false;
-    }
-  }
-  return !coreRetained;
-}
-
 function buildMessagingSection(params: {
   isMinimal: boolean;
   availableTools: Set<string>;
@@ -1534,12 +1519,8 @@ export function buildAgentSystemPrompt(params: {
         ]
       : []),
     // Approval UI and owner identity vary by turn, so keep both below the stable prefix.
-    // A tool_call_style override owns the complete section and suppresses default guidance.
-    ...(doesLayeredPromptSectionReplaceCore({
-      id: "tool_call_style",
-      providerOverride: providerSectionOverrides.tool_call_style,
-      configLayers: params.systemPromptSectionOverrideLayers,
-    }) || !hasExec
+    // Approval guidance remains core-owned even when operators customize tool narration.
+    ...(!hasExec
       ? []
       : [
           buildExecApprovalPromptGuidance({
