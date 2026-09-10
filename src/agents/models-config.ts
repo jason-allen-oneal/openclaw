@@ -31,6 +31,7 @@ import {
 import { resolveAuthProfileDatabasePath } from "./auth-profiles/sqlite.js";
 import type { AuthProfileStore } from "./auth-profiles/types.js";
 import {
+  parseModelCatalogJson,
   rewriteModelCatalogCredentialReferences,
   type ModelCatalogCredentialReference,
 } from "./model-catalog-json.js";
@@ -151,7 +152,7 @@ async function readExistingModelsFile(pathname: string): Promise<{
     }
     return {
       raw,
-      parsed: JSON.parse(raw) as unknown,
+      parsed: parseModelCatalogJson(raw),
     };
   } catch {
     return {

@@ -6,7 +6,6 @@
  * projects provider-default profiles into it.
  */
 
-import fs from "node:fs";
 import { dirname } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { findEnvKeys, getEnvApiKey } from "@openclaw/ai/internal/runtime";
@@ -43,7 +42,10 @@ import type {
   RuntimeAuthProfileStore,
 } from "../auth-profiles/types.js";
 import { getAgentDir } from "../config.js";
-import { AuthStoragePersistenceError } from "./auth-storage-error.js";
+import {
+  assertDeprecatedAuthStoragePathAbsent,
+  AuthStoragePersistenceError,
+} from "./auth-storage-error.js";
 import {
   isAuthStorageOAuthRefreshFence,
   refreshAuthStorageOAuthCredential,
@@ -97,26 +99,6 @@ function emitAuthStorageDeprecationWarning(params: {
   process.emitWarning(params.message, { code: params.code, type: "DeprecationWarning" });
 }
 
-class AuthStorageLegacyPathMigrationRequiredError extends Error {
-  readonly code = "AUTH_PROFILE_MIGRATION_REQUIRED" as const;
-  readonly action = "migrate to AuthStorage.forAgent(agentDir)" as const;
-
-  constructor() {
-    super(
-      "Deprecated AuthStorage path contains unmigrated credentials; run openclaw doctor --fix for standard agent auth.json or migrate plugin storage to AuthStorage.forAgent(agentDir).",
-    );
-    this.name = "AuthStorageLegacyPathMigrationRequiredError";
-  }
-}
-
-function assertDeprecatedAuthStoragePathAbsent(authPath: string | undefined): void {
-  // Deprecated adapters use this path only to derive the SQLite owner and
-  // never create or write it. An existing file is therefore unmigrated input.
-  if (authPath && fs.existsSync(authPath)) {
-    throw new AuthStorageLegacyPathMigrationRequiredError();
-  }
-}
-
 export type AuthStatus = {
   configured: boolean;
   source?:
@@ -163,7 +145,7 @@ class SqliteAuthStorageBackend implements AuthStorageBackend {
         undefined,
       );
     }
-    return profile;
+    return { profile, source };
   }
 
   private get agentDir(): string {
@@ -412,14 +394,35 @@ export class AuthStorage {
     return attachLiveAuthStorageProfiles(
       storage,
       (provider, profileId, baseUrl) => {
-        backend.assertProviderReady(provider, baseUrl);
-        const error = storage.getCanonicalLoadError();
-        if (error) {
-          throw error;
+        const assertReady = () => {
+          backend.assertProviderReady(provider, baseUrl);
+          const error = storage.getCanonicalLoadError();
+          if (error) {
+            throw error;
+          }
+        };
+        assertReady();
+        const selected = structuredClone(backend.readProfile(profileId, baseUrl));
+        assertReady();
+        if (!selected.profile) {
+          return undefined;
         }
-        const profile = backend.readProfile(profileId, baseUrl);
-        backend.assertProviderReady(provider, baseUrl);
-        return profile;
+        return {
+          profile: selected.profile,
+          assertCurrent: () => {
+            assertReady();
+            if (selected.source) {
+              backend.assertCredentialReady(selected.source, baseUrl);
+            }
+            // Do not authorize an earlier request with a replacement key or owner.
+            if (!isDeepStrictEqual(selected, backend.readProfile(profileId, baseUrl))) {
+              throw new AuthStoragePersistenceError(
+                "Canonical auth profile changed during request preparation.",
+                undefined,
+              );
+            }
+          },
+        };
       },
       (profileId) => backend.hasProfileId(profileId),
     );

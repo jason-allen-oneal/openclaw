@@ -1072,7 +1072,7 @@ export class ModelRegistry {
     provider: string,
     config: ProviderRequestConfig | undefined,
     baseUrl?: string,
-  ): Promise<string | undefined> {
+  ): Promise<{ apiKey: string | undefined; assertCurrent?: () => void }> {
     if (config?.catalogProfileId) {
       return resolveAuthStorageProfileApiKey(
         this.authStorage,
@@ -1082,10 +1082,11 @@ export class ModelRegistry {
         this.getAuthAliasLookup(baseUrl),
       );
     }
-    return (
-      (await this.authStorage.getApiKey(provider, { includeFallback: false, baseUrl })) ??
-      this.resolveCatalogEnvironmentAuth(config?.catalogEnvVar)
-    );
+    return {
+      apiKey:
+        (await this.authStorage.getApiKey(provider, { includeFallback: false, baseUrl })) ??
+        this.resolveCatalogEnvironmentAuth(config?.catalogEnvVar),
+    };
   }
 
   /**
@@ -1113,9 +1114,11 @@ export class ModelRegistry {
         };
       }
       const usesAwsSdkAuth = providerConfig?.auth === "aws-sdk";
-      const canonicalApiKey = usesAwsSdkAuth
+      const canonicalAuth = usesAwsSdkAuth
         ? undefined
         : await this.resolveCanonicalRequestApiKey(model.provider, providerConfig, model.baseUrl);
+      canonicalAuth?.assertCurrent?.();
+      const canonicalApiKey = canonicalAuth?.apiKey;
       if (providerConfig?.catalogProfileId && !canonicalApiKey) {
         return {
           ok: false,
@@ -1252,8 +1255,9 @@ export class ModelRegistry {
       providerConfig,
       providerConfig?.baseUrls?.[0],
     );
-    if (canonical !== undefined) {
-      return canonical;
+    canonical.assertCurrent?.();
+    if (canonical.apiKey !== undefined) {
+      return canonical.apiKey;
     }
     return providerConfig?.apiKey ? resolveConfigValueUncached(providerConfig.apiKey) : undefined;
   }

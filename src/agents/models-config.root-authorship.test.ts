@@ -69,6 +69,106 @@ describe("manual root catalog authorship", () => {
     vi.clearAllMocks();
   });
 
+  it("preserves authored JSONC bytes while refreshing a retained generated catalog", async () => {
+    resolveRuntimePluginDiscoveryProviders.mockResolvedValue([]);
+    const rootPath = path.join(state.agentDir(), "models.json");
+    const contents = `{
+  // Keep this authored note and formatting.
+  "operatorNote": "retained-root",
+  "providers": {
+    "manual": ${JSON.stringify({ ...native, apiKey: "MANUAL_API_KEY" })},
+  },
+}\n`;
+    await fs.mkdir(state.agentDir(), { recursive: true });
+    await fs.writeFile(rootPath, contents);
+    replacePersistedPluginModelCatalogs({
+      agentDir: state.agentDir(),
+      pluginCatalogWrites: {
+        "plugins/catalog-owner/catalog.json": JSON.stringify({
+          generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY,
+          providers: { fixture: native },
+        }),
+      },
+    });
+    await ensureOpenClawModelsJson({}, state.agentDir(), {
+      env: state.env,
+      pluginMetadataSnapshot: metadata,
+      providerDiscoveryProviderIds: ["fixture"],
+      providerDiscoveryEntriesOnly: true,
+    });
+    expect(await fs.readFile(rootPath, "utf8")).toBe(contents);
+    expect(loadPersistedPluginModelCatalogsReadOnly(state.agentDir())).toHaveLength(1);
+  });
+
+  it.each(["generated", "retained", "root"])(
+    "verifies %s credentials using the catalog entry's alias endpoint",
+    async (source) => {
+      const aliasMetadata = createPluginMetadataSnapshotFixture({
+        plugins: [
+          {
+            id: "catalog-owner",
+            providers: ["fixture"],
+            providerAuthAliases: {
+              fixture: { provider: "canonical-fixture", baseUrls: [native.baseUrl] },
+            },
+          },
+        ],
+      });
+      const credential = "synthetic-endpoint-alias-key";
+      saveAuthProfileStore(
+        {
+          version: 1,
+          profiles: {
+            named: { type: "api_key", provider: "canonical-fixture", key: credential },
+          },
+        },
+        state.agentDir(),
+      );
+      const provider = { ...native, apiKey: credential };
+      resolveRuntimePluginDiscoveryProviders.mockResolvedValue(
+        source === "generated"
+          ? [
+              {
+                id: "fixture",
+                pluginId: "catalog-owner",
+                label: "Fixture",
+                auth: [],
+                staticCatalog: { order: "simple", run: async () => ({ provider }) },
+              },
+            ]
+          : [],
+      );
+      await fs.mkdir(state.agentDir(), { recursive: true });
+      if (source === "root") {
+        await fs.writeFile(
+          path.join(state.agentDir(), "models.json"),
+          JSON.stringify({ providers: { fixture: provider } }),
+        );
+      } else if (source === "retained") {
+        replacePersistedPluginModelCatalogs({
+          agentDir: state.agentDir(),
+          pluginCatalogWrites: {
+            "plugins/catalog-owner/catalog.json": JSON.stringify({
+              generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY,
+              providers: { fixture: provider },
+            }),
+          },
+        });
+      }
+      const plan = await planOpenClawModelsJsonSource({}, state.agentDir(), {
+        env: state.env,
+        pluginMetadataSnapshot: aliasMetadata,
+        providerDiscoveryProviderIds: ["fixture"],
+        providerDiscoveryEntriesOnly: true,
+      });
+      const contents =
+        source === "root" ? plan.modelsJsonContents : plan.pluginCatalogs[0]?.contents;
+      assert(contents, "The selected catalog source must remain present");
+      expect(JSON.parse(contents).providers.fixture.apiKey).toBe("auth-profile:named");
+      expect(contents).not.toContain(credential);
+    },
+  );
+
   it.each([
     ["latest", "middle"],
     ["middle", "latest"],

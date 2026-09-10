@@ -51,6 +51,41 @@ afterEach(() => {
 });
 
 describe("ModelRegistry catalog auth", () => {
+  it.each(["rotation", "removal"])(
+    "rejects exact-profile %s during request preparation",
+    async (change) => {
+      const modelsPath = writeCatalog("auth-profile:custom:named");
+      const agentDir = dirname(modelsPath);
+      saveAuthProfileStore(
+        {
+          version: 1,
+          profiles: {
+            "custom:named": { type: "api_key", provider: "custom", key: "initial-fixture" },
+          },
+        },
+        agentDir,
+      );
+      const storage = AuthStorage.forAgent(agentDir);
+      const registry = ModelRegistry.create(storage, modelsPath);
+      const model = registry.find("custom", "example-model")!;
+      const pending = registry.getApiKeyAndHeaders(model);
+      saveAuthProfileStore(
+        {
+          version: 1,
+          profiles:
+            change === "rotation"
+              ? {
+                  "custom:named": { type: "api_key", provider: "custom", key: "rotated-fixture" },
+                }
+              : {},
+        },
+        agentDir,
+      );
+      storage.reload();
+      await expect(pending).resolves.toMatchObject({ ok: false });
+    },
+  );
+
   it("keeps explicit uppercase references terminal after removal and restart", async () => {
     const modelsPath = writeCatalog("auth-profile:CUSTOM_KEY");
     const agentDir = dirname(modelsPath);
@@ -190,7 +225,7 @@ describe("ModelRegistry catalog auth", () => {
         if (baseUrl !== "https://models.example/v1") {
           throw new Error("Endpoint requires migration");
         }
-        return { type: "api_key", provider: "custom", key: "endpoint-fixture" };
+        return { profile: { type: "api_key", provider: "custom", key: "endpoint-fixture" } };
       },
       (profileId) => profileId === "custom:named",
     );

@@ -8,11 +8,16 @@ import {
 import { resolveConfigValue } from "./resolve-config-value.js";
 
 type ProfileData = Record<string, AuthProfileCredential>;
+type ProfileSelection = {
+  profile: AuthProfileCredential;
+  /** Revalidate the selected physical owner and credential after request preparation yields. */
+  assertCurrent?: () => void;
+};
 type LiveProfileReader = (
   provider: string,
   profileId: string,
   baseUrl?: string,
-) => AuthProfileCredential | undefined;
+) => ProfileSelection | undefined;
 
 const profileDataByStorage = new WeakMap<object, ProfileData>();
 const runtimeOverrideByStorage = new WeakMap<object, (provider: string) => string | undefined>();
@@ -69,19 +74,23 @@ function resolveProfile(
   profileId: string,
   baseUrl?: string,
   aliasLookup?: ProviderAuthAliasLookupParams,
-): ProfileData[string] | undefined {
+): ProfileSelection | undefined {
   if (credentialFreeStorage.has(storage)) {
     return undefined;
   }
   const read = liveProfileReaders.get(storage);
-  const profile = read
+  const snapshot = profileDataByStorage.get(storage)?.[profileId];
+  const selection = read
     ? read(provider, profileId, baseUrl)
-    : profileDataByStorage.get(storage)?.[profileId];
+    : snapshot
+      ? { profile: snapshot }
+      : undefined;
+  const profile = selection?.profile;
   return profile &&
     (normalizeProviderId(profile.provider) === normalizeProviderId(provider) ||
       resolveProviderIdForAuth(profile.provider, { ...aliasLookup, storedCredential: true }) ===
         resolveProviderIdForAuth(provider, aliasLookup))
-    ? profile
+    ? selection
     : undefined;
 }
 
@@ -108,7 +117,7 @@ export function hasAuthStorageProfile(
       profileId,
       options?.baseUrl,
       options?.aliasLookup,
-    );
+    )?.profile;
     return Boolean(
       (profile?.type === "api_key" && profile.key) ||
       (profile?.type === "token" &&
@@ -127,19 +136,22 @@ export function resolveAuthStorageProfileApiKey(
   profileId: string,
   baseUrl?: string,
   aliasLookup?: ProviderAuthAliasLookupParams,
-): string | undefined {
+): { apiKey: string | undefined; assertCurrent?: () => void } {
   const runtimeOverride = runtimeOverrideByStorage.get(storage)?.(provider);
   if (runtimeOverride) {
-    return runtimeOverride;
+    return { apiKey: runtimeOverride };
   }
-  const profile = resolveProfile(storage, provider, profileId, baseUrl, aliasLookup);
-  return profile?.type === "api_key" && profile.key
-    ? resolveConfigValue(profile.key)
-    : profile?.type === "token" &&
-        profile.token &&
-        (profile.expires === undefined || Date.now() < profile.expires)
-      ? resolveConfigValue(profile.token)
-      : undefined;
+  const selection = resolveProfile(storage, provider, profileId, baseUrl, aliasLookup);
+  const profile = selection?.profile;
+  const apiKey =
+    profile?.type === "api_key" && profile.key
+      ? resolveConfigValue(profile.key)
+      : profile?.type === "token" &&
+          profile.token &&
+          (profile.expires === undefined || Date.now() < profile.expires)
+        ? resolveConfigValue(profile.token)
+        : undefined;
+  return { apiKey, assertCurrent: selection?.assertCurrent };
 }
 
 export function markAuthStorageCredentialFree<T extends object>(storage: T): T {

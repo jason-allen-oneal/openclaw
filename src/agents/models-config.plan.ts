@@ -3,6 +3,7 @@
  * this module to merge implicit provider discovery, explicit config, and
  * preserved secrets before touching models.json.
  */
+import { isDeepStrictEqual } from "node:util";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
@@ -313,6 +314,7 @@ function canonicalizeGeneratedProviderApiKeys(params: {
   const providers = Object.fromEntries(
     Object.entries(params.providers).map(([providerId, provider]) => {
       const apiKey = typeof provider.apiKey === "string" ? provider.apiKey.trim() : "";
+      const authAliasLookup = { ...params.authAliasLookup, baseUrl: provider.baseUrl };
       if (
         (params.generatedProviderIds && !params.generatedProviderIds.has(providerId)) ||
         !apiKey ||
@@ -336,7 +338,7 @@ function canonicalizeGeneratedProviderApiKeys(params: {
         apiKey,
         provider: providerId,
         store,
-        authAliasLookup: params.authAliasLookup,
+        authAliasLookup,
       });
       // Discovery providers return env-var names as opaque all-caps markers. Keep
       // those markers even when the referenced variable is intentionally absent
@@ -353,11 +355,7 @@ function canonicalizeGeneratedProviderApiKeys(params: {
         const isKnownProfileId = Object.hasOwn(store.profiles, apiKey);
         const matchesIndependentCredential = Object.values(store.profiles).some(
           (credential) =>
-            !catalogCredentialProviderMatches(
-              providerId,
-              credential.provider,
-              params.authAliasLookup,
-            ) &&
+            !catalogCredentialProviderMatches(providerId, credential.provider, authAliasLookup) &&
             ((credential.type === "api_key" && credential.key === apiKey) ||
               (credential.type === "token" && credential.token === apiKey)),
         );
@@ -444,12 +442,16 @@ function rewriteVerifiedRootCredentials(params: {
       getRuntimeAuthProfileStoreSnapshot(params.agentDir) ??
       loadAuthProfileStoreForSecretsRuntime(params.agentDir, { config: params.config });
     const apiKey = entry.apiKey.trim();
+    const authAliasLookup = {
+      ...params.authAliasLookup,
+      baseUrl: typeof entry.baseUrl === "string" ? entry.baseUrl : undefined,
+    };
     const named = Object.hasOwn(store.profiles, apiKey) ? store.profiles[apiKey] : undefined;
     // Unknown/manual declarations are not imports. Unusable named references
     // remain intact so the request boundary can report their exact failure.
     if (
       named &&
-      (!catalogCredentialProviderMatches(providerId, named.provider, params.authAliasLookup) ||
+      (!catalogCredentialProviderMatches(providerId, named.provider, authAliasLookup) ||
         (named.type !== "api_key" && named.type !== "token"))
     ) {
       continue;
@@ -458,7 +460,7 @@ function rewriteVerifiedRootCredentials(params: {
       apiKey,
       provider: providerId,
       store,
-      authAliasLookup: params.authAliasLookup,
+      authAliasLookup,
     });
     if (!profileId) {
       continue;
@@ -614,14 +616,15 @@ export async function planOpenClawModelsJson(params: {
     providers: filterWritableProviders(rootWithManagedSecrets),
     secretRefManagedProviders,
   });
-  const nextContents = `${JSON.stringify(
-    {
-      ...(mode === "merge" && isRecord(params.existingParsed) ? params.existingParsed : {}),
-      providers: canonicalRootProviders,
-    },
-    null,
-    2,
-  )}\n`;
+  const nextRoot = {
+    ...(mode === "merge" && isRecord(params.existingParsed) ? params.existingParsed : {}),
+    providers: canonicalRootProviders,
+  };
+  // A plugin-only refresh must not reserialize an unchanged, authored JSONC root.
+  const nextContents =
+    mode === "merge" && isDeepStrictEqual(nextRoot, params.existingParsed)
+      ? params.existingRaw
+      : `${JSON.stringify(nextRoot, null, 2)}\n`;
 
   if (params.existingRaw === nextContents && Object.keys(pluginCatalogWrites).length === 0) {
     return { action: "noop", pluginCatalogWrites };
