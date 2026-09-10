@@ -14,9 +14,11 @@ import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
 import { normalizeAuthProfileCredential } from "./credential-normalize.js";
 import { withOAuthProfileLocks, type OAuthProfileLockKey } from "./oauth-profile-lock.js";
 import { removeOAuthRefreshGenerationPeers } from "./oauth-refresh-peers.js";
-import { resolveSharedAuthStorePath } from "./path-resolve.js";
+import { resolveSharedAuthStoreOwnership, resolveSharedAuthStorePath } from "./path-resolve.js";
+import { loadPersistedAuthProfileStoreAtDatabasePath } from "./persisted.js";
 import { dedupeProfileIds, listProfilesForProvider } from "./profile-list.js";
 import { removeRuntimeExternalProfileReferences } from "./runtime-external-profile-references.js";
+import { createEmptyAuthProfileStore } from "./runtime-snapshot-owner.js";
 import { resolveSharedMainAuthAgentDir } from "./shared-main-dir.js";
 import { resolveAuthProfileDatabasePath } from "./sqlite.js";
 import {
@@ -266,14 +268,36 @@ type AuthProfileRemovalTarget = {
   expectedProfiles: ReadonlyMap<string, AuthProfileCredential | undefined>;
 };
 
+function loadAuthProfileRemovalStore(agentDir?: string): AuthProfileStore {
+  // Preserve scoped/env-only admission and legacy migration refusals before
+  // reading the exact row that the physical-store updater will receive.
+  const admitted = loadAuthProfileStoreWithoutExternalProfiles(agentDir, {
+    allowKeychainPrompt: false,
+  });
+  if (Object.keys(admitted.profiles).length === 0) {
+    return admitted;
+  }
+  const effectiveAgentDir = resolveRuntimeAuthProfileAgentDir(agentDir);
+  // The locked updater receives this physical store, not its inherited view.
+  // Inherited credentials are removed through their separate owner target.
+  return (
+    loadPersistedAuthProfileStoreAtDatabasePath(
+      effectiveAgentDir
+        ? resolveAuthProfileDatabasePath(effectiveAgentDir)
+        : resolveSharedAuthStorePath(),
+      !effectiveAgentDir && resolveSharedAuthStoreOwnership().location === "state-db"
+        ? "shared-state"
+        : "agent",
+    ) ?? createEmptyAuthProfileStore()
+  );
+}
+
 function createAuthProfileRemovalTarget(params: {
   agentDir?: string;
   profileIds?: ReadonlySet<string>;
   provider?: string;
 }): AuthProfileRemovalTarget {
-  const store = loadAuthProfileStoreWithoutExternalProfiles(params.agentDir, {
-    allowKeychainPrompt: false,
-  });
+  const store = loadAuthProfileRemovalStore(params.agentDir);
   const profileIds =
     params.profileIds ?? new Set(listProfilesForProvider(store, params.provider ?? ""));
   return {
@@ -320,9 +344,7 @@ async function removeAuthProfileTargetsWithLocks(
   );
   return await withOAuthProfileLocks(lockKeys, async () => {
     for (const target of targets) {
-      const current = loadAuthProfileStoreWithoutExternalProfiles(target.agentDir, {
-        allowKeychainPrompt: false,
-      });
+      const current = loadAuthProfileRemovalStore(target.agentDir);
       if (!authProfileRemovalTargetMatches(target, current)) {
         return { kind: "retry" };
       }
