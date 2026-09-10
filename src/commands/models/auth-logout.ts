@@ -5,7 +5,10 @@ import {
   listProfilesForProvider,
   removeAuthProfilesAcrossOwnerStores,
 } from "../../agents/auth-profiles.js";
+import { listCandidateAuthProfileStores } from "../../agents/auth-profiles/candidate-stores.js";
 import { resolveProviderEntryApiKeyProfileReference } from "../../agents/model-auth-provider-config.js";
+import { withPluginModelCatalogWriteLocks } from "../../agents/plugin-model-catalog-lock.js";
+import { removePersistedPluginModelCatalogsForProvider } from "../../agents/plugin-model-catalog.js";
 import { formatCliCommand } from "../../cli/command-format.js";
 import { logConfigUpdated } from "../../config/logging.js";
 import type { OpenClawConfig } from "../../config/types.openclaw.js";
@@ -100,27 +103,56 @@ export async function modelsAuthLogoutCommand(
     logConfigUpdated(runtime);
   }
 
-  const removed = await removeAuthProfilesAcrossOwnerStores({
-    cfg,
-    agentDir,
-    profileIds: [profileId],
-  });
-  if (!removed) {
-    throw new Error(
-      `Failed to remove auth profile "${profileId}"; the auth store lock may be busy. Wait a moment and retry.`,
-    );
-  }
-
-  await refreshRunningGatewayAuthState(agentId, runtime);
-
-  runtime.log(`Agent: ${agentId}`);
-  runtime.log(`Removed auth profile: ${description}`);
-  const remaining = listProfilesForProvider(store, credential.provider).filter(
-    (id) => id !== profileId,
+  const catalogAgentDirs = new Set(
+    (await listCandidateAuthProfileStores({ cfg })).map((candidate) => candidate.agentDir),
   );
-  if (remaining.length === 0) {
-    runtime.log(
-      `No auth profiles remain for ${credential.provider}. Run ${formatCliCommand(`openclaw models auth login --provider ${credential.provider}`)} to sign in again.`,
+  catalogAgentDirs.add(agentDir);
+
+  await withPluginModelCatalogWriteLocks([...catalogAgentDirs], async () => {
+    // Invalidate every generated catalog copy before deleting the profile. If
+    // cleanup cannot complete, retaining the profile leaves this operation
+    // retryable instead of stranding a credential behind an interrupted logout.
+    const invalidatedCatalogEntries = removePersistedPluginModelCatalogsForProvider({
+      agentDirs: [...catalogAgentDirs],
+      provider: credential.provider,
+      lockAlreadyHeld: true,
+    });
+    const removed = await removeAuthProfilesAcrossOwnerStores({
+      cfg,
+      agentDir,
+      profileIds: [profileId],
+    });
+    if (!removed) {
+      throw new Error(
+        `Failed to remove auth profile "${profileId}"; the auth store lock may be busy. Wait a moment and retry.`,
+      );
+    }
+
+    // A refresh that was already in flight may have committed after the first
+    // sweep. Repeat after profile removal so logout leaves no generated copy
+    // from that race window.
+    const invalidatedAfterRemoval = removePersistedPluginModelCatalogsForProvider({
+      agentDirs: [...catalogAgentDirs],
+      provider: credential.provider,
+      lockAlreadyHeld: true,
+    });
+
+    await refreshRunningGatewayAuthState(agentId, runtime);
+
+    runtime.log(`Agent: ${agentId}`);
+    runtime.log(`Removed auth profile: ${description}`);
+    if (invalidatedCatalogEntries + invalidatedAfterRemoval > 0) {
+      runtime.log(
+        `Removed ${invalidatedCatalogEntries + invalidatedAfterRemoval} cached model catalog entr${invalidatedCatalogEntries + invalidatedAfterRemoval === 1 ? "y" : "ies"}.`,
+      );
+    }
+    const remaining = listProfilesForProvider(store, credential.provider).filter(
+      (id) => id !== profileId,
     );
-  }
+    if (remaining.length === 0) {
+      runtime.log(
+        `No auth profiles remain for ${credential.provider}. Run ${formatCliCommand(`openclaw models auth login --provider ${credential.provider}`)} to sign in again.`,
+      );
+    }
+  });
 }

@@ -18,6 +18,7 @@ import { styleSelectParams } from "../../../packages/terminal-core/src/prompt-se
 import { stylePromptMessage } from "../../../packages/terminal-core/src/prompt-style.js";
 import { resolveAgentWorkspaceDir } from "../../agents/agent-scope.js";
 import { removeProviderAuthProfilesWithLock } from "../../agents/auth-profiles.js";
+import { listCandidateAuthProfileStores } from "../../agents/auth-profiles/candidate-stores.js";
 import {
   promoteAuthProfileInOrder,
   upsertAuthProfileWithLockOrThrow,
@@ -25,6 +26,7 @@ import {
 import type { AuthProfileCredential } from "../../agents/auth-profiles/types.js";
 import { normalizeProviderId } from "../../agents/model-ref-shared.js";
 import { isCliProvider } from "../../agents/model-selection-cli.js";
+import { clearPersistedPluginModelCatalogProviderInvalidation } from "../../agents/plugin-model-catalog.js";
 import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
 import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
 import { formatCliCommand } from "../../cli/command-format.js";
@@ -293,9 +295,30 @@ async function resolveModelsAuthContext(params?: {
   };
 }
 
+async function clearLoggedOutPluginModelCatalogs(params: {
+  cfg: OpenClawConfig;
+  agentDir: string;
+  provider: string;
+  env?: NodeJS.ProcessEnv;
+}): Promise<void> {
+  const agentDirs = new Set(
+    (await listCandidateAuthProfileStores({ cfg: params.cfg, env: params.env })).map(
+      (candidate) => candidate.agentDir,
+    ),
+  );
+  agentDirs.add(params.agentDir);
+  clearPersistedPluginModelCatalogProviderInvalidation({
+    agentDirs: [...agentDirs],
+    provider: params.provider,
+  });
+}
+
 async function resolveModelsAuthAgent(rawAgentId?: string | null, config?: OpenClawConfig) {
   const cfg = config ?? (await loadValidConfigOrThrow());
-  return resolveModelsTargetAgent(cfg, rawAgentId ?? undefined, { kind: "mutation" });
+  return {
+    cfg,
+    ...resolveModelsTargetAgent(cfg, rawAgentId ?? undefined, { kind: "mutation" }),
+  };
 }
 
 function resolveRequestedProviderOrThrow(
@@ -433,6 +456,15 @@ async function persistProviderAuthResult(params: {
       agentDir: params.agentDir,
       provider: profile.credential.provider,
       profileId: profile.profileId,
+    });
+  }
+
+  for (const provider of new Set(persistedProfiles.map((profile) => profile.credential.provider))) {
+    await clearLoggedOutPluginModelCatalogs({
+      cfg: params.config,
+      agentDir: params.agentDir,
+      provider,
+      env: params.env,
     });
   }
 
@@ -666,7 +698,7 @@ export async function modelsAuthPasteTokenCommand(
   },
   runtime: RuntimeEnv,
 ) {
-  const { agentId, agentDir } = await resolveModelsAuthAgent(opts.agent);
+  const { agentId, agentDir, cfg } = await resolveModelsAuthAgent(opts.agent);
   const rawProvider = normalizeOptionalString(opts.provider);
   if (!rawProvider) {
     throw new Error(
@@ -712,6 +744,7 @@ export async function modelsAuthPasteTokenCommand(
     },
     agentDir,
   });
+  await clearLoggedOutPluginModelCatalogs({ cfg, agentDir, provider });
 
   await updateConfig((cfg) => applyAuthProfileConfig(cfg, { profileId, provider, mode: "token" }));
 
@@ -735,7 +768,7 @@ export async function modelsAuthPasteApiKeyCommand(
   },
   runtime: RuntimeEnv,
 ) {
-  const { agentId, agentDir } = await resolveModelsAuthAgent(opts.agent);
+  const { agentId, agentDir, cfg } = await resolveModelsAuthAgent(opts.agent);
   const rawProvider = normalizeOptionalString(opts.provider);
   if (!rawProvider) {
     throw new Error(
@@ -770,6 +803,7 @@ export async function modelsAuthPasteApiKeyCommand(
     },
     agentDir,
   });
+  await clearLoggedOutPluginModelCatalogs({ cfg, agentDir, provider });
 
   await updateConfig((cfg) =>
     applyAuthProfileConfig(cfg, { profileId, provider, mode: "api_key" }),

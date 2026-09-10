@@ -36,11 +36,13 @@ import {
   type ModelsJsonReadyState,
 } from "./models-config-state.js";
 import { planOpenClawModelsJson, type PreparedModelsConfigContext } from "./models-config.plan.js";
+import { withPluginModelCatalogWriteLock } from "./plugin-model-catalog-lock.js";
 import { repairPluginModelCatalogTransportMetadata } from "./plugin-model-catalog-repair.js";
 import {
   decodePluginModelCatalogRelativePathPluginId,
   loadPersistedPluginModelCatalogs,
   loadPersistedPluginModelCatalogsReadOnly,
+  readPersistedPluginModelCatalogGeneration,
   replacePersistedPluginModelCatalogs,
   type PersistedPluginModelCatalog,
 } from "./plugin-model-catalog.js";
@@ -76,8 +78,8 @@ type PlannedOpenClawModelsJsonSource = Readonly<{
   pluginCatalogs: readonly PersistedPluginModelCatalog[];
 }>;
 
-function listPreparedPluginModelCatalogs(agentDir: string) {
-  const { catalogs, warnings } = loadPersistedPluginModelCatalogs(agentDir);
+function listPreparedPluginModelCatalogs(agentDir: string, lockAlreadyHeld = false) {
+  const { catalogs, warnings } = loadPersistedPluginModelCatalogs(agentDir, { lockAlreadyHeld });
   if (warnings.length > 0) {
     throw new Error(
       `Cannot safely prepare provider models until legacy catalog migration succeeds: ${warnings.join("; ")}. Run openclaw doctor --fix.`,
@@ -199,6 +201,8 @@ function materializePlannedPluginCatalogs(
 function writePluginCatalogsForModelsJson(params: {
   agentDir: string;
   pluginCatalogWrites?: Record<string, string>;
+  lockAlreadyHeld?: boolean;
+  catalogGeneration?: string;
 }): boolean {
   if (!params.pluginCatalogWrites) {
     return false;
@@ -206,6 +210,8 @@ function writePluginCatalogsForModelsJson(params: {
   return replacePersistedPluginModelCatalogs({
     agentDir: params.agentDir,
     pluginCatalogWrites: params.pluginCatalogWrites,
+    lockAlreadyHeld: params.lockAlreadyHeld,
+    catalogGeneration: params.catalogGeneration,
   });
 }
 
@@ -321,47 +327,56 @@ async function prepareOpenClawModelsJsonSource(
     };
   }
 
-  const pending: Promise<ModelsJsonReadyState> = withModelsJsonWriteLock(targetPath, async () => {
-    // Ensure config env vars (e.g. AWS_PROFILE, AWS_ACCESS_KEY_ID) are
-    // are available to provider discovery without mutating process.env.
-    const existingModelsFile = await readExistingModelsFile(targetPath);
-    const plan = await planOpenClawModelsJson({
-      context,
-      existingRaw: existingModelsFile.raw,
-      existingParsed: existingModelsFile.parsed,
-      pluginCatalogs: listPreparedPluginModelCatalogs(agentDir),
-    });
-
-    if (plan.action === "skip") {
-      const wrotePluginCatalog = writePluginCatalogsForModelsJson({
-        agentDir,
-        pluginCatalogWrites: plan.pluginCatalogWrites,
+  const pending: Promise<ModelsJsonReadyState> = withModelsJsonWriteLock(targetPath, () =>
+    withPluginModelCatalogWriteLock(agentDir, async () => {
+      // Ensure config env vars (e.g. AWS_PROFILE, AWS_ACCESS_KEY_ID) are
+      // are available to provider discovery without mutating process.env.
+      const existingModelsFile = await readExistingModelsFile(targetPath);
+      const catalogGeneration = readPersistedPluginModelCatalogGeneration(agentDir);
+      const plan = await planOpenClawModelsJson({
+        context,
+        existingRaw: existingModelsFile.raw,
+        existingParsed: existingModelsFile.parsed,
+        pluginCatalogs: listPreparedPluginModelCatalogs(agentDir, true),
       });
-      return { fingerprint, result: { agentDir, wrote: wrotePluginCatalog } };
-    }
 
-    if (plan.action === "noop") {
-      const wrotePluginCatalog = writePluginCatalogsForModelsJson({
-        agentDir,
-        pluginCatalogWrites: plan.pluginCatalogWrites,
-      });
+      if (plan.action === "skip") {
+        const wrotePluginCatalog = writePluginCatalogsForModelsJson({
+          agentDir,
+          pluginCatalogWrites: plan.pluginCatalogWrites,
+          lockAlreadyHeld: true,
+          catalogGeneration,
+        });
+        return { fingerprint, result: { agentDir, wrote: wrotePluginCatalog } };
+      }
+
+      if (plan.action === "noop") {
+        const wrotePluginCatalog = writePluginCatalogsForModelsJson({
+          agentDir,
+          pluginCatalogWrites: plan.pluginCatalogWrites,
+          lockAlreadyHeld: true,
+          catalogGeneration,
+        });
+        await ensureModelsFileModeForModelsJson(targetPath);
+        return { fingerprint, result: { agentDir, wrote: wrotePluginCatalog } };
+      }
+
+      await fs.mkdir(agentDir, { recursive: true, mode: 0o700 });
+      const existingRoot = existingModelsFile.raw;
+      const wroteRoot = existingRoot !== plan.contents;
+      if (wroteRoot) {
+        await writeModelsFileAtomicForModelsJson(targetPath, plan.contents);
+      }
       await ensureModelsFileModeForModelsJson(targetPath);
-      return { fingerprint, result: { agentDir, wrote: wrotePluginCatalog } };
-    }
-
-    await fs.mkdir(agentDir, { recursive: true, mode: 0o700 });
-    const existingRoot = existingModelsFile.raw;
-    const wroteRoot = existingRoot !== plan.contents;
-    if (wroteRoot) {
-      await writeModelsFileAtomicForModelsJson(targetPath, plan.contents);
-    }
-    await ensureModelsFileModeForModelsJson(targetPath);
-    const wrotePluginCatalog = writePluginCatalogsForModelsJson({
-      agentDir,
-      pluginCatalogWrites: plan.pluginCatalogWrites,
-    });
-    return { fingerprint, result: { agentDir, wrote: wroteRoot || wrotePluginCatalog } };
-  });
+      const wrotePluginCatalog = writePluginCatalogsForModelsJson({
+        agentDir,
+        pluginCatalogWrites: plan.pluginCatalogWrites,
+        lockAlreadyHeld: true,
+        catalogGeneration,
+      });
+      return { fingerprint, result: { agentDir, wrote: wroteRoot || wrotePluginCatalog } };
+    }),
+  );
   MODELS_JSON_STATE.readyCache.set(cacheKey, pending);
   try {
     const settled = await pending;
