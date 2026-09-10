@@ -59,7 +59,10 @@ import type {
   ProviderPlugin,
 } from "../../plugins/types.js";
 import type { RuntimeEnv } from "../../runtime.js";
-import { ProviderAuthConfigApplyError } from "../../shared/provider-auth-result.js";
+import {
+  ProviderAuthConfigApplyError,
+  ProviderCredentialsSavedError,
+} from "../../shared/provider-auth-result.js";
 import { isRecord } from "../../utils.js";
 import { normalizeSecretInput } from "../../utils/normalize-secret-input.js";
 import { createClackPrompter } from "../../wizard/clack-prompter.js";
@@ -253,7 +256,18 @@ function preferSetupAuthProviders(params: {
   config: OpenClawConfig;
   workspaceDir: string;
   requestedProvider?: string;
+  ownerPluginId?: string;
 }): ProviderPlugin[] {
+  if (params.ownerPluginId) {
+    return mergeSetupProviders(
+      params.providers,
+      resolvePluginSetupRegistry({
+        config: params.config,
+        workspaceDir: params.workspaceDir,
+        pluginIds: [params.ownerPluginId],
+      }).providers.map((entry) => entry.provider),
+    );
+  }
   const requestedProvider = params.requestedProvider
     ? normalizeManualAuthProvider(params.requestedProvider)
     : undefined;
@@ -277,6 +291,7 @@ async function resolveModelsAuthContext(params?: {
   requestedProvider?: string;
   rawAgentId?: string | null;
   config?: OpenClawConfig;
+  ownerPluginId?: string;
 }): Promise<ResolvedModelsAuthContext> {
   const configSnapshot = await loadValidConfigSnapshotOrThrow();
   const config = params?.config ?? configSnapshot.runtimeConfig;
@@ -293,6 +308,7 @@ async function resolveModelsAuthContext(params?: {
     workspaceDir,
     mode: "setup",
     includeUntrustedWorkspacePlugins: false,
+    ...(params?.ownerPluginId ? { onlyPluginIds: [params.ownerPluginId] } : {}),
     ...(providerRef ? { providerRefs: [providerRef] } : {}),
   });
   const authProviders = preferSetupAuthProviders({
@@ -300,6 +316,7 @@ async function resolveModelsAuthContext(params?: {
     config,
     workspaceDir,
     requestedProvider: providerRef,
+    ownerPluginId: params?.ownerPluginId,
   });
   return {
     config,
@@ -432,11 +449,14 @@ async function persistProviderAuthResult(params: {
   setDefault?: boolean;
   env?: NodeJS.ProcessEnv;
   beforePersistentEffect?: () => void | Promise<void>;
+  assertCurrent?: () => void;
+  refreshAfterLogin?: ModelsAuthLoginFlowOptions["refreshAfterLogin"];
 }): Promise<{ profiles: ProviderAuthResult["profiles"]; authRefresh: ModelAuthRefreshOutcome }> {
   const defaultModel = params.result.defaultModel
     ? normalizeAgentModelRefForConfig(params.result.defaultModel)
     : undefined;
   const profiles = params.profiles ?? params.result.profiles;
+  const persistedProfiles: ProviderAuthResult["profiles"] = [];
   const patchOptions = { mergeObjectArraysById: true };
   // Match source and runtime rows using the config owner's canonical model identities.
   const loginConfig = applyProviderAuthConfigPatch(params.config, {});
@@ -465,115 +485,137 @@ async function persistProviderAuthResult(params: {
   const profileChecks: Array<() => void> = [];
   const assertProfilesCurrent = () => {
     params.admission.assertCurrent();
+    params.assertCurrent?.();
     for (const check of profileChecks) {
       check();
     }
   };
-  const persistedProfiles = await params.admission.withPersistence(async () => {
-    const saved: ProviderAuthResult["profiles"] = [];
-    for (const candidate of profiles) {
-      assertProfilesCurrent();
-      const persisted = await persistProviderAuthProfilesAfterLogin({
-        profiles: [candidate],
-        config: params.config,
-        env: params.env,
-        agentDir: params.agentDir,
-        ...(params.env?.OPENCLAW_STATE_DIR ? { stateDir: params.env.OPENCLAW_STATE_DIR } : {}),
-      });
-      const profile = expectDefined(persisted[0], "persisted auth profile");
-      profileChecks.push(
-        await completePersistedAuthProfile({
-          admission: params.admission,
+  try {
+    await params.admission.withPersistence(async () => {
+      for (const candidate of profiles) {
+        assertProfilesCurrent();
+        const persisted = await persistProviderAuthProfilesAfterLogin({
+          profiles: [candidate],
+          beforeWrite: assertProfilesCurrent,
           config: params.config,
+          env: params.env,
           agentDir: params.agentDir,
-          provider: profile.credential.provider,
-          profileId: profile.profileId,
-          mode: profile.credential.type,
-          credential: profile.credential,
-          sharedStoreWrite: true,
-        }),
-      );
-      assertProfilesCurrent();
-      saved.push(profile);
-    }
-    return saved;
-  });
-  assertProfilesCurrent();
-
-  // Replay only the login's changes; the writer may have newer unrelated settings.
-  if (shouldUpdateConfig) {
-    const updated = await updateConfig((cfg) => {
-      assertProfilesCurrent();
-      const priorAgentsDefaultsModel = cfg.agents?.defaults?.model;
-      let next = applyProviderAuthConfigPatch(cfg, {});
-      if (configPatch) {
-        if (
-          (mergePatchConflicts(loginConfig, runtimeConfig, configPatch, patchOptions) &&
-            mergePatchConflicts(loginConfig, sourceConfig, configPatch, patchOptions)) ||
-          mergePatchConflicts(sourceConfig, next, configPatch, patchOptions)
-        ) {
-          throw new Error(
-            "Provider settings changed during sign-in. Review the current settings and retry.",
-          );
-        }
-        // SAFETY: The patch derives from typed config; updateConfig validates the merged value before writing.
-        next = applyMergePatch(next, configPatch, patchOptions) as OpenClawConfig;
+          ...(params.env?.OPENCLAW_STATE_DIR ? { stateDir: params.env.OPENCLAW_STATE_DIR } : {}),
+        });
+        const profile = expectDefined(persisted[0], "persisted auth profile");
+        persistedProfiles.push(profile);
+        assertProfilesCurrent();
+        profileChecks.push(
+          await completePersistedAuthProfile({
+            admission: params.admission,
+            config: params.config,
+            agentDir: params.agentDir,
+            provider: profile.credential.provider,
+            profileId: profile.profileId,
+            mode: profile.credential.type,
+            credential: profile.credential,
+            sharedStoreWrite: true,
+          }),
+        );
+        assertProfilesCurrent();
       }
-      next = restorePriorAgentsDefaultsModelUnlessOptIn({
-        cfg: next,
-        priorAgentsDefaultsModel,
-        setDefault: params.setDefault,
-      });
-      if (params.setDefault && defaultModel) {
-        next = applyDefaultModel(next, defaultModel);
-      }
-      return next;
-    }).catch((error: unknown) => {
-      if (persistedProfiles.length === 0) {
-        throw error;
-      }
-      throw new ProviderAuthConfigApplyError(error);
     });
     assertProfilesCurrent();
-    if (defaultModel) {
-      const repaired = await repairCodexRuntimePluginInstallForModelSelection({
-        cfg: updated,
-        model: defaultModel,
+
+    // Replay only the login's changes; the writer may have newer unrelated settings.
+    if (shouldUpdateConfig) {
+      const updated = await updateConfig(
+        (cfg) => {
+          assertProfilesCurrent();
+          const priorAgentsDefaultsModel = cfg.agents?.defaults?.model;
+          let next = applyProviderAuthConfigPatch(cfg, {});
+          if (configPatch) {
+            if (
+              (mergePatchConflicts(loginConfig, runtimeConfig, configPatch, patchOptions) &&
+                mergePatchConflicts(loginConfig, sourceConfig, configPatch, patchOptions)) ||
+              mergePatchConflicts(sourceConfig, next, configPatch, patchOptions)
+            ) {
+              throw new Error(
+                "Provider settings changed during sign-in. Review the current settings and retry.",
+              );
+            }
+            // SAFETY: The patch derives from typed config; updateConfig validates the merged value before writing.
+            next = applyMergePatch(next, configPatch, patchOptions) as OpenClawConfig;
+          }
+          next = restorePriorAgentsDefaultsModelUnlessOptIn({
+            cfg: next,
+            priorAgentsDefaultsModel,
+            setDefault: params.setDefault,
+          });
+          if (params.setDefault && defaultModel) {
+            next = applyDefaultModel(next, defaultModel);
+          }
+          return next;
+        },
+        undefined,
+        assertProfilesCurrent,
+      ).catch((error: unknown) => {
+        if (persistedProfiles.length === 0) {
+          throw error;
+        }
+        throw new ProviderAuthConfigApplyError(error);
       });
       assertProfilesCurrent();
-      const copilotRepaired = await repairCopilotRuntimePluginInstallForModelSelection({
-        cfg: updated,
-        model: defaultModel,
-      });
-      assertProfilesCurrent();
-      for (const warning of [...repaired.warnings, ...copilotRepaired.warnings]) {
-        params.runtime.error?.(warning);
+      if (defaultModel) {
+        const repaired = await repairCodexRuntimePluginInstallForModelSelection({
+          cfg: updated,
+          model: defaultModel,
+        });
+        assertProfilesCurrent();
+        const copilotRepaired = await repairCopilotRuntimePluginInstallForModelSelection({
+          cfg: updated,
+          model: defaultModel,
+        });
+        assertProfilesCurrent();
+        for (const warning of [...repaired.warnings, ...copilotRepaired.warnings]) {
+          params.runtime.error?.(warning);
+        }
       }
+      logConfigUpdated(params.runtime);
     }
-    logConfigUpdated(params.runtime);
-  }
 
-  const authRefresh = await refreshRunningGatewayAuthState(params.agentId, "login", params.runtime);
-  assertProfilesCurrent();
+    let authRefresh: ModelAuthRefreshOutcome;
+    if (params.refreshAfterLogin) {
+      await params.refreshAfterLogin(params.agentId);
+      authRefresh = "refreshed";
+    } else {
+      authRefresh = await refreshRunningGatewayAuthState(params.agentId, "login", params.runtime);
+    }
 
-  if (params.result.notes && params.result.notes.length > 0) {
-    await params.prompter.note(params.result.notes.join("\n"), "Provider notes");
     assertProfilesCurrent();
+    if (params.result.notes && params.result.notes.length > 0) {
+      await params.prompter.note(params.result.notes.join("\n"), "Provider notes");
+      assertProfilesCurrent();
+    }
+    for (const profile of persistedProfiles) {
+      params.runtime.log(
+        `Auth profile: ${profile.profileId} (${profile.credential.provider}/${credentialMode(profile.credential)})`,
+      );
+    }
+    if (defaultModel) {
+      params.runtime.log(
+        params.setDefault
+          ? `Default model set to ${defaultModel}`
+          : `Default model available: ${defaultModel} (current default unchanged; run ${formatCliCommand(`openclaw models set ${defaultModel}`)} to apply)`,
+      );
+    }
+    return { profiles: persistedProfiles, authRefresh };
+  } catch (error) {
+    if (persistedProfiles.length > 0 && !(error instanceof ProviderCredentialsSavedError)) {
+      throw new ProviderCredentialsSavedError(
+        error instanceof Error
+          ? `Provider credentials were saved, but sign-in did not finish: ${error.message}`
+          : "Provider credentials were saved, but sign-in did not finish.",
+        { cause: error },
+      );
+    }
+    throw error;
   }
-
-  for (const profile of persistedProfiles) {
-    params.runtime.log(
-      `Auth profile: ${profile.profileId} (${profile.credential.provider}/${credentialMode(profile.credential)})`,
-    );
-  }
-  if (defaultModel) {
-    params.runtime.log(
-      params.setDefault
-        ? `Default model set to ${defaultModel}`
-        : `Default model available: ${defaultModel} (current default unchanged; run ${formatCliCommand(`openclaw models set ${defaultModel}`)} to apply)`,
-    );
-  }
-  return { profiles: persistedProfiles, authRefresh };
 }
 
 function resolveConfiguredAuthSelectionForProvider(
@@ -616,7 +658,7 @@ async function promotePersistedAuthProfile(params: {
     ...(selection.order ? { createFromOrder: selection.order } : {}),
   });
   if (!promotion.ok) {
-    throw new Error(
+    throw new ProviderCredentialsSavedError(
       "The auth profile was saved, but its order could not be updated because the auth store is busy. Wait a moment, then retry the login.",
     );
   }
@@ -655,11 +697,14 @@ async function runProviderAuthMethod(params: {
   prompter: WizardPrompter;
   profileId?: string;
   setDefault?: boolean;
+  credentialOnly?: boolean;
+  assertCurrent?: () => void;
   env?: NodeJS.ProcessEnv;
   isRemote?: boolean;
   signal?: AbortSignal;
   openUrl?: (url: string) => Promise<void>;
   beforePersistentEffect?: () => void | Promise<void>;
+  refreshAfterLogin?: ModelsAuthLoginFlowOptions["refreshAfterLogin"];
 }): Promise<{
   result: ProviderAuthResult;
   profiles: ProviderAuthResult["profiles"];
@@ -667,8 +712,11 @@ async function runProviderAuthMethod(params: {
 }> {
   params.signal?.throwIfAborted();
   params.admission.assertCurrent();
+  params.assertCurrent?.();
   const result = await params.method.run({
     config: params.config,
+    credentialOnly: params.credentialOnly,
+    assertCurrent: params.assertCurrent,
     env: params.env ?? process.env,
     agentDir: params.agentDir,
     workspaceDir: params.workspaceDir,
@@ -688,15 +736,32 @@ async function runProviderAuthMethod(params: {
     },
   });
   params.signal?.throwIfAborted();
+  const connectionResult = params.credentialOnly
+    ? {
+        profiles: result.profiles,
+        notes: result.notes,
+        ...(result.configPatch
+          ? {
+              configPatch: {
+                ...(result.configPatch.models?.providers
+                  ? { models: { providers: result.configPatch.models.providers } }
+                  : {}),
+                ...(result.configPatch.plugins ? { plugins: result.configPatch.plugins } : {}),
+              },
+            }
+          : {}),
+      }
+    : result;
   const profiles = resolveLoginProfiles({
-    result,
+    result: connectionResult,
     requestedProfileId: params.profileId,
   });
 
   const { profiles: persistedProfiles, authRefresh } = await persistProviderAuthResult({
     admission: params.admission,
-    result,
+    result: connectionResult,
     profiles,
+    assertCurrent: params.assertCurrent,
     config: params.config,
     configSnapshot: params.configSnapshot,
     agentId: params.agentId,
@@ -706,8 +771,9 @@ async function runProviderAuthMethod(params: {
     setDefault: params.setDefault,
     env: params.env ?? process.env,
     beforePersistentEffect: params.beforePersistentEffect,
+    refreshAfterLogin: params.refreshAfterLogin,
   });
-  return { result, profiles: persistedProfiles, authRefresh };
+  return { result: connectionResult, profiles: persistedProfiles, authRefresh };
 }
 
 /** Runs an interactive provider setup-token auth flow. */
@@ -1061,6 +1127,9 @@ export type ModelsAuthLoginFlowResult = {
 };
 
 export type ModelsAuthLoginFlowOptions = LoginOptions & {
+  ownerPluginId?: string;
+  credentialOnly?: boolean;
+  assertCurrent?: () => void;
   config?: OpenClawConfig;
   runtime: RuntimeEnv;
   prompter: WizardPrompter;
@@ -1069,6 +1138,8 @@ export type ModelsAuthLoginFlowOptions = LoginOptions & {
   signal?: AbortSignal;
   openUrl?: (url: string) => Promise<void>;
   beforePersistentEffect?: () => void | Promise<void>;
+  /** Publish a hosted login through its current Gateway instead of a separate CLI connection. */
+  refreshAfterLogin?: (agentId: string) => Promise<void>;
 };
 
 /** Resolves a requested login provider or throws with available provider details. */
@@ -1128,6 +1199,7 @@ export async function runModelsAuthLoginFlowCore(
     requestedProvider: requestedProviderId,
     rawAgentId: opts.agent,
     config: opts.config,
+    ownerPluginId: opts.ownerPluginId,
   });
   const prompter = opts.prompter;
   let authProviders = listProvidersWithAuthMethods(context.providers);
@@ -1135,6 +1207,7 @@ export async function runModelsAuthLoginFlowCore(
     ? resolveProviderMatch(authProviders, requestedProviderId)
     : null;
   const useProviderPicker =
+    !opts.ownerPluginId &&
     requestedProviderId !== undefined &&
     requestedProvider === null &&
     isCliProvider(requestedProviderId, context.config);
@@ -1192,11 +1265,17 @@ export async function runModelsAuthLoginFlowCore(
     env: opts.env,
     signal: opts.signal,
   });
-  const chosenMethod = await pickProviderAuthMethod({
-    provider: selectedProvider,
-    requestedMethod: opts.method,
-    prompter,
-  });
+  if (opts.ownerPluginId && selectedProvider.id !== opts.provider) {
+    throw new Error("The selected provider login is no longer available.");
+  }
+
+  const chosenMethod = opts.ownerPluginId
+    ? selectedProvider.auth.find((method) => method.id === opts.method)
+    : await pickProviderAuthMethod({
+        provider: selectedProvider,
+        requestedMethod: opts.method,
+        prompter,
+      });
 
   if (!chosenMethod) {
     throw new Error(
@@ -1206,7 +1285,7 @@ export async function runModelsAuthLoginFlowCore(
 
   let assertImportedCurrent: (() => void) | undefined;
   const imported =
-    !opts.force && !opts.profileId && !opts.setDefault
+    !opts.credentialOnly && !opts.force && !opts.profileId && !opts.setDefault
       ? await tryImportProviderCredential({
           method: chosenMethod,
           providerId: selectedProvider.id,
@@ -1233,11 +1312,13 @@ export async function runModelsAuthLoginFlowCore(
   } else if (imported) {
     const assertCurrent = expectDefined(assertImportedCurrent, "import completion");
     assertCurrent();
-    const authRefresh = await refreshRunningGatewayAuthState(
-      context.agentId,
-      "login",
-      opts.runtime,
-    );
+    let authRefresh: ModelAuthRefreshOutcome;
+    if (opts.refreshAfterLogin) {
+      await opts.refreshAfterLogin(context.agentId);
+      authRefresh = "refreshed";
+    } else {
+      authRefresh = await refreshRunningGatewayAuthState(context.agentId, "login", opts.runtime);
+    }
     assertCurrent();
     if (imported.configUpdated) {
       logConfigUpdated(opts.runtime);
@@ -1305,11 +1386,14 @@ export async function runModelsAuthLoginFlowCore(
     prompter,
     profileId: opts.profileId,
     setDefault: opts.setDefault,
+    credentialOnly: opts.credentialOnly,
+    assertCurrent: opts.assertCurrent,
     env: opts.env,
     isRemote: opts.isRemote,
     signal: opts.signal,
     openUrl: opts.openUrl,
     beforePersistentEffect: opts.beforePersistentEffect,
+    refreshAfterLogin: opts.refreshAfterLogin,
   });
   maybeLogOpenAICodexNativeSearchTip(opts.runtime, selectedProvider.id);
   return {
