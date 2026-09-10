@@ -162,21 +162,6 @@ async function ensureModelsFileModeForModelsJson(pathname: string): Promise<void
   });
 }
 
-/** Atomic private-file-store write used by models.json generation. */
-async function writeModelsFileAtomicForModelsJson(
-  targetPath: string,
-  contents: string,
-): Promise<void> {
-  await privateFileStore(path.dirname(targetPath)).writeText(path.basename(targetPath), contents);
-}
-
-if (process.env.VITEST || process.env.NODE_ENV === "test") {
-  (globalThis as Record<PropertyKey, unknown>)[Symbol.for("openclaw.modelsConfigTestApi")] = {
-    ensureModelsFileModeForModelsJson,
-    writeModelsFileAtomicForModelsJson,
-  };
-}
-
 function materializePlannedPluginCatalogs(
   pluginCatalogWrites: Readonly<Record<string, string>>,
 ): PersistedPluginModelCatalog[] {
@@ -344,7 +329,7 @@ async function prepareOpenClawModelsJsonSource(
         await fs.mkdir(agentDir, { recursive: true, mode: 0o700 });
         wroteRoot = existingModelsFile.raw !== plan.contents;
         if (wroteRoot) {
-          await writeModelsFileAtomicForModelsJson(targetPath, plan.contents);
+          await privateFileStore(path.dirname(targetPath)).writeText("models.json", plan.contents);
         }
       }
       if (plan.action !== "skip") {
