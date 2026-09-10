@@ -18,7 +18,10 @@ import {
   resolveAuthProfileDatabaseOwnerId,
   resolveAuthProfileDatabasePath,
 } from "./auth-profiles/sqlite.js";
-import { withPluginModelCatalogWriteLockSync } from "./plugin-model-catalog-lock.js";
+import {
+  tryWithPluginModelCatalogWriteLockSync,
+  withPluginModelCatalogWriteLockSync,
+} from "./plugin-model-catalog-lock.js";
 import {
   PLUGIN_MODEL_CATALOG_GENERATION_SCOPE,
   retireCommittedPluginModelCatalogMigration,
@@ -635,6 +638,18 @@ export function loadPersistedPluginModelCatalogs(
   agentDir: string,
   options: { lockAlreadyHeld?: boolean } = {},
 ): PersistedPluginModelCatalogLoadResult {
+  if (!options.lockAlreadyHeld) {
+    const loaded = tryWithPluginModelCatalogWriteLockSync(agentDir, () =>
+      loadPersistedPluginModelCatalogs(agentDir, { lockAlreadyHeld: true }),
+    );
+    if (loaded.acquired) {
+      return loaded.value;
+    }
+    // A synchronous registry cannot wait for an async holder on its own event
+    // loop. SQLite supplies the last committed inventory; defer every migration
+    // and repair write until the next admitted preparation/read.
+    return { catalogs: readPersistedPluginModelCatalogs(agentDir), warnings: [] };
+  }
   const migration = migrateLegacyPluginModelCatalogs({
     agentDir,
     lockAlreadyHeld: options.lockAlreadyHeld,

@@ -1,4 +1,5 @@
 import path from "node:path";
+import { hasErrnoCode } from "../infra/errno.js";
 import { acquireFileLockSyncWithRetry } from "../infra/file-lock-sync.js";
 import { withFileLock } from "../plugin-sdk/file-lock.js";
 import { OAUTH_REFRESH_LOCK_OPTIONS } from "./auth-profiles/constants.js";
@@ -13,6 +14,29 @@ export function withPluginModelCatalogWriteLockSync<T>(agentDir: string, run: ()
   const release = acquireFileLockSyncWithRetry(resolvePluginModelCatalogLockPath(agentDir));
   try {
     return run();
+  } finally {
+    release();
+  }
+}
+
+/** Attempts migration admission without blocking an async writer's event loop. */
+export function tryWithPluginModelCatalogWriteLockSync<T>(
+  agentDir: string,
+  run: () => T,
+): { acquired: true; value: T } | { acquired: false } {
+  let release: () => void;
+  try {
+    release = acquireFileLockSyncWithRetry(resolvePluginModelCatalogLockPath(agentDir), {
+      retry: false,
+    });
+  } catch (error) {
+    if (hasErrnoCode(error, "file_lock_timeout")) {
+      return { acquired: false };
+    }
+    throw error;
+  }
+  try {
+    return { acquired: true, value: run() };
   } finally {
     release();
   }
