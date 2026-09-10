@@ -59,7 +59,7 @@ const mocks = vi.hoisted(() => ({
   removeProviderAuthProfilesWithLock: vi.fn(),
   resolvePluginProvidersCore: vi.fn(),
   createClackPrompter: vi.fn(),
-  loadValidConfigOrThrow: vi.fn(),
+  loadValidConfigSnapshotOrThrow: vi.fn(),
   updateConfig: vi.fn(),
   logConfigUpdated: vi.fn(),
   openUrl: vi.fn(),
@@ -176,7 +176,7 @@ vi.mock("./shared.js", async (importOriginal) => {
   const actual = await importOriginal<typeof import("./shared.js")>();
   return {
     ...actual,
-    loadValidConfigOrThrow: mocks.loadValidConfigOrThrow,
+    loadValidConfigSnapshotOrThrow: mocks.loadValidConfigSnapshotOrThrow,
     updateConfig: mocks.updateConfig,
   };
 });
@@ -193,11 +193,16 @@ vi.mock("../../infra/remote-env.js", () => ({
   isRemoteEnvironment: mocks.isRemoteEnvironment,
 }));
 
-vi.mock("../../gateway/call.js", () => ({
-  callGateway: mocks.callGateway,
-  GatewayLocalBackendSharedAuthUnavailableError: class extends Error {},
-  isImplicitLocalGatewayTarget: mocks.isImplicitLocalGatewayTarget,
-}));
+vi.mock("../../gateway/call.js", async () => {
+  const requestErrors = await import("../../../packages/gateway-client/src/request-error.js");
+  return {
+    callGateway: mocks.callGateway,
+    GatewayLocalBackendSharedAuthUnavailableError: class extends Error {},
+    isGatewayClientRequestError: (error: unknown) =>
+      error instanceof requestErrors.GatewayClientRequestError,
+    isImplicitLocalGatewayTarget: mocks.isImplicitLocalGatewayTarget,
+  };
+});
 
 vi.mock("../../plugins/provider-oauth-flow.js", () => ({
   createVpsAwareOAuthHandlers: vi.fn(() => ({
@@ -422,7 +427,10 @@ describe("modelsAuthLoginCommand", () => {
       autoEnableProbes: [],
       diagnostics: [],
     });
-    mocks.loadValidConfigOrThrow.mockImplementation(async () => currentConfig);
+    mocks.loadValidConfigSnapshotOrThrow.mockImplementation(async () => ({
+      sourceConfig: structuredClone(currentConfig),
+      runtimeConfig: structuredClone(currentConfig),
+    }));
     mocks.updateConfig.mockImplementation(
       async (mutator: (cfg: OpenClawConfig) => OpenClawConfig) => {
         lastUpdatedConfig = mutator(currentConfig);
@@ -458,7 +466,7 @@ describe("modelsAuthLoginCommand", () => {
       }),
     ]);
     mocks.callGateway.mockReset();
-    mocks.callGateway.mockResolvedValue({});
+    mocks.callGateway.mockResolvedValue({ refreshed: true });
   });
 
   afterEach(() => {
@@ -515,7 +523,7 @@ describe("modelsAuthLoginCommand", () => {
     );
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({
-        params: { refresh: true, agentId: "main" },
+        params: { operation: "login", agentId: "main" },
       }),
     );
   });
@@ -623,7 +631,7 @@ describe("modelsAuthLoginCommand", () => {
     expect(mocks.persistProviderAuthProfilesAfterLogin).toHaveBeenCalledOnce();
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({
-        params: { refresh: true, agentId: "main" },
+        params: { operation: "login", agentId: "main" },
       }),
     );
     expect(runtime.error).toHaveBeenCalledWith(
@@ -915,7 +923,7 @@ describe("modelsAuthLoginCommand", () => {
     ).toBe("/tmp/openclaw/agents/coder");
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({
-        params: { refresh: true, agentId: "coder" },
+        params: { operation: "login", agentId: "coder" },
       }),
     );
   });
@@ -934,6 +942,33 @@ describe("modelsAuthLoginCommand", () => {
     });
 
     expect((readMockCallArg(runProviderAuth) as AuthRunCall).signal).toBe(abortController.signal);
+  });
+
+  it("refreshes saved credentials before presenting provider notes", async () => {
+    const note = vi.fn(async (_message: string, title?: string) => {
+      if (title === "Provider notes") {
+        throw new Error("note delivery failed");
+      }
+    });
+    mocks.createClackPrompter.mockReturnValue({ note, select: vi.fn() });
+    runProviderAuth.mockResolvedValue({
+      profiles: [
+        {
+          profileId: "openai:proof",
+          credential: { type: "token", provider: "openai", token: "fixture-token" },
+        },
+      ],
+      notes: ["Provider sign-in details"],
+    });
+    await expect(modelsAuthLoginCommand({ provider: "openai" }, createRuntime())).rejects.toThrow(
+      "note delivery failed",
+    );
+    expect(mocks.callGateway).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "models.authRefresh",
+        params: { operation: "login", agentId: "main" },
+      }),
+    );
   });
 
   it("does not persist credentials returned after app-owned cancellation", async () => {
@@ -1172,7 +1207,7 @@ describe("modelsAuthLoginCommand", () => {
 
     await modelsAuthLoginCommand({ provider: "openai" }, runtime);
 
-    expect(lastUpdatedConfig?.agents?.defaults?.models).toEqual(existingModels);
+    expect(currentConfig.agents?.defaults?.models).toEqual(existingModels);
   });
 
   it.each([
@@ -1505,7 +1540,7 @@ describe("modelsAuthLoginCommand", () => {
     );
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({
-        params: { refresh: true, agentId: "main" },
+        params: { operation: "login", agentId: "main" },
       }),
     );
   });
@@ -1555,7 +1590,7 @@ describe("modelsAuthLoginCommand", () => {
     });
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({
-        params: { refresh: true, agentId: "coder" },
+        params: { operation: "login", agentId: "coder" },
       }),
     );
   });
@@ -1668,7 +1703,7 @@ describe("modelsAuthLoginCommand", () => {
     expect(runtime.log).toHaveBeenCalledWith("Auth profile: openai:manual (openai/api_key)");
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({
-        params: { refresh: true, agentId: "coder" },
+        params: { operation: "login", agentId: "coder" },
       }),
     );
   });
@@ -1855,6 +1890,7 @@ describe("modelsAuthLoginCommand", () => {
     const runtime = createRuntime();
     useCoderAgentConfig();
     const runTokenAuth = vi.fn().mockResolvedValue({
+      configPatch: { logging: { level: "debug" } },
       profiles: [
         {
           profileId: "moonshot:token",
@@ -1884,6 +1920,7 @@ describe("modelsAuthLoginCommand", () => {
 
     await modelsAuthAddCommand({ agent: "coder" }, runtime);
 
+    expect(lastUpdatedConfig?.logging?.level).toBe("debug");
     expect(mocks.resolveDefaultAgentId).not.toHaveBeenCalled();
     const tokenAuthCall = readMockCallArg(runTokenAuth) as AuthRunCall;
     expect(tokenAuthCall.agentDir).toBe("/tmp/openclaw/agents/coder");
