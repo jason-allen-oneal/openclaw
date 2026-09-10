@@ -33,7 +33,6 @@ import {
   isActivePluginModelCatalogLogoutFence,
   PLUGIN_MODEL_CATALOG_GENERATION_SCOPE,
   PLUGIN_MODEL_CATALOG_LOGOUT_SCOPE,
-  readPersistedPluginModelCatalogGeneration,
   retireCommittedPluginModelCatalogMigration,
 } from "./plugin-model-catalog-logout.js";
 import { decodePluginModelCatalogRelativePathPluginId } from "./plugin-model-catalog-ownership.js";

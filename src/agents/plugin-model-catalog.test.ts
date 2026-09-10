@@ -234,7 +234,7 @@ describe("SQLite-backed plugin model catalogs", () => {
       catalogGeneration: staleGeneration,
     });
     expect(
-      loadPersistedPluginModelCatalogsReadOnly(agentDir).map((catalog) => catalog.contents),
+      loadPersistedPluginModelCatalogsReadOnly(agentDir).map((entry) => entry.contents),
     ).toEqual([JSON.stringify({ generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY, providers: {} })]);
 
     clearPersistedPluginModelCatalogProviderInvalidation({ agentDir, provider: "openai" });
@@ -244,7 +244,7 @@ describe("SQLite-backed plugin model catalogs", () => {
       catalogGeneration: staleGeneration,
     });
     expect(
-      loadPersistedPluginModelCatalogsReadOnly(agentDir).map((catalog) => catalog.contents),
+      loadPersistedPluginModelCatalogsReadOnly(agentDir).map((entry) => entry.contents),
     ).toEqual([JSON.stringify({ generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY, providers: {} })]);
     replacePersistedPluginModelCatalogs({
       agentDir,

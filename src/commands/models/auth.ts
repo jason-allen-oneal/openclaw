@@ -746,7 +746,9 @@ export async function modelsAuthPasteTokenCommand(
   });
   await clearLoggedOutPluginModelCatalogs({ cfg, agentDir, provider });
 
-  await updateConfig((cfg) => applyAuthProfileConfig(cfg, { profileId, provider, mode: "token" }));
+  await updateConfig((currentConfig) =>
+    applyAuthProfileConfig(currentConfig, { profileId, provider, mode: "token" }),
+  );
 
   await refreshRunningGatewayAuthState(agentId, runtime);
 
@@ -805,8 +807,8 @@ export async function modelsAuthPasteApiKeyCommand(
   });
   await clearLoggedOutPluginModelCatalogs({ cfg, agentDir, provider });
 
-  await updateConfig((cfg) =>
-    applyAuthProfileConfig(cfg, { profileId, provider, mode: "api_key" }),
+  await updateConfig((currentConfig) =>
+    applyAuthProfileConfig(currentConfig, { profileId, provider, mode: "api_key" }),
   );
 
   await refreshRunningGatewayAuthState(agentId, runtime);

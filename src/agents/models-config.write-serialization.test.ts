@@ -321,10 +321,12 @@ describe("models-config write serialization", () => {
       })}\n`;
       await fs.mkdir(path.dirname(sourcePath), { recursive: true });
       await fs.writeFile(sourcePath, contents, "utf8");
-      planOpenClawModelsJsonMock.mockImplementation(async () => {
-        expect(listPersistedPluginModelCatalogs(agentDir)).toEqual([{ pluginId: "zai", contents }]);
-        return { action: "skip" };
-      });
+      planOpenClawModelsJsonMock.mockImplementation(
+        async (params: { pluginCatalogs: { pluginId: string; contents: string }[] }) => {
+          expect(params.pluginCatalogs).toEqual([{ pluginId: "zai", contents }]);
+          return { action: "skip" };
+        },
+      );
 
       await ensureOpenClawModelsJson({}, agentDir);
 
