@@ -19,6 +19,8 @@ import { isNonSecretApiKeyMarker } from "./model-auth-markers.js";
 import {
   formatModelCatalogProfileReference,
   parseModelCatalogProfileReference,
+  rewriteModelCatalogCredentialReferences,
+  type ModelCatalogCredentialReference,
 } from "./model-catalog-json.js";
 import {
   buildSourceModelFields,
@@ -415,18 +417,19 @@ function collectGeneratedCatalogProviders(params: {
 
 /** Retire root literals only after their canonical credential has been verified/imported. */
 function rewriteVerifiedRootCredentials(params: {
+  existingRaw: string;
   existingParsed: unknown;
   agentDir: string;
   authStore?: AuthProfileStore;
   config: OpenClawConfig;
   authAliasLookup: ProviderAuthAliasLookupParams;
-}): Record<string, unknown> | undefined {
+}): { parsed: Record<string, unknown>; contents: string } | undefined {
   const root = params.existingParsed;
   if (!isRecord(root) || !isRecord(root.providers)) {
     return undefined;
   }
   let store = params.authStore;
-  let changed = false;
+  const references: ModelCatalogCredentialReference[] = [];
   const providers = { ...root.providers };
   for (const [providerId, entry] of Object.entries(providers)) {
     if (
@@ -466,9 +469,19 @@ function rewriteVerifiedRootCredentials(params: {
       continue;
     }
     providers[providerId] = { ...entry, apiKey: formatModelCatalogProfileReference(profileId) };
-    changed = true;
+    references.push({ provider: providerId, key: entry.apiKey, profileId });
   }
-  return changed ? { ...root, providers } : undefined;
+  if (references.length === 0) {
+    return undefined;
+  }
+  const parsed = { ...root, providers };
+  return {
+    parsed,
+    // Parsed-only plans have no authored source text to preserve.
+    contents: params.existingRaw
+      ? rewriteModelCatalogCredentialReferences(params.existingRaw, references)
+      : `${JSON.stringify(parsed, null, 2)}\n`,
+  };
 }
 
 /** Plans root and plugin-owned model catalog writes for the current runtime. */
@@ -503,6 +516,7 @@ export async function planOpenClawModelsJson(params: {
     cfg.models?.mode === "replace"
       ? undefined
       : rewriteVerifiedRootCredentials({
+          existingRaw: params.existingRaw,
           existingParsed: params.existingParsed,
           agentDir,
           ...(params.authStore ? { authStore: params.authStore } : {}),
@@ -527,7 +541,7 @@ export async function planOpenClawModelsJson(params: {
       return rewrittenRoot
         ? {
             action: "write",
-            contents: `${JSON.stringify(rewrittenRoot, null, 2)}\n`,
+            contents: rewrittenRoot.contents,
           }
         : { action: "skip" };
     }
@@ -585,7 +599,7 @@ export async function planOpenClawModelsJson(params: {
   // Root models.json is author-owned even when a plugin also owns that provider id.
   const rootProviders = resolveProvidersForMode({
     mode,
-    existingParsed: rewrittenRoot ?? params.existingParsed,
+    existingParsed: rewrittenRoot?.parsed ?? params.existingParsed,
     providers: splitProviders.rootProviders,
     secretRefManagedProviders,
   });
@@ -620,10 +634,10 @@ export async function planOpenClawModelsJson(params: {
     ...(mode === "merge" && isRecord(params.existingParsed) ? params.existingParsed : {}),
     providers: canonicalRootProviders,
   };
-  // A plugin-only refresh must not reserialize an unchanged, authored JSONC root.
+  // Preserve authored JSONC bytes when only verified credential references change.
   const nextContents =
-    mode === "merge" && isDeepStrictEqual(nextRoot, params.existingParsed)
-      ? params.existingRaw
+    mode === "merge" && isDeepStrictEqual(nextRoot, rewrittenRoot?.parsed ?? params.existingParsed)
+      ? (rewrittenRoot?.contents ?? params.existingRaw)
       : `${JSON.stringify(nextRoot, null, 2)}\n`;
 
   if (params.existingRaw === nextContents && Object.keys(pluginCatalogWrites).length === 0) {

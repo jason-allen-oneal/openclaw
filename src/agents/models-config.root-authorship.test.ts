@@ -100,6 +100,66 @@ describe("manual root catalog authorship", () => {
     expect(loadPersistedPluginModelCatalogsReadOnly(state.agentDir())).toHaveLength(1);
   });
 
+  it.each([false, true])(
+    "preserves authored JSONC bytes when only a verified credential changes (retained: %s)",
+    async (retained) => {
+      resolveRuntimePluginDiscoveryProviders.mockResolvedValue([]);
+      const credential = "synthetic-existing-root-key";
+      saveAuthProfileStore(
+        {
+          version: 1,
+          profiles: {
+            "fixture:existing": { type: "api_key", provider: "fixture", key: credential },
+          },
+        },
+        state.agentDir(),
+      );
+      const rootPath = path.join(state.agentDir(), "models.json");
+      const contents = `{
+  // Keep this operator note, including ${credential}.
+  "operatorNote": "authored root",
+  "providers": {
+    "fixture": {${JSON.stringify(native).slice(1, -1)},
+      "apiKey" : "${credential}", // Keep the credential's comment.
+      "headers": { "X-Manual": "preserve" },
+    },
+  },
+}\n`;
+      await fs.mkdir(state.agentDir(), { recursive: true });
+      await fs.writeFile(rootPath, contents);
+      if (retained) {
+        replacePersistedPluginModelCatalogs({
+          agentDir: state.agentDir(),
+          pluginCatalogWrites: {
+            "plugins/catalog-owner/catalog.json": JSON.stringify({
+              generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY,
+              providers: { fixture: native },
+            }),
+          },
+        });
+      }
+      const options = {
+        env: state.env,
+        pluginMetadataSnapshot: metadata,
+        providerDiscoveryProviderIds: ["fixture"],
+        providerDiscoveryEntriesOnly: true,
+      };
+      const expected = contents.replace(
+        `"apiKey" : "${credential}"`,
+        '"apiKey" : "auth-profile:fixture:existing"',
+      );
+      await ensureOpenClawModelsJson({}, state.agentDir(), options);
+      expect(await fs.readFile(rootPath, "utf8")).toBe(expected);
+      const replanned = await planOpenClawModelsJsonSource({}, state.agentDir(), options);
+      expect(replanned.modelsJsonContents).toBe(expected);
+      await ensureOpenClawModelsJson({}, state.agentDir(), options);
+      expect(await fs.readFile(rootPath, "utf8")).toBe(expected);
+      expect(loadPersistedPluginModelCatalogsReadOnly(state.agentDir())).toHaveLength(
+        retained ? 1 : 0,
+      );
+    },
+  );
+
   it.each(["generated", "retained", "root"])(
     "verifies %s credentials using the catalog entry's alias endpoint",
     async (source) => {
