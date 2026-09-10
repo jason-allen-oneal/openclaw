@@ -18,7 +18,7 @@ import type {
   OAuthProviderId,
 } from "../../llm/utils/oauth/types.js";
 import { OAuthProviderConfiguredUnavailableError } from "../../plugins/provider-runtime.errors.js";
-import { AUTH_STORE_VERSION, OAUTH_REFRESH_LOCK_OPTIONS } from "../auth-profiles/constants.js";
+import { OAUTH_REFRESH_LOCK_OPTIONS } from "../auth-profiles/constants.js";
 import {
   AuthProfileMigrationRequiredError,
   AuthProfileStoreUnreadableError,
@@ -29,15 +29,10 @@ import {
   isOAuthRefreshFence,
   isPendingOAuthRefreshFence,
 } from "../auth-profiles/oauth-refresh-marker.js";
-import { loadPersistedAuthProfileStore } from "../auth-profiles/persisted.js";
 import {
-  inspectPersistedAuthProfileStateRaw,
-  inspectPersistedAuthProfileStoreRaw,
   resolveAuthProfileDatabasePath,
   runAuthProfileWriteTransaction,
-  type AuthProfileDatabase,
 } from "../auth-profiles/sqlite.js";
-import { loadPersistedAuthProfileState } from "../auth-profiles/state.js";
 import {
   createAuthProfileStoreReadScope,
   saveAuthProfileStoreWithPreparedOwner,
@@ -59,7 +54,7 @@ import {
   resolveAuthStoragePluginOAuthCredential,
 } from "./auth-storage-oauth-registry.js";
 import {
-  attachAuthStorageProfiles,
+  attachLiveAuthStorageProfiles,
   isAuthStorageCredentialFree,
   registerAuthStorageRuntimeOverride,
 } from "./auth-storage-profiles.js";
@@ -69,6 +64,7 @@ import {
   materializeAuthStorageStore,
   projectAuthoritativeAuthStorageData,
 } from "./auth-storage-projection.js";
+import { loadSqliteAuthStorageStore } from "./auth-storage-sqlite-read.js";
 import type {
   AuthCredential,
   AuthStorageBackend,
@@ -142,33 +138,6 @@ function collectStateOnlyAuthProfileIds(store: AuthProfileStore): string[] {
   return [...referenced].filter((profileId) => !store.profiles[profileId]);
 }
 
-function loadSqliteAuthStorageStore(
-  agentDir: string,
-  database?: AuthProfileDatabase,
-): AuthProfileStore {
-  const inspection = inspectPersistedAuthProfileStoreRaw(agentDir, database);
-  if (inspection.status === "missing") {
-    const stateInspection = inspectPersistedAuthProfileStateRaw(agentDir, database);
-    if (stateInspection.status === "unreadable") {
-      throw new AuthProfileStoreUnreadableError(
-        database?.path ?? resolveAuthProfileDatabasePath(agentDir),
-      );
-    }
-    return {
-      version: AUTH_STORE_VERSION,
-      profiles: {},
-      ...loadPersistedAuthProfileState(agentDir, database),
-    };
-  }
-  const store = loadPersistedAuthProfileStore(agentDir, database ? { database } : undefined);
-  if (inspection.status === "unreadable" || !store) {
-    throw new AuthProfileStoreUnreadableError(
-      database?.path ?? resolveAuthProfileDatabasePath(agentDir),
-    );
-  }
-  return store;
-}
-
 class SqliteAuthStorageBackend implements AuthStorageBackend {
   private credentialSources = new Map<string, AuthProfileCredentialSource>();
 
@@ -177,8 +146,24 @@ class SqliteAuthStorageBackend implements AuthStorageBackend {
     private readonly preparedStore: AuthProfileStore,
   ) {}
 
-  getPreparedStore(): AuthProfileStore {
-    return this.preparedStore;
+  hasProfileId(profileId: string): boolean {
+    return Object.hasOwn(this.scope.read().profiles, profileId);
+  }
+
+  readProfile(profileId: string, baseUrl?: string) {
+    const store: RuntimeAuthProfileStore = this.scope.read();
+    const profile = materializeAuthStorageStore(store, this.resolveMaterializedRuntimeStores())
+      .profiles[profileId];
+    const source = store.runtimeCredentialSources?.[profileId];
+    if (source) {
+      this.scope.assertCredentialReady(source, baseUrl);
+    } else if (store.runtimePersistedProfileIds?.includes(profileId)) {
+      throw new AuthStoragePersistenceError(
+        "Canonical auth credential is missing its source owner.",
+        undefined,
+      );
+    }
+    return profile;
   }
 
   private get agentDir(): string {
@@ -423,9 +408,21 @@ export class AuthStorage {
 
   static forAgent(agentDir: string = getAgentDir(), config?: OpenClawConfig): AuthStorage {
     const backend = createSqliteAuthStorageBackend(agentDir, config);
-    return attachAuthStorageProfiles(new AuthStorage(backend), backend.getPreparedStore(), {
-      liveDefault: true,
-    });
+    const storage = new AuthStorage(backend);
+    return attachLiveAuthStorageProfiles(
+      storage,
+      (provider, profileId, baseUrl) => {
+        backend.assertProviderReady(provider, baseUrl);
+        const error = storage.getCanonicalLoadError();
+        if (error) {
+          throw error;
+        }
+        const profile = backend.readProfile(profileId, baseUrl);
+        backend.assertProviderReady(provider, baseUrl);
+        return profile;
+      },
+      (profileId) => backend.hasProfileId(profileId),
+    );
   }
 
   /**

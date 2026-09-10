@@ -24,7 +24,7 @@ import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { getAgentDir } from "../config.js";
 import { isNonSecretApiKeyMarker } from "../model-auth-markers.js";
 import { hasUsableCustomProviderApiKey } from "../model-auth-provider-config.js";
-import { parseModelCatalogJson } from "../model-catalog-json.js";
+import { parseModelCatalogJson, parseModelCatalogProfileReference } from "../model-catalog-json.js";
 import { resolveModelPluginMetadataSnapshot } from "../model-discovery-context.js";
 import {
   filterGeneratedPluginModelCatalogProviders,
@@ -33,9 +33,11 @@ import {
   type PersistedPluginModelCatalog,
   type PluginModelCatalogMetadataSnapshot,
 } from "../plugin-model-catalog.js";
+import type { ProviderAuthAliasLookupParams } from "../provider-auth-aliases.js";
 import { getAuthStorageOAuthProviderRegistry } from "./auth-storage-oauth-registry.js";
 import {
   hasAuthStorageProfile,
+  hasAuthStorageProfileId,
   isAuthStorageCredentialFree,
   resolveAuthStorageProfileApiKey,
 } from "./auth-storage-profiles.js";
@@ -270,22 +272,36 @@ function emptyCustomModelsResult(error?: string): CustomModelsResult {
 }
 
 function stripProviderRequestCredentials(config: ProviderConfigInput): ProviderConfigInput {
-  const { apiKey: _apiKey, authHeader: _authHeader, headers: _headers, ...rest } = config;
-  return rest;
+  const {
+    apiKey: _apiKey,
+    auth: _auth,
+    authHeader: _authHeader,
+    headers: _headers,
+    ...rest
+  } = config;
+  return {
+    ...rest,
+    ...(rest.models
+      ? { models: rest.models.map(({ headers: _modelHeaders, ...model }) => model) }
+      : {}),
+  };
 }
 
 function classifyCatalogAuth(
   authStorage: AuthStorage,
-  provider: string,
   value: string | undefined,
 ): Pick<ProviderRequestConfig, "catalogEnvVar" | "catalogProfileId"> {
   if (!value) {
     return {};
   }
-  if (hasAuthStorageProfile(authStorage, provider, value, { includeRuntimeOverride: false })) {
+  const exactProfileId = parseModelCatalogProfileReference(value);
+  if (exactProfileId !== undefined) {
+    return { catalogProfileId: exactProfileId || value };
+  }
+  if (hasAuthStorageProfileId(authStorage, value)) {
     return { catalogProfileId: value };
   }
-  if (/^[A-Z][A-Z0-9_]*$/.test(value)) {
+  if (/^[A-Z_][A-Z0-9_]*$/.test(value)) {
     return { catalogEnvVar: value };
   }
   return isNonSecretApiKeyMarker(value) ? {} : { catalogProfileId: value };
@@ -364,6 +380,7 @@ export class ModelRegistry {
   private includePluginCatalogs = true;
   private baseCatalogSnapshot: ModelRegistryCatalogSnapshot | undefined;
   private sourceSnapshot: ModelRegistryCatalogSnapshot | undefined;
+  private workspaceDir: string | undefined;
 
   private constructor(
     authStorage: AuthStorage,
@@ -372,6 +389,7 @@ export class ModelRegistry {
   ) {
     this.authStorage = authStorage;
     this.config = options.config ?? options.sourceSnapshot?.config;
+    this.workspaceDir = options.workspaceDir ?? options.sourceSnapshot?.workspaceDir;
     this.includePluginCatalogs = options.includePluginCatalogs !== false;
     initializeModelRegistryRuntime(this);
     if (options.sourceSnapshot) {
@@ -381,6 +399,15 @@ export class ModelRegistry {
       this.baseCatalogSnapshot = sourceSnapshot;
       this.restoreSourceCatalog(sourceSnapshot);
       const credentialFree = isAuthStorageCredentialFree(authStorage);
+      if (credentialFree) {
+        // Descendant forks and refreshes must inherit the scrubbed snapshot,
+        // not recover request headers from the original credentialed source.
+        this.sourceSnapshot = {
+          ...this.captureCatalogSnapshot(),
+          oauthProviders: sourceSnapshot.oauthProviders,
+        };
+        this.baseCatalogSnapshot = this.sourceSnapshot;
+      }
       this.registeredProviders = new Map(
         [...source.registeredProviders].map(([provider, config]) => [
           provider,
@@ -428,11 +455,19 @@ export class ModelRegistry {
 
   private restoreSourceCatalog(source: ModelRegistryCatalogSnapshot): void {
     this.models = structuredClone(source.models);
+    const credentialFree = isAuthStorageCredentialFree(this.authStorage);
+    if (credentialFree) {
+      this.models = this.models.map(({ headers: _headers, ...model }) => model);
+    }
     this.providerRequestConfigs = new Map(
-      [...source.providerRequestConfigs].map(([provider, config]) => [provider, { ...config }]),
+      [...source.providerRequestConfigs].map(([provider, config]) => {
+        return [provider, credentialFree ? {} : { ...config }];
+      }),
     );
     this.modelRequestHeaders = new Map(
-      [...source.modelRequestHeaders].map(([key, headers]) => [key, { ...headers }]),
+      credentialFree
+        ? []
+        : [...source.modelRequestHeaders].map(([key, headers]) => [key, { ...headers }]),
     );
     this.loadError = source.loadError;
     this.pluginMetadataSnapshot = source.pluginMetadataSnapshot;
@@ -613,7 +648,7 @@ export class ModelRegistry {
           const { apiKey, ...requestConfig } = providerConfig;
           this.storeProviderRequestConfig(providerName, {
             ...requestConfig,
-            ...classifyCatalogAuth(this.authStorage, providerName, apiKey),
+            ...classifyCatalogAuth(this.authStorage, apiKey),
           });
         }
       }
@@ -780,15 +815,19 @@ export class ModelRegistry {
    * Get API key for a model.
    */
   hasConfiguredAuth(model: Model): boolean {
+    if (isAuthStorageCredentialFree(this.authStorage)) {
+      return this.authStorage.hasAuth(model.provider);
+    }
     const requestConfig = this.providerRequestConfigs.get(model.provider);
     if (requestConfig?.auth === "aws-sdk") {
-      return true;
+      return !requestConfig.catalogProfileId;
     }
     if (requestConfig?.catalogProfileId) {
       return hasAuthStorageProfile(
         this.authStorage,
         model.provider,
         requestConfig.catalogProfileId,
+        { baseUrl: model.baseUrl, aliasLookup: this.getAuthAliasLookup() },
       );
     }
     return (
@@ -843,15 +882,37 @@ export class ModelRegistry {
       : undefined;
   }
 
+  private getAuthAliasLookup(): ProviderAuthAliasLookupParams {
+    return {
+      config: this.config,
+      workspaceDir: this.workspaceDir,
+      ...(this.pluginMetadataSnapshot
+        ? {
+            metadataSnapshot: {
+              plugins: this.pluginMetadataSnapshot.manifestRegistry?.plugins ?? [],
+              owners: this.pluginMetadataSnapshot.owners,
+            },
+          }
+        : {}),
+    };
+  }
+
   private async resolveCanonicalRequestApiKey(
     provider: string,
     config: ProviderRequestConfig | undefined,
+    baseUrl?: string,
   ): Promise<string | undefined> {
     if (config?.catalogProfileId) {
-      return resolveAuthStorageProfileApiKey(this.authStorage, provider, config.catalogProfileId);
+      return resolveAuthStorageProfileApiKey(
+        this.authStorage,
+        provider,
+        config.catalogProfileId,
+        baseUrl,
+        this.getAuthAliasLookup(),
+      );
     }
     return (
-      (await this.authStorage.getApiKey(provider, { includeFallback: false })) ??
+      (await this.authStorage.getApiKey(provider, { includeFallback: false, baseUrl })) ??
       this.resolveCatalogEnvironmentAuth(config?.catalogEnvVar)
     );
   }
@@ -862,12 +923,37 @@ export class ModelRegistry {
   async getApiKeyAndHeaders(model: Model): Promise<ResolvedRequestAuth> {
     try {
       const providerConfig = this.providerRequestConfigs.get(model.provider);
+      if (isAuthStorageCredentialFree(this.authStorage)) {
+        // Even a caller-held model object may carry headers from a credentialed
+        // registry. Only an explicit runtime key can cross this boundary.
+        return {
+          ok: true,
+          apiKey: await this.authStorage.getApiKey(model.provider, {
+            includeFallback: false,
+            baseUrl: model.baseUrl,
+          }),
+          headers: undefined,
+        };
+      }
+      if (providerConfig?.catalogProfileId && providerConfig.auth === "aws-sdk") {
+        return {
+          ok: false,
+          error: "An exact auth profile cannot be combined with AWS SDK authentication.",
+        };
+      }
       const usesAwsSdkAuth = providerConfig?.auth === "aws-sdk";
+      const canonicalApiKey = usesAwsSdkAuth
+        ? undefined
+        : await this.resolveCanonicalRequestApiKey(model.provider, providerConfig, model.baseUrl);
+      if (providerConfig?.catalogProfileId && !canonicalApiKey) {
+        return {
+          ok: false,
+          error: "No API key found for exact auth profile.",
+        };
+      }
       const apiKey =
-        (usesAwsSdkAuth
-          ? undefined
-          : await this.resolveCanonicalRequestApiKey(model.provider, providerConfig)) ??
-        (!usesAwsSdkAuth && providerConfig?.apiKey
+        canonicalApiKey ??
+        (!usesAwsSdkAuth && !providerConfig?.catalogProfileId && providerConfig?.apiKey
           ? resolveConfigValueOrThrow(
               providerConfig.apiKey,
               `API key for provider "${model.provider}"`,
@@ -915,7 +1001,9 @@ export class ModelRegistry {
   getProviderAuthStatus(provider: string): AuthStatus {
     const providerRequestConfig = this.providerRequestConfigs.get(provider);
     if (providerRequestConfig?.auth === "aws-sdk") {
-      return { configured: true, source: "models_json_key", label: providerRequestConfig.auth };
+      return providerRequestConfig.catalogProfileId
+        ? { configured: false }
+        : { configured: true, source: "models_json_key", label: providerRequestConfig.auth };
     }
 
     if (providerRequestConfig?.catalogProfileId) {
@@ -923,6 +1011,7 @@ export class ModelRegistry {
         this.authStorage,
         provider,
         providerRequestConfig.catalogProfileId,
+        { aliasLookup: this.getAuthAliasLookup() },
       )
         ? { configured: true, source: "stored" }
         : { configured: false };
@@ -980,6 +1069,9 @@ export class ModelRegistry {
    * Get API key for a provider.
    */
   async getApiKeyForProvider(provider: string): Promise<string | undefined> {
+    if (isAuthStorageCredentialFree(this.authStorage)) {
+      return this.authStorage.getApiKey(provider, { includeFallback: false });
+    }
     const providerConfig = this.providerRequestConfigs.get(provider);
     const canonical = await this.resolveCanonicalRequestApiKey(provider, providerConfig);
     if (canonical !== undefined) {
@@ -1005,9 +1097,12 @@ export class ModelRegistry {
    * If provider has oauth: registers OAuth provider for /login support.
    */
   registerProvider(providerName: string, config: ProviderConfigInput): void {
-    this.validateProviderConfig(providerName, config);
-    this.applyProviderConfig(providerName, config);
-    this.upsertRegisteredProvider(providerName, config);
+    const registeredConfig = isAuthStorageCredentialFree(this.authStorage)
+      ? stripProviderRequestCredentials(config)
+      : config;
+    this.validateProviderConfig(providerName, registeredConfig);
+    this.applyProviderConfig(providerName, registeredConfig);
+    this.upsertRegisteredProvider(providerName, registeredConfig);
   }
 
   /**

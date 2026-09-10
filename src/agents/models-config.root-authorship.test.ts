@@ -1,6 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
+import { maybeMigrateModelCatalogCredentials } from "../commands/doctor-model-catalog-credentials.js";
+import { createDoctorPrompter } from "../commands/doctor-prompter.js";
 import type { ModelProviderConfig } from "../config/types.models.js";
 import { createPluginMetadataSnapshotFixture } from "../plugins/plugin-metadata.test-support.js";
 import type { ProviderPlugin } from "../plugins/types.js";
@@ -17,11 +19,14 @@ vi.mock("../plugins/provider-discovery.js", async (importOriginal) => ({
   resolveRuntimePluginDiscoveryProviders,
 }));
 
-import { planOpenClawModelsJsonSource } from "./models-config.js";
+import { saveAuthProfileStore } from "./auth-profiles/store-runtime.js";
+import { ensureOpenClawModelsJson, planOpenClawModelsJsonSource } from "./models-config.js";
 import {
   PLUGIN_MODEL_CATALOG_GENERATED_BY,
   replacePersistedPluginModelCatalogs,
 } from "./plugin-model-catalog.js";
+import { AuthStorage } from "./sessions/auth-storage.js";
+import { ModelRegistry } from "./sessions/model-registry.js";
 
 const native: ModelProviderConfig = {
   baseUrl: "https://native.example/v1",
@@ -110,4 +115,70 @@ describe("manual root catalog authorship", () => {
     ).toEqual(["native-model"]);
     expect(await fs.readFile(rootPath, "utf8")).toBe(original);
   });
+
+  it.each(["synthetic-manual-doctor-key", "other:catalog"])(
+    "refreshes a Doctor-imported root credential into a usable canonical reference (%s)",
+    async (apiKey) => {
+      resolveRuntimePluginDiscoveryProviders.mockResolvedValue([]);
+      if (apiKey === "other:catalog") {
+        saveAuthProfileStore(
+          {
+            version: 1,
+            profiles: {
+              "other:catalog": { type: "api_key", provider: "other", key: "unrelated-fixture-key" },
+            },
+          },
+          state.agentDir(),
+        );
+      }
+      const root = {
+        operatorNote: "preserve authored metadata",
+        providers: { fixture: { ...native, apiKey, headers: { "X-Manual": "preserve" } } },
+      };
+      const rootPath = path.join(state.agentDir(), "models.json");
+      await fs.mkdir(state.agentDir(), { recursive: true });
+      const original = JSON.stringify(root);
+      await fs.writeFile(rootPath, original);
+      const options = {
+        env: state.env,
+        pluginMetadataSnapshot: metadata,
+        providerDiscoveryProviderIds: ["fixture"],
+        providerDiscoveryEntriesOnly: true,
+      };
+      const before = await planOpenClawModelsJsonSource({}, state.agentDir(), options);
+      expect(before.modelsJsonContents).toBe(original);
+
+      const runtime = { log: vi.fn(), error: vi.fn(), exit: vi.fn() };
+      const migration = await maybeMigrateModelCatalogCredentials({
+        cfg: {},
+        env: state.env,
+        runtime,
+        prompter: createDoctorPrompter({ runtime, options: { repair: true, yes: true } }),
+      });
+      expect(migration).toMatchObject({ detected: 1, migrated: 1, warnings: [] });
+      // Doctor publishes the reference it verified; runtime never reinterprets an
+      // incompatible existing profile ID as a literal credential.
+      expect(JSON.parse(await fs.readFile(rootPath, "utf8")).providers.fixture.apiKey).toMatch(
+        /^auth-profile:fixture:/,
+      );
+      await ensureOpenClawModelsJson({}, state.agentDir(), options);
+      const published = await fs.readFile(rootPath, "utf8");
+      const parsed = JSON.parse(published);
+      expect(parsed.operatorNote).toBe(root.operatorNote);
+      expect(parsed.providers.fixture).toMatchObject({
+        headers: { "X-Manual": "preserve" },
+        models: native.models,
+      });
+      expect(parsed.providers.fixture.apiKey).toMatch(/^auth-profile:fixture:/);
+      expect(published).not.toContain(apiKey);
+
+      const registry = ModelRegistry.create(AuthStorage.forAgent(state.agentDir(), {}), rootPath, {
+        includePluginCatalogs: false,
+      });
+      expect(registry.getError()).toBeUndefined();
+      const model = registry.find("fixture", "native-model");
+      assert(model, "The authored root model remains available after migration");
+      expect(await registry.getApiKeyAndHeaders(model)).toMatchObject({ apiKey });
+    },
+  );
 });

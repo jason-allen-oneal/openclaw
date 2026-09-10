@@ -5,7 +5,13 @@ import { isDeepStrictEqual } from "node:util";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { note } from "../../packages/terminal-core/src/note.js";
-import { listAgentIds, resolveAgentDir, resolveDefaultAgentDir } from "../agents/agent-scope.js";
+import {
+  listAgentIds,
+  resolveAgentDir,
+  resolveDefaultAgentDir,
+  resolveDefaultAgentId,
+  resolveAgentWorkspaceDir,
+} from "../agents/agent-scope.js";
 import { AUTH_STORE_VERSION } from "../agents/auth-profiles/constants.js";
 import {
   loadPersistedAuthProfileStore,
@@ -18,11 +24,20 @@ import { updateAuthProfileStoreWithLock } from "../agents/auth-profiles/store-ru
 import type { AuthProfileCredential, AuthProfileStore } from "../agents/auth-profiles/types.js";
 import { isNonSecretApiKeyMarker } from "../agents/model-auth-markers.js";
 import { resolveProviderConfigSecretInput } from "../agents/model-auth-provider-config.js";
-import { parseModelCatalogJson } from "../agents/model-catalog-json.js";
+import {
+  parseModelCatalogJson,
+  parseModelCatalogProfileReference,
+  type ModelCatalogCredentialReference,
+} from "../agents/model-catalog-json.js";
 import {
   isGeneratedPluginModelCatalog,
   loadPersistedPluginModelCatalogsReadOnly,
+  rewriteVerifiedPluginCatalogCredentials,
 } from "../agents/plugin-model-catalog.js";
+import {
+  resolveProviderIdForAuth,
+  type ProviderAuthAliasLookupParams,
+} from "../agents/provider-auth-aliases.js";
 import { resolveStateDir } from "../config/paths.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import type { RuntimeEnv } from "../runtime.js";
@@ -57,8 +72,14 @@ function credentialMatches(
 function credentialProviderMatches(
   credential: AuthProfileCredential | undefined,
   provider: string,
+  lookup?: ProviderAuthAliasLookupParams,
 ): boolean {
-  return normalizeProviderId(credential?.provider ?? "") === normalizeProviderId(provider);
+  return Boolean(
+    credential &&
+    (normalizeProviderId(credential.provider) === normalizeProviderId(provider) ||
+      resolveProviderIdForAuth(credential.provider, { ...lookup, storedCredential: true }) ===
+        resolveProviderIdForAuth(provider, lookup)),
+  );
 }
 
 function matchesProviderEnvRefMarker(
@@ -91,6 +112,8 @@ function collectCredentials(
   store: AuthProfileStore,
   blockedStores: readonly AuthProfileStore[] = [],
   cfg?: OpenClawConfig,
+  includeVerified = false,
+  aliasLookup?: ProviderAuthAliasLookupParams,
 ): PlaintextCredential[] {
   if (!isRecord(providers)) {
     return [];
@@ -103,11 +126,12 @@ function collectCredentials(
     const credential = { provider, key };
     if (
       !key.trim() ||
+      parseModelCatalogProfileReference(key) !== undefined ||
       // An authored SecretRef owns this provider; generated catalog copies are never fallbacks.
       (cfg && resolveProviderConfigSecretInput(cfg, provider).ref) ||
       isNonSecretApiKeyMarker(key) ||
-      credentialProviderMatches(store.profiles[key], provider) ||
-      findMatchingProfileId(store, credential, blockedStores) !== undefined
+      credentialProviderMatches(store.profiles[key], provider, { ...aliasLookup, config: cfg }) ||
+      (!includeVerified && findMatchingProfileId(store, credential, blockedStores) !== undefined)
     ) {
       return [];
     }
@@ -173,11 +197,11 @@ async function persistCredentials(params: {
   inheritedStore?: AuthProfileStore;
   invalidProfiles: ReadonlyArray<[string, AuthProfileCredential]>;
   stateDir: string;
-}): Promise<{ migrated: number; removed: number }> {
+}): Promise<{ migrated: number; removed: number; references: ModelCatalogCredentialReference[] }> {
   const credentials = uniqueCredentials(params.credentials);
   const { invalidProfiles } = params;
   if (credentials.length === 0 && invalidProfiles.length === 0) {
-    return { migrated: 0, removed: 0 };
+    return { migrated: 0, removed: 0, references: [] };
   }
   const blockedStores = params.blockedStores ?? [];
   const profileIds = new Map<string, PlaintextCredential>();
@@ -246,7 +270,15 @@ async function persistCredentials(params: {
       throw new Error(`credential verification failed for provider "${credential.provider}"`);
     }
   }
-  return { migrated: added, removed: removedProfiles.length };
+  return {
+    migrated: added,
+    removed: removedProfiles.length,
+    references: [...profileIds].map(([profileId, credential]) => ({
+      key: credential.key,
+      provider: credential.provider,
+      profileId,
+    })),
+  };
 }
 
 function collectAgentCatalogs(agentDir: string, warnings: string[]): AgentCatalogs {
@@ -303,6 +335,13 @@ export async function maybeMigrateModelCatalogCredentials(params: {
     (modelsPath) => path.dirname(modelsPath),
   );
   const agentIds = listAgentIds(params.cfg);
+  const scopedAgentIds = agentIds.length > 0 ? agentIds : [resolveDefaultAgentId(params.cfg)];
+  const workspaceByAgentDir = new Map(
+    scopedAgentIds.map((agentId) => [
+      resolveAgentDir(params.cfg, agentId, env),
+      resolveAgentWorkspaceDir(params.cfg, agentId, env),
+    ]),
+  );
   const configuredAgentDirs =
     agentIds.length > 0
       ? agentIds.map((agentId) => resolveAgentDir(params.cfg, agentId, env))
@@ -321,11 +360,16 @@ export async function maybeMigrateModelCatalogCredentials(params: {
     mainStore,
     childStores,
     params.cfg,
+    false,
+    { env },
   );
   const catalogCredentials = catalogs.map((catalog, index) =>
     uniqueCredentials(
       catalog.providers.flatMap((providers) =>
-        collectCredentials(providers, effectiveStores[index] ?? mainStore, [], params.cfg),
+        collectCredentials(providers, effectiveStores[index] ?? mainStore, [], params.cfg, true, {
+          env,
+          workspaceDir: workspaceByAgentDir.get(catalog.agentDir),
+        }),
       ),
     ),
   );
@@ -399,6 +443,14 @@ export async function maybeMigrateModelCatalogCredentials(params: {
       });
       migrated += result.migrated;
       removed += result.removed;
+      // Publication consumes the exact mapping verified by the migration owner.
+      // Runtime/planner resolution must not reinterpret incompatible profile IDs.
+      if (result.references.length > 0) {
+        rewriteVerifiedPluginCatalogCredentials(catalog.agentDir, result.references);
+        const { rewriteVerifiedRootCatalogCredentials } =
+          await import("../agents/models-config.js");
+        await rewriteVerifiedRootCatalogCredentials(catalog.agentDir, result.references);
+      }
     } catch (error) {
       const warning = `Could not migrate model credentials for ${shortenHomePath(catalog.agentDir)}: ${error instanceof Error ? error.message : String(error)}`;
       warnings.push(warning);
@@ -408,7 +460,7 @@ export async function maybeMigrateModelCatalogCredentials(params: {
 
   if (migrated > 0) {
     note(
-      `Copied and verified ${migrated} model credential${migrated === 1 ? "" : "s"} in agent SQLite. Refresh the model catalog to replace legacy credential values with profile references.`,
+      `Copied and verified ${migrated} model credential${migrated === 1 ? "" : "s"} in agent SQLite. Refresh the model runtime to use the verified credential references; resolve any migration warnings first.`,
       "Doctor changes",
     );
   }

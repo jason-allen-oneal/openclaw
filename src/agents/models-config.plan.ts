@@ -3,6 +3,7 @@
  * this module to merge implicit provider discovery, explicit config, and
  * preserved secrets before touching models.json.
  */
+import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { mergeModelCost } from "../config/model-cost.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
@@ -15,6 +16,10 @@ import {
 } from "./auth-profiles.js";
 import type { AuthProfileStore } from "./auth-profiles/types.js";
 import { isNonSecretApiKeyMarker } from "./model-auth-markers.js";
+import {
+  formatModelCatalogProfileReference,
+  parseModelCatalogProfileReference,
+} from "./model-catalog-json.js";
 import {
   modelKey,
   createConfiguredProviderCatalogModelIdNormalizer,
@@ -41,7 +46,10 @@ import {
   resolvePluginModelCatalogOwnerPluginId,
   type PersistedPluginModelCatalog,
 } from "./plugin-model-catalog.js";
-import { resolveProviderIdForAuth } from "./provider-auth-aliases.js";
+import {
+  resolveProviderIdForAuth,
+  type ProviderAuthAliasLookupParams,
+} from "./provider-auth-aliases.js";
 
 type ModelsConfig = NonNullable<OpenClawConfig["models"]>;
 
@@ -282,46 +290,105 @@ function filterWritableProviders(
   return Object.keys(next).length === Object.keys(providers).length ? providers : next;
 }
 
+function catalogCredentialProviderMatches(
+  provider: string,
+  credentialProvider: string,
+  lookup: ProviderAuthAliasLookupParams,
+): boolean {
+  // The common exact-realm case does not require plugin discovery. Aliased
+  // realms use the captured planning scope, never another request's registry.
+  return (
+    normalizeProviderId(provider) === normalizeProviderId(credentialProvider) ||
+    resolveProviderIdForAuth(provider, lookup) ===
+      resolveProviderIdForAuth(credentialProvider, { ...lookup, storedCredential: true })
+  );
+}
+
 function resolveCatalogProfileId(params: {
   apiKey: string;
   provider: string;
   store: AuthProfileStore;
+  authAliasLookup: ProviderAuthAliasLookupParams;
 }): string | undefined {
-  const provider = resolveProviderIdForAuth(params.provider);
+  const exactId = parseModelCatalogProfileReference(params.apiKey);
+  const profileId = exactId ?? params.apiKey;
+  const namedCredential = Object.hasOwn(params.store.profiles, profileId)
+    ? params.store.profiles[profileId]
+    : undefined;
+  if (namedCredential) {
+    if (
+      catalogCredentialProviderMatches(
+        params.provider,
+        namedCredential.provider,
+        params.authAliasLookup,
+      ) &&
+      (namedCredential.type === "api_key" || namedCredential.type === "token")
+    ) {
+      return profileId;
+    }
+    throw new Error(
+      `Provider "${params.provider}" has an incompatible catalog credential reference. Run openclaw doctor --fix before starting OpenClaw.`,
+    );
+  }
+  if (exactId !== undefined) {
+    throw new Error(`Provider "${params.provider}" references a missing canonical auth profile.`);
+  }
   return Object.entries(params.store.profiles).find(
-    ([profileId, credential]) =>
-      resolveProviderIdForAuth(credential.provider) === provider &&
-      ((credential.type === "api_key" &&
-        (profileId === params.apiKey || credential.key === params.apiKey)) ||
-        (credential.type === "token" &&
-          (profileId === params.apiKey || credential.token === params.apiKey))),
+    ([, credential]) =>
+      catalogCredentialProviderMatches(
+        params.provider,
+        credential.provider,
+        params.authAliasLookup,
+      ) &&
+      ((credential.type === "api_key" && credential.key === params.apiKey) ||
+        (credential.type === "token" && credential.token === params.apiKey)),
   )?.[0];
 }
 
-function replacePlaintextProviderApiKeysWithProfileIds(params: {
+function canonicalizeGeneratedProviderApiKeys(params: {
   agentDir: string;
   authStore?: AuthProfileStore;
   config: OpenClawConfig;
-  env: NodeJS.ProcessEnv;
+  sourceConfigForSecrets: OpenClawConfig;
+  discoveredProviders: Record<string, ProviderConfig>;
+  generatedProviderIds?: ReadonlySet<string>;
+  authAliasLookup: ProviderAuthAliasLookupParams;
   providers: Record<string, ProviderConfig>;
   secretRefManagedProviders: ReadonlySet<string>;
 }): Record<string, ProviderConfig> {
+  const configuredProviders = normalizeProviderMapKeys(
+    params.sourceConfigForSecrets.models?.providers,
+  );
   let store = params.authStore;
   let mutated = false;
   const providers = Object.fromEntries(
     Object.entries(params.providers).map(([providerId, provider]) => {
       const apiKey = typeof provider.apiKey === "string" ? provider.apiKey.trim() : "";
       if (
+        (params.generatedProviderIds && !params.generatedProviderIds.has(providerId)) ||
         !apiKey ||
         isNonSecretApiKeyMarker(apiKey) ||
         params.secretRefManagedProviders.has(providerId)
       ) {
         return [providerId, provider];
       }
+      // Explicit config remains a canonical credential owner. Its generated
+      // projection contains metadata only; request-time auth reads the config.
+      const configuredKey = configuredProviders[providerId]?.apiKey;
+      if (typeof configuredKey === "string" && configuredKey.trim() === apiKey) {
+        const { apiKey: _configuredKey, ...metadata } = provider;
+        mutated = true;
+        return [providerId, metadata];
+      }
       store ??=
         getRuntimeAuthProfileStoreSnapshot(params.agentDir) ??
         loadAuthProfileStoreForSecretsRuntime(params.agentDir, { config: params.config });
-      const profileId = resolveCatalogProfileId({ apiKey, provider: providerId, store });
+      const profileId = resolveCatalogProfileId({
+        apiKey,
+        provider: providerId,
+        store,
+        authAliasLookup: params.authAliasLookup,
+      });
       // Discovery providers return env-var names as opaque all-caps markers. Keep
       // those markers even when the referenced variable is intentionally absent
       // from this process; the generated catalog must not materialize the value.
@@ -329,15 +396,41 @@ function replacePlaintextProviderApiKeysWithProfileIds(params: {
         return [providerId, provider];
       }
       if (!profileId) {
+        // A discovery hook may use a transient credential from an independent
+        // source. Retain its inventory, but never turn that material into an
+        // authentication authority. Retained copies and exact references need
+        // verified migration instead of silently selecting different auth.
+        const discoveredKey = params.discoveredProviders[providerId]?.apiKey;
+        const isKnownProfileId = Object.hasOwn(store.profiles, apiKey);
+        const matchesIndependentCredential = Object.values(store.profiles).some(
+          (credential) =>
+            !catalogCredentialProviderMatches(
+              providerId,
+              credential.provider,
+              params.authAliasLookup,
+            ) &&
+            ((credential.type === "api_key" && credential.key === apiKey) ||
+              (credential.type === "token" && credential.token === apiKey)),
+        );
+        if (
+          !isKnownProfileId &&
+          matchesIndependentCredential &&
+          discoveredKey === provider.apiKey
+        ) {
+          const { apiKey: _discoveryKey, ...metadata } = provider;
+          mutated = true;
+          return [providerId, metadata];
+        }
         throw new Error(
           `Provider "${providerId}" has a plaintext catalog credential that is not in the credential store. Run openclaw doctor --fix before starting OpenClaw.`,
         );
       }
-      if (provider.apiKey === profileId) {
+      const reference = formatModelCatalogProfileReference(profileId);
+      if (provider.apiKey === reference) {
         return [providerId, provider];
       }
       mutated = true;
-      return [providerId, { ...provider, apiKey: profileId }];
+      return [providerId, { ...provider, apiKey: reference }];
     }),
   );
   return mutated ? providers : params.providers;
@@ -373,6 +466,60 @@ function collectGeneratedCatalogProviders(params: {
   return providers;
 }
 
+/** Retire root literals only after their canonical credential has been verified/imported. */
+function rewriteVerifiedRootCredentials(params: {
+  existingParsed: unknown;
+  agentDir: string;
+  authStore?: AuthProfileStore;
+  config: OpenClawConfig;
+  authAliasLookup: ProviderAuthAliasLookupParams;
+}): Record<string, unknown> | undefined {
+  const root = params.existingParsed;
+  if (!isRecord(root) || !isRecord(root.providers)) {
+    return undefined;
+  }
+  let store = params.authStore;
+  let changed = false;
+  const providers = { ...root.providers };
+  for (const [providerId, entry] of Object.entries(providers)) {
+    if (
+      !isRecord(entry) ||
+      typeof entry.apiKey !== "string" ||
+      !entry.apiKey.trim() ||
+      parseModelCatalogProfileReference(entry.apiKey) !== undefined ||
+      isNonSecretApiKeyMarker(entry.apiKey)
+    ) {
+      continue;
+    }
+    store ??=
+      getRuntimeAuthProfileStoreSnapshot(params.agentDir) ??
+      loadAuthProfileStoreForSecretsRuntime(params.agentDir, { config: params.config });
+    const apiKey = entry.apiKey.trim();
+    const named = Object.hasOwn(store.profiles, apiKey) ? store.profiles[apiKey] : undefined;
+    // Unknown/manual declarations are not imports. Unusable named references
+    // remain intact so the request boundary can report their exact failure.
+    if (
+      named &&
+      (!catalogCredentialProviderMatches(providerId, named.provider, params.authAliasLookup) ||
+        (named.type !== "api_key" && named.type !== "token"))
+    ) {
+      continue;
+    }
+    const profileId = resolveCatalogProfileId({
+      apiKey,
+      provider: providerId,
+      store,
+      authAliasLookup: params.authAliasLookup,
+    });
+    if (!profileId) {
+      continue;
+    }
+    providers[providerId] = { ...entry, apiKey: formatModelCatalogProfileReference(profileId) };
+    changed = true;
+  }
+  return changed ? { ...root, providers } : undefined;
+}
+
 /** Plans root and plugin-owned model catalog writes with injectable provider discovery. */
 async function planOpenClawModelsJsonWithDeps(
   params: {
@@ -396,6 +543,33 @@ async function planOpenClawModelsJsonWithDeps(
     deps,
   );
 
+  const authAliasLookup: ProviderAuthAliasLookupParams = {
+    config: cfg,
+    env,
+    workspaceDir: context.workspaceDir,
+    ...(context.pluginMetadataSnapshot
+      ? {
+          metadataSnapshot: {
+            plugins: context.pluginMetadataSnapshot.manifestRegistry.plugins,
+            owners: context.pluginMetadataSnapshot.owners,
+          },
+        }
+      : {}),
+  };
+  const rewrittenRoot =
+    cfg.models?.mode === "replace"
+      ? undefined
+      : rewriteVerifiedRootCredentials({
+          existingParsed: params.existingParsed,
+          agentDir,
+          ...(params.authStore ? { authStore: params.authStore } : {}),
+          config: cfg,
+          authAliasLookup,
+        });
+  const retainedGeneratedProviders = collectGeneratedCatalogProviders({
+    catalogs: params.pluginCatalogs ?? [],
+    context,
+  });
   if (Object.keys(providers).length === 0) {
     if (cfg.models?.mode === "replace") {
       return {
@@ -404,7 +578,16 @@ async function planOpenClawModelsJsonWithDeps(
         pluginCatalogWrites: {},
       };
     }
-    return { action: "skip" };
+    // An empty discovery result does not exempt retained generated catalogs
+    // from the same credential-free publication boundary.
+    if (Object.keys(retainedGeneratedProviders).length === 0) {
+      return rewrittenRoot
+        ? {
+            action: "write",
+            contents: `${JSON.stringify(rewrittenRoot, null, 2)}\n`,
+          }
+        : { action: "skip" };
+    }
   }
 
   const mode = cfg.models?.mode ?? "merge";
@@ -430,10 +613,7 @@ async function planOpenClawModelsJsonWithDeps(
   const mergedProviders = resolveProvidersForMode({
     mode,
     existingParsed: {
-      providers: collectGeneratedCatalogProviders({
-        catalogs: params.pluginCatalogs ?? [],
-        context,
-      }),
+      providers: retainedGeneratedProviders,
     },
     providers: normalizedProviders,
     secretRefManagedProviders,
@@ -448,11 +628,13 @@ async function planOpenClawModelsJsonWithDeps(
       sourceConfigForSecrets: context.sourceConfigForSecrets,
       secretRefManagedProviders,
     }) ?? normalizedMergedProviders;
-  const finalProviders = replacePlaintextProviderApiKeysWithProfileIds({
+  const finalProviders = canonicalizeGeneratedProviderApiKeys({
     agentDir,
     ...(params.authStore ? { authStore: params.authStore } : {}),
     config: cfg,
-    env,
+    sourceConfigForSecrets: context.sourceConfigForSecrets,
+    discoveredProviders: normalizedProviders,
+    authAliasLookup,
     providers: filterWritableProviders(secretEnforcedProviders),
     secretRefManagedProviders,
   });
@@ -464,7 +646,7 @@ async function planOpenClawModelsJsonWithDeps(
   // Root models.json is author-owned even when a plugin also owns that provider id.
   const rootProviders = resolveProvidersForMode({
     mode,
-    existingParsed: params.existingParsed,
+    existingParsed: rewrittenRoot ?? params.existingParsed,
     providers: splitProviders.rootProviders,
     secretRefManagedProviders,
   });
@@ -478,9 +660,29 @@ async function planOpenClawModelsJsonWithDeps(
       sourceConfigForSecrets: context.sourceConfigForSecrets,
       secretRefManagedProviders,
     }) ?? normalizedRootProviders;
+  const canonicalRootProviders = canonicalizeGeneratedProviderApiKeys({
+    agentDir,
+    ...(params.authStore ? { authStore: params.authStore } : {}),
+    config: cfg,
+    sourceConfigForSecrets: context.sourceConfigForSecrets,
+    discoveredProviders: normalizedProviders,
+    // Root-only declarations remain author-owned. Only the current generated
+    // root projection is canonicalized after the last preservation merge.
+    generatedProviderIds: new Set(
+      Object.keys(splitProviders.rootProviders).filter(
+        (providerId) =>
+          rootWithManagedSecrets[providerId]?.apiKey !==
+          splitProviders.rootProviders[providerId]?.apiKey,
+      ),
+    ),
+    authAliasLookup,
+    providers: filterWritableProviders(rootWithManagedSecrets),
+    secretRefManagedProviders,
+  });
   const nextContents = `${JSON.stringify(
     {
-      providers: filterWritableProviders(rootWithManagedSecrets),
+      ...(mode === "merge" && isRecord(params.existingParsed) ? params.existingParsed : {}),
+      providers: canonicalRootProviders,
     },
     null,
     2,

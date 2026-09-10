@@ -1,26 +1,24 @@
+import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 /** Internal auth-profile sidecar for catalog request authentication. */
-import type {
-  ApiKeyCredential,
-  AuthProfileStore,
-  AuthProfileCredential,
-} from "../auth-profiles/types.js";
-import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
+import type { AuthProfileStore, AuthProfileCredential } from "../auth-profiles/types.js";
+import {
+  resolveProviderIdForAuth,
+  type ProviderAuthAliasLookupParams,
+} from "../provider-auth-aliases.js";
 import { resolveConfigValue } from "./resolve-config-value.js";
 
-type MaterializedProfile =
-  | (ApiKeyCredential & { key: string })
-  | (Extract<AuthProfileCredential, { type: "token" }> & { token: string });
-type StorageCredential =
-  | { type: "api_key"; key: string }
-  | { type: "token"; token: string; expires?: number }
-  | { type: "oauth"; access: string; refresh: string; expires: number };
-type ProfileData = Record<string, MaterializedProfile>;
-type AuthStorageCredentialReader = { get(provider: string): StorageCredential | undefined };
+type ProfileData = Record<string, AuthProfileCredential>;
+type LiveProfileReader = (
+  provider: string,
+  profileId: string,
+  baseUrl?: string,
+) => AuthProfileCredential | undefined;
 
 const profileDataByStorage = new WeakMap<object, ProfileData>();
 const runtimeOverrideByStorage = new WeakMap<object, (provider: string) => string | undefined>();
 const credentialFreeStorage = new WeakSet<object>();
-const liveDefaultStorage = new WeakSet<object>();
+const liveProfileReaders = new WeakMap<object, LiveProfileReader>();
+const liveProfileIdentityReaders = new WeakMap<object, (profileId: string) => boolean>();
 
 export function registerAuthStorageRuntimeOverride(
   storage: object,
@@ -32,20 +30,19 @@ export function registerAuthStorageRuntimeOverride(
 export function attachAuthStorageProfiles<T extends object>(
   storage: T,
   store: AuthProfileStore,
-  options?: { liveDefault?: boolean },
 ): T {
-  const profiles = Object.fromEntries(
-    Object.entries(structuredClone(store.profiles)).filter(
-      ([profileId, profile]) =>
-        ((profile.type === "api_key" && Boolean(profile.key)) ||
-          (profile.type === "token" && Boolean(profile.token))) &&
-        (!options?.liveDefault || profileId !== `${profile.provider}:default`),
-    ),
-  ) as ProfileData; // SAFETY: Object.fromEntries preserves the cloned profile record shape after filtering.
-  profileDataByStorage.set(storage, profiles);
-  if (options?.liveDefault) {
-    liveDefaultStorage.add(storage);
-  }
+  profileDataByStorage.set(storage, structuredClone(store.profiles));
+  return storage;
+}
+
+/** Persistent owners resolve exact profiles through their current canonical read scope. */
+export function attachLiveAuthStorageProfiles<T extends object>(
+  storage: T,
+  read: LiveProfileReader,
+  hasProfileId: (profileId: string) => boolean,
+): T {
+  liveProfileReaders.set(storage, read);
+  liveProfileIdentityReaders.set(storage, hasProfileId);
   return storage;
 }
 
@@ -53,24 +50,37 @@ export function copyAuthStorageProfiles(source: object, target: object): void {
   profileDataByStorage.set(target, structuredClone(profileDataByStorage.get(source) ?? {}));
 }
 
+/** Identity is independent of expiry, provider compatibility, and source readiness. */
+export function hasAuthStorageProfileId(storage: object, profileId: string): boolean {
+  try {
+    return (
+      liveProfileIdentityReaders.get(storage)?.(profileId) ??
+      Object.hasOwn(profileDataByStorage.get(storage) ?? {}, profileId)
+    );
+  } catch {
+    // An unreadable canonical owner cannot authorize reinterpretation as an env name.
+    return true;
+  }
+}
+
 function resolveProfile(
   storage: object,
   provider: string,
   profileId: string,
+  baseUrl?: string,
+  aliasLookup?: ProviderAuthAliasLookupParams,
 ): ProfileData[string] | undefined {
   if (credentialFreeStorage.has(storage)) {
     return undefined;
   }
-  const liveDefault =
-    liveDefaultStorage.has(storage) && profileId === `${provider}:default`
-      ? (storage as AuthStorageCredentialReader).get(provider) // SAFETY: live-default storage is always an AuthStorage instance registered by this module.
-      : undefined;
-  const profile =
-    liveDefault?.type === "api_key" || liveDefault?.type === "token"
-      ? ({ ...liveDefault, provider } as MaterializedProfile) // SAFETY: the preceding type guard limits liveDefault to materialized token/api-key data.
-      : profileDataByStorage.get(storage)?.[profileId];
+  const read = liveProfileReaders.get(storage);
+  const profile = read
+    ? read(provider, profileId, baseUrl)
+    : profileDataByStorage.get(storage)?.[profileId];
   return profile &&
-    resolveProviderIdForAuth(profile.provider) === resolveProviderIdForAuth(provider)
+    (normalizeProviderId(profile.provider) === normalizeProviderId(provider) ||
+      resolveProviderIdForAuth(profile.provider, { ...aliasLookup, storedCredential: true }) ===
+        resolveProviderIdForAuth(provider, aliasLookup))
     ? profile
     : undefined;
 }
@@ -79,28 +89,55 @@ export function hasAuthStorageProfile(
   storage: object,
   provider: string,
   profileId: string,
-  options?: { includeRuntimeOverride?: boolean },
+  options?: {
+    includeRuntimeOverride?: boolean;
+    baseUrl?: string;
+    aliasLookup?: ProviderAuthAliasLookupParams;
+  },
 ): boolean {
-  return Boolean(
-    (options?.includeRuntimeOverride !== false &&
-      runtimeOverrideByStorage.get(storage)?.(provider)) ||
-    resolveProfile(storage, provider, profileId),
-  );
+  if (
+    options?.includeRuntimeOverride !== false &&
+    runtimeOverrideByStorage.get(storage)?.(provider)
+  ) {
+    return true;
+  }
+  try {
+    const profile = resolveProfile(
+      storage,
+      provider,
+      profileId,
+      options?.baseUrl,
+      options?.aliasLookup,
+    );
+    return Boolean(
+      (profile?.type === "api_key" && profile.key) ||
+      (profile?.type === "token" &&
+        profile.token &&
+        (profile.expires === undefined || Date.now() < profile.expires)),
+    );
+  } catch {
+    // Availability is advisory; request-time resolution propagates canonical refusal.
+    return false;
+  }
 }
 
 export function resolveAuthStorageProfileApiKey(
   storage: object,
   provider: string,
   profileId: string,
+  baseUrl?: string,
+  aliasLookup?: ProviderAuthAliasLookupParams,
 ): string | undefined {
   const runtimeOverride = runtimeOverrideByStorage.get(storage)?.(provider);
   if (runtimeOverride) {
     return runtimeOverride;
   }
-  const profile = resolveProfile(storage, provider, profileId);
-  return profile?.type === "api_key"
+  const profile = resolveProfile(storage, provider, profileId, baseUrl, aliasLookup);
+  return profile?.type === "api_key" && profile.key
     ? resolveConfigValue(profile.key)
-    : profile?.type === "token" && (profile.expires === undefined || Date.now() < profile.expires)
+    : profile?.type === "token" &&
+        profile.token &&
+        (profile.expires === undefined || Date.now() < profile.expires)
       ? resolveConfigValue(profile.token)
       : undefined;
 }
