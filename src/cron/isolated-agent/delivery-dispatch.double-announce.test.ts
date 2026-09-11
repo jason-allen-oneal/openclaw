@@ -2142,37 +2142,40 @@ describe("dispatchCronDelivery — double-announce guard", () => {
     );
   });
 
-  it("retains a stale one-shot transcript without delivery or a fallback summary", async () => {
+  it("delivers a stale one-shot with a late-delivery annotation", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-03-18T17:00:00.000Z"));
 
     const params = makeBaseParams({ synthesizedText: "Yesterday's morning briefing." });
     params.agentSessionKey = "agent:main:cron:test-job";
+    (params.job as { schedule?: { kind: "at"; at: string } }).schedule = {
+      kind: "at",
+      at: "2026-03-18T13:59:59.999Z",
+    };
     params.job.deleteAfterRun = true;
     params.beforeSessionDelete = vi.fn();
+    vi.mocked(deliverOutboundPayloads).mockResolvedValue([{ ok: true } as never]);
     (params.job as { state?: { nextRunAtMs?: number } }).state = {
       nextRunAtMs: Date.now() - (3 * 60 * 60_000 + 1),
     };
 
     const state = await dispatchCronDelivery(params);
 
-    const deliveryError = expect.stringContaining(
-      "scheduled at 2026-03-18T13:59:59.999Z, started 180m late",
+    expect(state.result).toBeUndefined();
+    expect(state.delivered).toBe(true);
+    expect(state.deliveryAttempted).toBe(true);
+    expect(state.deliveryError).toBeUndefined();
+    expect(deliverOutboundPayloads).toHaveBeenCalledOnce();
+    expect(deliverOutboundPayloads).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payloads: [expect.objectContaining({ text: expect.stringContaining("Delivered late:") })],
+      }),
     );
-    expectResultFields(state.result, {
-      status: "ok",
-      delivered: false,
-      deliveryAttempted: true,
-      deliveryError,
-    });
-    expect(state.deliveryError).toEqual(deliveryError);
-    expect(deliverOutboundPayloads).not.toHaveBeenCalled();
-    expect(state.deliveryState.status).toBe("not-delivered");
-    expect(state.deliveryState.delivered).toBe(false);
-    expect(state.deliveryState.error).toEqual(deliveryError);
-    expect(state.deliveryState.deliverySuppressionReason).toBeUndefined();
-    expect(params.beforeSessionDelete).not.toHaveBeenCalled();
-    expect(callGateway).not.toHaveBeenCalled();
+    expect(state.deliveryState.status).toBe("delivered");
+    expect(state.deliveryState.delivered).toBe(true);
+    expect(state.deliveryState.error).toBeUndefined();
+    expect(params.beforeSessionDelete).toHaveBeenCalledOnce();
+    expect(callGateway).toHaveBeenCalledOnce();
   });
 
   it("still delivers when the run started on time but finished more than three hours later", async () => {

@@ -1,3 +1,4 @@
+import { copyReplyPayloadMetadata } from "../../auto-reply/reply-payload.js";
 /** Dispatches isolated cron output to direct delivery, mirrors, and follow-up queues. */
 import type { NormalizeReplySkipReason } from "../../auto-reply/reply/normalize-reply-skip-reason.js";
 import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
@@ -234,6 +235,7 @@ export async function dispatchCronDelivery(
       return null;
     }
     const identity = resolveAgentOutboundIdentity(params.cfgWithAgentDefaults, params.agentId);
+    let lateDeliveryNotice: string | undefined;
     try {
       if (params.isAborted()) {
         return params.withRunSession({
@@ -250,7 +252,6 @@ export async function dispatchCronDelivery(
           runStartedAt: params.runStartedAt,
         })
       ) {
-        deliveryAttempted = true;
         const nowMs = Date.now();
         const scheduledAtMs = resolveCronDeliveryScheduledAtMs({
           job: params.job,
@@ -261,17 +262,24 @@ export async function dispatchCronDelivery(
           runStartedAt: params.runStartedAt,
         });
         const deliveryError = `skipping stale delivery scheduled at ${new Date(scheduledAtMs).toISOString()}, started ${Math.round(startDelayMs / 60_000)}m late, current age ${Math.round((nowMs - scheduledAtMs) / 60_000)}m`;
-        recordDelivery("not-delivered", deliveryError);
-        await logCronDeliveryWarn(`[cron:${params.job.id}] ${deliveryError}`);
-        return params.withRunSession({
-          status: "ok",
-          summary,
-          outputText,
-          deliveryAttempted,
-          delivered: false,
-          deliveryError,
-          ...params.telemetry,
-        });
+        if (params.job.schedule.kind !== "at") {
+          deliveryAttempted = true;
+          recordDelivery("not-delivered", deliveryError);
+          await logCronDeliveryWarn(`[cron:${params.job.id}] ${deliveryError}`);
+          return params.withRunSession({
+            status: "ok",
+            summary,
+            outputText,
+            deliveryAttempted,
+            delivered: false,
+            deliveryError,
+            ...params.telemetry,
+          });
+        }
+        lateDeliveryNotice = `Delivered late: this one-shot automation started ${Math.round(startDelayMs / 60_000)} minutes after its scheduled time.`;
+        await logCronDeliveryWarn(
+          `[cron:${params.job.id}] overdue one-shot completed; delivering with late annotation (scheduled at ${new Date(scheduledAtMs).toISOString()}, started ${Math.round(startDelayMs / 60_000)}m late)`,
+        );
       }
       const payloadsForDelivery = (
         await maybeApplyTtsToCronPayloads({
@@ -285,6 +293,16 @@ export async function dispatchCronDelivery(
       if (payloadsForDelivery.length === 0) {
         recordDelivery("not-delivered", "cron delivery payload was empty after TTS");
         return null;
+      }
+      if (lateDeliveryNotice) {
+        const index = payloadsForDelivery.findLastIndex((payload) => payload.text?.trim());
+        if (index >= 0) {
+          const payload = payloadsForDelivery[index]!;
+          payloadsForDelivery[index] = copyReplyPayloadMetadata(payload, {
+            ...payload,
+            text: `${payload.text}\n\n${lateDeliveryNotice}`,
+          });
+        }
       }
       const linkedPayloadsForDelivery = appendCronRunInspectionLink(
         payloadsForDelivery,
