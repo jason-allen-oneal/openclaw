@@ -103,22 +103,30 @@ function resolveFailedSteps(input: UpdateFailureReportInput): ReportedFailedStep
       }
       return reported;
     });
-  const directNames = new Set(direct.map((step) => step.name));
-  const recorded = (input.recordedRun?.steps ?? [])
-    .filter((step) => step.status === "failed" && !directNames.has(step.step))
-    .map((step) => {
-      // Ledger step names are structured labels, not executable commands. A
-      // compact slug keeps known lifecycle phases reportable without weakening
-      // the command-shaped diagnostic redaction used for other step names.
-      const reported: ReportedFailedStep = {
-        name: REPORTABLE_RECORDED_PHASES.has(step.step)
-          ? step.step.trim().replace(/\s+/gu, "-")
-          : step.step,
-        exitCode: null,
-      };
-      return reported;
-    });
-  return [...direct, ...recorded];
+  const recordedFailures = (input.recordedRun?.steps ?? []).filter(
+    (step) => step.status === "failed",
+  );
+  const recordedNames = new Set(recordedFailures.map((step) => step.step));
+  const recorded = recordedFailures.flatMap((step) => {
+    const measured = direct.filter((entry) => entry.name === step.step);
+    if (measured.length > 0) {
+      return measured;
+    }
+    // Ledger step names are structured labels, not executable commands. A
+    // compact slug keeps known lifecycle phases reportable without weakening
+    // the command-shaped diagnostic redaction used for other step names.
+    const reported: ReportedFailedStep = {
+      name: REPORTABLE_RECORDED_PHASES.has(step.step)
+        ? step.step.trim().replace(/\s+/gu, "-")
+        : step.step,
+      exitCode: null,
+    };
+    return [reported];
+  });
+  // The durable run orders lifecycle failures, including recovery after the
+  // immediate error. Enrich those rows in place so an earlier ledger-only
+  // failure cannot become the reported final phase.
+  return [...direct.filter((step) => !recordedNames.has(step.name)), ...recorded];
 }
 
 function resolveFailedPhase(
@@ -160,11 +168,14 @@ function resolveUpdateTarget(
   );
 }
 
-function resolveRollbackOutcome(
+function resolveRecoveryOutcome(
   result: UpdateRunResult,
   context: UpdateFailureReportContext,
 ): string {
   if (result.recovery?.serviceRestartSafe === true) {
+    if (result.recovery.service === "failed") {
+      return "runtime files verified; Gateway restart failed. Run `openclaw gateway status --deep` before restarting manually.";
+    }
     return "verified safe to restart";
   }
   if (result.recovery?.serviceRestartSafe === false) {
@@ -247,7 +258,7 @@ export async function prepareUpdateFailureReport(
   const platform = sanitizeReportField(`${process.platform}/${process.arch}`, context);
   const target = resolveUpdateTarget(input, context);
   const phase = resolveFailedPhase(input, context);
-  const rollback = resolveRollbackOutcome(input.result, context);
+  const recovery = resolveRecoveryOutcome(input.result, context);
   const bodyWithoutMarker = [
     "# OpenClaw update failure report",
     "",
@@ -258,7 +269,7 @@ export async function prepareUpdateFailureReport(
     `- Node version: ${sanitizeReportField(process.versions.node ?? "unknown", context)}`,
     `- Update target: ${target}`,
     `- Failed phase: ${phase}`,
-    `- Rollback outcome: ${rollback}`,
+    `- Recovery outcome: ${recovery}`,
     "",
     "## Bounded diagnostics",
     "",
