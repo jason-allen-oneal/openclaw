@@ -1,17 +1,21 @@
 import { configureAiTransportHost, getAiTransportHost } from "@openclaw/ai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { AsyncWorkScope } from "../../shared/async-work-scope.js";
 import { withPluginRuntimePluginIdScope } from "./gateway-request-scope.js";
 import { createRuntimeLlm } from "./runtime-llm.runtime.js";
 
 const mocks = vi.hoisted(() => ({
-  prepareSimpleCompletionModelForAgent: vi.fn(),
+  acquireSimpleCompletionModelForAgent:
+    vi.fn<
+      typeof import("../../agents/simple-completion-runtime.js").acquireSimpleCompletionModelForAgent
+    >(),
   resolveSimpleCompletionSelectionForAgent: vi.fn(),
 }));
 
 vi.mock("../../agents/simple-completion-runtime.js", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../../agents/simple-completion-runtime.js")>()),
-  prepareSimpleCompletionModelForAgent: mocks.prepareSimpleCompletionModelForAgent,
+  acquireSimpleCompletionModelForAgent: mocks.acquireSimpleCompletionModelForAgent,
   resolveSimpleCompletionSelectionForAgent: mocks.resolveSimpleCompletionSelectionForAgent,
 }));
 
@@ -45,8 +49,14 @@ const pluginCfg = {
   },
 } satisfies OpenClawConfig;
 
-function preparedOauthModel(profileId = "openai:test-oauth") {
+function preparedOauthModel(
+  profileId = "openai:test-oauth",
+): Extract<
+  Awaited<ReturnType<typeof mocks.acquireSimpleCompletionModelForAgent>>,
+  { model: unknown }
+> {
   return {
+    release: vi.fn(),
     selection: {
       provider: "openai",
       modelId,
@@ -113,9 +123,11 @@ function completedResponse(): Response {
 }
 
 let previousHost: ReturnType<typeof getAiTransportHost>;
+let completionWork: AsyncWorkScope;
 const modelFetch = vi.fn<typeof fetch>();
 
 beforeEach(async () => {
+  completionWork = new AsyncWorkScope();
   // Initialize the lazily loaded agent host before installing the fixture override;
   // otherwise the first completion replaces this host and selects native WebSocket.
   await import("../../agents/ai-transport-runtime-host.js");
@@ -138,11 +150,13 @@ beforeEach(async () => {
     modelId,
     agentDir: "/tmp/openclaw-agent",
   });
-  mocks.prepareSimpleCompletionModelForAgent.mockReset();
-  mocks.prepareSimpleCompletionModelForAgent.mockResolvedValue(preparedOauthModel());
+  mocks.acquireSimpleCompletionModelForAgent.mockReset();
+  mocks.acquireSimpleCompletionModelForAgent.mockResolvedValue(preparedOauthModel());
 });
 
-afterEach(() => {
+afterEach(async () => {
+  // Caller results settle before transport drainage and the acquired model release.
+  await completionWork.drain();
   configureAiTransportHost(previousHost);
   vi.restoreAllMocks();
 });
@@ -154,19 +168,21 @@ describe("runtime.llm.complete managed ChatGPT OAuth model identity", () => {
       authority: { caller: { kind: "host", id: "reef" }, allowComplete: true },
     });
 
-    const result = await llm.complete({
-      messages: [{ role: "user", content: "Classify this fixture." }],
-      requiredAuthMode: "oauth",
-      signal: AbortSignal.timeout(30_000),
-      responseFormat: {
-        type: "json_schema",
-        json_schema: {
-          name: "reef_guard_verdict",
-          strict: true,
-          schema: { type: "object", additionalProperties: false },
+    const result = await completionWork.track(() =>
+      llm.complete({
+        messages: [{ role: "user", content: "Classify this fixture." }],
+        requiredAuthMode: "oauth",
+        signal: AbortSignal.timeout(30_000),
+        responseFormat: {
+          type: "json_schema",
+          json_schema: {
+            name: "reef_guard_verdict",
+            strict: true,
+            schema: { type: "object", additionalProperties: false },
+          },
         },
-      },
-    });
+      }),
+    );
 
     expect(result).toMatchObject({
       text: '{"classification":"safe","reason":"fixture"}',
@@ -179,8 +195,9 @@ describe("runtime.llm.complete managed ChatGPT OAuth model identity", () => {
   });
 
   it("requires the selected credential to use the requested OAuth mode", async () => {
-    mocks.prepareSimpleCompletionModelForAgent.mockResolvedValueOnce({
-      ...preparedOauthModel(),
+    const prepared = preparedOauthModel();
+    mocks.acquireSimpleCompletionModelForAgent.mockResolvedValueOnce({
+      ...prepared,
       auth: { apiKey: "test-api-key", source: "test", mode: "api-key" },
     });
     const llm = createRuntimeLlm({
@@ -189,12 +206,16 @@ describe("runtime.llm.complete managed ChatGPT OAuth model identity", () => {
     });
 
     await expect(
-      llm.complete({
-        messages: [{ role: "user", content: "Ping" }],
-        requiredAuthMode: "oauth",
-      }),
+      completionWork.track(() =>
+        llm.complete({
+          messages: [{ role: "user", content: "Ping" }],
+          requiredAuthMode: "oauth",
+        }),
+      ),
     ).rejects.toThrow("selected a credential with the wrong authentication mode");
+    await completionWork.drain();
     expect(modelFetch).not.toHaveBeenCalled();
+    expect(prepared.release).toHaveBeenCalledTimes(1);
   });
 
   it("binds a direct model override to its selected OAuth profile", async () => {
@@ -205,22 +226,24 @@ describe("runtime.llm.complete managed ChatGPT OAuth model identity", () => {
       profileId,
       agentDir: "/tmp/openclaw-agent",
     });
-    mocks.prepareSimpleCompletionModelForAgent.mockResolvedValueOnce(preparedOauthModel(profileId));
+    mocks.acquireSimpleCompletionModelForAgent.mockResolvedValueOnce(preparedOauthModel(profileId));
     const llm = createRuntimeLlm({
       getConfig: () => pluginCfg,
       authority: { allowComplete: true },
     });
 
     await expect(
-      withPluginRuntimePluginIdScope("trusted-plugin", () =>
-        llm.complete({
-          model: `openai/${modelId}@${profileId}`,
-          messages: [{ role: "user", content: "Ping" }],
-          requiredAuthMode: "oauth",
-        }),
+      completionWork.track(() =>
+        withPluginRuntimePluginIdScope("trusted-plugin", () =>
+          llm.complete({
+            model: `openai/${modelId}@${profileId}`,
+            messages: [{ role: "user", content: "Ping" }],
+            requiredAuthMode: "oauth",
+          }),
+        ),
       ),
     ).resolves.toMatchObject({ text: '{"classification":"safe","reason":"fixture"}' });
-    expect(mocks.prepareSimpleCompletionModelForAgent).toHaveBeenCalledWith(
+    expect(mocks.acquireSimpleCompletionModelForAgent).toHaveBeenCalledWith(
       expect.objectContaining({
         modelRef: `openai/${modelId}@${profileId}`,
         bindAuthOwner: true,
@@ -236,23 +259,26 @@ describe("runtime.llm.complete managed ChatGPT OAuth model identity", () => {
       profileId,
       agentDir: "/tmp/openclaw-agent",
     });
-    mocks.prepareSimpleCompletionModelForAgent.mockResolvedValueOnce(
-      preparedOauthModel("openai:other"),
-    );
+    const prepared = preparedOauthModel("openai:other");
+    mocks.acquireSimpleCompletionModelForAgent.mockResolvedValueOnce(prepared);
     const llm = createRuntimeLlm({
       getConfig: () => pluginCfg,
       authority: { allowComplete: true },
     });
 
     await expect(
-      withPluginRuntimePluginIdScope("trusted-plugin", () =>
-        llm.complete({
-          model: `openai/${modelId}@${profileId}`,
-          messages: [{ role: "user", content: "Ping" }],
-          requiredAuthMode: "oauth",
-        }),
+      completionWork.track(() =>
+        withPluginRuntimePluginIdScope("trusted-plugin", () =>
+          llm.complete({
+            model: `openai/${modelId}@${profileId}`,
+            messages: [{ role: "user", content: "Ping" }],
+            requiredAuthMode: "oauth",
+          }),
+        ),
       ),
     ).rejects.toThrow("selected a different authentication profile");
+    await completionWork.drain();
     expect(modelFetch).not.toHaveBeenCalled();
+    expect(prepared.release).toHaveBeenCalledTimes(1);
   });
 });
