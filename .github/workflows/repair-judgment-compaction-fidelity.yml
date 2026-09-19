@@ -121,6 +121,9 @@ jobs:
               Path(path).write_text("\n".join(output) + "\n")
           PY
 
+      - name: Shrink assertion safety baseline
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --prune --base ${{ env.BASE_SHA }}
+
       - name: Validate assertion comments
         run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --base ${{ env.BASE_SHA }}
 
