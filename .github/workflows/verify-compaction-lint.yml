@@ -1,0 +1,68 @@
+name: Verify Compaction Lint
+
+on:
+  push:
+    branches:
+      - ci/verify-compaction-lint
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "24.x"
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout curation branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/judgment-compaction-curation
+          fetch-depth: 1
+
+      - name: Fetch repair scripts
+        run: git fetch origin refs/heads/ci/fix-compaction-curation:refs/remotes/origin/ci/fix-compaction-curation --depth=1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Apply current repair stack
+        run: |
+          for script in \
+            fix-compaction-curation-gates.py \
+            apply-shared-compaction-fidelity-fixes.py \
+            fix-compaction-semantic-test-runtime.py \
+            fix-compaction-unused-exports.py \
+            fix-compaction-lint.py; do
+            git show origin/ci/fix-compaction-curation:.github/scripts/$script > /tmp/$script
+            python /tmp/$script
+          done
+
+      - name: Format repaired files
+        run: >-
+          pnpm exec oxfmt --write
+          src/agents/agent-hooks/compaction-safeguard.ts
+          src/agents/agent-hooks/compaction-safeguard-context.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/agent-hooks/compaction-safeguard-summary-attempt.ts
+          src/agents/agent-hooks/compaction-safeguard-active-curation.ts
+
+      - name: Type-aware lint repaired files
+        run: >-
+          node scripts/run-oxlint.mjs
+          --tsconfig config/tsconfig/oxlint.core.json
+          src/agents/agent-hooks/compaction-safeguard-semantic.ts
+          src/agents/agent-hooks/compaction-safeguard-active-curation.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
