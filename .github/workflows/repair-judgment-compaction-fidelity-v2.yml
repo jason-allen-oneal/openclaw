@@ -62,6 +62,15 @@ jobs:
       - name: Annotate assertion invariants
         run: python /tmp/annotate-fidelity.py
 
+      - name: Format annotated files
+        run: >-
+          pnpm exec oxfmt --write
+          src/agents/agent-hooks/compaction-safeguard-context.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/agent-hooks/compaction-safeguard.ts
+
       - name: Shrink assertion safety baseline
         run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --prune --base ${{ env.BASE_SHA }}
 
