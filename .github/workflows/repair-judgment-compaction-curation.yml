@@ -29,11 +29,10 @@ jobs:
       - name: Fetch repair inputs
         shell: bash
         run: |
-          git fetch origin \
+          git fetch --depth=200 origin \
             "${BASE_BRANCH}:${BASE_BRANCH}" \
             "${BROKEN_BASE}:${BROKEN_BASE}" \
-            "${BROKEN_HEAD}:${BROKEN_HEAD}" \
-            --depth=200
+            "${BROKEN_HEAD}:${BROKEN_HEAD}"
           echo "BASE_SHA=$(git rev-parse "${BASE_BRANCH}")" >> "$GITHUB_ENV"
           curl -fsSL https://raw.githubusercontent.com/jason-allen-oneal/openclaw/ci/repair-judgment-compaction-curation-20260919/scripts/repair-judgment-compaction-curation.py -o /tmp/repair-curation.py
           curl -fsSL https://raw.githubusercontent.com/jason-allen-oneal/openclaw/ci/repair-judgment-compaction-curation-20260919/scripts/repair-judgment-compaction-curation-post.py -o /tmp/repair-curation-post.py
