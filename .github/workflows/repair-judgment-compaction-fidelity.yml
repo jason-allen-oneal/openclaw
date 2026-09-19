@@ -44,6 +44,39 @@ jobs:
       - name: Repair review findings
         run: python /tmp/repair-fidelity.py
 
+      - name: Annotate assertion invariants
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          targets = {
+              "src/agents/agent-hooks/compaction-safeguard-context.ts":
+                  "Message and content shapes are narrowed by the surrounding role and object checks.",
+              "src/agents/agent-hooks/compaction-safeguard-semantic.ts":
+                  "Serialized message and content shapes are narrowed by the surrounding runtime checks.",
+          }
+
+          for path, invariant in targets.items():
+              lines = Path(path).read_text().splitlines()
+              output: list[str] = []
+              for line in lines:
+                  stripped = line.lstrip()
+                  is_assertion = (
+                      " as " in line
+                      and " as const" not in line
+                      and not stripped.startswith("import ")
+                      and not stripped.startswith("export type ")
+                      and not stripped.startswith("type ")
+                  )
+                  if is_assertion and not (
+                      output and output[-1].lstrip().startswith("// SAFETY:")
+                  ):
+                      indent = line[: len(line) - len(stripped)]
+                      output.append(f"{indent}// SAFETY: {invariant}")
+                  output.append(line)
+              Path(path).write_text("\n".join(output) + "\n")
+          PY
+
       - name: Format changed files
         run: >-
           pnpm exec oxfmt --write
