@@ -1,0 +1,65 @@
+name: Verify Compaction Curation
+
+on:
+  push:
+    branches:
+      - ci/verify-compaction-curation
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "24.x"
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Fetch stacked base
+        run: git fetch origin cbf3b78bc3cae5396f2a1feb2e5d8e72734daa24 --depth=1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate curation config baseline
+        run: |
+          pnpm config:docs:gen
+          mkdir -p .artifacts/compaction-curation
+          git diff -- docs/.generated > .artifacts/compaction-curation/config-baseline.patch
+          cp docs/.generated/config-baseline.counts.json .artifacts/compaction-curation/
+          cp docs/.generated/config-baseline.sha256 .artifacts/compaction-curation/
+
+      - name: Validate generated config baseline
+        run: pnpm config:docs:check
+
+      - name: Focused semantic tests
+        run: >-
+          node scripts/run-vitest.mjs
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/embedded-agent-runner/extensions.test.ts
+          src/config/config.compaction-settings.test.ts
+
+      - name: Changed checks against stacked base
+        run: pnpm check:changed --base cbf3b78bc3cae5396f2a1feb2e5d8e72734daa24
+
+      - name: Upload proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compaction-curation-proof
+          path: .artifacts/compaction-curation/
+          if-no-files-found: warn
