@@ -68,6 +68,15 @@ export async function prepareActiveCompactionCurationForRun(
   }
 }
 
+export function reportActiveCompactionCurationDiagnostic(
+  diagnostic: ActiveCompactionCurationDiagnostic | undefined,
+  logger: { info(message: string): void; warn(message: string): void },
+): void {
+  if (diagnostic) {
+    logger[diagnostic.level](diagnostic.message);
+  }
+}
+
 '''
 anchor = 'export function prepareCompactionSummaryInput(params: {'
 if 'prepareActiveCompactionCurationForRun' not in text:
@@ -80,7 +89,7 @@ path = Path("src/agents/agent-hooks/compaction-safeguard.ts")
 text = path.read_text()
 text = text.replace(
     '  prepareActiveCompactionCuration,\n',
-    '  prepareActiveCompactionCurationForRun,\n',
+    '  prepareActiveCompactionCurationForRun,\n  reportActiveCompactionCurationDiagnostic,\n',
 )
 text = text.replace(
     '  nestRequiredSummaryHeadings,\n  wrapUntrustedInstructionBlock,\n',
@@ -115,11 +124,7 @@ selection = '''      const activeCuration = await prepareActiveCompactionCuratio
         signal: semanticSignal,
         timeoutMs: semanticTimeoutMs,
       });
-      if (activeCuration.diagnostic?.level === "warn") {
-        log.warn(activeCuration.diagnostic.message);
-      } else if (activeCuration.diagnostic) {
-        log.info(activeCuration.diagnostic.message);
-      }
+      reportActiveCompactionCurationDiagnostic(activeCuration.diagnostic, log);
       messagesToSummarize = activeCuration.messages;'''
 text = text[:selection_start] + selection + text[selection_end:]
 
