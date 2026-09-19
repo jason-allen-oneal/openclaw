@@ -48,6 +48,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
           targets = {
               "src/agents/agent-hooks/compaction-safeguard-context.ts":
@@ -61,14 +62,14 @@ jobs:
               output: list[str] = []
               for line in lines:
                   stripped = line.lstrip()
-                  is_assertion = (
-                      " as " in line
-                      and " as const" not in line
+                  is_assertion_line = (
+                      re.search(r"\bas\b", line) is not None
                       and not stripped.startswith("import ")
                       and not stripped.startswith("export type ")
                       and not stripped.startswith("type ")
+                      and not stripped.startswith("//")
                   )
-                  if is_assertion and not (
+                  if is_assertion_line and not (
                       output and output[-1].lstrip().startswith("// SAFETY:")
                   ):
                       indent = line[: len(line) - len(stripped)]
@@ -85,6 +86,9 @@ jobs:
           src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts
           src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
           src/agents/agent-hooks/compaction-safeguard.ts
+
+      - name: Validate assertion comments
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --base ${{ env.BASE_SHA }}
 
       - name: Validate generated config metadata
         run: pnpm config:docs:check
