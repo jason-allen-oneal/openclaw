@@ -22,10 +22,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.TARGET_BRANCH }}
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Fetch repair script
-        run: git show origin/ci/repair-judgment-compaction-fidelity-20260919:scripts/repair-judgment-compaction-fidelity.py > /tmp/repair-fidelity.py
+        run: curl -fsSL https://raw.githubusercontent.com/jason-allen-oneal/openclaw/ci/repair-judgment-compaction-fidelity-20260919/scripts/repair-judgment-compaction-fidelity.py -o /tmp/repair-fidelity.py
+
+      - name: Fetch comparison base
+        run: git fetch origin "${BASE_SHA}" --depth=1
 
       - name: Setup Node
         uses: actions/setup-node@v4
