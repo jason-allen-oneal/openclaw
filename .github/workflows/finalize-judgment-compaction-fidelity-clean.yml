@@ -1,0 +1,63 @@
+name: Finalize Judgment Compaction Fidelity Clean
+
+on:
+  push:
+    branches:
+      - ci/finalize-judgment-compaction-fidelity-clean
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: "24.x"
+  TARGET_BRANCH: repair/judgment-compaction-fidelity-clean
+  BASE_SHA: d220d8c5c1a1a100374715626b5c4419855e490c
+
+jobs:
+  verify-and-squash:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout clean repair branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 1
+
+      - name: Fetch comparison base
+        run: git fetch origin "${BASE_SHA}" --depth=1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate config metadata
+        run: pnpm config:docs:check
+
+      - name: Run focused compaction tests
+        run: >-
+          node scripts/run-vitest.mjs
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/agent-hooks/compaction-safeguard.test.ts
+          src/agents/embedded-agent-runner/extensions.test.ts
+          src/config/config.compaction-settings.test.ts
+
+      - name: Run changed gate
+        run: pnpm check:changed --base ${{ env.BASE_SHA }}
+
+      - name: Squash clean repair branch
+        shell: bash
+        run: |
+          git config user.name "Jason O'Neal"
+          git config user.email "jason.allen.oneal@gmail.com"
+          git reset --soft "${BASE_SHA}"
+          git add -A
+          git commit -m "feat(compaction): observe semantic fidelity and shadow curation"
+          git push --force-with-lease origin "HEAD:${TARGET_BRANCH}"
