@@ -1,0 +1,49 @@
+name: Verify Compaction Judgment
+
+on:
+  push:
+    branches:
+      - ci/verify-compaction-judgment
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "24.x"
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Fetch comparison base
+        run: git fetch origin d220d8c5c1a1a100374715626b5c4419855e490c --depth=1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate config docs baseline
+        run: pnpm config:docs:check
+
+      - name: Focused semantic tests
+        run: >-
+          node scripts/run-vitest.mjs
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/embedded-agent-runner/extensions.test.ts
+          src/config/config.compaction-settings.test.ts
+
+      - name: Changed checks against judgment foundation
+        run: pnpm check:changed --base d220d8c5c1a1a100374715626b5c4419855e490c
