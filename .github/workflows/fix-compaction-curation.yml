@@ -55,6 +55,9 @@ jobs:
       - name: Regenerate config metadata
         run: pnpm config:docs:gen
 
+      - name: Prune assertion safety baseline
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --prune
+
       - name: Focused tests
         run: >-
           node scripts/run-vitest.mjs
@@ -70,6 +73,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
+            config/assertion-safety-baseline.txt \
             src/agents/agent-hooks/compaction-safeguard.ts \
             src/agents/agent-hooks/compaction-safeguard-summary-attempt.ts \
             src/agents/agent-hooks/compaction-safeguard-active-curation.ts \
