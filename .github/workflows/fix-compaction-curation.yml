@@ -24,7 +24,7 @@ jobs:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 1
 
-      - name: Fetch repair script and stacked base
+      - name: Fetch repair scripts and stacked base
         run: |
           git fetch origin refs/heads/ci/fix-compaction-curation:refs/remotes/origin/ci/fix-compaction-curation --depth=1
           git fetch origin $STACK_BASE --depth=1
@@ -40,10 +40,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Apply curation gate refactor
+      - name: Apply curation refactor and shared fidelity fixes
         run: |
           git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-curation-gates.py > /tmp/fix-compaction-curation-gates.py
+          git show origin/ci/fix-compaction-curation:.github/scripts/apply-shared-compaction-fidelity-fixes.py > /tmp/apply-shared-compaction-fidelity-fixes.py
           python /tmp/fix-compaction-curation-gates.py
+          python /tmp/apply-shared-compaction-fidelity-fixes.py
 
       - name: Format changed TypeScript
         run: >-
