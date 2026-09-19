@@ -44,6 +44,185 @@ jobs:
       - name: Repair review findings
         run: python /tmp/repair-fidelity.py
 
+      - name: Finalize judgment runtime contract
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts")
+          text = path.read_text()
+
+          old = 'runtime: Pick<JudgmentRuntimeV1, "evaluate">;'
+          if text.count(old) != 2:
+              raise SystemExit(f"expected two runtime contract matches, found {text.count(old)}")
+          text = text.replace(
+              old,
+              'runtime: Pick<JudgmentRuntimeV1, "evaluate" | "recordOutcome">;',
+          )
+
+          text = text.replace(
+              '''  if (eligible.length === 0) {
+            return allRetainedResult(params.snapshot, "skipped", "no-discretionary-segments");
+          }
+          if (params.snapshot.obligations.length === 0) {
+            return allRetainedResult(params.snapshot, "skipped", "no-source-backed-obligations");
+          }
+          ''',
+              '''  if (eligible.length === 0) {
+            await params.runtime.recordOutcome("no-change");
+            return allRetainedResult(params.snapshot, "skipped", "no-discretionary-segments");
+          }
+          if (params.snapshot.obligations.length === 0) {
+            await params.runtime.recordOutcome("no-change");
+            return allRetainedResult(params.snapshot, "skipped", "no-source-backed-obligations");
+          }
+          ''',
+              1,
+          )
+
+          first_unavailable = '''  if (outcome.status !== "ok") {
+            return allRetainedResult(params.snapshot, "unavailable", outcome.reason);
+          }
+          '''
+          if first_unavailable not in text:
+              raise SystemExit("shadow unavailable block not found")
+          text = text.replace(
+              first_unavailable,
+              '''  if (outcome.status !== "ok") {
+            await params.runtime.recordOutcome("fallback");
+            return allRetainedResult(params.snapshot, "unavailable", outcome.reason);
+          }
+          ''',
+              1,
+          )
+
+          old_complete = '''  return {
+            status: "ok",
+            sourceFingerprint: params.snapshot.sourceFingerprint,
+            selectedSegmentIds,
+            excludedSegmentIds: [...excluded],
+            uncertainSegmentIds: [...uncertain],
+            evaluatedSegmentIds: [...evaluated],
+            originalChars: params.snapshot.originalChars,
+            selectedChars,
+            reductionRatio,
+            complete:
+              params.snapshot.complete &&
+              eligible.length <= MAX_SEGMENTS_PER_JUDGMENT &&
+              evaluated.size === candidates.length &&
+              uncertain.size === 0,
+            provenance: outcome.provenance,
+            ...(outcome.result.usage ? { usage: outcome.result.usage } : {}),
+          };
+          '''
+          new_complete = '''  const complete =
+            params.snapshot.complete &&
+            eligible.length <= MAX_SEGMENTS_PER_JUDGMENT &&
+            evaluated.size === candidates.length &&
+            uncertain.size === 0;
+          await params.runtime.recordOutcome(
+            !complete ? "fallback" : excluded.size > 0 ? "accepted" : "no-change",
+          );
+          return {
+            status: "ok",
+            sourceFingerprint: params.snapshot.sourceFingerprint,
+            selectedSegmentIds,
+            excludedSegmentIds: [...excluded],
+            uncertainSegmentIds: [...uncertain],
+            evaluatedSegmentIds: [...evaluated],
+            originalChars: params.snapshot.originalChars,
+            selectedChars,
+            reductionRatio,
+            complete,
+            provenance: outcome.provenance,
+            ...(outcome.result.usage ? { usage: outcome.result.usage } : {}),
+          };
+          '''
+          if old_complete not in text:
+              raise SystemExit("shadow completion block not found")
+          text = text.replace(old_complete, new_complete, 1)
+
+          fidelity_empty = '''  if (params.snapshot.obligations.length === 0) {
+            return {
+              status: "skipped",
+              sourceFingerprint: params.snapshot.sourceFingerprint,
+              candidateFingerprint,
+              reason: "no-source-backed-obligations",
+            };
+          }
+          '''
+          if fidelity_empty not in text:
+              raise SystemExit("fidelity empty block not found")
+          text = text.replace(
+              fidelity_empty,
+              '''  if (params.snapshot.obligations.length === 0) {
+            await params.runtime.recordOutcome("no-change");
+            return {
+              status: "skipped",
+              sourceFingerprint: params.snapshot.sourceFingerprint,
+              candidateFingerprint,
+              reason: "no-source-backed-obligations",
+            };
+          }
+          ''',
+              1,
+          )
+
+          fidelity_unavailable = '''  if (outcome.status !== "ok") {
+            return {
+              status: "unavailable",
+              sourceFingerprint: params.snapshot.sourceFingerprint,
+              candidateFingerprint,
+              reason: outcome.reason,
+            };
+          }
+          '''
+          if fidelity_unavailable not in text:
+              raise SystemExit("fidelity unavailable block not found")
+          text = text.replace(
+              fidelity_unavailable,
+              '''  if (outcome.status !== "ok") {
+            await params.runtime.recordOutcome("fallback");
+            return {
+              status: "unavailable",
+              sourceFingerprint: params.snapshot.sourceFingerprint,
+              candidateFingerprint,
+              reason: outcome.reason,
+            };
+          }
+          ''',
+              1,
+          )
+
+          final_return = '''  return {
+            status: "ok",
+            sourceFingerprint: params.snapshot.sourceFingerprint,
+            candidateFingerprint,
+            assessments,
+            provenance: outcome.provenance,
+            ...(outcome.result.usage ? { usage: outcome.result.usage } : {}),
+          };
+          '''
+          if final_return not in text:
+              raise SystemExit("fidelity success return not found")
+          text = text.replace(
+              final_return,
+              '''  await params.runtime.recordOutcome("accepted");
+          return {
+            status: "ok",
+            sourceFingerprint: params.snapshot.sourceFingerprint,
+            candidateFingerprint,
+            assessments,
+            provenance: outcome.provenance,
+            ...(outcome.result.usage ? { usage: outcome.result.usage } : {}),
+          };
+          ''',
+              1,
+          )
+
+          path.write_text(text)
+          PY
+
       - name: Annotate assertion invariants
         run: |
           python - <<'PY'
