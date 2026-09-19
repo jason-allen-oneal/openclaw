@@ -103,7 +103,7 @@ for unused in [
     text = text.replace(unused, "")
 text = sub_once(
     text,
-    r'import \{\n\s*buildCompactionSemanticSnapshot,\n(?:\s*projectCompactionSemanticSelection,\n)?\} from "\./compaction-safeguard-semantic\.js";',
+    r'import \{\n.*?\n\} from "\./compaction-safeguard-semantic\.js";',
     '''import {
   buildCompactionSemanticSnapshot,
   fingerprint,
