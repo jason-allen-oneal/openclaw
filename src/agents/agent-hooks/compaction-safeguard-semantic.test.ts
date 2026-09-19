@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { JudgmentRuntimeV1 } from "../../judgments/types.js";
+import type { JudgmentAnswer, JudgmentRuntimeV1 } from "../../judgments/types.js";
 import type { AgentMessage } from "../runtime/index.js";
 import {
   evaluateCompactionFidelity,
@@ -14,46 +14,48 @@ function message(value: unknown): AgentMessage {
   return value as AgentMessage;
 }
 
-function runtimeWithChoices(
-  choices: Record<string, string>,
-): JudgmentRuntimeV1 {
+function runtimeWithChoices(choices: Record<string, string>): JudgmentRuntimeV1 {
+  const evaluate: JudgmentRuntimeV1["evaluate"] = async (batch, options) => {
+    options.signal.throwIfAborted();
+    const answers: Record<string, JudgmentAnswer> = Object.fromEntries(
+      Object.entries(batch.questions).map(([id, question]) => {
+        if (question.type !== "choice") {
+          throw new Error("expected choice question");
+        }
+        const labels = Object.keys(question.criteria);
+        const selected = choices[id] ?? labels[0];
+        if (!selected) {
+          throw new Error(`choice question ${id} has no labels`);
+        }
+        return [
+          id,
+          {
+            type: "choice" as const,
+            choice: selected,
+            probabilities: Object.fromEntries(
+              labels.map((label) => [label, label === selected ? 1 : 0]),
+            ),
+          },
+        ];
+      }),
+    );
+    return {
+      status: "ok" as const,
+      result: {
+        model: "test-judgment",
+        answers,
+        usage: { inputTokens: 10, outputTokens: 2 },
+      },
+      provenance: {
+        providerId: "test",
+        rubricVersion: "test",
+        runtimeGeneration: "generation-1",
+      },
+    };
+  };
   return {
     recordOutcome: vi.fn(async () => {}),
-    evaluate: vi.fn(async (batch, options) => {
-      options.signal.throwIfAborted();
-      const answers = Object.fromEntries(
-        Object.entries(batch.questions).map(([id, question]) => {
-          if (question.type !== "choice") {
-            throw new Error("expected choice question");
-          }
-          const labels = Object.keys(question.criteria);
-          const selected = choices[id] ?? labels[0];
-          return [
-            id,
-            {
-              type: "choice" as const,
-              choice: selected,
-              probabilities: Object.fromEntries(
-                labels.map((label) => [label, label === selected ? 1 : 0]),
-              ),
-            },
-          ];
-        }),
-      );
-      return {
-        status: "ok" as const,
-        result: {
-          model: "test-judgment",
-          answers,
-          usage: { inputTokens: 10, outputTokens: 2 },
-        },
-        provenance: {
-          providerId: "test",
-          rubricVersion: "test",
-          runtimeGeneration: "generation-1",
-        },
-      };
-    }),
+    evaluate: vi.fn(evaluate),
   };
 }
 
