@@ -36,7 +36,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Apply curation gate refactor
-        run: python .github/scripts/fix-compaction-curation-gates.py
+        run: |
+          git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-curation-gates.py > /tmp/fix-compaction-curation-gates.py
+          python /tmp/fix-compaction-curation-gates.py
 
       - name: Format changed TypeScript
         run: >-
