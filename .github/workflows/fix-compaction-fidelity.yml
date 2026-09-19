@@ -1,0 +1,95 @@
+name: Fix Compaction Fidelity
+
+on:
+  push:
+    branches:
+      - ci/fix-compaction-fidelity
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: "24.x"
+  TARGET_BRANCH: feat/judgment-compaction-fidelity
+  STACK_BASE: d220d8c5c1a1a100374715626b5c4419855e490c
+
+jobs:
+  fix-and-verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 1
+
+      - name: Fetch repair scripts and foundation
+        run: |
+          git fetch origin refs/heads/ci/fix-compaction-curation:refs/remotes/origin/ci/fix-compaction-curation --depth=1
+          git fetch origin $STACK_BASE --depth=1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Apply fidelity gate fixes
+        run: |
+          git show origin/ci/fix-compaction-curation:.github/scripts/apply-shared-compaction-fidelity-fixes.py > /tmp/apply-shared-compaction-fidelity-fixes.py
+          git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-semantic-test-runtime.py > /tmp/fix-compaction-semantic-test-runtime.py
+          touch src/agents/agent-hooks/compaction-safeguard-active-curation.ts
+          python /tmp/apply-shared-compaction-fidelity-fixes.py
+          rm src/agents/agent-hooks/compaction-safeguard-active-curation.ts
+          python /tmp/fix-compaction-semantic-test-runtime.py
+
+      - name: Format changed TypeScript
+        run: >-
+          pnpm exec oxfmt --write
+          src/agents/agent-hooks/compaction-safeguard.ts
+          src/agents/agent-hooks/compaction-safeguard-context.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+
+      - name: Regenerate config metadata
+        run: pnpm config:docs:gen
+
+      - name: Prune assertion safety baseline
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --prune
+
+      - name: Focused tests
+        run: >-
+          node scripts/run-vitest.mjs
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/embedded-agent-runner/extensions.test.ts
+          src/config/config.compaction-settings.test.ts
+
+      - name: Changed checks
+        run: pnpm check:changed --base ${{ env.STACK_BASE }}
+
+      - name: Commit verified changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            config/assertion-safety-baseline.txt \
+            src/agents/agent-hooks/compaction-safeguard.ts \
+            src/agents/agent-hooks/compaction-safeguard-context.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic.test.ts \
+            docs/.generated/config-baseline.counts.json \
+            docs/.generated/config-baseline.sha256
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "fix(compaction): satisfy semantic judgment gates"
+            git push origin HEAD:${{ env.TARGET_BRANCH }}
+          fi
