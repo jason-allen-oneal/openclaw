@@ -49,6 +49,10 @@ jobs:
         run: >-
           pnpm exec oxfmt --write
           src/agents/agent-hooks/compaction-safeguard.ts
+          src/agents/agent-hooks/compaction-safeguard-context.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
           src/agents/agent-hooks/compaction-safeguard-summary-attempt.ts
           src/agents/agent-hooks/compaction-safeguard-active-curation.ts
 
@@ -75,6 +79,10 @@ jobs:
           git add \
             config/assertion-safety-baseline.txt \
             src/agents/agent-hooks/compaction-safeguard.ts \
+            src/agents/agent-hooks/compaction-safeguard-context.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic.test.ts \
             src/agents/agent-hooks/compaction-safeguard-summary-attempt.ts \
             src/agents/agent-hooks/compaction-safeguard-active-curation.ts \
             docs/.generated/config-baseline.counts.json \
