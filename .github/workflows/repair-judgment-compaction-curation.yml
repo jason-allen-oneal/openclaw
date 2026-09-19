@@ -1,0 +1,165 @@
+name: Repair Judgment Compaction Curation
+
+on:
+  push:
+    branches:
+      - ci/run-repair-judgment-compaction-curation-20260919
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: "24.x"
+  TARGET_BRANCH: repair/judgment-compaction-curation-clean
+  BASE_BRANCH: repair/judgment-compaction-fidelity-clean
+  BROKEN_BASE: backup/judgment-compaction-fidelity-broken-20260919
+  BROKEN_HEAD: backup/judgment-compaction-curation-broken-20260919
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - name: Checkout repair branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 1
+
+      - name: Fetch repair inputs
+        shell: bash
+        run: |
+          git fetch origin \
+            "${BASE_BRANCH}:${BASE_BRANCH}" \
+            "${BROKEN_BASE}:${BROKEN_BASE}" \
+            "${BROKEN_HEAD}:${BROKEN_HEAD}" \
+            --depth=200
+          echo "BASE_SHA=$(git rev-parse "${BASE_BRANCH}")" >> "$GITHUB_ENV"
+          curl -fsSL https://raw.githubusercontent.com/jason-allen-oneal/openclaw/ci/repair-judgment-compaction-curation-20260919/scripts/repair-judgment-compaction-curation.py -o /tmp/repair-curation.py
+          curl -fsSL https://raw.githubusercontent.com/jason-allen-oneal/openclaw/ci/repair-judgment-compaction-curation-20260919/scripts/repair-judgment-compaction-curation-post.py -o /tmp/repair-curation-post.py
+
+      - name: Reset to clean fidelity base
+        run: git reset --hard "${BASE_SHA}"
+
+      - name: Apply original curation delta
+        shell: bash
+        run: |
+          git diff --binary "${BROKEN_BASE}" "${BROKEN_HEAD}" -- \
+            src/agents/agent-hooks/compaction-safeguard-active-curation.ts \
+            src/agents/agent-hooks/compaction-safeguard-summary-attempt.ts \
+            src/agents/agent-hooks/compaction-safeguard-runtime.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic.test.ts \
+            src/agents/agent-hooks/compaction-safeguard-semantic.ts \
+            src/agents/agent-hooks/compaction-safeguard.ts \
+            src/config/config.compaction-settings.test.ts \
+            src/config/schema.help.agents.ts \
+            src/config/schema.help.quality.test-fixtures.ts \
+            src/config/zod-schema.agent-defaults-base.ts \
+            > /tmp/curation.patch
+          git apply --3way --index /tmp/curation.patch
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Repair curation findings
+        run: |
+          python /tmp/repair-curation.py
+          python /tmp/repair-curation-post.py
+
+      - name: Format changed files
+        run: >-
+          pnpm exec oxfmt --write
+          src/agents/agent-hooks/compaction-safeguard-active-curation.ts
+          src/agents/agent-hooks/compaction-safeguard-summary-attempt.ts
+          src/agents/agent-hooks/compaction-safeguard-runtime.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.ts
+          src/agents/agent-hooks/compaction-safeguard.ts
+          src/config/config.compaction-settings.test.ts
+          src/config/schema.help.agents.ts
+          src/config/schema.help.quality.test-fixtures.ts
+          src/config/zod-schema.agent-defaults-base.ts
+
+      - name: Pin assertion comments after formatting
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          targets = {
+              "src/agents/agent-hooks/compaction-safeguard-active-curation.ts":
+                  "Optional curation state is checked before the narrowed value is used.",
+              "src/agents/agent-hooks/compaction-safeguard-summary-attempt.ts":
+                  "Summary candidates are created and controlled by this module.",
+              "src/agents/agent-hooks/compaction-safeguard.ts":
+                  "Branch-local compaction values are narrowed by the surrounding checks.",
+              "src/agents/agent-hooks/compaction-safeguard-semantic.ts":
+                  "Serialized source shapes are narrowed by the surrounding runtime checks.",
+          }
+          for path, invariant in targets.items():
+              lines = Path(path).read_text().splitlines()
+              output: list[str] = []
+              for line in lines:
+                  stripped = line.lstrip()
+                  operator_line = (
+                      re.search(r"\bas\b", line) is not None
+                      and not stripped.startswith("import ")
+                      and not stripped.startswith("export type ")
+                      and not stripped.startswith("type ")
+                      and not stripped.startswith("//")
+                  )
+                  if operator_line and not (
+                      output and output[-1].lstrip().startswith("// SAFETY:")
+                  ):
+                      indent = line[: len(line) - len(stripped)]
+                      output.append(f"{indent}// SAFETY: {invariant}")
+                  output.append(line)
+              Path(path).write_text("\n".join(output) + "\n")
+          PY
+
+      - name: Regenerate config metadata
+        run: pnpm config:docs:gen
+
+      - name: Shrink assertion safety baseline
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --prune --base "${BASE_SHA}"
+
+      - name: Validate assertion comments
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --base "${BASE_SHA}"
+
+      - name: Validate config metadata
+        run: pnpm config:docs:check
+
+      - name: Run focused compaction tests
+        run: >-
+          node scripts/run-vitest.mjs
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/agent-hooks/compaction-safeguard.test.ts
+          src/agents/embedded-agent-runner/extensions.test.ts
+          src/config/config.compaction-settings.test.ts
+
+      - name: Run changed gate
+        run: pnpm check:changed --base "${BASE_SHA}"
+
+      - name: Verify stack shape
+        shell: bash
+        run: |
+          git diff --check
+          test -n "$(git status --short)"
+
+      - name: Squash repaired branch
+        shell: bash
+        run: |
+          git config user.name "Jason O'Neal"
+          git config user.email "jason.allen.oneal@gmail.com"
+          git reset --soft "${BASE_SHA}"
+          git add -A
+          git commit -m "feat(compaction): apply judgment-selected curation"
+          git push --force-with-lease origin "HEAD:${TARGET_BRANCH}"
