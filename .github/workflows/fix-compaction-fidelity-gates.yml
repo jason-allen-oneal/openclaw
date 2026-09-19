@@ -22,7 +22,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.TARGET_BRANCH }}
-          fetch-depth: 0
+          fetch-depth: 1
+
+      - name: Fetch repair script and comparison base
+        run: |
+          git fetch origin refs/heads/ci/fix-compaction-fidelity-gates:refs/remotes/origin/ci/fix-compaction-fidelity-gates --depth=1
+          git fetch origin $STACK_BASE --depth=1
 
       - name: Setup Node
         uses: actions/setup-node@v4
