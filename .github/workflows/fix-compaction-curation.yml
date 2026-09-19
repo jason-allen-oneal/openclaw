@@ -44,8 +44,10 @@ jobs:
         run: |
           git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-curation-gates.py > /tmp/fix-compaction-curation-gates.py
           git show origin/ci/fix-compaction-curation:.github/scripts/apply-shared-compaction-fidelity-fixes.py > /tmp/apply-shared-compaction-fidelity-fixes.py
+          git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-semantic-test-runtime.py > /tmp/fix-compaction-semantic-test-runtime.py
           python /tmp/fix-compaction-curation-gates.py
           python /tmp/apply-shared-compaction-fidelity-fixes.py
+          python /tmp/fix-compaction-semantic-test-runtime.py
 
       - name: Format changed TypeScript
         run: >-
