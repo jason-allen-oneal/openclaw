@@ -1,42 +1,49 @@
 from pathlib import Path
 
 
-def replace_once(text: str, old: str, new: str, label: str) -> str:
+def replace_if_needed(
+    path: Path,
+    *,
+    old: str,
+    new: str,
+    marker: str,
+    label: str,
+) -> None:
+    text = path.read_text()
+    if marker in text:
+        return
     count = text.count(old)
     if count != 1:
         raise SystemExit(f"{label}: expected one match, found {count}")
-    return text.replace(old, new, 1)
+    path.write_text(text.replace(old, new, 1))
 
 
-judgments = Path("src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts")
-text = judgments.read_text()
-text = replace_once(
-    text,
-    "  const assessments = params.snapshot.obligations.map((obligation) => {",
-    '''  const assessments: Extract<
+replace_if_needed(
+    Path("src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts"),
+    old="  const assessments = params.snapshot.obligations.map((obligation) => {",
+    new='''  const assessments: Extract<
     CompactionFidelityResult,
     { status: "ok" }
   >["assessments"] = params.snapshot.obligations.map((obligation) => {''',
-    "assessment declaration",
+    marker="const assessments: Extract<",
+    label="assessment declaration",
 )
-judgments.write_text(text)
 
 safeguard = Path("src/agents/agent-hooks/compaction-safeguard.ts")
 text = safeguard.read_text()
-text = replace_once(
-    text,
-    '''function nestMarkdownHeadings(text: string): string {
+unused = '''function nestMarkdownHeadings(text: string): string {
   return text.replace(/^##(?=[ \\t]+\\S)/gmu, "###");
 }
 
-''',
-    "",
-    "unused heading helper",
-)
-safeguard.write_text(text)
+'''
+count = text.count(unused)
+if count > 1:
+    raise SystemExit(f"unused heading helper: expected at most one match, found {count}")
+if count == 1:
+    safeguard.write_text(text.replace(unused, "", 1))
+
 
 test_file = Path("src/agents/agent-hooks/compaction-safeguard-semantic.test.ts")
-text = test_file.read_text()
 old = '''function runtimeWithChoices(
   choices: Record<string, string>,
 ): JudgmentRuntimeV1 {
@@ -127,5 +134,10 @@ new = '''function runtimeWithChoices(
   };
 }
 '''
-text = replace_once(text, old, new, "typed judgment fixture")
-test_file.write_text(text)
+replace_if_needed(
+    test_file,
+    old=old,
+    new=new,
+    marker='const evaluate: JudgmentRuntimeV1["evaluate"]',
+    label="typed judgment fixture",
+)
