@@ -46,10 +46,12 @@ jobs:
           git show origin/ci/fix-compaction-curation:.github/scripts/apply-shared-compaction-fidelity-fixes.py > /tmp/apply-shared-compaction-fidelity-fixes.py
           git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-semantic-test-runtime.py > /tmp/fix-compaction-semantic-test-runtime.py
           git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-unused-exports.py > /tmp/fix-compaction-unused-exports.py
+          git show origin/ci/fix-compaction-curation:.github/scripts/fix-compaction-lint.py > /tmp/fix-compaction-lint.py
           python /tmp/fix-compaction-curation-gates.py
           python /tmp/apply-shared-compaction-fidelity-fixes.py
           python /tmp/fix-compaction-semantic-test-runtime.py
           python /tmp/fix-compaction-unused-exports.py
+          python /tmp/fix-compaction-lint.py
 
       - name: Format changed TypeScript
         run: >-
