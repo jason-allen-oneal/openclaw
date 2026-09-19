@@ -5,7 +5,10 @@ import {
   evaluateCompactionFidelity,
   evaluateCompactionShadowCuration,
 } from "./compaction-safeguard-semantic-judgments.js";
-import { buildCompactionSemanticSnapshot } from "./compaction-safeguard-semantic.js";
+import {
+  buildCompactionSemanticSnapshot,
+  projectCompactionSemanticSelection,
+} from "./compaction-safeguard-semantic.js";
 
 function message(value: unknown): AgentMessage {
   return value as AgentMessage;
@@ -114,9 +117,84 @@ describe("compaction semantic snapshot", () => {
     expect(snapshot.segments[0]?.protectionReasons).toContain("unsupported-content");
     expect(snapshot.complete).toBe(false);
   });
+
 });
 
 describe("compaction semantic judgments", () => {
+  it("projects only a complete validated selection and preserves source order", async () => {
+    const user = message({
+      role: "user",
+      content: [{ type: "text", text: "Deploy production." }],
+    });
+    const oldFact = message({
+      role: "assistant",
+      content: [{ type: "text", text: "Old unrelated weather." }],
+    });
+    const usefulFact = message({
+      role: "assistant",
+      content: [{ type: "text", text: "Production uses the current release." }],
+    });
+    const messages = [user, oldFact, usefulFact];
+    const snapshot = buildCompactionSemanticSnapshot({
+      messages,
+      latestUserAsk: "Deploy production.",
+    });
+    const discretionary = snapshot.segments.filter((segment) => !segment.protected);
+    const runtime = runtimeWithChoices({
+      [discretionary[0]!.id]: "drop",
+      [discretionary[1]!.id]: "keep",
+    });
+    const selection = await evaluateCompactionShadowCuration({
+      runtime,
+      snapshot,
+      signal: new AbortController().signal,
+    });
+
+    const projected = projectCompactionSemanticSelection({
+      messages,
+      snapshot,
+      selection,
+    });
+
+    expect(projected).toEqual([user, usefulFact]);
+  });
+
+  it("refuses an incomplete semantic selection", () => {
+    const user = message({
+      role: "user",
+      content: [{ type: "text", text: "Keep this request." }],
+    });
+    const fact = message({
+      role: "assistant",
+      content: [{ type: "text", text: "Optional detail." }],
+    });
+    const messages = [user, fact];
+    const snapshot = buildCompactionSemanticSnapshot({
+      messages,
+      latestUserAsk: "Keep this request.",
+    });
+
+    expect(
+      projectCompactionSemanticSelection({
+        messages,
+        snapshot,
+        selection: {
+          status: "skipped",
+          sourceFingerprint: snapshot.sourceFingerprint,
+          reason: "test",
+          selectedSegmentIds: snapshot.segments.map((segment) => segment.id),
+          excludedSegmentIds: [],
+          uncertainSegmentIds: [],
+          evaluatedSegmentIds: [],
+          originalChars: snapshot.originalChars,
+          selectedChars: snapshot.originalChars,
+          reductionRatio: 0,
+          complete: false,
+        },
+      }),
+    ).toBeNull();
+  });
+
   it("produces a conservative shadow selection without mutating source", async () => {
     const user = message({
       role: "user",
