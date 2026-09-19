@@ -1,0 +1,93 @@
+name: Repair Judgment Compaction Fidelity V2
+
+on:
+  push:
+    branches:
+      - ci/repair-judgment-compaction-fidelity-v2
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: "24.x"
+  TARGET_BRANCH: repair/judgment-compaction-fidelity-clean
+  BASE_SHA: d220d8c5c1a1a100374715626b5c4419855e490c
+  REPAIR_REF: ci/repair-judgment-compaction-fidelity-v2
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repair branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 1
+
+      - name: Fetch repair scripts
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/jason-allen-oneal/openclaw/${REPAIR_REF}/scripts/repair-judgment-compaction-fidelity.py" -o /tmp/repair-fidelity.py
+          curl -fsSL "https://raw.githubusercontent.com/jason-allen-oneal/openclaw/${REPAIR_REF}/scripts/finalize-judgment-compaction-fidelity.py" -o /tmp/finalize-fidelity.py
+          curl -fsSL "https://raw.githubusercontent.com/jason-allen-oneal/openclaw/${REPAIR_REF}/scripts/annotate-judgment-compaction-fidelity.py" -o /tmp/annotate-fidelity.py
+
+      - name: Fetch comparison base
+        run: git fetch origin "${BASE_SHA}" --depth=1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Repair review findings
+        run: |
+          python /tmp/repair-fidelity.py
+          python /tmp/finalize-fidelity.py
+
+      - name: Format changed files
+        run: >-
+          pnpm exec oxfmt --write
+          src/agents/agent-hooks/compaction-safeguard-context.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/agent-hooks/compaction-safeguard.ts
+
+      - name: Annotate assertion invariants
+        run: python /tmp/annotate-fidelity.py
+
+      - name: Shrink assertion safety baseline
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --prune --base ${{ env.BASE_SHA }}
+
+      - name: Validate assertion comments
+        run: node --import ./scripts/tsx.mjs scripts/check-assertion-safety-ratchet.mts --base ${{ env.BASE_SHA }}
+
+      - name: Validate generated config metadata
+        run: pnpm config:docs:check
+
+      - name: Run focused compaction tests
+        run: >-
+          node scripts/run-vitest.mjs
+          src/agents/agent-hooks/compaction-safeguard-semantic.test.ts
+          src/agents/agent-hooks/compaction-safeguard.test.ts
+          src/agents/embedded-agent-runner/extensions.test.ts
+          src/config/config.compaction-settings.test.ts
+
+      - name: Run changed gate
+        run: pnpm check:changed --base ${{ env.BASE_SHA }}
+
+      - name: Squash repaired branch
+        shell: bash
+        run: |
+          git config user.name "Jason O'Neal"
+          git config user.email "jason.allen.oneal@gmail.com"
+          git reset --soft "${BASE_SHA}"
+          git add -A
+          git commit -m "feat(compaction): observe semantic fidelity and shadow curation"
+          git push --force-with-lease origin "HEAD:${TARGET_BRANCH}"
