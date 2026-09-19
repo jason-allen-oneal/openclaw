@@ -36,7 +36,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Apply repository gate fixes
-        run: python .github/scripts/fix-compaction-fidelity-gates.py
+        run: |
+          git show origin/ci/fix-compaction-fidelity-gates:.github/scripts/fix-compaction-fidelity-gates.py > /tmp/fix-compaction-fidelity-gates.py
+          python /tmp/fix-compaction-fidelity-gates.py
 
       - name: Format changed TypeScript
         run: >-
