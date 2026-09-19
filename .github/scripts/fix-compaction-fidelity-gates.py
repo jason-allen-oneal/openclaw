@@ -61,6 +61,12 @@ if record_import not in text:
     )
 text = replace_required(
     text,
+    '  | "recent-turn"\n',
+    '  | "recent-turn"\n  | "user-source"\n',
+    "user source protection type",
+)
+text = replace_required(
+    text,
     '    const type = (block as { type?: unknown }).type;',
     '    const type = asOptionalRecord(block)?.type;',
     "semantic content type",
@@ -87,6 +93,15 @@ text = replace_required(
     message.role === "toolResult" && typeof rawToolName === "string" ? rawToolName : "";
   const rawContent = messageRecord?.content;''',
     "semantic render record",
+)
+text = replace_required(
+    text,
+    '    const protectionReasons = new Set<CompactionSemanticProtectionReason>();\n',
+    '    const protectionReasons = new Set<CompactionSemanticProtectionReason>();\n'
+    '    if (members.some((message) => message.role === "user")) {\n'
+    '      protectionReasons.add("user-source");\n'
+    '    }\n',
+    "protect user source",
 )
 text = replace_required(
     text,
@@ -117,6 +132,56 @@ text = replace_required(
 )
 semantic.write_text(text)
 
+judgments = Path("src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts")
+text = judgments.read_text()
+choice_anchor = '''function asChoiceAnswer(answer: JudgmentAnswer | undefined):
+  | Extract<JudgmentAnswer, { type: "choice" }>
+  | undefined {
+  return answer?.type === "choice" ? answer : undefined;
+}
+'''
+classification_helper = '''
+type FidelityClassification = Extract<
+  CompactionFidelityResult,
+  { status: "ok" }
+>["assessments"][number]["classification"];
+
+function classifyFidelityAnswer(
+  answer: JudgmentAnswer | undefined,
+): FidelityClassification {
+  if (answer?.type !== "choice") {
+    return "uncertain";
+  }
+  switch (answer.choice) {
+    case "preserved":
+    case "missing":
+    case "contradicted":
+      return answer.choice;
+    default:
+      return "uncertain";
+  }
+}
+'''
+if "function classifyFidelityAnswer" not in text:
+    text = replace_required(
+        text,
+        choice_anchor,
+        choice_anchor + classification_helper,
+        "fidelity classification helper",
+    )
+text = replace_required(
+    text,
+    '''      classification:
+        answer?.choice === "preserved" ||
+        answer?.choice === "missing" ||
+        answer?.choice === "contradicted"
+          ? answer.choice
+          : ("uncertain" as const),''',
+    '      classification: classifyFidelityAnswer(answer),',
+    "fidelity classification use",
+)
+judgments.write_text(text)
+
 safeguard = Path("src/agents/agent-hooks/compaction-safeguard.ts")
 text = safeguard.read_text()
 text = text.replace(
@@ -126,6 +191,12 @@ text = text.replace(
 text = text.replace(
     'runtime: { evaluate: evaluateJudgment },',
     'runtime: { evaluate: evaluateJudgment, recordOutcome: recordJudgmentOutcome },',
+)
+text = text.replace(
+    'function nestMarkdownHeadings(text: string): string {\n'
+    '  return text.replace(/^##(?=[ \\t]+\\S)/gmu, "###");\n'
+    '}\n\n',
+    '',
 )
 safeguard.write_text(text)
 
@@ -154,5 +225,32 @@ if 'expect(runtime.recordOutcome).toHaveBeenCalledWith("no-change")' not in text
         fidelity_anchor
         + '\n    expect(runtime.recordOutcome).toHaveBeenCalledWith("no-change");',
         "fidelity outcome assertion",
+    )
+user_source_test = '''
+  it("protects all user-authored source from semantic exclusion", () => {
+    const oldUser = message({
+      role: "user",
+      content: [{ type: "text", text: "Keep the old deployment constraint." }],
+    });
+    const latestUser = message({
+      role: "user",
+      content: [{ type: "text", text: "Finish the deployment." }],
+    });
+    const snapshot = buildCompactionSemanticSnapshot({
+      messages: [oldUser, latestUser],
+      latestUserAsk: "Finish the deployment.",
+    });
+
+    expect(snapshot.segments[0]?.protectionReasons).toContain("user-source");
+    expect(snapshot.segments[0]?.protected).toBe(true);
+  });
+'''
+semantic_judgments_anchor = '\n});\n\ndescribe("compaction semantic judgments", () => {'
+if 'protects all user-authored source from semantic exclusion' not in text:
+    text = replace_required(
+        text,
+        semantic_judgments_anchor,
+        user_source_test + semantic_judgments_anchor,
+        "user source test",
     )
 tests.write_text(text)
