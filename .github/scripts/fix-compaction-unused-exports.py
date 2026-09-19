@@ -1,9 +1,15 @@
+import re
 from pathlib import Path
 
 path = Path("src/agents/agent-hooks/compaction-safeguard-semantic.ts")
 text = path.read_text()
+text = re.sub(
+    r'(?:export )?type CompactionSemanticMode = "off" \| "shadow"(?: \| "apply")?;\n\n',
+    "",
+    text,
+    count=1,
+)
 for name in (
-    "CompactionSemanticMode",
     "CompactionSemanticObligation",
     "CompactionSemanticProtectionReason",
     "CompactionSemanticSegment",
