@@ -44,6 +44,34 @@ jobs:
       - name: Repair review findings
         run: python /tmp/repair-fidelity.py
 
+      - name: Fix typecheck details
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          judgments = Path("src/agents/agent-hooks/compaction-safeguard-semantic-judgments.ts")
+          text = judgments.read_text()
+          old = "  const assessments = params.snapshot.obligations.map((obligation) => {"
+          new = '''  const assessments: Extract<
+            CompactionFidelityResult,
+            { status: "ok" }
+          >["assessments"] = params.snapshot.obligations.map((obligation) => {'''
+          if text.count(old) != 1:
+              raise SystemExit(f"assessment declaration: expected one match, found {text.count(old)}")
+          judgments.write_text(text.replace(old, new, 1))
+
+          safeguard = Path("src/agents/agent-hooks/compaction-safeguard.ts")
+          text = safeguard.read_text()
+          unused = '''function nestMarkdownHeadings(text: string): string {
+            return text.replace(/^##(?=[ \\t]+\\S)/gmu, "###");
+          }
+
+          '''
+          if text.count(unused) != 1:
+              raise SystemExit(f"unused heading helper: expected one match, found {text.count(unused)}")
+          safeguard.write_text(text.replace(unused, "", 1))
+          PY
+
       - name: Annotate assertion invariants
         run: |
           python - <<'PY'
