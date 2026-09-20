@@ -430,7 +430,7 @@ export const RUNTIME_FIELD_HELP: Record<string, string> = {
   "tools.loopDetection.enabled":
     "Controls rolling-history tool-loop detection and the post-compaction guard. Omit to keep rolling detection off and post-compaction protection on. Set true to enable both, or false to disable both.",
   "tools.loopDetection.semanticNoProgress":
-    'Optional Decision-backed no-progress observation: "off" (default) or "shadow". Shadow records bounded classifications only after deterministic loop evidence; it never changes tool execution or termination.',
+    'Optional Decision-backed no-progress handling: "off" (default), "shadow" for observation only, or "replan" for one bounded strong-stall instruction per logical run. Both modes require deterministic loop evidence; shadow never changes execution or termination.',
   "tools.exec.notifyOnExit":
     "When true (default), backgrounded exec sessions on exit and node exec lifecycle events enqueue a system event and request a heartbeat.",
   "tools.exec.notifyOnExitEmptySuccess":

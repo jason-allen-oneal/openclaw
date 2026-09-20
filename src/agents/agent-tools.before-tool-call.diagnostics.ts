@@ -649,6 +649,9 @@ export async function recordLoopOutcome(args: {
   let recordedOutcome: ToolOutcomeObservation | undefined;
   let semanticEvidence: SemanticNoProgressLoopEvidence | undefined;
   const semanticObserver = args.ctx.semanticNoProgressObserver;
+  const semanticNoProgressMode = args.ctx.loopDetection?.semanticNoProgress;
+  const semanticObservationEnabled =
+    semanticNoProgressMode === "shadow" || semanticNoProgressMode === "replan";
   try {
     const {
       detectToolCallLoop,
@@ -694,7 +697,7 @@ export async function recordLoopOutcome(args: {
         ...(args.terminalPresentation ? { terminalPresentation: args.terminalPresentation } : {}),
       };
     }
-    if (semanticObserver && args.ctx.loopDetection?.semanticNoProgress === "shadow" && record) {
+    if (semanticObserver && semanticObservationEnabled && record) {
       // The detector is prospective: exclude this completed call and any
       // later concurrent calls from its historical input, without mutating it.
       const history = sessionState.toolCallHistory ?? [];
@@ -721,7 +724,7 @@ export async function recordLoopOutcome(args: {
   if (recordedOutcome) {
     args.ctx.onToolOutcome?.(recordedOutcome);
   }
-  if (semanticObserver && args.ctx.loopDetection?.semanticNoProgress === "shadow") {
+  if (semanticObserver && semanticObservationEnabled) {
     await semanticObserver.observeOutcome({
       toolName: args.toolName,
       toolParams: args.toolParams,

@@ -53,6 +53,7 @@ import { handleRetryLimitExhaustion } from "./run/retry-limit.js";
 import { prepareAndDispatchEmbeddedRunAttempt } from "./run/run-attempt-dispatch.js";
 import { settleEmbeddedRun } from "./run/run-settlement.js";
 import { prepareEmbeddedRunRuntime } from "./run/runtime-preparation.js";
+import type { SemanticStallReplanState } from "./run/semantic-stall-replan.js";
 import { createEmbeddedRunSessionPromptState } from "./run/session-prompt-state.js";
 import { prepareTerminalWithSettledTurnFinalization } from "./run/settled-turn-finalization.js";
 import {
@@ -187,7 +188,8 @@ export async function runPreparedEmbeddedLoop(
   });
   const semanticNoProgressObserver =
     resolvedLoopDetectionConfig?.enabled === true &&
-    resolvedLoopDetectionConfig.semanticNoProgress === "shadow" &&
+    (resolvedLoopDetectionConfig.semanticNoProgress === "shadow" ||
+      resolvedLoopDetectionConfig.semanticNoProgress === "replan") &&
     Boolean(assertAdmittedActive)
       ? createSemanticNoProgressObserver({
           signal: input.laneController.abortSignal,
@@ -201,6 +203,12 @@ export async function runPreparedEmbeddedLoop(
           agentId: sessionAgentId,
           goal: params.currentInboundContext?.text ?? params.prompt,
         })
+      : undefined;
+  const semanticStallReplanState: SemanticStallReplanState | undefined =
+    semanticNoProgressObserver &&
+    resolvedLoopDetectionConfig?.semanticNoProgress === "replan" &&
+    assertAdmittedActive
+      ? { observer: semanticNoProgressObserver, assertActive: assertAdmittedActive, used: false }
       : undefined;
   let postCompactionAbortController: AbortController | undefined;
   let postCompactionAbortError: PostCompactionLoopPersistedError | undefined;
@@ -389,6 +397,7 @@ export async function runPreparedEmbeddedLoop(
             resolveRuntimeFallbackReason,
             observeToolOutcome,
             semanticNoProgressObserver,
+            semanticStallReplanState,
             isTurnTainted: turnTaintState.isTainted,
             allocateToolOutcomeOrdinal: terminalToolPresentation.allocateOrdinal,
             getPostCompactionAbortError: () => postCompactionAbortError,

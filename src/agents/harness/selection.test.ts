@@ -61,6 +61,7 @@ import {
   publishCurrentModelGeneration,
   resetModelGenerationFixtureState,
 } from "../embedded-agent-runner/model.generation-scope.test-support.js";
+import type { SemanticStallReplanState } from "../embedded-agent-runner/run/semantic-stall-replan.js";
 import type {
   EmbeddedRunAttemptParams,
   EmbeddedRunAttemptResult,
@@ -132,6 +133,10 @@ const privateHarnessParamCases = [
   { field: "compactionCountOwner", value: "caller" },
   { field: "onContextAccountingEvent", value: () => undefined },
   { field: "onCompactionRequestBudget", value: () => undefined },
+  {
+    field: "semanticStallReplanState",
+    value: {} as SemanticStallReplanState,
+  },
 ] as const;
 
 function createTranscriptRecorder(

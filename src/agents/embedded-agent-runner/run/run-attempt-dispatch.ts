@@ -68,6 +68,7 @@ export async function prepareAndDispatchEmbeddedRunAttempt(input: {
   resolveRuntimeFallbackReason: () => string | null;
   observeToolOutcome: ToolOutcomeObserver;
   semanticNoProgressObserver?: EmbeddedRunAttemptParams["semanticNoProgressObserver"];
+  semanticStallReplanState?: EmbeddedRunAttemptParams["semanticStallReplanState"];
   isTurnTainted: () => boolean;
   allocateToolOutcomeOrdinal: NonNullable<EmbeddedRunAttemptParams["allocateToolOutcomeOrdinal"]>;
   getPostCompactionAbortError: () => Error | undefined;
@@ -571,6 +572,7 @@ export async function prepareAndDispatchEmbeddedRunAttempt(input: {
     thinkLevel: runtime.thinkLevel,
     onToolOutcome: input.observeToolOutcome,
     semanticNoProgressObserver: input.semanticNoProgressObserver,
+    semanticStallReplanState: input.semanticStallReplanState,
     isTurnTainted: input.isTurnTainted,
     allocateToolOutcomeOrdinal: input.allocateToolOutcomeOrdinal,
     onToolStreamBoundary: maybeAnnounceFastModeAutoOff,

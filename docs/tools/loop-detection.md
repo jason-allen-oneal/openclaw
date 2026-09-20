@@ -38,7 +38,7 @@ Global setting:
   tools: {
     loopDetection: {
       enabled: false, // master switch for the rolling-history detectors
-      semanticNoProgress: "off", // optional Decision-backed shadow observation
+      semanticNoProgress: "off", // "shadow" observes; "replan" permits one strong-stall instruction
     },
   },
 }
@@ -69,15 +69,17 @@ You can also enable the global rolling-history detectors in **Settings → Agent
 
 ### Field behavior
 
-| Field                | Default | Effect                                                                                                                                                              |
-| -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `enabled`            | `false` | Master switch for the rolling-history detectors. `false` also disables the post-compaction guard.                                                                   |
-| `semanticNoProgress` | `off`   | With `enabled: true`, asks the Decision model for a bounded `progress`, `stalled`, `regressing`, or `uncertain` observation only after deterministic loop evidence. |
+| Field                | Default | Effect                                                                                                                                                                                                                            |
+| -------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `enabled`            | `false` | Master switch for the rolling-history detectors. `false` also disables the post-compaction guard.                                                                                                                                 |
+| `semanticNoProgress` | `off`   | With `enabled: true`, `shadow` asks the Decision model for a bounded observation only after deterministic loop evidence; `replan` additionally permits one fixed instruction for a current stalled judgment at ≥0.95 probability. |
 
-Semantic no-progress shadowing keeps at most a small run-local trajectory and
+Semantic no-progress handling keeps at most a small run-local trajectory and
 one outstanding Decision request. It records only aggregate, content-free
-metrics; the raw trajectory is not written to routine logs. It never chooses a
-tool, cancels or terminates a run, starts a retry, or changes goal status.
+metrics; the raw trajectory is not written to routine logs. `shadow` never
+chooses a tool, cancels or terminates a run, starts a retry, or changes goal
+status. `replan` has one run-scoped instruction budget and does not alter any
+of those controls either.
 
 For `exec`, no-progress hashing compares stable command outcomes (status,
 exit code, timed-out flag, output) and ignores volatile runtime metadata such

@@ -11,6 +11,8 @@ import { wrapToolWithAbortSignal } from "../../agent-tools.abort.js";
 import type { AgentTool } from "../../runtime/index.js";
 import { agentSessionSetPromptPreparation } from "../../sessions/agent-session-prompting.js";
 import type { AgentSession } from "../../sessions/index.js";
+import { SEMANTIC_STALL_REPLAN_INSTRUCTION } from "./semantic-stall-replan.js";
+import type { SemanticStallReplanState } from "./semantic-stall-replan.js";
 import type { EmbeddedRunAttemptParams } from "./types.js";
 
 const hoisted = vi.hoisted(() => ({
@@ -325,6 +327,90 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
     expect(snapshot?.context?.systemPrompt).toBe("Permission change: read-only\nold hook prompt");
     expect(snapshot?.context?.tools).toEqual(currentTools);
     expect(fixture.activeSession.agent.state.systemPrompt).toBe(snapshot?.context?.systemPrompt);
+  });
+
+  it("composes one semantic stall replan with contextual prepare and permission refresh", async () => {
+    const fixture = createInput();
+    fixture.input.onSystemPromptChanged = vi.fn();
+    const assertActive = vi.fn();
+    const state: SemanticStallReplanState = {
+      observer: {
+        observeOutcome: vi.fn(async () => undefined),
+        close: vi.fn(async () => undefined),
+        snapshot: vi.fn(() => ({
+          trajectoryVersion: 3,
+          latestJudgment: {
+            verdict: "stalled" as const,
+            probability: 0.97,
+            evidence: { detector: "generic_repeat", level: "critical" as const, count: 20 },
+            trajectorySize: 8,
+            trajectoryVersion: 3,
+            toolCallOrdinal: 3,
+          },
+          metrics: {
+            observedOutcomes: 3,
+            decisionCalls: 1,
+            unavailableDecisions: 0,
+            invalidDecisions: 0,
+            staleDecisions: 0,
+            skippedWhilePending: 0,
+            candidateFollowOnCalls: 0,
+            verdicts: { progress: 0, stalled: 1, regressing: 0, uncertain: 0 },
+          },
+        })),
+      },
+      assertActive,
+      used: false,
+    };
+    fixture.input.attempt = {
+      ...fixture.input.attempt,
+      semanticStallReplanState: state,
+    };
+    fixture.activeSession.agent.prepareNextTurn = async () => ({
+      context: { systemPrompt: "hook prompt", messages: [], tools: [] },
+    });
+    fixture.activeSession.agent.prepareNextTurnWithContext = async (_turn, signal) => {
+      const snapshot = await fixture.activeSession.agent.prepareNextTurn?.(signal);
+      return snapshot ?? undefined;
+    };
+    const prepared = await prepareEmbeddedAttemptAgentSession(fixture.input);
+    prepared.setPermissionPromptPreparation(async () => (prompt) => `permission\n${prompt}`);
+    const contextualHook = fixture.activeSession.agent.prepareNextTurnWithContext;
+    if (!contextualHook) {
+      throw new Error("contextual prepare hook was not installed");
+    }
+
+    const messages: never[] = [];
+    const result = await contextualHook(
+      {
+        message: {} as never,
+        toolResults: [],
+        context: { systemPrompt: "turn prompt", messages, tools: [] },
+        newMessages: [],
+      },
+      new AbortController().signal,
+    );
+
+    expect(result?.context?.systemPrompt).toBe(
+      `permission\nhook prompt\n\n${SEMANTIC_STALL_REPLAN_INSTRUCTION}`,
+    );
+    expect(result?.context?.messages).toEqual([]);
+    expect(state.used).toBe(true);
+    expect(assertActive).toHaveBeenCalledOnce();
+    expect(fixture.input.onSystemPromptChanged).toHaveBeenCalledWith("system prompt");
+    expect(fixture.input.onSystemPromptChanged).toHaveBeenCalledWith("permission\nhook prompt");
+
+    const second = await contextualHook(
+      {
+        message: {} as never,
+        toolResults: [],
+        context: { systemPrompt: "next prompt", messages, tools: [] },
+        newMessages: [],
+      },
+      new AbortController().signal,
+    );
+    expect(second?.context?.systemPrompt).toBe("permission\nhook prompt");
+    expect(assertActive).toHaveBeenCalledOnce();
   });
 
   it("prepares resources and publishes the activated session runtime", async () => {
