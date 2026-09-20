@@ -49,7 +49,7 @@ export function installAttemptNextTurnPreparation({
         ? await previousPrepareNextTurnWithContext.call(agent, nextTurn, signal)
         : await prepareNextTurn(signal);
       return maybeInjectSemanticStallReplan(
-        snapshot ?? (context !== turn.context ? { context } : undefined),
+        context !== turn.context && !snapshot?.context ? { ...snapshot, context } : snapshot,
         semanticStallReplanState,
         signal,
         nextTurn,

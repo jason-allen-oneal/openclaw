@@ -413,9 +413,10 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
     expect(assertActive).toHaveBeenCalledOnce();
   });
 
-  it.each([false, true])(
+  it.each(["legacy", "context", "metadata"] as const)(
     "retires the instruction before subsequent hook composition (%s)",
-    async (contextual) => {
+    async (kind) => {
+      const contextual = kind === "context";
       const fixture = createInput();
       const assertActive = vi.fn();
       fixture.input.attempt = {
@@ -456,6 +457,9 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
         fixture.activeSession.agent.prepareNextTurnWithContext = async (turn) => ({
           context: { ...turn.context, systemPrompt: `${turn.context.systemPrompt}\npolicy` },
         });
+      }
+      if (kind === "metadata") {
+        fixture.activeSession.agent.prepareNextTurnWithContext = async () => ({ stop: false });
       }
       await prepareEmbeddedAttemptAgentSession(fixture.input);
       const hook = fixture.activeSession.agent.prepareNextTurnWithContext;
