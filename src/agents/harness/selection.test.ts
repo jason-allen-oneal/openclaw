@@ -61,7 +61,6 @@ import {
   publishCurrentModelGeneration,
   resetModelGenerationFixtureState,
 } from "../embedded-agent-runner/model.generation-scope.test-support.js";
-import type { SemanticStallReplanState } from "../embedded-agent-runner/run/semantic-stall-replan.js";
 import type {
   EmbeddedRunAttemptParams,
   EmbeddedRunAttemptResult,
@@ -88,6 +87,7 @@ import {
 } from "./registry.js";
 import { ensureSelectedAgentHarnessPlugin } from "./runtime-plugin.js";
 import { resolveAgentHarnessDeliveryDefaults } from "./selection-decision.js";
+import { privateHarnessParamCases } from "./selection-private-params.test-support.js";
 import {
   resolveAvailableAgentHarnessPolicy,
   runAgentHarnessAttempt,
@@ -127,17 +127,6 @@ const contextEngineTurnAttemptMocks = vi.hoisted(() => ({
   drainPendingContextEngineTurnsBeforeRun: vi.fn(async (_params: unknown) => {}),
 }));
 const builtInHarnesses = vi.hoisted(() => new WeakSet<object>());
-const privateHarnessParamCases = [
-  { field: "semanticNoProgressObserver", value: { close: () => undefined } },
-  { field: "__openclawSourceReplyDeliveryRuntime", value: { currentMode: "automatic" } },
-  { field: "compactionCountOwner", value: "caller" },
-  { field: "onContextAccountingEvent", value: () => undefined },
-  { field: "onCompactionRequestBudget", value: () => undefined },
-  {
-    field: "semanticStallReplanState",
-    value: {} as SemanticStallReplanState,
-  },
-] as const;
 
 function createTranscriptRecorder(
   admission: ReturnType<typeof createTranscriptAnchor> & {
