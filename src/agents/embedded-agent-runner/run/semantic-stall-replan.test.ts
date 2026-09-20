@@ -72,17 +72,19 @@ describe("semantic stall replan boundary", () => {
     expect(state.used).toBe(true);
     expect(state.assertActive).toHaveBeenCalledOnce();
 
-    const second = maybeInjectSemanticStallReplan(
-      { context: { ...context, messages } },
-      state,
-      new AbortController().signal,
-    );
+    const second = maybeInjectSemanticStallReplan(undefined, state, new AbortController().signal, {
+      context: update!.context!,
+      message: {} as never,
+      toolResults: [],
+      newMessages: [],
+    });
     expect(second?.context?.systemPrompt).toBe(context.systemPrompt);
     expect(state.assertActive).toHaveBeenCalledOnce();
   });
 
   it.each([
     ["weak", 0.94, 1, 1],
+    ["invalid", Number.NaN, 1, 1],
     ["stale", 0.99, 2, 1],
   ])("does not inject for %s semantic evidence", (_name, probability, version, current) => {
     const state = stateFor(
@@ -102,6 +104,20 @@ describe("semantic stall replan boundary", () => {
     );
     expect(state.used).toBe(false);
     expect(state.assertActive).not.toHaveBeenCalled();
+  });
+
+  it("does not consume the opportunity when an existing owner stops the turn", () => {
+    const state = stateFor({ verdict: "stalled", probability: 1, trajectoryVersion: 1 }, 1);
+    const update = { context, stop: true };
+    expect(maybeInjectSemanticStallReplan(update, state)).toBe(update);
+    expect(state.used).toBe(false);
+  });
+
+  it("does not overwrite a newer prompt when retiring the one-turn instruction", () => {
+    const state = stateFor({ verdict: "stalled", probability: 1, trajectoryVersion: 1 }, 1);
+    maybeInjectSemanticStallReplan({ context }, state);
+    const update = { context: { ...context, systemPrompt: "new owner prompt" } };
+    expect(maybeInjectSemanticStallReplan(update, state)).toBe(update);
   });
 
   it("rechecks owner cancellation before consuming the budget", () => {

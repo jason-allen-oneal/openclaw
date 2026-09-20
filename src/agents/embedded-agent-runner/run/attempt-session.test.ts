@@ -413,6 +413,75 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
     expect(assertActive).toHaveBeenCalledOnce();
   });
 
+  it.each([false, true])(
+    "retires the instruction before subsequent hook composition (%s)",
+    async (contextual) => {
+      const fixture = createInput();
+      const assertActive = vi.fn();
+      fixture.input.attempt = {
+        ...fixture.input.attempt,
+        semanticStallReplanState: {
+          used: false,
+          assertActive,
+          observer: {
+            observeOutcome: async () => undefined,
+            close: async () => undefined,
+            snapshot: () => ({
+              trajectoryVersion: 1,
+              latestJudgment: {
+                verdict: "stalled",
+                probability: 0.99,
+                trajectoryVersion: 1,
+                evidence: { detector: "generic_repeat", level: "warning", count: 10 },
+                trajectorySize: 8,
+                toolCallOrdinal: 11,
+              },
+              metrics: {
+                observedOutcomes: 11,
+                decisionCalls: 1,
+                unavailableDecisions: 0,
+                invalidDecisions: 0,
+                staleDecisions: 0,
+                skippedWhilePending: 0,
+                candidateFollowOnCalls: 0,
+                verdicts: { progress: 0, stalled: 1, regressing: 0, uncertain: 0 },
+              },
+            }),
+          },
+        },
+      };
+      fixture.activeSession.agent.prepareNextTurn = async () => undefined;
+      Reflect.deleteProperty(fixture.activeSession.agent, "prepareNextTurnWithContext");
+      if (contextual) {
+        fixture.activeSession.agent.prepareNextTurnWithContext = async (turn) => ({
+          context: { ...turn.context, systemPrompt: `${turn.context.systemPrompt}\npolicy` },
+        });
+      }
+      await prepareEmbeddedAttemptAgentSession(fixture.input);
+      const hook = fixture.activeSession.agent.prepareNextTurnWithContext;
+      if (!hook) {
+        throw new Error("context-aware replan hook missing");
+      }
+      const turn = {
+        message: {} as never,
+        toolResults: [],
+        newMessages: [],
+        context: { systemPrompt: "base", messages: [], tools: [] },
+      };
+      const first = await hook(turn, new AbortController().signal);
+      expect(first?.context?.systemPrompt).toBe(
+        `${contextual ? "base\npolicy" : "base"}\n\n${SEMANTIC_STALL_REPLAN_INSTRUCTION}`,
+      );
+      const second = await hook(
+        { ...turn, context: first!.context! },
+        new AbortController().signal,
+      );
+      expect(second?.context?.systemPrompt).toBe(contextual ? "base\npolicy\npolicy" : "base");
+      expect(assertActive).toHaveBeenCalledOnce();
+      expect(fixture.activeSession.agent.state.systemPrompt).toBe("system prompt");
+    },
+  );
+
   it("prepares resources and publishes the activated session runtime", async () => {
     const fixture = createInput();
 

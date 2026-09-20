@@ -79,7 +79,8 @@ one outstanding Decision request. It records only aggregate, content-free
 metrics; the raw trajectory is not written to routine logs. `shadow` never
 chooses a tool, cancels or terminates a run, starts a retry, or changes goal
 status. `replan` has one run-scoped instruction budget and does not alter any
-of those controls either.
+of those controls either. The instruction is a temporary next-turn projection;
+it is removed at the following boundary without changing the persistent system prompt.
 
 For `exec`, no-progress hashing compares stable command outcomes (status,
 exit code, timed-out flag, output) and ignores volatile runtime metadata such

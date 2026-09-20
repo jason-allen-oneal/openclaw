@@ -51,6 +51,7 @@ import {
   resolveOrphanRepairPlan,
 } from "./attempt-orphan-repair.js";
 import { buildAfterTurnRuntimeContext } from "./attempt-prompt-helpers.js";
+import { installAttemptNextTurnPreparation } from "./attempt-session-next-turn.js";
 import { resolveExistingAttemptTranscriptState } from "./attempt-transcript-helpers.js";
 import type { EmbeddedAttemptTranscriptLifecycle } from "./attempt-transcript-lifecycle.js";
 import { createUserTranscriptContextRegistry } from "./attempt-user-transcript-context-registry.js";
@@ -59,7 +60,6 @@ import {
   preparePersistedCurrentUserTurn,
   reconcilePrePersistedCurrentUserTurn,
 } from "./pre-persisted-user-turn.js";
-import { maybeInjectSemanticStallReplan } from "./semantic-stall-replan.js";
 import { resolveSessionBoundaryPromptCacheKey } from "./session-boundary-prompt-cache-key.js";
 import { resolveEmbeddedSessionContextLimits } from "./session-context-limits.js";
 import { notifyToolActivity } from "./tool-activity-heartbeat.js";
@@ -282,47 +282,12 @@ export async function prepareEmbeddedAttemptAgentSession(input: {
       input.assertInitialUserTurnReplay?.();
     };
   });
-  const previousPrepareNextTurn = activeSession.agent.prepareNextTurn;
-  const previousPrepareNextTurnWithContext = activeSession.agent.prepareNextTurnWithContext;
-  const prepareNextTurn: typeof activeSession.agent.prepareNextTurn = async (signal) => {
-    if (attempt.pluginRuntimeRefreshPending?.()) {
-      return { stop: true };
-    }
-    const snapshot = await previousPrepareNextTurn?.call(activeSession.agent, signal);
-    const refreshedPrompt = await refreshPermissionPrompt(snapshot?.context?.systemPrompt, signal);
-    const refreshedSnapshot =
-      snapshot?.context && refreshedPrompt !== undefined
-        ? {
-            ...snapshot,
-            context: {
-              ...snapshot.context,
-              systemPrompt: refreshedPrompt,
-              tools: activeSession.agent.state.tools.slice(),
-            },
-          }
-        : snapshot;
-    return maybeInjectSemanticStallReplan(
-      refreshedSnapshot,
-      attempt.semanticStallReplanState,
-      signal,
-    );
-  };
-  activeSession.agent.prepareNextTurn = prepareNextTurn;
-  if (previousPrepareNextTurnWithContext && attempt.semanticStallReplanState) {
-    activeSession.agent.prepareNextTurnWithContext = async (turn, signal) => {
-      const snapshot = await previousPrepareNextTurnWithContext.call(
-        activeSession.agent,
-        turn,
-        signal,
-      );
-      return maybeInjectSemanticStallReplan(
-        snapshot,
-        attempt.semanticStallReplanState,
-        signal,
-        turn,
-      );
-    };
-  }
+  const prepareNextTurn = installAttemptNextTurnPreparation({
+    agent: activeSession.agent,
+    pluginRuntimeRefreshPending: attempt.pluginRuntimeRefreshPending,
+    refreshPermissionPrompt,
+    semanticStallReplanState: attempt.semanticStallReplanState,
+  });
   attempt.registerPluginRuntimeRefreshConsumer?.(
     () =>
       activeSession.agent.prepareNextTurn === prepareNextTurn &&

@@ -14,6 +14,8 @@ export type SemanticStallReplanState = {
   observer: SemanticNoProgressObserver;
   assertActive: () => void;
   used: boolean;
+  /** Exact prompt projection owned by this intervention, retired at the next turn. */
+  injectedPrompt?: { original: string; projected: string };
 };
 
 function appendReplanInstruction(systemPrompt: string): string {
@@ -29,6 +31,21 @@ function currentContext(
   return update?.context ?? turn?.context;
 }
 
+/** Remove only our exact projection before other turn hooks derive a new prompt. */
+export function retireSemanticStallReplanContext(
+  context: AgentContext,
+  state: SemanticStallReplanState | undefined,
+): AgentContext {
+  if (!state?.injectedPrompt) {
+    return context;
+  }
+  const injected = state.injectedPrompt;
+  state.injectedPrompt = undefined;
+  return context.systemPrompt === injected.projected
+    ? { ...context, systemPrompt: injected.original }
+    : context;
+}
+
 /**
  * Consume the single strong-stall replan opportunity at the core turn boundary.
  * The update remains a context replacement only: no transcript message, tool,
@@ -40,7 +57,18 @@ export function maybeInjectSemanticStallReplan(
   signal?: AbortSignal,
   turn?: PrepareNextTurnContext,
 ): AgentLoopTurnUpdate | undefined {
-  if (!state || state.used) {
+  if (!state) {
+    return update;
+  }
+  const context = currentContext(update, turn);
+  const injected = state.injectedPrompt;
+  if (injected) {
+    state.injectedPrompt = undefined;
+    if (context?.systemPrompt === injected.projected) {
+      return { ...update, context: { ...context, systemPrompt: injected.original } };
+    }
+  }
+  if (state.used || update?.stop || !context) {
     return update;
   }
   const observation = state.observer.snapshot();
@@ -50,22 +78,21 @@ export function maybeInjectSemanticStallReplan(
     judgment.trajectoryVersion !== observation.trajectoryVersion ||
     judgment.verdict !== "stalled" ||
     judgment.probability === undefined ||
+    !Number.isFinite(judgment.probability) ||
     judgment.probability < 0.95
   ) {
     return update;
   }
   signal?.throwIfAborted();
   state.assertActive();
-  const context = currentContext(update, turn);
-  if (!context) {
-    return update;
-  }
   state.used = true;
+  const projected = appendReplanInstruction(context.systemPrompt);
+  state.injectedPrompt = { original: context.systemPrompt, projected };
   return {
     ...update,
     context: {
       ...context,
-      systemPrompt: appendReplanInstruction(context.systemPrompt),
+      systemPrompt: projected,
     },
   };
 }
