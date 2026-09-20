@@ -6,7 +6,7 @@ import type {
 import type { SemanticNoProgressObserver } from "../../semantic-no-progress.js";
 
 /** Fixed internal guidance; it never contains user text or tool data. */
-export const SEMANTIC_STALL_REPLAN_INSTRUCTION =
+const SEMANTIC_STALL_REPLAN_INSTRUCTION =
   "The recent tool trajectory is strongly stalled. Reassess the active task and take one materially different, safe next step; do not repeat the stalled action.";
 
 /** One budget shared by all attempts belonging to one logical run. */

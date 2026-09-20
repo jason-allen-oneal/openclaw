@@ -11,9 +11,11 @@ import { wrapToolWithAbortSignal } from "../../agent-tools.abort.js";
 import type { AgentTool } from "../../runtime/index.js";
 import { agentSessionSetPromptPreparation } from "../../sessions/agent-session-prompting.js";
 import type { AgentSession } from "../../sessions/index.js";
-import { SEMANTIC_STALL_REPLAN_INSTRUCTION } from "./semantic-stall-replan.js";
 import type { SemanticStallReplanState } from "./semantic-stall-replan.js";
 import type { EmbeddedRunAttemptParams } from "./types.js";
+
+const EXPECTED_REPLAN_INSTRUCTION =
+  "The recent tool trajectory is strongly stalled. Reassess the active task and take one materially different, safe next step; do not repeat the stalled action.";
 
 const hoisted = vi.hoisted(() => ({
   applyAgentAutoCompactionGuard: vi.fn(),
@@ -392,7 +394,7 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
     );
 
     expect(result?.context?.systemPrompt).toBe(
-      `permission\nhook prompt\n\n${SEMANTIC_STALL_REPLAN_INSTRUCTION}`,
+      `permission\nhook prompt\n\n${EXPECTED_REPLAN_INSTRUCTION}`,
     );
     expect(result?.context?.messages).toEqual([]);
     expect(state.used).toBe(true);
@@ -474,7 +476,7 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
       };
       const first = await hook(turn, new AbortController().signal);
       expect(first?.context?.systemPrompt).toBe(
-        `${contextual ? "base\npolicy" : "base"}\n\n${SEMANTIC_STALL_REPLAN_INSTRUCTION}`,
+        `${contextual ? "base\npolicy" : "base"}\n\n${EXPECTED_REPLAN_INSTRUCTION}`,
       );
       const second = await hook(
         { ...turn, context: first!.context! },

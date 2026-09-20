@@ -2,9 +2,11 @@ import { describe, expect, it, vi } from "vitest";
 import type { SemanticNoProgressObserver } from "../../semantic-no-progress.js";
 import {
   maybeInjectSemanticStallReplan,
-  SEMANTIC_STALL_REPLAN_INSTRUCTION,
   type SemanticStallReplanState,
 } from "./semantic-stall-replan.js";
+
+const EXPECTED_REPLAN_INSTRUCTION =
+  "The recent tool trajectory is strongly stalled. Reassess the active task and take one materially different, safe next step; do not repeat the stalled action.";
 
 const context = {
   systemPrompt: "base system prompt",
@@ -77,7 +79,7 @@ describe("semantic stall replan boundary", () => {
     );
 
     expect(update?.context?.systemPrompt).toBe(
-      `${context.systemPrompt}\n\n${SEMANTIC_STALL_REPLAN_INSTRUCTION}`,
+      `${context.systemPrompt}\n\n${EXPECTED_REPLAN_INSTRUCTION}`,
     );
     expect(update?.context?.messages).toBe(messages);
     expect(state.used).toBe(true);
