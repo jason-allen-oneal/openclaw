@@ -12,12 +12,23 @@ const context = {
   tools: [],
 };
 
-function observerFor(judgment: Record<string, unknown>, trajectoryVersion: number) {
+type Judgment = NonNullable<ReturnType<SemanticNoProgressObserver["snapshot"]>["latestJudgment"]>;
+
+function observerFor(
+  judgment: Partial<Judgment>,
+  trajectoryVersion: number,
+): SemanticNoProgressObserver {
   return {
     observeOutcome: vi.fn(async () => undefined),
     close: vi.fn(async () => undefined),
-    snapshot: vi.fn(() => ({
-      latestJudgment: judgment,
+    snapshot: vi.fn((): ReturnType<SemanticNoProgressObserver["snapshot"]> => ({
+      latestJudgment: {
+        verdict: "stalled",
+        evidence: { detector: "generic_repeat", level: "warning", count: 10 },
+        trajectorySize: 4,
+        trajectoryVersion,
+        ...judgment,
+      },
       trajectoryVersion,
       metrics: {
         observedOutcomes: 1,
@@ -30,11 +41,11 @@ function observerFor(judgment: Record<string, unknown>, trajectoryVersion: numbe
         verdicts: { progress: 0, stalled: 1, regressing: 0, uncertain: 0 },
       },
     })),
-  } as unknown as SemanticNoProgressObserver;
+  };
 }
 
 function stateFor(
-  judgment: Record<string, unknown>,
+  judgment: Partial<Judgment>,
   trajectoryVersion: number,
   assertActive = vi.fn(),
 ): SemanticStallReplanState {
