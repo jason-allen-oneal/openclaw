@@ -1,5 +1,6 @@
 import type { OpenClawConfig } from "../../../config/config.js";
 import type { ToolOutcomeObservation } from "../../agent-tools.before-tool-call.js";
+import { resolveDecisionModelSetting } from "../../decision-model-setting.js";
 import { createSemanticNoProgressObserver } from "../../semantic-no-progress.js";
 import { resolveToolLoopDetectionConfig } from "../../tool-loop-detection-config.js";
 import {
@@ -41,6 +42,7 @@ export function createRunToolOutcomeState({
     resolvedLoopDetectionConfig?.enabled === true &&
     (resolvedLoopDetectionConfig.semanticNoProgress === "shadow" ||
       resolvedLoopDetectionConfig.semanticNoProgress === "replan") &&
+    Boolean(config && resolveDecisionModelSetting(config, agentId)) &&
     Boolean(assertAdmittedActive)
       ? createSemanticNoProgressObserver({
           signal,

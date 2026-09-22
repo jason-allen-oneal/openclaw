@@ -1,6 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import type { SemanticNoProgressObserver } from "../../semantic-no-progress.js";
+import type { DecisionRuntimeV1 } from "../../../decisions/types.js";
 import {
+  createSemanticNoProgressObserver,
+  type SemanticNoProgressObserver,
+} from "../../semantic-no-progress.js";
+import {
+  createSemanticStallReplanState,
   maybeInjectSemanticStallReplan,
   type SemanticStallReplanState,
 } from "./semantic-stall-replan.js";
@@ -59,6 +64,16 @@ function stateFor(
 }
 
 describe("semantic stall replan boundary", () => {
+  it.each(["off", "shadow"] as const)(
+    "does not promote an observer in %s mode into replan",
+    (mode) => {
+      const observer = observerFor({ probability: 1 }, 1);
+      expect(
+        createSemanticStallReplanState({ observer, mode, assertActive: vi.fn() }),
+      ).toBeUndefined();
+    },
+  );
+
   it("injects one fixed system instruction for a current strong stalled judgment", () => {
     const messages = [...context.messages];
     const state = stateFor(
@@ -152,5 +167,56 @@ describe("semantic stall replan boundary", () => {
       maybeInjectSemanticStallReplan({ context }, state, new AbortController().signal),
     ).toThrow("run closed");
     expect(state.used).toBe(false);
+  });
+
+  it("does not consume the budget when the caller is already canceled", () => {
+    const state = stateFor({ verdict: "stalled", probability: 1, trajectoryVersion: 1 }, 1);
+    const controller = new AbortController();
+    controller.abort(new Error("caller stopped"));
+
+    expect(() => maybeInjectSemanticStallReplan({ context }, state, controller.signal)).toThrow(
+      "caller stopped",
+    );
+    expect(state.used).toBe(false);
+  });
+
+  it.each([
+    [
+      "typed unavailable",
+      vi.fn(async () => ({ status: "unavailable" as const, reason: "transport" as const })),
+    ],
+    [
+      "provider throw",
+      vi.fn(async () => {
+        throw new Error("provider failed");
+      }),
+    ],
+  ])("keeps %s non-authoritative and leaves the replan budget unused", async (_label, evaluate) => {
+    const observer = createSemanticNoProgressObserver({
+      signal: new AbortController().signal,
+      assertActive: vi.fn(),
+      runtime: { evaluate } satisfies DecisionRuntimeV1,
+    });
+    const state = createSemanticStallReplanState({
+      observer,
+      mode: "replan",
+      assertActive: vi.fn(),
+    });
+    if (!state) {
+      throw new Error("replan state missing");
+    }
+    await observer.observeOutcome({
+      toolName: "read",
+      toolParams: { path: "/synthetic/repeated" },
+      result: "unchanged",
+      toolCallOrdinal: 11,
+      evidence: { detector: "generic_repeat", level: "warning", count: 10 },
+    });
+
+    const update = { context };
+    expect(maybeInjectSemanticStallReplan(update, state)).toBe(update);
+    expect(observer.snapshot().latestJudgment?.verdict).toBe("uncertain");
+    expect(state.used).toBe(false);
+    await observer.close();
   });
 });

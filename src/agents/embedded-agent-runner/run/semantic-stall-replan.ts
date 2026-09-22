@@ -18,6 +18,17 @@ export type SemanticStallReplanState = {
   injectedPrompt?: { original: string; projected: string };
 };
 
+/** Replan remains an explicit consumer mode; observer/model availability cannot promote shadow. */
+export function createSemanticStallReplanState(params: {
+  observer?: SemanticNoProgressObserver;
+  mode?: "off" | "shadow" | "replan";
+  assertActive?: () => void;
+}): SemanticStallReplanState | undefined {
+  return params.observer && params.mode === "replan" && params.assertActive
+    ? { observer: params.observer, assertActive: params.assertActive, used: false }
+    : undefined;
+}
+
 function appendReplanInstruction(systemPrompt: string): string {
   return systemPrompt
     ? `${systemPrompt}\n\n${SEMANTIC_STALL_REPLAN_INSTRUCTION}`

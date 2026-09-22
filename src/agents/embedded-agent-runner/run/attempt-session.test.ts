@@ -1,17 +1,29 @@
 import { Type } from "typebox";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { OpenClawConfig } from "../../../config/types.openclaw.js";
 import { isEmbeddedMode, setEmbeddedMode } from "../../../infra/embedded-mode.js";
 import {
   EmbeddedPluginApprovalBroker,
   getEmbeddedPluginApprovalBroker,
   setEmbeddedPluginApprovalBroker,
 } from "../../../infra/embedded-plugin-approval-broker.js";
+import {
+  getDiagnosticSessionState,
+  resetDiagnosticSessionStateForTest,
+} from "../../../logging/diagnostic-session-state.js";
 import { createDeferredCore } from "../../../shared/deferred.js";
 import { wrapToolWithAbortSignal } from "../../agent-tools.abort.js";
+import { recordLoopOutcome } from "../../agent-tools.before-tool-call.diagnostics.js";
 import type { AgentTool } from "../../runtime/index.js";
 import { agentSessionSetPromptPreparation } from "../../sessions/agent-session-prompting.js";
 import type { AgentSession } from "../../sessions/index.js";
-import type { SemanticStallReplanState } from "./semantic-stall-replan.js";
+import { admitToolCallBatch } from "../../tool-loop-admission.js";
+import { recordToolCall } from "../../tool-loop-detection.js";
+import {
+  createSemanticStallReplanState,
+  type SemanticStallReplanState,
+} from "./semantic-stall-replan.js";
+import { createRunToolOutcomeState } from "./tool-outcome-state.js";
 import type { EmbeddedRunAttemptParams } from "./types.js";
 
 const EXPECTED_REPLAN_INSTRUCTION =
@@ -34,6 +46,11 @@ const hoisted = vi.hoisted(() => ({
   toToolDefinitions: vi.fn(),
   wrapToolDefinition: vi.fn(),
   notifyToolActivity: vi.fn(),
+  evaluateDecision: vi.fn(),
+}));
+
+vi.mock("../../../decisions/runtime.js", () => ({
+  evaluateDecision: hoisted.evaluateDecision,
 }));
 
 vi.mock("../../../plugins/hook-runner-global.js", () => ({
@@ -206,6 +223,7 @@ function createInput(options?: { activationError?: Error }) {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  resetDiagnosticSessionStateForTest();
 });
 
 describe("prepareEmbeddedAttemptAgentSession", () => {
@@ -413,6 +431,256 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
     );
     expect(second?.context?.systemPrompt).toBe("permission\nhook prompt");
     expect(assertActive).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    [
+      "an absent global decision model",
+      {
+        tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
+      } satisfies OpenClawConfig,
+      "agent-1",
+    ],
+    [
+      "an empty owning-agent decision model",
+      {
+        agents: {
+          defaults: { decisionModel: "fixture/judge" },
+          entries: { "agent-1": { decisionModel: "" } },
+        },
+        tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
+      } satisfies OpenClawConfig,
+      "agent-1",
+    ],
+  ])(
+    "keeps the prepared next-turn context and deterministic critical stop unchanged with %s",
+    async (_label, config, agentId) => {
+      const fixture = createInput();
+      const runController = new AbortController();
+      const laneController = new AbortController();
+      const assertActive = vi.fn();
+      const outcomeState = createRunToolOutcomeState({
+        config,
+        agentId,
+        signal: runController.signal,
+        laneTaskAbortController: laneController,
+        assertAdmittedActive: assertActive,
+        goal: "Complete the task",
+      });
+      const semanticState = createSemanticStallReplanState({
+        observer: outcomeState.semanticNoProgressObserver,
+        mode: outcomeState.resolvedLoopDetectionConfig?.semanticNoProgress,
+        assertActive,
+      });
+      const sessionKey = `disabled-replan-${agentId}-${_label}`;
+      const runId = `run-${agentId}`;
+      const ctx = {
+        agentId,
+        sessionKey,
+        sessionId: sessionKey,
+        runId,
+        loopDetection: outcomeState.resolvedLoopDetectionConfig,
+        semanticNoProgressObserver: outcomeState.semanticNoProgressObserver,
+      };
+      const args = { path: "/synthetic/repeated" };
+      const result = { content: [{ type: "text", text: "unchanged" }], details: {} };
+      for (let index = 0; index < 20; index += 1) {
+        const toolCallId = `repeat-${index}`;
+        recordToolCall(
+          getDiagnosticSessionState({ sessionKey, sessionId: sessionKey }),
+          "read",
+          args,
+          toolCallId,
+          outcomeState.resolvedLoopDetectionConfig,
+          { runId },
+        );
+        await recordLoopOutcome({
+          ctx,
+          toolName: "read",
+          toolParams: args,
+          toolCallId,
+          result,
+          toolCallOrdinal: index + 1,
+        });
+      }
+      const critical = await admitToolCallBatch(
+        [
+          {
+            toolCall: {
+              type: "toolCall" as const,
+              id: "critical",
+              name: "read",
+              arguments: args,
+            },
+            args,
+          },
+        ],
+        ctx,
+      );
+
+      fixture.input.attempt = {
+        ...fixture.input.attempt,
+        config,
+        semanticStallReplanState: semanticState,
+      };
+      fixture.activeSession.agent.prepareNextTurnWithContext = async (turn) => ({
+        context: turn.context,
+      });
+      await prepareEmbeddedAttemptAgentSession(fixture.input);
+      const prepare = fixture.activeSession.agent.prepareNextTurnWithContext;
+      if (!prepare) {
+        throw new Error("contextual prepare hook missing");
+      }
+      const messages: never[] = [];
+      const tools: never[] = [];
+      const turn = {
+        message: {} as never,
+        toolResults: [],
+        newMessages: [],
+        context: { systemPrompt: "original prompt", messages, tools },
+      };
+
+      const prepared = await prepare(turn, runController.signal);
+
+      expect(outcomeState.semanticNoProgressObserver).toBeUndefined();
+      expect(semanticState?.used ?? false).toBe(false);
+      expect(prepared?.context).toBe(turn.context);
+      expect(prepared?.context?.systemPrompt).toBe("original prompt");
+      expect(prepared?.context?.messages).toBe(messages);
+      expect(prepared?.context?.tools).toBe(tools);
+      expect(hoisted.evaluateDecision).not.toHaveBeenCalled();
+      expect(critical.intervention).toMatchObject({
+        kind: "critical-tool-loop",
+        detector: "generic_repeat",
+        count: 20,
+      });
+    },
+  );
+
+  it("composes a real run-owned stalled judgment through prepared next-turn context", async () => {
+    hoisted.evaluateDecision.mockResolvedValue({
+      status: "ok",
+      provenance: {
+        providerId: "fixture",
+        rubricVersion: "semantic-no-progress-shadow-v1",
+        runtimeGeneration: "fixture",
+      },
+      result: {
+        model: "fixture/judge",
+        answers: {
+          verdict: { type: "choice", choice: "stalled", probabilities: { stalled: 0.99 } },
+        },
+      },
+    });
+    const config: OpenClawConfig = {
+      agents: { defaults: { decisionModel: "fixture/judge" } },
+      tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
+    };
+    const fixture = createInput();
+    const controller = new AbortController();
+    const assertActive = vi.fn();
+    const outcomeState = createRunToolOutcomeState({
+      config,
+      agentId: "agent-1",
+      signal: controller.signal,
+      laneTaskAbortController: new AbortController(),
+      assertAdmittedActive: assertActive,
+      goal: "Complete the task",
+    });
+    const semanticState = createSemanticStallReplanState({
+      observer: outcomeState.semanticNoProgressObserver,
+      mode: outcomeState.resolvedLoopDetectionConfig?.semanticNoProgress,
+      assertActive,
+    });
+    if (!semanticState || !outcomeState.semanticNoProgressObserver) {
+      throw new Error("run-owned replan state missing");
+    }
+    const sessionKey = "real-run-owned-replan";
+    const runId = "real-run-owned-replan-run";
+    const ctx = {
+      agentId: "agent-1",
+      sessionKey,
+      sessionId: sessionKey,
+      runId,
+      loopDetection: outcomeState.resolvedLoopDetectionConfig,
+      semanticNoProgressObserver: outcomeState.semanticNoProgressObserver,
+    };
+    const args = { path: "/synthetic/repeated" };
+    for (let index = 0; index < 11; index += 1) {
+      const toolCallId = `repeat-${index}`;
+      recordToolCall(
+        getDiagnosticSessionState({ sessionKey, sessionId: sessionKey }),
+        "read",
+        args,
+        toolCallId,
+        outcomeState.resolvedLoopDetectionConfig,
+        { runId },
+      );
+      await recordLoopOutcome({
+        ctx,
+        toolName: "read",
+        toolParams: args,
+        toolCallId,
+        result: "unchanged",
+        toolCallOrdinal: index + 1,
+      });
+    }
+
+    fixture.input.attempt = {
+      ...fixture.input.attempt,
+      config,
+      semanticStallReplanState: semanticState,
+    };
+    fixture.activeSession.agent.prepareNextTurnWithContext = async (turn) => ({
+      context: turn.context,
+    });
+    await prepareEmbeddedAttemptAgentSession(fixture.input);
+    const prepare = fixture.activeSession.agent.prepareNextTurnWithContext;
+    if (!prepare) {
+      throw new Error("contextual prepare hook missing");
+    }
+    const messages: never[] = [];
+    const tools: never[] = [];
+    const prepared = await prepare(
+      {
+        message: {} as never,
+        toolResults: [],
+        newMessages: [],
+        context: { systemPrompt: "original prompt", messages, tools },
+      },
+      controller.signal,
+    );
+
+    expect(prepared?.context?.systemPrompt).toBe(
+      `original prompt\n\n${EXPECTED_REPLAN_INSTRUCTION}`,
+    );
+    expect(prepared?.context?.messages).toBe(messages);
+    expect(prepared?.context?.tools).toBe(tools);
+    expect(semanticState.used).toBe(true);
+    expect(hoisted.evaluateDecision).toHaveBeenCalledOnce();
+    await outcomeState.semanticNoProgressObserver.close();
+  });
+
+  it("does not activate semantic observation or replan from model selection alone", () => {
+    const assertActive = vi.fn();
+    const outcomeState = createRunToolOutcomeState({
+      config: { agents: { defaults: { decisionModel: "fixture/judge" } } },
+      agentId: "agent-1",
+      signal: new AbortController().signal,
+      laneTaskAbortController: new AbortController(),
+      assertAdmittedActive: assertActive,
+      goal: "Complete the task",
+    });
+
+    expect(outcomeState.semanticNoProgressObserver).toBeUndefined();
+    expect(
+      createSemanticStallReplanState({
+        observer: outcomeState.semanticNoProgressObserver,
+        mode: outcomeState.resolvedLoopDetectionConfig?.semanticNoProgress,
+        assertActive,
+      }),
+    ).toBeUndefined();
+    expect(hoisted.evaluateDecision).not.toHaveBeenCalled();
   });
 
   it.each(["legacy", "context", "metadata"] as const)(

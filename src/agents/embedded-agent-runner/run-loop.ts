@@ -46,7 +46,10 @@ import { handleRetryLimitExhaustion } from "./run/retry-limit.js";
 import { prepareAndDispatchEmbeddedRunAttempt } from "./run/run-attempt-dispatch.js";
 import { settleEmbeddedRun } from "./run/run-settlement.js";
 import { prepareEmbeddedRunRuntime } from "./run/runtime-preparation.js";
-import type { SemanticStallReplanState } from "./run/semantic-stall-replan.js";
+import {
+  createSemanticStallReplanState,
+  type SemanticStallReplanState,
+} from "./run/semantic-stall-replan.js";
 import { createEmbeddedRunSessionPromptState } from "./run/session-prompt-state.js";
 import { prepareTerminalWithSettledTurnFinalization } from "./run/settled-turn-finalization.js";
 import { resolveEmbeddedRunTerminal } from "./run/terminal-resolution.js";
@@ -184,11 +187,11 @@ export async function runPreparedEmbeddedLoop(
     observeToolOutcome,
   } = toolOutcomeState;
   const semanticStallReplanState: SemanticStallReplanState | undefined =
-    semanticNoProgressObserver &&
-    resolvedLoopDetectionConfig?.semanticNoProgress === "replan" &&
-    assertAdmittedActive
-      ? { observer: semanticNoProgressObserver, assertActive: assertAdmittedActive, used: false }
-      : undefined;
+    createSemanticStallReplanState({
+      observer: semanticNoProgressObserver,
+      mode: resolvedLoopDetectionConfig?.semanticNoProgress,
+      assertActive: assertAdmittedActive,
+    });
   let lastRetryFailoverReason: FailoverReason | null = null;
   let codexAppServerRecoveryRetries = 0;
   let emptyErrorRetries = 0;
