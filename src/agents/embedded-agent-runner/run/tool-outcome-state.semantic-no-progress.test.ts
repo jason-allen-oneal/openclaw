@@ -26,9 +26,7 @@ const repeatedResult = {
 function configWithDecisionModel(decisionModel: string | undefined): OpenClawConfig {
   return {
     agents: {
-      defaults: {
-        ...(decisionModel === undefined ? {} : { decisionModel }),
-      },
+      defaults: decisionModel === undefined ? {} : { decisionModel },
     },
     tools: { loopDetection: { enabled: true, semanticNoProgress: "shadow" } },
   };
