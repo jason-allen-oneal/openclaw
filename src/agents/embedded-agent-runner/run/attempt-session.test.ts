@@ -223,6 +223,7 @@ function createInput(options?: { activationError?: Error }) {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  hoisted.evaluateDecision.mockReset();
   resetDiagnosticSessionStateForTest();
 });
 
@@ -440,6 +441,7 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
         tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
       } satisfies OpenClawConfig,
       "agent-1",
+      undefined,
     ],
     [
       "an empty owning-agent decision model",
@@ -451,10 +453,34 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
         tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
       } satisfies OpenClawConfig,
       "agent-1",
+      undefined,
+    ],
+    [
+      "an unavailable decision provider",
+      {
+        agents: { defaults: { decisionModel: "fixture/judge" } },
+        tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
+      } satisfies OpenClawConfig,
+      "agent-1",
+      "unavailable" as const,
+    ],
+    [
+      "a throwing decision provider",
+      {
+        agents: { defaults: { decisionModel: "fixture/judge" } },
+        tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
+      } satisfies OpenClawConfig,
+      "agent-1",
+      "error" as const,
     ],
   ])(
     "keeps the prepared next-turn context and deterministic critical stop unchanged with %s",
-    async (_label, config, agentId) => {
+    async (_label, config, agentId, decisionFailure) => {
+      if (decisionFailure === "unavailable") {
+        hoisted.evaluateDecision.mockResolvedValue({ status: "unavailable", reason: "transport" });
+      } else if (decisionFailure === "error") {
+        hoisted.evaluateDecision.mockRejectedValue(new Error("provider failed"));
+      }
       const fixture = createInput();
       const runController = new AbortController();
       const laneController = new AbortController();
@@ -542,18 +568,26 @@ describe("prepareEmbeddedAttemptAgentSession", () => {
 
       const prepared = await prepare(turn, runController.signal);
 
-      expect(outcomeState.semanticNoProgressObserver).toBeUndefined();
+      if (decisionFailure) {
+        expect(outcomeState.semanticNoProgressObserver?.snapshot().latestJudgment?.verdict).toBe(
+          "uncertain",
+        );
+        expect(hoisted.evaluateDecision).toHaveBeenCalled();
+      } else {
+        expect(outcomeState.semanticNoProgressObserver).toBeUndefined();
+        expect(hoisted.evaluateDecision).not.toHaveBeenCalled();
+      }
       expect(semanticState?.used ?? false).toBe(false);
       expect(prepared?.context).toBe(turn.context);
       expect(prepared?.context?.systemPrompt).toBe("original prompt");
       expect(prepared?.context?.messages).toBe(messages);
       expect(prepared?.context?.tools).toBe(tools);
-      expect(hoisted.evaluateDecision).not.toHaveBeenCalled();
       expect(critical.intervention).toMatchObject({
         kind: "critical-tool-loop",
         detector: "generic_repeat",
         count: 20,
       });
+      await outcomeState.semanticNoProgressObserver?.close();
     },
   );
 

@@ -2,13 +2,11 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveSessionStorePathCore } from "../../../config/sessions.js";
 import { resolveSessionTranscriptRuntimeTarget } from "../../../config/sessions/session-accessor.js";
-import type { resolveContextEngine } from "../../../context-engine/registry.js";
 import { attachModelProviderRuntimePluginHandle } from "../../../plugins/provider-hook-runtime.js";
 import { getGatewayContextResolver } from "../../../plugins/runtime/gateway-request-scope.js";
 import { createAgentHarnessTaskRuntimeScope } from "../../../tasks/agent-harness-task-runtime-scope.js";
 import { createTrajectoryRuntimeRecorder } from "../../../trajectory/runtime.js";
 import { resolveAdmittedRunActiveAssertion } from "../../admitted-run-context.js";
-import type { ToolOutcomeObserver } from "../../agent-tools.before-tool-call.js";
 import { resolveDelegationCapability } from "../../delegation-capability.js";
 import { resolveSessionGitCoauthorPrompt } from "../../git-coauthor-prompt.js";
 import { agentHarnessBuildsOpenClawTools } from "../../harness/tool-surface.js";
@@ -28,7 +26,6 @@ import {
   resolveAttemptWorkspaceSandbox,
   resolveHarnessWorkspace,
 } from "../../workspace-sandbox.js";
-import type { EmbeddedRunReplayState } from "../replay-state.js";
 import { remapSkillReferencePaths } from "../sandbox-skills.js";
 import { prepareEmbeddedSkills } from "../skill-runtime.js";
 import { mapThinkingLevelForProvider } from "../utils.js";
@@ -38,45 +35,15 @@ import { applyResolvedToolPromptFinalizer } from "./attempt-prompt-support.js";
 import { EMBEDDED_RUN_ATTEMPT_DISPATCH_STAGE } from "./attempt-stage-timing.js";
 import { resolveAttemptDispatchApiKey } from "./auth-store.js";
 import { runEmbeddedAttemptWithBackend } from "./backend.js";
-import type { PreparedEmbeddedRunInput } from "./execution-context.js";
 import { resolveEmbeddedAttemptBasePrompt } from "./helpers.js";
 import type { EmbeddedRunAttemptInternalParams } from "./internal-params.js";
 import { prepareEmbeddedAttemptPromptExecution } from "./prompt-image-preparation.js";
-import type { prepareEmbeddedRunRuntime } from "./runtime-preparation.js";
+import type { EmbeddedRunAttemptDispatchInput } from "./run-attempt-dispatch.types.js";
 import { CODEX_HARNESS_ID, resolveAttemptTrajectoryAttribution } from "./runtime-resolution.js";
-import type { createEmbeddedRunSessionPromptState } from "./session-prompt-state.js";
 import { resolveSkillWorkshopAttemptParams } from "./skill-workshop-attempt-params.js";
-import type { createEmbeddedRunTerminalRetryState } from "./terminal-retry-state.js";
 import { MAX_BEFORE_AGENT_FINALIZE_REVISIONS } from "./terminal-retry-state.js";
-import type { EmbeddedRunAttemptParams } from "./types.js";
 
-type PreparedRuntime = Awaited<ReturnType<typeof prepareEmbeddedRunRuntime>>;
-type ContextEngine = Awaited<ReturnType<typeof resolveContextEngine>>;
-type SessionPromptState = Awaited<ReturnType<typeof createEmbeddedRunSessionPromptState>>;
-type TerminalRetryState = ReturnType<typeof createEmbeddedRunTerminalRetryState>;
-
-export async function prepareAndDispatchEmbeddedRunAttempt(input: {
-  runInput: PreparedEmbeddedRunInput;
-  preparedRuntime: PreparedRuntime;
-  contextEngine: ContextEngine;
-  sessionPromptState: SessionPromptState;
-  terminalRetryState: TerminalRetryState;
-  replayState: EmbeddedRunReplayState;
-  provider: string;
-  modelId: string;
-  startupStagesEmitted: boolean;
-  bootstrapPromptWarningSignaturesSeen: string[];
-  resolveRuntimeFallbackReason: () => string | null;
-  onToolOutcome: ToolOutcomeObserver;
-  semanticNoProgressObserver?: EmbeddedRunAttemptParams["semanticNoProgressObserver"];
-  semanticStallReplanState?: EmbeddedRunAttemptParams["semanticStallReplanState"];
-  isTurnTainted: () => boolean;
-  allocateToolOutcomeOrdinal: NonNullable<EmbeddedRunAttemptParams["allocateToolOutcomeOrdinal"]>;
-  getPostCompactionAbortError: () => Error | undefined;
-  setPostCompactionAbortController: (controller: AbortController | undefined) => void;
-  clearPostCompactionAbortController: (controller: AbortController) => void;
-  permissionChange?: EmbeddedRunAttemptParams["permissionChange"];
-}) {
+export async function prepareAndDispatchEmbeddedRunAttempt(input: EmbeddedRunAttemptDispatchInput) {
   const {
     runInput,
     preparedRuntime,

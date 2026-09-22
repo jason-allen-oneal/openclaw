@@ -2,7 +2,7 @@ import type {
   AgentContext,
   AgentLoopTurnUpdate,
   PrepareNextTurnContext,
-} from "../../runtime/index.js";
+} from "@openclaw/agent-core";
 import type { SemanticNoProgressObserver } from "../../semantic-no-progress.js";
 
 /** Fixed internal guidance; it never contains user text or tool data. */
