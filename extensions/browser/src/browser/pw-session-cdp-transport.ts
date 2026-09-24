@@ -262,6 +262,23 @@ export async function connectOverCdpTransport(
       timeout: opts.timeout,
       ...(opts.noDefaults ? { noDefaults: true } : {}),
     });
+    if (opts.noDefaults && resolveBrowserEngine(opts.engine).descriptor.id === "chromium") {
+      // A previous Playwright attach may have left allowAndName pointing at a
+      // temporary artifacts directory. Restore Chrome's default behavior so
+      // native downloads recover without requiring a browser restart.
+      let session: Awaited<ReturnType<typeof browser.newBrowserCDPSession>> | undefined;
+      try {
+        session = await browser.newBrowserCDPSession();
+        await session.send("Browser.setDownloadBehavior", { behavior: "default" });
+      } catch (error) {
+        const message = formatErrorMessage(error);
+        if (!/(?:not found|not supported|unsupported|is not a function)/iu.test(message)) {
+          throw error;
+        }
+      } finally {
+        await session?.detach().catch(() => {});
+      }
+    }
     return browser;
   } catch (error) {
     normalizer?.clear();
