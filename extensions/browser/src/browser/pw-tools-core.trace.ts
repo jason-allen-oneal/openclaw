@@ -9,6 +9,7 @@ import { ensureContextState, getPageForTargetId } from "./pw-session.js";
 export async function traceStartViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
+  noDefaults?: boolean;
   screenshots?: boolean;
   snapshots?: boolean;
   sources?: boolean;
@@ -31,6 +32,7 @@ export async function traceStartViaPlaywright(opts: {
 export async function traceStopViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
+  noDefaults?: boolean;
   path: string;
 }): Promise<string> {
   const page = await getPageForTargetId(opts);

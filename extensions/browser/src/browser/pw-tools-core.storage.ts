@@ -24,6 +24,7 @@ type PlaywrightCookieInput = {
 export async function cookiesGetViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
+  noDefaults?: boolean;
 }): Promise<{ cookies: unknown[] }> {
   const page = await getPageForTargetId(opts);
   ensurePageState(page);
@@ -121,6 +122,7 @@ type StorageKind = "local" | "session";
 export async function storageGetViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
+  noDefaults?: boolean;
   kind: StorageKind;
   key?: string;
 }): Promise<{ values: Record<string, string> }> {

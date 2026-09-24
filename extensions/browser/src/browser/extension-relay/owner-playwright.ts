@@ -39,6 +39,7 @@ export async function connectRelayBrowser(
     const browser = await connectOverCdpTransport(cdpUrl, {
       timeout: 5_000,
       headers: {},
+      noDefaults: true,
       preparedTransport: transport,
     });
     try {

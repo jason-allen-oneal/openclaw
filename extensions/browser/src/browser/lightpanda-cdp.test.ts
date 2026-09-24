@@ -20,6 +20,91 @@ const attachedPage = {
 };
 
 describe("Lightpanda CDP session routing", () => {
+  it("preserves external Chromium defaults and clears a stale download override", async () => {
+    const session = {
+      send: vi.fn().mockResolvedValue(undefined),
+      detach: vi.fn().mockResolvedValue(undefined),
+    };
+    const browser = {
+      newBrowserCDPSession: vi.fn().mockResolvedValue(session),
+    } as unknown as Browser;
+    connectMock.mockResolvedValue(browser);
+
+    await connectOverCdpTransport("ws://127.0.0.1:9222", {
+      engine: "chromium",
+      headers: {},
+      noDefaults: true,
+      timeout: 1000,
+      preparedTransport: { send: vi.fn(), close: vi.fn() },
+    });
+
+    expect(connectMock).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ noDefaults: true }),
+    );
+    expect(session.send).toHaveBeenCalledWith("Browser.setDownloadBehavior", {
+      behavior: "default",
+    });
+    expect(session.detach).toHaveBeenCalledOnce();
+  });
+
+  it("keeps managed Chromium download defaults unchanged", async () => {
+    const browser = {} as Browser;
+    connectMock.mockResolvedValue(browser);
+
+    await connectOverCdpTransport("ws://127.0.0.1:9222", {
+      engine: "chromium",
+      headers: {},
+      timeout: 1000,
+      preparedTransport: { send: vi.fn(), close: vi.fn() },
+    });
+
+    expect(connectMock).toHaveBeenCalledWith(expect.anything(), { timeout: 1000 });
+  });
+
+  it("keeps compatible attach-only CDP targets when the stale-state reset is unsupported", async () => {
+    const session = {
+      send: vi.fn().mockRejectedValue(new Error("Browser.setDownloadBehavior was not found")),
+      detach: vi.fn().mockResolvedValue(undefined),
+    };
+    const browser = {
+      newBrowserCDPSession: vi.fn().mockResolvedValue(session),
+    } as unknown as Browser;
+    connectMock.mockResolvedValue(browser);
+
+    await expect(
+      connectOverCdpTransport("ws://127.0.0.1:9222", {
+        engine: "chromium",
+        headers: {},
+        noDefaults: true,
+        timeout: 1000,
+        preparedTransport: { send: vi.fn(), close: vi.fn() },
+      }),
+    ).resolves.toBe(browser);
+    expect(session.detach).toHaveBeenCalledOnce();
+  });
+
+  it("keeps compatible attach-only CDP targets when browser sessions are unsupported", async () => {
+    const browser = {
+      newBrowserCDPSession: vi
+        .fn()
+        .mockRejectedValue(new Error("Browser-level sessions are not supported")),
+    } as unknown as Browser;
+    const close = vi.fn();
+    connectMock.mockResolvedValue(browser);
+
+    await expect(
+      connectOverCdpTransport("ws://127.0.0.1:9222", {
+        engine: "chromium",
+        headers: {},
+        noDefaults: true,
+        timeout: 1000,
+        preparedTransport: { send: vi.fn(), close },
+      }),
+    ).resolves.toBe(browser);
+    expect(close).not.toHaveBeenCalled();
+  });
+
   it.each([undefined, "chromium", "lightpanda"] as const)(
     "normalizes the observed protocol defect only for explicit engine %s",
     async (engine) => {

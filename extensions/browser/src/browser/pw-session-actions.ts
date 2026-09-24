@@ -68,6 +68,7 @@ export async function getObservedBrowserStateViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   ssrfPolicy?: SsrFPolicy;
+  noDefaults?: boolean;
 }): Promise<BrowserObservedState> {
   const page = await getPageForTargetId(opts);
   return getObservedBrowserStateForPage(page);
@@ -78,6 +79,7 @@ export async function getDocumentIdentitiesViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   timeoutMs?: number;
+  noDefaults?: boolean;
 }) {
   const page = await getPageForTargetId(opts);
   return await readDocumentIdentitiesForPage(page, opts.timeoutMs);
@@ -231,6 +233,7 @@ export async function forceDisconnectPlaywrightForTarget(opts: {
   page: Page;
   targetId?: string;
   ssrfPolicy?: SsrFPolicy;
+  noDefaults?: boolean;
 }): Promise<void> {
   const normalized = normalizeCdpUrl(opts.cdpUrl);
   const browser = opts.page.context().browser();
@@ -260,11 +263,18 @@ async function withPlaywrightSafeReadReconnect<T>(
     cdpUrl: string;
     engine?: BrowserEngineId;
     ssrfPolicy?: SsrFPolicy;
+    noDefaults?: boolean;
     signal: AbortSignal;
   },
   run: (browser: Browser) => Promise<T>,
 ): Promise<T> {
-  const connected = await connectBrowser(opts.cdpUrl, opts.ssrfPolicy, undefined, opts.engine);
+  const connected = await connectBrowser(
+    opts.cdpUrl,
+    opts.ssrfPolicy,
+    undefined,
+    opts.engine,
+    opts.noDefaults,
+  );
   try {
     return await run(connected.browser);
   } catch (err) {
@@ -279,7 +289,13 @@ async function withPlaywrightSafeReadReconnect<T>(
     if (opts.signal.aborted) {
       throw err;
     }
-    const retry = await connectBrowser(opts.cdpUrl, opts.ssrfPolicy, undefined, opts.engine);
+    const retry = await connectBrowser(
+      opts.cdpUrl,
+      opts.ssrfPolicy,
+      undefined,
+      opts.engine,
+      opts.noDefaults,
+    );
     return await run(retry.browser);
   }
 }
@@ -289,12 +305,19 @@ async function readPagesViaPlaywright(
     cdpUrl: string;
     engine?: BrowserEngineId;
     ssrfPolicy?: SsrFPolicy;
+    noDefaults?: boolean;
     requireCompleteTargetList?: boolean;
   },
   signal: AbortSignal,
 ): Promise<PlaywrightPageEnumeration> {
   return await withPlaywrightSafeReadReconnect(
-    { cdpUrl: opts.cdpUrl, ssrfPolicy: opts.ssrfPolicy, signal, engine: opts.engine },
+    {
+      cdpUrl: opts.cdpUrl,
+      ssrfPolicy: opts.ssrfPolicy,
+      signal,
+      engine: opts.engine,
+      noDefaults: opts.noDefaults,
+    },
     async (browser) => {
       signal.throwIfAborted();
       const contexts = opts.requireCompleteTargetList ? browser.contexts() : [];
@@ -476,6 +499,7 @@ export async function listPagesViaPlaywright(opts: {
   cdpUrl: string;
   engine?: BrowserEngineId;
   ssrfPolicy?: SsrFPolicy;
+  noDefaults?: boolean;
   timeoutMs?: number;
   requireCompleteTargetList?: boolean;
   signal?: AbortSignal;
@@ -532,6 +556,7 @@ export async function createPageViaPlaywright(
     engine?: BrowserEngineId;
     url: string;
     cdpPolicy?: SsrFPolicy;
+    noDefaults?: boolean;
     signal?: AbortSignal;
     /** Caller authority is checked at each effect boundary, independently of cancellation. */
     assertCurrent?: () => void;
@@ -559,6 +584,7 @@ export async function createPageViaPlaywright(
     opts.cdpPolicy ?? opts.ssrfPolicy,
     undefined,
     opts.engine,
+    opts.noDefaults,
   );
   assertCurrent();
   // Refusing a second connection-scoped page must not close the existing one.
@@ -659,6 +685,7 @@ export async function closePageByTargetIdViaPlaywright(opts: {
   targetId: string;
   ssrfPolicy?: SsrFPolicy;
   signal?: AbortSignal;
+  noDefaults?: boolean;
 }): Promise<void> {
   const page = await getPageForTargetId(opts);
   await closeResolvedPageViaPlaywright(page, opts);
@@ -706,6 +733,7 @@ export async function focusPageByTargetIdViaPlaywright(opts: {
   ssrfPolicy?: SsrFPolicy;
   signal?: AbortSignal;
   assertCurrent?: () => void | Promise<void>;
+  noDefaults?: boolean;
 }): Promise<void> {
   const page = await getPageForTargetId(opts);
   const assertion = opts.assertCurrent?.();

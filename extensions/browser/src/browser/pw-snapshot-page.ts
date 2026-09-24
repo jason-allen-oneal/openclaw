@@ -49,10 +49,12 @@ export async function prepareSnapshotPageViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   ssrfPolicy?: SsrFPolicy;
+  noDefaults?: boolean;
 }): Promise<Page> {
   const page = await getPageForTargetId({
     cdpUrl: opts.cdpUrl,
     targetId: opts.targetId,
+    noDefaults: opts.noDefaults,
   });
   ensurePageState(page);
   if (opts.ssrfPolicy) {

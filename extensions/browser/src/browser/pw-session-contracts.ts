@@ -93,7 +93,13 @@ export type ConnectedBrowser = {
   browser: Browser;
   cdpUrl: string;
   engine?: BrowserEngineId;
+  noDefaults?: boolean;
   onDisconnected?: () => void;
+};
+
+/** Preserve the owning browser's default context when attaching through CDP. */
+export type BrowserCdpConnectionOptions = {
+  noDefaults?: boolean;
 };
 
 export type DownloadPayload = PlaywrightDownload & {
@@ -175,6 +181,7 @@ export const OBSERVED_DIALOG_TIMEOUT_MS = 120_000;
 export type PendingBrowserConnection = {
   attempt: { cancelled: boolean; retired?: ConnectedBrowser };
   promise: Promise<ConnectedBrowser>;
+  noDefaults?: boolean;
 };
 
 export type PlaywrightConnectionRetirement = {

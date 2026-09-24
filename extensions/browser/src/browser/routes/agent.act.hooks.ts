@@ -93,6 +93,7 @@ export function registerBrowserAgentActHookRoutes(
           }
           await pw.setInputFilesViaPlaywright({
             cdpUrl,
+            noDefaults: profileCtx.profile.attachOnly,
             browserFilesystemLocal,
             targetId: tab.targetId,
             inputRef,
@@ -106,6 +107,7 @@ export function registerBrowserAgentActHookRoutes(
         } else if (ref) {
           await pw.uploadViaPlaywright({
             cdpUrl,
+            noDefaults: profileCtx.profile.attachOnly,
             browserFilesystemLocal,
             targetId: tab.targetId,
             paths: resolvedPaths,
@@ -118,6 +120,7 @@ export function registerBrowserAgentActHookRoutes(
         } else {
           await pw.armFileUploadViaPlaywright({
             cdpUrl,
+            noDefaults: profileCtx.profile.attachOnly,
             browserFilesystemLocal,
             targetId: tab.targetId,
             paths: resolvedPaths,
@@ -225,6 +228,7 @@ export function registerBrowserAgentActHookRoutes(
           accept,
           promptText,
           timeoutMs: timeoutMs ?? undefined,
+          noDefaults: profileCtx.profile.attachOnly,
           ...(assertCurrent ? { assertCurrent } : {}),
         });
         res.json({ ok: true });

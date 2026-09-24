@@ -94,6 +94,7 @@ class BrowserScreencastSession {
         cdpUrl: this.params.cdpUrl,
         targetId: this.params.targetId,
         ssrfPolicy: this.params.ssrfPolicy,
+        noDefaults: this.params.noDefaults,
       });
       if (!this.isCurrent() || page.isClosed()) {
         this.onTargetClosed();

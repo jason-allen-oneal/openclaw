@@ -266,6 +266,7 @@ export async function executeActViaPlaywright(
     cdpUrl: opts.cdpUrl,
     targetId: opts.targetId,
     ssrfPolicy: opts.ssrfPolicy,
+    noDefaults: opts.noDefaults,
   });
   const withOperationTarget = async <T extends Record<string, unknown>>(payload: T) => {
     const targetId = (await pageTargetInfo(page).catch(() => null))?.targetId;

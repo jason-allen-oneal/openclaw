@@ -414,6 +414,7 @@ export async function connectBrowser(
   ssrfPolicy?: SsrFPolicy,
   relayReference?: RelayOperationReference,
   engine?: BrowserEngineId,
+  noDefaults?: boolean,
 ): Promise<ConnectedBrowser> {
   const normalized = normalizeCdpUrl(cdpUrl);
   const relay = getBorrowedRelayCdpAccess(normalized);
@@ -430,6 +431,11 @@ export async function connectBrowser(
     if (engine && (cached.engine ?? "chromium") !== engine) {
       throw new Error("Browser engine changed; stop this profile before connecting again.");
     }
+    if (noDefaults !== undefined && (cached.noDefaults ?? false) !== noDefaults) {
+      throw new Error(
+        "Browser CDP connection defaults changed; stop this profile before reconnecting.",
+      );
+    }
     return cached;
   }
   // Run SSRF policy check only on cache miss so transient DNS failures
@@ -437,10 +443,23 @@ export async function connectBrowser(
   const configuredPin = await assertCdpEndpointAllowed(normalized, ssrfPolicy);
   const connectedDuringPolicyCheck = cachedByCdpUrl.get(normalized);
   if (connectedDuringPolicyCheck) {
+    if (
+      noDefaults !== undefined &&
+      (connectedDuringPolicyCheck.noDefaults ?? false) !== noDefaults
+    ) {
+      throw new Error(
+        "Browser CDP connection defaults changed; stop this profile before reconnecting.",
+      );
+    }
     return connectedDuringPolicyCheck;
   }
   const connecting = connectingByCdpUrl.get(normalized);
   if (connecting) {
+    if (noDefaults !== undefined && (connecting.noDefaults ?? false) !== noDefaults) {
+      throw new Error(
+        "Browser CDP connection defaults changed; stop this profile before reconnecting.",
+      );
+    }
     return await connecting.promise;
   }
 
@@ -500,6 +519,7 @@ export async function connectBrowser(
                 headers,
                 lookup,
                 resolveWebSocketUrl,
+                ...(noDefaults ? { noDefaults: true } : {}),
                 ...(engine ? { engine } : {}),
               });
             }),
@@ -534,7 +554,13 @@ export async function connectBrowser(
         if (resolveBrowserEngine(engine).descriptor.sessionScope === "connection") {
           markConnectionScopedBrowser(browser);
         }
-        const connected: ConnectedBrowser = { browser, cdpUrl: normalized, onDisconnected, engine };
+        const connected: ConnectedBrowser = {
+          browser,
+          cdpUrl: normalized,
+          onDisconnected,
+          engine,
+          noDefaults: noDefaults ?? false,
+        };
         cachedByCdpUrl.set(normalized, connected);
         browser.on("disconnected", onDisconnected);
         observeBrowser(browser);
@@ -566,7 +592,11 @@ export async function connectBrowser(
       connectingByCdpUrl.delete(normalized);
     }
   });
-  connectingByCdpUrl.set(normalized, { attempt: connectionAttempt, promise: pending });
+  connectingByCdpUrl.set(normalized, {
+    attempt: connectionAttempt,
+    promise: pending,
+    noDefaults: noDefaults ?? false,
+  });
 
   return await pending;
 }
@@ -623,11 +653,18 @@ async function getPageForTargetIdOnce(opts: {
   targetId?: string;
   ssrfPolicy?: SsrFPolicy;
   relayReference?: RelayOperationReference;
+  noDefaults?: boolean;
 }): Promise<Page> {
   if (opts.targetId && isBlockedTarget(opts.cdpUrl, opts.targetId)) {
     throw new BlockedBrowserTargetError();
   }
-  const { browser } = await connectBrowser(opts.cdpUrl, opts.ssrfPolicy, opts.relayReference);
+  const { browser } = await connectBrowser(
+    opts.cdpUrl,
+    opts.ssrfPolicy,
+    opts.relayReference,
+    undefined,
+    opts.noDefaults,
+  );
   const pages = await getAllPages(browser);
   if (!pages.length) {
     throw new Error("No pages available in the connected browser.");
@@ -662,6 +699,7 @@ export async function getPageForTargetId(opts: {
   targetId?: string;
   ssrfPolicy?: SsrFPolicy;
   relayReference?: RelayOperationReference;
+  noDefaults?: boolean;
 }): Promise<Page> {
   const cachedBrowser = cachedByCdpUrl.get(normalizeCdpUrl(opts.cdpUrl))?.browser;
   if (isConnectionScopedTargetId(opts.targetId) && !cachedBrowser) {

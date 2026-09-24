@@ -36,6 +36,7 @@ function contextlessTargetParams(
 type CdpTransportOptions = {
   timeout: number;
   headers: Record<string, string>;
+  noDefaults?: boolean;
   lookup?: CdpSocketLookup;
   resolveWebSocketUrl?: () => Promise<string | undefined>;
   preparedTransport?: ConnectOverCDPTransport;
@@ -257,7 +258,28 @@ export async function connectOverCdpTransport(
       onclose: (reason?: string) =>
         scheduleTransportClosed(closingReason ?? reason ?? "CDP socket closed"),
     });
-    return await getPlaywrightCore().chromium.connectOverCDP(transport, { timeout: opts.timeout });
+    const browser = await getPlaywrightCore().chromium.connectOverCDP(transport, {
+      timeout: opts.timeout,
+      ...(opts.noDefaults ? { noDefaults: true } : {}),
+    });
+    if (opts.noDefaults && resolveBrowserEngine(opts.engine).descriptor.id === "chromium") {
+      // Older OpenClaw attaches may already have left allowAndName pointing at
+      // Playwright's temporary artifact directory. Reset that browser-global
+      // override before keeping the external browser's own context defaults.
+      let session: Awaited<ReturnType<typeof browser.newBrowserCDPSession>> | undefined;
+      try {
+        session = await browser.newBrowserCDPSession();
+        await session.send("Browser.setDownloadBehavior", { behavior: "default" });
+      } catch (error) {
+        const message = formatErrorMessage(error);
+        if (!/(?:not found|not supported|unsupported|is not a function)/iu.test(message)) {
+          throw error;
+        }
+      } finally {
+        await session?.detach().catch(() => {});
+      }
+    }
+    return browser;
   } catch (error) {
     normalizer?.clear();
     wire.close();

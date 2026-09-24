@@ -553,6 +553,7 @@ export function registerBrowserAgentActRoutes(
         const result = await pw.responseBodyViaPlaywright({
           cdpUrl,
           targetId: tab.targetId,
+          noDefaults: profileCtx.profile.attachOnly,
           signal,
           url,
           timeoutMs: timeoutMs ?? undefined,
@@ -626,6 +627,7 @@ export function registerBrowserAgentActRoutes(
         await pw.highlightViaPlaywright({
           cdpUrl,
           targetId: tab.targetId,
+          noDefaults: profileCtx.profile.attachOnly,
           ref,
         });
         await jsonOk();

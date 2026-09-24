@@ -180,7 +180,7 @@ export function registerBrowserAgentSnapshotRoutes(
           await assertBrowserNavigationResultAllowed({ url: result.url, ...ssrfPolicyOpts });
           return res.json({ ok: true, targetId: tab.targetId, ...result });
         }
-        const pw = await requirePwAi(res, "navigate");
+        const pw = await requirePwAi(res, "navigate", profileCtx.profile.attachOnly);
         if (!pw) {
           return;
         }
@@ -348,7 +348,7 @@ export function registerBrowserAgentSnapshotRoutes(
             element,
           });
         if (shouldUsePlaywright) {
-          const pw = await requirePwAi(res, "screenshot");
+          const pw = await requirePwAi(res, "screenshot", profileCtx.profile.attachOnly);
           if (!pw) {
             return;
           }
@@ -403,7 +403,7 @@ export function registerBrowserAgentSnapshotRoutes(
       return;
     }
     const targetId = typeof req.query.targetId === "string" ? req.query.targetId.trim() : "";
-    const pwModule = await getPwAiModule();
+    const pwModule = await getPwAiModule({ noDefaults: profileCtx.profile.attachOnly });
     const hasPlaywright = Boolean(pwModule);
     const plan = resolveSnapshotPlan({
       profile: profileCtx.profile,
@@ -735,7 +735,7 @@ export function registerBrowserAgentSnapshotRoutes(
           });
           let resolved: Awaited<ReturnType<typeof snapshotAria>>;
           if (usePlaywrightAriaSnapshot) {
-            const pw = await requirePwAi(res, "aria snapshot");
+            const pw = await requirePwAi(res, "aria snapshot", profileCtx.profile.attachOnly);
             if (!pw) {
               return;
             }

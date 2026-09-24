@@ -267,6 +267,7 @@ export function createProfileSelectionOps({
           cdpUrl: profile.cdpUrl,
           targetId: resolvedTargetId,
           ssrfPolicy: getCdpControlPolicy(),
+          ...(profile.attachOnly ? { noDefaults: true } : {}),
           ...(options?.signal ? { signal: options.signal } : {}),
           ...(options?.assertCurrent ? { assertCurrent: options.assertCurrent } : {}),
         });
@@ -311,6 +312,7 @@ export function createProfileSelectionOps({
             cdpUrl: profile.cdpUrl,
             targetId: resolvedTargetId,
             ssrfPolicy: getCdpControlPolicy(),
+            ...(profile.attachOnly ? { noDefaults: true } : {}),
             ...(options?.signal ? { signal: options.signal } : {}),
           });
           closedViaPlaywright = true;

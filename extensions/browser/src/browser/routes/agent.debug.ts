@@ -36,6 +36,7 @@ async function sendPlaywrightDebugResult(params: {
     targetId: string;
     pw: PwAiModule;
     signal: AbortSignal;
+    noDefaults: boolean;
   }) => Promise<object | null>;
 }): Promise<void> {
   const profileCtx = resolveProfileContext(params.req, params.res, params.ctx);
@@ -56,8 +57,14 @@ async function sendPlaywrightDebugResult(params: {
     targetId: params.targetId,
     feature: params.feature,
     enforceCurrentUrlAllowed: true,
-    run: async ({ cdpUrl, tab, pw, resolveTabUrl, signal }) => {
-      const result = await params.collect({ cdpUrl, targetId: tab.targetId, pw, signal });
+    run: async ({ cdpUrl, tab, pw, resolveTabUrl, signal, browserCdpConnection }) => {
+      const result = await params.collect({
+        cdpUrl,
+        targetId: tab.targetId,
+        pw,
+        signal,
+        noDefaults: browserCdpConnection.noDefaults === true,
+      });
       if (result === null) {
         return;
       }
@@ -82,10 +89,11 @@ export function registerBrowserAgentDebugRoutes(
       ctx,
       targetId,
       feature: "console messages",
-      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw }) => {
+      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw, noDefaults }) => {
         const messages = await pw.getConsoleMessagesViaPlaywright({
           cdpUrl,
           targetId: resolvedTargetId,
+          noDefaults,
           level: normalizeOptionalString(level),
         });
         return { messages };
@@ -104,10 +112,11 @@ export function registerBrowserAgentDebugRoutes(
       targetId,
       feature: "page errors",
       existingSessionUnsupported: EXISTING_SESSION_LIMITS.errors,
-      collect: async ({ cdpUrl, targetId: targetIdValue, pw }) =>
+      collect: async ({ cdpUrl, targetId: targetIdValue, pw, noDefaults }) =>
         await pw.getPageErrorsViaPlaywright({
           cdpUrl,
           targetId: targetIdValue,
+          noDefaults,
           clear,
         }),
     });
@@ -125,10 +134,11 @@ export function registerBrowserAgentDebugRoutes(
       targetId,
       feature: "network requests",
       existingSessionUnsupported: EXISTING_SESSION_LIMITS.requests,
-      collect: async ({ cdpUrl, targetId: targetIdLocal, pw }) =>
+      collect: async ({ cdpUrl, targetId: targetIdLocal, pw, noDefaults }) =>
         await pw.getNetworkRequestsViaPlaywright({
           cdpUrl,
           targetId: targetIdLocal,
+          noDefaults,
           filter: normalizeOptionalString(filter),
           clear,
         }),
@@ -151,10 +161,11 @@ export function registerBrowserAgentDebugRoutes(
       targetId,
       feature: "page text",
       existingSessionUnsupported: EXISTING_SESSION_LIMITS.text,
-      collect: async ({ cdpUrl, targetId: textTargetId, pw, signal }) =>
+      collect: async ({ cdpUrl, targetId: textTargetId, pw, signal, noDefaults }) =>
         await pw.getPageTextViaPlaywright({
           cdpUrl,
           targetId: textTargetId,
+          noDefaults,
           selector,
           maxChars,
           signal,
@@ -171,11 +182,12 @@ export function registerBrowserAgentDebugRoutes(
       ctx,
       targetId,
       feature: "dialog state",
-      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw }) => {
+      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw, noDefaults }) => {
         const browserState = await pw.getObservedBrowserStateViaPlaywright({
           cdpUrl,
           targetId: resolvedTargetId,
           ssrfPolicy: ctx.state().resolved.ssrfPolicy,
+          noDefaults,
         });
         return { browserState };
       },
@@ -195,10 +207,11 @@ export function registerBrowserAgentDebugRoutes(
       ctx,
       targetId,
       feature: "trace start",
-      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw }) => {
+      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw, noDefaults }) => {
         await pw.traceStartViaPlaywright({
           cdpUrl,
           targetId: resolvedTargetId,
+          noDefaults,
           screenshots,
           snapshots,
           sources,
@@ -219,7 +232,7 @@ export function registerBrowserAgentDebugRoutes(
       ctx,
       targetId,
       feature: "trace stop",
-      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw }) => {
+      collect: async ({ cdpUrl, targetId: resolvedTargetId, pw, noDefaults }) => {
         const id = crypto.randomUUID();
         const tracePath = await resolveWritableOutputPathOrRespond({
           res,
@@ -236,6 +249,7 @@ export function registerBrowserAgentDebugRoutes(
           cdpUrl,
           targetId: resolvedTargetId,
           path: tracePath,
+          noDefaults,
         });
         return { path: committedTracePath };
       },

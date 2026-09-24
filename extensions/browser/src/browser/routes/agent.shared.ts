@@ -17,6 +17,7 @@ import {
 } from "../navigation-guard.js";
 import type { PwAiModule } from "../pw-ai-module.js";
 import { getPwAiModule as getPwAiModuleBase } from "../pw-ai-module.js";
+import type { BrowserCdpConnectionOptions } from "../pw-session-contracts.js";
 import type { InteractionTargetOptions } from "../pw-tools-core.interactions.navigation.js";
 import type { BrowserRouteContext, ProfileContext } from "../server-context.js";
 import { isProfileRestartRequiredError } from "../server-context.lifecycle.js";
@@ -93,20 +94,22 @@ export function browserNavigationPolicyForProfile(
       resolved: ctx.state().resolved,
       profile: profileCtx.profile,
     }),
+    ...(profileCtx.profile.attachOnly ? { noDefaults: true } : {}),
   });
 }
 
 /** Load the optional Playwright bridge module in soft-fail mode. */
-export async function getPwAiModule(): Promise<PwAiModule | null> {
-  return await getPwAiModuleBase({ mode: "soft" });
+export async function getPwAiModule(opts?: { noDefaults?: boolean }): Promise<PwAiModule | null> {
+  return await getPwAiModuleBase({ mode: "soft", noDefaults: opts?.noDefaults });
 }
 
 /** Require Playwright support for a route feature, returning a 501 when absent. */
 export async function requirePwAi(
   res: BrowserResponse,
   feature: string,
+  noDefaults = false,
 ): Promise<PwAiModule | null> {
-  const mod = await getPwAiModule();
+  const mod = await getPwAiModule({ noDefaults });
   if (mod) {
     return mod;
   }
@@ -126,6 +129,7 @@ type RouteTabContext = {
   profileCtx: ProfileContext;
   tab: Awaited<ReturnType<ProfileContext["ensureTabAvailable"]>>;
   cdpUrl: string;
+  browserCdpConnection: BrowserCdpConnectionOptions;
   signal: AbortSignal;
   assertCurrent?: InteractionTargetOptions["assertCurrent"];
   resolveTabUrl: (fallbackUrl?: string) => Promise<string | undefined>;
@@ -187,6 +191,7 @@ export async function withRouteTabContext<T>(
           profileCtx,
           tab,
           cdpUrl: profileCtx.profile.cdpUrl,
+          browserCdpConnection: profileCtx.profile.attachOnly ? { noDefaults: true } : {},
           signal,
           ...(assertCurrent ? { assertCurrent } : {}),
           resolveTabUrl: (fallbackUrl?: string) =>
@@ -257,7 +262,7 @@ export async function withPlaywrightRouteContext<T>(
   return await withRouteTabContext({
     ...tabParams,
     run: async (routeCtx) => {
-      const pw = await requirePwAi(params.res, feature);
+      const pw = await requirePwAi(params.res, feature, routeCtx.profileCtx.profile.attachOnly);
       if (!pw) {
         return undefined;
       }
