@@ -110,6 +110,19 @@ export async function getPwAiModule(opts?: {
   });
 }
 
+export function profileCdpConnectionOptions(profile: ProfileContext["profile"]) {
+  return {
+    ...(profile.attachOnly ? { noDefaults: true } : {}),
+    ...(profile.resetDefaultDownloadBehaviorOnAttach
+      ? { resetDefaultDownloadBehaviorOnAttach: true }
+      : {}),
+  };
+}
+
+export async function getPwAiModuleForProfile(profile: ProfileContext["profile"]) {
+  return await getPwAiModule(profileCdpConnectionOptions(profile));
+}
+
 /** Require Playwright support for a route feature, returning a 501 when absent. */
 export async function requirePwAi(
   res: BrowserResponse,
@@ -131,6 +144,19 @@ export async function requirePwAi(
     ].join("\n"),
   );
   return null;
+}
+
+export async function requirePwAiForProfile(
+  res: BrowserResponse,
+  feature: string,
+  profile: ProfileContext["profile"],
+) {
+  return await requirePwAi(
+    res,
+    feature,
+    profile.attachOnly,
+    profile.resetDefaultDownloadBehaviorOnAttach,
+  );
 }
 
 type RouteTabContext = {

@@ -433,18 +433,14 @@ export async function connectBrowser(
     if (engine && (cached.engine ?? "chromium") !== engine) {
       throw new Error("Browser engine changed; stop this profile before connecting again.");
     }
-    if (noDefaults !== undefined && (cached.noDefaults ?? false) !== noDefaults) {
-      throw new Error(
-        "Browser CDP connection defaults changed; stop this profile before reconnecting.",
-      );
-    }
     if (
-      resetDefaultDownloadBehaviorOnAttach !== undefined &&
-      (cached.resetDefaultDownloadBehaviorOnAttach ?? false) !==
-        resetDefaultDownloadBehaviorOnAttach
+      (noDefaults !== undefined && (cached.noDefaults ?? false) !== noDefaults) ||
+      (resetDefaultDownloadBehaviorOnAttach !== undefined &&
+        (cached.resetDefaultDownloadBehaviorOnAttach ?? false) !==
+          resetDefaultDownloadBehaviorOnAttach)
     ) {
       throw new Error(
-        "Browser CDP download policy recovery changed; stop this profile before reconnecting.",
+        "Browser CDP connection policy changed; stop this profile before reconnecting.",
       );
     }
     return cached;
@@ -455,38 +451,28 @@ export async function connectBrowser(
   const connectedDuringPolicyCheck = cachedByCdpUrl.get(normalized);
   if (connectedDuringPolicyCheck) {
     if (
-      noDefaults !== undefined &&
-      (connectedDuringPolicyCheck.noDefaults ?? false) !== noDefaults
+      (noDefaults !== undefined &&
+        (connectedDuringPolicyCheck.noDefaults ?? false) !== noDefaults) ||
+      (resetDefaultDownloadBehaviorOnAttach !== undefined &&
+        (connectedDuringPolicyCheck.resetDefaultDownloadBehaviorOnAttach ?? false) !==
+          resetDefaultDownloadBehaviorOnAttach)
     ) {
       throw new Error(
-        "Browser CDP connection defaults changed; stop this profile before reconnecting.",
-      );
-    }
-    if (
-      resetDefaultDownloadBehaviorOnAttach !== undefined &&
-      (connectedDuringPolicyCheck.resetDefaultDownloadBehaviorOnAttach ?? false) !==
-        resetDefaultDownloadBehaviorOnAttach
-    ) {
-      throw new Error(
-        "Browser CDP download policy recovery changed; stop this profile before reconnecting.",
+        "Browser CDP connection policy changed; stop this profile before reconnecting.",
       );
     }
     return connectedDuringPolicyCheck;
   }
   const connecting = connectingByCdpUrl.get(normalized);
   if (connecting) {
-    if (noDefaults !== undefined && (connecting.noDefaults ?? false) !== noDefaults) {
-      throw new Error(
-        "Browser CDP connection defaults changed; stop this profile before reconnecting.",
-      );
-    }
     if (
-      resetDefaultDownloadBehaviorOnAttach !== undefined &&
-      (connecting.resetDefaultDownloadBehaviorOnAttach ?? false) !==
-        resetDefaultDownloadBehaviorOnAttach
+      (noDefaults !== undefined && (connecting.noDefaults ?? false) !== noDefaults) ||
+      (resetDefaultDownloadBehaviorOnAttach !== undefined &&
+        (connecting.resetDefaultDownloadBehaviorOnAttach ?? false) !==
+          resetDefaultDownloadBehaviorOnAttach)
     ) {
       throw new Error(
-        "Browser CDP download policy recovery changed; stop this profile before reconnecting.",
+        "Browser CDP connection policy changed; stop this profile before reconnecting.",
       );
     }
     return await connecting.promise;
