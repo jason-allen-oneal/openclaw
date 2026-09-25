@@ -110,6 +110,17 @@ export async function getPwAiModule(opts?: {
   });
 }
 
+function profileCdpConnectionOptions(
+  profile: ProfileContext["profile"],
+): BrowserCdpConnectionOptions {
+  return {
+    ...(profile.noDefaults ? { noDefaults: true } : {}),
+    ...(profile.resetDefaultDownloadBehaviorOnAttach
+      ? { resetDefaultDownloadBehaviorOnAttach: true }
+      : {}),
+  };
+}
+
 export async function getPwAiModuleForProfile(profile: ProfileContext["profile"]) {
   return await getPwAiModule(profileCdpConnectionOptions(profile));
 }
@@ -216,12 +227,7 @@ export async function withRouteTabContext<T>(
           profileCtx,
           tab,
           cdpUrl: profileCtx.profile.cdpUrl,
-          browserCdpConnection: {
-            ...(profileCtx.profile.noDefaults ? { noDefaults: true } : {}),
-            ...(profileCtx.profile.resetDefaultDownloadBehaviorOnAttach
-              ? { resetDefaultDownloadBehaviorOnAttach: true }
-              : {}),
-          },
+          browserCdpConnection: profileCdpConnectionOptions(profileCtx.profile),
           signal,
           ...(assertCurrent ? { assertCurrent } : {}),
           resolveTabUrl: (fallbackUrl?: string) =>

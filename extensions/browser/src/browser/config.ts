@@ -596,13 +596,12 @@ export function resolveProfile(
     ...(engine === "chromium" &&
     attachOnly &&
     (!openClawLaunched || profile.resetDefaultDownloadBehaviorOnAttach === true) &&
-    (profileDriver === "openclaw" || profileDriver === "clawd")
+    profileDriver === "openclaw"
       ? { noDefaults: true }
       : {}),
     ...(profile.resetDefaultDownloadBehaviorOnAttach === true &&
     (profile.attachOnly ?? resolved.attachOnly) &&
-    driver !== "extension" &&
-    (engine ?? "chromium") === "chromium"
+    engine === "chromium"
       ? { resetDefaultDownloadBehaviorOnAttach: true }
       : {}),
   };
