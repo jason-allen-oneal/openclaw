@@ -152,7 +152,7 @@ export const OpenClawSchemaShape = {
               executablePath: z.string().optional(),
               /** If true, never launch a browser for this profile; only attach. Falls back to browser.attachOnly. */
               attachOnly: z.boolean().optional(),
-              /** If true, an attach-only Chromium profile may reset the default-context download policy on connect. */
+              /** If true, an OpenClaw CDP attach-only Chromium profile may reset the default-context download policy on connect. */
               resetDefaultDownloadBehaviorOnAttach: z.boolean().optional(),
             })
             .refine(
@@ -241,6 +241,20 @@ export const OpenClawSchemaShape = {
     .superRefine((value, ctx) => {
       const endpoints = new Map<string, { name: string; engine?: string }>();
       for (const [name, profile] of Object.entries(value.profiles ?? {})) {
+        if (
+          profile.resetDefaultDownloadBehaviorOnAttach === true &&
+          (profile.driver === "existing-session" ||
+            profile.driver === "extension" ||
+            (profile.driver === undefined && name === "user") ||
+            profile.engine === "lightpanda")
+        ) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["profiles", name, "resetDefaultDownloadBehaviorOnAttach"],
+            message:
+              "Download policy recovery requires an OpenClaw Chromium profile using the Playwright CDP driver",
+          });
+        }
         const endpoint = profile.cdpUrl ? URL.parse(profile.cdpUrl) : null;
         if (!endpoint) {
           continue;

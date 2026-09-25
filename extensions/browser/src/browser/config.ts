@@ -450,6 +450,19 @@ export function resolveProfile(
     return null;
   }
 
+  const profileDriver =
+    profile.driver === "clawd"
+      ? "openclaw"
+      : (profile.driver ?? (profileName === "user" ? "existing-session" : "openclaw"));
+  if (
+    profile.resetDefaultDownloadBehaviorOnAttach === true &&
+    (profileDriver !== "openclaw" || profile.engine === "lightpanda")
+  ) {
+    throw new Error(
+      `browser.profiles.${profileName}.resetDefaultDownloadBehaviorOnAttach requires an OpenClaw Chromium profile using the Playwright CDP driver.`,
+    );
+  }
+
   const adapter = resolveBrowserEngine(profile.engine);
   const engine = adapter.descriptor.id;
   if (adapter.resolveExternalProfile) {
@@ -522,10 +535,6 @@ export function resolveProfile(
       headless,
       headlessSource,
       attachOnly: true,
-      ...(profile.resetDefaultDownloadBehaviorOnAttach === true &&
-      (engine ?? "chromium") === "chromium"
-        ? { resetDefaultDownloadBehaviorOnAttach: true }
-        : {}),
     };
   }
 
