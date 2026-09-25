@@ -5,6 +5,7 @@ import {
 import { resolveAgentConfig } from "openclaw/plugin-sdk/agent-scope-runtime";
 import { resolveCodexAppServerForModelProvider } from "./app-server-policy.js";
 import { startCodexAttemptThread } from "./attempt-startup.js";
+import { joinPresentSections } from "./developer-instruction-sections.js";
 import { flattenCodexDynamicToolFunctions } from "./protocol.js";
 import { readBoundedCodexRemoteWorkspaceFile } from "./remote-workspace-media.js";
 import {
@@ -12,7 +13,6 @@ import {
   withCodexAppServerFastModeServiceTier,
 } from "./run-attempt-lifecycle.js";
 import type { CodexAttemptResources } from "./run-attempt-resources.js";
-import { joinPresentSections } from "./run-attempt-state.js";
 import { CodexThreadPolicyHandoffError } from "./thread-policy.js";
 
 export async function startCodexAttemptRuntime(resources: CodexAttemptResources) {
@@ -20,11 +20,6 @@ export async function startCodexAttemptRuntime(resources: CodexAttemptResources)
     prompt,
     state,
     trajectoryRecorder,
-    activateNativePreToolUseFailureFallback,
-    releaseSandboxExecEnvironment,
-    releaseSharedClientLeaseAndRetireOneShotClient,
-    releaseCurrentRoute,
-    runCleanupStep,
     startupTimeoutMs,
     buildNativeHookRelayFinalConfigPatch,
   } = resources;
@@ -109,6 +104,7 @@ export async function startCodexAttemptRuntime(resources: CodexAttemptResources)
       agentDir,
       config: params.config,
       shellEnvironment: connection.shellEnvironment,
+      shellPathPrepend: connection.shellPathPrepend,
       disableLoginShell: connection.disableLoginShell,
       buildAttemptParams: buildActiveRunAttemptParams,
       ...(effectiveRuntimeModelId !== runtimeParams.modelId
@@ -122,6 +118,7 @@ export async function startCodexAttemptRuntime(resources: CodexAttemptResources)
       webSearchAllowed: toolState.webSearchAllowed,
       developerInstructions,
       coldDeveloperInstructions,
+      skillsInstructions: context.skillsInstructions,
       agentWorkspaceDeveloperInstructions: context.agentWorkspaceDeveloperInstructions,
       agentWorkspaceDeveloperInstructionsAllowed:
         context.workspaceBootstrapContext.agentWorkspaceDeveloperInstructionsAllowed,
@@ -129,14 +126,19 @@ export async function startCodexAttemptRuntime(resources: CodexAttemptResources)
       projectInstructionsUnavailableToGateway: context.projectInstructionsUnavailableToGateway,
       nativeProjectDocsDisabledOnResume: context.nativeProjectDocsDisabledOnResume,
       buildFinalConfigPatch: buildNativeHookRelayFinalConfigPatch,
+      nativeModelAdmission: resources.nativeModelAdmission,
       nativeHookRelayRequired:
-        connection.options.nativeHookRelay?.enabled !== false &&
-        params.pluginHarnessToolPolicyRestricted !== true &&
-        connection.nativeHookRelayEvents.includes("pre_tool_use") &&
-        (hasBeforeToolCallPolicy() ||
-          (appServer.loopDetectionPreToolUseRelay &&
-            Boolean(connection.sandboxSessionKey) &&
-            loopDetectionEnabled)),
+        (nativeToolSurfaceEnabled &&
+          params.pluginHarnessToolPolicyRestricted !== true &&
+          (resources.nativeProcessAuthority !== undefined ||
+            resources.nativeModelAdmission === "required")) ||
+        (connection.options.nativeHookRelay?.enabled !== false &&
+          params.pluginHarnessToolPolicyRestricted !== true &&
+          connection.nativeHookRelayEvents.includes("pre_tool_use") &&
+          (hasBeforeToolCallPolicy() ||
+            (appServer.loopDetectionPreToolUseRelay &&
+              Boolean(connection.sandboxSessionKey) &&
+              loopDetectionEnabled))),
       bundleMcpThreadConfig,
       configuredMcpDynamicSurface: attemptTools.configuredMcp !== undefined,
       configuredMcpOwnershipVersion: attemptTools.configuredMcpOwnershipVersion,
@@ -189,10 +191,11 @@ export async function startCodexAttemptRuntime(resources: CodexAttemptResources)
     }
     if (state.thread.lifecycle.action === "started" || state.thread.lifecycle.action === "forked") {
       const activePolicy = resolveReviewerPolicyContext(state.thread);
-      const activeConfig = resolveRuntimeOptionsForCurrentBinding({
+      const activeConfig = await resolveRuntimeOptionsForCurrentBinding({
         modelProvider: activePolicy.modelProvider,
         model: activePolicy.model,
       });
+      connection.assertCurrent();
       const activeAppServer = resolveCodexAppServerForModelProvider({
         appServer: activeConfig,
         provider: activePolicy.modelProvider,
@@ -242,22 +245,9 @@ export async function startCodexAttemptRuntime(resources: CodexAttemptResources)
       toolCount: flattenCodexDynamicToolFunctions(toolBridge.specs).length,
     });
     connection.mutable.pluginAppServer = pluginAppServer;
+    // Monitor setup still belongs to startup's resource cleanup boundary.
+    await resources.registerNativeSubagentMonitor(state.thread.threadId);
   } catch (error) {
-    await runCleanupStep(
-      "codex-start-failure-hook-fallback",
-      activateNativePreToolUseFailureFallback,
-    );
-    await runCleanupStep("codex-start-failure-route-release", releaseCurrentRoute);
-    const nativeHookRelay = state.nativeHookRelay;
-    state.nativeHookRelay = undefined;
-    await runCleanupStep("codex-start-failure-native-hook-relay", () =>
-      nativeHookRelay?.unregister(),
-    );
-    await runCleanupStep("codex-start-failure-sandbox-release", releaseSandboxExecEnvironment);
-    await runCleanupStep(
-      "codex-start-failure-shared-client-release",
-      releaseSharedClientLeaseAndRetireOneShotClient,
-    );
     throw error instanceof CodexThreadPolicyHandoffError
       ? error
       : (state.executionDisconnectError ?? error);

@@ -12,20 +12,22 @@ import {
 import {
   buildCodexOpenClawPromptContext,
   buildCodexWatchedSessionsContext,
+  readMirroredSessionHistoryMessages,
+  renderCodexSkillsInstructions,
+} from "./attempt-context.js";
+import {
   buildCodexWorkspaceBootstrapContext,
   getCodexWorkspaceMemoryToolNames,
-  readMirroredSessionHistoryMessages,
-  renderCodexSkillsCollaborationInstructions,
-} from "./attempt-context.js";
+} from "./attempt-workspace-context.js";
 import {
   resolveCodexContextEngineProjectionMaxChars,
   resolveCodexContextEngineProjectionReserveTokens,
   resolveCodexContinuityProjectionMaxChars,
   type CodexProjectedContextRange,
 } from "./context-engine-projection.js";
+import { joinPresentSections } from "./developer-instruction-sections.js";
 import { isSystemAgentOnlyCodexDynamicToolAllowlist } from "./dynamic-tool-profile.js";
 import type { CodexAttemptRuntime } from "./run-attempt-runtime.js";
-import { joinPresentSections } from "./run-attempt-state.js";
 import type { CodexAttemptTools } from "./run-attempt-tool-setup.js";
 import {
   CODEX_FROZEN_EMPTY_PROJECT_DOCS_AUTHORITY,
@@ -80,6 +82,7 @@ export async function prepareCodexAttemptContext(
     const messages = await readMirroredSessionHistoryMessages({
       ...activeTranscriptTarget,
       signal: connection.runAbortController.signal,
+      contextTokenBudget: effectiveContextTokenBudget,
       ...(transcriptReadFence ? { admission: transcriptReadFence } : {}),
     });
     connection.runAbortController.signal.throwIfAborted();
@@ -119,6 +122,7 @@ export async function prepareCodexAttemptContext(
       ? { modelProviderId: params.provider, modelId: params.modelId }
       : {}),
     trigger: params.trigger,
+    inputProvenance: params.inputProvenance,
     ...buildAgentHookContextChannelFields({
       sessionKey: contextSessionKey,
       messageChannel: params.messageChannel,
@@ -164,12 +168,16 @@ export async function prepareCodexAttemptContext(
     });
     historyState.messages = (await readFencedHistory()) ?? historyState.messages;
   }
+  // The admission fence intentionally excludes this logical turn's committed results.
+  historyState.messages.push(...(params.pluginRuntimeRefreshMessages ?? []));
   const memoryToolNames = getCodexWorkspaceMemoryToolNames(toolBridge.availableSpecs);
   const ringZeroActive =
     isHostScopedAgentToolActive("openclaw") &&
     isSystemAgentOnlyCodexDynamicToolAllowlist(runtimeParams.toolsAllow);
   const workspaceBootstrapContext = await buildCodexWorkspaceBootstrapContext({
     params: runtimeParams,
+    agentWorkspaceDeveloperInstructions:
+      connection.mutable.startupBinding?.agentWorkspaceDeveloperInstructions,
     resolvedWorkspace: runtimeParams.bootstrapWorkspaceDir ?? resolvedWorkspace,
     executionWorkspace: effectiveWorkspace,
     effectiveWorkspace,
@@ -235,6 +243,10 @@ export async function prepareCodexAttemptContext(
           ? agentWorkspaceDeveloperInstructions
           : workspaceBootstrapContext.threadDeveloperInstructions
       : undefined;
+  const skillsInstructions = renderCodexSkillsInstructions({
+    attempt: runtimeParams,
+    skillsPrompt: params.skillsSnapshot?.prompt,
+  });
   const baseDeveloperInstructions = joinPresentSections(
     buildDeveloperInstructions(runtimeParams, {
       dynamicTools: toolBridge.availableSpecs,
@@ -255,10 +267,6 @@ export async function prepareCodexAttemptContext(
         : undefined,
       watchedSessionsContext,
     });
-  const skillsCollaborationInstructions = renderCodexSkillsCollaborationInstructions({
-    attempt: runtimeParams,
-    skillsPrompt: params.skillsSnapshot?.prompt,
-  });
   const promptState = {
     promptText: params.prompt,
     promptContextRange: undefined as CodexProjectedContextRange | undefined,
@@ -299,7 +307,7 @@ export async function prepareCodexAttemptContext(
     frozenNativeProjectInstructions,
     baseDeveloperInstructions,
     buildOpenClawPromptContext,
-    skillsCollaborationInstructions,
+    skillsInstructions,
     promptState,
     codexContextProjectionMaxChars,
     codexContinuityProjectionMaxChars,

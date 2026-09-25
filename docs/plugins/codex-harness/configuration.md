@@ -99,36 +99,38 @@ synonyms for ring zero.
 Codex loads `AGENTS.md` files through native project-document discovery. For
 normal app-server threads, OpenClaw raises Codex's aggregate root-to-working-
 directory budget from the upstream 32 KiB default to a bounded 128 KiB so later
-scoped instructions are not silently clipped. On an ordinary same-workspace
-thread start, Codex discovers the applicable hierarchy itself; OpenClaw sends no
-workspace-instruction directive or duplicate file contents. After the native
-thread starts, OpenClaw captures the exact host-local sources Codex selected and
-freezes their bounded root-to-working-directory snapshot in the thread binding.
-Configured fallback paths, including subpaths such as `.config/WORKFLOW.md`,
-are normalized the same way as Codex and checked before startup; only sources
-selected by Codex enter the frozen snapshot.
-Retained warm threads keep Codex's already-loaded authority. If an established
-thread must be loaded into a new process, OpenClaw disables fresh native
-discovery and replays the complete frozen hierarchy instead.
+scoped instructions are not silently clipped. An explicitly authored native
+`project_doc_max_bytes` setting overrides the 128 KiB fallback for ordinary
+threads; Codex's materialized 32 KiB default does not.
+
+On an ordinary same-workspace thread start, Codex discovers the applicable
+hierarchy itself; OpenClaw sends no duplicate file contents. After the native
+thread starts, OpenClaw captures the exact host-local sources Codex selected
+and freezes their bounded root-to-working-directory snapshot in the thread
+binding. Configured fallback paths, including subpaths such as
+`.config/WORKFLOW.md`, are normalized the same way as Codex and checked before
+startup; only sources selected by Codex enter the frozen snapshot. Retained
+warm threads keep Codex's already-loaded authority. If an established thread
+must be loaded into a new process, OpenClaw disables fresh native discovery and
+replays the complete frozen hierarchy instead. Editing, emptying, or removing
+a selected instruction file therefore takes effect only in a new session.
 
 The experimental sandbox exec-server is a stricter boundary. Codex reads that
 hierarchy inside the selected execution environment, while app-server reports
-only its source paths, so the Gateway cannot freeze the authoritative bytes.
-When Codex reports a nonempty instruction-source selection, OpenClaw records
-that the environment owns the project instructions and permits warm reuse only
-while the same environment-backed thread remains live. It rejects physical cold
-resume or replacement of that thread before provider I/O, including replacement
-under the same environment fingerprint; continue the live sandbox thread or
-start a new session. If Codex selects no instruction sources, OpenClaw records a
-frozen-empty snapshot instead. That thread can cold-resume in the sandbox or on
-the host with native project-document discovery disabled.
+source paths without authoritative bytes. OpenClaw records a nonempty native
+selection as environment-owned, permits warm reuse while that thread remains
+live, and rejects physical cold resume or replacement, even under the same
+environment fingerprint. Start a new session for the current sandbox sources.
+When Codex selects no sources, OpenClaw records a frozen-empty snapshot; that
+thread can cold-resume in the sandbox or on the host with native discovery
+disabled.
 
 Ordinary conversation tool-policy restrictions preserve the native project-
 document budget because project instructions are context, not tool authority.
 Their isolated native environment cannot read workspace files, so OpenClaw
 supplies the bounded workspace `AGENTS.md` snapshot as thread-level developer
-instructions. On ordinary native-discovery-capable threads, Codex continues to
-discover project-local and nested `AGENTS.md` files independently. Lightweight,
+instructions. On native-discovery-capable threads, Codex continues to discover
+project-local and nested `AGENTS.md` files independently. Lightweight,
 ring-zero, message-only, and tool-disabled internal turns suppress both fresh
 and persisted workspace instructions and set the native project-document budget
 to zero instead.
@@ -172,6 +174,12 @@ until termination is confirmed. It never falls back to a context engine or
 public OpenAI summarizer. If the native Codex thread binding is missing or
 stale, the command fails closed instead of silently switching compaction
 backends.
+
+Cancellation prevents native requests that have not been submitted, including
+overload retries. After submission, OpenClaw keeps the thread occupied until
+native completion, interruption, or safe retirement is confirmed. Stopped turns
+close visible compaction progress without marking unfinished compaction successful
+or making previously observed native work eligible for replay.
 
 ### Direct API long context
 

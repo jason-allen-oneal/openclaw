@@ -23,7 +23,7 @@ describe("Codex app-server rotated workspace policy", () => {
     vi.restoreAllMocks();
   });
 
-  it("keeps the established hierarchy frozen when lifecycle policy rotates", async () => {
+  it("does not replay frozen project instructions when lifecycle policy rotates", async () => {
     const workspaceDir = "/tmp/openclaw-codex-rotated-workspace-policy";
     const capturedRootGuidance = "Keep the original root instructions for this session.";
     const capturedNestedGuidance = "Keep the original nested instructions for this session.";
@@ -78,6 +78,7 @@ describe("Codex app-server rotated workspace policy", () => {
       "thread/start",
       "config/read",
       "configRequirements/read",
+      "config/read",
       "thread/start",
     ]);
     const replacementRequest = request.mock.calls.findLast(
@@ -85,14 +86,14 @@ describe("Codex app-server rotated workspace policy", () => {
     )?.[1] as
       | { config?: { project_doc_max_bytes?: number }; developerInstructions?: string }
       | undefined;
-    expect(replacementRequest?.config?.project_doc_max_bytes).toBe(0);
-    expect(replacementRequest?.developerInstructions).toContain(capturedRootGuidance);
-    expect(replacementRequest?.developerInstructions).toContain(capturedNestedGuidance);
-    expect(replacementRequest?.developerInstructions).not.toContain(replacementGuidance);
+    expect(replacementRequest?.config?.project_doc_max_bytes).not.toBe(0);
+    expect(replacementRequest?.developerInstructions).toContain(replacementGuidance);
+    expect(replacementRequest?.developerInstructions).not.toContain(capturedRootGuidance);
+    expect(replacementRequest?.developerInstructions).not.toContain(capturedNestedGuidance);
     expect(replacement).toMatchObject({
       threadId: "thread-2",
-      agentWorkspaceDeveloperInstructions: capturedGuidance,
     });
+    expect(replacement.agentWorkspaceDeveloperInstructions).not.toBe(capturedGuidance);
     expect(
       testCodexAppServerBindingStore.read(
         sessionBindingIdentity({
@@ -104,7 +105,6 @@ describe("Codex app-server rotated workspace policy", () => {
       ),
     ).toMatchObject({
       threadId: "thread-2",
-      agentWorkspaceDeveloperInstructions: capturedGuidance,
     });
   });
 });
