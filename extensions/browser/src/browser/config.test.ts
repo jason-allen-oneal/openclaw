@@ -46,15 +46,16 @@ describe("browser config", () => {
     );
     expect(profile.resetDefaultDownloadBehaviorOnAttach).toBe(true);
 
-    const managed = resolveRequiredProfile(
-      withProfile("managed", {
-        cdpPort: 18801,
-        attachOnly: false,
-        resetDefaultDownloadBehaviorOnAttach: true,
-      }),
-      "managed",
-    );
-    expect(managed.resetDefaultDownloadBehaviorOnAttach).toBeUndefined();
+    expect(() =>
+      resolveRequiredProfile(
+        withProfile("managed", {
+          cdpPort: 18801,
+          attachOnly: false,
+          resetDefaultDownloadBehaviorOnAttach: true,
+        }),
+        "managed",
+      ),
+    ).toThrow(/requires an OpenClaw Chromium profile using the Playwright CDP driver/);
   });
 
   it.each([

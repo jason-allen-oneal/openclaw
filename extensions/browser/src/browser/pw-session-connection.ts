@@ -414,10 +414,10 @@ export async function connectBrowser(
   ssrfPolicy?: SsrFPolicy,
   relayReference?: RelayOperationReference,
   engine?: BrowserEngineId,
-  noDefaults?: boolean,
+  requestedNoDefaults?: boolean,
   resetDefaultDownloadBehaviorOnAttach?: boolean,
 ): Promise<ConnectedBrowser> {
-  noDefaults = noDefaults || resetDefaultDownloadBehaviorOnAttach === true;
+  const noDefaults = requestedNoDefaults || resetDefaultDownloadBehaviorOnAttach === true;
   const normalized = normalizeCdpUrl(cdpUrl);
   const relay = getBorrowedRelayCdpAccess(normalized);
   if (relayReference) {
