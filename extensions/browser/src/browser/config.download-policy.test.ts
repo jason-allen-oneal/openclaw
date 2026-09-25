@@ -42,6 +42,23 @@ describe("browser download policy profile resolution", () => {
     expect(getBrowserProfileCapabilities(profile).supportsDownloads).toBe(true);
   });
 
+  it("preserves Playwright download capture for extension-relay profiles", () => {
+    const profile = resolveProfileFor("chrome", { driver: "extension" });
+    expect(profile.noDefaults).toBeUndefined();
+    expect(getBrowserProfileCapabilities(profile).supportsDownloads).toBe(true);
+  });
+
+  it("rejects recovery for a managed profile that does not attach", () => {
+    expect(() =>
+      resolveProfileFor("managed", {
+        driver: "openclaw",
+        cdpPort: 9222,
+        attachOnly: false,
+        resetDefaultDownloadBehaviorOnAttach: true,
+      }),
+    ).toThrow(/requires an OpenClaw Chromium profile using the Playwright CDP driver/);
+  });
+
   it("preserves external policy and reports event-based capture unavailable", () => {
     const profile = resolveProfileFor("remote", {
       driver: "openclaw",

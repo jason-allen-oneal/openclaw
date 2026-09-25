@@ -311,6 +311,12 @@ export async function navigateViaPlaywright(opts: {
         downloadCapture.cancel();
         throw err;
       }
+      if (opts.noDefaults) {
+        downloadCapture.cancel();
+        throw new Error(
+          "Navigation started a download, but this attached browser profile cannot capture downloads through OpenClaw. The file remains subject to the browser's existing download policy.",
+        );
+      }
       try {
         return { response: null, download: await downloadCapture.promise };
       } catch (downloadErr) {

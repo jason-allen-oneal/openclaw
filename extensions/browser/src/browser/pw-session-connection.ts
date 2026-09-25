@@ -424,7 +424,7 @@ export async function connectBrowser(
     if (!relay) {
       throw new Error("Captured relay connection is unavailable");
     }
-    const browser = await connectRelayBrowser(relay, normalized, relayReference);
+    const browser = await connectRelayBrowser(relay, normalized, relayReference, noDefaults);
     observeBrowser(browser);
     return { browser, cdpUrl: normalized };
   }
@@ -546,7 +546,7 @@ export async function connectBrowser(
         let browser: Browser;
         try {
           browser = relay
-            ? await connectRelayBrowser(relay, normalized)
+            ? await connectRelayBrowser(relay, normalized, undefined, noDefaults)
             : await connectEndpoint(endpointUrl, endpointLookup);
           if (relay && getBorrowedRelayCdpAccess(normalized) !== relay) {
             await browser.close();

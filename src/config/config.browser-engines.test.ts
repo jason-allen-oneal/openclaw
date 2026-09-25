@@ -114,6 +114,26 @@ describe("browser engine config", () => {
     },
   );
 
+  it("rejects download recovery when the profile is managed instead of attach-only", () => {
+    const result = OpenClawSchemaShape.browser.safeParse({
+      attachOnly: false,
+      profiles: {
+        managed: {
+          driver: "openclaw",
+          cdpPort: 9222,
+          attachOnly: false,
+          resetDefaultDownloadBehaviorOnAttach: true,
+        },
+      },
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues.map((issue) => issue.path.join("."))).toContain(
+        "profiles.managed.resetDefaultDownloadBehaviorOnAttach",
+      );
+    }
+  });
+
   it.each(["chromium", "lightpanda"])("rejects a shared Lightpanda endpoint with %s", (engine) => {
     const result = OpenClawSchemaShape.browser.safeParse({
       profiles: {

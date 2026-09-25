@@ -461,6 +461,7 @@ export function resolveProfile(
   if (
     profile.resetDefaultDownloadBehaviorOnAttach === true &&
     (profileDriver !== "openclaw" ||
+      (profile.attachOnly ?? resolved.attachOnly) !== true ||
       profile.engine === "lightpanda" ||
       profile.mcpCommand !== undefined ||
       profile.mcpArgs !== undefined)
@@ -517,7 +518,6 @@ export function resolveProfile(
       headless: false,
       headlessSource: "default",
       attachOnly: true,
-      noDefaults: !openClawLaunched,
     };
   }
 
