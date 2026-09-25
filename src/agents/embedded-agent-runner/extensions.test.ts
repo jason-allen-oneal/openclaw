@@ -3,7 +3,10 @@ import type { SessionManager } from "openclaw/plugin-sdk/agent-sessions";
 import type { Model } from "openclaw/plugin-sdk/llm";
 import { describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../../config/config.js";
-import { getCompactionSafeguardRuntime } from "../agent-hooks/compaction-safeguard-runtime.js";
+import {
+  getCompactionSafeguardRuntime,
+  getCurrentCompactionSemanticMode,
+} from "../agent-hooks/compaction-safeguard-runtime.js";
 import compactionSafeguardExtension from "../agent-hooks/compaction-safeguard.js";
 import { buildEmbeddedExtensionFactories } from "./extensions.js";
 
@@ -130,7 +133,7 @@ describe("buildEmbeddedExtensionFactories", () => {
   });
 
   it("wires shadow semantic curation into safeguard runtime", () => {
-    const { sessionManager } = buildSafeguardFactories({
+    const cfg = {
       agents: {
         defaults: {
           decisionModel: "openai/gpt-5-mini",
@@ -144,10 +147,13 @@ describe("buildEmbeddedExtensionFactories", () => {
           },
         },
       },
-    } as OpenClawConfig);
+    } as OpenClawConfig;
+    const { sessionManager } = buildSafeguardFactories(cfg);
 
     expect(getCompactionSafeguardRuntime(sessionManager)?.semanticCurationMode).toBe("shadow");
     expect(getCompactionSafeguardRuntime(sessionManager)?.semanticCurationTimeoutMs).toBe(650);
+    cfg.agents!.defaults!.compaction!.semanticCuration!.mode = "off";
+    expect(getCurrentCompactionSemanticMode(sessionManager)).toBe("off");
   });
 
   it("keeps automatic semantic curation off without Decision assistance consent", () => {
@@ -165,6 +171,7 @@ describe("buildEmbeddedExtensionFactories", () => {
     expect(runtime?.semanticCurationMode).toBe("off");
     cfg.agents!.defaults!.experimental!.decisionAssistance = true;
     expect(runtime?.semanticCurationEligible?.()).toBe(true);
+    expect(getCurrentCompactionSemanticMode(sessionManager)).toBe("off");
     cfg.agents!.defaults!.experimental!.decisionAssistance = false;
     expect(runtime?.semanticCurationEligible?.()).toBe(false);
   });

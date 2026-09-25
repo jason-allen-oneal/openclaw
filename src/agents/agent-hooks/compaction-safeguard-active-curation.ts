@@ -7,10 +7,7 @@ import {
   extractLatestUserAsk,
   splitPreservedRecentTurns,
 } from "./compaction-safeguard-context.js";
-import {
-  getCompactionSafeguardRuntime,
-  isCompactionSemanticCurationEligible,
-} from "./compaction-safeguard-runtime.js";
+import { getCurrentCompactionSemanticMode } from "./compaction-safeguard-runtime.js";
 import {
   evaluateCompactionFidelity,
   evaluateCompactionShadowCuration,
@@ -51,7 +48,10 @@ export async function prepareActiveCompactionCuration(params: {
   signal: AbortSignal;
   timeoutMs?: number;
 }): Promise<ActiveCompactionCuration> {
-  if (params.mode !== "apply" || !isCompactionSemanticCurationEligible(params.sessionManager)) {
+  if (
+    params.mode !== "apply" ||
+    getCurrentCompactionSemanticMode(params.sessionManager) !== "apply"
+  ) {
     return { messages: params.sourceMessages, skippedReason: "not-apply-mode" };
   }
   const { preservedMessages } = splitPreservedRecentTurns({
@@ -82,11 +82,7 @@ export async function prepareActiveCompactionCuration(params: {
     return { messages: params.sourceMessages, skippedReason: "selection-error" };
   }
   params.signal.throwIfAborted();
-  if (
-    !isCompactionSemanticCurationEligible(params.sessionManager) ||
-    (getCompactionSafeguardRuntime(params.sessionManager)?.semanticCurationMode ?? "off") !==
-      "apply"
-  ) {
+  if (getCurrentCompactionSemanticMode(params.sessionManager) !== "apply") {
     return { messages: params.sourceMessages, skippedReason: "mode-changed" };
   }
   const projected = projectCompactionSemanticSelection({
@@ -172,9 +168,7 @@ export async function resolveCuratedCompactionCandidate(params: {
     return { status: "accepted", summary: params.summary, usedFallback: false };
   }
   if (
-    !isCompactionSemanticCurationEligible(params.sessionManager) ||
-    (getCompactionSafeguardRuntime(params.sessionManager)?.semanticCurationMode ?? "off") !==
-      "apply" ||
+    getCurrentCompactionSemanticMode(params.sessionManager) !== "apply" ||
     !params.uncuratedMessages ||
     fingerprintCompactionMessages(params.uncuratedMessages) !== params.snapshot.sourceFingerprint
   ) {
@@ -215,9 +209,7 @@ export async function resolveCuratedCompactionCandidate(params: {
   if (fidelity.status !== "ok") {
     reason = `fidelity-${fidelity.status}:${fidelity.reason}`;
   } else if (
-    !isCompactionSemanticCurationEligible(params.sessionManager) ||
-    (getCompactionSafeguardRuntime(params.sessionManager)?.semanticCurationMode ?? "off") !==
-      "apply" ||
+    getCurrentCompactionSemanticMode(params.sessionManager) !== "apply" ||
     fingerprintCompactionMessages(params.uncuratedMessages) !== params.snapshot.sourceFingerprint ||
     fidelity.sourceFingerprint !== params.snapshot.sourceFingerprint ||
     fidelity.candidateFingerprint !== fingerprint(params.summary)

@@ -691,4 +691,30 @@ describe("active curation through the registered compaction hook", () => {
     expect(mockSummarizeInStages).toHaveBeenCalledTimes(1);
     expect(mockSummarizeInStages.mock.calls[0]?.[0].messages).toEqual(original);
   });
+
+  it("keeps the full source when the saved apply mode becomes off during selection", async () => {
+    const scenario = activeScenario();
+    let savedMode: "off" | "apply" = "apply";
+    setCompactionSafeguardRuntime(scenario.sessionManager, {
+      model: createAnthropicModelFixture(),
+      semanticCurationMode: "apply",
+      semanticCurationModeReader: () => savedMode,
+      recentTurnsPreserve: 0,
+      qualityGuardEnabled: true,
+      qualityGuardMaxRetries: 0,
+    });
+    const { requests } = installDecisionFixture("preserved", () => {
+      savedMode = "off";
+    });
+    const original = structuredClone(scenario.event.preparation.messagesToSummarize);
+    mockSummarizeInStages.mockReset();
+    mockSummarizeInStages.mockResolvedValue(validSummary);
+
+    const { result } = await runCompactionScenario(scenario);
+
+    expect(result.cancel).not.toBe(true);
+    expect(requests).toHaveLength(1);
+    expect(mockSummarizeInStages).toHaveBeenCalledTimes(1);
+    expect(mockSummarizeInStages.mock.calls[0]?.[0].messages).toEqual(original);
+  });
 });

@@ -26,6 +26,8 @@ type CompactionSafeguardRuntimeValue = {
   qualityGuardEnabled?: boolean;
   qualityGuardMaxRetries?: number;
   semanticCurationMode?: "off" | "shadow" | "apply";
+  /** Resolve the current saved mode, including changes during awaited work. */
+  semanticCurationModeReader?: () => "off" | "shadow" | "apply";
   /** Recheck prepared Decision assistance consent before and after awaited work. */
   semanticCurationEligible?: () => boolean;
   semanticCurationTimeoutMs?: number;
@@ -47,6 +49,18 @@ export const getCompactionSafeguardRuntime = registry.get;
 
 export function isCompactionSemanticCurationEligible(sessionManager: unknown): boolean {
   return getCompactionSafeguardRuntime(sessionManager)?.semanticCurationEligible?.() !== false;
+}
+
+export function getCurrentCompactionSemanticMode(
+  sessionManager: unknown,
+): "off" | "shadow" | "apply" {
+  const runtime = getCompactionSafeguardRuntime(sessionManager);
+  const preparedMode = runtime?.semanticCurationMode ?? "off";
+  const savedMode = runtime?.semanticCurationModeReader?.() ?? preparedMode;
+  // A saved change may revoke this turn's authority, never expand it mid-turn.
+  return isCompactionSemanticCurationEligible(sessionManager) && savedMode === preparedMode
+    ? preparedMode
+    : "off";
 }
 
 /** Records cancellation atomically; intentional declines carry no provider error. */

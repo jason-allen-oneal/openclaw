@@ -81,8 +81,8 @@ import {
   nestRequiredSummaryHeadings,
 } from "./compaction-safeguard-quality.js";
 import {
+  getCurrentCompactionSemanticMode,
   getCompactionSafeguardRuntime,
-  isCompactionSemanticCurationEligible,
   setCompactionSafeguardCancellation,
 } from "./compaction-safeguard-runtime.js";
 import {
@@ -729,9 +729,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
       latestUnresolvedUserRequest ?? undefined,
     );
 
-    const semanticMode = isCompactionSemanticCurationEligible(ctx.sessionManager)
-      ? (runtime?.semanticCurationMode ?? "off")
-      : "off";
+    const semanticMode = getCurrentCompactionSemanticMode(ctx.sessionManager);
     const semanticTimeoutMs = runtime?.semanticCurationTimeoutMs;
     const semanticAgentId = ctx.sessionManager.getSessionTarget()?.agentId ?? runtime?.agentId;
     const semanticSignal = signal ?? new AbortController().signal;
@@ -763,7 +761,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
       if (!semanticSnapshot) {
         return;
       }
-      if (!isCompactionSemanticCurationEligible(ctx.sessionManager)) {
+      if (getCurrentCompactionSemanticMode(ctx.sessionManager) !== "shadow") {
         return;
       }
       try {
@@ -793,11 +791,8 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
         }
         const shadow = shadowResult.value;
         const fidelity = fidelityResult.value;
-        const currentSemanticMode =
-          getCompactionSafeguardRuntime(ctx.sessionManager)?.semanticCurationMode ?? "off";
         if (
-          !isCompactionSemanticCurationEligible(ctx.sessionManager) ||
-          currentSemanticMode !== "shadow" ||
+          getCurrentCompactionSemanticMode(ctx.sessionManager) !== "shadow" ||
           fingerprintCompactionMessages(semanticSourceMessages) !==
             semanticSnapshot.sourceFingerprint ||
           shadow.sourceFingerprint !== semanticSnapshot.sourceFingerprint ||

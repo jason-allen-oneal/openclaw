@@ -141,6 +141,8 @@ export function buildEmbeddedExtensionFactories(params: {
     const readSemanticConfig = createRuntimeConfigReader(params.cfg ?? {});
     const semanticCurationEligible = () =>
       isDecisionAssistanceEligible(readSemanticConfig(), semanticAgentId);
+    const semanticCurationModeReader = () =>
+      readSemanticConfig().agents?.defaults?.compaction?.semanticCuration?.mode ?? "off";
     const qualityGuardCfg = compactionCfg?.qualityGuard;
     // Prepared runs carry the canonical policy budget; fallback resolution is
     // only for callers that do not own a prepared attempt.
@@ -160,9 +162,8 @@ export function buildEmbeddedExtensionFactories(params: {
       identifierPolicy: compactionCfg?.identifierPolicy,
       qualityGuardEnabled: qualityGuardCfg?.enabled ?? true,
       qualityGuardMaxRetries: qualityGuardCfg?.maxRetries,
-      semanticCurationMode: semanticCurationEligible()
-        ? (compactionCfg?.semanticCuration?.mode ?? "off")
-        : "off",
+      semanticCurationMode: semanticCurationEligible() ? semanticCurationModeReader() : "off",
+      semanticCurationModeReader,
       semanticCurationEligible,
       semanticCurationTimeoutMs: compactionCfg?.semanticCuration?.timeoutMs,
       model: params.model,
