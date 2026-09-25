@@ -82,6 +82,7 @@ import {
 } from "./compaction-safeguard-quality.js";
 import {
   getCompactionSafeguardRuntime,
+  isCompactionSemanticCurationEligible,
   setCompactionSafeguardCancellation,
 } from "./compaction-safeguard-runtime.js";
 import {
@@ -728,7 +729,9 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
       latestUnresolvedUserRequest ?? undefined,
     );
 
-    const semanticMode = runtime?.semanticCurationMode ?? "off";
+    const semanticMode = isCompactionSemanticCurationEligible(ctx.sessionManager)
+      ? (runtime?.semanticCurationMode ?? "off")
+      : "off";
     const semanticTimeoutMs = runtime?.semanticCurationTimeoutMs;
     const semanticAgentId = ctx.sessionManager.getSessionTarget()?.agentId ?? runtime?.agentId;
     const semanticSignal = signal ?? new AbortController().signal;
@@ -758,6 +761,9 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
         : undefined;
     const observeSemanticSummary = async (summary: string) => {
       if (!semanticSnapshot) {
+        return;
+      }
+      if (!isCompactionSemanticCurationEligible(ctx.sessionManager)) {
         return;
       }
       try {
@@ -790,6 +796,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
         const currentSemanticMode =
           getCompactionSafeguardRuntime(ctx.sessionManager)?.semanticCurationMode ?? "off";
         if (
+          !isCompactionSemanticCurationEligible(ctx.sessionManager) ||
           currentSemanticMode !== "shadow" ||
           fingerprintCompactionMessages(semanticSourceMessages) !==
             semanticSnapshot.sourceFingerprint ||

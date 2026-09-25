@@ -7,7 +7,10 @@ import {
   extractLatestUserAsk,
   splitPreservedRecentTurns,
 } from "./compaction-safeguard-context.js";
-import { getCompactionSafeguardRuntime } from "./compaction-safeguard-runtime.js";
+import {
+  getCompactionSafeguardRuntime,
+  isCompactionSemanticCurationEligible,
+} from "./compaction-safeguard-runtime.js";
 import {
   evaluateCompactionFidelity,
   evaluateCompactionShadowCuration,
@@ -48,7 +51,7 @@ export async function prepareActiveCompactionCuration(params: {
   signal: AbortSignal;
   timeoutMs?: number;
 }): Promise<ActiveCompactionCuration> {
-  if (params.mode !== "apply") {
+  if (params.mode !== "apply" || !isCompactionSemanticCurationEligible(params.sessionManager)) {
     return { messages: params.sourceMessages, skippedReason: "not-apply-mode" };
   }
   const { preservedMessages } = splitPreservedRecentTurns({
@@ -80,8 +83,9 @@ export async function prepareActiveCompactionCuration(params: {
   }
   params.signal.throwIfAborted();
   if (
+    !isCompactionSemanticCurationEligible(params.sessionManager) ||
     (getCompactionSafeguardRuntime(params.sessionManager)?.semanticCurationMode ?? "off") !==
-    "apply"
+      "apply"
   ) {
     return { messages: params.sourceMessages, skippedReason: "mode-changed" };
   }
@@ -168,6 +172,7 @@ export async function resolveCuratedCompactionCandidate(params: {
     return { status: "accepted", summary: params.summary, usedFallback: false };
   }
   if (
+    !isCompactionSemanticCurationEligible(params.sessionManager) ||
     (getCompactionSafeguardRuntime(params.sessionManager)?.semanticCurationMode ?? "off") !==
       "apply" ||
     !params.uncuratedMessages ||
@@ -210,6 +215,7 @@ export async function resolveCuratedCompactionCandidate(params: {
   if (fidelity.status !== "ok") {
     reason = `fidelity-${fidelity.status}:${fidelity.reason}`;
   } else if (
+    !isCompactionSemanticCurationEligible(params.sessionManager) ||
     (getCompactionSafeguardRuntime(params.sessionManager)?.semanticCurationMode ?? "off") !==
       "apply" ||
     fingerprintCompactionMessages(params.uncuratedMessages) !== params.snapshot.sourceFingerprint ||

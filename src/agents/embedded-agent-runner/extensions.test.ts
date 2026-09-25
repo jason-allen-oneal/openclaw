@@ -133,6 +133,8 @@ describe("buildEmbeddedExtensionFactories", () => {
     const { sessionManager } = buildSafeguardFactories({
       agents: {
         defaults: {
+          decisionModel: "openai/gpt-5-mini",
+          experimental: { decisionAssistance: true },
           compaction: {
             mode: "safeguard",
             semanticCuration: {
@@ -146,6 +148,25 @@ describe("buildEmbeddedExtensionFactories", () => {
 
     expect(getCompactionSafeguardRuntime(sessionManager)?.semanticCurationMode).toBe("shadow");
     expect(getCompactionSafeguardRuntime(sessionManager)?.semanticCurationTimeoutMs).toBe(650);
+  });
+
+  it("keeps automatic semantic curation off without Decision assistance consent", () => {
+    const cfg = {
+      agents: {
+        defaults: {
+          decisionModel: "openai/gpt-5-mini",
+          experimental: { decisionAssistance: false },
+          compaction: { mode: "safeguard", semanticCuration: { mode: "apply" } },
+        },
+      },
+    } as OpenClawConfig;
+    const { sessionManager } = buildSafeguardFactories(cfg);
+    const runtime = getCompactionSafeguardRuntime(sessionManager);
+    expect(runtime?.semanticCurationMode).toBe("off");
+    cfg.agents!.defaults!.experimental!.decisionAssistance = true;
+    expect(runtime?.semanticCurationEligible?.()).toBe(true);
+    cfg.agents!.defaults!.experimental!.decisionAssistance = false;
+    expect(runtime?.semanticCurationEligible?.()).toBe(false);
   });
 
   it("wires the run workspace into safeguard runtime", () => {

@@ -26,6 +26,8 @@ type CompactionSafeguardRuntimeValue = {
   qualityGuardEnabled?: boolean;
   qualityGuardMaxRetries?: number;
   semanticCurationMode?: "off" | "shadow" | "apply";
+  /** Recheck prepared Decision assistance consent before and after awaited work. */
+  semanticCurationEligible?: () => boolean;
   semanticCurationTimeoutMs?: number;
   /**
    * Id of a registered compaction provider plugin.
@@ -42,6 +44,10 @@ const registry = createSessionManagerRuntimeRegistry<CompactionSafeguardRuntimeV
 export const setCompactionSafeguardRuntime = registry.set;
 
 export const getCompactionSafeguardRuntime = registry.get;
+
+export function isCompactionSemanticCurationEligible(sessionManager: unknown): boolean {
+  return getCompactionSafeguardRuntime(sessionManager)?.semanticCurationEligible?.() !== false;
+}
 
 /** Records cancellation atomically; intentional declines carry no provider error. */
 export function setCompactionSafeguardCancellation(

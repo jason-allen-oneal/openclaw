@@ -665,4 +665,30 @@ describe("active curation through the registered compaction hook", () => {
       scenario.event.preparation.messagesToSummarize,
     );
   });
+
+  it("keeps the full source when Decision assistance consent is withdrawn during selection", async () => {
+    const scenario = activeScenario();
+    let consent = true;
+    setCompactionSafeguardRuntime(scenario.sessionManager, {
+      model: createAnthropicModelFixture(),
+      semanticCurationMode: "apply",
+      semanticCurationEligible: () => consent,
+      recentTurnsPreserve: 0,
+      qualityGuardEnabled: true,
+      qualityGuardMaxRetries: 0,
+    });
+    const { requests } = installDecisionFixture("preserved", () => {
+      consent = false;
+    });
+    const original = structuredClone(scenario.event.preparation.messagesToSummarize);
+    mockSummarizeInStages.mockReset();
+    mockSummarizeInStages.mockResolvedValue(validSummary);
+
+    const { result } = await runCompactionScenario(scenario);
+
+    expect(result.cancel).not.toBe(true);
+    expect(requests).toHaveLength(1);
+    expect(mockSummarizeInStages).toHaveBeenCalledTimes(1);
+    expect(mockSummarizeInStages.mock.calls[0]?.[0].messages).toEqual(original);
+  });
 });
