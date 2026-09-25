@@ -115,7 +115,7 @@ describe("Codex app-server rotated workspace policy", () => {
   it("does not capture Gateway-local instructions for a remote replacement", async () => {
     const workspaceDir = "/tmp/openclaw-codex-remote-rotation";
     const attempt = createParams("/tmp/openclaw-codex-remote-rotation.jsonl", workspaceDir);
-    const request = vi.fn(async (method: string) => {
+    const request = vi.fn(async (method: string, _params?: unknown) => {
       if (method === "config/read") {
         return { config: {}, origins: {}, layers: [] };
       }
