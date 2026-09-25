@@ -110,15 +110,6 @@ export async function getPwAiModule(opts?: {
   });
 }
 
-export function profileCdpConnectionOptions(profile: ProfileContext["profile"]) {
-  return {
-    ...(profile.attachOnly ? { noDefaults: true } : {}),
-    ...(profile.resetDefaultDownloadBehaviorOnAttach
-      ? { resetDefaultDownloadBehaviorOnAttach: true }
-      : {}),
-  };
-}
-
 export async function getPwAiModuleForProfile(profile: ProfileContext["profile"]) {
   return await getPwAiModule(profileCdpConnectionOptions(profile));
 }
