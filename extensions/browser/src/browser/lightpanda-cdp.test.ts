@@ -85,7 +85,7 @@ describe("Lightpanda CDP session routing", () => {
     expect(connectMock).toHaveBeenCalledWith(expect.anything(), { timeout: 1000 });
   });
 
-  it("keeps compatible attach-only CDP targets when the stale-state reset is unsupported", async () => {
+  it("reports when the requested stale-state reset is unsupported", async () => {
     const session = {
       send: vi.fn().mockRejectedValue(new Error("Browser.setDownloadBehavior was not found")),
       detach: vi.fn().mockResolvedValue(undefined),
@@ -104,11 +104,11 @@ describe("Lightpanda CDP session routing", () => {
         timeout: 1000,
         preparedTransport: { send: vi.fn(), close: vi.fn() },
       }),
-    ).resolves.toBe(browser);
+    ).rejects.toThrow("Requested browser download-policy recovery failed");
     expect(session.detach).toHaveBeenCalledOnce();
   });
 
-  it("keeps compatible attach-only CDP targets when browser sessions are unsupported", async () => {
+  it("reports when the requested browser-level session is unsupported", async () => {
     const browser = {
       newBrowserCDPSession: vi
         .fn()
@@ -126,8 +126,8 @@ describe("Lightpanda CDP session routing", () => {
         timeout: 1000,
         preparedTransport: { send: vi.fn(), close },
       }),
-    ).resolves.toBe(browser);
-    expect(close).not.toHaveBeenCalled();
+    ).rejects.toThrow("Requested browser download-policy recovery failed");
+    expect(close).toHaveBeenCalledOnce();
   });
 
   it.each([undefined, "chromium", "lightpanda"] as const)(

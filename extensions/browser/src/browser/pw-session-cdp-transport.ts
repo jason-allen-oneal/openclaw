@@ -276,9 +276,10 @@ export async function connectOverCdpTransport(
         await session.send("Browser.setDownloadBehavior", { behavior: "default" });
       } catch (error) {
         const message = formatErrorMessage(error);
-        if (!/(?:not found|not supported|unsupported|is not a function)/iu.test(message)) {
-          throw error;
-        }
+        throw new Error(
+          `Requested browser download-policy recovery failed: ${message}. Disable resetDefaultDownloadBehaviorOnAttach for this profile or use a Chromium endpoint that supports Browser.setDownloadBehavior.`,
+          { cause: error },
+        );
       } finally {
         await session?.detach().catch(() => {});
       }
