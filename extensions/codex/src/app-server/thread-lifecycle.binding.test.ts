@@ -6873,6 +6873,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
       coldDeveloperInstructions: `Current turn instructions.\n${oldGuidance}`,
       agentWorkspaceDeveloperInstructions: oldGuidance,
       agentWorkspaceDeveloperInstructionsAllowed: true,
+      nativeProjectInstructionSnapshotAllowed: true,
       nativeProjectDocsDisabledOnResume: true,
       appServer: createThreadLifecycleAppServerOptions(),
     });
