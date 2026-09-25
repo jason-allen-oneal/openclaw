@@ -32,7 +32,7 @@ import {
   shouldUsePlaywrightForAriaSnapshot,
   shouldUsePlaywrightForScreenshot,
 } from "../profile-capabilities.js";
-import { getLoadedPwAiModule, getPwAiModule } from "../pw-ai-module.js";
+import { getLoadedPwAiModule } from "../pw-ai-module.js";
 import { finalizeRoleSnapshot, type RoleRefMap } from "../pw-role-snapshot.js";
 import type { BrowserObservedState } from "../pw-session-contracts.js";
 import type { AnnotationItem } from "../screenshot-annotate.js";
