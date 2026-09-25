@@ -76,7 +76,7 @@ export function browserNavigationPolicyForProfile(
 }
 
 /** Load the optional Playwright bridge module in soft-fail mode. */
-export async function getPwAiModule(opts?: {
+async function getPwAiModule(opts?: {
   noDefaults?: boolean;
   resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<PwAiModule | null> {
