@@ -1144,6 +1144,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
     expect(harness.requests.map((request) => request.method)).toEqual([
       "config/read",
       "configRequirements/read",
+      "config/read",
       "thread/start",
       "turn/start",
     ]);
@@ -1195,6 +1196,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
     expect(harness.requests.map((request) => request.method)).toEqual([
       "config/read",
       "configRequirements/read",
+      "config/read",
       "thread/start",
       "turn/start",
     ]);
@@ -1279,6 +1281,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
     expect(harness.requests.map((request) => request.method)).toEqual([
       "config/read",
       "configRequirements/read",
+      "config/read",
       "thread/start",
       "turn/start",
     ]);
@@ -1379,6 +1382,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
 
       expect(harness.requests.map((request) => request.method)).toEqual([
         "config/read",
+        "config/read",
         "thread/start",
         "turn/start",
       ]);
@@ -1441,6 +1445,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
     expect(harness.requests.map((request) => request.method)).toEqual([
       "config/read",
       "configRequirements/read",
+      "config/read",
       "thread/start",
       "turn/start",
     ]);
