@@ -49,7 +49,12 @@ describe("browser engine config", () => {
     const browser = {
       profiles: {
         managed: { cdpPort: 18800, headless: true },
-        remote: { engine: "chromium", cdpUrl: "https://browser.example", attachOnly: true },
+        remote: {
+          engine: "chromium",
+          cdpUrl: "https://browser.example",
+          attachOnly: true,
+          resetDefaultDownloadBehaviorOnAttach: true,
+        },
         user: { driver: "existing-session" },
         chrome: { driver: "extension" },
       },

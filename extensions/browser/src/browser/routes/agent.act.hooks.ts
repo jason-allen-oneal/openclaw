@@ -81,7 +81,12 @@ export function registerBrowserAgentActHookRoutes(
           return res.json({ ok: true });
         }
 
-        const pw = await requirePwAi(res, "file chooser hook");
+        const pw = await requirePwAi(
+          res,
+          "file chooser hook",
+          profileCtx.profile.attachOnly,
+          profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+        );
         if (!pw) {
           return;
         }
@@ -94,6 +99,8 @@ export function registerBrowserAgentActHookRoutes(
           await pw.setInputFilesViaPlaywright({
             cdpUrl,
             noDefaults: profileCtx.profile.attachOnly,
+            resetDefaultDownloadBehaviorOnAttach:
+              profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             browserFilesystemLocal,
             targetId: tab.targetId,
             inputRef,
@@ -108,6 +115,8 @@ export function registerBrowserAgentActHookRoutes(
           await pw.uploadViaPlaywright({
             cdpUrl,
             noDefaults: profileCtx.profile.attachOnly,
+            resetDefaultDownloadBehaviorOnAttach:
+              profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             browserFilesystemLocal,
             targetId: tab.targetId,
             paths: resolvedPaths,
@@ -121,6 +130,8 @@ export function registerBrowserAgentActHookRoutes(
           await pw.armFileUploadViaPlaywright({
             cdpUrl,
             noDefaults: profileCtx.profile.attachOnly,
+            resetDefaultDownloadBehaviorOnAttach:
+              profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             browserFilesystemLocal,
             targetId: tab.targetId,
             paths: resolvedPaths,
@@ -217,7 +228,12 @@ export function registerBrowserAgentActHookRoutes(
           });
           return res.json({ ok: true });
         }
-        const pw = await requirePwAi(res, "dialog hook");
+        const pw = await requirePwAi(
+          res,
+          "dialog hook",
+          profileCtx.profile.attachOnly,
+          profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+        );
         if (!pw) {
           return;
         }
@@ -229,6 +245,8 @@ export function registerBrowserAgentActHookRoutes(
           promptText,
           timeoutMs: timeoutMs ?? undefined,
           noDefaults: profileCtx.profile.attachOnly,
+          resetDefaultDownloadBehaviorOnAttach:
+            profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
           ...(assertCurrent ? { assertCurrent } : {}),
         });
         res.json({ ok: true });

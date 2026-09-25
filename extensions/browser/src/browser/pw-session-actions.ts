@@ -69,6 +69,7 @@ export async function getObservedBrowserStateViaPlaywright(opts: {
   targetId?: string;
   ssrfPolicy?: SsrFPolicy;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<BrowserObservedState> {
   const page = await getPageForTargetId(opts);
   return getObservedBrowserStateForPage(page);
@@ -80,6 +81,7 @@ export async function getDocumentIdentitiesViaPlaywright(opts: {
   targetId?: string;
   timeoutMs?: number;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }) {
   const page = await getPageForTargetId(opts);
   return await readDocumentIdentitiesForPage(page, opts.timeoutMs);
@@ -264,6 +266,7 @@ async function withPlaywrightSafeReadReconnect<T>(
     engine?: BrowserEngineId;
     ssrfPolicy?: SsrFPolicy;
     noDefaults?: boolean;
+    resetDefaultDownloadBehaviorOnAttach?: boolean;
     signal: AbortSignal;
   },
   run: (browser: Browser) => Promise<T>,
@@ -274,6 +277,7 @@ async function withPlaywrightSafeReadReconnect<T>(
     undefined,
     opts.engine,
     opts.noDefaults,
+    opts.resetDefaultDownloadBehaviorOnAttach,
   );
   try {
     return await run(connected.browser);
@@ -295,6 +299,7 @@ async function withPlaywrightSafeReadReconnect<T>(
       undefined,
       opts.engine,
       opts.noDefaults,
+      opts.resetDefaultDownloadBehaviorOnAttach,
     );
     return await run(retry.browser);
   }
@@ -306,6 +311,7 @@ async function readPagesViaPlaywright(
     engine?: BrowserEngineId;
     ssrfPolicy?: SsrFPolicy;
     noDefaults?: boolean;
+    resetDefaultDownloadBehaviorOnAttach?: boolean;
     requireCompleteTargetList?: boolean;
   },
   signal: AbortSignal,
@@ -317,6 +323,7 @@ async function readPagesViaPlaywright(
       signal,
       engine: opts.engine,
       noDefaults: opts.noDefaults,
+      resetDefaultDownloadBehaviorOnAttach: opts.resetDefaultDownloadBehaviorOnAttach,
     },
     async (browser) => {
       signal.throwIfAborted();
@@ -500,6 +507,7 @@ export async function listPagesViaPlaywright(opts: {
   engine?: BrowserEngineId;
   ssrfPolicy?: SsrFPolicy;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   timeoutMs?: number;
   requireCompleteTargetList?: boolean;
   signal?: AbortSignal;
@@ -557,6 +565,7 @@ export async function createPageViaPlaywright(
     url: string;
     cdpPolicy?: SsrFPolicy;
     noDefaults?: boolean;
+    resetDefaultDownloadBehaviorOnAttach?: boolean;
     signal?: AbortSignal;
     /** Caller authority is checked at each effect boundary, independently of cancellation. */
     assertCurrent?: () => void;
@@ -585,6 +594,7 @@ export async function createPageViaPlaywright(
     undefined,
     opts.engine,
     opts.noDefaults,
+    opts.resetDefaultDownloadBehaviorOnAttach,
   );
   assertCurrent();
   // Refusing a second connection-scoped page must not close the existing one.
@@ -686,6 +696,7 @@ export async function closePageByTargetIdViaPlaywright(opts: {
   ssrfPolicy?: SsrFPolicy;
   signal?: AbortSignal;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<void> {
   const page = await getPageForTargetId(opts);
   await closeResolvedPageViaPlaywright(page, opts);
@@ -734,6 +745,7 @@ export async function focusPageByTargetIdViaPlaywright(opts: {
   signal?: AbortSignal;
   assertCurrent?: () => void | Promise<void>;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<void> {
   const page = await getPageForTargetId(opts);
   const assertion = opts.assertCurrent?.();

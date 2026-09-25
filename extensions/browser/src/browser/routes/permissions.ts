@@ -81,6 +81,8 @@ async function grantPermissions(params: {
           targetId: params.targetId,
           ssrfPolicy: params.ssrfPolicy,
           noDefaults: params.profileCtx.profile.attachOnly,
+          resetDefaultDownloadBehaviorOnAttach:
+            params.profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         });
         if (params.assertCurrent) {
           await assertInteractionCurrent(params);

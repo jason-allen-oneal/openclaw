@@ -26,4 +26,19 @@ describe("Playwright module CDP defaults", () => {
 
     expect(listPagesViaPlaywright).toHaveBeenCalledWith({ cdpUrl: "http://127.0.0.1:9222" });
   });
+
+  it("enables stale download-policy recovery only for an explicit profile opt-in", async () => {
+    const pw = await getPwAiModule({
+      noDefaults: true,
+      resetDefaultDownloadBehaviorOnAttach: true,
+    });
+
+    await pw?.listPagesViaPlaywright({ cdpUrl: "http://127.0.0.1:9222" });
+
+    expect(listPagesViaPlaywright).toHaveBeenCalledWith({
+      cdpUrl: "http://127.0.0.1:9222",
+      noDefaults: true,
+      resetDefaultDownloadBehaviorOnAttach: true,
+    });
+  });
 });

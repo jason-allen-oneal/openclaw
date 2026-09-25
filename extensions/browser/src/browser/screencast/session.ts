@@ -95,6 +95,7 @@ class BrowserScreencastSession {
         targetId: this.params.targetId,
         ssrfPolicy: this.params.ssrfPolicy,
         noDefaults: this.params.noDefaults,
+        resetDefaultDownloadBehaviorOnAttach: this.params.resetDefaultDownloadBehaviorOnAttach,
       });
       if (!this.isCurrent() || page.isClosed()) {
         this.onTargetClosed();

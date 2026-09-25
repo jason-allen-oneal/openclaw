@@ -268,6 +268,9 @@ export function createProfileSelectionOps({
           targetId: resolvedTargetId,
           ssrfPolicy: getCdpControlPolicy(),
           ...(profile.attachOnly ? { noDefaults: true } : {}),
+          ...(profile.resetDefaultDownloadBehaviorOnAttach
+            ? { resetDefaultDownloadBehaviorOnAttach: true }
+            : {}),
           ...(options?.signal ? { signal: options.signal } : {}),
           ...(options?.assertCurrent ? { assertCurrent: options.assertCurrent } : {}),
         });
@@ -313,6 +316,9 @@ export function createProfileSelectionOps({
             targetId: resolvedTargetId,
             ssrfPolicy: getCdpControlPolicy(),
             ...(profile.attachOnly ? { noDefaults: true } : {}),
+            ...(profile.resetDefaultDownloadBehaviorOnAttach
+              ? { resetDefaultDownloadBehaviorOnAttach: true }
+              : {}),
             ...(options?.signal ? { signal: options.signal } : {}),
           });
           closedViaPlaywright = true;

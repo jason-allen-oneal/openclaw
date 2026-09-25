@@ -50,11 +50,13 @@ export async function prepareSnapshotPageViaPlaywright(opts: {
   targetId?: string;
   ssrfPolicy?: SsrFPolicy;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<Page> {
   const page = await getPageForTargetId({
     cdpUrl: opts.cdpUrl,
     targetId: opts.targetId,
     noDefaults: opts.noDefaults,
+    resetDefaultDownloadBehaviorOnAttach: opts.resetDefaultDownloadBehaviorOnAttach,
   });
   ensurePageState(page);
   if (opts.ssrfPolicy) {

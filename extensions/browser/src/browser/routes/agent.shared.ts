@@ -99,8 +99,15 @@ export function browserNavigationPolicyForProfile(
 }
 
 /** Load the optional Playwright bridge module in soft-fail mode. */
-export async function getPwAiModule(opts?: { noDefaults?: boolean }): Promise<PwAiModule | null> {
-  return await getPwAiModuleBase({ mode: "soft", noDefaults: opts?.noDefaults });
+export async function getPwAiModule(opts?: {
+  noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
+}): Promise<PwAiModule | null> {
+  return await getPwAiModuleBase({
+    mode: "soft",
+    noDefaults: opts?.noDefaults,
+    resetDefaultDownloadBehaviorOnAttach: opts?.resetDefaultDownloadBehaviorOnAttach,
+  });
 }
 
 /** Require Playwright support for a route feature, returning a 501 when absent. */
@@ -108,8 +115,9 @@ export async function requirePwAi(
   res: BrowserResponse,
   feature: string,
   noDefaults = false,
+  resetDefaultDownloadBehaviorOnAttach = false,
 ): Promise<PwAiModule | null> {
-  const mod = await getPwAiModule({ noDefaults });
+  const mod = await getPwAiModule({ noDefaults, resetDefaultDownloadBehaviorOnAttach });
   if (mod) {
     return mod;
   }
@@ -191,7 +199,12 @@ export async function withRouteTabContext<T>(
           profileCtx,
           tab,
           cdpUrl: profileCtx.profile.cdpUrl,
-          browserCdpConnection: profileCtx.profile.attachOnly ? { noDefaults: true } : {},
+          browserCdpConnection: {
+            ...(profileCtx.profile.attachOnly ? { noDefaults: true } : {}),
+            ...(profileCtx.profile.resetDefaultDownloadBehaviorOnAttach
+              ? { resetDefaultDownloadBehaviorOnAttach: true }
+              : {}),
+          },
           signal,
           ...(assertCurrent ? { assertCurrent } : {}),
           resolveTabUrl: (fallbackUrl?: string) =>
@@ -262,7 +275,12 @@ export async function withPlaywrightRouteContext<T>(
   return await withRouteTabContext({
     ...tabParams,
     run: async (routeCtx) => {
-      const pw = await requirePwAi(params.res, feature, routeCtx.profileCtx.profile.attachOnly);
+      const pw = await requirePwAi(
+        params.res,
+        feature,
+        routeCtx.profileCtx.profile.attachOnly,
+        routeCtx.profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+      );
       if (!pw) {
         return undefined;
       }

@@ -37,6 +37,7 @@ async function sendPlaywrightDebugResult(params: {
     pw: PwAiModule;
     signal: AbortSignal;
     noDefaults: boolean;
+    resetDefaultDownloadBehaviorOnAttach?: boolean;
   }) => Promise<object | null>;
 }): Promise<void> {
   const profileCtx = resolveProfileContext(params.req, params.res, params.ctx);
@@ -64,6 +65,8 @@ async function sendPlaywrightDebugResult(params: {
         pw,
         signal,
         noDefaults: browserCdpConnection.noDefaults === true,
+        resetDefaultDownloadBehaviorOnAttach:
+          browserCdpConnection.resetDefaultDownloadBehaviorOnAttach,
       });
       if (result === null) {
         return;

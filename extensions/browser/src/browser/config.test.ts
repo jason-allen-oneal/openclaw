@@ -34,6 +34,29 @@ function withProfile(
 }
 
 describe("browser config", () => {
+  it("keeps external download-policy recovery opt-in and Chromium attach-only scoped", () => {
+    const profile = resolveRequiredProfile(
+      withProfile("user", {
+        driver: "openclaw",
+        cdpUrl: "http://127.0.0.1:9222",
+        attachOnly: true,
+        resetDefaultDownloadBehaviorOnAttach: true,
+      }),
+      "user",
+    );
+    expect(profile.resetDefaultDownloadBehaviorOnAttach).toBe(true);
+
+    const managed = resolveRequiredProfile(
+      withProfile("managed", {
+        cdpPort: 18801,
+        attachOnly: false,
+        resetDefaultDownloadBehaviorOnAttach: true,
+      }),
+      "managed",
+    );
+    expect(managed.resetDefaultDownloadBehaviorOnAttach).toBeUndefined();
+  });
+
   it.each(["chromium", "lightpanda"] as const)(
     "rejects Lightpanda endpoint aliases in unvalidated runtime config (%s)",
     (engine) => {

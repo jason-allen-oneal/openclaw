@@ -522,6 +522,10 @@ export function resolveProfile(
       headless,
       headlessSource,
       attachOnly: true,
+      ...(profile.resetDefaultDownloadBehaviorOnAttach === true &&
+      (engine ?? "chromium") === "chromium"
+        ? { resetDefaultDownloadBehaviorOnAttach: true }
+        : {}),
     };
   }
 
@@ -571,6 +575,12 @@ export function resolveProfile(
     headless,
     headlessSource,
     attachOnly: profile.attachOnly ?? resolved.attachOnly,
+    ...(profile.resetDefaultDownloadBehaviorOnAttach === true &&
+    (profile.attachOnly ?? resolved.attachOnly) &&
+    driver !== "extension" &&
+    (engine ?? "chromium") === "chromium"
+      ? { resetDefaultDownloadBehaviorOnAttach: true }
+      : {}),
   };
 }
 

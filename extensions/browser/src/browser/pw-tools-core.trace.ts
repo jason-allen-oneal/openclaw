@@ -10,6 +10,7 @@ export async function traceStartViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   screenshots?: boolean;
   snapshots?: boolean;
   sources?: boolean;
@@ -33,6 +34,7 @@ export async function traceStopViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   path: string;
 }): Promise<string> {
   const page = await getPageForTargetId(opts);

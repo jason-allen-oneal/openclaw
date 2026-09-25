@@ -20,7 +20,7 @@ const attachedPage = {
 };
 
 describe("Lightpanda CDP session routing", () => {
-  it("preserves external Chromium defaults and clears a stale download override", async () => {
+  it("preserves external Chromium download policy on a normal attach-only connection", async () => {
     const session = {
       send: vi.fn().mockResolvedValue(undefined),
       detach: vi.fn().mockResolvedValue(undefined),
@@ -42,6 +42,29 @@ describe("Lightpanda CDP session routing", () => {
       expect.anything(),
       expect.objectContaining({ noDefaults: true }),
     );
+    expect(session.send).not.toHaveBeenCalled();
+    expect(session.detach).not.toHaveBeenCalled();
+  });
+
+  it("resets stale download policy only when the profile explicitly opts in", async () => {
+    const session = {
+      send: vi.fn().mockResolvedValue(undefined),
+      detach: vi.fn().mockResolvedValue(undefined),
+    };
+    const browser = {
+      newBrowserCDPSession: vi.fn().mockResolvedValue(session),
+    } as unknown as Browser;
+    connectMock.mockResolvedValue(browser);
+
+    await connectOverCdpTransport("ws://127.0.0.1:9222", {
+      engine: "chromium",
+      headers: {},
+      noDefaults: true,
+      resetDefaultDownloadBehaviorOnAttach: true,
+      timeout: 1000,
+      preparedTransport: { send: vi.fn(), close: vi.fn() },
+    });
+
     expect(session.send).toHaveBeenCalledWith("Browser.setDownloadBehavior", {
       behavior: "default",
     });
@@ -77,6 +100,7 @@ describe("Lightpanda CDP session routing", () => {
         engine: "chromium",
         headers: {},
         noDefaults: true,
+        resetDefaultDownloadBehaviorOnAttach: true,
         timeout: 1000,
         preparedTransport: { send: vi.fn(), close: vi.fn() },
       }),
@@ -98,6 +122,7 @@ describe("Lightpanda CDP session routing", () => {
         engine: "chromium",
         headers: {},
         noDefaults: true,
+        resetDefaultDownloadBehaviorOnAttach: true,
         timeout: 1000,
         preparedTransport: { send: vi.fn(), close },
       }),

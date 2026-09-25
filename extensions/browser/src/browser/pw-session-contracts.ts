@@ -94,12 +94,14 @@ export type ConnectedBrowser = {
   cdpUrl: string;
   engine?: BrowserEngineId;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   onDisconnected?: () => void;
 };
 
 /** Preserve the owning browser's default context when attaching through CDP. */
 export type BrowserCdpConnectionOptions = {
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 };
 
 export type DownloadPayload = PlaywrightDownload & {
@@ -182,6 +184,7 @@ export type PendingBrowserConnection = {
   attempt: { cancelled: boolean; retired?: ConnectedBrowser };
   promise: Promise<ConnectedBrowser>;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 };
 
 export type PlaywrightConnectionRetirement = {

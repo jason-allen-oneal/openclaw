@@ -105,6 +105,7 @@ function buildStoredAriaRefs(nodes: AriaSnapshotNode[]): Record<string, StoredSn
 export async function storeSnapshotRefsViaPlaywright(opts: {
   cdpUrl: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   targetId?: string;
   page?: Page;
   nodes?: AriaSnapshotNode[];
@@ -121,6 +122,7 @@ export async function storeSnapshotRefsViaPlaywright(opts: {
       cdpUrl: opts.cdpUrl,
       targetId: opts.targetId,
       noDefaults: opts.noDefaults,
+      resetDefaultDownloadBehaviorOnAttach: opts.resetDefaultDownloadBehaviorOnAttach,
     }));
   ensurePageState(page);
   const backendRefs: { ref: string; backendDOMNodeId: number }[] = [];
@@ -171,6 +173,7 @@ export async function storeSnapshotRefsViaPlaywright(opts: {
 export async function snapshotAriaViaPlaywright(opts: {
   cdpUrl: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   targetId?: string;
   limit?: number;
   timeoutMs?: number;
@@ -183,6 +186,7 @@ export async function snapshotAriaViaPlaywright(opts: {
     targetId: opts.targetId,
     ssrfPolicy: opts.ssrfPolicy,
     noDefaults: opts.noDefaults,
+    resetDefaultDownloadBehaviorOnAttach: opts.resetDefaultDownloadBehaviorOnAttach,
   });
   const ariaTimeoutMs = resolveSnapshotTimeoutMs(opts.timeoutMs);
   return await withSnapshotFrameGuard({
@@ -206,6 +210,7 @@ export async function snapshotAriaViaPlaywright(opts: {
         cdpUrl: opts.cdpUrl,
         targetId: opts.targetId,
         noDefaults: opts.noDefaults,
+        resetDefaultDownloadBehaviorOnAttach: opts.resetDefaultDownloadBehaviorOnAttach,
         nodes: formatted,
         page,
         signal: opts.signal,
@@ -220,6 +225,7 @@ export async function snapshotAriaViaPlaywright(opts: {
 export async function navigateViaPlaywright(opts: {
   cdpUrl: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   targetId?: string;
   assertCurrent?: InteractionTargetOptions["assertCurrent"];
   resolveOperationTarget?: () => string | undefined | Promise<string | undefined>;
@@ -348,7 +354,14 @@ export async function navigateViaPlaywright(opts: {
     if (opts.resolveOperationTarget) {
       // Auto-attach completes during reconnect; only then can the same tab owner prove its new ID.
       if (opts.noDefaults) {
-        await connectBrowser(opts.cdpUrl, opts.ssrfPolicy, opts.relayReference, undefined, true);
+        await connectBrowser(
+          opts.cdpUrl,
+          opts.ssrfPolicy,
+          opts.relayReference,
+          undefined,
+          true,
+          opts.resetDefaultDownloadBehaviorOnAttach,
+        );
       } else {
         await connectBrowser(opts.cdpUrl, opts.ssrfPolicy, opts.relayReference);
       }
@@ -442,6 +455,7 @@ export async function pdfViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<{ buffer: Buffer }> {
   const page = await getPageForTargetId(opts);
   ensurePageState(page);

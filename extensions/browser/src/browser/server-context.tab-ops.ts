@@ -154,6 +154,9 @@ export function createProfileTabOps({ profile, state, runtime }: TabOpsDeps): Pr
         const pages = await listPagesViaPlaywright({
           cdpUrl: profile.cdpUrl,
           ...(profile.attachOnly ? { noDefaults: true } : {}),
+          ...(profile.resetDefaultDownloadBehaviorOnAttach
+            ? { resetDefaultDownloadBehaviorOnAttach: true }
+            : {}),
           ...(profile.engine ? { engine: profile.engine } : {}),
           ssrfPolicy,
           timeoutMs,
@@ -390,6 +393,9 @@ export function createProfileTabOps({ profile, state, runtime }: TabOpsDeps): Pr
           const page = await createPageViaPlaywright({
             cdpUrl: profile.cdpUrl,
             ...(profile.attachOnly ? { noDefaults: true } : {}),
+            ...(profile.resetDefaultDownloadBehaviorOnAttach
+              ? { resetDefaultDownloadBehaviorOnAttach: true }
+              : {}),
             ...(profile.engine ? { engine: profile.engine } : {}),
             url,
             cdpPolicy,

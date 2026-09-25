@@ -25,6 +25,7 @@ export async function cookiesGetViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<{ cookies: unknown[] }> {
   const page = await getPageForTargetId(opts);
   ensurePageState(page);
@@ -123,6 +124,7 @@ export async function storageGetViaPlaywright(opts: {
   cdpUrl: string;
   targetId?: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   kind: StorageKind;
   key?: string;
 }): Promise<{ values: Record<string, string> }> {

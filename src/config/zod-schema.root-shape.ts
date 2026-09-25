@@ -152,6 +152,8 @@ export const OpenClawSchemaShape = {
               executablePath: z.string().optional(),
               /** If true, never launch a browser for this profile; only attach. Falls back to browser.attachOnly. */
               attachOnly: z.boolean().optional(),
+              /** If true, an attach-only Chromium profile may reset the default-context download policy on connect. */
+              resetDefaultDownloadBehaviorOnAttach: z.boolean().optional(),
             })
             .refine(
               (value) =>

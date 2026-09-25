@@ -56,7 +56,12 @@ export function registerBrowserAgentActDownloadRoutes(
         if (getBrowserProfileCapabilities(profileCtx.profile).usesChromeMcp) {
           return jsonError(res, 501, EXISTING_SESSION_LIMITS.download.waitUnsupported);
         }
-        const pw = await requirePwAi(res, "wait for download");
+        const pw = await requirePwAi(
+          res,
+          "wait for download",
+          profileCtx.profile.attachOnly,
+          profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+        );
         if (!pw) {
           return;
         }
@@ -130,7 +135,12 @@ export function registerBrowserAgentActDownloadRoutes(
         if (getBrowserProfileCapabilities(profileCtx.profile).usesChromeMcp) {
           return jsonError(res, 501, EXISTING_SESSION_LIMITS.download.downloadUnsupported);
         }
-        const pw = await requirePwAi(res, "download");
+        const pw = await requirePwAi(
+          res,
+          "download",
+          profileCtx.profile.attachOnly,
+          profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+        );
         if (!pw) {
           return;
         }

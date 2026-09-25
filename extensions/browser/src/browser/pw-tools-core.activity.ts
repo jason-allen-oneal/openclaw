@@ -19,6 +19,7 @@ import {
 export async function getPageTextViaPlaywright(opts: {
   cdpUrl: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   targetId?: string;
   selector?: string;
   maxChars?: number;
@@ -75,6 +76,7 @@ export async function getPageTextViaPlaywright(opts: {
 export async function getPageErrorsViaPlaywright(opts: {
   cdpUrl: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   targetId?: string;
   clear?: boolean;
 }): Promise<{ errors: BrowserPageError[] }> {
@@ -91,6 +93,7 @@ export async function getPageErrorsViaPlaywright(opts: {
 export async function getNetworkRequestsViaPlaywright(opts: {
   cdpUrl: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   targetId?: string;
   filter?: string;
   clear?: boolean;
@@ -130,6 +133,7 @@ function consolePriority(level: string) {
 export async function getConsoleMessagesViaPlaywright(opts: {
   cdpUrl: string;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   targetId?: string;
   level?: string;
 }): Promise<BrowserConsoleMessage[]> {

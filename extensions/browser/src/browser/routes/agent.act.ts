@@ -445,7 +445,12 @@ export function registerBrowserAgentActRoutes(
               }
             }
 
-            const pw = await requirePwAi(res, `act:${kind}`);
+            const pw = await requirePwAi(
+              res,
+              `act:${kind}`,
+              profileCtx.profile.attachOnly,
+              profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+            );
             if (!pw) {
               return;
             }
@@ -546,7 +551,12 @@ export function registerBrowserAgentActRoutes(
         if (getBrowserProfileCapabilities(profileCtx.profile).usesChromeMcp) {
           return jsonError(res, 501, EXISTING_SESSION_LIMITS.responseBody);
         }
-        const pw = await requirePwAi(res, "response body");
+        const pw = await requirePwAi(
+          res,
+          "response body",
+          profileCtx.profile.attachOnly,
+          profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+        );
         if (!pw) {
           return;
         }
@@ -554,6 +564,8 @@ export function registerBrowserAgentActRoutes(
           cdpUrl,
           targetId: tab.targetId,
           noDefaults: profileCtx.profile.attachOnly,
+          resetDefaultDownloadBehaviorOnAttach:
+            profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
           signal,
           url,
           timeoutMs: timeoutMs ?? undefined,
@@ -620,7 +632,12 @@ export function registerBrowserAgentActRoutes(
           });
           return await jsonOk();
         }
-        const pw = await requirePwAi(res, "highlight");
+        const pw = await requirePwAi(
+          res,
+          "highlight",
+          profileCtx.profile.attachOnly,
+          profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
+        );
         if (!pw) {
           return;
         }
@@ -628,6 +645,8 @@ export function registerBrowserAgentActRoutes(
           cdpUrl,
           targetId: tab.targetId,
           noDefaults: profileCtx.profile.attachOnly,
+          resetDefaultDownloadBehaviorOnAttach:
+            profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
           ref,
         });
         await jsonOk();

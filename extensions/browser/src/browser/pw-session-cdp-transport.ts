@@ -37,6 +37,7 @@ type CdpTransportOptions = {
   timeout: number;
   headers: Record<string, string>;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
   lookup?: CdpSocketLookup;
   resolveWebSocketUrl?: () => Promise<string | undefined>;
   preparedTransport?: ConnectOverCDPTransport;
@@ -262,7 +263,10 @@ export async function connectOverCdpTransport(
       timeout: opts.timeout,
       ...(opts.noDefaults ? { noDefaults: true } : {}),
     });
-    if (opts.noDefaults && resolveBrowserEngine(opts.engine).descriptor.id === "chromium") {
+    if (
+      opts.resetDefaultDownloadBehaviorOnAttach &&
+      resolveBrowserEngine(opts.engine).descriptor.id === "chromium"
+    ) {
       // A previous Playwright attach may have left allowAndName pointing at a
       // temporary artifacts directory. Restore Chrome's default behavior so
       // native downloads recover without requiring a browser restart.

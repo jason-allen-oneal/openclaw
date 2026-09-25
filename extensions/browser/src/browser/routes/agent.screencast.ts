@@ -93,6 +93,8 @@ export function registerBrowserAgentScreencastRoutes(
             targetId: tab.targetId,
             cdpUrl,
             noDefaults: profileCtx.profile.attachOnly,
+            resetDefaultDownloadBehaviorOnAttach:
+              profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             ssrfPolicy: state.resolved.ssrfPolicy,
             maxWidth: clampScreencastOption(body.maxWidth, 320, 2000, 1280),
             maxHeight: clampScreencastOption(body.maxHeight, 320, 2000, 1280),

@@ -15,8 +15,11 @@ let pwAiModuleSoft: Promise<PwAiModule | null> | null = null;
 let pwAiModuleStrict: Promise<PwAiModule | null> | null = null;
 let loadedPwAiModule: PwAiModule | null | undefined;
 
-function applyCdpDefaults(pw: PwAiModule | null, noDefaults: boolean): PwAiModule | null {
-  if (!pw || !noDefaults) {
+function applyCdpDefaults(
+  pw: PwAiModule | null,
+  defaults: { noDefaults: boolean; resetDefaultDownloadBehaviorOnAttach: boolean },
+): PwAiModule | null {
+  if (!pw || (!defaults.noDefaults && !defaults.resetDefaultDownloadBehaviorOnAttach)) {
     return pw;
   }
   return new Proxy(pw, {
@@ -26,11 +29,22 @@ function applyCdpDefaults(pw: PwAiModule | null, noDefaults: boolean): PwAiModul
         return method;
       }
       return (...args: unknown[]) => {
-        const options = args[0];
-        if (!options || typeof options !== "object" || !("cdpUrl" in options)) {
+        const callOptions = args[0];
+        if (!callOptions || typeof callOptions !== "object" || !("cdpUrl" in callOptions)) {
           return Reflect.apply(method, target, args);
         }
-        return Reflect.apply(method, target, [{ ...options, noDefaults: true }, ...args.slice(1)]);
+        return Reflect.apply(method, target, [
+          {
+            ...callOptions,
+            ...(defaults.noDefaults || defaults.resetDefaultDownloadBehaviorOnAttach
+              ? { noDefaults: true }
+              : {}),
+            ...(defaults.resetDefaultDownloadBehaviorOnAttach
+              ? { resetDefaultDownloadBehaviorOnAttach: true }
+              : {}),
+          },
+          ...args.slice(1),
+        ]);
       };
     },
   });
@@ -70,27 +84,35 @@ async function loadPwAiModule(mode: PwAiLoadMode): Promise<PwAiModule | null> {
 }
 
 /** Return the already-resolved module without yielding during lifecycle invalidation. */
-export function getLoadedPwAiModule(noDefaults = false): PwAiModule | null | undefined {
+export function getLoadedPwAiModule(
+  noDefaults = false,
+  resetDefaultDownloadBehaviorOnAttach = false,
+): PwAiModule | null | undefined {
   if (loadedPwAiModule === undefined) {
     return undefined;
   }
-  return applyCdpDefaults(loadedPwAiModule, noDefaults);
+  return applyCdpDefaults(loadedPwAiModule, { noDefaults, resetDefaultDownloadBehaviorOnAttach });
 }
 
 /** Load the Playwright AI helper module in soft or strict mode. */
 export async function getPwAiModule(opts?: {
   mode?: PwAiLoadMode;
   noDefaults?: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<PwAiModule | null> {
   const mode: PwAiLoadMode = opts?.mode ?? "soft";
+  const cdpDefaults = {
+    noDefaults: opts?.noDefaults ?? false,
+    resetDefaultDownloadBehaviorOnAttach: opts?.resetDefaultDownloadBehaviorOnAttach ?? false,
+  };
   if (mode === "soft") {
     if (!pwAiModuleSoft) {
       pwAiModuleSoft = loadPwAiModule("soft");
     }
-    return applyCdpDefaults(await pwAiModuleSoft, opts?.noDefaults ?? false);
+    return applyCdpDefaults(await pwAiModuleSoft, cdpDefaults);
   }
   if (!pwAiModuleStrict) {
     pwAiModuleStrict = loadPwAiModule("strict");
   }
-  return applyCdpDefaults(await pwAiModuleStrict, opts?.noDefaults ?? false);
+  return applyCdpDefaults(await pwAiModuleStrict, cdpDefaults);
 }

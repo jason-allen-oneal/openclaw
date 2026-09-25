@@ -18,4 +18,5 @@ export type ResolvedBrowserProfile = {
   headless: boolean;
   headlessSource?: "profile" | "config" | "default";
   attachOnly: boolean;
+  resetDefaultDownloadBehaviorOnAttach?: boolean;
 };
