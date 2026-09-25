@@ -29,7 +29,8 @@ vi.mock("../../llm/oauth.js", async (importOriginal) => ({
   }),
 }));
 
-vi.mock("../../plugins/provider-runtime.js", () => ({
+vi.mock("../../plugins/provider-runtime.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../plugins/provider-runtime.js")>()),
   buildProviderMissingAuthMessageWithPlugin: () => undefined,
   resolveExternalAuthProfilesWithPlugins: () => [],
   resolveProviderDeprecatedAuthProfileIds: () => [],

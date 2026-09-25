@@ -8,7 +8,6 @@ import {
   type EmbeddedRunAttemptParamsV2 as EmbeddedRunAttemptParams,
 } from "openclaw/plugin-sdk/agent-harness-runtime";
 import { resolveAgentWorkspaceDir } from "openclaw/plugin-sdk/agent-runtime";
-import { resolveBootstrapFilesForPreparation } from "openclaw/plugin-sdk/codex-mcp-projection";
 import {
   buildMemorySystemPromptAddition,
   prepareMemorySystemPromptAddition,
@@ -56,32 +55,6 @@ export type CodexWorkspaceBootstrapContext = CodexBootstrapContext & {
   turnScopedDeveloperInstructions?: string;
   memoryCollaborationInstructions?: string;
 };
-
-/** A child baseline reads the bounded workspace snapshot without invoking admission hooks. */
-export async function prepareCodexWorkspaceDeveloperInstructions(params: {
-  config: EmbeddedRunAttemptParams["config"];
-  agentId: string;
-  sessionKey: string;
-  sessionId: string;
-  workspaceDir: string;
-  cwd: string;
-}): Promise<string | undefined> {
-  if (isSameCodexWorkspacePath(params.workspaceDir, params.cwd)) {
-    return undefined;
-  }
-  const files = await resolveBootstrapFilesForPreparation(params);
-  const contextFiles = buildBootstrapContextForFiles(files, {
-    config: params.config,
-    agentId: params.agentId,
-  });
-  return (
-    renderCodexWorkspaceDeveloperInstructions({
-      files: selectCodexWorkspaceAgentProjectInstructionFiles(contextFiles, params.workspaceDir),
-      header: "## OpenClaw Agent Workspace Instructions",
-      preamble: "OpenClaw loaded this bounded snapshot from the configured agent workspace.",
-    }) ?? ""
-  );
-}
 
 /** Loads and partitions workspace snapshots, turn instructions, and memory references. */
 export async function buildCodexWorkspaceBootstrapContext(params: {
