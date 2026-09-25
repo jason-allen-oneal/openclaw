@@ -48,6 +48,11 @@ const navigationGuardMocks = vi.hoisted(() => ({
   withBrowserNavigationPolicy: vi.fn((ssrfPolicy?: unknown) => (ssrfPolicy ? { ssrfPolicy } : {})),
 }));
 
+vi.mock("../pw-ai-module.js", () => ({
+  getPwAiModule: vi.fn(async () => pwState.module),
+  getLoadedPwAiModule: () => null,
+}));
+
 vi.mock("../cdp.js", () => ({
   captureScreenshot: vi.fn(),
   getDocumentIdentitiesViaCdp: cdpMocks.getDocumentIdentitiesViaCdp,

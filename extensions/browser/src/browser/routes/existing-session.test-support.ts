@@ -68,9 +68,6 @@ export function createExistingSessionAgentSharedModule() {
         return tabs.find((tab) => tab.targetId === params.targetId)?.url ?? params.fallbackUrl;
       },
     ),
-    resolveTargetIdFromBody: vi.fn((body: Record<string, unknown>) =>
-      typeof body.targetId === "string" ? body.targetId : undefined,
-    ),
     withPlaywrightRouteContext: vi.fn(),
     withRouteTabContext: vi.fn(
       async ({
@@ -98,13 +95,11 @@ export function createExistingSessionAgentSharedModule() {
           cdpUrl: "http://127.0.0.1:18800",
           tab: existingSessionRouteState.tab,
           signal: req.signal ?? new AbortController().signal,
-          resolveTabUrl: vi.fn(async (fallbackUrl?: string) => fallbackUrl ?? routeStateUrl()),
+          resolveTabUrl: vi.fn(
+            async (fallbackUrl?: string) => fallbackUrl ?? existingSessionRouteState.tab.url,
+          ),
         });
       },
     ),
   };
-}
-
-function routeStateUrl() {
-  return existingSessionRouteState.tab.url;
 }

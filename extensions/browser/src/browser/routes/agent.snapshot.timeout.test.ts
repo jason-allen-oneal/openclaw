@@ -52,6 +52,7 @@ const pwMocks = vi.hoisted(() => ({
 }));
 
 vi.mock("../pw-ai-module.js", () => ({
+  getPwAiModule: vi.fn(async () => null),
   getLoadedPwAiModule: () => pwMocks,
 }));
 

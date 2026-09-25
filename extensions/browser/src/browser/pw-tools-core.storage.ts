@@ -1,24 +1,12 @@
-/**
- * Cookie and Web Storage helpers for Playwright-backed browser tools.
- */
 import { readStringValue } from "openclaw/plugin-sdk/string-coerce-runtime";
-import { ensurePageState, getPageForTargetId } from "./pw-session.js";
+import type { BrowserContext } from "playwright-core";
+import { getPageForTargetId } from "./pw-session.js";
 import {
   assertInteractionCurrent,
   type InteractionTargetOptions,
 } from "./pw-tools-core.interactions.navigation.js";
 
-type PlaywrightCookieInput = {
-  name: string;
-  value: string;
-  url?: string;
-  domain?: string;
-  path?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  secure?: boolean;
-  sameSite?: "Lax" | "None" | "Strict";
-};
+type PlaywrightCookieInput = Parameters<BrowserContext["addCookies"]>[0][number];
 
 /** Returns cookies visible to the target browser context. */
 export async function cookiesGetViaPlaywright(opts: {
@@ -28,7 +16,6 @@ export async function cookiesGetViaPlaywright(opts: {
   resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<{ cookies: unknown[] }> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   const cookies = await page.context().cookies();
   return { cookies };
 }
@@ -40,7 +27,6 @@ export async function cookiesSetViaPlaywright(
   },
 ): Promise<void> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   const cookie = opts.cookie;
   if (!cookie.name || cookie.value === undefined) {
     throw new Error("cookie name and value are required");
@@ -74,7 +60,6 @@ export async function cookiesSetManyViaPlaywright(
 ): Promise<{ added: number }> {
   opts.signal?.throwIfAborted();
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   const context = page.context();
   let added = 0;
   for (let index = 0; index < opts.cookies.length; index += 500) {
@@ -110,7 +95,6 @@ export async function cookiesSetManyViaPlaywright(
 /** Clears cookies in the target browser context. */
 export async function cookiesClearViaPlaywright(opts: InteractionTargetOptions): Promise<void> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   if (opts.assertCurrent) {
     await assertInteractionCurrent(opts);
   }
@@ -129,7 +113,6 @@ export async function storageGetViaPlaywright(opts: {
   key?: string;
 }): Promise<{ values: Record<string, string> }> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   const kind = opts.kind;
   const key = readStringValue(opts.key);
   // Entry pairs preserve keys that Playwright omits when deserializing objects.
@@ -167,7 +150,6 @@ export async function storageSetViaPlaywright(
   },
 ): Promise<void> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   const key = opts.key;
   if (!key) {
     throw new Error("key is required");
@@ -191,7 +173,6 @@ export async function storageClearViaPlaywright(
   },
 ): Promise<void> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   if (opts.assertCurrent) {
     await assertInteractionCurrent(opts);
   }

@@ -450,7 +450,6 @@ export async function resizeViewportViaPlaywright(
 /** Closes the target Playwright page. */
 export async function closePageViaPlaywright(opts: InteractionTargetOptions): Promise<void> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   await closeResolvedPageViaPlaywright(page, {
     cdpUrl: opts.cdpUrl,
     assertCurrent: opts.assertCurrent ? () => assertInteractionCurrent(opts) : undefined,
@@ -465,7 +464,6 @@ export async function pdfViaPlaywright(opts: {
   resetDefaultDownloadBehaviorOnAttach?: boolean;
 }): Promise<{ buffer: Buffer }> {
   const page = await getPageForTargetId(opts);
-  ensurePageState(page);
   const buffer = await page.pdf({ printBackground: true });
   return { buffer };
 }
