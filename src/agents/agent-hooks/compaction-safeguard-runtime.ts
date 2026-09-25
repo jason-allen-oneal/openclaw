@@ -47,7 +47,7 @@ export const setCompactionSafeguardRuntime = registry.set;
 
 export const getCompactionSafeguardRuntime = registry.get;
 
-export function isCompactionSemanticCurationEligible(sessionManager: unknown): boolean {
+function isCompactionSemanticCurationEligible(sessionManager: unknown): boolean {
   return getCompactionSafeguardRuntime(sessionManager)?.semanticCurationEligible?.() !== false;
 }
 
