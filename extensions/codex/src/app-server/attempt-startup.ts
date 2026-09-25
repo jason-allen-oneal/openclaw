@@ -155,6 +155,7 @@ export async function startCodexAttemptThread(params: {
   agentWorkspaceDeveloperInstructions?: string;
   agentWorkspaceDeveloperInstructionsAllowed?: boolean;
   captureNativeProjectInstructions?: boolean;
+  nativeProjectInstructionSnapshotAllowed?: boolean;
   projectInstructionsUnavailableToGateway?: boolean;
   nativeProjectDocsDisabledOnResume?: boolean;
   finalConfigPatch?: Parameters<typeof startOrResumeThread>[0]["finalConfigPatch"];
@@ -500,6 +501,8 @@ export async function startCodexAttemptThread(params: {
                 agentWorkspaceDeveloperInstructionsAllowed:
                   params.agentWorkspaceDeveloperInstructionsAllowed,
                 captureNativeProjectInstructions: params.captureNativeProjectInstructions,
+                nativeProjectInstructionSnapshotAllowed:
+                  params.nativeProjectInstructionSnapshotAllowed,
                 projectInstructionsUnavailableToGateway:
                   params.projectInstructionsUnavailableToGateway,
                 nativeProjectDocsDisabledOnResume: params.nativeProjectDocsDisabledOnResume,

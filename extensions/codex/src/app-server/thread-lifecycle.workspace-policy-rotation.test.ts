@@ -1,6 +1,9 @@
 // Codex tests cover frozen workspace policy across physical thread replacement.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { sessionBindingIdentity } from "./session-binding.js";
+import {
+  CODEX_UNAVAILABLE_PROJECT_DOCS_AUTHORITY,
+  sessionBindingIdentity,
+} from "./session-binding.js";
 import {
   resetCodexTestBindingStore,
   testCodexAppServerBindingStore,
@@ -60,6 +63,7 @@ describe("Codex app-server rotated workspace policy", () => {
       coldDeveloperInstructions: developerInstructions,
       agentWorkspaceDeveloperInstructions: capturedGuidance,
       agentWorkspaceDeveloperInstructionsAllowed: true,
+      nativeProjectInstructionSnapshotAllowed: true,
       config: { project_doc_max_bytes: 64_000 },
       appServer: createAppServerOptions(),
     };
@@ -106,5 +110,79 @@ describe("Codex app-server rotated workspace policy", () => {
     ).toMatchObject({
       threadId: "thread-2",
     });
+  });
+
+  it("does not capture Gateway-local instructions for a remote replacement", async () => {
+    const workspaceDir = "/tmp/openclaw-codex-remote-rotation";
+    const attempt = createParams("/tmp/openclaw-codex-remote-rotation.jsonl", workspaceDir);
+    const request = vi.fn(async (method: string) => {
+      if (method === "config/read") {
+        return { config: {}, origins: {}, layers: [] };
+      }
+      if (method === "configRequirements/read") {
+        return { requirements: null };
+      }
+      if (method === "thread/start") {
+        const startNumber = request.mock.calls.filter(([name]) => name === "thread/start").length;
+        return {
+          ...threadStartResult(`thread-${startNumber}`),
+          instructionSources: startNumber === 2 ? ["/remote/workspace/AGENTS.md"] : [],
+        };
+      }
+      throw new Error(`unexpected method: ${method}`);
+    });
+    const common = {
+      client: { request } as never,
+      params: attempt,
+      cwd: workspaceDir,
+      dynamicTools: [
+        {
+          type: "function" as const,
+          name: "remote-tool",
+          description: "remote-tool",
+          inputSchema: { type: "object", properties: {} },
+        },
+      ],
+      developerInstructions: "Current turn instructions.",
+      coldDeveloperInstructions: "Old frozen instructions.",
+      agentWorkspaceDeveloperInstructions: "Old frozen instructions.",
+      agentWorkspaceDeveloperInstructionsAllowed: true,
+      nativeProjectInstructionSnapshotAllowed: false,
+      environmentSelection: [{ environmentId: "remote-a", cwd: "/remote/workspace" }],
+      appServer: createAppServerOptions(),
+    };
+    await startOrResumeThread(common);
+    const replacement = await startOrResumeThread({
+      ...common,
+      dynamicTools: [
+        {
+          type: "function" as const,
+          name: "replacement-tool",
+          description: "replacement-tool",
+          inputSchema: { type: "object", properties: {} },
+        },
+      ],
+      nativeProjectDocsDisabledOnResume: true,
+    });
+    expect(replacement.threadId).toBe("thread-2");
+    expect(request.mock.calls.map(([method]) => method)).toEqual([
+      "config/read",
+      "configRequirements/read",
+      "thread/start",
+      "config/read",
+      "configRequirements/read",
+      "thread/start",
+    ]);
+    expect(replacement.agentWorkspaceDeveloperInstructions).toBe(
+      CODEX_UNAVAILABLE_PROJECT_DOCS_AUTHORITY,
+    );
+    expect(replacement.projectInstructionsUnavailableToGateway).toBe(true);
+    const replacementStart = request.mock.calls.findLast(
+      ([method]) => method === "thread/start",
+    )?.[1] as
+      | { config?: { project_doc_max_bytes?: number }; developerInstructions?: string }
+      | undefined;
+    expect(replacementStart?.config?.project_doc_max_bytes).not.toBe(0);
+    expect(replacementStart?.developerInstructions).not.toContain("Old frozen instructions.");
   });
 });

@@ -733,7 +733,10 @@ export async function startOrResumeThread(
             ...params,
             coldDeveloperInstructions: undefined,
             nativeProjectDocsDisabledOnResume: false,
-            captureNativeProjectInstructions: true,
+            captureNativeProjectInstructions:
+              params.nativeProjectInstructionSnapshotAllowed === true,
+            projectInstructionsUnavailableToGateway:
+              params.nativeProjectInstructionSnapshotAllowed !== true,
             agentWorkspaceDeveloperInstructions: undefined,
           }
         : params;

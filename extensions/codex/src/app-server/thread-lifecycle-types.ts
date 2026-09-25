@@ -93,6 +93,8 @@ export type CodexStartOrResumeThreadParams = {
   agentWorkspaceDeveloperInstructionsAllowed?: boolean;
   /** Capture the exact same-workspace project sources selected by Codex. */
   captureNativeProjectInstructions?: boolean;
+  /** The current process may attest native project sources as Gateway-host-local. */
+  nativeProjectInstructionSnapshotAllowed?: boolean;
   /** Candidate state; a fresh thread/start response must report nonempty native sources. */
   projectInstructionsUnavailableToGateway?: boolean;
   /** Suppress native project docs before replaying the frozen same-workspace snapshot. */

@@ -302,6 +302,7 @@ export async function prepareCodexAttemptContext(
     workspaceBootstrapContext,
     agentWorkspaceDeveloperInstructions,
     captureNativeProjectInstructions,
+    nativeProjectInstructionSnapshotAllowed,
     projectInstructionsUnavailableToGateway,
     nativeProjectDocsDisabledOnResume,
     frozenNativeProjectInstructions,
