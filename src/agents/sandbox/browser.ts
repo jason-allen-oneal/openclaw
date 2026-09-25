@@ -151,6 +151,7 @@ function buildSandboxBrowserResolvedConfig(params: {
     noSandbox: false,
     attachOnly: true,
     defaultProfile: DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME,
+    openClawLaunchedProfileNames: [DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME],
     extraArgs: [],
     tabCleanup: {
       enabled: true,

@@ -80,7 +80,7 @@ async function grantPermissions(params: {
           cdpUrl: params.profileCtx.profile.cdpUrl,
           targetId: params.targetId,
           ssrfPolicy: params.ssrfPolicy,
-          noDefaults: params.profileCtx.profile.attachOnly,
+          noDefaults: params.profileCtx.profile.noDefaults,
           resetDefaultDownloadBehaviorOnAttach:
             params.profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         });

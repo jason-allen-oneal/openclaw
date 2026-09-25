@@ -84,7 +84,7 @@ export function registerBrowserAgentActHookRoutes(
         const pw = await requirePwAi(
           res,
           "file chooser hook",
-          profileCtx.profile.attachOnly,
+          profileCtx.profile.noDefaults,
           profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         );
         if (!pw) {
@@ -98,7 +98,7 @@ export function registerBrowserAgentActHookRoutes(
           }
           await pw.setInputFilesViaPlaywright({
             cdpUrl,
-            noDefaults: profileCtx.profile.attachOnly,
+            noDefaults: profileCtx.profile.noDefaults,
             resetDefaultDownloadBehaviorOnAttach:
               profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             browserFilesystemLocal,
@@ -114,7 +114,7 @@ export function registerBrowserAgentActHookRoutes(
         } else if (ref) {
           await pw.uploadViaPlaywright({
             cdpUrl,
-            noDefaults: profileCtx.profile.attachOnly,
+            noDefaults: profileCtx.profile.noDefaults,
             resetDefaultDownloadBehaviorOnAttach:
               profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             browserFilesystemLocal,
@@ -129,7 +129,7 @@ export function registerBrowserAgentActHookRoutes(
         } else {
           await pw.armFileUploadViaPlaywright({
             cdpUrl,
-            noDefaults: profileCtx.profile.attachOnly,
+            noDefaults: profileCtx.profile.noDefaults,
             resetDefaultDownloadBehaviorOnAttach:
               profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             browserFilesystemLocal,
@@ -231,7 +231,7 @@ export function registerBrowserAgentActHookRoutes(
         const pw = await requirePwAi(
           res,
           "dialog hook",
-          profileCtx.profile.attachOnly,
+          profileCtx.profile.noDefaults,
           profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         );
         if (!pw) {
@@ -244,7 +244,7 @@ export function registerBrowserAgentActHookRoutes(
           accept,
           promptText,
           timeoutMs: timeoutMs ?? undefined,
-          noDefaults: profileCtx.profile.attachOnly,
+          noDefaults: profileCtx.profile.noDefaults,
           resetDefaultDownloadBehaviorOnAttach:
             profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
           ...(assertCurrent ? { assertCurrent } : {}),

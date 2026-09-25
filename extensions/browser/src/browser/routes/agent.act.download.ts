@@ -53,13 +53,17 @@ export function registerBrowserAgentActDownloadRoutes(
       targetId,
       enforceCurrentUrlAllowed: true,
       run: async ({ profileCtx, cdpUrl, tab, signal, assertCurrent }) => {
-        if (getBrowserProfileCapabilities(profileCtx.profile).usesChromeMcp) {
+        const capabilities = getBrowserProfileCapabilities(profileCtx.profile);
+        if (capabilities.usesChromeMcp) {
           return jsonError(res, 501, EXISTING_SESSION_LIMITS.download.waitUnsupported);
+        }
+        if (!capabilities.supportsDownloads) {
+          return jsonError(res, 501, EXISTING_SESSION_LIMITS.download.externalCaptureUnsupported);
         }
         const pw = await requirePwAi(
           res,
           "wait for download",
-          profileCtx.profile.attachOnly,
+          profileCtx.profile.noDefaults,
           profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         );
         if (!pw) {
@@ -132,13 +136,17 @@ export function registerBrowserAgentActDownloadRoutes(
       targetId,
       enforceCurrentUrlAllowed: true,
       run: async ({ profileCtx, cdpUrl, tab, signal, assertCurrent }) => {
-        if (getBrowserProfileCapabilities(profileCtx.profile).usesChromeMcp) {
+        const capabilities = getBrowserProfileCapabilities(profileCtx.profile);
+        if (capabilities.usesChromeMcp) {
           return jsonError(res, 501, EXISTING_SESSION_LIMITS.download.downloadUnsupported);
+        }
+        if (!capabilities.supportsDownloads) {
+          return jsonError(res, 501, EXISTING_SESSION_LIMITS.download.externalCaptureUnsupported);
         }
         const pw = await requirePwAi(
           res,
           "download",
-          profileCtx.profile.attachOnly,
+          profileCtx.profile.noDefaults,
           profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         );
         if (!pw) {

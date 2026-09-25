@@ -92,7 +92,7 @@ export function registerBrowserAgentScreencastRoutes(
             profileName,
             targetId: tab.targetId,
             cdpUrl,
-            noDefaults: profileCtx.profile.attachOnly,
+            noDefaults: profileCtx.profile.noDefaults,
             resetDefaultDownloadBehaviorOnAttach:
               profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             ssrfPolicy: state.resolved.ssrfPolicy,

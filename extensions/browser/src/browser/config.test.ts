@@ -918,6 +918,7 @@ describe("browser config", () => {
         executablePath: undefined,
         headless: false,
         headlessSource: "default",
+        noDefaults: true,
         mcpArgs: undefined,
         mcpCommand: undefined,
         userDataDir: undefined,

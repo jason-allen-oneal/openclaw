@@ -267,7 +267,7 @@ export function createProfileSelectionOps({
           cdpUrl: profile.cdpUrl,
           targetId: resolvedTargetId,
           ssrfPolicy: getCdpControlPolicy(),
-          ...(profile.attachOnly ? { noDefaults: true } : {}),
+          ...(profile.noDefaults ? { noDefaults: true } : {}),
           ...(profile.resetDefaultDownloadBehaviorOnAttach
             ? { resetDefaultDownloadBehaviorOnAttach: true }
             : {}),
@@ -315,7 +315,7 @@ export function createProfileSelectionOps({
             cdpUrl: profile.cdpUrl,
             targetId: resolvedTargetId,
             ssrfPolicy: getCdpControlPolicy(),
-            ...(profile.attachOnly ? { noDefaults: true } : {}),
+            ...(profile.noDefaults ? { noDefaults: true } : {}),
             ...(profile.resetDefaultDownloadBehaviorOnAttach
               ? { resetDefaultDownloadBehaviorOnAttach: true }
               : {}),

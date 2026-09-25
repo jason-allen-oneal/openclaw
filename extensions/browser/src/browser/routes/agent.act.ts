@@ -448,7 +448,7 @@ export function registerBrowserAgentActRoutes(
             const pw = await requirePwAi(
               res,
               `act:${kind}`,
-              profileCtx.profile.attachOnly,
+              profileCtx.profile.noDefaults,
               profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
             );
             if (!pw) {
@@ -554,7 +554,7 @@ export function registerBrowserAgentActRoutes(
         const pw = await requirePwAi(
           res,
           "response body",
-          profileCtx.profile.attachOnly,
+          profileCtx.profile.noDefaults,
           profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         );
         if (!pw) {
@@ -563,7 +563,7 @@ export function registerBrowserAgentActRoutes(
         const result = await pw.responseBodyViaPlaywright({
           cdpUrl,
           targetId: tab.targetId,
-          noDefaults: profileCtx.profile.attachOnly,
+          noDefaults: profileCtx.profile.noDefaults,
           resetDefaultDownloadBehaviorOnAttach:
             profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
           signal,
@@ -635,7 +635,7 @@ export function registerBrowserAgentActRoutes(
         const pw = await requirePwAi(
           res,
           "highlight",
-          profileCtx.profile.attachOnly,
+          profileCtx.profile.noDefaults,
           profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
         );
         if (!pw) {
@@ -644,7 +644,7 @@ export function registerBrowserAgentActRoutes(
         await pw.highlightViaPlaywright({
           cdpUrl,
           targetId: tab.targetId,
-          noDefaults: profileCtx.profile.attachOnly,
+          noDefaults: profileCtx.profile.noDefaults,
           resetDefaultDownloadBehaviorOnAttach:
             profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
           ref,

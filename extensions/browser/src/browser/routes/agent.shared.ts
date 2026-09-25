@@ -94,7 +94,7 @@ export function browserNavigationPolicyForProfile(
       resolved: ctx.state().resolved,
       profile: profileCtx.profile,
     }),
-    ...(profileCtx.profile.attachOnly ? { noDefaults: true } : {}),
+    ...(profileCtx.profile.noDefaults ? { noDefaults: true } : {}),
   });
 }
 
@@ -145,7 +145,7 @@ export async function requirePwAiForProfile(
   return await requirePwAi(
     res,
     feature,
-    profile.attachOnly,
+    profile.noDefaults,
     profile.resetDefaultDownloadBehaviorOnAttach,
   );
 }
@@ -217,7 +217,7 @@ export async function withRouteTabContext<T>(
           tab,
           cdpUrl: profileCtx.profile.cdpUrl,
           browserCdpConnection: {
-            ...(profileCtx.profile.attachOnly ? { noDefaults: true } : {}),
+            ...(profileCtx.profile.noDefaults ? { noDefaults: true } : {}),
             ...(profileCtx.profile.resetDefaultDownloadBehaviorOnAttach
               ? { resetDefaultDownloadBehaviorOnAttach: true }
               : {}),
@@ -295,7 +295,7 @@ export async function withPlaywrightRouteContext<T>(
       const pw = await requirePwAi(
         params.res,
         feature,
-        routeCtx.profileCtx.profile.attachOnly,
+        routeCtx.profileCtx.profile.noDefaults,
         routeCtx.profileCtx.profile.resetDefaultDownloadBehaviorOnAttach,
       );
       if (!pw) {

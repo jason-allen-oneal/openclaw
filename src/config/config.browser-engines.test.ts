@@ -91,6 +91,29 @@ describe("browser engine config", () => {
     }
   });
 
+  it.each(["mcpCommand", "mcpArgs"] as const)(
+    "rejects download recovery when Chrome MCP is configured through %s",
+    (key) => {
+      const result = OpenClawSchemaShape.browser.safeParse({
+        profiles: {
+          remote: {
+            driver: "openclaw",
+            cdpUrl: "https://browser.example",
+            attachOnly: true,
+            resetDefaultDownloadBehaviorOnAttach: true,
+            ...(key === "mcpCommand" ? { mcpCommand: "chrome-devtools-mcp" } : { mcpArgs: [] }),
+          },
+        },
+      });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues.map((issue) => issue.path.join("."))).toContain(
+          "profiles.remote.resetDefaultDownloadBehaviorOnAttach",
+        );
+      }
+    },
+  );
+
   it.each(["chromium", "lightpanda"])("rejects a shared Lightpanda endpoint with %s", (engine) => {
     const result = OpenClawSchemaShape.browser.safeParse({
       profiles: {

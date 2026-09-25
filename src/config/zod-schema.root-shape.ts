@@ -246,6 +246,8 @@ export const OpenClawSchemaShape = {
           (profile.driver === "existing-session" ||
             profile.driver === "extension" ||
             (profile.driver === undefined && name === "user") ||
+            profile.mcpCommand !== undefined ||
+            profile.mcpArgs !== undefined ||
             profile.engine === "lightpanda")
         ) {
           ctx.addIssue({

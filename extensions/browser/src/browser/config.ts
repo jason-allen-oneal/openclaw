@@ -90,6 +90,8 @@ export type ResolvedBrowserConfig = {
   attachOnly: boolean;
   defaultProfile: string;
   profiles: Record<string, BrowserProfileConfig>;
+  /** Runtime-only provenance for profiles whose CDP endpoint OpenClaw launches and owns. */
+  openClawLaunchedProfileNames?: string[];
   tabCleanup: ResolvedBrowserTabCleanupConfig;
   ssrfPolicy?: SsrFPolicy;
   extraArgs: string[];
@@ -454,9 +456,14 @@ export function resolveProfile(
     profile.driver === "clawd"
       ? "openclaw"
       : (profile.driver ?? (profileName === "user" ? "existing-session" : "openclaw"));
+  const attachOnly = profile.attachOnly ?? resolved.attachOnly;
+  const openClawLaunched = resolved.openClawLaunchedProfileNames?.includes(profileName) === true;
   if (
     profile.resetDefaultDownloadBehaviorOnAttach === true &&
-    (profileDriver !== "openclaw" || profile.engine === "lightpanda")
+    (profileDriver !== "openclaw" ||
+      profile.engine === "lightpanda" ||
+      profile.mcpCommand !== undefined ||
+      profile.mcpArgs !== undefined)
   ) {
     throw new Error(
       `browser.profiles.${profileName}.resetDefaultDownloadBehaviorOnAttach requires an OpenClaw Chromium profile using the Playwright CDP driver.`,
@@ -510,6 +517,7 @@ export function resolveProfile(
       headless: false,
       headlessSource: "default",
       attachOnly: true,
+      noDefaults: !openClawLaunched,
     };
   }
 
@@ -535,6 +543,7 @@ export function resolveProfile(
       headless,
       headlessSource,
       attachOnly: true,
+      noDefaults: true,
     };
   }
 
@@ -583,7 +592,13 @@ export function resolveProfile(
     executablePath,
     headless,
     headlessSource,
-    attachOnly: profile.attachOnly ?? resolved.attachOnly,
+    attachOnly,
+    ...(engine === "chromium" &&
+    attachOnly &&
+    (!openClawLaunched || profile.resetDefaultDownloadBehaviorOnAttach === true) &&
+    (profileDriver === "openclaw" || profileDriver === "clawd")
+      ? { noDefaults: true }
+      : {}),
     ...(profile.resetDefaultDownloadBehaviorOnAttach === true &&
     (profile.attachOnly ?? resolved.attachOnly) &&
     driver !== "extension" &&
