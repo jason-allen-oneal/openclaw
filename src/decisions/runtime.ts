@@ -92,18 +92,28 @@ export async function evaluateDecisionInRegistry(
     throw new DecisionConsumerClosedError();
   }
   const signal = AbortSignal.any([options.signal, lifetime]);
-  const result = await entry.host.evaluate(
-    batch,
-    { ...options, signal },
-    selected.model,
-    config,
-    registry,
-    consumerId,
-  );
-  signal.throwIfAborted();
-  if (!authority()) {
+  let result: DecisionOutcome;
+  try {
+    result = await entry.host.evaluate(
+      batch,
+      { ...options, signal },
+      selected.model,
+      config,
+      registry,
+      consumerId,
+    );
+  } catch (error) {
+    // The host sees a combined signal. Its ordinary AbortError must not turn
+    // registry retirement into a recoverable provider failure for the caller.
+    if (lifetime.aborted || !authority()) {
+      throw new DecisionConsumerClosedError();
+    }
+    throw error;
+  }
+  if (lifetime.aborted || !authority()) {
     throw new DecisionConsumerClosedError();
   }
+  options.signal.throwIfAborted();
   return result;
 }
 

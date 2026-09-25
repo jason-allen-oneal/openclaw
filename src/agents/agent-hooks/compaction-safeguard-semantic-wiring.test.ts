@@ -6,10 +6,17 @@ import { setRuntimeConfigSnapshot } from "../../config/config.js";
 import * as decisionRuntime from "../../decisions/runtime.js";
 import { DecisionConsumerClosedError } from "../../decisions/validation.js";
 import type { CompactionProvider } from "../../plugins/compaction-provider.js";
+import { createEmptyPluginRegistry } from "../../plugins/registry-empty.js";
+import {
+  bindPluginRegistryResourceOwner,
+  markPluginRegistryActive,
+  markPluginRegistryRetired,
+} from "../../plugins/registry-lifecycle.js";
 import {
   resetPluginRuntimeStateForTest,
   requireActivePluginRegistry,
 } from "../../plugins/runtime.js";
+import { withPluginRuntimeRegistryScope } from "../../plugins/runtime/gateway-request-scope.js";
 import type { summarizeInStages } from "../compaction.js";
 import { castAgentMessage } from "../test-helpers/agent-message-fixtures.js";
 import { timestampedTextAssistant } from "../test-helpers/sparse-transcript.test-support.js";
@@ -517,6 +524,37 @@ describe("active curation through the registered compaction hook", () => {
     expect(result).toEqual({ cancel: true });
     expect(mockSummarizeInStages).toHaveBeenCalledTimes(stage === "fidelity" ? 1 : 0);
   });
+
+  it.each(["selection", "fidelity"])(
+    "does not summarize again after a scoped registry retires during %s",
+    async (stage) => {
+      let requestCount = 0;
+      const { builder } = installDecisionFixture("preserved", async (_batch, { signal }) => {
+        requestCount += 1;
+        if (stage === "selection" || requestCount === 2) {
+          await new Promise<void>((resolve) => {
+            signal.addEventListener("abort", () => resolve(), { once: true });
+          });
+          signal.throwIfAborted();
+        }
+      });
+      const target = createEmptyPluginRegistry();
+      target.plugins.push({ ...builder.registry.plugins[0]! });
+      target.decisionProviders.push(builder.registry.decisionProviders[0]!);
+      const scoped = bindPluginRegistryResourceOwner(target, target);
+      markPluginRegistryActive(target);
+      mockSummarizeInStages.mockReset();
+      mockSummarizeInStages.mockResolvedValue(validSummary);
+      const pending = withPluginRuntimeRegistryScope(scoped, () =>
+        runCompactionScenario(activeScenario()),
+      );
+      await vi.waitFor(() => expect(requestCount).toBe(stage === "selection" ? 1 : 2));
+      markPluginRegistryRetired(target);
+      const { result } = await pending;
+      expect(result).toEqual({ cancel: true });
+      expect(mockSummarizeInStages).toHaveBeenCalledTimes(stage === "selection" ? 0 : 1);
+    },
+  );
 
   it("protects older user instructions while applying a reduced summarizer input", async () => {
     installDecisionFixture();
