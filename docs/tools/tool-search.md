@@ -440,7 +440,11 @@ Tune code-mode timeout and search result limits (values shown are the defaults):
 The runtime clamps `codeTimeoutMs` to 1000-60000, `maxSearchLimit` to 1-50, and
 `searchDefaultLimit` to 1..`maxSearchLimit`.
 
-Semantic ranking is an opt-in shadow observation. It runs after the authorized
+Semantic ranking is an opt-in shadow observation. It additionally requires
+[Decision assistance Labs](/concepts/experimental-features#decision-assistance)
+and an effective Decision model for the owning agent; model selection alone
+is not consent. Labs off or an explicit empty agent model preserves lexical
+results without automatic provider requests. It runs after the authorized
 lexical BM25 search, receives at most eight already-permitted candidates, and
 never changes the returned candidate set or order:
 

@@ -96,6 +96,8 @@ export type ToolSearchConfig = {
 export type ToolSearchToolContext = {
   config?: OpenClawConfig;
   runtimeConfig?: OpenClawConfig;
+  /** Retain the prepared config owner across fresh code-mode executions. */
+  readDecisionAssistanceConfig?: () => OpenClawConfig;
   agentId?: string;
   sessionKey?: string;
   sessionId?: string;

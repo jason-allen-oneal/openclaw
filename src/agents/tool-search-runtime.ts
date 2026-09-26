@@ -1,4 +1,5 @@
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
+import { createRuntimeConfigReader } from "../config/runtime-snapshot.js";
 import { getPluginToolMeta } from "../plugins/tool-metadata.js";
 import { resolveAgentToolExecutionSchema } from "./agent-tool-availability.js";
 import {
@@ -8,6 +9,7 @@ import {
 } from "./agent-tools.before-tool-call.js";
 import { runWithToolExecutionValidation } from "./agent-tools.execution-validation.js";
 import { getChannelAgentToolMeta } from "./channel-tool-metadata.js";
+import { isDecisionAssistanceEligible } from "./decision-assistance.js";
 import { setMcpCodeModeGuestResultFromAgentResult } from "./mcp-content.js";
 import { captureAgentPluginRuntimeRefresh } from "./plugin-runtime-refresh.js";
 import type { AgentToolResult } from "./runtime/index.js";
@@ -237,11 +239,19 @@ export class ToolSearchRuntime {
   private readonly networkInvocations = new Map<string, { active: number; observed: boolean }>();
   private readonly query = new ToolSearchQuery();
 
+  private readonly semanticRankingEligible: () => boolean;
+
   constructor(
     private readonly ctx: ToolSearchToolContext,
     private readonly config: ToolSearchConfig,
     private readonly options: { prepareInput?: boolean; validateInput?: boolean } = {},
-  ) {}
+  ) {
+    const readConfig =
+      ctx.readDecisionAssistanceConfig ??
+      createRuntimeConfigReader(ctx.runtimeConfig ?? ctx.config ?? {});
+    this.semanticRankingEligible = () =>
+      Boolean(ctx.agentId && isDecisionAssistanceEligible(readConfig(), ctx.agentId));
+  }
 
   search = async (
     query: string,
@@ -281,6 +291,7 @@ export class ToolSearchRuntime {
       exactMatches.length > 0 ||
       !this.config.enabled ||
       this.config.semanticRanking !== "shadow" ||
+      !this.semanticRankingEligible() ||
       results.length < 2
     ) {
       return results;
@@ -301,6 +312,7 @@ export class ToolSearchRuntime {
       query,
       results.slice(0, 8),
       signal,
+      this.semanticRankingEligible,
     );
     this.pluginRuntimeRefresh.assertCurrent();
     const currentCatalog = resolveCatalog(this.ctx);

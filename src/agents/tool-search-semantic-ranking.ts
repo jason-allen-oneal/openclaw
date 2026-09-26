@@ -178,7 +178,12 @@ export async function observeSemanticRanking(
   query: string,
   candidates: readonly ToolSearchCandidate[],
   signal: AbortSignal,
+  isEligible: () => boolean,
 ): Promise<void> {
+  signal.throwIfAborted();
+  if (!isEligible()) {
+    return;
+  }
   const batch = buildSemanticRankingBatch(query, candidates);
   catalog.semanticRankingShadowCalls = (catalog.semanticRankingShadowCalls ?? 0) + 1;
   catalog.semanticRankingShadowCandidates =
@@ -187,24 +192,25 @@ export async function observeSemanticRanking(
   try {
     signal.throwIfAborted();
     const runtime = ctx.decisionRuntime;
-    const outcome = runtime
-      ? await runtime.evaluate(batch, {
-          ...(ctx.agentId ? { agentId: ctx.agentId } : {}),
-          purpose: SEMANTIC_RANKING_PURPOSE,
-          rubricVersion: SEMANTIC_RANKING_RUBRIC_VERSION,
-          timeoutMs: config.semanticRankingTimeoutMs ?? DEFAULT_SEMANTIC_RANKING_TIMEOUT_MS,
-          signal,
-        })
-      : await (
-          await import("../decisions/runtime.js")
-        ).evaluateDecision(batch, {
-          ...(ctx.agentId ? { agentId: ctx.agentId } : {}),
-          purpose: SEMANTIC_RANKING_PURPOSE,
-          rubricVersion: SEMANTIC_RANKING_RUBRIC_VERSION,
-          timeoutMs: config.semanticRankingTimeoutMs ?? DEFAULT_SEMANTIC_RANKING_TIMEOUT_MS,
-          signal,
-        });
+    const evaluate = runtime
+      ? runtime.evaluate.bind(runtime)
+      : (await import("../decisions/runtime.js")).evaluateDecision;
+    // Loading the optional runtime can yield across a config publication.
     signal.throwIfAborted();
+    if (!isEligible()) {
+      return;
+    }
+    const outcome = await evaluate(batch, {
+      ...(ctx.agentId ? { agentId: ctx.agentId } : {}),
+      purpose: SEMANTIC_RANKING_PURPOSE,
+      rubricVersion: SEMANTIC_RANKING_RUBRIC_VERSION,
+      timeoutMs: config.semanticRankingTimeoutMs ?? DEFAULT_SEMANTIC_RANKING_TIMEOUT_MS,
+      signal,
+    });
+    signal.throwIfAborted();
+    if (!isEligible()) {
+      return;
+    }
     const observation = readSemanticRankingOutcome(outcome, batch);
     recordSemanticRankingShadowOutcome(catalog, observation.kind);
     if (observation.kind === "succeeded") {

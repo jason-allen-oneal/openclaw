@@ -88,6 +88,12 @@ function makeHarness(params: {
   );
   registerHeadlessToolSearchCatalog({ catalogRef, tools });
   const config = {
+    agents: {
+      defaults: {
+        experimental: { decisionAssistance: true },
+        decisionModel: "fixture/semantic-v1",
+      },
+    },
     tools: {
       toolSearch: {
         enabled: true,
@@ -98,6 +104,7 @@ function makeHarness(params: {
     },
   } as never;
   const ctx: ToolSearchToolContext = {
+    config,
     catalogRef,
     agentId: "semantic-test-agent",
     ...(params.semanticRanking === "shadow" && params.bindOwnerSignal !== false
@@ -400,6 +407,7 @@ describe("Tool Search semantic ranking shadow", () => {
       };
       const harness = makeHarness({ semanticRanking: "shadow", decisionRuntime });
       const codeConfig = {
+        ...harness.config,
         tools: {
           toolSearch: {
             enabled: true,
@@ -489,10 +497,49 @@ describe("Tool Search semantic ranking shadow", () => {
     expect(decisionRuntime.evaluate).toHaveBeenCalledTimes(2);
   });
 
+  it.each(["structured", "code"])(
+    "stops %s provider dispatch after Labs opt-out",
+    async (surface) => {
+      const harness = makeHarness({ semanticRanking: "shadow" });
+      const config: OpenClawConfig = harness.config;
+      const providerEvaluate = registerDecisionFixture(config);
+      const controls = createToolSearchTools({ ...harness.ctx, config });
+      const tool = controls.find(
+        (entry) =>
+          entry.name ===
+          (surface === "structured" ? TOOL_SEARCH_RAW_TOOL_NAME : TOOL_SEARCH_CODE_MODE_TOOL_NAME),
+      )!;
+      const input =
+        surface === "structured"
+          ? { query: "calendar events", limit: 2 }
+          : { code: 'return await openclaw.tools.search("calendar events", { limit: 2 });' };
+      const allowed = await tool.execute("labs-on", input, harness.abortController.signal);
+      expect(providerEvaluate).toHaveBeenCalledOnce();
+      const disabled: OpenClawConfig = {
+        ...config,
+        agents: {
+          ...config.agents,
+          defaults: { ...config.agents?.defaults, experimental: { decisionAssistance: false } },
+        },
+      };
+      setRuntimeConfigSnapshot(disabled, disabled);
+      const forbidden = await tool.execute("labs-off", input, harness.abortController.signal);
+      expect(providerEvaluate).toHaveBeenCalledOnce();
+      if (surface === "structured") {
+        expect(forbidden.details).toEqual(allowed.details);
+      } else {
+        expect((forbidden.details as { value: unknown }).value).toEqual(
+          (allowed.details as { value: unknown }).value,
+        );
+      }
+    },
+  );
+
   it.each([
     {
       label: "the global decision model is absent",
       config: {
+        agents: { defaults: { experimental: { decisionAssistance: true } } },
         tools: {
           toolSearch: {
             enabled: true,
@@ -507,7 +554,10 @@ describe("Tool Search semantic ranking shadow", () => {
       label: "the owning agent explicitly disables its decision model",
       config: {
         agents: {
-          defaults: { decisionModel: "fixture/semantic-v1" },
+          defaults: {
+            experimental: { decisionAssistance: true },
+            decisionModel: "fixture/semantic-v1",
+          },
           entries: { "semantic-test-agent": { decisionModel: "" } },
         },
         tools: {

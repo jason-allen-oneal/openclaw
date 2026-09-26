@@ -2,6 +2,7 @@
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
 import { truncateUtf16Safe } from "@openclaw/normalization-core/utf16-slice";
 import { Type } from "typebox";
+import { createRuntimeConfigReader } from "../config/runtime-snapshot.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import type { HookContext } from "./agent-tools.before-tool-call.js";
 import type { AgentToolResult, AgentToolUpdateCallback } from "./runtime/index.js";
@@ -262,6 +263,12 @@ export function addClientToolsToToolSearchCatalog(params: {
 
 /** Create Tool Search control tools for the current run/session context. */
 export function createToolSearchTools(ctx: ToolSearchToolContext): AnyAgentTool[] {
+  ctx = {
+    ...ctx,
+    readDecisionAssistanceConfig:
+      ctx.readDecisionAssistanceConfig ??
+      createRuntimeConfigReader(ctx.runtimeConfig ?? ctx.config ?? {}),
+  };
   const config = resolveToolSearchConfig(ctx.runtimeConfig ?? ctx.config);
   const runtime = new ToolSearchRuntime(ctx, config, { validateInput: true });
   return [
