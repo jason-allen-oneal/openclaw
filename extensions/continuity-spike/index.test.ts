@@ -175,7 +175,7 @@ function registration(
         throw new Error(`Missing method ${method}`);
       }
       expect(registered.scope).toBe(
-        name === "status" || name === "lookup" ? "operator.read" : "operator.admin",
+        ["status", "lookup", "held"].includes(name) ? "operator.read" : "operator.admin",
       );
       const respond = vi.fn<GatewayRequestHandlerOptions["respond"]>();
       await registered.handler({
@@ -770,6 +770,40 @@ describe("continuity registration composition", { concurrent: false }, () => {
     expect(
       await destination.rpc("lookup", { id: activityId, operationId: "unknown-operation" }, true),
     ).toMatchObject({ code: "FORBIDDEN", retryable: false, details: { category: "denied" } });
+  });
+
+  it("gates held metadata on current status-read policy and restores it after regrant", async () => {
+    const root = registration(createStateNamespaces());
+    await enroll(root);
+    await root.rpc("hold", { id: activityId, enabled: true });
+    const ctx = { sessionKey, runId };
+    await root.hook("before_prompt_build")({ prompt: "advance", messages: [] }, ctx);
+    await root.hook("before_agent_run")({ prompt: "advance", messages: [] }, ctx);
+    const pending = root.hook("before_tool_call")(
+      { toolName: "continuity_advance", params: {} },
+      {
+        ...ctx,
+        toolName: "continuity_advance",
+        toolCallId,
+        abortSignal: new AbortController().signal,
+      },
+    );
+    try {
+      expect(await root.rpc("held", { id: activityId })).toEqual({ held: true, runId });
+      await root.rpc("policy", { id: activityId, statusRead: false });
+      expect(await root.rpc("held", { id: activityId }, true)).toMatchObject({
+        code: "FORBIDDEN",
+        details: { category: "denied", reason: "home-status-denied" },
+      });
+      await root.rpc("policy", { id: activityId, statusRead: true });
+      expect(await root.rpc("held", { id: activityId })).toEqual({ held: true, runId });
+    } finally {
+      await root.rpc("hold", { id: activityId, enabled: false });
+      await pending;
+    }
+    expect(await root.rpc("held", { id: activityId })).toEqual({ held: false });
+    await root.rpc("policy", { id: activityId, statusRead: false });
+    expect(await root.rpc("held", { id: activityId }, true)).toMatchObject({ code: "FORBIDDEN" });
   });
 
   it.each(

@@ -134,6 +134,43 @@ export async function runSpike(network: SpikeNetwork) {
     });
   });
 
+  await scenario("held read honors revocation and regrant through read-scoped RPC", async () => {
+    const id = "held-policy";
+    await enroll(id);
+    await rpc("home", "hold", { id, enabled: true });
+    const ticket = await network.startChat("home", { sessionKey: session(id), message: ADVANCE });
+    try {
+      await waitFor(
+        async () => (await rpc("home", "held", { id })) as { held: boolean },
+        (state) => state.held,
+        "actual held tool call",
+      );
+      return await network.withReadOnlyClient("home", async ({ grantedScopes, request }) => {
+        assert.deepEqual(grantedScopes, ["operator.read"]);
+        const allowed = await request("continuity_spike.held", { id });
+        assert.deepEqual(allowed, { held: true, runId: ticket.runId });
+        await rpc("home", "policy", { id, statusRead: false });
+        let denied: unknown;
+        await assert.rejects(
+          () => request("continuity_spike.held", { id }),
+          (error: unknown) => {
+            assert.ok(isGatewayClientRequestError(error));
+            assert.equal(error.gatewayCode, "FORBIDDEN");
+            denied = { code: error.gatewayCode, details: error.details };
+            return true;
+          },
+        );
+        await rpc("home", "policy", { id, statusRead: true });
+        const restored = await request("continuity_spike.held", { id });
+        assert.deepEqual(restored, allowed);
+        return { grantedScopes, allowed, denied, restored };
+      });
+    } finally {
+      await rpc("home", "hold", { id, enabled: false });
+      await network.finishChat(ticket);
+    }
+  });
+
   await scenario(
     "selected-save commits through native SQLite and retains only the released record",
     async () => {
@@ -317,29 +354,32 @@ export async function runSpike(network: SpikeNetwork) {
     });
   }
 
-  await scenario("independent attachments: company offline, family progresses", async () => {
-    await enroll("offline-company");
-    await enroll("online-family", "next-turn", "family");
-    await rpc("home", "attachment", { id: "offline-company", connected: false });
-    await nativeTurn("online-family");
-    await bridge("online-family", "family");
-    assert.equal((await home("online-family")).status, "completed");
-    assert.equal((await home("offline-company")).status, "blocked");
-    assert.equal((await home("offline-company")).operations.length, 0);
-    await rpc("home", "decision", {
-      id: "offline-company",
-      direction: "B",
-      requestId: "offline-b",
-    });
-    await rpc("home", "attachment", {
-      id: "offline-company",
-      connected: true,
-      destinationRevision: 1,
-    });
-    await nativeTurn("offline-company");
-    await bridge("offline-company");
-    return { company: await home("offline-company"), family: await home("online-family") };
-  });
+  await scenario(
+    "independent attachments: company declared offline, family progresses",
+    async () => {
+      await enroll("offline-company");
+      await enroll("online-family", "next-turn", "family");
+      await rpc("home", "attachment", { id: "offline-company", connected: false });
+      await nativeTurn("online-family");
+      await bridge("online-family", "family");
+      assert.equal((await home("online-family")).status, "completed");
+      assert.equal((await home("offline-company")).status, "blocked");
+      assert.equal((await home("offline-company")).operations.length, 0);
+      await rpc("home", "decision", {
+        id: "offline-company",
+        direction: "B",
+        requestId: "offline-b",
+      });
+      await rpc("home", "attachment", {
+        id: "offline-company",
+        connected: true,
+        destinationRevision: 1,
+      });
+      await nativeTurn("offline-company");
+      await bridge("offline-company");
+      return { company: await home("offline-company"), family: await home("online-family") };
+    },
+  );
 
   await scenario(
     "lost receipt and home process replacement reconcile without duplicate effect",

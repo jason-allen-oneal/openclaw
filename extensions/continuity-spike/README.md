@@ -104,7 +104,7 @@ restricted connection scope; it is not a separate-credential or remote-pairing t
 
 The driver also asserts unchanged-direction baseline completion; native scheduled B;
 A→B during real active turns under both modes; positive B progression despite
-late A completion; family progress while company is disconnected; home process
+late A completion; family progress while company is declared offline; home process
 replacement and lost-receipt recovery; not-found uncertainty resolved only by
 a terminal cancellation fence; destination revision conflicts and refresh;
 separate execute/status access; and source-scoped native prompt projection.

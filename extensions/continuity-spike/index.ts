@@ -702,6 +702,7 @@ export default definePluginEntry({
     register("held", "operator.read", (value) => {
       const p = shape(value, ["id"], ["id"]);
       const id = text(p, "id");
+      requireValue(home().get(id).policy.statusRead, "home-status-denied");
       const gate = Array.from(held.values()).find((candidate) => candidate.activityId === id);
       return gate ? { held: true, runId: gate.runId } : { held: false };
     });
