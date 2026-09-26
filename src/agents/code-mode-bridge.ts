@@ -380,6 +380,7 @@ export async function runBridgeRequest(params: {
               parentToolCallId: params.parentToolCallId,
               signal: params.signal,
               onUpdate: params.onUpdate,
+              mcpNamespaceGuest: true,
             });
             const guestResult = consumeMcpCodeModeGuestResult(called.result);
             if (guestResult === undefined) {

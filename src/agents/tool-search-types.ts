@@ -55,6 +55,11 @@ export type ToolSearchCallOptions = CatalogVisibilityOptions &
     parentToolCallId?: string;
     signal?: AbortSignal;
     onUpdate?: AgentToolUpdateCallback;
+    /**
+     * Code Mode's MCP namespace guest expects a thrown denial for resource and
+     * prompt operations. Ordinary `tool_call` keeps the blocked result envelope.
+     */
+    mcpNamespaceGuest?: boolean;
   };
 
 export type ToolSearchCatalogToolExecutor = (params: {
