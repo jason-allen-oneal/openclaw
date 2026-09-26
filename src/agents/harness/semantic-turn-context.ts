@@ -152,6 +152,7 @@ export async function observeSemanticTurnContext(
     selection = await evaluateCompactionShadowCuration({
       runtime,
       snapshot,
+      isEligible: options.isEligible,
       agentId: options.agentId,
       signal: options.signal,
       timeoutMs: options.config.timeoutMs,

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { AssembleResult, ContextEngine } from "../../context-engine/types.js";
 import type { DecisionRuntimeV1 } from "../../decisions/types.js";
+import { withPluginRuntimeGatewayRequestScope } from "../../plugins/runtime/gateway-request-scope.js";
 import { installDecisionFixture } from "../agent-hooks/compaction-safeguard-semantic.test-support.js";
 import type { AgentMessage } from "../runtime/index.js";
 import { castAgentMessage } from "../test-helpers/agent-message-fixtures.js";
@@ -243,6 +244,28 @@ describe("semantic turn context apply", () => {
       expect(requests).toHaveLength(consent === "off" ? 0 : 1);
     },
   );
+
+  it("preserves the model view without dispatch after eligibility changes during preparation", async () => {
+    const { requests } = installDecisionFixture();
+    const source = candidate();
+    let eligible = true;
+    let revocations = 0;
+    const result = await withPluginRuntimeGatewayRequestScope(
+      {
+        resolveGatewayContext: () => {
+          queueMicrotask(() => {
+            revocations++;
+            eligible = false;
+          });
+          return undefined;
+        },
+      },
+      () => observeSemanticTurnContext(source, { ...applyOptions(), isEligible: () => eligible }),
+    );
+    expect(revocations).toBeGreaterThan(0);
+    expect(requests).toHaveLength(0);
+    expect(result).toBe(source);
+  });
 
   it("keeps the most recent assembled tool result when a synthetic prompt is appended", async () => {
     installDecisionFixture();

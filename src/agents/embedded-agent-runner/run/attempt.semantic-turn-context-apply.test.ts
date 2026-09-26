@@ -1,4 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { setRuntimeConfigSnapshot } from "../../../config/runtime-snapshot.js";
 import type { OpenClawConfig } from "../../../config/types.js";
 import type { AssembleResult } from "../../../context-engine/types.js";
 import { installDecisionFixture } from "../../agent-hooks/compaction-safeguard-semantic.test-support.js";
@@ -46,7 +47,7 @@ function eligibleAssembly(): AssembleResult {
   };
 }
 
-function applyConfig(kind: "absent" | "agent-disabled" | "labs-off"): OpenClawConfig {
+function applyConfig(kind: "absent" | "agent-disabled" | "labs-off" | "enabled"): OpenClawConfig {
   return {
     agents: {
       defaults: {
@@ -114,4 +115,70 @@ describe("admitted embedded turn-context apply eligibility", () => {
     ]);
     expect(assembled.messages).toEqual(expectedMessages);
   });
+
+  it.each([
+    { change: "none", phase: "selection", calls: 1, applied: true },
+    { change: "mode", phase: "assembly", calls: 0, applied: false },
+    { change: "mode", phase: "selection", calls: 1, applied: false },
+    { change: "economics", phase: "selection", calls: 1, applied: false },
+  ])(
+    "rechecks $change policy during $phase before using the model view",
+    async ({ change, phase, calls, applied }) => {
+      const config = applyConfig("enabled");
+      const revoke = () => {
+        if (change === "none") {
+          return;
+        }
+        const replacement = structuredClone(config);
+        const policy = replacement.agents!.defaults!.turnContextCuration!;
+        if (change === "mode") {
+          policy.mode = "off";
+        } else {
+          policy.economics!.savedMsPerEstimatedToken = 0;
+        }
+        setRuntimeConfigSnapshot(replacement);
+      };
+      const { requests } = installDecisionFixture(
+        "preserved",
+        phase === "selection" ? revoke : undefined,
+        config,
+      );
+      const assembled = eligibleAssembly();
+      const expectedMessages = structuredClone(assembled.messages);
+      let modelMessages: AgentMessage[] | undefined;
+      const result = await createContextEngineAttemptRunner({
+        contextEngine: {
+          assemble: async () => {
+            if (phase === "assembly") {
+              revoke();
+            }
+            return assembled;
+          },
+          info: { id: "attested-engine", name: "Owner-attested fixture", version: "1.0.0" },
+        },
+        sessionKey: `agent:main:turn-context-policy-${change}-${phase}`,
+        tempPaths,
+        sessionMessages: assembled.messages,
+        attemptOverrides: { config },
+        sessionPrompt: async (session) => {
+          modelMessages = structuredClone(session.messages as AgentMessage[]);
+          session.messages = [
+            ...session.messages,
+            { role: "assistant", content: "done", timestamp: 6 },
+          ];
+        },
+      });
+      expect(requests).toHaveLength(calls);
+      const expectedModelView = applied
+        ? [expectedMessages[0], ...expectedMessages.slice(3)]
+        : expectedMessages;
+      expect(modelMessages).toEqual(expectedModelView);
+      // Attempt output is the transient model view, not the canonical source transcript.
+      expect(result.messagesSnapshot).toEqual([
+        ...expectedModelView,
+        { role: "assistant", content: "done", timestamp: 6 },
+      ]);
+      expect(assembled.messages).toEqual(expectedMessages);
+    },
+  );
 });

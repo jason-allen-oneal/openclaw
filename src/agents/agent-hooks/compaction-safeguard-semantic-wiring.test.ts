@@ -9,6 +9,7 @@ import {
   resetPluginRuntimeStateForTest,
   requireActivePluginRegistry,
 } from "../../plugins/runtime.js";
+import { withPluginRuntimeGatewayRequestScope } from "../../plugins/runtime/gateway-request-scope.js";
 import type { summarizeInStages } from "../compaction.js";
 import { isDecisionAssistanceEligible } from "../decision-assistance.js";
 import { castAgentMessage } from "../test-helpers/agent-message-fixtures.js";
@@ -264,7 +265,7 @@ describe("compaction semantic observer wiring", () => {
     expect(builder.registry.decisionProviders[0]?.host.inspect(config).activeRequests).toBe(0);
   });
 
-  it.each(["off", "revoked", "allowed"])(
+  it.each(["off", "revoked", "preparing", "allowed"])(
     "gates registered-hook provider dispatch when Labs is %s",
     async (consent) => {
       const { config, requests } = installDecisionFixture();
@@ -300,14 +301,42 @@ describe("compaction semantic observer wiring", () => {
         castAgentMessage(timestampedTextAssistant("Unrelated old discussion.", 2)),
       );
       const original = structuredClone(event.preparation.messagesToSummarize);
-      await runCompactionScenario({
-        sessionManager,
-        event: {
-          ...event,
-          preparation: { ...event.preparation, settings: { reserveTokens: 4000 } },
-        },
-        apiKey: "test-key",
-      });
+      const run = () =>
+        runCompactionScenario({
+          sessionManager,
+          event: {
+            ...event,
+            preparation: { ...event.preparation, settings: { reserveTokens: 4000 } },
+          },
+          apiKey: "test-key",
+        });
+      let preparationRevocations = 0;
+      if (consent === "preparing") {
+        await withPluginRuntimeGatewayRequestScope(
+          {
+            resolveGatewayContext: () => {
+              queueMicrotask(() => {
+                preparationRevocations++;
+                setRuntimeConfigSnapshot({
+                  ...config,
+                  agents: {
+                    ...config.agents,
+                    defaults: {
+                      ...config.agents?.defaults,
+                      experimental: { decisionAssistance: false },
+                    },
+                  },
+                });
+              });
+              return undefined;
+            },
+          },
+          run,
+        );
+        expect(preparationRevocations).toBeGreaterThan(0);
+      } else {
+        await run();
+      }
       expect(requests).toHaveLength(consent === "allowed" ? 2 : 0);
       expect(event.preparation.messagesToSummarize).toEqual(original);
       expect(mockSummarizeInStages).toHaveBeenCalledOnce();

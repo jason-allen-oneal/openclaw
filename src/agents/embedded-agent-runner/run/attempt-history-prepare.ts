@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 import { preserveCompactionReplayWindow } from "@openclaw/ai/transports";
 import { buildHierarchyReinforcementMessage } from "../../../auto-reply/handoff-summarizer.js";
 import { filterHeartbeatTranscriptArtifacts } from "../../../auto-reply/heartbeat-filter.js";
@@ -39,6 +40,9 @@ export async function prepareEmbeddedAttemptHistory(
   input: EmbeddedAttemptExecutionPhaseInput,
 ): Promise<PreparedEmbeddedAttemptHistory> {
   const { attempt, activeContextEngine, isRawModelRun } = input;
+  const readDecisionConfig = createRuntimeConfigReader(attempt.config ?? {});
+  // Capture the prepared policy before history/assembly awaits can revoke it.
+  const curationConfig = structuredClone(attempt.config?.agents?.defaults?.turnContextCuration);
   const {
     agentSession: { activeSession, settingsManager, setActiveSessionSystemPrompt },
     boundary: { orphanRepair },
@@ -180,7 +184,6 @@ export async function prepareEmbeddedAttemptHistory(
   let contextEnginePromptAuthority: NonNullable<AssembleResult["promptAuthority"]> = "assembled";
   let contextEngineAssemblySucceeded = false;
   let unwindowedContextEngineMessagesForPrecheck: AgentMessage[] | undefined;
-  const curationConfig = attempt.config?.agents?.defaults?.turnContextCuration;
   // Built-in attempts retain internal admitted authority; plugin harnesses use
   // the separately captured host capability. Never manufacture a no-op binding.
   const hostCapabilities = attempt.hostCapabilities;
@@ -189,21 +192,25 @@ export async function prepareEmbeddedAttemptHistory(
     : hostCapabilities
       ? () => hostCapabilities.assertActive()
       : undefined;
-  const readDecisionConfig = createRuntimeConfigReader(attempt.config ?? {});
-  const isDecisionEligible = () =>
-    isDecisionAssistanceEligible(readDecisionConfig(), sessionAgentId);
+  const isCurationEligible = () => {
+    const currentConfig = readDecisionConfig();
+    return (
+      isDecisionAssistanceEligible(currentConfig, sessionAgentId) &&
+      isDeepStrictEqual(currentConfig.agents?.defaults?.turnContextCuration, curationConfig)
+    );
+  };
   const semanticCuration =
     !isRawModelRun &&
     !isSettledTurnFinalization &&
     curationConfig &&
     (curationConfig.mode === "shadow" || curationConfig.mode === "apply") &&
-    isDecisionEligible() &&
+    isCurationEligible() &&
     assertCurationActive
       ? {
           config: curationConfig,
           signal: input.runAbortController.signal,
           assertActive: assertCurationActive,
-          isEligible: isDecisionEligible,
+          isEligible: isCurationEligible,
         }
       : undefined;
   let assemblyEngine = activeContextEngine;
