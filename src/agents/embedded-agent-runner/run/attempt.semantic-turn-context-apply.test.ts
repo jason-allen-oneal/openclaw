@@ -134,7 +134,7 @@ describe("admitted embedded turn-context apply eligibility", () => {
         if (change === "mode") {
           policy.mode = "off";
         } else {
-          policy.economics!.savedMsPerEstimatedToken = 0;
+          policy.economics!.savedMsPerEstimatedToken = 1;
         }
         setRuntimeConfigSnapshot(replacement);
       };
