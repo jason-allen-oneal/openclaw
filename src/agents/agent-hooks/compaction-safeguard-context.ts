@@ -29,6 +29,7 @@ export type ContextSection = {
   text: string;
   segmentStarts: number[];
   truncatedLoss?: CompactionLoss;
+  messageTruncated?: boolean;
 };
 
 export function extractMessageText(message: AgentMessage): string {
@@ -153,7 +154,7 @@ export function splitPreservedRecentTurns(params: {
   };
 }
 
-function formatContextMessage(message: AgentMessage): string | null {
+function formatContextMessage(message: AgentMessage, onTruncated?: () => void): string | null {
   let roleLabel: string;
   if (message.role === "assistant") {
     roleLabel = "Assistant";
@@ -177,14 +178,21 @@ function formatContextMessage(message: AgentMessage): string | null {
   if (!rendered) {
     return null;
   }
-  const trimmed =
-    rendered.length > MAX_RECENT_TURN_TEXT_CHARS
-      ? `${truncateUtf16Safe(rendered, MAX_RECENT_TURN_TEXT_CHARS)}...`
-      : rendered;
+  const truncated = rendered.length > MAX_RECENT_TURN_TEXT_CHARS;
+  // Tool output is intentionally bounded noise; preserve full user/assistant facts.
+  if (truncated && message.role !== "toolResult") {
+    onTruncated?.();
+  }
+  const trimmed = truncated
+    ? `${truncateUtf16Safe(rendered, MAX_RECENT_TURN_TEXT_CHARS)}...`
+    : rendered;
   return `- ${roleLabel}: ${trimmed}`;
 }
 
-function formatContextSegments(messages: AgentMessage[]): string[] {
+function formatContextSegments(
+  messages: AgentMessage[],
+  onMessageTruncated?: () => void,
+): string[] {
   const pairing = classifyToolUseResultPairing(messages);
   const toolSegments = new Map<AgentMessage, AgentMessage[]>(
     pairing.frames.map((frame) => [
@@ -202,7 +210,7 @@ function formatContextSegments(messages: AgentMessage[]): string[] {
       return [];
     }
     const lines = (toolSegments.get(message) ?? [message])
-      .map(formatContextMessage)
+      .map((entry) => formatContextMessage(entry, onMessageTruncated))
       .filter((line): line is string => Boolean(line));
     return lines.length > 0 ? [lines.join("\n")] : [];
   });
@@ -216,7 +224,10 @@ function formatBoundedContextSection(params: {
   truncatedLoss: CompactionLoss;
   onTruncated?: () => void;
 }): ContextSection {
-  const segments = formatContextSegments(params.messages);
+  let messageTruncated = false;
+  const segments = formatContextSegments(params.messages, () => {
+    messageTruncated = true;
+  });
   if (segments.length === 0) {
     return { text: "", segmentStarts: [] };
   }
@@ -232,6 +243,7 @@ function formatBoundedContextSection(params: {
         offset += segment.length + 1;
         return start;
       }),
+      ...(messageTruncated ? { messageTruncated } : {}),
     };
   }
 
@@ -256,6 +268,7 @@ function formatBoundedContextSection(params: {
       return start;
     }),
     truncatedLoss: params.truncatedLoss,
+    ...(messageTruncated ? { messageTruncated } : {}),
   };
 }
 

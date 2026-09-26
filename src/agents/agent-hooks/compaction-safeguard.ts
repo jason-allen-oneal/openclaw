@@ -1066,6 +1066,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
       // A bounded preserved suffix cannot be the only carrier of earlier turn content.
       const includePreservedContext =
         preservedTurnsSectionLocal.truncatedLoss === "preserved-turn-head" ||
+        preservedTurnsSectionLocal.messageTruncated ||
         (!latestUnresolvedUserRequest &&
           qualityGuardEnabled &&
           latestPreparedAsk === latestUserAsk &&
