@@ -79,6 +79,7 @@ import {
 } from "./compaction-safeguard-quality.js";
 import {
   getCompactionSafeguardRuntime,
+  getCurrentCompactionSemanticMode,
   setCompactionSafeguardCancellation,
 } from "./compaction-safeguard-runtime.js";
 import {
@@ -707,7 +708,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
       latestUnresolvedUserRequest ?? undefined,
     );
 
-    const semanticMode = runtime?.semanticCurationMode ?? "off";
+    const semanticMode = getCurrentCompactionSemanticMode(ctx.sessionManager);
     const semanticTimeoutMs = runtime?.semanticCurationTimeoutMs;
     const semanticAgentId = ctx.sessionManager.getSessionTarget()?.agentId ?? runtime?.agentId;
     const semanticSignal = signal ?? new AbortController().signal;
@@ -736,7 +737,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
           })()
         : undefined;
     const observeSemanticSummary = async (summary: string) => {
-      if (!semanticSnapshot) {
+      if (!semanticSnapshot || getCurrentCompactionSemanticMode(ctx.sessionManager) !== "shadow") {
         return;
       }
       try {
@@ -747,6 +748,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
             snapshot: semanticSnapshot,
             signal: semanticSignal,
             timeoutMs: semanticTimeoutMs,
+            isEligible: () => getCurrentCompactionSemanticMode(ctx.sessionManager) === "shadow",
           }),
           evaluateCompactionFidelity({
             runtime: { evaluate: evaluateDecision },
@@ -755,6 +757,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
             candidateSummary: summary,
             signal: semanticSignal,
             timeoutMs: semanticTimeoutMs,
+            isEligible: () => getCurrentCompactionSemanticMode(ctx.sessionManager) === "shadow",
           }),
         ]);
         semanticSignal.throwIfAborted();
@@ -766,8 +769,7 @@ export default function compactionSafeguardExtension(api: ExtensionAPI): void {
         }
         const shadow = shadowResult.value;
         const fidelity = fidelityResult.value;
-        const currentSemanticMode =
-          getCompactionSafeguardRuntime(ctx.sessionManager)?.semanticCurationMode ?? "off";
+        const currentSemanticMode = getCurrentCompactionSemanticMode(ctx.sessionManager);
         if (
           currentSemanticMode !== "shadow" ||
           fingerprintCompactionMessages(semanticSourceMessages) !==
