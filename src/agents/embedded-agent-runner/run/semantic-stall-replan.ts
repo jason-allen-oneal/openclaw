@@ -57,6 +57,26 @@ export function retireSemanticStallReplanContext(
     : context;
 }
 
+/** Retire only our exact prompt projection if consent changed before dispatch. */
+export function revalidateSemanticStallReplanPrompt(
+  systemPrompt: string,
+  state: SemanticStallReplanState,
+): string {
+  const injected = state.injectedPrompt;
+  if (!injected || systemPrompt !== injected.projected) {
+    return systemPrompt;
+  }
+  const observation = state.observer.snapshot();
+  const judgment = observation.latestJudgment;
+  return judgment?.trajectoryVersion === observation.trajectoryVersion &&
+    judgment.verdict === "stalled" &&
+    judgment.probability !== undefined &&
+    Number.isFinite(judgment.probability) &&
+    judgment.probability >= 0.95
+    ? systemPrompt
+    : injected.original;
+}
+
 /**
  * Consume the single strong-stall replan opportunity at the core turn boundary.
  * The update remains a context replacement only: no transcript message, tool,

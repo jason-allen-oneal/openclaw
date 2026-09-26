@@ -1,3 +1,5 @@
+import { createAssistantMessageEventStream, type Model } from "openclaw/plugin-sdk/llm";
+import { Type } from "typebox";
 import { describe, expect, it, onTestFinished, vi } from "vitest";
 import {
   clearRuntimeConfigSnapshot,
@@ -10,6 +12,7 @@ import { createPluginRecord } from "../../../plugins/loader-records.js";
 import { getPluginInstance } from "../../../plugins/plugin-instance-scope.js";
 import { createTestPluginRegistry } from "../../../plugins/registry-runtime.test-helpers.js";
 import { setActivePluginRegistry } from "../../../plugins/runtime.js";
+import { createDeferredCore } from "../../../shared/deferred.js";
 import { Agent } from "../../runtime/index.js";
 import { makeAssistantMessageFixture } from "../../test-helpers/assistant-message-fixtures.js";
 import { installAttemptNextTurnPreparation } from "./attempt-session-next-turn.js";
@@ -67,6 +70,137 @@ function installDecisionFixture(config: OpenClawConfig) {
 // Real run-owned observer, Decision registry/runtime and next-turn composition.
 // Only the provider is an in-process fixture; no hosted inference is performed.
 describe("semantic replan eligibility at next-turn composition", () => {
+  it.each(["revoked", "unchanged"] as const)(
+    "rechecks %s consent after the next-turn hook and async key lookup",
+    async (consent) => {
+      const config: OpenClawConfig = {
+        agents: {
+          defaults: {
+            experimental: { decisionAssistance: true },
+            decisionModel: "semantic-fixture/default-v1",
+          },
+        },
+        tools: { loopDetection: { enabled: true, semanticNoProgress: "replan" } },
+      };
+      const { requests } = installDecisionFixture(config);
+      const controller = new AbortController();
+      const outcomes = createRunToolOutcomeState({
+        config,
+        agentId: "main",
+        signal: controller.signal,
+        laneTaskAbortController: new AbortController(),
+        assertAdmittedActive: () => {},
+        goal: "Finish",
+      });
+      await outcomes.semanticNoProgressObserver?.observeOutcome({
+        toolName: "read",
+        toolParams: {},
+        result: "same",
+        evidence: { detector: "generic_repeat", level: "warning", count: 10 },
+      });
+      const replan = createSemanticStallReplanState({
+        observer: outcomes.semanticNoProgressObserver,
+        mode: outcomes.resolvedLoopDetectionConfig?.semanticNoProgress,
+        assertActive: () => {},
+      });
+      const keyLookupStarted = createDeferredCore();
+      const releaseKeyLookup = createDeferredCore();
+      const prompts: string[] = [];
+      let keyLookups = 0;
+      const model: Model = {
+        id: "synthetic-model",
+        name: "Synthetic model",
+        api: "openai-responses",
+        provider: "semantic-fixture",
+        baseUrl: "https://example.test",
+        reasoning: false,
+        input: ["text"],
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+        contextWindow: 1000,
+        maxTokens: 1000,
+      };
+      const agent = new Agent({
+        initialState: {
+          model,
+          systemPrompt: "original",
+          messages: [],
+          tools: [
+            {
+              name: "read",
+              label: "Read",
+              description: "synthetic read",
+              parameters: Type.Object({}),
+              execute: async () => ({
+                content: [{ type: "text" as const, text: "same" }],
+                details: {},
+              }),
+            },
+          ],
+        },
+        getApiKey: async () => {
+          keyLookups += 1;
+          if (keyLookups === 2) {
+            keyLookupStarted.resolve();
+            await releaseKeyLookup.promise;
+          }
+          return "synthetic-key";
+        },
+        streamFn: (_model, context) => {
+          if (context.systemPrompt === undefined) {
+            throw new Error("expected a system prompt at model dispatch");
+          }
+          prompts.push(context.systemPrompt);
+          const stream = createAssistantMessageEventStream();
+          const toolUse = prompts.length === 1;
+          const message = makeAssistantMessageFixture({
+            content: toolUse
+              ? [{ type: "toolCall", id: "read-1", name: "read", arguments: {} }]
+              : [{ type: "text", text: "done" }],
+            stopReason: toolUse ? "toolUse" : "stop",
+            errorMessage: undefined,
+          });
+          queueMicrotask(() => {
+            stream.push({ type: "done", reason: toolUse ? "toolUse" : "stop", message });
+            stream.end();
+          });
+          return stream;
+        },
+      });
+      agent.prepareNextTurnWithContext = async (turn) => ({ context: turn.context });
+      installAttemptNextTurnPreparation({
+        agent,
+        refreshPermissionPrompt: async (prompt) => prompt,
+        semanticStallReplanState: replan,
+      });
+
+      const run = agent.prompt("start");
+      await keyLookupStarted.promise;
+      expect(replan?.used).toBe(true);
+      if (consent === "revoked") {
+        setRuntimeConfigSnapshot({
+          ...config,
+          agents: {
+            defaults: {
+              ...config.agents?.defaults,
+              experimental: { decisionAssistance: false },
+            },
+          },
+        });
+      }
+      releaseKeyLookup.resolve();
+      await run;
+
+      expect(requests).toHaveLength(1);
+      expect(prompts).toEqual([
+        "original",
+        consent === "revoked"
+          ? "original"
+          : expect.stringContaining("The recent tool trajectory is strongly stalled"),
+      ]);
+      await outcomes.semanticNoProgressObserver?.close();
+    },
+  );
+
   it.each([
     { name: "absent Labs", labs: undefined, model: "semantic-fixture/default-v1", enabled: false },
     { name: "Labs off", labs: false, model: "semantic-fixture/default-v1", enabled: false },

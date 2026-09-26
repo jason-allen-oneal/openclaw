@@ -1,6 +1,8 @@
 import type { Agent } from "../../runtime/index.js";
+import { setInternalBeforeModelRequest } from "../../runtime/internal-hooks.js";
 import {
   maybeInjectSemanticStallReplan,
+  revalidateSemanticStallReplanPrompt,
   retireSemanticStallReplanContext,
   type SemanticStallReplanState,
 } from "./semantic-stall-replan.js";
@@ -19,6 +21,13 @@ export function installAttemptNextTurnPreparation({
 }) {
   const previousPrepareNextTurn = agent.prepareNextTurn;
   const previousPrepareNextTurnWithContext = agent.prepareNextTurnWithContext;
+  setInternalBeforeModelRequest(
+    agent,
+    semanticStallReplanState
+      ? (systemPrompt) =>
+          revalidateSemanticStallReplanPrompt(systemPrompt, semanticStallReplanState)
+      : undefined,
+  );
   const prepareNextTurn: typeof agent.prepareNextTurn = async (signal) => {
     if (pluginRuntimeRefreshPending?.()) {
       return { stop: true };
