@@ -207,7 +207,8 @@ export async function assembleHarnessContextEngine(
   if (
     !params.semanticCuration ||
     (params.semanticCuration.config?.mode !== "shadow" &&
-      params.semanticCuration.config?.mode !== "apply")
+      params.semanticCuration.config?.mode !== "apply") ||
+    !params.semanticCuration.isEligible()
   ) {
     return assembled;
   }

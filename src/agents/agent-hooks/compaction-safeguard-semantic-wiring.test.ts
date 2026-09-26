@@ -2,12 +2,15 @@ import type { AgentMessage } from "openclaw/plugin-sdk/agent-core";
 import type { ExtensionAPI, ExtensionContext } from "openclaw/plugin-sdk/agent-sessions";
 import type { Model } from "openclaw/plugin-sdk/llm";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { setRuntimeConfigSnapshot } from "../../config/config.js";
+import { createRuntimeConfigReader } from "../../config/runtime-snapshot.js";
 import type { CompactionProvider } from "../../plugins/compaction-provider.js";
 import {
   resetPluginRuntimeStateForTest,
   requireActivePluginRegistry,
 } from "../../plugins/runtime.js";
 import type { summarizeInStages } from "../compaction.js";
+import { isDecisionAssistanceEligible } from "../decision-assistance.js";
 import { castAgentMessage } from "../test-helpers/agent-message-fixtures.js";
 import { timestampedTextAssistant } from "../test-helpers/sparse-transcript.test-support.js";
 import { setCompactionSafeguardRuntime } from "./compaction-safeguard-runtime.js";
@@ -187,12 +190,16 @@ describe("compaction semantic observer wiring", () => {
     const controller = new AbortController();
     const abortError = new Error("cancel asymmetric semantic observation");
     let started = 0;
+    const startedBarrier = Promise.withResolvers<void>();
     let releaseSlowRequest: (() => void) | undefined;
     const slowRequest = new Promise<void>((resolve) => {
       releaseSlowRequest = resolve;
     });
     const { config, builder } = installDecisionFixture("preserved", async (_batch, context) => {
       started += 1;
+      if (started === 2) {
+        startedBarrier.resolve();
+      }
       if (started === 1) {
         await new Promise<never>((_resolve, reject) => {
           context.signal.addEventListener(
@@ -237,45 +244,112 @@ describe("compaction semantic observer wiring", () => {
       (error: unknown) => ({ status: "rejected" as const, error }),
     );
 
-    await vi.waitFor(() => expect(started).toBe(2));
+    await startedBarrier.promise;
     controller.abort(abortError);
-    await expect(
-      Promise.race([
-        completion.then(() => "settled" as const),
-        new Promise<"pending">((resolve) => {
-          setTimeout(() => resolve("pending"), 20);
-        }),
-      ]),
-    ).resolves.toBe("pending");
-    expect(builder.registry.decisionProviders[0]?.host.inspect(config).activeRequests).toBe(1);
+    // Drain promise reactions while the provider remains held by its explicit barrier.
+    let settled = false;
+    void completion.then(() => {
+      settled = true;
+    });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(settled).toBe(false);
+    // One provider may still be unwinding cancellation; the held request must remain active.
+    expect(
+      builder.registry.decisionProviders[0]?.host.inspect(config).activeRequests,
+    ).toBeGreaterThanOrEqual(1);
 
     releaseSlowRequest?.();
     await expect(completion).resolves.toEqual({ status: "rejected", error: abortError });
     expect(builder.registry.decisionProviders[0]?.host.inspect(config).activeRequests).toBe(0);
   });
 
+  it.each(["off", "revoked", "allowed"])(
+    "gates registered-hook provider dispatch when Labs is %s",
+    async (consent) => {
+      const { config, requests } = installDecisionFixture();
+      config.agents ??= {};
+      config.agents.defaults ??= {};
+      config.agents.defaults.experimental = { decisionAssistance: consent !== "off" };
+      setRuntimeConfigSnapshot(config);
+      const readConfig = createRuntimeConfigReader(config);
+      const sessionManager = stubSessionManager("specialist");
+      setCompactionSafeguardRuntime(sessionManager, {
+        agentId: "specialist",
+        model: createAnthropicModelFixture(),
+        recentTurnsPreserve: 0,
+        semanticCurationMode: "shadow",
+        semanticCurationEligible: () => isDecisionAssistanceEligible(readConfig(), "specialist"),
+      });
+      mockSummarizeInStages.mockReset();
+      mockSummarizeInStages.mockImplementation(async () => {
+        if (consent === "revoked") {
+          const disabled = {
+            ...config,
+            agents: {
+              ...config.agents,
+              defaults: { ...config.agents?.defaults, experimental: { decisionAssistance: false } },
+            },
+          };
+          setRuntimeConfigSnapshot(disabled);
+        }
+        return "The report remains pending.";
+      });
+      const event = createCompactionEvent({ messageText: "Finish the report.", tokensBefore: 100 });
+      event.preparation.messagesToSummarize.push(
+        castAgentMessage(timestampedTextAssistant("Unrelated old discussion.", 2)),
+      );
+      const original = structuredClone(event.preparation.messagesToSummarize);
+      await runCompactionScenario({
+        sessionManager,
+        event: {
+          ...event,
+          preparation: { ...event.preparation, settings: { reserveTokens: 4000 } },
+        },
+        apiKey: "test-key",
+      });
+      expect(requests).toHaveLength(consent === "allowed" ? 2 : 0);
+      expect(event.preparation.messagesToSummarize).toEqual(original);
+      expect(mockSummarizeInStages).toHaveBeenCalledOnce();
+    },
+  );
+
   it.each(
     [false, true].flatMap((registeredProvider) =>
       [
         { agentId: undefined, persisted: false },
+        { agentId: undefined, persisted: false, noGlobalModel: true },
         { agentId: "inherited", persisted: true },
         { agentId: "specialist", persisted: true },
         { agentId: "disabled", persisted: true },
         { agentId: "specialist", persisted: false },
         { agentId: "disabled", persisted: false },
-      ].map(({ agentId, persisted }) => ({ registeredProvider, agentId, persisted })),
+      ].map(({ agentId, persisted, noGlobalModel }) => ({
+        registeredProvider,
+        agentId,
+        persisted,
+        noGlobalModel,
+      })),
     ),
   )(
-    "preserves output and owner decisions (registered provider=$registeredProvider, agent=$agentId, persisted=$persisted)",
-    async ({ registeredProvider, agentId, persisted }) => {
+    "preserves output and owner decisions (registered provider=$registeredProvider, agent=$agentId, persisted=$persisted, no global model=$noGlobalModel)",
+    async ({ registeredProvider, agentId, persisted, noGlobalModel }) => {
       const { config, builder, requests } = installDecisionFixture();
+      if (noGlobalModel) {
+        delete config.agents?.defaults?.decisionModel;
+        setRuntimeConfigSnapshot(config);
+      }
       mockSummarizeInStages.mockReset();
       mockSummarizeInStages.mockResolvedValue("The report remains pending.");
+      const registeredInputs: unknown[] = [];
       if (registeredProvider) {
         installCompactionProviderForTest({
           id: "summary-fixture",
           label: "Summary fixture",
-          summarize: async () => "The report remains pending.",
+          summarize: async (input) => {
+            registeredInputs.push(structuredClone(input));
+            return "The report remains pending.";
+          },
         });
       }
       const sessionManager = stubSessionManager(persisted ? agentId : undefined);
@@ -316,22 +390,31 @@ describe("compaction semantic observer wiring", () => {
 
       expect(observed.result).toEqual(baseline.result);
       expect(event.preparation.messagesToSummarize).toEqual(sourceBefore);
+      if (registeredProvider) {
+        expect(registeredInputs).toHaveLength(2);
+        expect(registeredInputs[1]).toEqual(registeredInputs[0]);
+      } else {
+        expect(mockSummarizeInStages).toHaveBeenCalledTimes(2);
+        expect(mockSummarizeInStages.mock.calls[1]?.[0].messages).toEqual(
+          mockSummarizeInStages.mock.calls[0]?.[0].messages,
+        );
+      }
       expect(compactionLogger.info).toHaveBeenCalledWith(
         expect.stringContaining(
-          `Compaction semantic shadow${agentId === "disabled" ? " unavailable" : ""}:`,
+          `Compaction semantic shadow${agentId === "disabled" || noGlobalModel ? " unavailable" : ""}:`,
         ),
       );
       expect(compactionLogger.info).toHaveBeenCalledWith(
         expect.stringContaining(
-          `Compaction semantic fidelity${agentId === "disabled" ? " unavailable" : ""}:`,
+          `Compaction semantic fidelity${agentId === "disabled" || noGlobalModel ? " unavailable" : ""}:`,
         ),
       );
       expect(builder.registry.decisionProviders[0]?.host.inspect(config)).toMatchObject({
-        successCount: agentId === "disabled" ? 0 : 2,
+        successCount: agentId === "disabled" || noGlobalModel ? 0 : 2,
         activeRequests: 0,
       });
       expect(requests).toEqual(
-        agentId === "disabled"
+        agentId === "disabled" || noGlobalModel
           ? []
           : Array.from({ length: 2 }, () => ({
               agentId,

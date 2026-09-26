@@ -39,7 +39,11 @@ describe("admitted embedded turn-context observation", () => {
           ...(kind === "legacy" ? { contextEngine: undefined } : {}),
           config: {
             agents: {
-              defaults: { turnContextCuration: { mode: "shadow", minEstimatedTokens: 1 } },
+              defaults: {
+                experimental: { decisionAssistance: true },
+                decisionModel: "fixture/default",
+                turnContextCuration: { mode: "shadow", minEstimatedTokens: 1 },
+              },
             },
           },
         },

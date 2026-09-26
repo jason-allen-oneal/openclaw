@@ -46,11 +46,12 @@ function eligibleAssembly(): AssembleResult {
   };
 }
 
-function applyConfig(kind: "absent" | "agent-disabled"): OpenClawConfig {
+function applyConfig(kind: "absent" | "agent-disabled" | "labs-off"): OpenClawConfig {
   return {
     agents: {
       defaults: {
-        ...(kind === "agent-disabled" ? { decisionModel: "semantic-fixture/default-v1" } : {}),
+        experimental: { decisionAssistance: kind !== "labs-off" },
+        ...(kind !== "absent" ? { decisionModel: "semantic-fixture/default-v1" } : {}),
         turnContextCuration: {
           mode: "apply",
           minEstimatedTokens: 1,
@@ -78,6 +79,7 @@ describe("admitted embedded turn-context apply eligibility", () => {
 
   it.each([
     { label: "global decision model is absent", kind: "absent" as const },
+    { label: "Labs is off with a selected model", kind: "labs-off" as const },
     { label: "owning agent explicitly disables decisions", kind: "agent-disabled" as const },
   ])("preserves model and transcript views when $label", async ({ kind }) => {
     const config = applyConfig(kind);

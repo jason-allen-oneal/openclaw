@@ -41,6 +41,7 @@ function options() {
     config: { mode: "shadow" as const, minEstimatedTokens: 1, recentMessages: 2 },
     signal: new AbortController().signal,
     assertActive: vi.fn(),
+    isEligible: () => true,
   };
 }
 const unavailable: DecisionRuntimeV1 = {
@@ -224,6 +225,39 @@ describe("semantic turn context apply", () => {
       },
     };
   }
+  it.each(["off", "revoked"])(
+    "preserves the original apply view with eligibility %s",
+    async (consent) => {
+      let eligible = consent !== "off";
+      const { requests } = installDecisionFixture("preserved", async () => {
+        eligible = false;
+      });
+      const source = candidate();
+      const original = structuredClone(source);
+      const result = await observeSemanticTurnContext(source, {
+        ...applyOptions(),
+        isEligible: () => eligible,
+      });
+      expect(result).toBe(source);
+      expect(source).toEqual(original);
+      expect(requests).toHaveLength(consent === "off" ? 0 : 1);
+    },
+  );
+
+  it("keeps the most recent assembled tool result when a synthetic prompt is appended", async () => {
+    installDecisionFixture();
+    const source = candidate();
+    source.messages = source.messages.slice(0, 4);
+    const original = structuredClone(source.messages);
+    const result = await observeSemanticTurnContext(source, {
+      ...applyOptions(),
+      prompt: "Continue the pending work.",
+    });
+    expect(result.messages).toEqual(original);
+    expect(source.messages).toEqual(original);
+    expect(result.semanticCurationObservation?.applied).not.toBe(true);
+  });
+
   it("applies only owner-attested complete tool frames through the registered host", async () => {
     const { requests } = installDecisionFixture();
     const source = candidate();

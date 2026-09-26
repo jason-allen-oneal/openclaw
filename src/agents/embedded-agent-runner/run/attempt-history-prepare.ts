@@ -1,6 +1,7 @@
 import { preserveCompactionReplayWindow } from "@openclaw/ai/transports";
 import { buildHierarchyReinforcementMessage } from "../../../auto-reply/handoff-summarizer.js";
 import { filterHeartbeatTranscriptArtifacts } from "../../../auto-reply/heartbeat-filter.js";
+import { createRuntimeConfigReader } from "../../../config/runtime-snapshot.js";
 import { resolveSessionStorePathCore } from "../../../config/sessions/paths.js";
 import {
   listSessionEntriesReadOnly,
@@ -10,6 +11,7 @@ import { OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST } from "../../../context-engine/h
 import type { AssembleResult } from "../../../context-engine/types.js";
 import { resolveHeartbeatSummaryForAgent } from "../../../infra/heartbeat-summary.js";
 import { resolveAdmittedRunActiveAssertion } from "../../admitted-run-context.js";
+import { isDecisionAssistanceEligible } from "../../decision-assistance.js";
 import { DEFAULT_CONTEXT_TOKENS } from "../../defaults.js";
 import { assembleHarnessContextEngine } from "../../harness/context-engine-lifecycle.js";
 import type { AgentMessage } from "../../runtime/index.js";
@@ -187,16 +189,21 @@ export async function prepareEmbeddedAttemptHistory(
     : hostCapabilities
       ? () => hostCapabilities.assertActive()
       : undefined;
+  const readDecisionConfig = createRuntimeConfigReader(attempt.config ?? {});
+  const isDecisionEligible = () =>
+    isDecisionAssistanceEligible(readDecisionConfig(), sessionAgentId);
   const semanticCuration =
     !isRawModelRun &&
     !isSettledTurnFinalization &&
     curationConfig &&
-    curationConfig.mode !== "off" &&
+    (curationConfig.mode === "shadow" || curationConfig.mode === "apply") &&
+    isDecisionEligible() &&
     assertCurationActive
       ? {
           config: curationConfig,
           signal: input.runAbortController.signal,
           assertActive: assertCurationActive,
+          isEligible: isDecisionEligible,
         }
       : undefined;
   let assemblyEngine = activeContextEngine;
