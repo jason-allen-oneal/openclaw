@@ -56,6 +56,41 @@ const unavailable: DecisionRuntimeV1 = {
 };
 
 describe("semantic turn context", () => {
+  it("keeps assembled messages when an earlier assistant frame has string content", async () => {
+    const { requests } = installDecisionFixture();
+    const source = fixture();
+    source.messages.splice(
+      1,
+      2,
+      castAgentMessage({
+        role: "assistant",
+        content: "The staging-only requirement remains active.",
+        timestamp: 2,
+      }),
+    );
+    const before = JSON.stringify(source.messages);
+    const engine: ContextEngine = {
+      info: { id: "legacy", name: "fixture" },
+      ingest: async () => ({ ingested: false }),
+      assemble: async () => source,
+      compact: async () => ({ ok: true, compacted: false }),
+    };
+
+    const result = await assembleHarnessContextEngine({
+      contextEngine: engine,
+      messages: source.messages,
+      sessionId: "synthetic-string-content",
+      modelId: "synthetic-model",
+      agentId: "specialist",
+      semanticCuration: options(),
+    });
+
+    expect(result?.messages).toBe(source.messages);
+    expect(JSON.stringify(source.messages)).toBe(before);
+    expect(result?.semanticCurationObservation?.reason).toBe("no-discretionary-segments");
+    expect(requests).toHaveLength(0);
+  });
+
   it("uses the registered context-engine assembly and Decision provider without changing messages", async () => {
     const { requests } = installDecisionFixture();
     const source = fixture();

@@ -51,7 +51,8 @@ export async function observeSemanticTurnContext(
         message.role === "user" ||
         (message.role === "toolResult" && message.isError) ||
         (message.role === "assistant" &&
-          message.content.some((part) => part.type !== "toolCall")) ||
+          (!Array.isArray(message.content) ||
+            message.content.some((part) => part.type !== "toolCall"))) ||
         (message.role !== "assistant" && message.role !== "toolResult"),
     ),
   );
