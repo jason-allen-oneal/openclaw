@@ -156,6 +156,8 @@ function readSemanticRankingOutcome(
   ) {
     return { kind: "incomplete" };
   }
+  // Shadow compares our explicit distribution-ranking policy, not the provider
+  // choice label, which the Decision contract allows to differ from the argmax.
   ranked.sort((left, right) => right.probability - left.probability || left.index - right.index);
   const top = ranked[0];
   const runnerUp = ranked[1];
@@ -206,6 +208,7 @@ export async function observeSemanticRanking(
       rubricVersion: SEMANTIC_RANKING_RUBRIC_VERSION,
       timeoutMs: config.semanticRankingTimeoutMs ?? DEFAULT_SEMANTIC_RANKING_TIMEOUT_MS,
       signal,
+      isEligible,
     });
     signal.throwIfAborted();
     if (!isEligible()) {

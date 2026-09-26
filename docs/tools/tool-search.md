@@ -466,6 +466,12 @@ provider to settle. A provider that ignores cancellation can delay search and
 code-tool completion beyond this budget; it is not a hard return deadline.
 Exact tool-name and tool-id searches remain a zero-semantic-call fast path.
 
+Shadow telemetry compares a stable descending-probability ordering against
+lexical order, with lexical position breaking ties. It deliberately uses this
+consumer-owned distribution policy rather than the provider's `choice` label;
+the Decision contract permits those to differ. Low top probability or a narrow
+probability margin records an uncertain observation instead of an ordering.
+
 Disable it:
 
 ```json5

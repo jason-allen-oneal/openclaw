@@ -87,7 +87,7 @@ function makeHarness(params: {
     fakeTool(`calendar_event_${index}`),
   );
   registerHeadlessToolSearchCatalog({ catalogRef, tools });
-  const config = {
+  const config: OpenClawConfig = {
     agents: {
       defaults: {
         experimental: { decisionAssistance: true },
@@ -102,7 +102,7 @@ function makeHarness(params: {
         maxSearchLimit: 20,
       },
     },
-  } as never;
+  };
   const ctx: ToolSearchToolContext = {
     config,
     catalogRef,
@@ -271,6 +271,41 @@ describe("Tool Search semantic ranking shadow", () => {
       semanticRankingShadowOrderingDisplacement: 2,
     });
   });
+  it("compares the distribution ranking when the provider choice differs from its argmax", async () => {
+    const { runtime } = makeHarness({
+      count: 3,
+      semanticRanking: "shadow",
+      decisionRuntime: {
+        evaluate: async () => ({
+          status: "ok",
+          result: {
+            model: "fixture-semantic-v1",
+            answers: {
+              bestCandidate: {
+                type: "choice",
+                choice: "candidate_1",
+                probabilities: { candidate_0: 0.8, candidate_1: 0.15, candidate_2: 0.05 },
+              },
+            },
+          },
+          provenance: {
+            providerId: "fixture",
+            rubricVersion: "tool-search-ranking-v1",
+            runtimeGeneration: "test-generation",
+          },
+        }),
+      },
+    });
+    expect((await runtime.search("calendar events", { limit: 3 }))[0]?.name).toBe(
+      "calendar_event_0",
+    );
+    expect(runtime.telemetry()).toMatchObject({
+      semanticRankingShadowTop1Agreement: 1,
+      semanticRankingShadowOrderingAgreement: 1,
+      semanticRankingShadowOrderingDisplacement: 0,
+    });
+  });
+
   it("preserves exact-name precedence with shadow enabled without inference", async () => {
     const decisionRuntime = decisionFixture();
     const { runtime } = makeHarness({ semanticRanking: "shadow", decisionRuntime });
@@ -497,43 +532,56 @@ describe("Tool Search semantic ranking shadow", () => {
     expect(decisionRuntime.evaluate).toHaveBeenCalledTimes(2);
   });
 
-  it.each(["structured", "code"])(
-    "stops %s provider dispatch after Labs opt-out",
-    async (surface) => {
-      const harness = makeHarness({ semanticRanking: "shadow" });
-      const config: OpenClawConfig = harness.config;
-      const providerEvaluate = registerDecisionFixture(config);
-      const controls = createToolSearchTools({ ...harness.ctx, config });
-      const tool = controls.find(
-        (entry) =>
-          entry.name ===
-          (surface === "structured" ? TOOL_SEARCH_RAW_TOOL_NAME : TOOL_SEARCH_CODE_MODE_TOOL_NAME),
-      )!;
-      const input =
-        surface === "structured"
-          ? { query: "calendar events", limit: 2 }
-          : { code: 'return await openclaw.tools.search("calendar events", { limit: 2 });' };
-      const allowed = await tool.execute("labs-on", input, harness.abortController.signal);
-      expect(providerEvaluate).toHaveBeenCalledOnce();
-      const disabled: OpenClawConfig = {
-        ...config,
-        agents: {
-          ...config.agents,
-          defaults: { ...config.agents?.defaults, experimental: { decisionAssistance: false } },
-        },
-      };
-      setRuntimeConfigSnapshot(disabled, disabled);
-      const forbidden = await tool.execute("labs-off", input, harness.abortController.signal);
-      expect(providerEvaluate).toHaveBeenCalledOnce();
-      if (surface === "structured") {
-        expect(forbidden.details).toEqual(allowed.details);
-      } else {
-        expect((forbidden.details as { value: unknown }).value).toEqual(
-          (allowed.details as { value: unknown }).value,
-        );
-      }
-    },
-  );
+  it.each([
+    { surface: "structured", revoke: "labs" },
+    { surface: "code", revoke: "labs" },
+    { surface: "structured", revoke: "shadow" },
+    { surface: "code", revoke: "shadow" },
+    { surface: "structured", revoke: "tool-search" },
+    { surface: "code", revoke: "tool-search" },
+  ])("stops $surface provider dispatch after $revoke opt-out", async ({ surface, revoke }) => {
+    const harness = makeHarness({ semanticRanking: "shadow" });
+    const config: OpenClawConfig = harness.config;
+    const providerEvaluate = registerDecisionFixture(config);
+    const controls = createToolSearchTools({ ...harness.ctx, config });
+    const tool = controls.find(
+      (entry) =>
+        entry.name ===
+        (surface === "structured" ? TOOL_SEARCH_RAW_TOOL_NAME : TOOL_SEARCH_CODE_MODE_TOOL_NAME),
+    )!;
+    const input =
+      surface === "structured"
+        ? { query: "calendar events", limit: 2 }
+        : { code: 'return await openclaw.tools.search("calendar events", { limit: 2 });' };
+    const allowed = await tool.execute("labs-on", input, harness.abortController.signal);
+    expect(providerEvaluate).toHaveBeenCalledOnce();
+    const disabled: OpenClawConfig = {
+      ...config,
+      ...(revoke === "labs"
+        ? {
+            agents: {
+              ...config.agents,
+              defaults: { ...config.agents?.defaults, experimental: { decisionAssistance: false } },
+            },
+          }
+        : {
+            tools: {
+              ...config.tools,
+              toolSearch: { enabled: revoke !== "tool-search", semanticRanking: "off" },
+            },
+          }),
+    };
+    setRuntimeConfigSnapshot(disabled, disabled);
+    const forbidden = await tool.execute("labs-off", input, harness.abortController.signal);
+    expect(providerEvaluate).toHaveBeenCalledOnce();
+    if (surface === "structured") {
+      expect(forbidden.details).toEqual(allowed.details);
+    } else {
+      expect((forbidden.details as { value: unknown }).value).toEqual(
+        (allowed.details as { value: unknown }).value,
+      );
+    }
+  });
 
   it.each([
     {

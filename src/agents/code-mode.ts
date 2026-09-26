@@ -192,12 +192,10 @@ function createCodeModeExecDescription(
 }
 
 export function createCodeModeTools(ctx: CodeModeToolContext): AnyAgentTool[] {
-  ctx = {
-    ...ctx,
-    readDecisionAssistanceConfig:
-      ctx.readDecisionAssistanceConfig ??
-      createRuntimeConfigReader(ctx.runtimeConfig ?? ctx.config ?? {}),
-  };
+  // Retain the original context: its identity owns catalog and guest lifetimes.
+  ctx.readDecisionAssistanceConfig ??= createRuntimeConfigReader(
+    ctx.runtimeConfig ?? ctx.config ?? {},
+  );
   const runtimeRefresh = captureAgentPluginRuntimeRefresh();
   // The surface planner owns activation. Capture limits once so an admitted
   // control remains executable during model overrides and restart recovery.

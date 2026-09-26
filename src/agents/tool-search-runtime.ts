@@ -34,6 +34,7 @@ import {
   resolveCatalog,
   visibleCatalogEntries,
 } from "./tool-search-catalog.js";
+import { resolveToolSearchConfig } from "./tool-search-config.js";
 import {
   renderToolSearchControlText,
   serializeToolSearchControlResult,
@@ -249,8 +250,16 @@ export class ToolSearchRuntime {
     const readConfig =
       ctx.readDecisionAssistanceConfig ??
       createRuntimeConfigReader(ctx.runtimeConfig ?? ctx.config ?? {});
-    this.semanticRankingEligible = () =>
-      Boolean(ctx.agentId && isDecisionAssistanceEligible(readConfig(), ctx.agentId));
+    this.semanticRankingEligible = () => {
+      const currentConfig = readConfig();
+      const currentSearch = resolveToolSearchConfig(currentConfig);
+      return Boolean(
+        currentSearch.enabled &&
+        currentSearch.semanticRanking === "shadow" &&
+        ctx.agentId &&
+        isDecisionAssistanceEligible(currentConfig, ctx.agentId),
+      );
+    };
   }
 
   search = async (

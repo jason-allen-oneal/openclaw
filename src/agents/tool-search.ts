@@ -263,12 +263,10 @@ export function addClientToolsToToolSearchCatalog(params: {
 
 /** Create Tool Search control tools for the current run/session context. */
 export function createToolSearchTools(ctx: ToolSearchToolContext): AnyAgentTool[] {
-  ctx = {
-    ...ctx,
-    readDecisionAssistanceConfig:
-      ctx.readDecisionAssistanceConfig ??
-      createRuntimeConfigReader(ctx.runtimeConfig ?? ctx.config ?? {}),
-  };
+  // Retain the original context: its identity owns catalog and guest lifetimes.
+  ctx.readDecisionAssistanceConfig ??= createRuntimeConfigReader(
+    ctx.runtimeConfig ?? ctx.config ?? {},
+  );
   const config = resolveToolSearchConfig(ctx.runtimeConfig ?? ctx.config);
   const runtime = new ToolSearchRuntime(ctx, config, { validateInput: true });
   return [
