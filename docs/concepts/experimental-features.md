@@ -64,9 +64,11 @@ This Labs entry saves consent for automatic Decision assistance. Turning it on
 alone does not start inference, enable consumer modes, select a provider,
 provision credentials, or download models.
 
-[Semantic no-progress observation](/tools/loop-detection) consumes this gate only
-when loop detection and its `semanticNoProgress: "shadow"` mode are also enabled.
-It remains observational; the existing deterministic loop controls retain authority.
+[Semantic no-progress detection](/tools/loop-detection) consumes this gate only
+when loop detection and its `semanticNoProgress: "shadow"` or `"replan"` mode are
+also enabled. `shadow` remains observational; `replan` can add one temporary
+next-turn instruction after a strong stalled judgment. The existing deterministic
+loop controls retain authority.
 
 The switch and manually authored config use the same global Boolean:
 
