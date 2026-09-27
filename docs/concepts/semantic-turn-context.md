@@ -7,10 +7,12 @@ read_when:
 
 # Semantic turn context
 
-Turn-context observation uses the configured Decision model to estimate how much
+Turn-context curation uses the configured Decision model to estimate how much
 older discretionary context could be omitted before a normal model turn. It runs
-after the selected context engine assembles its view; it does not replace the
-engine, change the model input, or write the transcript.
+after the selected context engine assembles its view and does not replace the
+engine or write the transcript. Shadow mode only observes potential omissions;
+opt-in apply mode can omit attested discretionary messages from the temporary
+model input while leaving the assembled source and transcript unchanged.
 
 It is off by default. To enable shadow observation:
 
@@ -48,8 +50,8 @@ estimates, not measured model usage. Missing usage is omitted, not reported as
 zero. Source messages and tool arguments are never part of these metrics.
 
 Projected reduction does not establish latency or cost savings. Compare paired
-runs, warm and cold prompt caches, and actual provider usage before enabling any
-future execution-changing mode. No per-turn fidelity request is made in shadow
+runs, warm and cold prompt caches, and actual provider usage before enabling
+apply in production. No per-turn fidelity request is made in shadow
 mode. Caller cancellation and closed run authority still stop the operation.
 
 Hosts must supply captured run cancellation and authority checks. Built-in embedded
