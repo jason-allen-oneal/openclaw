@@ -1,5 +1,10 @@
+import { resolveCommandAuthorization } from "openclaw/plugin-sdk/command-auth-native";
 import { createDeferred } from "openclaw/plugin-sdk/extension-shared";
 import {
+  cancelProviderLoginFlow,
+  answerProviderLoginModelAccess,
+  offerProviderLoginModelAccess,
+  type PreparedProviderModelAccess,
   decideProviderLoginSessionAdoption,
   createProviderLoginFlowRegistry,
   formatProviderLoginCommand,
@@ -7,10 +12,12 @@ import {
   formatProviderLoginFailure,
   isProviderLoginPatchPersisted,
   prepareProviderChannelLogin,
+  refreshProviderLoginAuthState,
   releaseProviderLoginFlow,
   reserveProviderLoginFlow,
   runProviderChannelLoginFlow,
 } from "openclaw/plugin-sdk/provider-auth-login-flow-runtime";
+import type { ReplyPayload } from "openclaw/plugin-sdk/reply-payload";
 import { danger } from "openclaw/plugin-sdk/runtime-env";
 import { patchSessionEntry, resolveStorePath } from "openclaw/plugin-sdk/session-store-runtime";
 import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/string-coerce-runtime";
@@ -18,7 +25,7 @@ import { escapeHtml } from "openclaw/plugin-sdk/text-utility-runtime";
 import { withTelegramApiErrorLogging } from "./api-logging.js";
 import { defaultTelegramNativeCommandDeps } from "./bot-native-command-deps.runtime.js";
 import type { TelegramCommandDispatch } from "./bot-native-command-dispatch.js";
-import { buildTelegramRoutingTarget, resolveTelegramCommandAuthorization } from "./bot/helpers.js";
+import { buildTelegramRoutingTarget } from "./bot/helpers.js";
 
 const activeTelegramProviderLoginFlows = createProviderLoginFlowRegistry();
 
@@ -92,6 +99,32 @@ export async function executeTelegramLoginCommand(params: {
       },
     );
   };
+  const assertCurrent = (config = dispatch.telegramDeps.getRuntimeConfig()) => {
+    dispatch.assertOwnerCurrent?.();
+    const authorization = resolveCommandAuthorization({
+      cfg: config,
+      ctx: dispatch.ownerContext,
+      commandAuthorized: dispatch.commandAuthorized,
+    });
+    if (
+      !dispatch.senderIsOwner ||
+      !authorization.senderIsOwner ||
+      !authorization.isAuthorizedSender
+    ) {
+      throw new Error("Provider login authority is no longer active.");
+    }
+  };
+  const sendLoginReply = async (reply: ReplyPayload) => {
+    const { deliverReplies } = await dispatch.loadDeliveryRuntime();
+    const result = await deliverReplies({
+      replies: [reply],
+      ...dispatch.buildDeliveryBaseOptions({
+        sessionKeyForInternalHooks: dispatch.targetSessionKey,
+        policySessionKey: dispatch.targetSessionKey,
+      }),
+    });
+    return result.delivered;
+  };
   const prepared = await prepareProviderChannelLogin({
     commandText: params.commandText,
     commandAuthorized: dispatch.commandAuthorized,
@@ -100,6 +133,31 @@ export async function executeTelegramLoginCommand(params: {
     config: dispatch.runtimeCfg,
     agentId: dispatch.route.agentId,
     signal: dispatch.opts.accountAbortSignal,
+    refreshAuth: () =>
+      refreshProviderLoginAuthState({
+        agentId: dispatch.route.agentId,
+        readConfig: dispatch.telegramDeps.getRuntimeConfig,
+        assertCurrent: (config) => {
+          dispatch.opts.accountAbortSignal?.throwIfAborted();
+          assertCurrent(config);
+        },
+      }),
+    cancelLogin: () =>
+      cancelProviderLoginFlow({
+        flows: activeTelegramProviderLoginFlows,
+        flowKey: buildTelegramProviderLoginFlowKey(dispatch),
+      }),
+    answerChoice: (command) =>
+      answerProviderLoginModelAccess({
+        flows: activeTelegramProviderLoginFlows,
+        flowKey: buildTelegramProviderLoginFlowKey(dispatch),
+        command,
+        agentId: dispatch.route.agentId,
+        readConfig: dispatch.telegramDeps.getRuntimeConfig,
+        runtime: dispatch.runtime,
+        signal: dispatch.opts.accountAbortSignal,
+        assertCurrent,
+      }),
   });
   if (!prepared) {
     return false;
@@ -109,52 +167,40 @@ export async function executeTelegramLoginCommand(params: {
       await sendLoginMessage(prepared.reply.text);
       return prepared.status === "reply";
     }
-    const { deliverReplies } = await dispatch.loadDeliveryRuntime();
-    const result = await deliverReplies({
-      replies: [prepared.reply],
-      ...dispatch.buildDeliveryBaseOptions({
-        sessionKeyForInternalHooks: dispatch.targetSessionKey,
-        policySessionKey: dispatch.targetSessionKey,
-      }),
-    });
-    return result.delivered && prepared.status === "reply";
+    return (await sendLoginReply(prepared.reply)) && prepared.status === "reply";
   }
   const loginChoice = prepared.choice;
   const flowKey = buildTelegramProviderLoginFlowKey(dispatch);
   const reservation = reserveProviderLoginFlow({
     flows: activeTelegramProviderLoginFlows,
     flowKey,
+    providerLabel: loginChoice.providerLabel,
+    signal: dispatch.opts.accountAbortSignal,
   });
   if (reservation.status === "active") {
     await sendLoginMessage(
-      `${loginChoice.providerLabel} login is already active for this Telegram chat. Complete it, or wait for it to expire before requesting a new one.`,
+      `${reservation.providerLabel} sign-in is already in progress. Finish it, or send /login cancel to cancel.`,
     );
     return true;
   }
-  const flowSignal = dispatch.opts.accountAbortSignal
-    ? AbortSignal.any([reservation.record.signal, dispatch.opts.accountAbortSignal])
-    : reservation.record.signal;
-  const assertCurrent = (config = dispatch.telegramDeps.getRuntimeConfig()) => {
-    const authorization = resolveTelegramCommandAuthorization({
-      cfg: config,
-      accountId: dispatch.route.accountId,
-      chatId: dispatch.chatId,
-      isGroup: dispatch.isGroup,
-      threadSpec: dispatch.threadSpec,
-      senderId: dispatch.senderId,
-      senderUsername: dispatch.senderUsername,
-      commandAuthorized: dispatch.commandAuthorized,
-    });
-    if (!authorization.senderIsOwner || !authorization.isAuthorizedSender) {
-      throw new Error("Provider login authority is no longer active.");
-    }
-  };
+  const flowSignal = reservation.record.signal;
+
   const signInActionDelivered = createDeferred<void>();
   let signInActionWasDelivered = false;
+  const sendLoginAction = async (reply: ReplyPayload) => {
+    flowSignal.throwIfAborted();
+    if (!(await sendLoginReply(reply))) {
+      throw new Error("Provider sign-in action could not be delivered.");
+    }
+    flowSignal.throwIfAborted();
+    signInActionWasDelivered = true;
+    signInActionDelivered.resolve();
+  };
   // Sign-in action delivery releases Telegram's serialized chat lane. The
   // reservation and account signal still own polling through completion.
   const completion = (async () => {
     let terminalMessage: string;
+    let modelAccess: PreparedProviderModelAccess | undefined;
     try {
       const targetSessionEntryAtStart = dispatch.nativeCommandRuntime.getSessionEntry({
         agentId: dispatch.route.agentId,
@@ -172,6 +218,10 @@ export async function executeTelegramLoginCommand(params: {
         signal: flowSignal,
         assertCurrent,
         sendMessage: sendLoginMessage,
+        sendReply: sendLoginAction,
+        onModelAccessRequested: (request) => {
+          modelAccess = request;
+        },
         sendDeviceCode: async (deviceCode) => {
           flowSignal.throwIfAborted();
           await sendLoginDeviceCode(deviceCode);
@@ -235,7 +285,7 @@ export async function executeTelegramLoginCommand(params: {
           flowSignal.throwIfAborted();
           dispatch.runtime.error?.(
             danger(
-              `telegram ${formatProviderLoginCommand(loginChoice)} completed but failed to update session auth profile: ${String(
+              `telegram ${formatProviderLoginCommand(loginChoice.command)} completed but failed to update session auth profile: ${String(
                 error,
               )}`,
             ),
@@ -243,18 +293,25 @@ export async function executeTelegramLoginCommand(params: {
           sessionSwitchFailed = true;
         }
       }
+      const sessionModel =
+        targetSessionEntryAtStart?.modelOverride ?? targetSessionEntryAtStart?.model;
       terminalMessage = formatProviderLoginCompletion(
         loginChoice,
         loginResult.authRefresh,
         sessionSwitchFailed,
-        "Telegram session",
+        nextProfileId && sessionModel
+          ? { model: sessionModel, profileId: nextProfileId }
+          : undefined,
       );
     } catch (error) {
+      modelAccess = undefined;
       if (flowSignal.aborted) {
         return;
       }
       dispatch.runtime.error?.(
-        danger(`telegram ${formatProviderLoginCommand(loginChoice)} failed: ${String(error)}`),
+        danger(
+          `telegram ${formatProviderLoginCommand(loginChoice.command)} failed: ${String(error)}`,
+        ),
       );
       terminalMessage = formatProviderLoginFailure(loginChoice, error);
     }
@@ -262,11 +319,21 @@ export async function executeTelegramLoginCommand(params: {
       return;
     }
     try {
-      await sendLoginResultMessage(terminalMessage);
+      if (modelAccess) {
+        const reply = offerProviderLoginModelAccess({
+          flows: activeTelegramProviderLoginFlows,
+          flowKey,
+          prepared: modelAccess,
+          terminalMessage,
+        });
+        await sendLoginAction(reply);
+      } else {
+        await sendLoginResultMessage(terminalMessage);
+      }
     } catch (error) {
       dispatch.runtime.error?.(
         danger(
-          `telegram ${formatProviderLoginCommand(loginChoice)} result notification failed: ${String(error)}`,
+          `telegram ${formatProviderLoginCommand(loginChoice.command)} result notification failed: ${String(error)}`,
         ),
       );
     }

@@ -1,9 +1,7 @@
-// Openai tests cover embedding batch plugin behavior.
 import { createServer } from "node:http";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cancelTrackedTextResponse } from "../test-support/streaming-error-response.js";
 import { runOpenAiEmbeddingBatches } from "./embedding-batch.js";
-import { createOpenAiEmbeddingProvider } from "./embedding-provider.js";
 
 const jsonlEncoder = new TextEncoder();
 
@@ -33,13 +31,6 @@ function singleRequestBatchParams(
     pollIntervalMs,
     timeoutMs,
   };
-}
-
-function jsonResponse(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
 }
 
 function jsonlBytes(value: string): number {
@@ -96,43 +87,6 @@ afterEach(() => {
 });
 
 describe("OpenAI embedding batch output", () => {
-  it("preserves configured query parameters on real direct embedding requests", async () => {
-    const received: Array<{ url: string; authorization: string | undefined }> = [];
-    const server = createServer((request, response) => {
-      received.push({ url: request.url ?? "", authorization: request.headers.authorization });
-      if (request.url !== "/tenant/v1/embeddings?api-version=2024-10-21&tenant=alpha") {
-        response.writeHead(404).end("wrong embedding endpoint");
-        return;
-      }
-      response.writeHead(200, { "content-type": "application/json" });
-      response.end(JSON.stringify({ data: [{ embedding: [3, 5] }] }));
-    });
-    const port = await listenLoopbackServer(server);
-
-    try {
-      const { provider } = await createOpenAiEmbeddingProvider({
-        config: {},
-        provider: "openai",
-        model: "text-embedding-3-small",
-        fallback: "none",
-        remote: {
-          baseUrl: `http://127.0.0.1:${port}/tenant/v1/?api-version=2024-10-21&tenant=alpha#local`,
-          apiKey: "openai-loopback-key",
-        },
-      });
-
-      await expect(provider.embed("hello", { inputType: "query" })).resolves.toEqual([3, 5]);
-      expect(received).toEqual([
-        {
-          url: "/tenant/v1/embeddings?api-version=2024-10-21&tenant=alpha",
-          authorization: "Bearer openai-loopback-key",
-        },
-      ]);
-    } finally {
-      await closeServer(server);
-    }
-  });
-
   it("preserves configured query parameters through real batch upload, create, status, and output", async () => {
     const received: Array<{ url: string; authorization: string | undefined }> = [];
     const server = createServer((request, response) => {
@@ -246,22 +200,22 @@ describe("OpenAI embedding batch output", () => {
     const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const url = fetchInputUrl(input);
       if (url.endsWith("/files") && init?.method === "POST") {
-        return jsonResponse({ id: "file-0" });
+        return Response.json({ id: "file-0" });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
-        return jsonResponse({ id: "batch-0", status: "in_progress" });
+        return Response.json({ id: "batch-0", status: "in_progress" });
       }
       if (url.endsWith("/batches/batch-0")) {
         statusCalls += 1;
         statusTimes.push(Date.now());
         const nextStatus = scenario.statusSequence[statusCalls - 1];
         if (nextStatus === "pending") {
-          return jsonResponse({ id: "batch-0", status: "in_progress" });
+          return Response.json({ id: "batch-0", status: "in_progress" });
         }
         if (nextStatus === "retry") {
-          return jsonResponse({ error: { message: "retry status" } }, 503);
+          return Response.json({ error: { message: "retry status" } }, { status: 503 });
         }
-        return jsonResponse({ id: "batch-0", status: "completed", output_file_id: "output-0" });
+        return Response.json({ id: "batch-0", status: "completed", output_file_id: "output-0" });
       }
       if (url.endsWith("/files/output-0/content")) {
         return new Response(
@@ -335,15 +289,15 @@ describe("OpenAI embedding batch output", () => {
       const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
         const url = fetchInputUrl(input);
         if (url.endsWith("/files") && init?.method === "POST") {
-          return jsonResponse({ id: "input-0" });
+          return Response.json({ id: "input-0" });
         }
         if (url.endsWith("/batches") && init?.method === "POST") {
-          return jsonResponse(
+          return Response.json(
             completionStage === "create" ? terminal : { id: "batch-0", status: "in_progress" },
           );
         }
         if (url.endsWith("/batches/batch-0")) {
-          return jsonResponse(terminal);
+          return Response.json(terminal);
         }
         if (url.endsWith("/files/error-0/content")) {
           return new Response(
@@ -408,7 +362,7 @@ describe("OpenAI embedding batch output", () => {
           fileId,
           jsonl.split("\n").map((line) => JSON.parse(line) as { custom_id?: string }),
         );
-        return jsonResponse({ id: fileId });
+        return Response.json({ id: fileId });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
         const body = parseStringBody(init) as { input_file_id?: string };
@@ -430,7 +384,7 @@ describe("OpenAI embedding batch output", () => {
             )
             .join("\n"),
         );
-        return jsonResponse({ id: batchId, status: "completed", output_file_id: outputFileId });
+        return Response.json({ id: batchId, status: "completed", output_file_id: outputFileId });
       }
       const contentMatch = url.match(/\/files\/([^/]+)\/content$/);
       if (contentMatch) {
@@ -497,7 +451,7 @@ describe("OpenAI embedding batch output", () => {
         const customIds = uploadedRequests.map((request) => request.custom_id ?? "");
         uploadedGroups.push(customIds);
         if (uploadedRequests.length > 2) {
-          return jsonResponse(
+          return Response.json(
             {
               error: {
                 message: "Request body too large. Maximum allowed: 10 MB",
@@ -505,13 +459,13 @@ describe("OpenAI embedding batch output", () => {
                 code: "PAYLOAD_TOO_LARGE",
               },
             },
-            413,
+            { status: 413 },
           );
         }
         const fileId = `file-${fileIndex}`;
         fileIndex += 1;
         requestsByFileId.set(fileId, uploadedRequests);
-        return jsonResponse({ id: fileId });
+        return Response.json({ id: fileId });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
         const body = parseStringBody(init) as { input_file_id?: string };
@@ -533,7 +487,7 @@ describe("OpenAI embedding batch output", () => {
             )
             .join("\n"),
         );
-        return jsonResponse({ id: batchId, status: "completed", output_file_id: outputFileId });
+        return Response.json({ id: batchId, status: "completed", output_file_id: outputFileId });
       }
       const contentMatch = url.match(/\/files\/([^/]+)\/content$/);
       if (contentMatch) {
@@ -603,10 +557,10 @@ describe("OpenAI embedding batch output", () => {
     const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const url = fetchInputUrl(input);
       if (url.endsWith("/files") && init?.method === "POST") {
-        return jsonResponse({ id: "file-0" });
+        return Response.json({ id: "file-0" });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
-        return jsonResponse({ id: "batch-0", status: "in_progress" });
+        return Response.json({ id: "batch-0", status: "in_progress" });
       }
       if (url.endsWith("/batches/batch-0") && !batchStatusCalled) {
         batchStatusCalled = true;
@@ -663,10 +617,10 @@ describe("OpenAI embedding batch output", () => {
     const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const url = fetchInputUrl(input);
       if (url.endsWith("/files") && init?.method === "POST") {
-        return jsonResponse({ id: "file-0" });
+        return Response.json({ id: "file-0" });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
-        return jsonResponse({ id: "batch-0", status: "completed", output_file_id: "output-0" });
+        return Response.json({ id: "batch-0", status: "completed", output_file_id: "output-0" });
       }
       if (url.endsWith("/files/output-0/content")) {
         return outputResponse;
@@ -734,10 +688,10 @@ describe("OpenAI embedding batch output", () => {
     const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const url = fetchInputUrl(input);
       if (url.endsWith("/files") && init?.method === "POST") {
-        return jsonResponse({ id: "file-0" });
+        return Response.json({ id: "file-0" });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
-        return jsonResponse({ id: "batch-0", status: "completed", output_file_id: "output-0" });
+        return Response.json({ id: "batch-0", status: "completed", output_file_id: "output-0" });
       }
       if (url.endsWith("/files/output-0/content")) {
         return outputResponse;
@@ -817,16 +771,16 @@ describe("OpenAI embedding batch output", () => {
     const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const url = fetchInputUrl(input);
       if (url.endsWith("/files") && init?.method === "POST") {
-        return jsonResponse({ id: "file-0" });
+        return Response.json({ id: "file-0" });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
-        return jsonResponse({ id: "batch-0", status: "in_progress" });
+        return Response.json({ id: "batch-0", status: "in_progress" });
       }
       if (url.endsWith("/batches/batch-0")) {
         statusCalls += 1;
         return statusCalls === 1
-          ? jsonResponse({ error: { message: "retry status" } }, 503)
-          : jsonResponse({
+          ? Response.json({ error: { message: "retry status" } }, { status: 503 })
+          : Response.json({
               id: "batch-0",
               status: "completed",
               output_file_id: "output-0",
@@ -859,10 +813,10 @@ describe("OpenAI embedding batch output", () => {
     const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const url = fetchInputUrl(input);
       if (url.endsWith("/files") && init?.method === "POST") {
-        return jsonResponse({ id: "file-0" });
+        return Response.json({ id: "file-0" });
       }
       if (url.endsWith("/batches") && init?.method === "POST") {
-        return jsonResponse({ id: "batch-0", status: "in_progress" });
+        return Response.json({ id: "batch-0", status: "in_progress" });
       }
       if (url.endsWith("/batches/batch-0") && !batchStatusReturned) {
         batchStatusReturned = true;

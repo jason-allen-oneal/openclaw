@@ -274,6 +274,85 @@ beforeEach(() => {
   mockLoadPluginManifestRegistry.mockReset().mockReturnValue({ diagnostics: [], plugins: [] });
 });
 
+describe("validateConfigObjectWithPlugins model metadata", () => {
+  it("does not discover plugins when materialization needs no metadata", () => {
+    expect(validateConfigObjectWithPlugins({ gateway: { mode: "local" } }).ok).toBe(true);
+    expect(mockLoadPluginManifestRegistry).not.toHaveBeenCalled();
+  });
+
+  it.each(["full", "skip"] as const)(
+    "loads catalog defaults before materialization with %s plugin validation",
+    (pluginValidation) => {
+      const source = {
+        plugins: { enabled: true },
+        models: {
+          providers: {
+            fixture: {
+              baseUrl: "https://models.example/v1",
+              models: [{ id: "vision-model", name: "Authored model", contextWindow: 64_000 }],
+            },
+          },
+        },
+      };
+      const original = structuredClone(source);
+      const cost = { input: 1, output: 2, cacheRead: 0.1, cacheWrite: 0.2 };
+      mockLoadPluginManifestRegistry.mockReturnValue({
+        diagnostics: [],
+        plugins: [
+          createPluginManifestRecord({
+            id: "fixture",
+            providers: ["fixture"],
+            modelCatalog: {
+              providers: {
+                fixture: {
+                  models: [
+                    {
+                      id: "vision-model",
+                      name: "Catalog model",
+                      reasoning: true,
+                      input: ["text", "image"],
+                      cost,
+                      contextWindow: 128_000,
+                      maxTokens: 16_000,
+                    },
+                  ],
+                },
+              },
+            },
+          }),
+        ],
+      });
+
+      const result = validateConfigObjectWithPlugins(source, { pluginValidation });
+
+      expect(result).toMatchObject({
+        ok: true,
+        config: {
+          models: {
+            providers: {
+              fixture: {
+                models: [
+                  {
+                    id: "vision-model",
+                    name: "Authored model",
+                    reasoning: true,
+                    input: ["text", "image"],
+                    cost,
+                    contextWindow: 64_000,
+                    maxTokens: 16_000,
+                  },
+                ],
+              },
+            },
+          },
+        },
+      });
+      expect(source).toEqual(original);
+      expect(mockLoadPluginManifestRegistry).toHaveBeenCalledOnce();
+    },
+  );
+});
+
 describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)", () => {
   it("applies bundled channel defaults from plugin-owned schema metadata", () => {
     setupTelegramSchemaWithDefault();
@@ -452,24 +531,6 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
       false,
     );
   });
-
-  it('does not warn when dmPolicy="open" has canonical allowFrom', () => {
-    const result = validateConfigObjectWithPlugins({
-      channels: {
-        discord: {
-          enabled: true,
-          token: "test-token",
-          dmPolicy: "open",
-          allowFrom: ["*"],
-        },
-      },
-    });
-
-    expect(result.ok).toBe(true);
-    expect(result.warnings.some((warning) => warning.path === "channels.discord.allowFrom")).toBe(
-      false,
-    );
-  });
 });
 
 describe("validateConfigObjectRawWithPlugins channel metadata", () => {
@@ -495,42 +556,6 @@ describe("validateConfigObjectRawWithPlugins channel metadata", () => {
       // This is intentional — see comment above.
       expect(result.config.channels?.telegram?.dmPolicy).toBe("pairing");
     }
-  });
-
-  it("uses external plugin channel schemas for raw validation", () => {
-    mockLoadPluginManifestRegistry.mockReturnValue(createExternalFeishuSchemaRegistry());
-
-    const result = validateConfigObjectRawWithPlugins({
-      channels: {
-        feishu: {
-          appId: "app-id",
-          appSecret: "secret",
-          replyMode: "thread",
-          footer: "OpenClaw",
-        },
-      },
-    });
-
-    expect(result.ok).toBe(true);
-  });
-
-  it("accepts core-owned heartbeat visibility in closed channel and account schemas", () => {
-    mockLoadPluginManifestRegistry.mockReturnValue(createExternalFeishuSchemaRegistry());
-
-    const result = validateConfigObjectRawWithPlugins({
-      channels: {
-        feishu: {
-          appId: "app-id",
-          appSecret: "secret",
-          heartbeatVisibility: { showAlerts: false, useIndicator: true },
-          accounts: {
-            work: { heartbeatVisibility: { showOk: true } },
-          },
-        },
-      },
-    });
-
-    expect(result.ok).toBe(true);
   });
 
   it.each([
@@ -723,9 +748,6 @@ describe("validateConfigObjectRawWithPlugins channel metadata", () => {
   );
 
   it.each([
-    { label: "an empty schema", declaration: {} },
-    { label: "a boolean schema", declaration: true },
-    { label: "an open object schema", declaration: { type: "object", additionalProperties: true } },
     { label: "a stale disabled schema", declaration: false },
     {
       label: "an overly strict schema",

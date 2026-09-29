@@ -52,3 +52,48 @@ export function repairPluginModelCatalogTransportMetadata(
     removedModelCount,
   };
 }
+
+/** Removes authentication fields while retaining generated model inventory. */
+export function stripPluginModelCatalogCredentials(
+  contents: string,
+  credentials?: ReadonlySet<string>,
+): string {
+  const parsed: unknown = JSON.parse(contents);
+  if (!isGeneratedPluginModelCatalog(parsed) || !isRecord(parsed.providers)) {
+    return contents;
+  }
+  let changed = false;
+  const matches = (value: unknown): boolean =>
+    typeof value === "string" &&
+    (credentials === undefined ||
+      credentials.has(value) ||
+      (value.startsWith("Bearer ") && credentials.has(value.slice(7))));
+  const strip = (entry: Record<string, unknown>) => {
+    if (entry.apiKey !== undefined && (credentials === undefined || matches(entry.apiKey))) {
+      delete entry.apiKey;
+      changed = true;
+    }
+    if (isRecord(entry.headers)) {
+      for (const [name, value] of Object.entries(entry.headers)) {
+        if (matches(value)) {
+          delete entry.headers[name];
+          changed = true;
+        }
+      }
+    }
+  };
+  for (const provider of Object.values(parsed.providers)) {
+    if (!isRecord(provider)) {
+      continue;
+    }
+    strip(provider);
+    if (Array.isArray(provider.models)) {
+      for (const model of provider.models) {
+        if (isRecord(model)) {
+          strip(model);
+        }
+      }
+    }
+  }
+  return changed ? JSON.stringify(parsed) : contents;
+}
