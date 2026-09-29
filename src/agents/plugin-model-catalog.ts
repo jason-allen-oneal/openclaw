@@ -153,20 +153,19 @@ export function removePersistedPluginModelCatalogCredentials(params: {
   credentials: ReadonlySet<string>;
 }): void {
   const options = { agentId: params.agentId, path: params.databasePath };
-  const present = withOpenClawAgentDatabaseReadOnly(
-    (database) => {
-      const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
-      return executeSqliteQuerySync(
+  const present = withOpenClawAgentDatabaseReadOnly((database) => {
+    const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
+    return (
+      executeSqliteQuerySync(
         database.db,
         kysely
           .selectFrom("cache_entries")
           .select("key")
           .where("scope", "=", PLUGIN_MODEL_CATALOG_CACHE_SCOPE)
           .limit(1),
-      ).rows.length > 0;
-    },
-    options,
-  );
+      ).rows.length > 0
+    );
+  }, options);
   if (!present.found || !present.value) {
     return;
   }

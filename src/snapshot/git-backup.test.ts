@@ -870,7 +870,7 @@ describe("Git-backed SQLite snapshots", () => {
         .trim()
         .split("\n")
         .map((line) => JSON.parse(line));
-      for (const row of rows.filter((row) => row.key === "fixture")) {
+      for (const row of rows.filter((entry) => entry.key === "fixture")) {
         expect(JSON.parse(row.value_json)).toEqual(
           excludeSecrets
             ? {
@@ -892,7 +892,7 @@ describe("Git-backed SQLite snapshots", () => {
         value_json: '{"value":"retained"}',
       });
       expect(manifest.userVersion).toBe(OPENCLAW_AGENT_SCHEMA_VERSION);
-      expect(manifest.tables.cache_entries.rows).toBe(3);
+      expect(manifest.tables.cache_entries).toMatchObject({ rows: 3 });
     },
   );
 
