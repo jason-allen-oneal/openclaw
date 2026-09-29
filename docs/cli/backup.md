@@ -261,7 +261,7 @@ It omits these per-agent tables:
 - `auth_profile_store`
 - `session_suggestions`
 
-For generated plugin model catalogs in per-agent `cache_entries`, it strips provider and model API keys and header values while retaining model inventory and unrelated cache rows.
+For generated plugin model catalogs in per-agent `cache_entries`, it strips provider and model API keys and header values while retaining model inventory and unrelated cache rows. Unusable generated-cache rows are omitted rather than exporting unknown secrets.
 
 The backup manifest records omitted tables in `excludedTables` and omitted
 machine-state prefixes in `excludedConfigStateKeyPrefixes`. Restore reports

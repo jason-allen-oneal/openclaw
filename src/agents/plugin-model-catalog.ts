@@ -6,16 +6,24 @@
  */
 import { randomUUID } from "node:crypto";
 import { linkSync, readFileSync, readdirSync, renameSync, unlinkSync, type Dirent } from "node:fs";
+import { stat } from "node:fs/promises";
 import path from "node:path";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { hasErrnoCode } from "../infra/errno.js";
 import { executeSqliteQuerySync, getNodeSqliteKysely } from "../infra/kysely-sync.js";
+import { runtimeProcessEntrypoints } from "../infra/runtime-process-entrypoints.js";
+import { resolveRuntimeWorkerUrl } from "../infra/runtime-worker-url.js";
 import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
 import { isProviderCatalogSourceAllowed } from "../plugins/provider-config-owner.js";
 import { withOpenClawAgentDatabaseReadOnly } from "../state/openclaw-agent-db-readonly.js";
 import type { DB as OpenClawAgentKyselyDatabase } from "../state/openclaw-agent-db.generated.js";
 import { runOpenClawAgentWriteTransaction } from "../state/openclaw-agent-db.js";
+import { captureOpenClawAgentDatabaseExecution } from "../state/openclaw-agent-execution.js";
+import {
+  openOpenClawAgentSqliteWorkerStore,
+  type OpenClawAgentSqliteWorkerStore,
+} from "../state/openclaw-agent-worker-store.js";
 import {
   resolveAuthProfileDatabaseOwnerId,
   resolveAuthProfileDatabasePath,
@@ -23,8 +31,8 @@ import {
 import {
   isGeneratedPluginModelCatalog,
   repairPluginModelCatalogTransportMetadata,
-  stripPluginModelCatalogCredentials,
 } from "./plugin-model-catalog-repair.js";
+import type { PluginModelCatalogCredentialOperations } from "./plugin-model-catalog.worker.js";
 
 export { isGeneratedPluginModelCatalog };
 export { PLUGIN_MODEL_CATALOG_GENERATED_BY } from "./plugin-model-catalog-repair.js";
@@ -146,59 +154,46 @@ export function repairPersistedPluginModelCatalogs(params: {
   return applied.map(({ pluginId, removedModelCount }) => ({ pluginId, removedModelCount }));
 }
 
-/** Scrubs exact credential copies through the owner of generated catalog rows. */
-export function removePersistedPluginModelCatalogCredentials(params: {
+/** Scrubs exact credential copies on the canonical agent database worker. */
+export async function removePersistedPluginModelCatalogCredentials(params: {
   agentId: string;
   databasePath: string;
   credentials: ReadonlySet<string>;
-}): void {
-  const options = { agentId: params.agentId, path: params.databasePath };
-  const present = withOpenClawAgentDatabaseReadOnly((database) => {
-    const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
-    return (
-      executeSqliteQuerySync(
-        database.db,
-        kysely
-          .selectFrom("cache_entries")
-          .select("key")
-          .where("scope", "=", PLUGIN_MODEL_CATALOG_CACHE_SCOPE)
-          .limit(1),
-      ).rows.length > 0
-    );
-  }, options);
-  if (!present.found || !present.value) {
-    return;
+  env?: NodeJS.ProcessEnv;
+}): Promise<void> {
+  try {
+    await stat(params.databasePath);
+  } catch (error) {
+    if (hasErrnoCode(error, "ENOENT")) {
+      return;
+    }
+    throw error;
   }
-  runOpenClawAgentWriteTransaction(
-    (database) => {
-      const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
-      const rows = executeSqliteQuerySync(
-        database.db,
-        kysely
-          .selectFrom("cache_entries")
-          .select(["key", "value_json"])
-          .where("scope", "=", PLUGIN_MODEL_CATALOG_CACHE_SCOPE),
-      ).rows;
-      for (const row of rows) {
-        if (row.value_json === null) {
-          continue;
-        }
-        const contents = stripPluginModelCatalogCredentials(row.value_json, params.credentials);
-        if (contents !== row.value_json) {
-          executeSqliteQuerySync(
-            database.db,
-            kysely
-              .updateTable("cache_entries")
-              .set({ value_json: contents, updated_at: Date.now() })
-              .where("scope", "=", PLUGIN_MODEL_CATALOG_CACHE_SCOPE)
-              .where("key", "=", row.key),
-          );
-        }
-      }
-    },
-    options,
-    { operationLabel: "plugin-model-catalog.logout" },
-  );
+  const options = { agentId: params.agentId, path: params.databasePath, env: params.env };
+  const execution = captureOpenClawAgentDatabaseExecution(options);
+  let worker: OpenClawAgentSqliteWorkerStore<PluginModelCatalogCredentialOperations> | undefined;
+  try {
+    worker = await openOpenClawAgentSqliteWorkerStore<PluginModelCatalogCredentialOperations>(
+      options,
+      { execution },
+      {
+        moduleUrl: resolveRuntimeWorkerUrl(runtimeProcessEntrypoints.pluginModelCatalogCredentials),
+        input: undefined,
+      },
+    );
+    await worker.run(async (scope) => {
+      await scope.execute({
+        type: "catalog.removeCredentials",
+        input: { credentials: [...params.credentials] },
+      });
+    }, execution.assertCurrent);
+  } finally {
+    try {
+      await worker?.close();
+    } finally {
+      await execution.release();
+    }
+  }
 }
 
 function readPersistedPluginModelCatalogMigrationPayloads(

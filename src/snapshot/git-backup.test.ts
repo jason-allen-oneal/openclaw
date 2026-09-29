@@ -855,6 +855,7 @@ describe("Git-backed SQLite snapshots", () => {
         const insert = database.prepare("INSERT INTO cache_entries VALUES (?, ?, ?)");
         for (const scope of ["plugin-model-catalog-v1", "plugin-model-catalog-migration-v1"]) {
           insert.run(scope, "fixture", JSON.stringify(catalog));
+          insert.run(scope, "broken", '{"apiKey":"malformed-secret"');
         }
         insert.run("unrelated-cache", "keep", '{"value":"retained"}');
       } finally {
@@ -891,8 +892,24 @@ describe("Git-backed SQLite snapshots", () => {
         key: "keep",
         value_json: '{"value":"retained"}',
       });
+      expect(rows.filter((entry) => entry.key === "broken")).toEqual(
+        excludeSecrets
+          ? []
+          : [
+              {
+                scope: "plugin-model-catalog-v1",
+                key: "broken",
+                value_json: '{"apiKey":"malformed-secret"',
+              },
+              {
+                scope: "plugin-model-catalog-migration-v1",
+                key: "broken",
+                value_json: '{"apiKey":"malformed-secret"',
+              },
+            ],
+      );
       expect(manifest.userVersion).toBe(OPENCLAW_AGENT_SCHEMA_VERSION);
-      expect(manifest.tables.cache_entries).toMatchObject({ rows: 3 });
+      expect(manifest.tables.cache_entries).toMatchObject({ rows: excludeSecrets ? 3 : 5 });
     },
   );
 

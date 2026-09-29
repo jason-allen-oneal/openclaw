@@ -366,7 +366,7 @@ For the shared-main agent, `--force` clears the provider's shared credentials an
 
 `models auth logout <profileId>` removes one saved auth profile from the selected agent auth store. Use the profile id shown by `models auth list`. It also drops that profile from `auth.profiles` and from every `auth.order` list in your config, so no stale reference is left behind, and it deletes an `auth.order.<provider>` entry that would otherwise be emptied (an authored empty order means "select no profiles" and would disable the provider). It prompts for confirmation on a TTY; pass `--yes` for scripts and agents. Provider key references are cleared before the credential is removed. Model defaults and connection settings stay unchanged. Logout refuses when the profile is not in the store.
 
-Logout also removes copies of the selected credential from generated plugin model catalog caches, while preserving model inventory and other accounts. Doctor's catalog credential recovery is unchanged. Credentials left in caches by a logout on an older version remain until you log out again.
+Logout also removes copies of the selected credential from generated plugin model catalog caches, including retained migration copies, while preserving model inventory and other accounts. Unusable generated-cache rows are discarded rather than retaining unknown secrets. Doctor's catalog credential recovery is unchanged. Credentials left in caches by a logout on an older version remain until you log out again.
 
 `models auth login-github-copilot` is a shortcut for `models auth login --provider github-copilot --method device` (GitHub device flow); it accepts `--yes` to overwrite an existing profile without prompting.
 

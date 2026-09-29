@@ -216,6 +216,9 @@ async function serializeGitBackupTable(
         typeof source.value_json === "string"
       ) {
         source.value_json = stripPluginModelCatalogCredentials(source.value_json);
+        if (source.value_json === null) {
+          continue;
+        }
       }
       const encoded: Record<string, unknown> = {};
       for (const column of columns) {

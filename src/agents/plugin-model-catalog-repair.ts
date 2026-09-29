@@ -53,14 +53,19 @@ export function repairPluginModelCatalogTransportMetadata(
   };
 }
 
-/** Removes authentication fields while retaining generated model inventory. */
+/** Returns null for unusable generated rows, which must not retain or export unknown secrets. */
 export function stripPluginModelCatalogCredentials(
   contents: string,
   credentials?: ReadonlySet<string>,
-): string {
-  const parsed: unknown = JSON.parse(contents);
+): string | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(contents);
+  } catch {
+    return null;
+  }
   if (!isGeneratedPluginModelCatalog(parsed) || !isRecord(parsed.providers)) {
-    return contents;
+    return null;
   }
   let changed = false;
   const matches = (value: unknown): boolean =>

@@ -432,7 +432,7 @@ async function removeAuthProfileTargetsWithLocks(
     // Scrub first so a failed catalog write leaves the saved profile available
     // for a retry. Only captured secret values are removed, never other accounts.
     for (const candidate of catalogStores) {
-      removePersistedPluginModelCatalogCredentials({ ...candidate, credentials });
+      await removePersistedPluginModelCatalogCredentials({ ...candidate, credentials });
     }
 
     removeOAuthRefreshGenerationPeers(await prepareAuthProfileRemovalPeers(targets, cfg));

@@ -1723,6 +1723,16 @@ describe("promoteAuthProfileInOrder", () => {
             [encodePluginModelCatalogRelativePath("fixture")]: JSON.stringify(catalog),
           },
         });
+        const { db } = openOpenClawAgentDatabase({
+          agentId: agentDir === main ? "main" : "child",
+          path: resolveAuthProfileDatabasePath(agentDir),
+        });
+        db.prepare(
+          "INSERT INTO cache_entries (scope, key, value_json, updated_at) VALUES (?, ?, ?, 1)",
+        ).run("plugin-model-catalog-migration-v1", "fixture", JSON.stringify(catalog));
+        db.prepare(
+          "INSERT INTO cache_entries (scope, key, value_json, updated_at) VALUES (?, ?, ?, 1)",
+        ).run("plugin-model-catalog-v1", "broken", '{"apiKey":"selected-secret"');
       }
       expect(
         await removeAuthProfilesAcrossOwnerStores({
@@ -1746,6 +1756,18 @@ describe("promoteAuthProfileInOrder", () => {
             },
           },
         });
+        const { db } = openOpenClawAgentDatabase({
+          agentId: agentDir === main ? "main" : "child",
+          path: resolveAuthProfileDatabasePath(agentDir),
+        });
+        expect(
+          db
+            .prepare("SELECT value_json FROM cache_entries WHERE scope = ? AND key = ?")
+            .get("plugin-model-catalog-migration-v1", "fixture"),
+        ).toEqual({ value_json: persisted!.contents });
+        expect(
+          db.prepare("SELECT key FROM cache_entries WHERE key = ?").get("broken"),
+        ).toBeUndefined();
       }
     });
   });
