@@ -186,12 +186,15 @@ export async function removePersistedPluginModelCatalogCredentials(params: {
         input: undefined,
       },
     );
-    await worker.run(async (scope) => {
-      await scope.execute({
-        type: "catalog.removeCredentials",
-        input: { credentials: [...params.credentials] },
-      });
-    }, execution.assertCurrent);
+    await worker.run(
+      async (scope) => {
+        await scope.execute({
+          type: "catalog.removeCredentials",
+          input: { credentials: [...params.credentials] },
+        });
+      },
+      () => execution.assertCurrent(),
+    );
   } finally {
     try {
       await worker?.close();
