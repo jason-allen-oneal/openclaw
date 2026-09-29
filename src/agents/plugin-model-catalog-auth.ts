@@ -42,7 +42,8 @@ export function capturePluginModelCatalogAuth(
   return owners.map((owner) => {
     const store = loadPersistedAuthProfileStoreAtDatabasePath(owner.databasePath, owner.kind);
     return {
-      ...owner,
+      databasePath: owner.databasePath,
+      kind: owner.kind,
       credentials: Object.fromEntries(
         Object.entries(store?.profiles ?? {}).map(([id, credential]) => [
           id,

@@ -505,6 +505,7 @@ async function removeAuthProfileTargetsWithLocks(
         restored
           ? "Catalog cleanup failed; saved credentials were restored. Rerun the same `openclaw models auth logout` command to finish removing cached copies."
           : "Catalog cleanup failed and concurrent auth changes prevented full restoration. Inspect the current auth profiles before retrying logout.",
+        { cause: error },
       );
     }
     return { kind: "updated", stores };
