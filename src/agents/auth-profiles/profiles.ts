@@ -28,12 +28,15 @@ import {
   ensureAuthProfileStoreForLocalUpdate,
   loadAuthProfileStoreWithoutExternalProfiles,
   saveAuthProfileStore,
+  saveAuthProfileStoreIfPersistenceSnapshotMatches,
   updateAuthProfileStoreWithLock,
 } from "./store-runtime.js";
 import {
+  captureAuthProfileStorePersistenceSnapshot,
   isSharedMainAuthProfileAgentDir,
   resolvePersistedAuthProfileOwnerAgentDir,
   resolveRuntimeAuthProfileAgentDir,
+  restoreAuthProfileStorePersistenceSnapshot,
 } from "./store.js";
 import type { AuthProfileCredential, AuthProfileStore } from "./types.js";
 import { resetAuthProfileFailureState } from "./usage-state.js";
@@ -438,8 +441,10 @@ async function removeAuthProfileTargetsWithLocks(
     removeOAuthRefreshGenerationPeers(await prepareAuthProfileRemovalPeers(targets, cfg));
 
     const stores: AuthProfileStore[] = [];
+    const restoreRemovedStores: Array<() => void> = [];
     for (const target of targets) {
       let stale = false;
+      let publishRemoval: (() => boolean) | undefined;
       const updated = await updateAuthProfileStoreWithLock({
         agentDir: target.agentDir,
         updater: (store) => {
@@ -447,7 +452,21 @@ async function removeAuthProfileTargetsWithLocks(
             stale = true;
             return false;
           }
-          return removeProfileReferences(store, target.profileIds, target.provider);
+          const before = captureAuthProfileStorePersistenceSnapshot(target.agentDir);
+          if (!removeProfileReferences(store, target.profileIds, target.provider)) {
+            return false;
+          }
+          const saved = saveAuthProfileStoreIfPersistenceSnapshotMatches({
+            store,
+            snapshot: before,
+            agentDir: target.agentDir,
+          });
+          restoreRemovedStores.push(() =>
+            restoreAuthProfileStorePersistenceSnapshot(before, saved.owned, target.agentDir),
+          );
+          publishRemoval = saved.publishRuntimeSnapshots;
+          // The guarded save supplies the exact compensation receipt.
+          return false;
         },
       });
       if (updated === null) {
@@ -456,7 +475,37 @@ async function removeAuthProfileTargetsWithLocks(
       if (stale) {
         return { kind: "retry" };
       }
+      publishRemoval?.();
       stores.push(updated);
+    }
+    try {
+      for (const candidate of catalogStores) {
+        await removePersistedPluginModelCatalogCredentials({ ...candidate, credentials });
+      }
+    } catch (error) {
+      const failures: unknown[] = [error];
+      for (let index = restoreRemovedStores.length - 1; index >= 0; index -= 1) {
+        try {
+          restoreRemovedStores[index]?.();
+        } catch (restoreError) {
+          failures.push(restoreError);
+        }
+      }
+      const restored = targets.every((target) =>
+        authProfileRemovalTargetMatches(
+          target,
+          loadAuthProfileStoreWithoutExternalProfiles(target.agentDir, {
+            allowKeychainPrompt: false,
+            inheritedAuthDir: target.agentDir,
+          }),
+        ),
+      );
+      throw new AggregateError(
+        failures,
+        restored
+          ? "Catalog cleanup failed; saved credentials were restored. Rerun the same `openclaw models auth logout` command to finish removing cached copies."
+          : "Catalog cleanup failed and concurrent auth changes prevented full restoration. Inspect the current auth profiles before retrying logout.",
+      );
     }
     return { kind: "updated", stores };
   });

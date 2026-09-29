@@ -29,8 +29,13 @@ import {
   resolveAuthProfileDatabasePath,
 } from "./auth-profiles/sqlite.js";
 import {
+  findRemovedPluginModelCatalogCredentials,
+  type PluginModelCatalogAuthSnapshot,
+} from "./plugin-model-catalog-auth.js";
+import {
   isGeneratedPluginModelCatalog,
   repairPluginModelCatalogTransportMetadata,
+  stripPluginModelCatalogCredentials,
 } from "./plugin-model-catalog-repair.js";
 import type { PluginModelCatalogCredentialOperations } from "./plugin-model-catalog.worker.js";
 
@@ -211,6 +216,7 @@ function replacePersistedPluginModelCatalogEntries(params: {
   planned: ReadonlyMap<string, string>;
   migrationPayloads?: ReadonlyMap<string, string>;
   deleteMissing?: boolean;
+  authSnapshot?: PluginModelCatalogAuthSnapshot;
 }): boolean {
   if (
     params.planned.size === 0 &&
@@ -223,6 +229,8 @@ function replacePersistedPluginModelCatalogEntries(params: {
   return runOpenClawAgentWriteTransaction(
     (database) => {
       const kysely = getNodeSqliteKysely<PluginModelCatalogDatabase>(database.db);
+      const removedCredentials =
+        params.authSnapshot && findRemovedPluginModelCatalogCredentials(params.authSnapshot);
       const existing = executeSqliteQuerySync(
         database.db,
         kysely
@@ -266,7 +274,13 @@ function replacePersistedPluginModelCatalogEntries(params: {
         );
       };
       let changed = false;
-      for (const [pluginId, contents] of params.planned) {
+      for (const [pluginId, plannedContents] of params.planned) {
+        const contents = removedCredentials?.size
+          ? stripPluginModelCatalogCredentials(plannedContents, removedCredentials)
+          : plannedContents;
+        if (contents === null) {
+          continue;
+        }
         const migrationPayload = params.migrationPayloads?.get(pluginId);
         if (migrationPayload && existingMigrationPayloads?.get(pluginId) === migrationPayload) {
           continue;
@@ -692,6 +706,7 @@ export function migrateLegacyPluginModelCatalogs(params: {
 export function replacePersistedPluginModelCatalogs(params: {
   agentDir: string;
   pluginCatalogWrites: Readonly<Record<string, string>>;
+  authSnapshot?: PluginModelCatalogAuthSnapshot;
 }): boolean {
   const planned = new Map<string, string>();
   for (const [relativePath, contents] of Object.entries(params.pluginCatalogWrites)) {
@@ -701,7 +716,11 @@ export function replacePersistedPluginModelCatalogs(params: {
     }
     planned.set(pluginId, repairPluginModelCatalogTransportMetadata(contents).contents);
   }
-  return replacePersistedPluginModelCatalogEntries({ agentDir: params.agentDir, planned });
+  return replacePersistedPluginModelCatalogEntries({
+    agentDir: params.agentDir,
+    planned,
+    authSnapshot: params.authSnapshot,
+  });
 }
 
 export type PluginModelCatalogMetadataSnapshot = Pick<PluginMetadataSnapshot, "owners"> & {

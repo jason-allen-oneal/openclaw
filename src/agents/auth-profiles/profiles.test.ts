@@ -7,17 +7,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { resolveOAuthDir } from "../../config/paths.js";
+import { createDeferredCore } from "../../shared/deferred.js";
 import { writeConfigMachineState } from "../../state/config-machine-state-write.js";
 import {
   closeOpenClawAgentDatabasesForTest,
   openOpenClawAgentDatabase,
 } from "../../state/openclaw-agent-db.js";
 import { closeOpenClawStateDatabaseForTest } from "../../state/openclaw-state-db.js";
-import {
-  encodePluginModelCatalogRelativePath,
-  loadPersistedPluginModelCatalogsReadOnly,
-  replacePersistedPluginModelCatalogs,
-} from "../plugin-model-catalog.js";
+import { ensureOpenClawModelsJson } from "../models-config.js";
+import * as modelPlans from "../models-config.plan.js";
+import * as catalogs from "../plugin-model-catalog.js";
 import { AUTH_STORE_VERSION } from "./constants.js";
 import { createApiKeyCredential, oauthCred } from "./credential-fixtures.test-support.js";
 import { testing as externalAuthTesting } from "./external-auth.test-support.js";
@@ -1695,6 +1694,89 @@ describe("promoteAuthProfileInOrder", () => {
     },
   );
 
+  it.each(["before-delete", "after-delete"] as const)(
+    "does not retain a held refresh credential published %s",
+    async (window) => {
+      await withAuthProfileTestState("openclaw-held-catalog-", async ({ agentDir }) => {
+        const key = "held-refresh-secret";
+        saveAuthProfileStore(
+          {
+            version: AUTH_STORE_VERSION,
+            profiles: { selected: { type: "api_key", provider: "fixture", key } },
+          },
+          agentDir,
+        );
+        const planned = createDeferredCore();
+        const release = createDeferredCore();
+        const contents = JSON.stringify({
+          generatedBy: "openclaw-plugin-model-catalog-v1",
+          providers: {
+            fixture: {
+              api: "openai-completions",
+              apiKey: key,
+              models: [{ id: "retained-inventory" }],
+            },
+          },
+        });
+        const planner = vi
+          .spyOn(modelPlans, "planOpenClawModelsJson")
+          .mockImplementationOnce(async () => {
+            planned.resolve();
+            await release.promise;
+            return {
+              action: "write",
+              contents: '{"providers":{}}\n',
+              pluginCatalogWrites: {
+                [catalogs.encodePluginModelCatalogRelativePath("fixture")]: contents,
+              },
+            };
+          });
+        const refresh = ensureOpenClawModelsJson({}, agentDir);
+        await planned.promise;
+        const scrub = catalogs.removePersistedPluginModelCatalogCredentials;
+        let calls = 0;
+        const cleanup = vi
+          .spyOn(catalogs, "removePersistedPluginModelCatalogCredentials")
+          .mockImplementation(async (params) => {
+            await scrub(params);
+            calls += 1;
+            if (calls === (window === "before-delete" ? 1 : 2)) {
+              release.resolve();
+              await refresh;
+              const persisted =
+                catalogs.loadPersistedPluginModelCatalogsReadOnly(agentDir)[0]?.contents;
+              if (window === "before-delete") {
+                expect(persisted).toContain(key);
+              } else {
+                expect(persisted).not.toContain(key);
+                expect(persisted).toContain("retained-inventory");
+              }
+            }
+          });
+        try {
+          expect(
+            await removeAuthProfilesAcrossOwnerStores({
+              agentDir,
+              profileIds: ["selected"],
+            }),
+          ).toBe(true);
+          expect(
+            loadAuthProfileStoreWithoutExternalProfiles(agentDir).profiles.selected,
+          ).toBeUndefined();
+          const persisted =
+            catalogs.loadPersistedPluginModelCatalogsReadOnly(agentDir)[0]?.contents;
+          expect(persisted).not.toContain(key);
+          expect(persisted).toContain("retained-inventory");
+        } finally {
+          release.resolve();
+          await refresh;
+          cleanup.mockRestore();
+          planner.mockRestore();
+        }
+      });
+    },
+  );
+
   it("removes cached credential copies across agents without disabling another account", async () => {
     await withAuthProfileTestState("openclaw-auth-catalog-logout-", async ({ agentDirFor }) => {
       const main = agentDirFor("main");
@@ -1717,10 +1799,10 @@ describe("promoteAuthProfileInOrder", () => {
         },
       };
       for (const agentDir of [main, child]) {
-        replacePersistedPluginModelCatalogs({
+        catalogs.replacePersistedPluginModelCatalogs({
           agentDir,
           pluginCatalogWrites: {
-            [encodePluginModelCatalogRelativePath("fixture")]: JSON.stringify(catalog),
+            [catalogs.encodePluginModelCatalogRelativePath("fixture")]: JSON.stringify(catalog),
           },
         });
         const { db } = openOpenClawAgentDatabase({
@@ -1742,7 +1824,7 @@ describe("promoteAuthProfileInOrder", () => {
       ).toBe(true);
       expect(loadPersistedAuthProfileStore(main)?.profiles).toEqual({ survivor });
       for (const agentDir of [main, child]) {
-        const [persisted] = loadPersistedPluginModelCatalogsReadOnly(agentDir);
+        const [persisted] = catalogs.loadPersistedPluginModelCatalogsReadOnly(agentDir);
         expect(JSON.parse(persisted!.contents)).toEqual({
           ...catalog,
           providers: {
