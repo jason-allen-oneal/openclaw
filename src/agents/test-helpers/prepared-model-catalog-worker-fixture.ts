@@ -15,7 +15,9 @@ import {
   closeOpenClawAgentDatabasesAsync,
   closeOpenClawAgentDatabasesForTest,
 } from "../../state/openclaw-agent-db.js";
+import { closeStateDatabaseForTest } from "../../test-utils/database-cleanup.js";
 import { clearRuntimeAuthProfileStoreSnapshots } from "../auth-profiles/runtime-snapshots.js";
+import { closeAuthProfileReadPool } from "../auth-profiles/sqlite-read-pool.js";
 import type { ModelCatalogSnapshot } from "../model-catalog.types.js";
 import {
   encodePluginModelCatalogRelativePath,
@@ -106,8 +108,11 @@ export function usePreparedCatalogWorkerFixtures(
         restoreCatalogWorkerFactory = undefined;
         catalogSettlements.clear();
         clearRuntimeAuthProfileStoreSnapshots();
+        closeAuthProfileReadPool();
         await closeOpenClawAgentDatabasesAsync();
         closeOpenClawAgentDatabasesForTest();
+        // Agent lease retirement can retain shared actors; retire them before roots can reuse inodes.
+        await closeStateDatabaseForTest();
         cleanup();
       }
     });
