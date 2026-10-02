@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { resolveAuthProfileDatabaseOwnerId } from "../agents/auth-profiles/sqlite.js";
 import {
   encodePluginModelCatalogRelativePath,
   loadPersistedPluginModelCatalogsReadOnly,
@@ -15,6 +16,7 @@ import type { RuntimeEnv } from "../runtime.js";
 import {
   closeOpenClawAgentDatabasesAsync,
   closeOpenClawAgentDatabasesForTest,
+  openOpenClawAgentDatabase,
 } from "../state/openclaw-agent-db.js";
 import { closeOpenClawStateDatabaseForTest } from "../state/openclaw-state-db.js";
 import { maybeMigrateLegacyPluginModelCatalogs } from "./doctor-plugin-model-catalog.js";
@@ -189,17 +191,20 @@ describe("doctor generated plugin model catalog migration", () => {
         },
       },
     });
-    const database = new DatabaseSync(path.join(agentDir, "openclaw-agent.sqlite"));
-    try {
-      database
-        .prepare(
-          "UPDATE cache_entries SET value_json = ?, updated_at = 42 WHERE scope = ? AND key = ?",
-        )
-        .run(malformed, "plugin-model-catalog-v1", "nvidia");
-      database.exec("CREATE TABLE catalog_repair_refresh (value_json TEXT NOT NULL)");
-      database.prepare("INSERT INTO catalog_repair_refresh (value_json) VALUES (?)").run(refreshed);
-      database.exec(`
-        CREATE TRIGGER refresh_catalog_before_repair
+    const { db: database } = openOpenClawAgentDatabase({
+      agentId: resolveAuthProfileDatabaseOwnerId(agentDir),
+      path: path.join(agentDir, "openclaw-agent.sqlite"),
+    });
+    database
+      .prepare(
+        "UPDATE cache_entries SET value_json = ?, updated_at = 42 WHERE scope = ? AND key = ?",
+      )
+      .run(malformed, "plugin-model-catalog-v1", "nvidia");
+    // Inject the write rejection on Doctor's admitted connection without changing persisted schema.
+    database.exec("CREATE TEMP TABLE catalog_repair_refresh (value_json TEXT NOT NULL)");
+    database.prepare("INSERT INTO catalog_repair_refresh (value_json) VALUES (?)").run(refreshed);
+    database.exec(`
+        CREATE TEMP TRIGGER refresh_catalog_before_repair
         BEFORE UPDATE OF value_json ON cache_entries
         WHEN OLD.scope = 'plugin-model-catalog-v1'
           AND OLD.key = 'nvidia'
@@ -211,9 +216,6 @@ describe("doctor generated plugin model catalog migration", () => {
           SELECT RAISE(IGNORE);
         END
       `);
-    } finally {
-      database.close();
-    }
 
     const params = migrationParams([agentDir]);
     await expect(maybeMigrateLegacyPluginModelCatalogs(params)).resolves.toEqual({

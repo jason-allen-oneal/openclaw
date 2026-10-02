@@ -145,6 +145,7 @@ export function bindSqliteWorkerBackend(
               );
             }
           }
+          return undefined;
         },
         {
           withCommit(commit) {

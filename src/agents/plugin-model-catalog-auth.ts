@@ -1,7 +1,10 @@
 import path from "node:path";
 import { cloneEnvWithPlatformSemantics } from "../config/config-env-vars.js";
 import { captureOpenClawStateWorkerContext } from "../state/openclaw-state-worker-context.js";
-import { withCanonicalAuthProfileCredentialObserver } from "./auth-profiles/credential-observation.js";
+import {
+  withCanonicalAuthProfileCredentialObserver,
+  type CanonicalAuthProfileCredentialObservation,
+} from "./auth-profiles/credential-observation.js";
 import { resolveSharedAuthStoreOwnershipAsync } from "./auth-profiles/path-resolve.js";
 import { resolveSharedMainAuthAgentDir } from "./auth-profiles/shared-main-dir.js";
 import {
@@ -47,19 +50,22 @@ export async function withPluginModelCatalogAuthObservations<T>(
       new Map(Object.entries(owner.credentials).map(([id, values]) => [id, new Set(values)])),
     ]),
   );
-  const result = await withCanonicalAuthProfileCredentialObserver(({ databasePath, profiles }) => {
-    const owner = captured.get(path.resolve(databasePath));
-    if (!owner) {
-      return;
-    }
-    for (const [id, credential] of Object.entries(profiles)) {
-      const values = owner.get(id) ?? new Set<string>();
-      for (const value of pluginModelCatalogCredentialValues(credential)) {
-        values.add(value);
+  const result = await withCanonicalAuthProfileCredentialObserver(
+    ({ databasePath, profiles }: CanonicalAuthProfileCredentialObservation) => {
+      const owner = captured.get(path.resolve(databasePath));
+      if (!owner) {
+        return;
       }
-      owner.set(id, values);
-    }
-  }, run);
+      for (const [id, credential] of Object.entries(profiles)) {
+        const values = owner.get(id) ?? new Set<string>();
+        for (const value of pluginModelCatalogCredentialValues(credential)) {
+          values.add(value);
+        }
+        owner.set(id, values);
+      }
+    },
+    run,
+  );
   for (const owner of snapshot) {
     owner.credentials = Object.fromEntries(
       [...captured.get(path.resolve(owner.databasePath))!].map(([id, values]) => [id, [...values]]),

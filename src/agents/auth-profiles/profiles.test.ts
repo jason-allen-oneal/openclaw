@@ -1707,13 +1707,14 @@ describe("promoteAuthProfileInOrder", () => {
         const key = credentialChange === "unchanged" ? initialKey : "held-refresh-replacement";
         const independentKey = "never-canonical-catalog-key";
         const independentHeader = "never-canonical-catalog-header";
+        const survivor = createApiKeyCredential("fixture", "held-refresh-surviving-secret");
         saveAuthProfileStore(
           {
             version: AUTH_STORE_VERSION,
             profiles:
               credentialChange === "added"
-                ? {}
-                : { selected: { type: "api_key", provider: "fixture", key: initialKey } },
+                ? { survivor }
+                : { survivor, selected: { type: "api_key", provider: "fixture", key: initialKey } },
           },
           agentDir,
         );
@@ -1726,7 +1727,7 @@ describe("promoteAuthProfileInOrder", () => {
               saveAuthProfileStore(
                 {
                   version: AUTH_STORE_VERSION,
-                  profiles: { selected: { type: "api_key", provider: "fixture", key } },
+                  profiles: { survivor, selected: { type: "api_key", provider: "fixture", key } },
                 },
                 agentDir,
               );
@@ -1749,6 +1750,11 @@ describe("promoteAuthProfileInOrder", () => {
                       id: "retained-inventory",
                       apiKey: independentKey,
                       headers: { "X-Independent-Auth": independentHeader },
+                    },
+                    {
+                      id: "surviving-inventory",
+                      apiKey: survivor.key,
+                      headers: { Authorization: `Bearer ${survivor.key}` },
                     },
                   ],
                 },
@@ -1793,15 +1799,18 @@ describe("promoteAuthProfileInOrder", () => {
               profileIds: ["selected"],
             }),
           ).toBe(true);
-          expect(
-            loadAuthProfileStoreWithoutExternalProfiles(agentDir).profiles.selected,
-          ).toBeUndefined();
+          expect(loadPersistedAuthProfileStore(agentDir)?.profiles).toEqual({ survivor });
           const persisted =
             catalogs.loadPersistedPluginModelCatalogsReadOnly(agentDir)[0]?.contents;
           expect(persisted).not.toContain(key);
           expect(persisted).toContain("retained-inventory");
           expect(persisted).toContain(independentKey);
           expect(persisted).toContain(independentHeader);
+          expect(JSON.parse(persisted ?? "null").providers.fixture.models).toContainEqual({
+            id: "surviving-inventory",
+            apiKey: survivor.key,
+            headers: { Authorization: `Bearer ${survivor.key}` },
+          });
         } finally {
           release.resolve();
           await refresh;
