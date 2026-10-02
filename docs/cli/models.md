@@ -205,9 +205,11 @@ for the wire controls.
 not sign in to providers, test credentials, or activate downloaded rows in a
 running Gateway. It rejects `--agent` because the hosted catalog is global.
 
-Restart the Gateway to use downloaded updates. The Gateway reports when a
-checked catalog needs a restart, including an update downloaded by another
-process. A successful refresh result describes the download, not live activation.
+The Gateway applies compatible downloads at its next background catalog check
+or after an explicit model-list refresh, without restarting. Refresh requests
+return current rows without waiting for the replacement generation.
+A failed preparation leaves the previous generation active. A successful CLI
+refresh result describes the download, not live activation.
 If `models.catalogRefresh.enabled` is `false`, the command reports that refresh
 is disabled.
 
@@ -366,7 +368,7 @@ For the shared-main agent, `--force` clears the provider's shared credentials an
 
 `models auth logout <profileId>` removes one saved auth profile from the selected agent auth store. Use the profile id shown by `models auth list`. It also drops that profile from `auth.profiles` and from every `auth.order` list in your config, so no stale reference is left behind, and it deletes an `auth.order.<provider>` entry that would otherwise be emptied (an authored empty order means "select no profiles" and would disable the provider). It prompts for confirmation on a TTY; pass `--yes` for scripts and agents. Provider key references are cleared before the credential is removed. Model defaults and connection settings stay unchanged. Logout refuses when the profile is not in the store.
 
-Logout also removes copies of the selected credential from generated plugin model catalog caches, including retained migration copies, while preserving model inventory and other accounts. Unusable generated-cache rows are discarded rather than retaining unknown secrets. Doctor's catalog credential recovery is unchanged. Credentials left in caches by a logout on an older version remain until you log out again.
+Logout also removes copies of the selected credential from generated plugin model catalog caches, including retained migration copies, while preserving model inventory and other accounts. Unusable generated-cache rows are discarded rather than retaining unknown secrets. Doctor's catalog credential recovery is unchanged. This cleanup applies while the selected profile is still saved; it cannot identify cached credentials from profiles already removed by an older version.
 
 If final catalog cleanup fails, logout restores the saved credential and its config references so you can rerun the same command with the same profile ID. The error reports whether restoration completed; concurrent auth changes can prevent full restoration and require inspecting the current profiles before retrying.
 

@@ -845,17 +845,45 @@ describe("Git-backed SQLite snapshots", () => {
             api: "openai-completions",
             apiKey: "provider-secret",
             headers: { Authorization: "Bearer header-secret" },
-            models: [{ id: "model", apiKey: "model-secret" }],
+            models: [{ id: "model", apiKey: "model-secret", headers: { "X-Key": "model-key" } }],
           },
         },
       };
+      const malformedHeaders = {
+        generatedBy: "openclaw-plugin-model-catalog-v1",
+        providers: {
+          fixture: {
+            api: "openai-completions",
+            apiKey: { value: "provider-secret" },
+            headers: ["provider-header-secret"],
+            models: [
+              { id: "array-header", headers: { Authorization: ["model-header-secret"] } },
+              { id: "object-header", headers: { Authorization: { token: "model-secret" } } },
+              { id: "string-headers", headers: "model-secret" },
+            ],
+          },
+        },
+      };
+      const unusableCatalogs = [
+        '{"apiKey":"malformed-secret"',
+        JSON.stringify({ ...catalog, providers: { fixture: ["provider-secret"] } }),
+        JSON.stringify({
+          ...catalog,
+          providers: { fixture: { models: { Authorization: "model-secret" } } },
+        }),
+        JSON.stringify({ ...catalog, providers: { fixture: { models: ["model-secret"] } } }),
+      ];
+      const scopes = ["plugin-model-catalog-v1", "plugin-model-catalog-migration-v1"];
       const database = new DatabaseSync(source);
       try {
         database.exec("CREATE TABLE cache_entries (scope TEXT, key TEXT, value_json TEXT)");
         const insert = database.prepare("INSERT INTO cache_entries VALUES (?, ?, ?)");
-        for (const scope of ["plugin-model-catalog-v1", "plugin-model-catalog-migration-v1"]) {
+        for (const scope of scopes) {
           insert.run(scope, "fixture", JSON.stringify(catalog));
-          insert.run(scope, "broken", '{"apiKey":"malformed-secret"');
+          insert.run(scope, "malformed-headers", JSON.stringify(malformedHeaders));
+          for (const [index, contents] of unusableCatalogs.entries()) {
+            insert.run(scope, `broken-${index}`, contents);
+          }
         }
         insert.run("unrelated-cache", "keep", '{"value":"retained"}');
       } finally {
@@ -871,45 +899,60 @@ describe("Git-backed SQLite snapshots", () => {
         .trim()
         .split("\n")
         .map((line) => JSON.parse(line));
-      for (const row of rows.filter((entry) => entry.key === "fixture")) {
-        expect(JSON.parse(row.value_json)).toEqual(
+      for (const scope of scopes) {
+        const fixtureRow = rows.find((entry) => entry.scope === scope && entry.key === "fixture");
+        expect(fixtureRow).toBeDefined();
+        expect(JSON.parse(fixtureRow.value_json)).toEqual(
           excludeSecrets
             ? {
                 ...catalog,
                 providers: {
                   fixture: {
                     api: "openai-completions",
-                    headers: {},
                     models: [{ id: "model" }],
                   },
                 },
               }
             : catalog,
         );
+        const malformedRow = rows.find(
+          (entry) => entry.scope === scope && entry.key === "malformed-headers",
+        );
+        expect(malformedRow).toBeDefined();
+        expect(JSON.parse(malformedRow.value_json)).toEqual(
+          excludeSecrets
+            ? {
+                generatedBy: "openclaw-plugin-model-catalog-v1",
+                providers: {
+                  fixture: {
+                    api: "openai-completions",
+                    models: [
+                      { id: "array-header" },
+                      { id: "object-header" },
+                      { id: "string-headers" },
+                    ],
+                  },
+                },
+              }
+            : malformedHeaders,
+        );
+        for (const [index, contents] of unusableCatalogs.entries()) {
+          expect(
+            rows.find((entry) => entry.scope === scope && entry.key === `broken-${index}`),
+          ).toEqual(
+            excludeSecrets ? undefined : { scope, key: `broken-${index}`, value_json: contents },
+          );
+        }
       }
       expect(rows).toContainEqual({
         scope: "unrelated-cache",
         key: "keep",
         value_json: '{"value":"retained"}',
       });
-      expect(rows.filter((entry) => entry.key === "broken")).toEqual(
-        excludeSecrets
-          ? []
-          : [
-              {
-                scope: "plugin-model-catalog-v1",
-                key: "broken",
-                value_json: '{"apiKey":"malformed-secret"',
-              },
-              {
-                scope: "plugin-model-catalog-migration-v1",
-                key: "broken",
-                value_json: '{"apiKey":"malformed-secret"',
-              },
-            ],
-      );
       expect(manifest.userVersion).toBe(OPENCLAW_AGENT_SCHEMA_VERSION);
-      expect(manifest.tables.cache_entries).toMatchObject({ rows: excludeSecrets ? 3 : 5 });
+      expect(manifest.tables.cache_entries).toMatchObject({
+        rows: excludeSecrets ? 5 : 5 + scopes.length * unusableCatalogs.length,
+      });
     },
   );
 

@@ -73,29 +73,48 @@ export function stripPluginModelCatalogCredentials(
     (credentials === undefined ||
       credentials.has(value) ||
       (value.startsWith("Bearer ") && credentials.has(value.slice(7))));
-  const strip = (entry: Record<string, unknown>) => {
-    if (entry.apiKey !== undefined && (credentials === undefined || matches(entry.apiKey))) {
-      delete entry.apiKey;
-      changed = true;
+  const strip = (entry: Record<string, unknown>): boolean => {
+    if (entry.apiKey !== undefined) {
+      if (credentials !== undefined && typeof entry.apiKey !== "string") {
+        return false;
+      }
+      if (credentials === undefined || matches(entry.apiKey)) {
+        delete entry.apiKey;
+        changed = true;
+      }
     }
-    if (isRecord(entry.headers)) {
-      for (const [name, value] of Object.entries(entry.headers)) {
-        if (matches(value)) {
-          delete entry.headers[name];
-          changed = true;
+    if (entry.headers !== undefined) {
+      if (credentials === undefined) {
+        delete entry.headers;
+        changed = true;
+      } else {
+        if (!isRecord(entry.headers)) {
+          return false;
+        }
+        for (const [name, value] of Object.entries(entry.headers)) {
+          if (typeof value !== "string") {
+            return false;
+          }
+          if (matches(value)) {
+            delete entry.headers[name];
+            changed = true;
+          }
         }
       }
     }
+    return true;
   };
   for (const provider of Object.values(parsed.providers)) {
-    if (!isRecord(provider)) {
-      continue;
+    if (!isRecord(provider) || !strip(provider)) {
+      return null;
     }
-    strip(provider);
-    if (Array.isArray(provider.models)) {
+    if (provider.models !== undefined) {
+      if (!Array.isArray(provider.models)) {
+        return null;
+      }
       for (const model of provider.models) {
-        if (isRecord(model)) {
-          strip(model);
+        if (!isRecord(model) || !strip(model)) {
+          return null;
         }
       }
     }

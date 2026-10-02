@@ -12,7 +12,10 @@ import {
 } from "../agents/plugin-model-catalog.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import type { RuntimeEnv } from "../runtime.js";
-import { closeOpenClawAgentDatabasesForTest } from "../state/openclaw-agent-db.js";
+import {
+  closeOpenClawAgentDatabasesAsync,
+  closeOpenClawAgentDatabasesForTest,
+} from "../state/openclaw-agent-db.js";
 import { closeOpenClawStateDatabaseForTest } from "../state/openclaw-state-db.js";
 import { maybeMigrateLegacyPluginModelCatalogs } from "./doctor-plugin-model-catalog.js";
 import type { DoctorPrompter } from "./doctor-prompter.js";
@@ -92,7 +95,8 @@ function readCatalogCacheRow(
   }
 }
 
-afterEach(() => {
+afterEach(async () => {
+  await closeOpenClawAgentDatabasesAsync();
   closeOpenClawAgentDatabasesForTest();
   closeOpenClawStateDatabaseForTest();
   for (const agentDir of tempDirs.splice(0)) {
@@ -104,7 +108,7 @@ describe("doctor generated plugin model catalog migration", () => {
   it.each([false, true])("detects and repairs SQLite-only catalogs (fix=%s)", async (fix) => {
     const agentDir = createAgentDir();
     const validSibling = generatedCatalog("anthropic");
-    replacePersistedPluginModelCatalogs({
+    await replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: {
         [encodePluginModelCatalogRelativePath("zai")]: generatedCatalog("zai"),
@@ -171,7 +175,7 @@ describe("doctor generated plugin model catalog migration", () => {
     const agentDir = createAgentDir();
     const relativePath = encodePluginModelCatalogRelativePath("nvidia");
     const refreshed = generatedCatalog("nvidia", "concurrently-refreshed-provider-test-key");
-    replacePersistedPluginModelCatalogs({
+    await replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: { [relativePath]: refreshed },
     });
@@ -231,7 +235,7 @@ describe("doctor generated plugin model catalog migration", () => {
   it("retires an orphaned recovery credential only on Doctor fix", async () => {
     const agentDir = createAgentDir();
     const contents = generatedCatalog("zai", "interrupted-released-provider-test-key");
-    replacePersistedPluginModelCatalogs({
+    await replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: {
         [encodePluginModelCatalogRelativePath("zai")]: contents,
@@ -367,7 +371,7 @@ describe("doctor generated plugin model catalog migration", () => {
       '"api": "openai-completions",',
       "",
     );
-    replacePersistedPluginModelCatalogs({
+    await replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: {
         [encodePluginModelCatalogRelativePath("zai")]: generatedCatalog("zai"),
@@ -558,7 +562,7 @@ describe("doctor generated plugin model catalog migration", () => {
     const agentDir = createAgentDir();
     const regenerated = generatedCatalog("zai", "regenerated-sqlite-test-key");
     const released = generatedCatalog("zai", "released-sidecar-test-key");
-    replacePersistedPluginModelCatalogs({
+    await replacePersistedPluginModelCatalogs({
       agentDir,
       pluginCatalogWrites: {
         [encodePluginModelCatalogRelativePath("zai")]: regenerated,

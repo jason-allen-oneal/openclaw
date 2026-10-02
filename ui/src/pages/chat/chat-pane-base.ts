@@ -50,7 +50,11 @@ import {
   CHAT_RUN_ACTIVITY_CHANGED_EVENT,
   CHAT_TRANSCRIPT_LOADING_CHANGED_EVENT,
 } from "./chat-history-events.ts";
-import { getAcceptedChatHistorySession, getChatHistoryLoadState } from "./chat-history-state.ts";
+import {
+  getAcceptedChatHistorySession,
+  getChatHistoryLoadState,
+  isChatHistoryRetrying,
+} from "./chat-history-state.ts";
 import { sameChatPanePresence } from "./chat-pane-presence.ts";
 import type { PendingSessionPanelToggle } from "./chat-pane-session-panel-toggle.ts";
 import type { ChatPaneConnectionScope, PaneSessionChangeOptions } from "./chat-pane-shared.ts";
@@ -219,6 +223,14 @@ export abstract class ChatPaneBase extends OpenClawLightDomElement {
   get transcriptLoading(): boolean {
     const phase = this.state ? getChatHistoryLoadState(this.state).phase : "idle";
     return phase === "pending-connection" || phase === "in-flight";
+  }
+  /** Scoped transient recovery is presented once in the shell connection indicator. */
+  get historyRecovering(): boolean {
+    return Boolean(
+      this.state &&
+      this.state.client === this.context?.gateway.snapshot.client &&
+      isChatHistoryRetrying(this.state),
+    );
   }
   /** The initial authoritative transcript has a visible result, including errors. */
   get transcriptReady(): boolean {
@@ -541,9 +553,8 @@ export abstract class ChatPaneBase extends OpenClawLightDomElement {
     observeNativeGateway(this);
     void new SubscriptionsController(this)
       .effect(() => this.ownerDocument, installChatComposerPickerDismissal)
-      .watch(
+      .watchStore(
         () => this.context && chatInputOwnerForContext(this.context),
-        (owner, notify) => owner.subscribe(notify),
         () => this.activeChanged(this.active),
       )
       .watch(
@@ -564,14 +575,8 @@ export abstract class ChatPaneBase extends OpenClawLightDomElement {
             notify();
           }),
       )
-      .watch(
-        () => this.context?.theme,
-        (theme, notify) => theme.subscribe(notify),
-      )
-      .watch(
-        () => this.context?.plugins,
-        (plugins, notify) => plugins.subscribe(notify),
-      )
+      .watchStore(() => this.context?.theme)
+      .watchStore(() => this.context?.plugins)
       .watch(
         () => this.resolveBoardProvider(),
         (provider, notify) => {
