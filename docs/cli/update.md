@@ -46,6 +46,7 @@ update failure report.
 ```bash
 openclaw update
 openclaw update status
+openclaw update plan --json
 openclaw update repair
 openclaw update cleanup --dry-run
 openclaw update wizard
@@ -63,6 +64,48 @@ openclaw --update
 
 `openclaw --update` rewrites to `openclaw update` (useful for shells and
 launcher scripts).
+
+## Recipe planning (passive preview)
+
+`openclaw update plan` inspects local installation metadata and reports the
+evidence still needed for a release-qualified upgrade recipe. It does not start
+the Gateway, read configuration hooks, load plugins, run package-manager or Git
+commands, contact the network, or reconcile recovery records. The installed
+launcher bypasses runtime repair, pending package lifecycle scripts, and compile
+cache writes for this command, including `--update plan` and planning help.
+The launcher still needs an installed application runtime capable of loading the
+planner; this is not the proposed independent recovery bootstrap.
+
+```bash
+openclaw update plan --json
+openclaw update plan --installation /path/to/openclaw --json
+openclaw update plan --catalog ./catalog.json --target exact-release-id --json
+```
+
+The default installation is the invoking CLI package, not the current working
+directory. A local catalog is an **unauthenticated report input**, never permission
+to execute adapters. Targets are exact catalog release IDs, not moving selectors
+such as `latest` or `stable`. Preview selection supports only unique direct
+routes qualified for the complete installation class; bridge routes are not
+implemented. Recipe steps must have consistent dependencies and resource
+declarations and follow fixed engine phases. Only parameter-free adapter
+contracts are supported by this initial preview.
+
+Reports have `kind: "report-only"`, `mutationEnabled: false`, and
+`outcome: "blocked"`. Successful inspection still exits nonzero because recipe
+execution and catalog authentication are not implemented. No production catalog
+or historical upgrade coverage is shipped yet. Unknown source provenance,
+installation/service ownership, recovery ownership, and actual live-state
+contracts are reported explicitly. A version string or declared package schema
+does not establish those facts. Git modifications, worktrees, remotes, ignored
+files, and local plugin links are not verified by this initial inventory.
+
+Complete reports include a deterministic digest of the observations and selected
+metadata. It identifies the report; it is neither an approval token nor an
+executable plan. Catalog read failures instead return a blocked error envelope.
+No staging, rehearsal, snapshot, migration, service change, or rollback has been
+performed. `--verify`, `--output`, and recipe `apply`/`resume` are not available.
+Ordinary `openclaw update` behavior is unchanged.
 
 Invalid configuration reports `invalid-config` before database schema inspection.
 An unreadable configuration file or failed configuration loading step instead
