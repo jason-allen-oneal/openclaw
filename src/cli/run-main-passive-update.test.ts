@@ -24,11 +24,13 @@ const argv = (...args: string[]) => ["node", "openclaw", ...args];
 beforeEach(() => {
   planCommand.mockReset();
   process.exitCode = undefined;
+  vi.stubEnv("OPENCLAW_CONTAINER", "");
 });
 
 afterEach(() => {
   process.exitCode = undefined;
   vi.restoreAllMocks();
+  vi.unstubAllEnvs();
 });
 
 describe("passive upgrade recipe entry", () => {
@@ -95,6 +97,18 @@ describe("passive upgrade recipe entry", () => {
     );
     expect(planCommand).not.toHaveBeenCalled();
     expect(process.exitCode).toBe(2);
+  });
+
+  it.each([
+    ["update", "plan"],
+    ["--update", "plan"],
+  ])("rejects environment-selected containers before inspecting the host: %j", async (...args) => {
+    vi.stubEnv("OPENCLAW_CONTAINER", "demo");
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+    await tryRunPassiveUpdateBeforeStartup(resolveCliArgvInvocation(argv(...args)));
+    expect(planCommand).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(2);
+    expect(error).toHaveBeenCalledWith(expect.stringContaining("container"));
   });
 
   it("does not intercept ordinary update or status, but keeps planning help passive", () => {

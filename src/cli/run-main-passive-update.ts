@@ -1,6 +1,6 @@
 import { rewriteUpdateFlagArgv } from "../infra/cli-root-options.js";
 import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { parseCliContainerArgs } from "./container-target.js";
+import { resolveCliContainerTarget } from "./container-target.js";
 import { applyCliProfileEnv, parseCliProfileArgs } from "./profile.js";
 import {
   isUpdateAdmissionInvocation,
@@ -9,8 +9,8 @@ import {
 
 type Invocation = ReturnType<typeof resolveCliArgvInvocation>;
 
-export function isPassiveUpdateInvocation(invocation: Invocation): boolean {
-  invocation = resolveCliArgvInvocation(rewriteUpdateFlagArgv(invocation.argv));
+export function isPassiveUpdateInvocation(inputInvocation: Invocation): boolean {
+  const invocation = resolveCliArgvInvocation(rewriteUpdateFlagArgv(inputInvocation.argv));
   return (
     isUpdateAdmissionInvocation(invocation) ||
     (invocation.commandPath.length === 2 &&
@@ -20,8 +20,10 @@ export function isPassiveUpdateInvocation(invocation: Invocation): boolean {
 }
 
 /** Passive planning must precede package lifecycle, runtime repair, and diagnostic writes. */
-export async function tryRunPassiveUpdateBeforeStartup(invocation: Invocation): Promise<boolean> {
-  invocation = resolveCliArgvInvocation(rewriteUpdateFlagArgv(invocation.argv));
+export async function tryRunPassiveUpdateBeforeStartup(
+  inputInvocation: Invocation,
+): Promise<boolean> {
+  const invocation = resolveCliArgvInvocation(rewriteUpdateFlagArgv(inputInvocation.argv));
   if (isUpdateAdmissionInvocation(invocation)) {
     return tryRunUpdateAdmissionBeforeStartup(invocation);
   }
@@ -34,12 +36,17 @@ export async function tryRunPassiveUpdateBeforeStartup(invocation: Invocation): 
     process.exitCode = 2;
     return true;
   }
-  const container = parseCliContainerArgs(profile.argv);
-  if (!container.ok || container.container) {
+  let container: string | null;
+  try {
+    container = resolveCliContainerTarget(profile.argv);
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 2;
+    return true;
+  }
+  if (container) {
     console.error(
-      !container.ok
-        ? container.error
-        : "Passive update planning does not support --container; run the planner inside that installation.",
+      "Passive update planning does not support container selection; run the planner inside that installation.",
     );
     process.exitCode = 2;
     return true;

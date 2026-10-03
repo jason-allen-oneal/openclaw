@@ -39,7 +39,7 @@ function canonicalJson(value: unknown): string {
   if (value !== null && typeof value === "object") {
     return `{${Object.entries(value)
       .filter(([, entry]) => entry !== undefined)
-      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+      .toSorted(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
       .map(([key, entry]) => `${JSON.stringify(key)}:${canonicalJson(entry)}`)
       .join(",")}}`;
   }
@@ -51,52 +51,49 @@ function digest(value: unknown): string {
 }
 
 function sortedById<T extends { id: string; revision?: number }>(values: T[]): T[] {
-  return [...values].sort((a, b) =>
+  return values.toSorted((a, b) =>
     a.id < b.id ? -1 : a.id > b.id ? 1 : (a.revision ?? 0) - (b.revision ?? 0),
   );
 }
 
 function catalogDigest(catalog: UpgradeRecipeCatalog): string {
-  return digest({
-    ...catalog,
-    artifacts: sortedById(catalog.artifacts),
-    releases: sortedById(catalog.releases),
-    adapters: sortedById(catalog.adapters).map((adapter) => ({
-      ...adapter,
-      phases: [...adapter.phases].sort(),
-      inputStateContractClasses: [...adapter.inputStateContractClasses].sort(),
-    })),
-    qualifications: sortedById(catalog.qualifications),
-    recipes: sortedById(catalog.recipes).map((recipe) => ({
-      ...recipe,
-      source: {
-        ...recipe.source,
-        releaseIds: [...recipe.source.releaseIds].sort(),
-        identityClasses: [...recipe.source.identityClasses].sort(),
-        stateContractClasses: [...recipe.source.stateContractClasses].sort(),
-        installKinds: [...recipe.source.installKinds].sort(),
-        platforms: [...recipe.source.platforms].sort((a, b) =>
-          canonicalJson(a) < canonicalJson(b) ? -1 : canonicalJson(a) > canonicalJson(b) ? 1 : 0,
-        ),
-      },
-      targetReleaseIds: [...recipe.targetReleaseIds].sort(),
-      qualificationIds: [...recipe.qualificationIds].sort(),
-      executor: {
-        ...recipe.executor,
-        requiredCapabilities: [...recipe.executor.requiredCapabilities].sort(),
-      },
-      safety: { ...recipe.safety, policyContractIds: [...recipe.safety.policyContractIds].sort() },
-      supersedes: recipe.supersedes && sortedById(recipe.supersedes),
-      steps: sortedById(recipe.steps).map((step) => ({
-        ...step,
-        requires: [...step.requires].sort(),
-        resources: [...step.resources].sort((a, b) =>
-          canonicalJson(a) < canonicalJson(b) ? -1 : canonicalJson(a) > canonicalJson(b) ? 1 : 0,
-        ),
-        postconditionContractIds: [...step.postconditionContractIds].sort(),
-      })),
-    })),
-  });
+  // Normalize a private copy: neither planning nor hashing changes admitted metadata.
+  const normalized = structuredClone(catalog);
+  normalized.artifacts = sortedById(normalized.artifacts);
+  normalized.releases = sortedById(normalized.releases);
+  normalized.adapters = sortedById(normalized.adapters);
+  normalized.qualifications = sortedById(normalized.qualifications);
+  normalized.recipes = sortedById(normalized.recipes);
+  const compareCanonical = (a: unknown, b: unknown) => {
+    const left = canonicalJson(a);
+    const right = canonicalJson(b);
+    return left < right ? -1 : left > right ? 1 : 0;
+  };
+  for (const adapter of normalized.adapters) {
+    adapter.phases = adapter.phases.toSorted();
+    adapter.inputStateContractClasses = adapter.inputStateContractClasses.toSorted();
+  }
+  for (const recipe of normalized.recipes) {
+    recipe.source.releaseIds = recipe.source.releaseIds.toSorted();
+    recipe.source.identityClasses = recipe.source.identityClasses.toSorted();
+    recipe.source.stateContractClasses = recipe.source.stateContractClasses.toSorted();
+    recipe.source.installKinds = recipe.source.installKinds.toSorted();
+    recipe.source.platforms = recipe.source.platforms.toSorted(compareCanonical);
+    recipe.targetReleaseIds = recipe.targetReleaseIds.toSorted();
+    recipe.qualificationIds = recipe.qualificationIds.toSorted();
+    recipe.executor.requiredCapabilities = recipe.executor.requiredCapabilities.toSorted();
+    recipe.safety.policyContractIds = recipe.safety.policyContractIds.toSorted();
+    if (recipe.supersedes) {
+      recipe.supersedes = sortedById(recipe.supersedes);
+    }
+    recipe.steps = sortedById(recipe.steps);
+    for (const step of recipe.steps) {
+      step.requires = step.requires.toSorted();
+      step.resources = step.resources.toSorted(compareCanonical);
+      step.postconditionContractIds = step.postconditionContractIds.toSorted();
+    }
+  }
+  return digest(normalized);
 }
 
 function matchesPlatform(
@@ -396,11 +393,11 @@ export function createUpgradeRecipePlan(options: {
   let stateContractClass = inventory.stateContractClass;
   for (const step of orderSteps(recipe)) {
     const adapter = catalog.adapters.find(
-      (adapter) =>
-        adapter.id === step.adapter.id &&
-        adapter.revision === step.adapter.revision &&
-        adapter.bundleArtifactId === step.adapter.bundleArtifactId &&
-        adapter.parameterContractId === step.adapter.parameterContractId,
+      (candidate) =>
+        candidate.id === step.adapter.id &&
+        candidate.revision === step.adapter.revision &&
+        candidate.bundleArtifactId === step.adapter.bundleArtifactId &&
+        candidate.parameterContractId === step.adapter.parameterContractId,
     );
     const probe = options.probes?.[step.id];
     plan.steps.push({
