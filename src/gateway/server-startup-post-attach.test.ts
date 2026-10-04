@@ -575,7 +575,7 @@ describe("startGatewayPostAttachRuntime", () => {
     const unavailableGatewayMethods = new Set<string>(["chat.history", "models.list"]);
     const startupOrder: string[] = [];
     const methodsAtRecoveryRegistration: string[][] = [];
-    const currentConfig = { agents: { list: [{ id: "main" }, { id: "work" }] } };
+    const currentConfig = { agents: { entries: { main: {}, work: {} } } };
     hoisted.scheduleRestartAbortedMainSessionRecovery.mockImplementationOnce(
       (params: { getConfig: () => unknown }) => {
         methodsAtRecoveryRegistration.push([...unavailableGatewayMethods]);
@@ -1280,6 +1280,12 @@ describe("startGatewayPostAttachRuntime", () => {
   });
 
   it("adopts a winning plugin generation without publishing stale deferred startup state", async () => {
+    // This fixture owns diagnostic-chat only; ambient host credentials are unrelated.
+    for (const key of Object.keys(process.env)) {
+      if (key.startsWith("DISCORD_")) {
+        vi.stubEnv(key, undefined);
+      }
+    }
     const { logGatewayStartup } =
       await vi.importActual<typeof import("./server-startup-log.js")>("./server-startup-log.js");
     const log = { info: vi.fn(), warn: vi.fn() };

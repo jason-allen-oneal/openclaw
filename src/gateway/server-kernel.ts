@@ -33,21 +33,6 @@ const loadGatewayModelCatalogModule = createLazyRuntimeModule(
   () => import("./server-model-catalog.js"),
 );
 const bindGatewayModelCatalog = createLazyRuntimeMethodBinder(loadGatewayModelCatalogModule);
-const loadWorkerEnvironmentStartupModule = createLazyRuntimeModule(
-  () => import("./server-worker-environment-startup.js"),
-);
-const loadWorkerPlacementStartupModule = createLazyRuntimeModule(
-  () => import("./server-worker-placement-startup.js"),
-);
-const loadGatewayStartupEarlyModule = createLazyRuntimeModule(
-  () => import("./server-startup-early.js"),
-);
-const loadGatewayPluginBootstrapModule = createLazyRuntimeModule(
-  () => import("./server-plugin-bootstrap.js"),
-);
-const loadGatewayShutdownModule = createLazyRuntimeModule(
-  () => import("./server-shutdown.runtime.js"),
-);
 
 const log = createSubsystemLogger("gateway");
 const logDiscovery = log.child("discovery");
@@ -202,7 +187,7 @@ async function createGatewayKernelWithSdkHost(
         opts,
         log,
         logSecrets,
-        loadWorkerEnvironmentStartupModule,
+        loadWorkerEnvironmentStartupModule: () => import("./server-worker-environment-startup.js"),
         formatRuntimeGatewayAuthTokenWarning,
       }),
     );
@@ -229,8 +214,6 @@ async function createGatewayKernelWithSdkHost(
         logPlugins,
         gatewayRuntime,
         resolveChannelRuntime: getChannelRuntime,
-        loadWorkerEnvironmentStartupModule,
-        loadWorkerPlacementStartupModule,
       }),
     );
     kernelState = runtime;
@@ -239,7 +222,7 @@ async function createGatewayKernelWithSdkHost(
     // Resolve and retain the complete shutdown graph while the install is healthy.
     const shutdownRuntime = await runtime.startupTrace.measure(
       "gateway.shutdown-runtime-import",
-      async () => (await loadGatewayShutdownModule()).prepareGatewayShutdownRuntime(),
+      async () => (await import("./server-shutdown.runtime.js")).prepareGatewayShutdownRuntime(),
     );
     const preparedLifecycleRuntime = await runtime.startupTrace.measure("gateway.lifecycle", () =>
       prepareGatewayLifecycle({
@@ -271,8 +254,6 @@ async function createGatewayKernelWithSdkHost(
         logDiscovery,
         logHealth,
         logChannels,
-        loadGatewayStartupEarlyModule,
-        loadGatewayPluginBootstrapModule,
         loadGatewayModelCatalog,
         loadGatewayModelCatalogSnapshot,
         readPreparedGatewayModelCatalog,
