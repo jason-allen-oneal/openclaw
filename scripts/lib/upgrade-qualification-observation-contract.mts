@@ -66,6 +66,7 @@ const mapping = z.strictObject({
       operation: factFrame.optional(),
       jobId: factFrame.optional(),
       database: factFrame.optional(),
+      ownerPayload: factFrame.optional(),
     })
     .optional(),
   heldRuntime: z
@@ -78,13 +79,19 @@ const mapping = z.strictObject({
       }),
     })
     .optional(),
-  facts: z.strictObject({
-    runId: z.string().min(1),
-    actionId: z.string().min(1),
-    operation: z.string().min(1),
-    jobId: z.string().min(1).optional(),
-    database: z.string().min(1).optional(),
-  }),
+  facts: z.union([
+    z.strictObject({
+      runId: z.string().min(1),
+      actionId: z.string().min(1),
+      operation: z.string().min(1),
+      jobId: z.string().min(1).optional(),
+      database: z.string().min(1).optional(),
+    }),
+    z.strictObject({
+      kind: z.enum(["maintenance-binding", "publication-owner"]),
+      payloadExpression: z.string().min(1),
+    }),
+  ]),
 });
 /** External reviewed inputs, never authorization injected into production artifacts. */
 export const historicalObservationSchema = z
@@ -246,8 +253,25 @@ export const historicalObservationSchema = z
     }
     for (const item of input.mappings) {
       if (
-        (item.worker && item.location && (!item.jobId || !item.facts.jobId)) ||
-        Boolean(item.jobId) !== Boolean(item.facts.jobId)
+        "kind" in item.facts &&
+        (item.id !== input.selectedMappingId ||
+          item.phase !== "fresh" ||
+          !item.location ||
+          item.worker ||
+          item.jobId ||
+          item.database ||
+          (item.facts.kind === "maintenance-binding"
+            ? input.boundary !== "gate-release" || item.operation !== "core.gateway-maintenance"
+            : input.boundary !== "package-publication" ||
+              item.operation !== "core.package-publish"))
+      ) {
+        refuse("Owner joins require the exact fresh parent boundary and approved adapter.");
+      }
+      if (
+        (item.worker &&
+          item.location &&
+          (!item.jobId || !("jobId" in item.facts && item.facts.jobId))) ||
+        Boolean(item.jobId) !== Boolean("jobId" in item.facts && item.facts.jobId)
       ) {
         refuse(
           "Worker boundaries require a real job discriminator; optional parent jobs must match their expressions.",
@@ -289,7 +313,7 @@ export const historicalObservationSchema = z
     }
     if (
       input.boundary === "migration-commit" &&
-      (!selected[0]?.facts.database ||
+      (!(selected[0] && "database" in selected[0].facts && selected[0].facts.database) ||
         !selected[0]?.database ||
         selected[0]?.operation !== "state.schema.repair")
     ) {

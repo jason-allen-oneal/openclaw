@@ -216,7 +216,12 @@ export async function runHistoricalObservation(binding, directory) {
       }
       preserveStoppedOnRefusal = true;
       await verifyObservedArtifacts();
-      const durable = await probe({ ...binding, originalRunId: capturedRun });
+      const durable = await probe({
+        ...binding,
+        originalRunId: capturedRun,
+        observedFacts: event.observedFacts,
+      });
+      receipt.ownerProvenance = durable.ownerProvenance;
       originalCustody = durable.custody;
       preserveStoppedOnRefusal = false;
       await retain(directory, "boundary.json", {

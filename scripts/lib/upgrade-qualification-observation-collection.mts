@@ -4,7 +4,10 @@ import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { pointerSchema } from "../../src/infra/upgrade-recipes/retained-run-contract.js";
 import { historicalObservationSchema } from "./upgrade-qualification-observation-contract.mjs";
-import { assertNativeObservationSelectors } from "./upgrade-qualification-observation-files.mjs";
+import {
+  assertNativeObservationSelectors,
+  assertOwnerObservationProvenance,
+} from "./upgrade-qualification-observation-files.mjs";
 
 type Observation = z.infer<typeof historicalObservationSchema>;
 export async function readHistoricalObservation(
@@ -82,6 +85,8 @@ export function parseHistoricalObservationReceipt(
       boundaryObservation: z
         .object({
           mappingId: z.string(),
+          observedFacts: z.unknown().optional(),
+          ownerProvenance: z.unknown().optional(),
           heldRuntime: z
             .object({
               maintenanceHeld: z.boolean(),
@@ -103,6 +108,22 @@ export function parseHistoricalObservationReceipt(
     !isDeepStrictEqual(receipt.nativeSelectors, assertNativeObservationSelectors(observation))
   ) {
     throw new Error("External receipt lost unchanged original retained custody.");
+  }
+  const selectedOwner = observation.mappings.find(
+    (item) => item.id === observation.selectedMappingId,
+  );
+  if (selectedOwner && "kind" in selectedOwner.facts) {
+    if (receipt.boundaryObservation?.mappingId !== selectedOwner.id) {
+      throw new Error("Owner receipt selects another boundary mapping.");
+    }
+    assertOwnerObservationProvenance(
+      selectedOwner,
+      observation.boundary,
+      receipt.originalRunId,
+      receipt.boundaryObservation.observedFacts,
+      receipt.boundaryObservation.ownerProvenance,
+      receipt.originalCustody,
+    );
   }
   if (observation.boundary === "gate-release") {
     const selected = observation.mappings.find((item) => item.id === observation.selectedMappingId);

@@ -159,14 +159,24 @@ export async function observePausedBoundary({
   if ((await read("guard", mapping.guardExpression)) !== true) {
     throw new Error("Original-run/action/database guard rejected; execution remains held.");
   }
-  const expectedFacts = {
-    runId: original,
-    actionId: mapping.actionId,
-    operation: mapping.operation,
-    ...(mapping.jobId ? { jobId: mapping.jobId.replaceAll("{{original-run-id}}", original) } : {}),
-    ...(mapping.database ? { database: mapping.database } : {}),
-  };
-  const observedFacts = {};
+  const ownerFacts = mapping.facts.kind;
+  const expectedFacts = ownerFacts
+    ? {}
+    : {
+        runId: original,
+        actionId: mapping.actionId,
+        operation: mapping.operation,
+        ...(mapping.jobId
+          ? { jobId: mapping.jobId.replaceAll("{{original-run-id}}", original) }
+          : {}),
+        ...(mapping.database ? { database: mapping.database } : {}),
+      };
+  const observedFacts = ownerFacts
+    ? { kind: ownerFacts, payload: await read("ownerPayload", mapping.facts.payloadExpression) }
+    : {};
+  if (ownerFacts && (!observedFacts.payload || typeof observedFacts.payload !== "object")) {
+    throw new Error("Missing read-only owner payload; execution remains held.");
+  }
   for (const [name, expected] of Object.entries(expectedFacts)) {
     const value = await read(name, mapping.facts[name]);
     if (value !== expected) {

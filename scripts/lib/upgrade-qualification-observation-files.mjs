@@ -407,6 +407,106 @@ async function verifiedRetainedCustody(row, binding) {
   return custody;
 }
 
+/** Recheck the same captured owner/durable join before kill and during collection.
+ * Artifact text is retained verbatim: collection authenticates it by the original pointer,
+ * rather than trusting derived action IDs or an observer-authored success flag.
+ */
+export function assertOwnerObservationProvenance(
+  mapping,
+  boundary,
+  originalRunId,
+  observed,
+  evidence,
+  custody,
+) {
+  const kind = mapping.facts.kind;
+  if (!kind || observed?.kind !== kind || !evidence || !observed.payload) {
+    throw new Error("Missing captured owner provenance.");
+  }
+  const decode = (text, artifact) => {
+    if (
+      typeof text !== "string" ||
+      !artifact ||
+      Buffer.byteLength(text) !== artifact.length ||
+      sha(Buffer.from(text)) !== artifact.sha256
+    ) {
+      throw new Error("Owner provenance artifact differs from original retained bytes.");
+    }
+    return JSON.parse(text);
+  };
+  const envelope = decode(evidence.envelopeText, custody.pointer.envelope);
+  const plan = decode(evidence.planText, envelope.planArtifact);
+  const authorization = decode(evidence.authorizationText, envelope.authorizationArtifact);
+  if (
+    envelope.binding?.runId !== originalRunId ||
+    custody.runId !== originalRunId ||
+    custody.pointer.runId !== originalRunId ||
+    !isDeepStrictEqual(envelope.nativeAuthority, custody.pointer.nativeAuthority) ||
+    !isDeepStrictEqual(envelope.ledgerAuthority, custody.pointer.ledgerAuthority) ||
+    !isDeepStrictEqual(plan.maintenance?.binding, envelope.binding) ||
+    plan.approvedPlanDigest !== envelope.binding.planDigest ||
+    plan.approvedPlan?.digest !== envelope.binding.planDigest ||
+    authorization.digest !== plan.catalogDigest ||
+    plan.runner?.manifestDigest !== envelope.runner?.manifestDigest ||
+    plan.runner?.closureDigest !== envelope.runner?.closureDigest
+  ) {
+    throw new Error("Owner provenance lost original approved plan correspondence.");
+  }
+  const steps = envelope.stepBindings?.filter((step) => step.stepId === mapping.actionId);
+  if (
+    steps?.length !== 1 ||
+    steps[0].runId !== originalRunId ||
+    steps[0].planDigest !== envelope.binding.planDigest ||
+    steps[0].adapterId !== mapping.operation ||
+    steps[0].recipeId !== plan.route?.recipe?.id ||
+    steps[0].recipeRevision !== plan.route?.recipe?.revision ||
+    !isDeepStrictEqual(evidence.durable?.stepReceipt?.binding, steps[0]) ||
+    !["intent", "verified"].includes(evidence.durable.stepReceipt.phase)
+  ) {
+    throw new Error("Owner provenance lacks the exact retained action receipt.");
+  }
+  if (kind === "maintenance-binding") {
+    const receipt = evidence.durable.maintenanceReceipt;
+    if (
+      boundary !== "gate-release" ||
+      mapping.operation !== "core.gateway-maintenance" ||
+      !isDeepStrictEqual(observed.payload, envelope.binding) ||
+      !isDeepStrictEqual(receipt?.binding, envelope.binding) ||
+      receipt?.phase !== "commit-intent" ||
+      !Number.isSafeInteger(receipt?.revision) ||
+      receipt.revision < 1
+    ) {
+      throw new Error("Maintenance owner differs from the durable original commit intent.");
+    }
+  } else if (kind === "publication-owner") {
+    const record = evidence.durable.publicationRecord;
+    const descriptor = observed.payload;
+    if (
+      boundary !== "package-publication" ||
+      mapping.operation !== "core.package-publish" ||
+      !isDeepStrictEqual(record?.descriptor, descriptor) ||
+      !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/iu.test(
+        descriptor.operationId ?? "",
+      ) ||
+      !envelope.originalNativeOwner ||
+      !isDeepStrictEqual(descriptor.authority, {
+        ...envelope.nativeAuthority,
+        owner: envelope.originalNativeOwner,
+      }) ||
+      descriptor.authority.installKey !== envelope.binding.installationKey ||
+      !Number.isSafeInteger(record.revision) ||
+      record.revision < 1 ||
+      record.phase !== "publishing" ||
+      record.intent?.kind !== "publish"
+    ) {
+      throw new Error("Publication owner differs from the original native journal operation.");
+    }
+  } else {
+    throw new Error("Unknown owner provenance contract.");
+  }
+  return evidence;
+}
+
 export async function probe(binding, verifyEffect = true) {
   await bytes(binding.durableProbe.executable);
   const audit = JSON.parse(await bytes(binding.durableProbe.audit));
@@ -424,6 +524,12 @@ export async function probe(binding, verifyEffect = true) {
       binding.mappings.find((item) => item.id === binding.selectedMappingId)?.heldRuntime,
     ) ||
     !isDeepStrictEqual(audit.argv, binding.durableProbe.argv) ||
+    !isDeepStrictEqual(
+      audit.ownerFacts,
+      binding.mappings.find((item) => item.id === binding.selectedMappingId)?.facts.kind
+        ? binding.mappings.find((item) => item.id === binding.selectedMappingId)?.facts
+        : undefined,
+    ) ||
     audit.readOnly !== true ||
     !audit.basis
   ) {
@@ -479,12 +585,31 @@ export async function probe(binding, verifyEffect = true) {
     }
     return value;
   };
-  const { retainedCustody, ...effect } = result;
+  const { retainedCustody, ownerEvidence, ...effect } = result;
   const custody = await verifiedRetainedCustody(retainedCustody, binding);
+  let ownerProvenance;
+  if (selected.facts.kind && verifyEffect) {
+    const envelopeText = (await bytes(custody.pointer.envelope)).toString("utf8");
+    const envelope = JSON.parse(envelopeText);
+    ownerProvenance = {
+      envelopeText,
+      planText: (await bytes(envelope.planArtifact)).toString("utf8"),
+      authorizationText: (await bytes(envelope.authorizationArtifact)).toString("utf8"),
+      durable: ownerEvidence,
+    };
+    assertOwnerObservationProvenance(
+      selected,
+      binding.boundary,
+      binding.originalRunId,
+      binding.observedFacts,
+      ownerProvenance,
+      custody,
+    );
+  }
   if (verifyEffect && !isDeepStrictEqual(effect, resolveExpected(binding.durableProbe.expected))) {
     throw new Error("Durable boundary effect disagrees with reviewed before/after expectation.");
   }
-  return { effect, custody };
+  return { effect, custody, ownerProvenance };
 }
 export async function protectedInventory(roots) {
   const rows = [];

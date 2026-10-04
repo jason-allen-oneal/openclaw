@@ -16,6 +16,7 @@ import {
   requireRecipePreactivationMaintenance,
   verifyRecipeCandidateBoundary,
   verifyRecipeExecutionSelection,
+  verifyRecipeManagedEnvironment,
 } from "./recipe-execution-boundaries.js";
 import {
   normalizeTag,
@@ -86,10 +87,6 @@ import {
   type PreManagedServiceStop,
 } from "./update-command-service.js";
 import { verifyPreviousManagedGatewayForUpdate } from "./update-command-verification.js";
-import {
-  assertRecipeUpdateEnvironment,
-  verifyRecipeUpdateConfig,
-} from "./update-recipe-context.js";
 
 export async function executeMutableUpdate(
   params: MutableUpdateExecutionParams,
@@ -320,11 +317,7 @@ export async function executeMutableUpdate(
         invocationCwd: params.invocationCwd,
       });
       if (ownedManagedUpdateContext) {
-        if (opts.recipe) {
-          assertRecipeUpdateEnvironment(opts.recipe, ownedManagedUpdateContext.env);
-          await verifyRecipeUpdateConfig(opts.recipe, ownedManagedUpdateContext.env);
-          assertExecutionCurrent();
-        }
+        await verifyRecipeManagedEnvironment(params, ownedManagedUpdateContext.env);
         params.recoveryState.triageTarget.env = ownedManagedUpdateContext.env;
       }
     } catch (err) {

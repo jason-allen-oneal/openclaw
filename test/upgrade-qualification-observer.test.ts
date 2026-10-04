@@ -214,6 +214,32 @@ describe("unchanged-artifact crash observation admission", () => {
       resumedCustody: structuredClone(custody),
     };
     expect(() => parseHistoricalObservationReceipt(receipt, selected, runId)).not.toThrow();
+    const ownerSelected = historicalObservationSchema.parse({
+      ...binding(),
+      boundary: "package-publication",
+      mappings: binding().mappings.map((item) =>
+        item.id === "fresh"
+          ? Object.assign({}, item, {
+              operation: "core.package-publish",
+              jobId: undefined,
+              database: undefined,
+              facts: { kind: "publication-owner", payloadExpression: "descriptor" },
+            })
+          : item,
+      ),
+    });
+    expect(() =>
+      parseHistoricalObservationReceipt(
+        {
+          ...receipt,
+          boundary: "package-publication",
+          boundaryObservation: { mappingId: "fresh" },
+        },
+        ownerSelected,
+        runId,
+      ),
+    ).toThrow(/Missing captured owner/);
+
     const creationSwap = structuredClone(receipt);
     creationSwap.resumedCustody.createdAtMs++;
     expect(() => parseHistoricalObservationReceipt(creationSwap, selected, runId)).toThrow(

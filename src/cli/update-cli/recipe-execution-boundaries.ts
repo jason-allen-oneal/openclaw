@@ -38,6 +38,18 @@ export async function verifyRecipeExecutionSelection(
   }
 }
 
+/** Admit the captured service environment before it becomes the recovery target. */
+export async function verifyRecipeManagedEnvironment(
+  params: MutableUpdateExecutionParams,
+  env: NodeJS.ProcessEnv,
+): Promise<void> {
+  if (params.opts.recipe) {
+    assertRecipeUpdateEnvironment(params.opts.recipe, env);
+    await verifyRecipeUpdateConfig(params.opts.recipe, env);
+    params.executionGuards.assertCurrent();
+  }
+}
+
 export async function verifyRecipeCandidateBoundary(
   params: MutableUpdateExecutionParams,
   root: string,
