@@ -31,10 +31,9 @@ import { parseControlUiSessionPullRequestsSubscribeParams } from "../control-ui-
 import { requestCurrentGitHubOAuthRefresh } from "../github-oauth-lifecycle.js";
 import { gitHubPublicApi, type ControlUiGitHubPreviewIdentity } from "../github-public-api.js";
 import { resolveRequestedSessionAgentId as resolveRequestedGlobalAgentId } from "../session-request-agent.js";
+import { withReadySessionRows } from "../session-row-prepared-read.js";
 import { getSessionRowProjection } from "../session-row-projection-access.js";
-import { backfillSessionRowTranscriptFields } from "../session-row-transcript-backfill.js";
 import { createSessionListEntryFilter } from "../session-sharing.js";
-import { buildGatewaySessionRow } from "../session-utils.js";
 import { resolveAgentIdOrRespondError } from "./agent-id-shared.js";
 import { loadAccessorSessionEntryForGatewayTarget } from "./sessions-shared.js";
 import type {
@@ -174,7 +173,7 @@ type LoadSessionPreview = (
   sessionKey: string,
   context: GatewayRequestContext,
   client: GatewayClient | null,
-) => SessionPreviewSource | null | Promise<SessionPreviewSource | null>;
+) => SessionPreviewSource | null;
 
 const SESSION_PREVIEW_TEXT_MAX_CHARS = 200;
 
@@ -218,95 +217,49 @@ function projectSessionPreview(source: SessionPreviewSource | null): ControlUiSe
   };
 }
 
-function loadControlUiSessionPreview(
+async function withControlUiSessionPreview(
   sessionKey: string,
   context: GatewayRequestContext,
   client: GatewayClient | null,
-): SessionPreviewSource | null | Promise<SessionPreviewSource | null> {
-  const cfg = context.getRuntimeConfig();
-  const requestedAgent = resolveRequestedGlobalAgentId(cfg, sessionKey);
-  if (!requestedAgent.ok) {
-    return null;
-  }
-  const { target, storePath, store, entry } = loadAccessorSessionEntryForGatewayTarget({
-    key: sessionKey,
-    cfg,
-    clone: false,
-    ...(requestedAgent.agentId ? { agentId: requestedAgent.agentId } : {}),
-  });
-  if (!entry) {
-    return null;
-  }
-  // Hover previews must not reveal more than sessions.list: apply the same
-  // incognito/draft sharing predicate so a member cannot preview-by-key a
-  // session the sidebar hides from them.
-  const entryFilter = createSessionListEntryFilter({ client, cfg });
-  if (entryFilter && !entryFilter(target.canonicalKey, entry)) {
-    return null;
-  }
+  consume: (preview: SessionPreviewSource | null) => void,
+): Promise<void> {
   const projection = getSessionRowProjection(context);
-  const projected = projection?.snapshot(
-    { agentId: target.agentId, key: target.canonicalKey, storePath },
-    { includeDerivedTitles: true, includeLastMessage: true },
-  ).row;
-  const row =
-    projected ??
-    buildGatewaySessionRow({
-      cfg,
-      agentId: target.agentId,
-      storePath,
-      store,
-      key: target.canonicalKey,
-      entry,
-      includeDerivedTitles: true,
-      includeLastMessage: true,
-      skipTranscriptUsageFallback: true,
-    });
-  const present = (lastMessagePreview = row.lastMessagePreview): SessionPreviewSource => ({
-    sessionKey: row.key,
-    agentId: target.agentId,
-    title: row.displayName,
-    derivedTitle: row.derivedTitle,
-    kind: row.kind,
-    channel: row.channel,
-    updatedAt: row.updatedAt,
-    lastMessagePreview,
-    archived: row.archived,
-  });
-  if (row.lastMessagePreview || !projection || !entry.sessionId) {
-    // Warm metadata replies stay in their synchronous authorization frame.
-    return present();
+  if (!projection) {
+    consume(null);
+    return;
   }
-  return backfillSessionRowTranscriptFields({
-    agentId: target.agentId,
-    storePath,
-    sessionKey: target.canonicalKey,
-    sessionId: entry.sessionId,
-    sessionEntry: entry,
-  }).then((fields) => {
-    const currentCfg = context.getRuntimeConfig();
-    const requested = resolveRequestedGlobalAgentId(currentCfg, sessionKey);
-    if (!requested.ok || requested.agentId !== target.agentId) {
-      return null;
-    }
-    const current = loadAccessorSessionEntryForGatewayTarget({
-      cfg: currentCfg,
-      key: sessionKey,
-      agentId: requested.agentId,
-      clone: false,
-    });
-    const currentFilter = createSessionListEntryFilter({ client, cfg: currentCfg });
-    if (
-      !current.entry ||
-      current.entry.sessionId !== entry.sessionId ||
-      current.target.canonicalKey !== target.canonicalKey ||
-      current.storePath !== storePath ||
-      (currentFilter && !currentFilter(current.target.canonicalKey, current.entry))
-    ) {
-      return null;
-    }
-    return present(fields.lastMessagePreview);
-  });
+  await withReadySessionRows(
+    projection,
+    (cfg) => {
+      const owner = resolveRequestedGlobalAgentId(cfg, sessionKey);
+      return owner.ok ? [{ key: sessionKey, agentId: owner.agentId }] : [];
+    },
+    (read) => {
+      const cfg = context.getRuntimeConfig();
+      const owner = resolveRequestedGlobalAgentId(cfg, sessionKey);
+      const record = owner.ok
+        ? read.describe({ key: sessionKey, agentId: owner.agentId })
+        : undefined;
+      // Hover previews follow list visibility, including after asynchronous preparation.
+      const entryFilter = createSessionListEntryFilter({ client, cfg });
+      if (!record || (entryFilter && !entryFilter(record.key, record.entry))) {
+        consume(null);
+        return;
+      }
+      const row = read.present(record, { includeDerivedTitles: true, includeLastMessage: true });
+      consume({
+        sessionKey: row.key,
+        agentId: record.agentId,
+        title: row.displayName,
+        derivedTitle: row.derivedTitle,
+        kind: row.kind,
+        channel: row.channel,
+        updatedAt: row.updatedAt,
+        lastMessagePreview: row.lastMessagePreview,
+        archived: row.archived,
+      });
+    },
+  );
 }
 
 function parseCheckDetailsParams(
@@ -429,7 +382,7 @@ const loadSessionCheckDetails: LoadSessionCheckDetails = async (params, deps) =>
 export function createControlUiHandlers(
   loadGitHubPreview: LoadGitHubPreview = (...args) =>
     gitHubPublicApi.loadControlUiGitHubPreview(...args),
-  loadSessionPreview: LoadSessionPreview = loadControlUiSessionPreview,
+  loadSessionPreview?: LoadSessionPreview,
   loadChecks: LoadSessionCheckDetails = loadSessionCheckDetails,
 ): GatewayRequestHandlers {
   return {
@@ -466,7 +419,14 @@ export function createControlUiHandlers(
       (params) => gitHubPublicApi.parseGitHubTarget(params),
       (...args) => gitHubPublicApi.loadGitHubDetail(...args),
     ),
-    "controlUi.sessionPreview": async ({ params, client, context, respond, signal }) => {
+    "controlUi.sessionPreview": async ({
+      params,
+      client,
+      context,
+      respond,
+      signal,
+      hasCurrentClientAuthority,
+    }) => {
       const sessionKey = parseSessionPreviewKey(params);
       if (!sessionKey) {
         respond(
@@ -481,10 +441,18 @@ export function createControlUiHandlers(
           await prepareSubagentSessionListReadCache();
         }
         signal?.throwIfAborted();
-        const loaded = loadSessionPreview(sessionKey, context, client);
-        const preview = loaded instanceof Promise ? await loaded : loaded;
-        signal?.throwIfAborted();
-        respond(true, projectSessionPreview(preview), undefined);
+        const consume = (preview: SessionPreviewSource | null) => {
+          signal?.throwIfAborted();
+          if (hasCurrentClientAuthority?.() === false) {
+            throw new Error("Session preview request is no longer active");
+          }
+          respond(true, projectSessionPreview(preview), undefined);
+        };
+        if (loadSessionPreview) {
+          consume(loadSessionPreview(sessionKey, context, client));
+        } else {
+          await withControlUiSessionPreview(sessionKey, context, client, consume);
+        }
       } catch {
         respond(
           false,
