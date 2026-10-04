@@ -30,7 +30,7 @@ import * as recoveryMarking from "./main-session-restart-recovery-marking.js";
 import { scheduleRestartAbortedMainSessionRecovery as scheduleRecovery } from "./main-session-restart-recovery.js";
 
 // Inject the existing runtime fixture; this suite has no module mocks or hoisted policy.
-const callGateway = vi.fn<typeof CallGateway>(async () => ({ runId: "run-resumed" }));
+const callGateway = vi.fn<typeof CallGateway>().mockResolvedValue({ runId: "run-resumed" });
 let dispatchSettlement = createDeferred();
 const mockRecoveryRuntime = createRecoveryRuntimeFixture({
   callGateway,
@@ -48,7 +48,7 @@ beforeEach(async () => {
   vi.clearAllMocks();
   dispatchSettlement = createDeferred();
   callGateway.mockReset();
-  callGateway.mockImplementation(async () => ({ runId: "run-resumed" }));
+  callGateway.mockResolvedValue({ runId: "run-resumed" });
   resetAgentEventsForTest();
   resetGatewayWorkAdmission();
   tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-main-restart-recovery-"));
@@ -112,7 +112,7 @@ describe("startup restart recovery admission publication", () => {
         // Intermediate preparation writes also publish topology. The subscriber
         // must not mistake this scope's admission borrow for completed inspection.
         sessionChanges.emit({ all: true, scope: { agentId: "main", topology: true } });
-        await readStore(sessionsDir);
+        readStore(storePath);
       });
       sessionChanges.emit({ all: true, scope: { agentId: "main", topology: true } });
       await mockRecoveryRuntime.expectAdmission(1, recovery, {

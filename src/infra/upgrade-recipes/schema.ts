@@ -27,6 +27,11 @@ const platform = z.strictObject({
   ]),
 });
 const ref = z.strictObject({ id, revision });
+export const upgradeQualifiedExecutorSchema = z.strictObject({
+  runnerManifestArtifactId: id,
+  runtimeArtifactId: id,
+  bootstrapArtifactId: id,
+});
 const adapterRef = ref.extend({ bundleArtifactId: id, parameterContractId: id });
 const resource = z.strictObject({
   kind: z.enum([
@@ -156,6 +161,7 @@ export const upgradeRecipeCatalogSchema = z.strictObject({
       runtimeFamily: z.enum(["node", "bun"]),
       stateContractClass: id,
       evidenceArtifactId: id,
+      executor: upgradeQualifiedExecutorSchema.optional(),
     }),
   ),
 });

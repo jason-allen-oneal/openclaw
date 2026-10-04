@@ -63,6 +63,21 @@ struct Fixture {
 }
 impl Fixture {
     fn new(expired: bool, corrupt: bool, revoked: bool, actual_runtime: bool) -> Self {
+        Self::with_bootstrap(
+            expired,
+            corrupt,
+            revoked,
+            actual_runtime,
+            fs::read(env!("CARGO_BIN_EXE_openclaw-updater")).unwrap(),
+        )
+    }
+    fn with_bootstrap(
+        expired: bool,
+        corrupt: bool,
+        revoked: bool,
+        actual_runtime: bool,
+        bootstrap: Vec<u8>,
+    ) -> Self {
         let temp = TempDir::new().unwrap();
         let base = fs::canonicalize(temp.path()).unwrap();
         let control = base.join("control");
@@ -119,14 +134,14 @@ impl Fixture {
         };
         let runner = b"console.log('independent-first-hop=' + process.versions.node); if(process.env.NODE_OPTIONS || process.env.NODE_USE_SYSTEM_CA) throw new Error('inherited authority');".to_vec();
         let file = |id: &str, path: &str, bytes: &[u8], role: &str, executable: bool| json!({ "path": path, "artifactId": id, "sha256": hash(bytes), "length": bytes.len(), "role": role, "executable": executable });
-        let manifest = serde_json::to_vec(&json!({ "schemaVersion":1, "protocol":1, "purpose":"production",
+        let manifest = serde_json::to_vec(&json!({ "schemaVersion":1, "protocol":1, "purpose":"production", "bootstrapArtifactId":"bootstrap",
             "platform": { "os": "linux", "arch": if cfg!(target_arch="aarch64") {"arm64"} else {"x64"} },
             "runtime": { "path":"node", "kind":"node", "version":version }, "entrypoint":"updater.mjs", "releaseQualificationEntrypoint":"release-qualification.mjs", "externalModules":[],
             "files":[file("node-runtime","node",&runtime,"runtime",true), file("runner","updater.mjs",&runner,"runner",false), file("runner","release-qualification.mjs",&runner,"runner",false)] })).unwrap();
         let identity =
             |id: &str, bytes: &[u8]| json!({"id":id,"sha256":hash(bytes),"length":bytes.len()});
         let catalog = serde_json::to_vec(&json!({ "schemaVersion":1,
-            "catalog": {"schemaVersion":1,"id":"first-hop-fixture","artifacts":[identity("node-runtime",&runtime),identity("runner",&runner),identity("runner-manifest",&manifest)],
+            "catalog": {"schemaVersion":1,"id":"first-hop-fixture","artifacts":[identity("bootstrap",&bootstrap),identity("node-runtime",&runtime),identity("runner",&runner),identity("runner-manifest",&manifest)],
                 "releases":[],"recipes":[],"adapters":[],"qualifications":[],"qualificationIntents":[]},
             "revokedRecipes":[],"revokedArtifactIds":if revoked {vec!["node-runtime"]} else {vec![]} })).unwrap();
         write(
@@ -352,4 +367,19 @@ fn refuses_qualification_or_inspector_misuse_without_launching_signed_canary() {
         assert!(!result.status.success());
         assert!(!String::from_utf8_lossy(&result.stdout).contains("UNSAFE_LAUNCH"));
     }
+}
+
+#[test]
+fn refuses_a_valid_catalog_bound_to_another_native_executor() {
+    let fixture = Fixture::with_bootstrap(
+        false,
+        false,
+        false,
+        false,
+        b"other qualified executable".to_vec(),
+    );
+    let result = fixture.launch(false);
+    assert!(!result.status.success());
+    assert!(String::from_utf8_lossy(&result.stderr).contains("bootstrap-artifact-changed"));
+    assert!(!String::from_utf8_lossy(&result.stdout).contains("UNSAFE_LAUNCH"));
 }

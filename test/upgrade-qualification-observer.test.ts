@@ -12,6 +12,13 @@ import {
   assertOriginalRetainedCustody,
 } from "../scripts/lib/upgrade-qualification-observation-files.mjs";
 
+function requiredItem<T>(items: readonly T[], index = 0): T {
+  const item = items[index];
+  if (!item) {
+    throw new Error(`Missing fixture item ${index}`);
+  }
+  return item;
+}
 const runId = "00000000-0000-4000-8000-000000000001";
 const file = (name: string) => ({
   path: `/qualification/${name}`,
@@ -222,6 +229,55 @@ describe("unchanged-artifact crash observation admission", () => {
     expect(() => parseHistoricalObservationReceipt(selectorSwap, selected, runId)).toThrow(
       /custody/,
     );
+    const gate = historicalObservationSchema.parse({
+      ...binding(),
+      boundary: "gate-release",
+      mappings: binding().mappings.map((item) =>
+        item.id === "fresh"
+          ? Object.assign({}, item, {
+              sourceName: "src/process/gateway-work-admission.ts",
+              heldRuntime: {
+                maintenanceHeldExpression: "state.upgradeMaintenance !== undefined",
+                suspensionPhaseExpression: "state.suspendPhase",
+                expected: { maintenanceHeld: false, suspensionPhase: "suspended" },
+              },
+            })
+          : item,
+      ),
+    });
+    const gateReceipt = {
+      ...receipt,
+      boundary: "gate-release",
+      boundaryObservation: {
+        mappingId: "fresh",
+        heldRuntime: {
+          maintenanceHeld: false,
+          suspensionPhase: "suspended",
+          stage: "debugger-held-before-kernel-stop",
+        },
+      },
+    };
+    expect(() => parseHistoricalObservationReceipt(gateReceipt, gate, runId)).not.toThrow();
+    expect(() =>
+      parseHistoricalObservationReceipt(
+        { ...gateReceipt, boundaryObservation: undefined },
+        gate,
+        runId,
+      ),
+    ).toThrow(/held-runtime/);
+    expect(() =>
+      parseHistoricalObservationReceipt(
+        {
+          ...gateReceipt,
+          boundaryObservation: {
+            ...gateReceipt.boundaryObservation,
+            heldRuntime: { ...gateReceipt.boundaryObservation.heldRuntime, maintenanceHeld: true },
+          },
+        },
+        gate,
+        runId,
+      ),
+    ).toThrow(/held-runtime/);
   });
   it("freezes original retained custody without freezing mutable run status", () => {
     const selected = { ...binding(), originalRunId: runId };
@@ -270,15 +326,15 @@ describe("unchanged-artifact crash observation admission", () => {
     production.apply = production.apply.filter((arg) => arg !== "--release-qualification");
     expect(() => historicalObservationSchema.parse(production)).toThrow();
     const lateCapture = binding();
-    lateCapture.mappings[2].sourceName = "src/cli/update-cli/update-command-run.ts";
+    requiredItem(lateCapture.mappings, 2).sourceName = "src/cli/update-cli/update-command-run.ts";
     expect(() => historicalObservationSchema.parse(lateCapture)).toThrow(/before ledger admission/);
   });
   it("does not admit generic SQLite commits, mutable script inputs or missing startup custody", () => {
     const generic = binding();
-    generic.mappings[0].operation = "receipt.commit";
+    requiredItem(generic.mappings, 0).operation = "receipt.commit";
     expect(() => historicalObservationSchema.parse(generic)).toThrow(/schema-repair/);
     const changed = binding();
-    changed.mappings[0].script = { ...script, sha256: "b".repeat(64) };
+    requiredItem(changed.mappings, 0).script = { ...script, sha256: "b".repeat(64) };
     expect(() => historicalObservationSchema.parse(changed)).toThrow(/immutable closure/);
     const ungated = binding();
     ungated.resume = ungated.resume.filter((arg) => arg !== "--qualification-inspector");
@@ -301,6 +357,86 @@ describe("unchanged-artifact crash observation admission", () => {
       /exact inputs/,
     );
   });
+  it("selects execution backup semantics rather than the earlier planner rehearsal", () => {
+    const base = binding();
+    const snapshot = {
+      ...base,
+      boundary: "snapshot-completion",
+      mappings: base.mappings.map((item) =>
+        item.id === base.selectedMappingId
+          ? {
+              ...item,
+              snapshotContract: "original-run-pre-migration-backup",
+              sourceName: "src/cli/update-cli/update-command-database-backup.ts",
+            }
+          : item,
+      ),
+    };
+    expect(() => historicalObservationSchema.parse(snapshot)).not.toThrow();
+    expect(() =>
+      historicalObservationSchema.parse({
+        ...snapshot,
+        mappings: snapshot.mappings.map((item) =>
+          item.id === base.selectedMappingId
+            ? Object.assign({}, item, { sourceName: "src/infra/update-candidate-snapshot.ts" })
+            : item,
+        ),
+      }),
+    ).toThrow(/never planner rehearsal/);
+  });
+  it("requires actual worker jobs but allows parent continuations without synthetic jobs", () => {
+    const base = binding();
+    const parent = {
+      ...base,
+      mappings: base.mappings.map((item) =>
+        Object.assign({}, item, {
+          jobId: undefined,
+          facts: { ...item.facts, jobId: undefined },
+        }),
+      ),
+    };
+    expect(() => historicalObservationSchema.parse(parent)).not.toThrow();
+    expect(() =>
+      historicalObservationSchema.parse({
+        ...parent,
+        mappings: parent.mappings.map((item) =>
+          Object.assign({}, item, {
+            worker: { url: "file:///qualification/worker.js", occurrence: 1 },
+          }),
+        ),
+      }),
+    ).toThrow(/real job discriminator/);
+  });
+  it.each(["before", "after"])(
+    "requires side-specific held runtime for gate-release %s",
+    (side) => {
+      const base = binding();
+      const gate = {
+        ...base,
+        boundary: "gate-release",
+        side,
+        mappings: base.mappings.map((item) =>
+          item.id === base.selectedMappingId
+            ? Object.assign({}, item, {
+                sourceName: "src/process/gateway-work-admission.ts",
+                heldRuntime: {
+                  maintenanceHeldExpression: "state.upgradeMaintenance !== undefined",
+                  suspensionPhaseExpression: "state.suspendPhase",
+                  expected: { maintenanceHeld: side === "before", suspensionPhase: "accepting" },
+                },
+              })
+            : item,
+        ),
+      };
+      expect(() => historicalObservationSchema.parse(gate)).not.toThrow();
+      expect(() =>
+        historicalObservationSchema.parse({
+          ...gate,
+          side: side === "before" ? "after" : "before",
+        }),
+      ).toThrow(/side-specific held-runtime/);
+    },
+  );
   it("refuses V8 relocation and Linux PID identity ambiguity", () => {
     expect(() =>
       assertExactObservedLocation(
@@ -338,19 +474,29 @@ it("arms an imported generated script before releasing it and retains a rejected
     handlers,
     call: vi.fn(async (method: string) => {
       calls.push(method);
-      if (method === "Runtime.runIfWaitingForDebugger")
+      if (method === "Runtime.runIfWaitingForDebugger") {
         handlers.forEach((handler) =>
           handler({
             method: "Debugger.paused",
             params: { reason: "Break on start", callFrames: [] },
           }),
         );
-      if (method === "Runtime.evaluate") return { result: { value: 42 } };
-      if (method === "Debugger.setInstrumentationBreakpoint") return { breakpointId: "gate" };
-      if (method === "Debugger.getScriptSource") return { scriptSource: source };
-      if (method === "Debugger.setBreakpoint")
+      }
+      if (method === "Runtime.evaluate") {
+        return { result: { value: 42 } };
+      }
+      if (method === "Debugger.setInstrumentationBreakpoint") {
+        return { breakpointId: "gate" };
+      }
+      if (method === "Debugger.getScriptSource") {
+        return { scriptSource: source };
+      }
+      if (method === "Debugger.setBreakpoint") {
         return { breakpointId: "boundary", actualLocation: selected.location };
-      if (method === "Debugger.evaluateOnCallFrame") return { result: { value: false } };
+      }
+      if (method === "Debugger.evaluateOnCallFrame") {
+        return { result: { value: false } };
+      }
       return {};
     }),
   };
@@ -364,6 +510,9 @@ it("arms an imported generated script before releasing it and retains a rejected
     onError: rejectGuard,
     originalRunId: () => runId,
     onCaptureRun: vi.fn(),
+    worker: undefined,
+    onWorker: undefined,
+    onLiveTarget: undefined,
   });
   handlers.forEach((handler) =>
     handler({
@@ -413,26 +562,26 @@ it("requires exact compiler correspondence and original source bytes, not neares
     sourceLocation: { lineNumber: 0, columnNumber: 0 },
     source: { ...file("source.ts"), sha256: createHash("sha256").update(original).digest("hex") },
   };
-  const sourceMap = {
+  const compilerMap = {
     version: 3,
     sources: [selected.sourceName],
     sourcesContent: [original.toString()],
     mappings: "AAAA",
   };
-  expect(() => assertCompilerMapping(sourceMap, selected, original)).not.toThrow();
+  expect(() => assertCompilerMapping(compilerMap, selected, original)).not.toThrow();
   expect(() =>
     assertCompilerMapping(
-      sourceMap,
+      compilerMap,
       { ...selected, location: { lineNumber: 0, columnNumber: 1 } },
       original,
     ),
   ).toThrow(/exact generated/i);
   expect(() =>
-    assertCompilerMapping({ ...sourceMap, sourcesContent: ["changed"] }, selected, original),
+    assertCompilerMapping({ ...compilerMap, sourcesContent: ["changed"] }, selected, original),
   ).toThrow(/source bytes/);
   expect(() =>
     assertCompilerMapping(
-      sourceMap,
+      compilerMap,
       { ...selected, sourceLocation: { lineNumber: 1, columnNumber: 0 } },
       original,
     ),

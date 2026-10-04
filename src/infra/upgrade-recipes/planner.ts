@@ -215,6 +215,8 @@ function validateCatalogReferences(catalog: UpgradeRecipeCatalog): void {
     catalog.qualifications.some(
       (qualification) =>
         !artifacts.has(qualification.evidenceArtifactId) ||
+        (qualification.executor !== undefined &&
+          Object.values(qualification.executor).some((id) => !artifacts.has(id))) ||
         !releases.has(qualification.sourceReleaseId) ||
         !releases.has(qualification.targetReleaseId) ||
         !catalog.recipes.some(

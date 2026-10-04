@@ -40,6 +40,7 @@ export const upgradeRecipeRunnerBundleManifestSchema = z.strictObject({
     version: z.string().regex(/^\d+\.\d+\.\d+$/),
   }),
   entrypoint: relativePath,
+  bootstrapArtifactId: z.string().min(1),
   releaseQualificationEntrypoint: relativePath.optional(),
   externalModules: z.array(z.never()).length(0),
   files: z
@@ -160,7 +161,7 @@ export async function verifyUpgradeRecipeRunnerBundle(options: {
     throw new Error("Runner manifest lacks an exact private runtime and sealed entrypoint.");
   }
   assertUpgradeRecipeCatalogCurrent(options.catalog, {
-    artifactIds: manifest.files.map((file) => file.artifactId),
+    artifactIds: [...manifest.files.map((file) => file.artifactId), manifest.bootstrapArtifactId],
   });
   for (const file of manifest.files) {
     const identities = options.catalog.catalog.artifacts.filter(
@@ -205,7 +206,11 @@ export async function verifyUpgradeRecipeRunnerBundle(options: {
   }
   // Recheck freshness/revocation after potentially expensive dependency hashing.
   assertUpgradeRecipeCatalogCurrent(options.catalog, {
-    artifactIds: [options.manifestArtifactId, ...manifest.files.map((file) => file.artifactId)],
+    artifactIds: [
+      options.manifestArtifactId,
+      ...manifest.files.map((file) => file.artifactId),
+      manifest.bootstrapArtifactId,
+    ],
   });
   return Object.freeze({
     root,
@@ -217,6 +222,8 @@ export async function verifyUpgradeRecipeRunnerBundle(options: {
     releaseQualificationEntrypointPath: manifest.releaseQualificationEntrypoint
       ? path.join(root, manifest.releaseQualificationEntrypoint)
       : undefined,
+    runtimeArtifactId: runtime[0].artifactId,
+    bootstrapArtifactId: manifest.bootstrapArtifactId,
     nativeDependencies: Object.freeze(
       manifest.files.filter((file) => file.role === "native-dependency").map((file) => file.path),
     ),

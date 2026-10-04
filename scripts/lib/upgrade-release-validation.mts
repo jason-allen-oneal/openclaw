@@ -10,6 +10,7 @@ import { Parser } from "tar";
 import { z } from "zod";
 import { upgradeQualificationRecipeDigest } from "../../src/infra/upgrade-recipes/qualification-recipe-digest.js";
 import { validateUpgradeReleaseQualification } from "../../src/infra/upgrade-recipes/qualification.js";
+import { upgradeRecipeRunnerBundleManifestSchema } from "../../src/infra/upgrade-recipes/runner-bundle.js";
 import { upgradeRecipeCatalogSchema } from "../../src/infra/upgrade-recipes/schema.js";
 import { deriveUpgradeChangedContracts } from "./upgrade-changed-contracts.mjs";
 
@@ -142,6 +143,53 @@ export async function runUpgradeReleaseValidation(
       }
       if (length !== artifact.length || hash.digest("hex") !== artifact.sha256) {
         throw new Error(`Artifact digest mismatch: ${artifact.id}`);
+      }
+    } finally {
+      await handle.close();
+    }
+  }
+  // The declared executor must describe the actual authenticated manifest bytes,
+  // not merely three otherwise valid members of the catalog.
+  for (const qualification of catalog.qualifications) {
+    const executor = qualification.executor;
+    if (!executor) {
+      continue;
+    } // Production declarations were rejected above.
+    const identity = catalog.artifacts.find(
+      (item) => item.id === executor.runnerManifestArtifactId,
+    );
+    if (!identity || identity.length > 1024 * 1024) {
+      throw new Error("Qualified executor requires a bounded runner manifest.");
+    }
+    const handle = await fs.open(
+      path.join(root, executor.runnerManifestArtifactId),
+      constants.O_RDONLY | constants.O_NOFOLLOW,
+    );
+    try {
+      const bytes = await handle.readFile();
+      if (
+        !identity ||
+        bytes.length !== identity.length ||
+        createHash("sha256").update(bytes).digest("hex") !== identity.sha256
+      ) {
+        throw new Error("Qualified executor manifest changed during release validation.");
+      }
+      const manifest = upgradeRecipeRunnerBundleManifestSchema.parse(
+        JSON.parse(bytes.toString("utf8")),
+      );
+      const runtime = manifest.files.filter((file) => file.role === "runtime");
+      if (
+        manifest.purpose === "release-qualification" ||
+        runtime.length !== 1 ||
+        runtime[0]?.path !== manifest.runtime.path ||
+        runtime[0].artifactId !== executor.runtimeArtifactId ||
+        manifest.bootstrapArtifactId !== executor.bootstrapArtifactId ||
+        manifest.files.some((file) => {
+          const artifact = catalog.artifacts.find((item) => item.id === file.artifactId);
+          return !artifact || artifact.sha256 !== file.sha256 || artifact.length !== file.length;
+        })
+      ) {
+        throw new Error("Qualification executor differs from its authenticated runner manifest.");
       }
     } finally {
       await handle.close();

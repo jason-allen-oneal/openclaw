@@ -3,7 +3,6 @@ import {
   type ResolvedGlobalInstallTarget,
 } from "../../infra/update-global.js";
 import type { UpdateRunResult } from "../../infra/update-runner-types.js";
-import { requireRecipePreactivationMaintenance } from "./recipe-execution-boundaries.js";
 import { retainRecipeExecution } from "./recipe-execution-retention.js";
 import { inspectUpdateDatabaseContexts } from "./update-command-database-context.js";
 import type { MutableUpdateExecutionParams } from "./update-command-execution.types.js";
@@ -67,10 +66,6 @@ export function createMutableUpdatePreparation(
       });
       assertExecutionCurrent();
       recipeRetained = true;
-    }
-    if (activationTimeoutMs !== undefined) {
-      await requireRecipePreactivationMaintenance(params, env ?? opts.run?.env ?? process.env);
-      assertExecutionCurrent();
     }
   };
 }

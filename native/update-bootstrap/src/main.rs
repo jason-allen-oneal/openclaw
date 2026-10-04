@@ -70,6 +70,7 @@ struct Manifest {
     platform: Platform,
     runtime: Runtime,
     entrypoint: String,
+    bootstrap_artifact_id: String,
     purpose: Option<String>,
     release_qualification_entrypoint: Option<String>,
     external_modules: Vec<String>,
@@ -732,6 +733,30 @@ fn validate_manifest(manifest: &Manifest) -> Result<()> {
     }
     Ok(())
 }
+// Hash the running image, not a runner-supplied path or inherited environment claim.
+fn verify_bootstrap(manifest: &Manifest, catalog: &Catalog, revoked: &[String]) -> Result<()> {
+    let expected = artifact(catalog, &manifest.bootstrap_artifact_id, revoked)?;
+    #[cfg(target_os = "linux")]
+    let mut executable = File::open("/proc/self/exe")?;
+    #[cfg(not(target_os = "linux"))]
+    let mut executable = File::open(std::env::current_exe()?)?;
+    if executable.metadata()?.len() != expected.length {
+        return Err(error("bootstrap-artifact-changed"));
+    }
+    let mut hash = Sha256::new();
+    let mut buffer = [0u8; 65536];
+    loop {
+        let count = executable.read(&mut buffer)?;
+        if count == 0 {
+            break;
+        }
+        hash.update(&buffer[..count]);
+    }
+    if hex::encode(hash.finalize()) != expected.sha256 {
+        return Err(error("bootstrap-artifact-changed"));
+    }
+    Ok(())
+}
 fn qualification_path(path: &Path) -> Result<()> {
     private(Path::new("/qualification"), true)?;
     if !path.starts_with("/qualification")
@@ -933,6 +958,7 @@ async fn run(options: Options) -> Result<i32> {
         }
         let manifest: Manifest = serde_json::from_slice(&manifest_bytes)?;
         validate_manifest(&manifest)?;
+        verify_bootstrap(&manifest, &envelope.catalog, &envelope.revoked_artifact_ids)?;
         let runners = options.control.join("runners");
         private_dir(&runners)?;
         let retained = runners.join(&manifest_identity.sha256);
@@ -1048,6 +1074,7 @@ async fn main() {
                 | "recipe-revoked"
                 | "plan-preconditions-changed"
                 | "runner-artifact-changed"
+                | "bootstrap-artifact-changed"
                 | "undeclared-runner-dependency"
                 | "runner-protocol-or-platform-unsupported"
                 | "runner-runtime-unsupported"

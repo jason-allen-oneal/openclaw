@@ -49,7 +49,7 @@ vi.mock("../scripts/lib/upgrade-qualification-observation-files.mjs", () => ({
 }));
 // mock-isolation: Deliver the captured UUID and kill boundary without connecting to a real inspector.
 vi.mock("../scripts/lib/upgrade-qualification-inspector.mjs", () => ({
-  Transport: class {},
+  Transport: vi.fn(),
   connect: vi.fn(async () => ({ socket: { close: seams.close }, transport: { handlers: [] } })),
   admitSession: seams.admitSession,
 }));
@@ -75,7 +75,9 @@ it("preserves the stopped original process when pre-kill retained custody is abs
     new Error("Require actual original ledger/pointer retained custody before kill."),
   );
   const kill = vi.spyOn(process, "kill").mockImplementation((_pid, signal) => {
-    if (signal === "SIGSTOP") seams.identity.state = "T";
+    if (signal === "SIGSTOP") {
+      seams.identity.state = "T";
+    }
     return true;
   });
   const originalRunId = "00000000-0000-4000-8000-000000000001";
@@ -122,7 +124,7 @@ it("preserves the stopped original process when pre-kill retained custody is abs
   expect(kill.mock.calls).toEqual([[seams.identity.pid, "SIGSTOP"]]);
   expect(child.kill).not.toHaveBeenCalled();
   expect(seams.spawn).toHaveBeenCalledTimes(1);
-  expect(seams.spawn.mock.calls[0][1]).toEqual(apply.slice(1));
+  expect(seams.spawn.mock.calls[0]?.[1]).toEqual(apply.slice(1));
   expect(seams.retain).toHaveBeenCalledWith("/qualification/receipts", "custody-refusal.json", {
     observationId: "observation",
     originalRunId,

@@ -4,6 +4,8 @@ import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { composeUpgradeRecipeRunnerBundle } from "../../../scripts/compose-upgrade-runner-bundle.mts";
 import { useAutoCleanupTempDirTracker } from "../../../test/helpers/temp-dir.js";
+import { verifyRecipeUpdateRunner } from "../../cli/update-cli/update-recipe-context.js";
+import { approvedContext } from "../../cli/update-cli/update-recipe-context.test-support.js";
 import type { AuthenticatedUpgradeRecipeCatalog } from "./catalog.js";
 import {
   verifyUpgradeRecipeRunnerBundle,
@@ -46,6 +48,7 @@ async function fixture() {
     platform: { os: "linux", arch: "x64" },
     runtime: { path: "node", kind: "node", version: "24.21.0" },
     entrypoint: "updater.mjs",
+    bootstrapArtifactId: "bootstrap",
     externalModules: [],
     files,
   };
@@ -56,6 +59,7 @@ async function fixture() {
       schemaVersion: 1,
       id: "fixture",
       artifacts: [
+        { id: "bootstrap", sha256: "f".repeat(64), length: 10 },
         { id: "manifest", sha256: hash(manifestBytes), length: manifestBytes.length },
         ...files.map((file) => ({ id: file.artifactId, sha256: file.sha256, length: file.length })),
       ],
@@ -111,6 +115,7 @@ describe("retained upgrade runner closure verification", () => {
         platform: f.manifest.platform,
         runtime: f.manifest.runtime,
         entrypoint: f.manifest.entrypoint,
+        bootstrapArtifactId: f.manifest.bootstrapArtifactId,
         externalModules: f.manifest.externalModules,
       },
       files: f.manifest.files.map((file) =>
@@ -134,6 +139,7 @@ describe("retained upgrade runner closure verification", () => {
           platform: f.manifest.platform,
           runtime: f.manifest.runtime,
           entrypoint: f.manifest.entrypoint,
+          bootstrapArtifactId: f.manifest.bootstrapArtifactId,
           externalModules: f.manifest.externalModules,
         },
         files: f.manifest.files.map((file) =>
@@ -209,4 +215,57 @@ describe("retained upgrade runner closure verification", () => {
       /authenticated artifact identities/,
     );
   });
+});
+
+// The real bundle verifier observes disk bytes; only TUF admission is isolated above.
+it("rejects a catalog-valid selected runner not covered by the original qualification", async () => {
+  const input = await fixture();
+  const verified = await verifyUpgradeRecipeRunnerBundle(input.options);
+  const recipe = approvedContext();
+  recipe.runner = {
+    root: input.root,
+    manifestArtifactId: "manifest",
+    manifestDigest: verified.manifestDigest,
+    closureDigest: verified.closureDigest,
+  };
+  recipe.catalog.forbiddenRoots = input.options.forbiddenRoots;
+  recipe.maintenance.expected.runtimeExecutable = verified.runtimePath;
+  recipe.route.qualificationId = "qualified-a";
+  const executor = {
+    runnerManifestArtifactId: "manifest",
+    runtimeArtifactId: "node",
+    bootstrapArtifactId: "bootstrap",
+  };
+  input.catalog.catalog.qualifications = [
+    {
+      id: "qualified-a",
+      recipe: recipe.route.recipe,
+      sourceReleaseId: "source",
+      targetReleaseId: "target",
+      installKind: "npm",
+      platform:
+        input.options.platform.os === "linux"
+          ? { os: "linux", arch: "x64", serviceMode: "systemd" }
+          : recipe.route.platform,
+      runtimeFamily: "node",
+      stateContractClass: "state",
+      evidenceArtifactId: "evidence",
+      executor,
+    },
+  ];
+  await expect(verifyRecipeUpdateRunner(recipe, input.catalog)).resolves.toBeUndefined();
+  for (const field of [
+    "runnerManifestArtifactId",
+    "runtimeArtifactId",
+    "bootstrapArtifactId",
+  ] as const) {
+    const original = executor[field];
+    const artifact = input.catalog.catalog.artifacts.find((item) => item.id === original)!;
+    input.catalog.catalog.artifacts.push({ ...artifact, id: `${original}-other` });
+    executor[field] = `${original}-other`;
+    await expect(verifyRecipeUpdateRunner(recipe, input.catalog)).rejects.toThrow(
+      /differs from the approved/,
+    );
+    executor[field] = original;
+  }
 });

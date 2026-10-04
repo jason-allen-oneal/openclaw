@@ -5,15 +5,20 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 
-export const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
-export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+export const sha = (data) => createHash("sha256").update(data).digest("hex");
+export const delay = (ms) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 export function parseObservedProcess(stat) {
   const end = stat.lastIndexOf(")");
   const fields = stat
     .slice(end + 2)
     .trim()
     .split(/\s+/u);
-  if (end < 0 || !/^\d+$/u.test(fields[19] ?? "")) throw new Error("Invalid process identity.");
+  if (end < 0 || !/^\d+$/u.test(fields[19] ?? "")) {
+    throw new Error("Invalid process identity.");
+  }
   return {
     state: fields[0],
     parent: Number(fields[1]),
@@ -26,8 +31,9 @@ export function assertExactObservedLocation(expected, actual) {
     !actual ||
     expected.lineNumber !== actual.lineNumber ||
     expected.columnNumber !== actual.columnNumber
-  )
+  ) {
     throw new Error("V8 relocated the audited boundary.");
+  }
 }
 export function assertObservationAudit(audit, mapping, binding) {
   if (
@@ -48,6 +54,9 @@ export function assertObservationAudit(audit, mapping, binding) {
     audit.database !== mapping.database ||
     audit.jobId !== mapping.jobId ||
     !isDeepStrictEqual(audit.facts, mapping.facts) ||
+    !isDeepStrictEqual(audit.factFrames, mapping.factFrames) ||
+    !isDeepStrictEqual(audit.heldRuntime, mapping.heldRuntime) ||
+    audit.snapshotContract !== mapping.snapshotContract ||
     audit.sourceSha256 !== mapping.source.sha256 ||
     audit.sourceMapSha256 !== mapping.sourceMap.sha256 ||
     !isDeepStrictEqual(audit.sourceLocation, mapping.sourceLocation) ||
@@ -57,8 +66,9 @@ export function assertObservationAudit(audit, mapping, binding) {
     audit.effectOrdering !== true ||
     typeof audit.basis !== "string" ||
     !audit.basis.trim()
-  )
+  ) {
     throw new Error("Reviewed semantic mapping does not bind these exact inputs.");
+  }
 }
 /** Verify the compiler correspondence, not a caller-authored `exactLocation` flag. */
 export function assertCompilerMapping(sourceMap, mapping, sourceBytes) {
@@ -67,16 +77,18 @@ export function assertCompilerMapping(sourceMap, mapping, sourceBytes) {
     !Array.isArray(sourceMap.sources) ||
     !Array.isArray(sourceMap.sourcesContent) ||
     typeof sourceMap.mappings !== "string"
-  )
+  ) {
     throw new Error("Require the exact unindexed compiler source map.");
+  }
   const sourceIndex = sourceMap.sources.indexOf(mapping.sourceName);
   if (
     sourceIndex < 0 ||
     sourceMap.sources.lastIndexOf(mapping.sourceName) !== sourceIndex ||
     sha(Buffer.from(sourceMap.sourcesContent[sourceIndex] ?? "")) !== mapping.source.sha256 ||
     sha(sourceBytes) !== mapping.source.sha256
-  )
+  ) {
     throw new Error("Compiler source bytes do not match reviewed source.");
+  }
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   let originalSource = 0;
   let originalLine = 0;
@@ -90,17 +102,21 @@ export function assertCompilerMapping(sourceMap, mapping, sourceBytes) {
       let shift = 0;
       for (const character of segment) {
         const digit = alphabet.indexOf(character);
-        if (digit < 0 || shift > 30) throw new Error("Invalid compiler VLQ mapping.");
+        if (digit < 0 || shift > 30) {
+          throw new Error("Invalid compiler VLQ mapping.");
+        }
         value += (digit & 31) * 2 ** shift;
-        if (digit & 32) shift += 5;
-        else {
+        if (digit & 32) {
+          shift += 5;
+        } else {
           values.push(value & 1 ? -(value >> 1) : value >> 1);
           value = 0;
           shift = 0;
         }
       }
-      if (shift || ![1, 4, 5].includes(values.length))
+      if (shift || ![1, 4, 5].includes(values.length)) {
         throw new Error("Invalid compiler map segment.");
+      }
       generatedColumn += values[0];
       if (values.length > 1) {
         originalSource += values[1];
@@ -116,22 +132,25 @@ export function assertCompilerMapping(sourceMap, mapping, sourceBytes) {
           originalSource !== sourceIndex ||
           originalLine !== mapping.sourceLocation.lineNumber ||
           originalColumn !== mapping.sourceLocation.columnNumber
-        )
+        ) {
           throw new Error("Generated point maps to a different original source location.");
+        }
         matched++;
       }
     }
   }
-  if (mapping.location && matched !== 1)
+  if (mapping.location && matched !== 1) {
     throw new Error("Exact generated point has no unique compiler correspondence.");
+  }
 }
 export async function bytes(file) {
   if (
     !file.path.startsWith("/qualification/") ||
     path.resolve(file.path) !== file.path ||
     (await fs.realpath(file.path)) !== file.path
-  )
+  ) {
     throw new Error("Noncanonical qualification artifact.");
+  }
   const handle = await fs.open(file.path, constants.O_RDONLY | constants.O_NOFOLLOW);
   try {
     const stat = await handle.stat();
@@ -141,8 +160,9 @@ export async function bytes(file) {
       stat.size !== file.length ||
       value.length !== file.length ||
       sha(value) !== file.sha256
-    )
+    ) {
       throw new Error(`Immutable artifact changed: ${file.path}`);
+    }
     return value;
   } finally {
     await handle.close();
@@ -159,8 +179,9 @@ export async function verifyLiveTargetFile(binding, filename, reference) {
     !target ||
     path.resolve(filename) !== filename ||
     !filename.startsWith(`${binding.installation}/`)
-  )
+  ) {
     throw new Error("Live target escaped its authenticated native installation owner.");
+  }
   const manifest = JSON.parse(await bytes(target.manifest));
   if (
     manifest.schemaVersion !== 1 ||
@@ -170,8 +191,9 @@ export async function verifyLiveTargetFile(binding, filename, reference) {
     !Array.isArray(manifest.files) ||
     !Array.isArray(manifest.directories) ||
     new Set(manifest.files.map((file) => file.path)).size !== manifest.files.length
-  )
+  ) {
     throw new Error("Live target has no exact full installation-manifest binding.");
+  }
   const relative = path.relative(binding.installation, filename);
   const declared = manifest.files.find((file) => file.path === relative);
   if (
@@ -180,17 +202,20 @@ export async function verifyLiveTargetFile(binding, filename, reference) {
     declared.length < 0 ||
     !/^[a-f0-9]{64}$/u.test(declared.sha256 ?? "") ||
     (reference && (declared.sha256 !== reference.sha256 || declared.length !== reference.length))
-  )
+  ) {
     throw new Error("Live target alias differs from its immutable reviewed reference.");
+  }
   const file = { path: filename, sha256: declared.sha256, length: declared.length };
   await bytes(file);
   return file;
 }
 
 export async function verifyObservedEntry(mapping, binding) {
-  if (mapping.liveTarget)
+  if (mapping.liveTarget) {
     return verifyLiveTargetFile(binding, mapping.liveTarget.entry, mapping.entry);
+  }
   await bytes(mapping.entry);
+  return undefined;
 }
 
 export async function retain(directory, name, value) {
@@ -227,16 +252,21 @@ export async function inspectorEndpoint(pid) {
     try {
       const link = await fs.readlink(`/proc/${pid}/fd/${descriptor}`);
       const match = /^socket:\[(\d+)\]$/u.exec(link);
-      if (match) inodes.add(match[1]);
+      if (match) {
+        inodes.add(match[1]);
+      }
     } catch (error) {
-      if (error.code !== "ENOENT") throw error;
+      if (error.code !== "ENOENT") {
+        throw error;
+      }
     }
   }
   const ports = [];
   for (const line of (await fs.readFile(`/proc/${pid}/net/tcp`, "utf8")).split("\n").slice(1)) {
     const parts = line.trim().split(/\s+/u);
-    if (parts[3] === "0A" && parts[1]?.startsWith("0100007F:") && inodes.has(parts[9]))
-      ports.push(parseInt(parts[1].split(":")[1], 16));
+    if (parts[3] === "0A" && parts[1]?.startsWith("0100007F:") && inodes.has(parts[9])) {
+      ports.push(Number.parseInt(parts[1].split(":")[1], 16));
+    }
   }
   const targets = [];
   for (const port of ports) {
@@ -244,19 +274,28 @@ export async function inspectorEndpoint(pid) {
       const response = await fetch(`http://127.0.0.1:${port}/json/list`, {
         signal: AbortSignal.timeout(1000),
       });
-      if (response.ok) for (const target of await response.json()) targets.push(target);
+      if (response.ok) {
+        for (const target of await response.json()) {
+          targets.push(target);
+        }
+      }
     } catch {
       /* A different bound service is not an inspector. */
     }
   }
-  if (targets.length !== 1)
+  if (targets.length !== 1) {
     throw new Error("Startup gate lacks one process-owned loopback inspector.");
+  }
   const url = new URL(targets[0].webSocketDebuggerUrl);
-  if (url.hostname !== "127.0.0.1") throw new Error("Inspector escaped loopback.");
+  if (url.hostname !== "127.0.0.1") {
+    throw new Error("Inspector escaped loopback.");
+  }
   return url.href;
 }
 export async function verifyArtifacts(binding) {
-  for (const artifact of binding.artifacts) await bytes(artifact);
+  for (const artifact of binding.artifacts) {
+    await bytes(artifact);
+  }
 }
 /**
  * Parse the bootstrap prefix, never values or runner arguments as native flags.
@@ -268,13 +307,16 @@ export function assertNativeObservationSelectors(binding) {
     const selected = new Map();
     for (let index = 1; index < argv.length && argv[index] !== "--"; index++) {
       const flag = argv[index];
-      if (!flag.startsWith("--") || flag.includes("="))
+      if (!flag.startsWith("--") || flag.includes("=")) {
         throw new Error("Require canonical native flag/value pairs.");
+      }
       const value = switches.has(flag) ? true : argv[++index];
-      if (value !== true && (!value || value.startsWith("--")))
+      if (value !== true && (!value || value.startsWith("--"))) {
         throw new Error("Missing native flag value.");
-      if (selected.has(flag) && flag !== "--workspace")
+      }
+      if (selected.has(flag) && flag !== "--workspace") {
         throw new Error("Duplicate native selector.");
+      }
       const values = selected.get(flag) ?? [];
       values.push(value);
       selected.set(flag, values);
@@ -287,8 +329,9 @@ export function assertNativeObservationSelectors(binding) {
     const argv = binding[operation];
     const selected = parse(argv);
     const one = (flag, value) => isDeepStrictEqual(selected.get(flag), [value]);
-    if (argv[0] !== binding.nativeBootstrap.path || !one("--qualification-inspector", true))
+    if (argv[0] !== binding.nativeBootstrap.path || !one("--qualification-inspector", true)) {
       throw new Error("Both operations require the exact authenticated native startup gate.");
+    }
     if (
       !one("--installation", binding.installation) ||
       [...expected].some(([flag, values]) => !isDeepStrictEqual(selected.get(flag), values)) ||
@@ -299,8 +342,9 @@ export function assertNativeObservationSelectors(binding) {
         : !one("--retained-run", "{{original-run-id}}") ||
           !one("--retained-ledger", binding.ledger) ||
           selected.has("--release-qualification"))
-    )
+    ) {
       throw new Error("Require exact initial and original native retained selectors.");
+    }
     receipt[operation] = Object.fromEntries(selected);
   }
   return receipt;
@@ -323,8 +367,9 @@ export function assertOriginalRetainedCustody(row, binding) {
     !/^\d+:\d+$/u.test(authority?.parentIdentity ?? "") ||
     pointer.nativeAuthority?.installKey !== binding.installation ||
     !pointer.envelope
-  )
+  ) {
     throw new Error("Require actual original ledger/pointer retained custody before kill.");
+  }
   return { runId: row.runId, createdAtMs: row.createdAtMs, pointer };
 }
 
@@ -338,8 +383,9 @@ async function verifiedRetainedCustody(row, binding) {
     ],
   )) {
     const stat = await fs.lstat(filename, { bigint: true });
-    if (stat.isSymbolicLink() || `${stat.dev}:${stat.ino}` !== expected)
+    if (stat.isSymbolicLink() || `${stat.dev}:${stat.ino}` !== expected) {
       throw new Error("Original retained ledger authority changed.");
+    }
   }
   const envelope = JSON.parse(await bytes(custody.pointer.envelope));
   const plan = JSON.parse(await bytes(envelope.planArtifact));
@@ -355,8 +401,9 @@ async function verifiedRetainedCustody(row, binding) {
     authorization.digest !== plan.catalogDigest ||
     plan.runner?.manifestDigest !== envelope.runner?.manifestDigest ||
     plan.runner?.closureDigest !== envelope.runner?.closureDigest
-  )
+  ) {
     throw new Error("Original retained envelope/plan/authorization correspondence changed.");
+  }
   return custody;
 }
 
@@ -372,11 +419,16 @@ export async function probe(binding, verifyEffect = true) {
     audit.boundary !== binding.boundary ||
     audit.side !== binding.side ||
     audit.executableSha256 !== binding.durableProbe.executable.sha256 ||
+    !isDeepStrictEqual(
+      audit.heldRuntime,
+      binding.mappings.find((item) => item.id === binding.selectedMappingId)?.heldRuntime,
+    ) ||
     !isDeepStrictEqual(audit.argv, binding.durableProbe.argv) ||
     audit.readOnly !== true ||
     !audit.basis
-  )
+  ) {
     throw new Error("Durable probe lacks exact reviewed read-only semantics.");
+  }
   const child = spawn(
     binding.durableProbe.executable.path,
     binding.durableProbe.argv.map((argument) =>
@@ -388,8 +440,11 @@ export async function probe(binding, verifyEffect = true) {
   let size = 0;
   child.stdout.on("data", (chunk) => {
     size += chunk.length;
-    if (size <= 1048576) output.push(chunk);
-    else child.kill("SIGKILL");
+    if (size <= 1048576) {
+      output.push(chunk);
+    } else {
+      child.kill("SIGKILL");
+    }
   });
   const timer = setTimeout(() => child.kill("SIGKILL"), binding.timeoutMs);
   const code = await new Promise((resolve, reject) => {
@@ -397,7 +452,9 @@ export async function probe(binding, verifyEffect = true) {
     child.once("close", resolve);
   });
   clearTimeout(timer);
-  if (code !== 0 || size > 1048576) throw new Error("Read-only durable observation failed.");
+  if (code !== 0 || size > 1048576) {
+    throw new Error("Read-only durable observation failed.");
+  }
   const result = JSON.parse(Buffer.concat(output).toString("utf8"));
   const selected = binding.mappings.find((mapping) => mapping.id === binding.selectedMappingId);
   if (
@@ -405,22 +462,28 @@ export async function probe(binding, verifyEffect = true) {
     result.actionId !== selected.actionId ||
     result.operation !== selected.operation ||
     result.database !== selected.database
-  )
+  ) {
     throw new Error("Durable probe does not discriminate the original action/operation/database.");
+  }
   const resolveExpected = (value) => {
-    if (typeof value === "string")
+    if (typeof value === "string") {
       return value.replaceAll("{{original-run-id}}", binding.originalRunId);
-    if (Array.isArray(value)) return value.map(resolveExpected);
-    if (value && typeof value === "object")
+    }
+    if (Array.isArray(value)) {
+      return value.map(resolveExpected);
+    }
+    if (value && typeof value === "object") {
       return Object.fromEntries(
         Object.entries(value).map(([key, item]) => [key, resolveExpected(item)]),
       );
+    }
     return value;
   };
   const { retainedCustody, ...effect } = result;
   const custody = await verifiedRetainedCustody(retainedCustody, binding);
-  if (verifyEffect && !isDeepStrictEqual(effect, resolveExpected(binding.durableProbe.expected)))
+  if (verifyEffect && !isDeepStrictEqual(effect, resolveExpected(binding.durableProbe.expected))) {
     throw new Error("Durable boundary effect disagrees with reviewed before/after expectation.");
+  }
   return { effect, custody };
 }
 export async function protectedInventory(roots) {
@@ -434,37 +497,46 @@ export async function protectedInventory(roots) {
     }
     if (stat.isDirectory()) {
       rows.push({ path: filename, mode, directory: true });
-      for (const name of (await fs.readdir(filename)).sort())
+      for (const name of (await fs.readdir(filename)).toSorted()) {
         await visit(path.join(filename, name));
+      }
       return;
     }
-    if (!stat.isFile()) throw new Error("Protected inventory includes unsupported special file.");
+    if (!stat.isFile()) {
+      throw new Error("Protected inventory includes unsupported special file.");
+    }
     const handle = await fs.open(filename, constants.O_RDONLY | constants.O_NOFOLLOW);
     try {
       const hash = createHash("sha256");
-      for await (const chunk of handle.createReadStream({ autoClose: false })) hash.update(chunk);
+      for await (const chunk of handle.createReadStream({ autoClose: false })) {
+        hash.update(chunk);
+      }
       rows.push({ path: filename, mode, size: stat.size, sha256: hash.digest("hex") });
     } finally {
       await handle.close();
     }
   };
   for (const root of roots) {
-    if (!root.startsWith("/qualification/") || (await fs.realpath(root)) !== root)
+    if (!root.startsWith("/qualification/") || (await fs.realpath(root)) !== root) {
       throw new Error("Protected roots must be canonical fixture paths.");
+    }
     await visit(root);
   }
   return rows;
 }
 export async function scan() {
   const result = [];
-  for (const name of await fs.readdir("/proc"))
+  for (const name of await fs.readdir("/proc")) {
     if (/^\d+$/u.test(name)) {
       try {
         result.push(await processIdentity(Number(name)));
       } catch (error) {
-        if (!["ENOENT", "ESRCH", "EINVAL"].includes(error.code)) throw error;
+        if (!["ENOENT", "ESRCH", "EINVAL"].includes(error.code)) {
+          throw error;
+        }
       }
     }
+  }
   return result;
 }
 export async function alive(identity) {
@@ -472,7 +544,9 @@ export async function alive(identity) {
     const current = await processIdentity(identity.pid);
     return current.startTime === identity.startTime && !["Z", "X"].includes(current.state);
   } catch (error) {
-    if (["ENOENT", "ESRCH"].includes(error.code)) return false;
+    if (["ENOENT", "ESRCH"].includes(error.code)) {
+      return false;
+    }
     throw error;
   }
 }

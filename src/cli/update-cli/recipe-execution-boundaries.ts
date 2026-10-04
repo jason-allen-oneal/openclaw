@@ -5,6 +5,7 @@ import { prepareRecipePackagePublication } from "./recipe-step-execution.js";
 import type { MutableUpdateExecutionParams } from "./update-command-execution.types.js";
 import {
   assertRecipeUpdateBinding,
+  assertRecipeUpdateEnvironment,
   assertRecipeUpdatePackageOwner,
   verifyRecipeUpdateArchive,
   verifyRecipeUpdateConfig,
@@ -17,6 +18,7 @@ export async function verifyRecipeExecutionSelection(
   const { opts } = params;
   const assertExecutionCurrent = params.executionGuards.assertCurrent;
   if (opts.recipe) {
+    assertRecipeUpdateEnvironment(opts.recipe, opts.run?.env ?? process.env);
     assertRecipeUpdatePackageOwner(opts.recipe, params.packageInstallTarget);
     assertRecipeUpdateBinding(opts.recipe, params.root, opts.run?.runId, opts.run?.executorFence);
     if (
@@ -33,6 +35,18 @@ export async function verifyRecipeExecutionSelection(
     await verifyRecipeUpdateArchive(opts.recipe);
     await verifyRecipeUpdateConfig(opts.recipe, opts.run?.env ?? process.env);
     assertExecutionCurrent();
+  }
+}
+
+export async function verifyRecipeCandidateBoundary(
+  params: MutableUpdateExecutionParams,
+  root: string,
+  env: NodeJS.ProcessEnv,
+): Promise<void> {
+  if (params.opts.recipe) {
+    await verifyRecipeUpdateInstallation(params.opts.recipe, root, "target");
+    await verifyRecipeUpdateConfig(params.opts.recipe, env);
+    params.executionGuards.assertCurrent();
   }
 }
 

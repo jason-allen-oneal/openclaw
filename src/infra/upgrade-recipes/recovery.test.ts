@@ -140,6 +140,8 @@ function fixture() {
     verifyRetainedRunner: vi.fn(async () => ({
       ...retained.runner,
       purpose: "production" as const,
+      runtimeArtifactId: "runtime",
+      bootstrapArtifactId: "bootstrap",
       nativeDependencies: [],
     })),
     assertOriginalRecoveryOwner: vi.fn(async () => {}),

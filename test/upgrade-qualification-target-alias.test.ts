@@ -32,7 +32,9 @@ vi.mock("node:fs/promises", async (importOriginal) => {
 
 function requiredItem<T>(items: readonly T[], index = 0): T {
   const item = items[index];
-  if (!item) throw new Error(`Required fixture item ${index} is missing`);
+  if (!item) {
+    throw new Error(`Required fixture item ${index} is missing`);
+  }
   return item;
 }
 const installation = "/qualification/npm/lib/node_modules/openclaw";
@@ -76,7 +78,7 @@ const binding = () => ({
     "observer.mjs",
     "upgrade-qualification-inspector.mjs",
     "upgrade-qualification-observation-files.mjs",
-  ].map((name) => ({ ...entry, path: `/qualification/tools/${name}` })),
+  ].map((name) => Object.assign({}, entry, { path: `/qualification/tools/${name}` })),
   runtime: entry,
   nativeBootstrap: entry,
   artifacts: [entry, manifest],
@@ -144,14 +146,24 @@ async function inspectLoadedTarget(scriptSource: string) {
   const transport = {
     handlers,
     call: vi.fn(async (method: string) => {
-      if (method === "Runtime.runIfWaitingForDebugger")
+      if (method === "Runtime.runIfWaitingForDebugger") {
         emit({ method: "Debugger.paused", params: { reason: "Break on start", callFrames: [] } });
-      if (method === "Runtime.evaluate") return { result: { value: 42 } };
-      if (method === "Debugger.setInstrumentationBreakpoint") return { breakpointId: "gate" };
-      if (method === "Debugger.getScriptSource") return { scriptSource };
-      if (method === "Debugger.setBreakpoint")
+      }
+      if (method === "Runtime.evaluate") {
+        return { result: { value: 42 } };
+      }
+      if (method === "Debugger.setInstrumentationBreakpoint") {
+        return { breakpointId: "gate" };
+      }
+      if (method === "Debugger.getScriptSource") {
+        return { scriptSource };
+      }
+      if (method === "Debugger.setBreakpoint") {
         return { breakpointId: "boundary", actualLocation: mapped.location };
-      if (method === "Debugger.resume" && ++resumes === 2) finish();
+      }
+      if (method === "Debugger.resume" && ++resumes === 2) {
+        finish();
+      }
       return {};
     }),
   };
@@ -166,6 +178,8 @@ async function inspectLoadedTarget(scriptSource: string) {
     originalRunId: () => originalRun,
     onCaptureRun: vi.fn(),
     onLiveTarget: liveAdmission,
+    worker: undefined,
+    onWorker: undefined,
   });
   emit({
     method: "Debugger.scriptParsed",
@@ -238,6 +252,9 @@ describe("immutable references and publication-time target aliases", () => {
     await write(live, code);
     const admitted = await verifyObservedEntry(requiredItem(selected.mappings), selected);
     expect(admitted).toEqual({ ...entry, path: live });
+    if (!admitted) {
+      throw new Error("Missing live artifact admission");
+    }
     await write(live, "tampered target bytes");
     await expect(bytes(admitted)).rejects.toThrow(/Immutable artifact changed/);
     await write(live, code);

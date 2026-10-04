@@ -6,5 +6,7 @@ export type VerifiedUpgradeRecipeRunnerBundle = {
   readonly runtimePath: string;
   readonly entrypointPath: string;
   readonly releaseQualificationEntrypointPath?: string;
+  readonly runtimeArtifactId: string;
+  readonly bootstrapArtifactId: string;
   readonly nativeDependencies: readonly string[];
 };

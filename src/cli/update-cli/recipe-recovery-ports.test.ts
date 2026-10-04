@@ -112,6 +112,8 @@ async function fixture(
     runtimePath: process.execPath,
     entrypointPath: productionEntry,
     ...(!missingEntry ? { releaseQualificationEntrypointPath: releaseEntry } : {}),
+    runtimeArtifactId: "runtime",
+    bootstrapArtifactId: "bootstrap",
     nativeDependencies: [],
   };
   const artifact = { path: "/control/artifact", sha256: "a".repeat(64), length: 1 };

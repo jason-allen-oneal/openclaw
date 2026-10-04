@@ -271,13 +271,13 @@ export function validateUpgradeReleaseQualification(options: {
     }
     requireBinding(route.sourceArtifact, source.artifactId);
     requireBinding(route.targetArtifact, target.artifactId);
-    for (const item of [
-      route.runnerArtifact,
-      route.bootstrapArtifact,
-      route.runtimeArtifact,
-      route.fixtureArtifact,
-      ...route.adapterArtifacts,
-    ]) {
+    if (recipe.purpose === "production" && !qualification.executor) {
+      throw new Error("Production qualification requires an exact executor binding.");
+    }
+    requireBinding(route.runnerArtifact, qualification.executor?.runnerManifestArtifactId);
+    requireBinding(route.runtimeArtifact, qualification.executor?.runtimeArtifactId);
+    requireBinding(route.bootstrapArtifact, qualification.executor?.bootstrapArtifactId);
+    for (const item of [route.fixtureArtifact, ...route.adapterArtifacts]) {
       requireBinding(item);
     }
     for (const step of recipe.steps) {

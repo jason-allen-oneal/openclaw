@@ -12,6 +12,7 @@ import { assertReleaseQualificationCustody } from "./recipe-first-qualification.
 import { captureUpdateCommandExecutorAuthority } from "./update-command-executor.js";
 import {
   resolveAuthenticatedRecipeUpdateCatalog,
+  verifyRecipeUpdateRunner,
   type RecipeUpdateArtifactSelectors,
   type RecipeUpdateContext,
 } from "./update-recipe-context.js";
@@ -45,6 +46,7 @@ export async function verifyRecipeQualificationEvidence(
     }
     return;
   }
+  await verifyRecipeUpdateRunner(recipe, catalog);
   const qualification = catalog.catalog.qualifications.find(
     (entry) => entry.id === recipe.route.qualificationId,
   );

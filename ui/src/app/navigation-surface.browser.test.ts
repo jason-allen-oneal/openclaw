@@ -1,4 +1,4 @@
-import { html, render } from "lit";
+import { html, nothing, render } from "lit";
 import { afterEach, describe, expect, it } from "vitest";
 import "../components/sidebar-update-card.ts";
 import "../styles.css";
@@ -7,7 +7,7 @@ import { renderFloatingUpdateCard, visibleNavDrawerToggle } from "./navigation-s
 const hasBrowserLayout = !navigator.userAgent.toLowerCase().includes("jsdom");
 
 afterEach(() => {
-  document.body.replaceChildren();
+  render(nothing, document.body);
 });
 
 async function useDesktopViewport() {

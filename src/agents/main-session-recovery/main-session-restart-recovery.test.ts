@@ -122,7 +122,6 @@ import {
   writeStore,
   writeStorePath,
 } from "./main-session-restart-recovery-fixture.test-support.js";
-import * as recoveryMarking from "./main-session-restart-recovery-marking.js";
 import { discoverRestartRecoveryStoreTargets } from "./main-session-restart-recovery-shared.js";
 import { recoverStore } from "./main-session-restart-recovery-store.js";
 import {

@@ -327,6 +327,7 @@ pub(super) async fn run(options: &Options) -> Result<i32> {
     }
     let manifest: Manifest = serde_json::from_slice(&manifest_bytes)?;
     validate_manifest(&manifest)?;
+    verify_bootstrap(&manifest, &catalog, &revoked_artifacts)?;
     let qualification = !plan["releaseQualification"].is_null();
     let entry = if qualification {
         qualification_machine(Some(&plan["releaseQualification"]))?;

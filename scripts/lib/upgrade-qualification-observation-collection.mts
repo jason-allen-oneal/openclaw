@@ -34,8 +34,9 @@ export async function collectHistoricalObservation(options: {
   // Verify the external tooling before executing it, not merely its own self-check.
   for (const artifact of [observation.runtime, ...observation.observerFiles]) {
     const digest = (await execute(["sha256sum", "--", artifact.path])).trim().split(/\s+/u);
-    if (digest[0] !== artifact.sha256 || digest[1] !== artifact.path)
+    if (digest[0] !== artifact.sha256 || digest[1] !== artifact.path) {
       throw new Error("External observation executable changed before launch.");
+    }
   }
   await execute([
     observation.runtime.path,
@@ -78,6 +79,18 @@ export function parseHistoricalObservationReceipt(
         pointer: pointerSchema,
       }),
       resumedCustody: z.unknown(),
+      boundaryObservation: z
+        .object({
+          mappingId: z.string(),
+          heldRuntime: z
+            .object({
+              maintenanceHeld: z.boolean(),
+              suspensionPhase: z.string(),
+              stage: z.literal("debugger-held-before-kernel-stop"),
+            })
+            .optional(),
+        })
+        .optional(),
     })
     .parse(value);
   if (
@@ -90,6 +103,18 @@ export function parseHistoricalObservationReceipt(
     !isDeepStrictEqual(receipt.nativeSelectors, assertNativeObservationSelectors(observation))
   ) {
     throw new Error("External receipt lost unchanged original retained custody.");
+  }
+  if (observation.boundary === "gate-release") {
+    const selected = observation.mappings.find((item) => item.id === observation.selectedMappingId);
+    const held = receipt.boundaryObservation?.heldRuntime;
+    if (
+      receipt.boundaryObservation?.mappingId !== observation.selectedMappingId ||
+      !held ||
+      held.maintenanceHeld !== (observation.side === "before") ||
+      held.suspensionPhase !== selected?.heldRuntime?.expected.suspensionPhase
+    ) {
+      throw new Error("Gate receipt lacks the side-specific held-runtime observation.");
+    }
   }
   return receipt;
 }

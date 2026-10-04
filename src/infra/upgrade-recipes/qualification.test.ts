@@ -261,6 +261,44 @@ describe("upgrade release qualification", () => {
       /exact qualification coverage/,
     );
   });
+  it("refuses production evidence that never identifies the qualified executor", () => {
+    const input = fixture();
+    input.recipe.purpose = "production";
+    input.route.recipeSha256 = upgradeQualificationRecipeDigest(input.recipe);
+    for (const release of input.catalog.releases) {
+      release.installationManifestArtifactId = release.artifactId;
+    }
+    const production = {
+      ...input,
+      allowFixtures: false,
+      evidence: { ...input.evidence, purpose: "historical-transition" },
+    };
+    expect(() => validateUpgradeReleaseQualification(production)).toThrow(/exact executor binding/);
+    input.catalog.qualifications[0]!.executor = {
+      runnerManifestArtifactId: "runner",
+      runtimeArtifactId: "runtime",
+      bootstrapArtifactId: "bootstrap",
+    };
+    expect(() => validateUpgradeReleaseQualification(production)).not.toThrow();
+  });
+  it("rejects evidence for a different catalog-valid executor", () => {
+    const input = fixture();
+    const qualification = input.catalog.qualifications[0]!;
+    qualification.executor = {
+      runnerManifestArtifactId: "runner",
+      runtimeArtifactId: "runtime",
+      bootstrapArtifactId: "bootstrap",
+    };
+    expect(() => validateUpgradeReleaseQualification(input)).not.toThrow();
+    for (const field of ["runnerArtifact", "runtimeArtifact", "bootstrapArtifact"] as const) {
+      const original = input.route[field];
+      const other = { ...original, id: `${original.id}-other` };
+      input.catalog.artifacts.push(other);
+      input.route[field] = other;
+      expect(() => validateUpgradeReleaseQualification(input)).toThrow(/binding mismatch/);
+      input.route[field] = original;
+    }
+  });
   it("rejects missing contract disposition and missing migration coverage", () => {
     const input = fixture();
     expect(() => validateUpgradeReleaseQualification({ ...input, dispositions: [] })).toThrow(
@@ -294,6 +332,49 @@ describe("upgrade release qualification", () => {
         artifact.sha256 = createHash("sha256").update(bytes).digest("hex");
         await fs.writeFile(path.join(artifactRoot, artifact.id), bytes);
       }
+      input.catalog.qualifications[0]!.executor = {
+        runnerManifestArtifactId: "runner",
+        runtimeArtifactId: "runtime",
+        bootstrapArtifactId: "bootstrap",
+      };
+      const runtime = input.catalog.artifacts.find((item) => item.id === "runtime")!;
+      const adapter = input.catalog.artifacts.find((item) => item.id === "adapter")!;
+      const runnerIdentity = input.catalog.artifacts.find((item) => item.id === "runner")!;
+      const manifest = {
+        schemaVersion: 1,
+        protocol: 1,
+        platform: { os: "linux", arch: "x64" },
+        runtime: { path: "node", kind: "node", version: "24.21.0" },
+        entrypoint: "updater.mjs",
+        bootstrapArtifactId: "bootstrap",
+        externalModules: [],
+        files: [
+          {
+            path: "node",
+            artifactId: runtime.id,
+            sha256: runtime.sha256,
+            length: runtime.length,
+            executable: true,
+            role: "runtime",
+          },
+          {
+            path: "updater.mjs",
+            artifactId: adapter.id,
+            sha256: adapter.sha256,
+            length: adapter.length,
+            executable: false,
+            role: "runner",
+          },
+        ],
+      };
+      const writeRunnerManifest = async () => {
+        const bytes = Buffer.from(JSON.stringify(manifest));
+        runnerIdentity.length = bytes.length;
+        runnerIdentity.sha256 = createHash("sha256").update(bytes).digest("hex");
+        Object.assign(input.route.runnerArtifact, runnerIdentity);
+        await fs.writeFile(path.join(artifactRoot, "runner"), bytes);
+      };
+      await writeRunnerManifest();
       for (const bound of [
         input.route.sourceArtifact,
         input.route.targetArtifact,
@@ -309,16 +390,19 @@ describe("upgrade release qualification", () => {
         }
         Object.assign(bound, expected);
       }
-      const evidenceBytes = Buffer.from(JSON.stringify(input.evidence));
-      const evidenceArtifact = input.catalog.artifacts.find((item) => item.id === "evidence");
-      if (!evidenceArtifact) {
-        throw new Error("Missing fixture evidence artifact");
-      }
-      evidenceArtifact.length = evidenceBytes.length;
-      evidenceArtifact.sha256 = createHash("sha256").update(evidenceBytes).digest("hex");
-      await fs.writeFile(path.join(artifactRoot, "evidence"), evidenceBytes);
-      await fs.writeFile(path.join(root, "evidence.json"), evidenceBytes);
-      await fs.writeFile(path.join(root, "catalog.json"), JSON.stringify(input.catalog));
+      const writeEvidence = async () => {
+        const evidenceBytes = Buffer.from(JSON.stringify(input.evidence));
+        const evidenceArtifact = input.catalog.artifacts.find((item) => item.id === "evidence");
+        if (!evidenceArtifact) {
+          throw new Error("Missing fixture evidence artifact");
+        }
+        evidenceArtifact.length = evidenceBytes.length;
+        evidenceArtifact.sha256 = createHash("sha256").update(evidenceBytes).digest("hex");
+        await fs.writeFile(path.join(artifactRoot, "evidence"), evidenceBytes);
+        await fs.writeFile(path.join(root, "evidence.json"), evidenceBytes);
+        await fs.writeFile(path.join(root, "catalog.json"), JSON.stringify(input.catalog));
+      };
+      await writeEvidence();
       await fs.writeFile(path.join(root, "contracts.json"), JSON.stringify(input.changedContracts));
       await fs.writeFile(path.join(root, "dispositions.json"), JSON.stringify(input.dispositions));
       const args = [
@@ -344,6 +428,15 @@ describe("upgrade release qualification", () => {
         executionAuthority: false,
         authenticated: false,
       });
+      manifest.bootstrapArtifactId = "runtime";
+      await writeRunnerManifest();
+      await writeEvidence();
+      await expect(promisify(execFile)(process.execPath, args)).rejects.toThrow(
+        /executor differs from its authenticated runner manifest/,
+      );
+      manifest.bootstrapArtifactId = "bootstrap";
+      await writeRunnerManifest();
+      await writeEvidence();
       const sourcePath = path.join(artifactRoot, "old");
       const bytes = await fs.readFile(sourcePath);
       bytes[0] = 0;

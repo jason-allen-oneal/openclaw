@@ -404,6 +404,7 @@ export async function resolveAuthenticatedRecipeUpdateCatalog(
     !route.source.platforms.some((entry) => isDeepStrictEqual(entry, recipe.route.platform)) ||
     (!recipe.releaseQualification &&
       (!qualification ||
+        qualification.executor?.runnerManifestArtifactId !== recipe.runner.manifestArtifactId ||
         qualification.recipe.id !== route.id ||
         qualification.recipe.revision !== route.revision ||
         qualification.sourceReleaseId !== source.id ||
@@ -461,8 +462,11 @@ export async function resolveAuthenticatedRecipeUpdateCatalog(
   return catalog;
 }
 
-async function verifyRecipeUpdateRunner(
-  recipe: RecipeUpdateArtifactSelectors,
+export async function verifyRecipeUpdateRunner(
+  recipe: Pick<
+    RecipeUpdateArtifactSelectors,
+    "runner" | "catalog" | "maintenance" | "route" | "releaseQualification"
+  >,
   catalog: AuthenticatedUpgradeRecipeCatalog,
 ): Promise<void> {
   const runner = await verifyUpgradeRecipeRunnerBundle({
@@ -471,10 +475,18 @@ async function verifyRecipeUpdateRunner(
     manifestArtifactId: recipe.runner.manifestArtifactId,
     forbiddenRoots: recipe.catalog.forbiddenRoots,
   });
+  const executor = catalog.catalog.qualifications.find(
+    (entry) => entry.id === recipe.route.qualificationId,
+  )?.executor;
   if (
     runner.manifestDigest !== recipe.runner.manifestDigest ||
     runner.closureDigest !== recipe.runner.closureDigest ||
-    runner.runtimePath !== recipe.maintenance.expected.runtimeExecutable
+    runner.runtimePath !== recipe.maintenance.expected.runtimeExecutable ||
+    (!recipe.releaseQualification &&
+      (!executor ||
+        executor.runnerManifestArtifactId !== recipe.runner.manifestArtifactId ||
+        executor.runtimeArtifactId !== runner.runtimeArtifactId ||
+        executor.bootstrapArtifactId !== runner.bootstrapArtifactId))
   ) {
     throw new Error(
       "Recipe runtime or retained runner closure differs from the approved authenticated artifacts.",

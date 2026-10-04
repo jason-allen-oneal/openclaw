@@ -12,6 +12,12 @@ import {
   type OpenClawSchemaVersions,
 } from "../../state/openclaw-schema-versions.js";
 import {
+  prepareRecipePublicationBoundary,
+  requireRecipePreactivationMaintenance,
+  verifyRecipeCandidateBoundary,
+  verifyRecipeExecutionSelection,
+} from "./recipe-execution-boundaries.js";
+import {
   normalizeTag,
   readPackageVersion,
   resolveGitInstallDir,
@@ -83,7 +89,6 @@ import { verifyPreviousManagedGatewayForUpdate } from "./update-command-verifica
 import {
   assertRecipeUpdateEnvironment,
   verifyRecipeUpdateConfig,
-  verifyRecipeUpdateInstallation,
 } from "./update-recipe-context.js";
 
 export async function executeMutableUpdate(
@@ -113,9 +118,6 @@ export async function executeMutableUpdate(
       "rollback-state-unverified",
       "Full-state checkpoint recovery is deferred.",
     );
-  }
-  if (opts.recipe) {
-    assertRecipeUpdateEnvironment(opts.recipe, opts.run?.env ?? process.env);
   }
   assertUpdateCommandRecovery(opts);
   await verifyRecipeExecutionSelection(params);
@@ -370,11 +372,7 @@ export async function executeMutableUpdate(
     const env = ownedManagedUpdateContext?.env ?? opts.run?.env ?? process.env;
     await recordPhase("validating");
     assertExecutionCurrent();
-    if (opts.recipe) {
-      await verifyRecipeUpdateInstallation(opts.recipe, root, "target");
-      await verifyRecipeUpdateConfig(opts.recipe, env);
-      assertExecutionCurrent();
-    }
+    await verifyRecipeCandidateBoundary(params, root, env);
     try {
       if (params.updateInstallKind === "package") {
         // The staged manifest owns schema support, including artifacts without registry metadata.
@@ -523,6 +521,8 @@ export async function executeMutableUpdate(
             });
       await parkForegroundUpdateForActivation(params, assertExecutionCurrent);
       await prepareMutableUpdate(env, activationTimeoutMs);
+      assertExecutionCurrent();
+      await requireRecipePreactivationMaintenance(params, env);
       assertExecutionCurrent();
       await recordPhase("activating");
       assertExecutionCurrent();
@@ -720,8 +720,3 @@ export async function executeMutableUpdate(
     activationConfig,
   };
 }
-
-import {
-  prepareRecipePublicationBoundary,
-  verifyRecipeExecutionSelection,
-} from "./recipe-execution-boundaries.js";
