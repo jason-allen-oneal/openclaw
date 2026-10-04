@@ -12,10 +12,6 @@ import {
   type OpenClawSchemaVersions,
 } from "../../state/openclaw-schema-versions.js";
 import {
-  prepareRecipePublicationBoundary,
-  verifyRecipeExecutionSelection,
-} from "./recipe-execution-boundaries.js";
-import {
   normalizeTag,
   readPackageVersion,
   resolveGitInstallDir,
@@ -25,6 +21,7 @@ import {
   assertUpdateCandidateExecutor,
   assertUpdateCandidateSteps,
   createUpdateCandidateConfigRefresh,
+  preflightUpdateCandidatePlugins,
   validateUpdateCandidateWithProgress,
 } from "./update-command-candidate-validation.js";
 import {
@@ -56,7 +53,6 @@ import {
 import {
   createMutableUpdatePreparation,
   mutableUpdatePreflightOptions,
-  preflightMutableUpdatePlugins,
 } from "./update-command-mutable-preparation.js";
 import { observeOriginalManagedServiceRuntime } from "./update-command-original-service.js";
 import { createPackageUpdateActivationOptions } from "./update-command-package-activation.js";
@@ -133,10 +129,13 @@ export async function executeMutableUpdate(
     admittedTargetSchemaVersions = versions;
   };
   const preflightPlugins = (targetVersion: string | null) =>
-    preflightMutableUpdatePlugins(params, targetVersion, candidateAdmissionChecks, {
-      recheckSchemas,
-      getVersions: () => admittedTargetSchemaVersions,
-      getAdmission: () => admission,
+    preflightUpdateCandidatePlugins(params, {
+      targetVersion,
+      candidateAdmissionChecks,
+      readAdmission: async () => {
+        await recheckSchemas(admittedTargetSchemaVersions);
+        return admission!;
+      },
     });
   let recoveryEnv: NodeJS.ProcessEnv | undefined;
   let packageTransaction: PackageUpdateTransaction | undefined;
@@ -721,3 +720,8 @@ export async function executeMutableUpdate(
     activationConfig,
   };
 }
+
+import {
+  prepareRecipePublicationBoundary,
+  verifyRecipeExecutionSelection,
+} from "./recipe-execution-boundaries.js";

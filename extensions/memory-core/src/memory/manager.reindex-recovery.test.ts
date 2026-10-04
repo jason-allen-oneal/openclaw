@@ -465,7 +465,7 @@ describe("memory manager reindex recovery", () => {
     },
   );
 
-  it.each(["purge", "replace"] as const)(
+  it.each(["purge", "revoke"] as const)(
     "revalidates generated cache writes after published writer admission (%s)",
     async (scenario) => {
       const cfg = createCfg({ sources: ["memory"], cacheEnabled: true });
@@ -484,7 +484,7 @@ describe("memory manager reindex recovery", () => {
         throw new Error("fixture provider missing");
       }
       await fs.writeFile(path.join(memoryDir, "alpha.md"), "New reusable alpha memory.");
-      let replacementDb: DatabaseSync | undefined;
+      let reopenedDb: DatabaseSync | undefined;
       vi.spyOn(harness.provider, "embedBatch").mockImplementationOnce(async (inputs) => {
         reservation = await reservePublishedWriter(() => {
           if (scenario === "purge") {
@@ -492,7 +492,7 @@ describe("memory manager reindex recovery", () => {
               agentId: "main",
               sessionIds: ["forgotten-during-embedding"],
             });
-          } else if (scenario === "replace") {
+          } else if (scenario === "revoke") {
             closeOpenClawAgentDatabasesForTest();
           }
         });
@@ -506,16 +506,17 @@ describe("memory manager reindex recovery", () => {
         reservation?.release();
         await reservation?.done;
         await expect(sync).rejects.toThrow(
-          scenario === "replace"
+          scenario === "revoke"
             ? /^Agent database execution admission is closed$/
             : /Memory index changed/,
         );
-        if (scenario === "replace") {
+        if (scenario === "revoke") {
+          // Readmission waits until the revoked write and its native owner settle.
           await closeOpenClawAgentDatabasesAsync();
-          replacementDb = sqliteRuntime.openOpenClawAgentDatabase({ agentId: "main" }).db;
+          reopenedDb = sqliteRuntime.openOpenClawAgentDatabase({ agentId: "main" }).db;
         }
         expect(
-          (replacementDb ?? publishedDb).prepare("SELECT hash FROM memory_embedding_cache").all(),
+          (reopenedDb ?? publishedDb).prepare("SELECT hash FROM memory_embedding_cache").all(),
         ).toEqual([]);
       } finally {
         reservation?.release();

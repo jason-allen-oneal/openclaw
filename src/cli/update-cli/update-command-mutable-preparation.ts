@@ -3,11 +3,8 @@ import {
   type ResolvedGlobalInstallTarget,
 } from "../../infra/update-global.js";
 import type { UpdateRunResult } from "../../infra/update-runner-types.js";
-import { defaultRuntime } from "../../runtime.js";
-import type { OpenClawSchemaVersions } from "../../state/openclaw-schema-versions.js";
 import { requireRecipePreactivationMaintenance } from "./recipe-execution-boundaries.js";
 import { retainRecipeExecution } from "./recipe-execution-retention.js";
-import { isCandidateAdmissionContextCovered } from "./schema-preflight.js";
 import { inspectUpdateDatabaseContexts } from "./update-command-database-context.js";
 import type { MutableUpdateExecutionParams } from "./update-command-execution.types.js";
 
@@ -76,39 +73,4 @@ export function createMutableUpdatePreparation(
       assertExecutionCurrent();
     }
   };
-}
-
-export async function preflightMutableUpdatePlugins(
-  params: MutableUpdateExecutionParams,
-  targetVersion: string | null,
-  candidateAdmissionChecks: readonly string[] | undefined,
-  state: {
-    recheckSchemas: (versions: OpenClawSchemaVersions | undefined) => Promise<void>;
-    getVersions: () => OpenClawSchemaVersions | undefined;
-    getAdmission: () => Awaited<ReturnType<typeof inspectUpdateDatabaseContexts>> | undefined;
-  },
-) {
-  const { opts } = params;
-  await state.recheckSchemas(state.getVersions());
-  const admission = state.getAdmission()!;
-  const context = admission.foreground ? admission.contexts[0]! : admission.contexts.at(-1)!;
-  if (
-    candidateAdmissionChecks?.includes("plugin-availability") &&
-    isCandidateAdmissionContextCovered(context.env)
-  ) {
-    return;
-  }
-  const { preflightConfiguredNpmPluginTargets } =
-    await import("./update-command-plugin-preflight.js");
-  const warnings = await preflightConfiguredNpmPluginTargets({
-    config: context.configSnapshot.sourceConfig,
-    env: context.env,
-    targetVersion,
-    channel: params.channel,
-    timeoutMs: params.updateStepTimeoutMs,
-  });
-  await state.recheckSchemas(state.getVersions());
-  for (const warning of warnings) {
-    defaultRuntime[opts.json ? "error" : "log"](warning.message);
-  }
 }

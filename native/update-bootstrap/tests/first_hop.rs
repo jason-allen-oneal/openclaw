@@ -117,7 +117,7 @@ impl Fixture {
                 b"#!/bin/sh\nprintf 'UNSAFE_LAUNCH\\n'\nexit 0\n".to_vec(),
             )
         };
-        let runner = b"console.log('independent-first-hop=' + process.versions.node); if(process.env.NODE_OPTIONS) throw new Error('inherited authority');".to_vec();
+        let runner = b"console.log('independent-first-hop=' + process.versions.node); if(process.env.NODE_OPTIONS || process.env.NODE_USE_SYSTEM_CA) throw new Error('inherited authority');".to_vec();
         let file = |id: &str, path: &str, bytes: &[u8], role: &str, executable: bool| json!({ "path": path, "artifactId": id, "sha256": hash(bytes), "length": bytes.len(), "role": role, "executable": executable });
         let manifest = serde_json::to_vec(&json!({ "schemaVersion":1, "protocol":1, "purpose":"production",
             "platform": { "os": "linux", "arch": if cfg!(target_arch="aarch64") {"arm64"} else {"x64"} },
@@ -219,13 +219,16 @@ impl Fixture {
         } else {
             command.arg("--").args(runner);
         }
-        command.env("PATH", "/no-application-runtime").env(
-            "NODE_OPTIONS",
-            format!(
-                "--import {}",
-                self.installation.join("openclaw.mjs").display()
-            ),
-        );
+        command
+            .env("NODE_USE_SYSTEM_CA", "1")
+            .env("PATH", "/no-application-runtime")
+            .env(
+                "NODE_OPTIONS",
+                format!(
+                    "--import {}",
+                    self.installation.join("openclaw.mjs").display()
+                ),
+            );
         command.output().unwrap()
     }
 }

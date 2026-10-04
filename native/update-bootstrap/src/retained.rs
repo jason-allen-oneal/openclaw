@@ -442,14 +442,8 @@ pub(super) async fn run(options: &Options) -> Result<i32> {
     child
         .arg(root.join(entry))
         .args(args)
-        .current_dir(&options.control)
-        .env_clear();
-    for name in ["HOME", "USER", "LOGNAME"] {
-        if let Some(value) = std::env::var_os(name) {
-            child.env(name, value);
-        }
-    }
-    child.env("PATH", "/usr/bin:/bin");
+        .current_dir(&options.control);
+    runner_environment(&mut child, qualification);
     Ok(child.status()?.code().unwrap_or(1))
 }
 

@@ -1,9 +1,5 @@
 // These consumers need the host-owned SQLite broker, which runs in forked processes.
 export const databaseWorkerCoreTestFiles = [
-  "src/infra/upgrade-recipes/maintenance-store.test.ts",
-  "src/infra/upgrade-recipes/receipts.test.ts",
-  "src/infra/upgrade-recipes/retained-run.test.ts",
-  "src/infra/update-run-ledger-fresh.test.ts",
   "src/agents/subagents/spawn/acp-parent-stream-store.sqlite.test.ts",
   "src/state/openclaw-agent-execution-incognito.compute.test.ts",
   "src/state/openclaw-agent-execution-incognito.lifecycle.test.ts",
@@ -1021,6 +1017,10 @@ export const databaseWorkerCoreTestFiles = [
   "src/plugin-sdk/session-store-runtime.conversation.test.ts",
   "src/plugin-sdk/session-store-runtime.maintenance.test.ts",
   "src/plugin-sdk/session-transcript-runtime-visible-delta.test.ts",
+  "src/infra/upgrade-recipes/maintenance-store.test.ts",
+  "src/infra/upgrade-recipes/receipts.test.ts",
+  "src/infra/upgrade-recipes/retained-run.test.ts",
+  "src/infra/update-run-ledger-fresh.test.ts",
 ];
 
 const databaseWorkerCoreTestFileSet = new Set(databaseWorkerCoreTestFiles);

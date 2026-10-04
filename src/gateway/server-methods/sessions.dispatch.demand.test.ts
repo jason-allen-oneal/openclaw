@@ -94,7 +94,7 @@ async function withDemandFixture(
           pendingResult: undefined,
           assertCurrent: () => {
             if (released || placements.get(sessionId) !== placement) {
-              throw new Error("Demand fixture placement admission changed");
+              throw new Error("Worker placement observation is no longer current");
             }
           },
           release: () => {

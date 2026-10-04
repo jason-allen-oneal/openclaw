@@ -102,6 +102,20 @@ struct BundleFile {
 fn error(code: &str) -> Box<dyn std::error::Error> {
     code.to_string().into()
 }
+fn runner_environment(child: &mut Command, qualification: bool) {
+    child.env_clear();
+    for name in ["HOME", "USER", "LOGNAME"] {
+        if let Some(value) = std::env::var_os(name) {
+            child.env(name, value);
+        }
+    }
+    child.env("PATH", "/usr/bin:/bin");
+    if qualification {
+        // The admitted disposable machine owns its HTTPS fixture CA. Add its
+        // system roots without forwarding inherited Node options or disabling TLS.
+        child.env("NODE_USE_SYSTEM_CA", "1");
+    }
+}
 fn bind_runner_installation(command: &[String], installation: &Path) -> Result<Vec<String>> {
     let mut bound = Vec::new();
     let mut selected = false;
@@ -1004,14 +1018,8 @@ async fn run(options: Options) -> Result<i32> {
         child
             .arg(retained.join(entry))
             .args(command)
-            .current_dir(&options.control)
-            .env_clear();
-        for key in ["HOME", "USER", "LOGNAME"] {
-            if let Some(value) = std::env::var_os(key) {
-                child.env(key, value);
-            }
-        }
-        child.env("PATH", "/usr/bin:/bin");
+            .current_dir(&options.control);
+        runner_environment(&mut child, options.release_qualification);
         // No update lease, candidate admission, NODE_OPTIONS, plugin paths or installed
         // runtime authority is inherited. The one existing engine admits execution later.
         Ok(child.status()?.code().unwrap_or(1))
@@ -1057,6 +1065,24 @@ async fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn only_admitted_qualification_gets_fixed_system_tls_roots() {
+        for qualification in [false, true] {
+            let mut child = Command::new("unused-fixture-runtime");
+            child
+                .env("NODE_OPTIONS", "untrusted")
+                .env("NODE_USE_SYSTEM_CA", "untrusted")
+                .env("UNTRUSTED", "untrusted");
+            runner_environment(&mut child, qualification);
+            let env = child.get_envs().collect::<HashMap<_, _>>();
+            assert!(!env.contains_key(std::ffi::OsStr::new("NODE_OPTIONS")));
+            assert!(!env.contains_key(std::ffi::OsStr::new("UNTRUSTED")));
+            assert_eq!(
+                env.get(std::ffi::OsStr::new("NODE_USE_SYSTEM_CA")),
+                qualification.then_some(&Some(std::ffi::OsStr::new("1")))
+            );
+        }
+    }
     #[test]
     fn partial_cleanup_preserves_published_or_replaced_files() {
         let root = tempfile::TempDir::new().unwrap();
