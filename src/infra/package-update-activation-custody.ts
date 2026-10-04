@@ -180,3 +180,25 @@ export async function completePackageActivationCustody(
   }
   journal.transition(record, "prepared", null, assertCurrent);
 }
+
+export function assertPackageActivationInventory(
+  directory: string,
+  record: PackageActivationRecord,
+  allowed: readonly string[],
+) {
+  let entries: string[];
+  try {
+    entries = fs.readdirSync(directory);
+  } catch (error) {
+    if (
+      hasErrnoCode(error, "ENOENT") &&
+      (record.phase === "anchor-retired" || record.intent?.kind === "remove-anchor")
+    ) {
+      return;
+    }
+    throw error;
+  }
+  if (entries.some((name) => !allowed.includes(name))) {
+    throw new Error("Unknown package recovery artifacts require operator inspection.");
+  }
+}

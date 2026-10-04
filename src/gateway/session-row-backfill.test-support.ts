@@ -7,6 +7,7 @@ import type { SessionRowProjection } from "./session-row-projection.js";
 export function observeSessionRowBackfill(
   sessionKeys: string[],
   projection?: Pick<SessionRowProjection, "capture">,
+  accepts?: (...args: Parameters<typeof records.publishTranscriptFields>) => boolean,
 ) {
   const remaining = new Set(sessionKeys);
   const completed = createDeferredCore();
@@ -23,6 +24,9 @@ export function observeSessionRowBackfill(
           storePath: row.storeTarget.storePath,
         }) !== row
       ) {
+        return changed;
+      }
+      if (accepts && !accepts(...args)) {
         return changed;
       }
       remaining.delete(row.key);

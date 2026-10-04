@@ -1,12 +1,11 @@
 import { createHash } from "node:crypto";
-import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { requireDirectorySync, syncDirectory } from "./directory-durability.js";
-import { hasErrnoCode } from "./errors.js";
 import {
+  assertPackageActivationInventory,
   completePackageActivationCustody,
   packageActivationIdentityOrAbsent as entryIdentity,
   inspectPackageActivationCustody,
@@ -34,20 +33,10 @@ import {
   isPackageIntegrityResourceError,
   packageIntegrityDifferences,
   PackageIntegrityMismatchError,
-  type PackageLauncherFingerprint,
-  packageLauncherDifferences,
 } from "./package-update-integrity.js";
 import { assertManagedUpdateLeaseDatabaseIdentity } from "./update-managed-service-handoff-database.js";
 
 const log = createSubsystemLogger("update/package-integrity");
-
-function matchesLauncher(actual: PackageLauncherFingerprint | null, encoded: string | null) {
-  return actual === null || encoded === null
-    ? actual === null && encoded === null
-    : packageLauncherDifferences(decodePackageActivationLauncher(encoded), actual, {
-        checkMode: true,
-      }).length === 0;
-}
 
 export function createPublicationOwner(
   anchor: string,
@@ -86,23 +75,8 @@ export function createPublicationOwner(
     "launchers",
     "previous-launchers",
   ] as const;
-  const assertInventory = (allowed: readonly string[] = artifactNames) => {
-    let entries: string[];
-    try {
-      entries = fs.readdirSync(custodyPath("anchor"));
-    } catch (error) {
-      if (
-        hasErrnoCode(error, "ENOENT") &&
-        (record.phase === "anchor-retired" || record.intent?.kind === "remove-anchor")
-      ) {
-        return;
-      }
-      throw error;
-    }
-    if (entries.some((name) => !allowed.includes(name))) {
-      throw new Error("Unknown package recovery artifacts require operator inspection.");
-    }
-  };
+  const assertInventory = (allowed: readonly string[] = artifactNames) =>
+    assertPackageActivationInventory(custodyPath("anchor"), record, allowed);
   const assertSelectedLaunchers = (selected: "previous" | "candidate") => {
     for (const entry of descriptor.launchers) {
       const expected =
@@ -124,7 +98,7 @@ export function createPublicationOwner(
       const fingerprint = (await reader.exists(destination))
         ? await reader.launcher(destination)
         : null;
-      if (!matchesLauncher(fingerprint, entry[selected])) {
+      if (!matchesPackageActivationLauncher(fingerprint, entry[selected])) {
         throw new Error("Selected package launcher fingerprint changed.");
       }
     }
@@ -253,7 +227,7 @@ export function createPublicationOwner(
       const source = root(`launchers/${entry.name}`);
       if (
         packageActivationIdentity(source, "launcher") !== entry.candidateIdentity ||
-        !matchesLauncher(await reader.launcher(source), entry.candidate)
+        !matchesPackageActivationLauncher(await reader.launcher(source), entry.candidate)
       ) {
         throw new Error("Candidate launcher assets changed.");
       }
@@ -261,11 +235,14 @@ export function createPublicationOwner(
       const present = await reader.exists(destination);
       const id = present ? packageActivationIdentity(destination, "launcher") : null;
       const fingerprint = present ? await reader.launcher(destination) : null;
-      if (id === entry.previousIdentity && matchesLauncher(fingerprint, entry.previous)) {
+      if (
+        id === entry.previousIdentity &&
+        matchesPackageActivationLauncher(fingerprint, entry.previous)
+      ) {
         launcherStates.set(entry.name, "previous");
       } else if (
         id === published.get(entry.name) &&
-        matchesLauncher(fingerprint, entry.candidate)
+        matchesPackageActivationLauncher(fingerprint, entry.candidate)
       ) {
         launcherStates.set(entry.name, "candidate");
       } else {

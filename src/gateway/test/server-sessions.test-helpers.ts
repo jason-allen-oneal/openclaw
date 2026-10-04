@@ -6,6 +6,7 @@ import path from "node:path";
 import { afterEach, beforeEach, expect, vi } from "vitest";
 import { registerAcpSessionResetControls } from "../../acp/control-plane/manager.reset-controls.js";
 import type { InternalSessionEntry as SessionEntry } from "../../config/sessions.js";
+import type { SessionTranscriptUpdateMode } from "../../config/sessions/transcript.js";
 import type { InternalHookEvent } from "../../hooks/internal-hooks.js";
 import { resetSystemEventsForTest } from "../../infra/system-events.js";
 import type { HookRunner } from "../../plugins/hooks.js";
@@ -50,6 +51,7 @@ type RetireSessionMcpRuntimeParams = Parameters<
 export async function seedSessionTranscript(params: {
   agentId?: string;
   messages: readonly TestTranscriptMessage[];
+  updateMode?: SessionTranscriptUpdateMode;
   sessionId: string;
   sessionKey: string;
   storePath: string;
@@ -64,7 +66,7 @@ export async function seedSessionTranscript(params: {
     },
     {
       cwd: "/tmp",
-      updateMode: "none",
+      updateMode: params.updateMode ?? "none",
       messages: params.messages.map((message, index) => ({
         message: {
           timestamp: index + 1,

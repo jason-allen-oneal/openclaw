@@ -76,7 +76,14 @@ test("lists and previews the selected aggregate global owner over WebSocket", as
     },
   };
   const sessionId = "aggregate-work-global";
-  const backfilled = observeSessionRowBackfill(["global"]);
+  const backfilled = observeSessionRowBackfill(
+    ["global"],
+    undefined,
+    (row, fields) =>
+      row.agentId === "work" &&
+      row.entry.sessionId === sessionId &&
+      fields.lastMessagePreview === "Work global conversation",
+  );
   await writeSessionStore({
     agentId: "work",
     storePath: workStorePath,
@@ -88,6 +95,7 @@ test("lists and previews the selected aggregate global owner over WebSocket", as
     sessionKey: "global",
     storePath: workStorePath,
     messages: [{ role: "user", content: "Work global conversation" }],
+    updateMode: "inline",
   });
   const { ws } = await openClient();
   try {
@@ -107,6 +115,7 @@ test("lists and previews the selected aggregate global owner over WebSocket", as
           agentId: "work",
           model: "gpt-5.5",
           derivedTitle: "Work global conversation",
+          lastMessagePreview: "Work global conversation",
         },
       ]);
     }
