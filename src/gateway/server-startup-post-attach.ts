@@ -1,5 +1,4 @@
-import { performance } from "node:perf_hooks";
-import { setImmediate as nextTurn, setTimeout as sleep } from "node:timers/promises";
+import { setImmediate as nextTurn } from "node:timers/promises";
 import { loadGetReplyFromConfigRuntime } from "../auto-reply/reply/dispatch-from-config.runtime-loaders.js";
 import type { AmbientEnvTriggerPolicy } from "../channels/config-presence.js";
 import type { CliDeps } from "../cli/deps.types.js";
@@ -36,6 +35,7 @@ import type { GatewayClient, GatewayContextResolver } from "./server-methods/sha
 import type { GatewayPluginRuntimeClaim } from "./server-plugin-runtime-generation.js";
 import type { refreshLatestUpdateRestartSentinel } from "./server-restart-sentinel.js";
 import type { GatewaySidecarStartupMode } from "./server-sidecar-startup-mode.js";
+import { waitForAcpRuntimeBackendReady } from "./server-startup-acp-readiness.js";
 import { scheduleGatewayHandlerPrewarm } from "./server-startup-handler-prewarm.js";
 import type { logGatewayStartup } from "./server-startup-log.js";
 import {
@@ -67,8 +67,6 @@ import {
   beginMacOSSystemCaWarmupOnce,
   type warmMacOSSystemCaOffMainThread,
 } from "./system-ca-warmup.js";
-const ACP_BACKEND_READY_TIMEOUT_MS = 5_000;
-const ACP_BACKEND_READY_POLL_MS = 50;
 type Awaitable<T> = T | Promise<T>;
 
 const loadMainSessionRestartRecoveryModule = createLazyRuntimeModule(
@@ -90,27 +88,6 @@ const loadInternalHooksModule = createLazyRuntimeModule(() => import("../hooks/i
 async function hasGatewayStartupInternalHookListeners(): Promise<boolean> {
   const { hasInternalHookListeners } = await loadInternalHooksModule();
   return hasInternalHookListeners("gateway", "startup");
-}
-
-async function waitForAcpRuntimeBackendReady(backendId?: string): Promise<boolean> {
-  const { getAcpRuntimeBackend } = await import("../acp/runtime/registry.js");
-  const deadline = performance.now() + ACP_BACKEND_READY_TIMEOUT_MS;
-
-  do {
-    const backend = getAcpRuntimeBackend(backendId);
-    if (backend) {
-      try {
-        if (!backend.healthy || backend.healthy()) {
-          return true;
-        }
-      } catch {
-        // Treat transient backend health probe errors like "not ready yet".
-      }
-    }
-    await sleep(ACP_BACKEND_READY_POLL_MS, undefined, { ref: false });
-  } while (performance.now() < deadline);
-
-  return false;
 }
 
 /** Start post-ready sidecars such as channels, hooks, plugin services, and cleanup tasks. */

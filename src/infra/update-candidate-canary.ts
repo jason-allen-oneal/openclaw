@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { isDeepStrictEqual, stripVTControlCharacters } from "node:util";
+import { stripVTControlCharacters } from "node:util";
 import { coerceErrorMessage } from "@openclaw/normalization-core/error-coercion";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { sliceUtf16Safe } from "@openclaw/normalization-core/utf16-slice";
@@ -39,7 +39,10 @@ import {
   prepareUpdateCandidateRehearsal,
   type UpdateCandidateRehearsal,
 } from "./update-candidate-rehearsal.js";
-import type { UpdateDoctorConfigChange } from "./update-doctor-config.js";
+import {
+  observeUpdateDoctorConfigChanges,
+  type UpdateDoctorConfigChange,
+} from "./update-doctor-config.js";
 import {
   applyUpdateDoctorLintReport,
   parseUpdateDoctorLintReport,
@@ -382,18 +385,11 @@ export async function validateUpdateCandidateCanary(
             code = 1;
           }
           doctorConfigChanges = doctorReceipt?.configChanges ?? [];
-          // Shipped Doctors predate typed receipts; observe only their private write window.
-          if (!doctorReceipt?.configChanges && isRecord(configBeforeDoctor)) {
-            const after: unknown = JSON5.parse(await fs.readFile(rehearsal.configPath, "utf8"));
-            if (isRecord(after)) {
-              doctorConfigChanges = [
-                ...new Set([...Object.keys(configBeforeDoctor), ...Object.keys(after)]),
-              ]
-                .filter((key) => !isDeepStrictEqual(configBeforeDoctor[key], after[key]))
-                .toSorted()
-                .map((key) => ({ kind: "key", key }));
-            }
-          }
+          doctorConfigChanges = await observeUpdateDoctorConfigChanges(
+            rehearsal.configPath,
+            configBeforeDoctor,
+            doctorReceipt?.configChanges,
+          );
           if (
             code === UPDATE_POST_INSTALL_DOCTOR_ADVISORY_EXIT_CODE &&
             doctorReceipt?.status === "advisory"
