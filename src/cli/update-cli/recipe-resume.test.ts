@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { beforeEach, expect, it, vi } from "vitest";
 import { CommandProcessCleanupError } from "../../process/exec-result.js";
 import { UPDATE_RECIPE_RESUME_CAPABILITY } from "./recipe-resume-contract.js";
-import { continueInAuthenticatedTarget } from "./recipe-resume.js";
+import { continueInAuthenticatedTarget } from "./recipe-target-continuation.js";
 import { UpdateCommandRecipeReconciliationPendingError } from "./update-command-recovery-error.js";
 import { approvedContext } from "./update-recipe-context.test-support.js";
 

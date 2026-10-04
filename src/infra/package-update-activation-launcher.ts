@@ -17,7 +17,7 @@ export function encodePackageActivationLauncher(value: PackageLauncherFingerprin
   return JSON.stringify([value.type, value.mode, value.uid, value.gid, value.contents]);
 }
 
-export function decodePackageActivationLauncher(encoded: string): PackageLauncherFingerprint {
+function decodePackageActivationLauncher(encoded: string): PackageLauncherFingerprint {
   const [type, mode, uid, gid, contents] = launcherSchema.parse(JSON.parse(encoded));
   return { type, mode, uid, gid, contents };
 }

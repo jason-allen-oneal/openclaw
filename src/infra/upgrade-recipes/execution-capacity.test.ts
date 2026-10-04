@@ -4,7 +4,6 @@ import path from "node:path";
 import { afterAll, beforeAll, expect, it } from "vitest";
 import {
   assertUpgradeRecipeCapacityInputs,
-  assertUpgradeRecipeExecutionCapacity,
   measureUpgradeRecipeExecutionCapacity,
   type UpgradeRecipeExecutionCapacity,
 } from "./execution-capacity.js";
@@ -61,10 +60,10 @@ it("refuses independently claimed space that omits aggregate or native allocatio
   omitted.filesystems[0]!.requiredBytes = Math.max(
     ...omitted.demands.map((entry) => entry.requiredBytes),
   );
-  await expect(assertUpgradeRecipeExecutionCapacity(omitted)).rejects.toThrow("aggregate");
+  await expect(assertUpgradeRecipeCapacityInputs(omitted, inputs)).rejects.toThrow("aggregate");
   const understated = structuredClone(certificate);
   understated.demands[0]!.requiredBytes = 0;
-  await expect(assertUpgradeRecipeExecutionCapacity(understated)).rejects.toThrow(
+  await expect(assertUpgradeRecipeCapacityInputs(understated, inputs)).rejects.toThrow(
     "allocation demand",
   );
 });
@@ -72,7 +71,7 @@ it("refuses independently claimed space that omits aggregate or native allocatio
 it("refuses a filesystem substitution before admitting publication", async () => {
   const changed = structuredClone(certificate);
   changed.demands[0]!.device = "foreign-device";
-  await expect(assertUpgradeRecipeExecutionCapacity(changed)).rejects.toThrow(
+  await expect(assertUpgradeRecipeCapacityInputs(changed, inputs)).rejects.toThrow(
     "filesystem identity changed",
   );
 });

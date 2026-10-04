@@ -5,17 +5,12 @@ import {
 } from "../state/worker-operation-registry.js";
 import type { immutableInstallReadOperations } from "./package-update-activation-immutable.js";
 import type { SqliteReadOnlyOperationContext } from "./sqlite-readonly-operation-types.js";
-import type { upgradeMaintenanceReadOperations } from "./upgrade-recipes/maintenance-store.js";
-import type { upgradeRecipeStepReadOperations } from "./upgrade-recipes/receipts-store.js";
-import type { upgradeRecipeRetainedRunReadOperations } from "./upgrade-recipes/retained-run.js";
+import type { UpgradeRecipeReadOperations } from "./upgrade-recipes/read-contract.js";
 
 export type SqliteReadOnlyOperations = WorkerOperations<
-  ReturnType<typeof createPluginModelCatalogReadOperations> &
-    typeof immutableInstallReadOperations &
-    typeof upgradeMaintenanceReadOperations &
-    typeof upgradeRecipeStepReadOperations &
-    typeof upgradeRecipeRetainedRunReadOperations
->;
+  ReturnType<typeof createPluginModelCatalogReadOperations> & typeof immutableInstallReadOperations
+> &
+  UpgradeRecipeReadOperations;
 
 export const sqliteReadOnlyOperations = createWorkerOperationRegistry<
   SqliteReadOnlyOperations,
@@ -34,7 +29,7 @@ export const sqliteReadOnlyOperations = createWorkerOperationRegistry<
       (module) => module.upgradeMaintenanceReadOperations,
     ),
   upgradeRecipeRuns: () =>
-    import("./upgrade-recipes/retained-run.js").then(
+    import("./upgrade-recipes/retained-run.worker.js").then(
       (module) => module.upgradeRecipeRetainedRunReadOperations,
     ),
   upgradeRecipeSteps: () =>

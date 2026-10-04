@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { assertGatewayPluginFreeMaintenanceConfig } from "./server-upgrade-maintenance.js";
+import { assertGatewayPluginFreeMaintenanceConfig } from "../infra/upgrade-recipes/maintenance-config.js";
 
 it("accepts only an authored plugin-free policy without changing it", () => {
   const config: OpenClawConfig = { plugins: { enabled: false }, hooks: { enabled: false } };

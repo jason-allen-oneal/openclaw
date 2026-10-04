@@ -822,6 +822,7 @@ export async function createAttachedBrowserToolRuntime(params) {
     fs.mkdirSync(path.join(tempRoot, "node_modules"));
     for (const name of [
       "playwright-core",
+      "@openclaw/fs-safe",
       "web-tree-sitter",
       "tree-sitter-bash",
       "@silvia-odwyer/photon-node",

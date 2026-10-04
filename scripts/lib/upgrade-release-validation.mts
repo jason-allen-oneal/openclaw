@@ -5,10 +5,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { z } from "zod";
-import {
-  upgradeQualificationRecipeDigest,
-  validateUpgradeReleaseQualification,
-} from "../../src/infra/upgrade-recipes/qualification.js";
+import { upgradeQualificationRecipeDigest } from "../../src/infra/upgrade-recipes/qualification-recipe-digest.js";
+import { validateUpgradeReleaseQualification } from "../../src/infra/upgrade-recipes/qualification.js";
 import { upgradeRecipeCatalogSchema } from "../../src/infra/upgrade-recipes/schema.js";
 import { deriveUpgradeChangedContracts } from "./upgrade-changed-contracts.mjs";
 

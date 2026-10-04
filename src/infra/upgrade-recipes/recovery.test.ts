@@ -3,9 +3,9 @@ import { beforeEach, expect, it, vi } from "vitest";
 import type { UpdateRecoveryFence } from "../update-run-recovery.js";
 import type { UpgradeRecipeMaintenanceReceipt } from "./maintenance-contract.js";
 import type { UpgradeRecipeStepReceipt } from "./receipts-contract.js";
+import type { OriginalUpgradeRecipeRun } from "./recovery-contract.js";
 import {
   resumeUpgradeRecipeOriginalRun,
-  type OriginalUpgradeRecipeRun,
   type RetainedUpgradeRecipeRun,
   type UpgradeRecipeRecoveryPorts,
 } from "./recovery.js";

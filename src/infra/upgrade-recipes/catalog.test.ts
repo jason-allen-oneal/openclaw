@@ -12,7 +12,6 @@ import { createUpdateRun } from "../update-run-ledger.js";
 import type { UpdateRecoveryFence } from "../update-run-recovery.js";
 import {
   authenticateUpgradeRecipeCatalog,
-  assertAuthenticatedUpgradeRecipeCatalog,
   assertUpgradeRecipeCatalogCurrent,
   recoverOriginalUpgradeRecipeCatalog,
   assertRecoveredUpgradeRecipeCatalogBinding,
@@ -218,8 +217,8 @@ describe("authenticated upgrade catalogs", () => {
       metadataVersions: { root: 1, timestamp: 1, snapshot: 1, targets: 1 },
     });
     expect(Object.isFrozen(result.catalog.artifacts)).toBe(true);
-    expect(() => assertAuthenticatedUpgradeRecipeCatalog(result)).not.toThrow();
-    expect(() => assertAuthenticatedUpgradeRecipeCatalog(structuredClone(result))).toThrow(
+    expect(() => assertUpgradeRecipeCatalogCurrent(result)).not.toThrow();
+    expect(() => assertUpgradeRecipeCatalogCurrent(structuredClone(result))).toThrow(
       /authentication owner/,
     );
     expect((await fs.stat(path.join(f.metadataDir, "timestamp.json"))).mode & 0o077).toBe(0);
@@ -468,7 +467,7 @@ it("recovers an expired original admission only through actual retained ledger c
       catalog: f.options,
     }),
   ).rejects.toThrow("durable custody");
-  expect(() => assertAuthenticatedUpgradeRecipeCatalog(structuredClone(recovered))).toThrow();
+  expect(() => assertUpgradeRecipeCatalogCurrent(structuredClone(recovered))).toThrow();
   current = false;
   expect(() => assertUpgradeRecipeCatalogCurrent(recovered)).toThrow("custody lost");
 });

@@ -11,10 +11,12 @@ import type { UpdateRecoveryFence } from "../update-run-recovery.js";
 import type { UpgradeRecipeRecoveryPorts } from "./recovery.js";
 import {
   createRetainedUpgradeRecipeRunStore,
-  readRetainedUpgradeRecipeRunInDatabase,
-  recordRetainedUpgradeRecipeRunInWorker,
   type RetainedUpgradeRecipeRunPointer,
 } from "./retained-run.js";
+import {
+  readRetainedUpgradeRecipeRunInDatabase,
+  recordRetainedUpgradeRecipeRunInWorker,
+} from "./retained-run.worker.js";
 const native = vi.hoisted(() => ({
   authority: {
     installKey: "",

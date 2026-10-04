@@ -52,3 +52,10 @@ export function assertUpgradeRecipeReceiptRollbackAllowed(
     );
   }
 }
+
+export type UpgradeRecipeMaintenanceStateReadOperations = {
+  "upgradeMaintenance.read": {
+    input: undefined;
+    output: { type: "upgradeMaintenance.read"; receipt: UpgradeRecipeMaintenanceReceipt | null };
+  };
+};

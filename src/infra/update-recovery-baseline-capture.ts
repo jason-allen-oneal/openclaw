@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { truncateUtf16Safe } from "@openclaw/normalization-core/utf16-slice";
-import { captureUpdateCommandExecutorAuthority } from "../cli/update-cli/update-command-executor.js";
+import { captureUpdateCommandExecutorAuthority } from "../cli/update-cli/update-command-executor-capabilities.js";
 import {
   parseUpdateRecoveryBackupManifest,
   type UpdateRecoveryBackupManifest,

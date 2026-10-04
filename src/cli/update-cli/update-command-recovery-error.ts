@@ -1,5 +1,4 @@
 import { collectNestedErrorCandidates } from "../../infra/error-graph-internal.js";
-import type { FinishUpdateParams } from "./update-command-finish-types.js";
 
 export class UpdateCommandRecoveryPendingError extends Error {
   override name = "UpdateCommandRecoveryPendingError";
@@ -19,7 +18,7 @@ export function hasUpdateCommandRecipeReconciliationPendingError(error: unknown)
 
 export function isPostUpdatePending(
   error: unknown,
-  params: Pick<FinishUpdateParams, "originalManagedServiceRuntime" | "opts">,
+  params: { originalManagedServiceRuntime?: unknown; opts: { recipe?: unknown } },
 ): boolean {
   return Boolean(
     (params.originalManagedServiceRuntime || params.opts.recipe) &&

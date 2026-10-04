@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { build } from "tsdown";
 import { runtimeProcessEntrypoints } from "../src/infra/runtime-process-entrypoints.js";
-import { upgradeRecipeRunnerProcessNames } from "../src/infra/upgrade-recipes/runner-processes.js";
+import { upgradeRecipeRunnerProcessNames } from "../src/infra/upgrade-recipes/runner-process-contract.js";
 import { isDirectRunUrl } from "./lib/direct-run.mjs";
 import {
   createManagedHandoffBuildConfigs,

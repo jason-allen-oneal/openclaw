@@ -67,6 +67,12 @@ it.each(["global", "shared-project"])(
       let manager = getAcpSessionManager();
       const handles = [];
       const target = (agentId?: string) => ({ cfg, sessionKey, agentId });
+      const ownedSessionKey = (agentId: string | undefined) => {
+        if (!agentId) {
+          throw new Error("ACPX fixture requires its explicit agent owner.");
+        }
+        return sessionKey === "global" ? sessionKey : `agent:${agentId}:${sessionKey}`;
+      };
       const turn = async (
         handle: Awaited<ReturnType<AcpxRuntime["ensureSession"]>>,
         text: string,
@@ -77,7 +83,7 @@ it.each(["global", "shared-project"])(
           runId: text,
           agentId: handle.agentId,
           sessionId: `${handle.agentId}-session`,
-          sessionKey,
+          sessionKey: ownedSessionKey(handle.agentId),
           workspaceDir: state.workspaceDir,
           abortSignal: new AbortController().signal,
         });
@@ -109,7 +115,7 @@ it.each(["global", "shared-project"])(
             mode: "persistent",
           });
           handles.push(handle);
-          expect(handle.sessionKey).toBe(sessionKey);
+          expect(handle.sessionKey).toBe(ownedSessionKey(agentId));
           expect(handle.agentId).toBe(agentId);
           expect(decodeAcpxRuntimeHandleState(handle.runtimeSessionName)?.name).toBe(
             handle.acpxRecordId,
@@ -121,7 +127,9 @@ it.each(["global", "shared-project"])(
               name,
               command: process.execPath,
               args: ["server.mjs", "--openclaw-agent-id", agentId],
-              env: [{ name: "OPENCLAW_TOOLS_MCP_AGENT_SESSION_KEY", value: sessionKey }],
+              env: [
+                { name: "OPENCLAW_TOOLS_MCP_AGENT_SESSION_KEY", value: ownedSessionKey(agentId) },
+              ],
             })),
             { name: "user-server", command: process.execPath, args: ["server.mjs"], env: [] },
           ]);
@@ -144,11 +152,13 @@ it.each(["global", "shared-project"])(
           const resumed = await manager.getSessionStatus(target(previous.agentId));
           expect(resumed).toMatchObject({
             agentId: previous.agentId,
-            sessionKey,
+            sessionKey: ownedSessionKey(previous.agentId),
             identity: { acpxRecordId: previous.acpxRecordId },
           });
           const handle = previous;
-          expect(readAcpSessionEntry(target(handle.agentId))?.storeSessionKey).toBe(sessionKey);
+          expect(readAcpSessionEntry(target(handle.agentId))?.storeSessionKey).toBe(
+            ownedSessionKey(handle.agentId),
+          );
           const result = await turn(handle, `${handle.agentId}-second`);
           expect(result).toMatchObject({
             history: [`${handle.agentId}-first`, `${handle.agentId}-second`],

@@ -2,7 +2,6 @@ import { createHash } from "node:crypto";
 import { constants } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { DatabaseSync } from "node:sqlite";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { captureUpdateCommandExecutorAuthority } from "../../cli/update-cli/update-command-executor.js";
@@ -11,141 +10,30 @@ import {
   CommandProcessCleanupError,
   hasCommandProcessCleanupError,
 } from "../../process/exec-result.js";
-import { runExistingOpenClawStateWriteTransaction } from "../../state/openclaw-state-db-existing-write.js";
-import { withExistingOpenClawStateDatabaseArtifactPreservingReadOnly } from "../../state/openclaw-state-db-readonly.js";
-import { tableExists } from "../../state/openclaw-state-db-schema-helpers.js";
-import type { DB } from "../../state/openclaw-state-db.generated.js";
-import { OPENCLAW_STATE_SCHEMA_SQL } from "../../state/openclaw-state-schema.js";
 import {
   captureOpenClawStateReadContext,
   captureOpenClawStateWorkerContext,
 } from "../../state/openclaw-state-worker-context.js";
 import { runOpenClawStateWorkerOperation } from "../../state/openclaw-state-worker-store.js";
-import {
-  executeSqliteQuerySync,
-  executeSqliteQueryTakeFirstSync,
-  getNodeSqliteKysely,
-} from "../kysely-sync.js";
-import type { SqliteReadOnlyOperationContext } from "../sqlite-readonly-operation-types.js";
 import { runSqliteReadOnlyOperation } from "../sqlite-readonly-worker.js";
-import { extractSqliteTableSchema } from "../sqlite-schema-sql.js";
 import { hasSqliteWorkerOutcomeUnknown } from "../sqlite-worker-contract.js";
 import { createSqliteWorkerWriteAdmission } from "../sqlite-worker-store.js";
 import {
   captureManagedUpdateLeaseDatabaseIdentity,
   assertManagedUpdateLeaseDatabaseIdentity,
 } from "../update-managed-service-handoff-database.js";
-import { readUpdateRunRecord } from "../update-run-read.kernel.js";
 import type { UpdateRecoveryFence } from "../update-run-recovery.js";
 import type { UpdateRunWriteOptions } from "../update-run-write.async.js";
-import { updateRunLedgerSchema } from "../update-run-write.js";
 import {
   retainedUpgradeRecipeRunSchema,
   type RetainedUpgradeRecipeRun,
   type UpgradeRecipeRecoveryPorts,
-} from "./recovery.js";
+} from "./recovery-contract.js";
 
-const hash = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 const artifactSchema = retainedUpgradeRecipeRunSchema.shape.planArtifact;
-const pointerSchema = z.strictObject({
-  schemaVersion: z.literal(1),
-  runId: z.uuid(),
-  originalCreatedAtMs: z.number().int().nonnegative(),
-  envelope: artifactSchema,
-  nativeAuthority: retainedUpgradeRecipeRunSchema.shape.nativeAuthority,
-  ledgerAuthority: retainedUpgradeRecipeRunSchema.shape.ledgerAuthority,
-});
-export type RetainedUpgradeRecipeRunPointer = z.infer<typeof pointerSchema>;
-export type UpgradeRecipeRetainedRunWriteOperations = {
-  "upgradeRecipeRuns.retain": {
-    input: RetainedUpgradeRecipeRunPointer;
-    output: RetainedUpgradeRecipeRunPointer;
-  };
-};
-const schemaSql = `${updateRunLedgerSchema}\n${extractSqliteTableSchema(OPENCLAW_STATE_SCHEMA_SQL, "config_machine_state")}`;
-const key = (runId: string) => `update.recipe-run.${z.uuid().parse(runId)}`;
-
-type PointerDatabase = Pick<DB, "config_machine_state">;
-export function readRetainedUpgradeRecipeRunInDatabase(db: DatabaseSync, runId: string) {
-  const stateKey = key(runId);
-  if (!tableExists(db, "config_machine_state") || !tableExists(db, "update_runs")) {
-    return null;
-  }
-  const row = executeSqliteQueryTakeFirstSync(
-    db,
-    getNodeSqliteKysely<PointerDatabase>(db)
-      .selectFrom("config_machine_state")
-      .select("value_json")
-      .where("state_key", "=", stateKey),
-  );
-  if (!row) {
-    return null;
-  }
-  const pointer = pointerSchema.parse(JSON.parse(row.value_json));
-  const run = readUpdateRunRecord(db, runId);
-  if (!run || pointer.runId !== runId || run.createdAtMs !== pointer.originalCreatedAtMs) {
-    throw new Error("Retained recipe evidence lost its original ledger correlation.");
-  }
-  return {
-    runId,
-    status: run.status,
-    phase: run.phase,
-    retainedEvidenceSha256: pointer.envelope.sha256,
-    pointer,
-  };
-}
-export const upgradeRecipeRetainedRunReadOperations = {
-  "upgradeRecipeRuns.read": (input: { runId: string }, context: SqliteReadOnlyOperationContext) =>
-    withExistingOpenClawStateDatabaseArtifactPreservingReadOnly(
-      ({ db }) => readRetainedUpgradeRecipeRunInDatabase(db, input.runId),
-      context,
-    ) ?? null,
-};
-export function recordRetainedUpgradeRecipeRunInWorker(
-  selected: RetainedUpgradeRecipeRunPointer,
-  options: { path: string; env: NodeJS.ProcessEnv },
-  assertCurrent: (stage: "transaction" | "commit") => void,
-): RetainedUpgradeRecipeRunPointer {
-  const pointer = pointerSchema.parse(selected);
-  if (pointer.ledgerAuthority.databasePath !== options.path) {
-    throw new Error("Retained recipe pointer selects another native store.");
-  }
-  assertManagedUpdateLeaseDatabaseIdentity(pointer.ledgerAuthority);
-  return runExistingOpenClawStateWriteTransaction(
-    ({ db }) => {
-      assertCurrent("transaction");
-      assertManagedUpdateLeaseDatabaseIdentity(pointer.ledgerAuthority);
-      const run = readUpdateRunRecord(db, pointer.runId);
-      if (!run || run.status !== "running" || run.createdAtMs !== pointer.originalCreatedAtMs) {
-        throw new Error("Retained evidence requires its exact original running ledger owner.");
-      }
-      const current = readRetainedUpgradeRecipeRunInDatabase(db, pointer.runId);
-      if (current) {
-        if (!isDeepStrictEqual(current.pointer, pointer)) {
-          throw new Error(
-            "Original retained evidence is immutable; never adopt replacement evidence.",
-          );
-        }
-      } else {
-        executeSqliteQuerySync(
-          db,
-          getNodeSqliteKysely<PointerDatabase>(db)
-            .insertInto("config_machine_state")
-            .values({
-              state_key: key(pointer.runId),
-              value_json: JSON.stringify(pointer),
-              updated_at_ms: Date.now(),
-            }),
-        );
-      }
-      assertCurrent("commit");
-      assertManagedUpdateLeaseDatabaseIdentity(pointer.ledgerAuthority);
-      return pointer;
-    },
-    options,
-    { schemaSql, operationLabel: "upgrade.recipe-run" },
-  );
-}
+const hash = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
+import { pointerSchema, type RetainedUpgradeRecipeRunPointer } from "./retained-run-contract.js";
+export type { RetainedUpgradeRecipeRunPointer } from "./retained-run-contract.js";
 function inside(root: string, target: string) {
   const relative = path.relative(root, target);
   return (

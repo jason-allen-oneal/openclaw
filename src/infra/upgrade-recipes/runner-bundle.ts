@@ -56,14 +56,8 @@ export const upgradeRecipeRunnerBundleManifestSchema = z.strictObject({
 export type UpgradeRecipeRunnerBundleManifest = z.infer<
   typeof upgradeRecipeRunnerBundleManifestSchema
 >;
-export type VerifiedUpgradeRecipeRunnerBundle = {
-  readonly root: string;
-  readonly manifestDigest: string;
-  readonly closureDigest: string;
-  readonly runtimePath: string;
-  readonly entrypointPath: string;
-  readonly nativeDependencies: readonly string[];
-};
+import type { VerifiedUpgradeRecipeRunnerBundle } from "./runner-bundle-contract.js";
+export type { VerifiedUpgradeRecipeRunnerBundle } from "./runner-bundle-contract.js";
 function inside(root: string, candidate: string): boolean {
   const relative = path.relative(root, candidate);
   return (

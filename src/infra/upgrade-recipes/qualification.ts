@@ -1,6 +1,6 @@
-import { createHash } from "node:crypto";
 import { z } from "zod";
 import { createUpgradeRecipePlan } from "./planner.js";
+import { upgradeQualificationRecipeDigest } from "./qualification-recipe-digest.js";
 import { upgradeRecipeCatalogSchema, type UpgradeRecipeCatalog } from "./schema.js";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
@@ -107,23 +107,6 @@ const upgradeMigrationDispositionsSchema = z.array(
     qualificationIds: z.array(z.string().min(1)),
   }),
 );
-
-/** Stable binding to the complete recipe, including parameters and recovery requirements. */
-export function upgradeQualificationRecipeDigest(value: unknown): string {
-  function canonical(entry: unknown): string {
-    if (Array.isArray(entry)) {
-      return `[${entry.map(canonical).join(",")}]`;
-    }
-    if (entry && typeof entry === "object") {
-      return `{${Object.entries(entry)
-        .toSorted(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
-        .map(([key, item]) => `${JSON.stringify(key)}:${canonical(item)}`)
-        .join(",")}}`;
-    }
-    return JSON.stringify(entry) ?? "null";
-  }
-  return createHash("sha256").update(canonical(value)).digest("hex");
-}
 
 /** Release evidence validation is not metadata authentication or execution authority. */
 export function validateUpgradeReleaseQualification(options: {

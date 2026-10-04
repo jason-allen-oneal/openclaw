@@ -9,10 +9,8 @@ import {
   classifyUpgradeChangedContracts,
   deriveUpgradeChangedContracts,
 } from "../../../scripts/lib/upgrade-changed-contracts.mjs";
-import {
-  upgradeQualificationRecipeDigest,
-  validateUpgradeReleaseQualification,
-} from "./qualification.js";
+import { upgradeQualificationRecipeDigest } from "./qualification-recipe-digest.js";
+import { validateUpgradeReleaseQualification } from "./qualification.js";
 const mandatoryUpgradeQualificationCases = [
   "historical-transition",
   "dependency-closure",

@@ -706,3 +706,11 @@ diagnostics and exact tested artifacts into the catalog's qualification
 manifest and pass the existing release validator. Missing release-owner
 artifacts or passing native-systemd cells must never be reported as qualified
 historical routes.
+
+Release owners assemble pinned runner inputs with
+`node --import ./scripts/tsx.mjs scripts/compose-upgrade-runner-bundle.mts --input assembly.json`.
+The input object contains `outputDirectory`, the runner `manifest` without `files`,
+and `files` entries with their pinned manifest fields plus a local `source` path.
+The assembler refuses existing output directories, verifies every copied digest,
+and reports manifest and closure digests. Assembly does not sign, authenticate,
+or publish the resulting bundle.

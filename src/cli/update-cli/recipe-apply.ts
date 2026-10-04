@@ -18,7 +18,7 @@ import {
 const MAX_APPROVED_PLAN_BYTES = 1024 * 1024;
 
 /** Explicit digest consent is an invocation fact, not a lease or a reusable approval token. */
-export async function readApprovedRecipeUpdateContext(
+async function readApprovedRecipeUpdateContext(
   filename: string,
   approvedDigest: string,
 ): Promise<RecipeUpdateContext> {

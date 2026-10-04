@@ -1,12 +1,15 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { parseArgs } from "node:util";
+import { z } from "zod";
 import {
   upgradeRecipeRunnerBundleManifestSchema,
   type UpgradeRecipeRunnerBundleManifest,
 } from "../src/infra/upgrade-recipes/runner-bundle.js";
 import { readWorkerBundleDirectoryManifest } from "../src/shared/worker-bundle-archive.js";
 import { hashWorkerBundleManifest } from "../src/shared/worker-bundle-hash.js";
+import { isDirectRunUrl } from "./lib/direct-run.mjs";
 
 /** Publication-owner composition, not authentication or first-use trust establishment. */
 export async function composeUpgradeRecipeRunnerBundle(options: {
@@ -68,4 +71,28 @@ export async function composeUpgradeRecipeRunnerBundle(options: {
     manifestLength: bytes.length,
     closureDigest: hashWorkerBundleManifest(observed),
   };
+}
+
+if (isDirectRunUrl(process.argv[1], import.meta.url)) {
+  const { values } = parseArgs({ options: { input: { type: "string" } } });
+  if (!values.input) {
+    throw new Error(
+      "Supply --input <assembly.json> with outputDirectory, manifest, and pinned files.",
+    );
+  }
+  const input = z
+    .strictObject({
+      outputDirectory: z.string().min(1),
+      manifest: upgradeRecipeRunnerBundleManifestSchema.omit({ files: true }),
+      files: z
+        .array(
+          upgradeRecipeRunnerBundleManifestSchema.shape.files.element.extend({
+            source: z.string().min(1),
+          }),
+        )
+        .max(10000),
+    })
+    .parse(JSON.parse(await fs.readFile(values.input, "utf8")));
+  const result = await composeUpgradeRecipeRunnerBundle(input);
+  process.stdout.write(`${JSON.stringify(result)}\n`);
 }

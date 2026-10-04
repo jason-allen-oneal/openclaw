@@ -25,7 +25,10 @@ import {
 } from "../../infra/upgrade-recipes/catalog.js";
 import { measureUpgradeRecipeExecutionCapacity } from "../../infra/upgrade-recipes/execution-capacity.js";
 import { verifyAuthenticatedUpgradeInstallation } from "../../infra/upgrade-recipes/installation-identity.js";
-import { assertGatewayPluginFreeMaintenanceConfig } from "../../infra/upgrade-recipes/maintenance-config.js";
+import {
+  assertGatewayPluginFreeMaintenanceConfig,
+  resolveGatewayUpgradeMaintenanceConfigIdentity,
+} from "../../infra/upgrade-recipes/maintenance-config.js";
 import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/runner-bundle.js";
 import { runCommandWithTimeout } from "../../process/exec.js";
 import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.js";
@@ -322,8 +325,7 @@ export async function prepareExecutableRecipePlan(
             installationRoot: options.installationRoot,
             stateRoot: options.stateRoot,
             configPath: options.configPath,
-            configHash: snapshot.hash,
-            configSourceDigest: digest(snapshot.sourceConfig),
+            ...resolveGatewayUpgradeMaintenanceConfigIdentity(snapshot),
             profile: options.profile,
           },
           stateVersions: [],

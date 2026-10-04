@@ -4,6 +4,11 @@ import {
   CommandProcessCleanupError,
   hasCommandProcessCleanupError,
 } from "../../process/exec-result.js";
+import {
+  withArtifactPreservingStateReads,
+  executeExistingOpenClawStateRead,
+  withOpenClawStateDatabaseReadSnapshot,
+} from "../../state/openclaw-state-db-readonly.js";
 import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.js";
 import {
   captureOpenClawStateReadContext,
@@ -38,7 +43,35 @@ export async function readUpgradeRecipeMaintenanceReceipt(
     throw error;
   }
   const source = captureOpenClawStateReadContext(pathname);
+  options.signal?.throwIfAborted();
   source.admission.assertCurrent();
+  if (source.maintenanceScope) {
+    // Legacy initialization retains source custody in this process. Its existing
+    // read owner must make the private snapshot; a fresh child cannot borrow that authority.
+    source.maintenanceScope.assertReadAdmission();
+    source.admission.assertCurrent();
+    const reply = await withArtifactPreservingStateReads(() =>
+      withOpenClawStateDatabaseReadSnapshot(
+        () =>
+          executeExistingOpenClawStateRead(
+            { path: pathname, env },
+            { type: "upgradeMaintenance.read", input: undefined },
+            { signal: options.signal },
+          ),
+        { path: pathname, env },
+      ),
+    );
+    source.admission.assertCurrent();
+    source.maintenanceScope.assertReadAdmission();
+    if (!reply) {
+      return null;
+    }
+    if (!reply.ok || reply.type !== "upgradeMaintenance.read") {
+      throw new Error("Upgrade maintenance receipt worker returned an unexpected result.");
+    }
+    return upgradeRecipeMaintenanceReceiptSchema.nullable().parse(reply.receipt);
+  }
+
   const receipt = await runSqliteReadOnlyOperation(
     pathname,
     { type: "upgradeMaintenance.read", input: undefined },

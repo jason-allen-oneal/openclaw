@@ -1004,6 +1004,10 @@ const configs: UserConfig[] = [
     "worker/image-processor.worker": "src/worker/worker-deploy-image-processor.ts",
   }),
   workerDeployBuildConfig({
+    "worker/owner-dacl-batch-worker":
+      "node_modules/@openclaw/fs-safe/dist/owner-dacl-batch-worker.js",
+  }),
+  workerDeployBuildConfig({
     "worker/sqlite-store.worker": "src/worker/worker-deploy-sqlite-store.ts",
   }),
   workerDeployBuildConfig({

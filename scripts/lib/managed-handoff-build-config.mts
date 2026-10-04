@@ -4,8 +4,10 @@ import { packageActivationRuntimeEntrypoint } from "../../src/infra/package-upda
 import { managedHandoffRuntimeEntrypoint } from "../../src/infra/update-managed-service-handoff-runtime-assets.ts";
 import { createStateSchemaInlinePlugin } from "./state-schema-inline-plugin.mts";
 
+type SealedRecoveryBuildConfig = Omit<UserConfig, "entry"> & { entry: Record<string, string> };
+
 /** The installed CLI and invocation compiler seal the same typed lease owner. */
-export function createManagedHandoffBuildConfigs(): UserConfig[] {
+export function createManagedHandoffBuildConfigs(): SealedRecoveryBuildConfig[] {
   return [managedHandoffRuntimeEntrypoint, packageActivationRuntimeEntrypoint].map((entry) =>
     createSealedRecoveryBuildConfig(entry),
   );
@@ -13,7 +15,7 @@ export function createManagedHandoffBuildConfigs(): UserConfig[] {
 
 export function createSealedRecoveryBuildConfig(
   entry: typeof managedHandoffRuntimeEntrypoint,
-): UserConfig {
+): SealedRecoveryBuildConfig {
   const identityReader = fileURLToPath(
     new URL("../../src/shared/freebsd-process-identity.ts", import.meta.url),
   );

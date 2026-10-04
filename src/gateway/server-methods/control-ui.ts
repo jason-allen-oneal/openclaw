@@ -32,6 +32,7 @@ import { requestCurrentGitHubOAuthRefresh } from "../github-oauth-lifecycle.js";
 import { gitHubPublicApi, type ControlUiGitHubPreviewIdentity } from "../github-public-api.js";
 import { resolveRequestedSessionAgentId as resolveRequestedGlobalAgentId } from "../session-request-agent.js";
 import { getSessionRowProjection } from "../session-row-projection-access.js";
+import { backfillSessionRowTranscriptFields } from "../session-row-transcript-backfill.js";
 import { createSessionListEntryFilter } from "../session-sharing.js";
 import { buildGatewaySessionRow } from "../session-utils.js";
 import { resolveAgentIdOrRespondError } from "./agent-id-shared.js";
@@ -173,7 +174,7 @@ type LoadSessionPreview = (
   sessionKey: string,
   context: GatewayRequestContext,
   client: GatewayClient | null,
-) => SessionPreviewSource | null;
+) => SessionPreviewSource | null | Promise<SessionPreviewSource | null>;
 
 const SESSION_PREVIEW_TEXT_MAX_CHARS = 200;
 
@@ -221,7 +222,7 @@ function loadControlUiSessionPreview(
   sessionKey: string,
   context: GatewayRequestContext,
   client: GatewayClient | null,
-): SessionPreviewSource | null {
+): SessionPreviewSource | null | Promise<SessionPreviewSource | null> {
   const cfg = context.getRuntimeConfig();
   const requestedAgent = resolveRequestedGlobalAgentId(cfg, sessionKey);
   if (!requestedAgent.ok) {
@@ -243,18 +244,25 @@ function loadControlUiSessionPreview(
   if (entryFilter && !entryFilter(target.canonicalKey, entry)) {
     return null;
   }
-  const row = buildGatewaySessionRow({
-    cfg,
-    agentId: target.agentId,
-    storePath,
-    store,
-    key: target.canonicalKey,
-    entry,
-    includeDerivedTitles: true,
-    includeLastMessage: true,
-    skipTranscriptUsageFallback: true,
-  });
-  return {
+  const projection = getSessionRowProjection(context);
+  const projected = projection?.snapshot(
+    { agentId: target.agentId, key: target.canonicalKey, storePath },
+    { includeDerivedTitles: true, includeLastMessage: true },
+  ).row;
+  const row =
+    projected ??
+    buildGatewaySessionRow({
+      cfg,
+      agentId: target.agentId,
+      storePath,
+      store,
+      key: target.canonicalKey,
+      entry,
+      includeDerivedTitles: true,
+      includeLastMessage: true,
+      skipTranscriptUsageFallback: true,
+    });
+  const present = (lastMessagePreview = row.lastMessagePreview): SessionPreviewSource => ({
     sessionKey: row.key,
     agentId: target.agentId,
     title: row.displayName,
@@ -262,9 +270,43 @@ function loadControlUiSessionPreview(
     kind: row.kind,
     channel: row.channel,
     updatedAt: row.updatedAt,
-    lastMessagePreview: row.lastMessagePreview,
+    lastMessagePreview,
     archived: row.archived,
-  };
+  });
+  if (row.lastMessagePreview || !projection || !entry.sessionId) {
+    // Warm metadata replies stay in their synchronous authorization frame.
+    return present();
+  }
+  return backfillSessionRowTranscriptFields({
+    agentId: target.agentId,
+    storePath,
+    sessionKey: target.canonicalKey,
+    sessionId: entry.sessionId,
+    sessionEntry: entry,
+  }).then((fields) => {
+    const currentCfg = context.getRuntimeConfig();
+    const requested = resolveRequestedGlobalAgentId(currentCfg, sessionKey);
+    if (!requested.ok || requested.agentId !== target.agentId) {
+      return null;
+    }
+    const current = loadAccessorSessionEntryForGatewayTarget({
+      cfg: currentCfg,
+      key: sessionKey,
+      agentId: requested.agentId,
+      clone: false,
+    });
+    const currentFilter = createSessionListEntryFilter({ client, cfg: currentCfg });
+    if (
+      !current.entry ||
+      current.entry.sessionId !== entry.sessionId ||
+      current.target.canonicalKey !== target.canonicalKey ||
+      current.storePath !== storePath ||
+      (currentFilter && !currentFilter(current.target.canonicalKey, current.entry))
+    ) {
+      return null;
+    }
+    return present(fields.lastMessagePreview);
+  });
 }
 
 function parseCheckDetailsParams(
@@ -439,7 +481,9 @@ export function createControlUiHandlers(
           await prepareSubagentSessionListReadCache();
         }
         signal?.throwIfAborted();
-        const preview = loadSessionPreview(sessionKey, context, client);
+        const loaded = loadSessionPreview(sessionKey, context, client);
+        const preview = loaded instanceof Promise ? await loaded : loaded;
+        signal?.throwIfAborted();
         respond(true, projectSessionPreview(preview), undefined);
       } catch {
         respond(

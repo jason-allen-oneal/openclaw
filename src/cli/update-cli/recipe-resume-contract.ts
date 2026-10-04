@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { UpdateRunRecordSchema } from "../../infra/update-run-schema.js";
-import type { UpdateCommandChildGrant } from "./update-command-executor.js";
 import { updateRecipeMaintenanceInputSchema } from "./update-recipe-maintenance-contract.js";
 
 export const UPDATE_RECIPE_RESUME_CAPABILITY = "openclaw.upgrade-recipe-resume.v1" as const;
@@ -11,9 +10,8 @@ export const recipeResumeInputSchema = z.strictObject({
   resultPath: z.string().min(1).max(4096),
   executor: updateRecipeMaintenanceInputSchema.shape.executor,
 });
-export type RecipeResumeInput = z.infer<typeof recipeResumeInputSchema>;
+type RecipeResumeInput = z.infer<typeof recipeResumeInputSchema>;
 export type RecipeResumeInputWithoutExecutor = Omit<RecipeResumeInput, "executor">;
-export type RecipeResumeExecutor = UpdateCommandChildGrant;
 export const recipeResumeResultSchema = z.strictObject({
   capability: z.literal(UPDATE_RECIPE_RESUME_CAPABILITY),
   runId: z.uuid(),

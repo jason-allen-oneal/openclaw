@@ -25,6 +25,7 @@ it.each([
         "node-compile-cache.mjs",
         "node-host-launcher.mjs",
         "node-runtime-recovery.mjs",
+        "node-runtime-env.mjs",
         "node-version.mjs",
         "node-sqlite.mjs",
         "gateway-run-argv.mjs",

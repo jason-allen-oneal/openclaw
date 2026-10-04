@@ -8,7 +8,10 @@ import { z } from "zod";
 import { resolvePathViaExistingAncestorSync } from "../boundary-path.js";
 import { acquireFileLock, type FileLockHandle } from "../file-lock.js";
 import type { UpdateRunWriteOptions } from "../update-run-write.async.js";
-import { retainedUpgradeRecipeRunSchema, type RetainedUpgradeRecipeRun } from "./recovery.js";
+import {
+  retainedUpgradeRecipeRunSchema,
+  type RetainedUpgradeRecipeRun,
+} from "./recovery-contract.js";
 import { createRetainedUpgradeRecipeRunStore } from "./retained-run.js";
 import { upgradeRecipeCatalogSchema, type UpgradeRecipeCatalog } from "./schema.js";
 
@@ -38,7 +41,7 @@ const admissionContexts = new WeakMap<object, string>();
 const admissionDirectories = new WeakMap<object, string>();
 const latestAdmissions = new Map<string, AuthenticatedUpgradeRecipeCatalog>();
 
-export class UpgradeRecipeTrustError extends Error {
+class UpgradeRecipeTrustError extends Error {
   constructor(
     readonly code: "metadata-untrusted" | "metadata-expired" | "recipe-revoked",
     message: string,
@@ -49,7 +52,7 @@ export class UpgradeRecipeTrustError extends Error {
 }
 
 /** Serializable evidence, not transferable execution authority or a substitute for reauthentication. */
-export type UpgradeRecipeCatalogAdmission = {
+type UpgradeRecipeCatalogAdmission = {
   readonly targetPath: string;
   readonly sha256: string;
   readonly length: number;
@@ -359,7 +362,7 @@ export async function authenticateUpgradeRecipeCatalog(
   }
 }
 
-export function assertAuthenticatedUpgradeRecipeCatalog(
+function assertAuthenticatedUpgradeRecipeCatalog(
   value: unknown,
 ): asserts value is AuthenticatedUpgradeRecipeCatalog {
   if (value === null || typeof value !== "object" || !admitted.has(value)) {

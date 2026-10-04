@@ -4,10 +4,11 @@ import {
   type ReadConfigFileSnapshotWithPluginMetadataResult,
 } from "../config/io.js";
 import { resolveStateDir } from "../config/paths.js";
-import { stableConfigStringify } from "../config/runtime-config-snapshot-match.js";
-import { sha256Hex } from "../infra/crypto-digest.js";
 import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.js";
-import { assertGatewayPluginFreeMaintenanceConfig } from "../infra/upgrade-recipes/maintenance-config.js";
+import {
+  assertGatewayPluginFreeMaintenanceConfig,
+  resolveGatewayUpgradeMaintenanceConfigIdentity,
+} from "../infra/upgrade-recipes/maintenance-config.js";
 import type { UpgradeRecipeMaintenanceReceipt } from "../infra/upgrade-recipes/maintenance-contract.js";
 import type { createUpgradeRecipeMaintenanceOwner } from "../infra/upgrade-recipes/maintenance.js";
 import { CommandProcessCleanupError } from "../process/exec-result.js";
@@ -19,8 +20,6 @@ import {
 import { withArtifactPreservingStateReads } from "../state/openclaw-state-db-readonly.js";
 import { VERSION, resolveRuntimeServiceBuildId } from "../version.js";
 import type { GatewayServerOptions } from "./server-public.js";
-
-export { assertGatewayPluginFreeMaintenanceConfig } from "../infra/upgrade-recipes/maintenance-config.js";
 
 type MaintenanceOwner = ReturnType<typeof createUpgradeRecipeMaintenanceOwner>;
 export type GatewayUpgradeMaintenanceObservation = {
@@ -50,22 +49,6 @@ export type GatewayUpgradeMaintenanceStartup = {
   /** Native updater checks its exact migrated resource contracts through read-only owners. */
   verifyStatePostconditions: (observed: GatewayUpgradeMaintenanceObservation) => Promise<void>;
 };
-
-/** Capture these facts in the approved plan, not from a recovery receipt. */
-export function resolveGatewayUpgradeMaintenanceConfigIdentity(
-  snapshot: Pick<
-    ReadConfigFileSnapshotWithPluginMetadataResult["snapshot"],
-    "hash" | "sourceConfig"
-  >,
-): Pick<GatewayUpgradeMaintenanceObservation, "configHash" | "configSourceDigest"> {
-  if (!snapshot.hash || !/^[a-f0-9]{64}$/u.test(snapshot.hash)) {
-    reject("the approved config revision is unavailable");
-  }
-  return {
-    configHash: snapshot.hash,
-    configSourceDigest: sha256Hex(stableConfigStringify(snapshot.sourceConfig)),
-  };
-}
 
 function reject(message: string): never {
   throw new Error(`Gateway plugin-free upgrade maintenance refused: ${message}`);

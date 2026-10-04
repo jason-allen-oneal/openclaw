@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { resolveGatewayUpgradeMaintenanceConfigIdentity } from "../infra/upgrade-recipes/maintenance-config.js";
 import type { UpgradeRecipeMaintenanceReceipt } from "../infra/upgrade-recipes/maintenance-contract.js";
 import { hasCommandProcessCleanupError } from "../process/exec-result.js";
 import {
@@ -12,7 +13,6 @@ import {
   tryBeginGatewayRootWorkAdmission,
 } from "../process/gateway-work-admission.js";
 import {
-  resolveGatewayUpgradeMaintenanceConfigIdentity,
   startGatewayUpgradeMaintenance,
   type GatewayUpgradeMaintenanceStartup,
 } from "./server-upgrade-maintenance.js";

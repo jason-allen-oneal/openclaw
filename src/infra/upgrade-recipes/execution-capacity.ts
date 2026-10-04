@@ -156,7 +156,7 @@ export async function measureUpgradeRecipeExecutionCapacity(options: {
 }
 
 /** Space is an observation, not a reservation: the native snapshot owner also rechecks after inventory. */
-export async function assertUpgradeRecipeExecutionCapacity(
+async function assertUpgradeRecipeExecutionCapacity(
   selected: UpgradeRecipeExecutionCapacity,
 ): Promise<void> {
   const certificate = upgradeRecipeExecutionCapacitySchema.parse(selected);

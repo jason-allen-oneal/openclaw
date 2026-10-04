@@ -1,4 +1,7 @@
+import type { ReadConfigFileSnapshotWithPluginMetadataResult } from "../../config/io.js";
+import { stableConfigStringify } from "../../config/runtime-config-snapshot-match.js";
 import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { sha256Hex } from "../crypto-digest.js";
 
 function reject(message: string): never {
   throw new Error(`Gateway plugin-free upgrade maintenance refused: ${message}`);
@@ -53,4 +56,20 @@ export function assertGatewayPluginFreeMaintenanceConfig(cfg: OpenClawConfig): v
     }
   };
   inspect(cfg);
+}
+
+/** Capture these facts in the approved plan, not from a recovery receipt. */
+export function resolveGatewayUpgradeMaintenanceConfigIdentity(
+  snapshot: Pick<
+    ReadConfigFileSnapshotWithPluginMetadataResult["snapshot"],
+    "hash" | "sourceConfig"
+  >,
+): { configHash: string; configSourceDigest: string } {
+  if (!snapshot.hash || !/^[a-f0-9]{64}$/u.test(snapshot.hash)) {
+    reject("the approved config revision is unavailable");
+  }
+  return {
+    configHash: snapshot.hash,
+    configSourceDigest: sha256Hex(stableConfigStringify(snapshot.sourceConfig)),
+  };
 }

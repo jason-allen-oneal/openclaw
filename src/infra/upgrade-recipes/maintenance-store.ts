@@ -113,3 +113,10 @@ export function recordUpgradeRecipeMaintenanceInWorker(
     { schemaSql: maintenanceSchema, operationLabel: "upgrade.recipe-maintenance" },
   );
 }
+
+export const upgradeMaintenanceStateReadOperations = {
+  "upgradeMaintenance.read": (_input: undefined, db: DatabaseSync) => ({
+    type: "upgradeMaintenance.read" as const,
+    receipt: readUpgradeRecipeMaintenanceReceiptInDatabase(db),
+  }),
+};

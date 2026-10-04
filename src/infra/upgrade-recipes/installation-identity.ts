@@ -35,7 +35,7 @@ const fileIdentity = z.discriminatedUnion("kind", [
 ]);
 
 /** The installation manifest is a signed catalog artifact, not installed self-attestation. */
-export const upgradeInstallationManifestSchema = z.strictObject({
+const upgradeInstallationManifestSchema = z.strictObject({
   schemaVersion: z.literal(1),
   releaseId: z.string().min(1),
   buildId: z.string().min(1),

@@ -27,7 +27,7 @@ import { recordUpdateRunMutationInWorker } from "../infra/update-run-mutation.wo
 import { reconcileUpdateRunCandidatesInWorker } from "../infra/update-run-reconciliation.worker.js";
 import { recordUpgradeRecipeMaintenanceInWorker } from "../infra/upgrade-recipes/maintenance-store.js";
 import { recordUpgradeRecipeStepInWorker } from "../infra/upgrade-recipes/receipts-store.js";
-import { recordRetainedUpgradeRecipeRunInWorker } from "../infra/upgrade-recipes/retained-run.js";
+import { recordRetainedUpgradeRecipeRunInWorker } from "../infra/upgrade-recipes/retained-run.worker.js";
 import { writeSecretStoreEntryForConfigRefInDatabase } from "../secrets/store/secret-store-config-ref.kernel.js";
 import { purgeExpiredSecretStoreEntriesInDatabase } from "../secrets/store/secret-store-expiry.kernel.js";
 import {

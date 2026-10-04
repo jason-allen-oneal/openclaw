@@ -1,7 +1,7 @@
 import path from "node:path";
 import { expect, it } from "vitest";
 import { resolveUpdateCandidateStatePath } from "./update-candidate-paths.js";
-import { projectUpdateCandidateStateObservation } from "./update-candidate-rehearsal-observation.js";
+import { projectUpdateCandidateStateObservation } from "./update-candidate-state-observation.js";
 
 it("preserves actual shared and external family versions through the writer's exact mappings", () => {
   const live = "/live-profile";
