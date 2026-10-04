@@ -152,6 +152,9 @@ export async function prepareGatewayServerBootstrap(input: {
         signal,
         env: process.env,
         reuseStartupSchemaPreparation: true,
+        agentAdmissionConfig: captureConfigOverrideApplier()(
+          startupConfigSnapshotRead.snapshot.config,
+        ),
         onAgentInspection: (stats) =>
           startupTrace.detail("state.schema-preflight", Object.entries(stats)),
       });

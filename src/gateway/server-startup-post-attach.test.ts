@@ -2,7 +2,6 @@
  * Gateway post-attach startup task tests.
  */
 import "./server-worker-free.test-support.js";
-import "./server-startup-background.test-support.js";
 import fs from "node:fs";
 import { performance } from "node:perf_hooks";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -46,6 +45,7 @@ import {
 import { GatewayConnectionWork } from "./server-connection-work.js";
 import { createGatewayPluginRuntimeGeneration } from "./server-plugin-runtime-generation.js";
 import { registerGatewayStartupAdmissionTests } from "./server-startup-admission.test-support.js";
+import { restartSentinelMocks } from "./server-startup-background.test-support.js";
 import "./server-startup-outcomes.test-support.js";
 import { registerGatewayStartupReadinessTests } from "./server-startup-readiness.test-support.js";
 import { createStartupTraceRecorder } from "./server-startup-trace.test-support.js";
@@ -85,11 +85,6 @@ const hoisted = vi.hoisted(() => {
     skipped: 0,
   }));
   const scheduleRestartAbortedMainSessionRecovery = vi.fn();
-  const scheduleRestartSentinelWake =
-    vi.fn<typeof import("./server-restart-sentinel.js").scheduleRestartSentinelWake>();
-  const refreshLatestUpdateRestartSentinel = vi.fn<
-    typeof import("./server-restart-sentinel.js").refreshLatestUpdateRestartSentinel
-  >(async () => null);
   const getAcpRuntimeBackend = vi.fn<(id?: string) => unknown>(() => null);
   const reconcilePendingSessionIdentities = vi.fn(async () => ({
     checked: 0,
@@ -134,8 +129,6 @@ const hoisted = vi.hoisted(() => {
     activateSubagentRegistry,
     markStartupOrphanedMainSessionsForRecovery,
     scheduleRestartAbortedMainSessionRecovery,
-    scheduleRestartSentinelWake,
-    refreshLatestUpdateRestartSentinel,
     getAcpRuntimeBackend,
     reconcilePendingSessionIdentities,
     isCliProvider,
@@ -209,11 +202,6 @@ vi.mock("../acp/runtime/registry.js", () => ({
   getAcpRuntimeBackend: hoisted.getAcpRuntimeBackend,
 }));
 
-vi.mock("./server-restart-sentinel.js", () => ({
-  refreshLatestUpdateRestartSentinel: hoisted.refreshLatestUpdateRestartSentinel,
-  scheduleRestartSentinelWake: hoisted.scheduleRestartSentinelWake,
-}));
-
 vi.mock("./server-startup-log.js", () => ({
   logGatewayStartup: hoisted.logGatewayStartup,
 }));
@@ -244,8 +232,9 @@ vi.mock("../auto-reply/reply/get-reply-from-config.runtime.js", () => ({
   prewarmConfigDrivenReplyRuntime: hoisted.prewarmConfigDrivenReplyRuntime,
 }));
 
+// mock-isolation: Startup orchestration does not run independent background preparation.
 vi.mock("./server-startup-handler-prewarm.js", () => ({
-  scheduleGatewayHandlerPrewarm: hoisted.scheduleGatewayHandlerPrewarm,
+  scheduleGatewayPrewarm: () => [hoisted.scheduleGatewayHandlerPrewarm()],
 }));
 
 const {
@@ -471,9 +460,6 @@ describe("startGatewayPostAttachRuntime", () => {
       skipped: 0,
     });
     hoisted.scheduleRestartAbortedMainSessionRecovery.mockClear();
-    hoisted.scheduleRestartSentinelWake.mockClear();
-    hoisted.refreshLatestUpdateRestartSentinel.mockReset();
-    hoisted.refreshLatestUpdateRestartSentinel.mockResolvedValue(null);
     hoisted.getAcpRuntimeBackend.mockReset();
     hoisted.getAcpRuntimeBackend.mockReturnValue(null);
     hoisted.reconcilePendingSessionIdentities.mockClear();
@@ -3379,7 +3365,7 @@ function createPostAttachRuntimeDeps(
   return {
     createHookRunner: vi.fn(createHookRunner),
     logGatewayStartup: hoisted.logGatewayStartup,
-    refreshLatestUpdateRestartSentinel: hoisted.refreshLatestUpdateRestartSentinel,
+    refreshLatestUpdateRestartSentinel: restartSentinelMocks.prepareLatestUpdateRestartSentinel,
     createGatewayUpdateCheck: hoisted.createGatewayUpdateCheck,
     startGatewaySidecars: vi.fn(async () => 0),
     warmSystemCa: vi.fn(async () => {}),

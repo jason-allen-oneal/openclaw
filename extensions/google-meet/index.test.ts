@@ -3157,8 +3157,8 @@ describe("google-meet plugin", () => {
     vi.useFakeTimers();
     let handle: Awaited<ReturnType<typeof startTestLocalRealtimeAudioBridge>> | undefined;
     try {
-      const delivered = Promise.withResolvers<void>();
-      const sendUserMessage = vi.fn((_message: string) => delivered.resolve());
+      const responseSent = createDeferred<void>();
+      const sendUserMessage = vi.fn((_message: string) => responseSent.resolve());
       const { provider, requireRequest } = createTestMeetVoiceProvider({
         defaultModel: "gpt-realtime-2",
         sendUserMessage,
@@ -3224,9 +3224,7 @@ describe("google-meet plugin", () => {
       callbacks.onTranscript?.("user", "Please include launch blockers.", true);
 
       await vi.advanceTimersByTimeAsync(TEST_TALKBACK_DEBOUNCE_MS);
-      // Consultation includes real worker settlement, which fake-timer polling
-      // cannot measure. Delivery is the completion boundary of this assertion.
-      await delivered.promise;
+      await responseSent.promise;
       expect(runtime.agent.runEmbeddedAgent).toHaveBeenCalledTimes(1);
       const consultArgs = requireRecord(
         (runtime.agent.runEmbeddedAgent.mock.calls as unknown[][])[0]?.[0],
