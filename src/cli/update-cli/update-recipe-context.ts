@@ -28,6 +28,8 @@ import {
 } from "../../infra/upgrade-recipes/installation-identity.js";
 import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/runner-bundle.js";
 import { runCommandWithTimeout } from "../../process/exec.js";
+import { assertReleaseQualificationCustody } from "./recipe-first-qualification.js";
+import { releaseQualificationBindingSchema } from "./recipe-release-qualification-contract.js";
 import { captureUpdateCommandExecutorAuthority } from "./update-command-executor.js";
 import { updateRecipeMaintenanceInputSchema } from "./update-recipe-maintenance-contract.js";
 
@@ -69,11 +71,12 @@ export const recipeUpdateContextSchema = z.strictObject({
     targetPath: identity,
     forbiddenRoots: z.array(identity).min(1),
   }),
+  releaseQualification: releaseQualificationBindingSchema.optional(),
   sourceReleaseId: identity,
   targetReleaseId: identity,
   route: z.strictObject({
     recipe: z.strictObject({ id: identity, revision: z.number().int().positive() }),
-    qualificationId: identity,
+    qualificationId: identity.optional(),
     installKind: z.enum(["npm", "pnpm", "bun"]),
     stateContractClass: identity,
     platform: z.strictObject({
@@ -183,6 +186,7 @@ export function assertRecipeUpdatePackageOwner(
 /** Artifact verification selectors are evidence-only and usable before plan approval exists. */
 export type RecipeUpdateArtifactSelectors = Pick<
   RecipeUpdateContext,
+  | "releaseQualification"
   | "catalog"
   | "catalogDigest"
   | "sourceReleaseId"
@@ -362,6 +366,9 @@ export async function resolveAuthenticatedRecipeUpdateCatalog(
   const qualification = catalog.catalog.qualifications.find(
     (entry) => entry.id === recipe.route.qualificationId,
   );
+  if (recipe.releaseQualification) {
+    await assertReleaseQualificationCustody(recipe, catalog);
+  }
   const runnerArtifact = catalog.catalog.artifacts.find(
     (entry) => entry.id === recipe.runner.manifestArtifactId,
   );
@@ -379,6 +386,9 @@ export async function resolveAuthenticatedRecipeUpdateCatalog(
   if (
     !route ||
     route.purpose !== "production" ||
+    (recipe.releaseQualification &&
+      (!isDeepStrictEqual(recipe.releaseQualification.recipe, recipe.route.recipe) ||
+        recipe.route.qualificationId !== undefined)) ||
     route.executor.protocol !== 1 ||
     !isDeepStrictEqual(route.executor.requiredCapabilities, [
       UPDATE_RECIPE_UPDATE_CAPABILITY,
@@ -392,16 +402,17 @@ export async function resolveAuthenticatedRecipeUpdateCatalog(
     !route.source.installKinds.includes(recipe.route.installKind) ||
     !route.source.stateContractClasses.includes(recipe.route.stateContractClass) ||
     !route.source.platforms.some((entry) => isDeepStrictEqual(entry, recipe.route.platform)) ||
-    !qualification ||
-    qualification.recipe.id !== route.id ||
-    qualification.recipe.revision !== route.revision ||
-    qualification.sourceReleaseId !== source.id ||
-    qualification.targetReleaseId !== target.id ||
-    qualification.installKind !== recipe.route.installKind ||
-    qualification.runtimeFamily !== "node" ||
-    qualification.stateContractClass !== recipe.route.stateContractClass ||
-    !isDeepStrictEqual(qualification.platform, recipe.route.platform) ||
-    !route.qualificationIds.includes(qualification.id) ||
+    (!recipe.releaseQualification &&
+      (!qualification ||
+        qualification.recipe.id !== route.id ||
+        qualification.recipe.revision !== route.revision ||
+        qualification.sourceReleaseId !== source.id ||
+        qualification.targetReleaseId !== target.id ||
+        qualification.installKind !== recipe.route.installKind ||
+        qualification.runtimeFamily !== "node" ||
+        qualification.stateContractClass !== recipe.route.stateContractClass ||
+        !isDeepStrictEqual(qualification.platform, recipe.route.platform) ||
+        !route.qualificationIds.includes(qualification.id))) ||
     source.runtimeFamily !== "node" ||
     target.runtimeFamily !== "node" ||
     route.steps.length !== RECIPE_UPDATE_BUILTIN_ACTIONS.length
@@ -442,7 +453,7 @@ export async function resolveAuthenticatedRecipeUpdateCatalog(
     artifactIds: [
       source.artifactId,
       target.artifactId,
-      qualification.evidenceArtifactId,
+      ...(qualification ? [qualification.evidenceArtifactId] : []),
       recipe.runner.manifestArtifactId,
       ...route.steps.map((step) => step.adapter.bundleArtifactId),
     ],

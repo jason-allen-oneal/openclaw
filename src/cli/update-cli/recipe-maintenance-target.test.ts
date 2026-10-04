@@ -1,9 +1,10 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { hasCommandProcessCleanupError } from "../../process/exec-result.js";
 import { runUpgradeRecipeTargetMaintenance } from "./recipe-maintenance-target.js";
+import { approvedContext } from "./update-recipe-context.test-support.js";
 import { UPDATE_RECIPE_MAINTENANCE_CAPABILITY } from "./update-recipe-maintenance-contract.js";
 
-const fixture = vi.hoisted(() => ({ command: vi.fn(), bind: vi.fn() }));
+const fixture = vi.hoisted(() => ({ command: vi.fn(), bind: vi.fn(), inspector: vi.fn() }));
 vi.mock("../../process/exec.js", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../../process/exec.js")>()),
   runCommandWithTimeout: fixture.command,
@@ -17,6 +18,11 @@ vi.mock("./update-command-executor.js", async (importOriginal) => ({
     run: (grant: unknown, bind: unknown) => unknown,
   ) => run({ runId: "run", root: "/target" }, fixture.bind),
 }));
+// mock-isolation: policy admission is tested at its owner, not through a native runner here.
+vi.mock("./recipe-first-qualification.js", async (original) => ({
+  ...(await original<typeof import("./recipe-first-qualification.js")>()),
+  admitReleaseQualificationChildInspector: fixture.inspector,
+}));
 const binding = {
   protocol: 1 as const,
   runId: "run",
@@ -27,6 +33,10 @@ const binding = {
 };
 const receipt = { binding, phase: "committed", revision: 3, updatedAtMs: 1 };
 const options = () => ({
+  recipe: {
+    ...approvedContext(),
+    maintenance: { ...approvedContext().maintenance, binding },
+  },
   fence: { assertCurrent: vi.fn() },
   input: {
     binding,
@@ -49,6 +59,7 @@ const options = () => ({
   verifyTarget: vi.fn(async () => {}),
 });
 beforeEach(() => {
+  fixture.inspector.mockReset().mockResolvedValue(undefined);
   fixture.command.mockReset();
   fixture.bind.mockReset();
   fixture.command.mockImplementation(
@@ -154,3 +165,44 @@ it("propagates unconfirmed target cleanup even when the transport exited", async
   );
   expect(hasCommandProcessCleanupError(failure)).toBe(true);
 });
+
+it("pauses only the admitted maintenance run, preserving both exact child bindings", async () => {
+  fixture.inspector.mockResolvedValue("--inspect-brk=127.0.0.1:0");
+  const selected = options();
+  await runUpgradeRecipeTargetMaintenance(selected);
+  expect(fixture.inspector).toHaveBeenCalledWith(selected.recipe, selected.fence);
+  expect(fixture.command.mock.calls[0]?.[0]).toEqual([
+    "/runtime/node",
+    expect.stringContaining("dist/"),
+    "--check",
+  ]);
+  expect(fixture.command.mock.calls[1]?.[0]).toEqual([
+    "/runtime/node",
+    "--inspect-brk=127.0.0.1:0",
+    expect.stringContaining("dist/"),
+    "--run",
+  ]);
+  expect(fixture.command.mock.calls[0][1].onOutputChunk).toBeUndefined();
+  const write = vi.spyOn(process.stderr, "write").mockReturnValue(true);
+  try {
+    const observe = fixture.command.mock.calls[1][1].onOutputChunk;
+    const announcement = Buffer.from("Debugger listening on ws://127.0.0.1:43123/fixture\n");
+    observe(announcement, "stderr");
+    observe(Buffer.from("result"), "stdout");
+    expect(write).toHaveBeenCalledExactlyOnceWith(announcement);
+  } finally {
+    write.mockRestore();
+  }
+  for (const [argv] of fixture.command.mock.calls) {
+    expect(fixture.bind).toHaveBeenCalledWith(42, argv);
+  }
+});
+it.each(["custody revoked", "catalog expired", "executor changed"])(
+  "does not launch maintenance effects when admission reports %s",
+  async (reason) => {
+    fixture.inspector.mockRejectedValue(new Error(reason));
+    await expect(runUpgradeRecipeTargetMaintenance(options())).rejects.toThrow(reason);
+    expect(fixture.command).toHaveBeenCalledTimes(1);
+    expect(fixture.command.mock.calls[0]?.[0].at(-1)).toBe("--check");
+  },
+);

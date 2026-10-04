@@ -4,6 +4,10 @@ import { packageActivationRuntimeEntrypoint } from "../../src/infra/package-upda
 import { managedHandoffRuntimeEntrypoint } from "../../src/infra/update-managed-service-handoff-runtime-assets.ts";
 import { createStateSchemaInlinePlugin } from "./state-schema-inline-plugin.mts";
 
+/** Hidden companion maps preserve runtime bytes without an executable source-map hook. */
+export const OUTPUT_SOURCE_MAPS =
+  process.env.OUTPUT_SOURCE_MAPS === "hidden" ? "hidden" : process.env.OUTPUT_SOURCE_MAPS === "1";
+
 type SealedRecoveryBuildConfig = Omit<UserConfig, "entry"> & { entry: Record<string, string> };
 
 /** The installed CLI and invocation compiler seal the same typed lease owner. */
@@ -54,6 +58,6 @@ export function createSealedRecoveryBuildConfig(
     outExtensions: () => ({ js: ".mjs" }),
     outputOptions: { codeSplitting: false },
     shims: true,
-    sourcemap: false,
+    sourcemap: process.env.OUTPUT_SOURCE_MAPS === "hidden" ? "hidden" : false,
   } satisfies UserConfig;
 }

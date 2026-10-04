@@ -316,6 +316,15 @@ describe("upgrade recipe planning", () => {
     },
   );
 
+  it("preserves the case-sensitive published build identity without widening catalog IDs", () => {
+    const { catalog } = fixture();
+    const buildId = "2026.9.1-release-ad6fe23aecb9-2026-09-03T15-04-19.382Z";
+    catalog.releases[0]!.buildId = buildId;
+    expect(upgradeRecipeCatalogSchema.parse(catalog).releases[0]!.buildId).toBe(buildId);
+    catalog.releases[0]!.id = "Source";
+    expect(upgradeRecipeCatalogSchema.safeParse(catalog).success).toBe(false);
+  });
+
   it.each([
     "generic-adapter",
     "adapter-revision",

@@ -1,4 +1,4 @@
-import { isDeepStrictEqual } from "node:util";
+import { stableStringify } from "@openclaw/normalization-core/stable-stringify";
 import { expect, vi } from "vitest";
 import type { UsersPrefsSetParams } from "../../../../packages/gateway-protocol/src/schema/users.ts";
 import { saveUserPreferences } from "../../app/user-prefs-cache.ts";
@@ -71,7 +71,7 @@ export function identityPreferences(
           Object.entries(write.expectedEntries ?? {}).some(([key, expected]) =>
             expected === null
               ? Object.hasOwn(entries, key)
-              : !isDeepStrictEqual(entries[key], expected),
+              : stableStringify(entries[key]) !== stableStringify(expected),
           )
         ) {
           return { status: "conflict" };

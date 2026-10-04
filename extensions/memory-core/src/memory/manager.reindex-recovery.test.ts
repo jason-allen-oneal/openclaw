@@ -15,6 +15,7 @@ import { resolveRuntimeWorkerUrl } from "openclaw/plugin-sdk/process-runtime";
 import { resolveOpenClawAgentSqlitePath } from "openclaw/plugin-sdk/sqlite-runtime";
 import * as sqliteRuntime from "openclaw/plugin-sdk/sqlite-runtime";
 import {
+  closeOpenClawAgentDatabasesAsync,
   closeOpenClawAgentDatabasesForTest,
   closeOpenClawStateDatabaseAsync,
 } from "openclaw/plugin-sdk/sqlite-runtime-testing";
@@ -493,7 +494,6 @@ describe("memory manager reindex recovery", () => {
             });
           } else if (scenario === "replace") {
             closeOpenClawAgentDatabasesForTest();
-            replacementDb = sqliteRuntime.openOpenClawAgentDatabase({ agentId: "main" }).db;
           }
         });
         return inputs.map(() => [0, 1, 0]);
@@ -510,6 +510,10 @@ describe("memory manager reindex recovery", () => {
             ? /^Agent database execution admission is closed$/
             : /Memory index changed/,
         );
+        if (scenario === "replace") {
+          await closeOpenClawAgentDatabasesAsync();
+          replacementDb = sqliteRuntime.openOpenClawAgentDatabase({ agentId: "main" }).db;
+        }
         expect(
           (replacementDb ?? publishedDb).prepare("SELECT hash FROM memory_embedding_cache").all(),
         ).toEqual([]);

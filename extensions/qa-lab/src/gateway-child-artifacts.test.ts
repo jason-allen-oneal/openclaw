@@ -199,7 +199,13 @@ console.log(JSON.stringify({ scratch, cache }));
         stagedBundledPluginsRoot,
       }).catch((error: unknown) => error);
       expect(outcome).toBeInstanceOf(AggregateError);
-      expect(inspect(outcome, { depth: null })).toContain("tempRoot: close failed");
+      // Agent cleanup aggregates scoped close failures; QA exposes only the
+      // sanitized owner diagnostic, never the credential-bearing nested cause.
+      expect(inspect(outcome, { depth: null })).toContain(
+        failedStore === "agent"
+          ? "tempRoot: Agent database close failed"
+          : "tempRoot: close failed",
+      );
       expect(inspect(outcome, { depth: null })).not.toMatch(
         /synthetic-close-secret|synthetic-close-cause/,
       );

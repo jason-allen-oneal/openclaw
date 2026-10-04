@@ -1,0 +1,273 @@
+import { pathToFileURL } from "node:url";
+import {
+  sha,
+  delay,
+  assertExactObservedLocation,
+} from "./upgrade-qualification-observation-files.mjs";
+
+export class Transport {
+  constructor(send, timeoutMs) {
+    this.send = send;
+    this.timeoutMs = timeoutMs;
+    this.sequence = 0;
+    this.pending = new Map();
+    this.handlers = [];
+    this.failure = undefined;
+  }
+  call(method, params = {}) {
+    if (this.failure) return Promise.reject(this.failure);
+    const id = ++this.sequence;
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        this.pending.delete(id);
+        reject(new Error(`Inspector command timed out: ${method}`));
+      }, this.timeoutMs);
+      this.pending.set(id, {
+        resolve: (value) => {
+          clearTimeout(timer);
+          resolve(value);
+        },
+        reject: (error) => {
+          clearTimeout(timer);
+          reject(error);
+        },
+      });
+      Promise.resolve(this.send({ id, method, params })).catch((error) => {
+        const pending = this.pending.get(id);
+        this.pending.delete(id);
+        pending?.reject(error);
+      });
+    });
+  }
+  receive(message) {
+    if (message.id) {
+      const pending = this.pending.get(message.id);
+      this.pending.delete(message.id);
+      if (pending)
+        message.error
+          ? pending.reject(new Error(JSON.stringify(message.error)))
+          : pending.resolve(message.result);
+    } else for (const handler of this.handlers) handler(message);
+  }
+  fail(error) {
+    this.failure = error;
+    for (const pending of this.pending.values()) pending.reject(error);
+    this.pending.clear();
+  }
+}
+export async function connect(url, timeoutMs) {
+  const socket = new WebSocket(url);
+  await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("Inspector connection timed out.")), timeoutMs);
+    socket.addEventListener(
+      "open",
+      () => {
+        clearTimeout(timer);
+        resolve();
+      },
+      { once: true },
+    );
+    socket.addEventListener(
+      "error",
+      () => {
+        clearTimeout(timer);
+        reject(new Error("Inspector connection failed."));
+      },
+      { once: true },
+    );
+  });
+  const transport = new Transport((message) => socket.send(JSON.stringify(message)), timeoutMs);
+  socket.addEventListener("message", (event) => transport.receive(JSON.parse(event.data)));
+  socket.addEventListener("close", () => transport.fail(new Error("Inspector closed.")));
+  return { transport, socket };
+}
+/** Break before imported script execution; never rely on already-loaded ESM at startup. */
+export async function admitSession({
+  transport,
+  mappings,
+  binding,
+  phase,
+  process: identity,
+  worker,
+  onBoundary,
+  onError,
+  onWorker,
+  onCaptureRun,
+  originalRunId,
+}) {
+  let startup = false;
+  let scriptGate;
+  let startupResolve;
+  const startupHeld = new Promise((resolve) => {
+    startupResolve = resolve;
+  });
+  const scripts = new Map();
+  const breaks = new Map();
+  let queue = Promise.resolve();
+  const armScript = async (scriptId, metadata) => {
+    const scriptMappings = mappings.filter(
+      (item) =>
+        item.script.path === metadata?.url ||
+        pathToFileURL(item.script.path).href === metadata?.url,
+    );
+    const source = await transport.call("Debugger.getScriptSource", { scriptId });
+    // Every file script under fixture custody must match a sealed closure member.
+    if (
+      metadata?.url?.startsWith("file:///qualification/") ||
+      metadata?.url?.startsWith("/qualification/")
+    ) {
+      const filename = metadata.url.startsWith("file:")
+        ? new URL(metadata.url).pathname
+        : metadata.url;
+      const artifact = binding.artifacts.find((item) => item.path === filename);
+      if (!artifact || sha(Buffer.from(source.scriptSource)) !== artifact.sha256)
+        throw new Error("Loaded script differs from the authenticated closure.");
+    }
+    for (const mapping of scriptMappings) {
+      if (sha(Buffer.from(source.scriptSource)) !== mapping.script.sha256)
+        throw new Error("Boundary script digest mismatch.");
+      if (!mapping.location) continue; // Explicit audited startup-only mapping.
+      const breakpoint = await transport.call("Debugger.setBreakpoint", {
+        location: { scriptId, ...mapping.location },
+      });
+      assertExactObservedLocation(mapping.location, breakpoint.actualLocation);
+      breaks.set(breakpoint.breakpointId, mapping);
+    }
+  };
+  transport.handlers.push((message) => {
+    if (message.method === "Debugger.scriptParsed")
+      scripts.set(message.params.scriptId, message.params);
+    if (message.method === "NodeWorker.attachedToWorker") onWorker?.(message.params);
+    if (message.method === "Debugger.paused") {
+      queue = queue
+        .then(async () => {
+          const pause = message.params;
+          if (!startup) {
+            if (pause.reason !== "Break on start")
+              throw new Error("Process was not held at native startup.");
+            startup = true;
+            const remote = await transport.call("Runtime.evaluate", {
+              expression: "process.pid",
+              returnByValue: true,
+              throwOnSideEffect: true,
+            });
+            if (remote.exceptionDetails || remote.result?.value !== identity.pid)
+              throw new Error("Inspector process identity mismatch.");
+            scriptGate = await transport.call("Debugger.setInstrumentationBreakpoint", {
+              instrumentation: "beforeScriptExecution",
+            });
+            for (const [scriptId, metadata] of scripts)
+              if (
+                mappings.some(
+                  (item) =>
+                    item.script.path === metadata.url ||
+                    pathToFileURL(item.script.path).href === metadata.url,
+                )
+              )
+                await armScript(scriptId, metadata);
+            startupResolve();
+            await transport.call("Debugger.resume");
+            return;
+          }
+          if (
+            pause.reason === "instrumentation" &&
+            (pause.hitBreakpoints?.includes(scriptGate.breakpointId) ||
+              (!pause.hitBreakpoints?.length && pause.data?.scriptId))
+          ) {
+            const scriptId = pause.data?.scriptId ?? pause.callFrames[0]?.location.scriptId;
+            const metadata = scripts.get(scriptId);
+            await armScript(scriptId, metadata);
+            await transport.call("Debugger.resume");
+            return;
+          }
+          const hits = (pause.hitBreakpoints ?? []).flatMap((id) =>
+            breaks.has(id) ? [breaks.get(id)] : [],
+          );
+          if (hits.length !== 1)
+            throw new Error("Unexpected debugger pause; execution remains held.");
+          const mapping = hits[0];
+          if (mapping.id === binding.runCaptureMappingId && phase === "fresh") {
+            const observed = await transport.call("Debugger.evaluateOnCallFrame", {
+              callFrameId: pause.callFrames[0].callFrameId,
+              expression: mapping.captureRunExpression,
+              returnByValue: true,
+              throwOnSideEffect: true,
+            });
+            if (
+              observed.exceptionDetails ||
+              typeof observed.result?.value !== "string" ||
+              !/^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u.test(
+                observed.result.value,
+              )
+            )
+              throw new Error("Production allocator did not supply an original UUID.");
+            assertExactObservedLocation(mapping.location, pause.callFrames[0].location);
+            await onCaptureRun(observed.result.value, mapping, identity);
+            await transport.call("Debugger.resume");
+            return;
+          }
+          const original = originalRunId();
+          if (!original)
+            throw new Error("Boundary reached before original production UUID custody.");
+
+          const guard = await transport.call("Debugger.evaluateOnCallFrame", {
+            callFrameId: pause.callFrames[0].callFrameId,
+            expression: mapping.guardExpression,
+            returnByValue: true,
+            throwOnSideEffect: true,
+          });
+          if (guard.exceptionDetails || guard.result?.value !== true)
+            throw new Error("Original-run/action/database guard rejected; execution remains held.");
+          const expectedFacts = {
+            runId: original,
+            actionId: mapping.actionId,
+            operation: mapping.operation,
+            jobId: mapping.jobId.replaceAll("{{original-run-id}}", original),
+            ...(mapping.database ? { database: mapping.database } : {}),
+          };
+          const observedFacts = {};
+          for (const [name, expected] of Object.entries(expectedFacts)) {
+            const expression = mapping.facts[name];
+            if (!expression) throw new Error(`Missing exact ${name} discriminator.`);
+            const fact = await transport.call("Debugger.evaluateOnCallFrame", {
+              callFrameId: pause.callFrames[0].callFrameId,
+              expression,
+              returnByValue: true,
+              throwOnSideEffect: true,
+            });
+            if (fact.exceptionDetails || fact.result?.value !== expected)
+              throw new Error(`Original ${name} discriminator rejected; execution remains held.`);
+            observedFacts[name] = fact.result.value;
+          }
+
+          assertExactObservedLocation(mapping.location, pause.callFrames[0].location);
+          if (phase === "fresh" && mapping.id === binding.selectedMappingId)
+            await onBoundary({ identity, worker, mapping, pause, observedFacts });
+          else if (phase === "retained") {
+            await onBoundary({ identity, worker, mapping, pause, observedFacts, retained: true });
+            await transport.call("Debugger.resume");
+          } else
+            throw new Error("Nonselected boundary reached unexpectedly; execution remains held.");
+        })
+        .catch(onError);
+    }
+  });
+  await transport.call("Runtime.enable");
+  await transport.call("Debugger.enable");
+  if (onWorker) await transport.call("NodeWorker.enable", { waitForDebuggerOnStart: true });
+  await transport.call("Runtime.runIfWaitingForDebugger");
+  let startupTimer;
+  try {
+    await Promise.race([
+      startupHeld,
+      new Promise((_, reject) => {
+        startupTimer = setTimeout(
+          () => reject(new Error("Native startup pause was not observed.")),
+          Math.min(binding.timeoutMs, 10000),
+        );
+      }),
+    ]);
+  } finally {
+    clearTimeout(startupTimer);
+  }
+}

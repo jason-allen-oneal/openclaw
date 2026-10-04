@@ -112,7 +112,10 @@ export async function applyApprovedRecipeUpdate(options: {
     runner.manifestDigest !== recipe.runner.manifestDigest ||
     runner.closureDigest !== recipe.runner.closureDigest ||
     (await fs.realpath(process.execPath)) !== runner.runtimePath ||
-    (await fs.realpath(fileURLToPath(options.runnerEntryUrl))) !== runner.entrypointPath
+    (await fs.realpath(fileURLToPath(options.runnerEntryUrl))) !==
+      (recipe.releaseQualification
+        ? runner.releaseQualificationEntrypointPath
+        : runner.entrypointPath)
   ) {
     throw new Error(
       "Recipe apply must execute from its exact authenticated retained runner and private runtime.",
@@ -145,7 +148,6 @@ export async function applyApprovedRecipeUpdate(options: {
     "OPENCLAW_UPDATE_RUN_ID",
     "OPENCLAW_UPDATE_RUN_HANDOFF",
     "OPENCLAW_UPDATE_POST_CORE",
-    "OPENCLAW_MANAGED_UPDATE_HANDOFF",
   ]) {
     if (process.env[key]?.trim()) {
       throw new Error("Fresh recipe apply cannot inherit an existing updater continuation.");

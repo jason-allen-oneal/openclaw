@@ -39,10 +39,8 @@ import {
   prepareUpdateCandidateRehearsal,
   type UpdateCandidateRehearsal,
 } from "./update-candidate-rehearsal.js";
-import {
-  observeUpdateDoctorConfigChanges,
-  type UpdateDoctorConfigChange,
-} from "./update-doctor-config.js";
+import type { UpdateDoctorConfigChange } from "./update-doctor-config-format.js";
+import { observeUpdateDoctorConfigChanges } from "./update-doctor-config.js";
 import {
   applyUpdateDoctorLintReport,
   parseUpdateDoctorLintReport,

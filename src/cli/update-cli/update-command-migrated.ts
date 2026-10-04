@@ -19,6 +19,7 @@ import { runUtf8CommandWithTimeout } from "../../process/exec.js";
 import type { OpenClawSchemaVersions } from "../../state/openclaw-schema-versions.js";
 import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.js";
 import { CLI_NAME } from "../cli-name.js";
+import { admitReleaseQualificationChildInspector } from "./recipe-first-qualification.js";
 import { resolveNodeRunner } from "./shared.js";
 import {
   requiresRetainedUpdateCommandOwner,
@@ -157,7 +158,7 @@ export async function continueMigratedUpdateInFreshProcess(
     if (!root) {
       throw new Error("The active installation root is unknown; update finalization is unsafe.");
     }
-    const workerCommand = [
+    const workerCommand: [string, string] = [
       params.packageUpdateNodeRunner ?? resolveNodeRunner(),
       path.join(root, "dist", runtimeProcessEntrypoints.updateMigratedFinalize.distWorkerPath),
     ];
@@ -286,11 +287,22 @@ export async function continueMigratedUpdateInFreshProcess(
       ...(windowsRecovery ? { windowsTaskAutoStartSuspended: true } : {}),
       resultPath,
     };
+    let admittedWorkerCommand: string[] = workerCommand;
+    let inspectChild = false;
     const runChild = (
       grant?: UpdateCommandChildGrant,
       bindChild?: (pid: number, argv?: readonly string[]) => void,
     ) =>
-      runUtf8CommandWithTimeout(workerCommand, {
+      runUtf8CommandWithTimeout(admittedWorkerCommand, {
+        ...(inspectChild
+          ? {
+              onOutputChunk: (chunk: Buffer, stream: string) => {
+                if (stream === "stderr") {
+                  process.stderr.write(chunk);
+                }
+              },
+            }
+          : {}),
         cwd: root,
         baseEnv: {},
         env: workerEnv,
@@ -305,10 +317,26 @@ export async function continueMigratedUpdateInFreshProcess(
         maxOutputBytes: 1024 * 1024,
       });
     await releaseLegacySourceLock(root, run.sourceArtifactLock);
+    assertCurrent();
+    if (params.opts.recipe) {
+      if (!executorFence) {
+        throw new UpdateCommandRecoveryPendingError(
+          "Recipe finalization requires its original live executor.",
+        );
+      }
+      const inspector = await admitReleaseQualificationChildInspector(
+        params.opts.recipe,
+        executorFence,
+      );
+      inspectChild = inspector !== undefined;
+      admittedWorkerCommand = inspector
+        ? [workerCommand[0], inspector, workerCommand[1]]
+        : workerCommand;
+    }
     const child = executorFence
       ? await withUpdateCommandExecutorChild(executorFence, root, runChild)
       : await runChild();
-    if (child.stderr) {
+    if (child.stderr && !inspectChild) {
       process.stderr.write(child.stderr);
     }
     const response = JSON.parse(

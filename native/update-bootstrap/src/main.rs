@@ -29,6 +29,8 @@ struct Options {
     catalog_target: String,
     manifest_artifact: String,
     verify_only: bool,
+    release_qualification: bool,
+    qualification_inspector: bool,
     command: Vec<String>,
     retained: Option<(String, PathBuf)>,
 }
@@ -50,6 +52,8 @@ struct Catalog {
     recipes: Vec<serde_json::Value>,
     adapters: Vec<serde_json::Value>,
     qualifications: Vec<serde_json::Value>,
+    #[serde(default)]
+    qualification_intents: Vec<serde_json::Value>,
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -66,6 +70,8 @@ struct Manifest {
     platform: Platform,
     runtime: Runtime,
     entrypoint: String,
+    purpose: Option<String>,
+    release_qualification_entrypoint: Option<String>,
     external_modules: Vec<String>,
     files: Vec<BundleFile>,
 }
@@ -218,11 +224,25 @@ fn parse(args: impl Iterator<Item = String>) -> Result<Options> {
     let mut values = HashMap::new();
     let mut workspaces = Vec::new();
     let mut verify_only = false;
+    let mut release_qualification = false;
+    let mut qualification_inspector = false;
     let mut command = Vec::new();
     while let Some(arg) = args.next() {
         if arg == "--" {
             command.extend(args);
             break;
+        }
+        if arg == "--release-qualification" || arg == "--qualification-inspector" {
+            let selected = if arg == "--release-qualification" {
+                &mut release_qualification
+            } else {
+                &mut qualification_inspector
+            };
+            if *selected {
+                return Err(error("duplicate-bootstrap-option"));
+            }
+            *selected = true;
+            continue;
         }
         if arg == "--verify-only" {
             verify_only = true;
@@ -294,6 +314,12 @@ fn parse(args: impl Iterator<Item = String>) -> Result<Options> {
     {
         return Err(error("trust-storage-overlaps-live-or-agent-roots"));
     }
+    if (release_qualification && (retained.is_some() || verify_only))
+        || (qualification_inspector
+            && (verify_only || (!release_qualification && retained.is_none())))
+    {
+        return Err(error("qualification-launch-required"));
+    }
     Ok(Options {
         control,
         installation,
@@ -303,6 +329,8 @@ fn parse(args: impl Iterator<Item = String>) -> Result<Options> {
         catalog_target: get("--catalog-target")?,
         manifest_artifact: get("--manifest-artifact")?,
         verify_only,
+        release_qualification,
+        qualification_inspector,
         command,
         retained,
     })
@@ -507,6 +535,22 @@ fn validate_file(path: &Path, identity: &Artifact, executable: bool) -> Result<(
     }
     Ok(())
 }
+struct PartialArtifact {
+    file: File,
+    path: PathBuf,
+}
+impl Drop for PartialArtifact {
+    fn drop(&mut self) {
+        // Error or cancellation must not leave an undeclared runner dependency.
+        // Never remove a replacement introduced after our private file was opened.
+        if let (Ok(opened), Ok(current)) = (self.file.metadata(), fs::symlink_metadata(&self.path))
+        {
+            if current.is_file() && opened.dev() == current.dev() && opened.ino() == current.ino() {
+                let _ = fs::remove_file(&self.path);
+            }
+        }
+    }
+}
 async fn retain_target(
     repo: &Repository,
     identity: &Artifact,
@@ -533,11 +577,15 @@ async fn retain_target(
         .ok_or_else(|| error("target-not-authorized"))?;
     futures_util::pin_mut!(stream);
     let temporary = destination.with_extension(format!("partial-{}", std::process::id()));
-    let mut file = OpenOptions::new()
+    let file = OpenOptions::new()
         .write(true)
         .create_new(true)
         .mode(0o600)
         .open(&temporary)?;
+    let mut partial = PartialArtifact {
+        file,
+        path: temporary.clone(),
+    };
     let mut length = 0u64;
     while let Some(chunk) = stream.try_next().await? {
         length = length
@@ -546,9 +594,9 @@ async fn retain_target(
         if length > identity.length {
             return Err(error("artifact-size-limit"));
         }
-        file.write_all(&chunk)?;
+        partial.file.write_all(&chunk)?;
     }
-    file.sync_all()?;
+    partial.file.sync_all()?;
     fs::set_permissions(
         &temporary,
         fs::Permissions::from_mode(if executable { 0o700 } else { 0o600 }),
@@ -618,6 +666,17 @@ fn validate_manifest(manifest: &Manifest) -> Result<()> {
     }
     relative(&manifest.runtime.path)?;
     relative(&manifest.entrypoint)?;
+    if let Some(purpose) = &manifest.purpose {
+        if purpose != "production" {
+            return Err(error("runner-protocol-or-platform-unsupported"));
+        }
+    }
+    if let Some(entry) = &manifest.release_qualification_entrypoint {
+        relative(entry)?;
+        if entry == &manifest.entrypoint {
+            return Err(error("runner-runtime-or-entrypoint-unbound"));
+        }
+    }
     let runtime: Vec<_> = manifest
         .files
         .iter()
@@ -631,8 +690,12 @@ fn validate_manifest(manifest: &Manifest) -> Result<()> {
     if runtime.len() != 1
         || runtime[0].path != manifest.runtime.path
         || !runtime[0].executable
-        || runner.len() != 1
-        || runner[0].path != manifest.entrypoint
+        || runner.len() != 1 + usize::from(manifest.release_qualification_entrypoint.is_some())
+        || !runner.iter().any(|file| file.path == manifest.entrypoint)
+        || manifest
+            .release_qualification_entrypoint
+            .as_ref()
+            .is_some_and(|entry| !runner.iter().any(|file| &file.path == entry))
     {
         return Err(error("runner-runtime-or-entrypoint-unbound"));
     }
@@ -655,6 +718,135 @@ fn validate_manifest(manifest: &Manifest) -> Result<()> {
     }
     Ok(())
 }
+fn qualification_path(path: &Path) -> Result<()> {
+    private(Path::new("/qualification"), true)?;
+    if !path.starts_with("/qualification")
+        || path == Path::new("/qualification")
+        || fs::canonicalize(path)? != path
+    {
+        return Err(error("qualification-path-required"));
+    }
+    private(path, fs::metadata(path)?.is_dir())
+}
+fn qualification_machine(binding: Option<&serde_json::Value>) -> Result<()> {
+    if !cfg!(target_os = "linux")
+        || fs::read_to_string("/proc/1/comm")?.trim() != "systemd"
+        || fs::read_to_string("/run/systemd/container")?.trim() != "docker"
+        || !fs::read_to_string("/proc/self/mountinfo")?
+            .lines()
+            .any(|line| line.contains(" / / ") && line.contains(" - overlay "))
+        || !fs::read_to_string("/proc/1/cgroup")?.lines().any(|line| {
+            let parts: Vec<_> = line.split(':').collect();
+            parts.len() == 3
+                && !parts[0].is_empty()
+                && parts[0].bytes().all(|b| b.is_ascii_digit())
+                && parts[2] == "/"
+        })
+    {
+        return Err(error("qualification-machine-required"));
+    }
+    if let Some(binding) = binding {
+        for (key, actual) in [
+            ("purpose", "release-qualification".to_string()),
+            (
+                "machineId",
+                fs::read_to_string("/etc/machine-id")?.trim().to_string(),
+            ),
+            (
+                "bootId",
+                fs::read_to_string("/proc/sys/kernel/random/boot_id")?
+                    .trim()
+                    .to_string(),
+            ),
+            (
+                "mountNamespace",
+                fs::read_link("/proc/self/ns/mnt")?
+                    .to_string_lossy()
+                    .into_owned(),
+            ),
+            (
+                "pidNamespace",
+                fs::read_link("/proc/self/ns/pid")?
+                    .to_string_lossy()
+                    .into_owned(),
+            ),
+        ] {
+            if binding[key].as_str() != Some(actual.as_str()) {
+                return Err(error("qualification-machine-changed"));
+            }
+        }
+    }
+    Ok(())
+}
+fn release_entry(manifest: &Manifest) -> Result<&str> {
+    if manifest.purpose.as_deref() != Some("production") {
+        return Err(error("qualification-launch-required"));
+    }
+    manifest
+        .release_qualification_entrypoint
+        .as_deref()
+        .ok_or_else(|| error("qualification-launch-required"))
+}
+fn qualification_command(options: &Options, root: &Path) -> Result<Vec<String>> {
+    // Deliberately no forwarded arbitrary options or selector aliases.
+    if options.command.len() != 4
+        || options.command[0] != "--input"
+        || options.command[2] != "--plan"
+    {
+        return Err(error("qualification-command-required"));
+    }
+    qualification_machine(None)?;
+    qualification_path(&options.control)?;
+    qualification_path(&options.installation)?;
+    qualification_path(root)?;
+    let input = Path::new(&options.command[1]);
+    qualification_path(input)?;
+    let plan = Path::new(&options.command[3]);
+    if !plan.is_absolute() || plan.file_name().is_none() || present(plan)? {
+        return Err(error("qualification-plan-must-be-new"));
+    }
+    qualification_path(
+        plan.parent()
+            .ok_or_else(|| error("qualification-path-required"))?,
+    )?;
+    let value: serde_json::Value = serde_json::from_slice(&bounded(input, MANIFEST_LIMIT)?)?;
+    for (selected, expected) in [
+        (&value["installationRoot"], options.installation.as_path()),
+        (&value["runnerRoot"], root),
+        (&value["catalog"]["controlRoot"], options.control.as_path()),
+    ] {
+        if selected.as_str().map(Path::new) != Some(expected) {
+            return Err(error("installation-selection-changed"));
+        }
+    }
+    if value["runnerManifestArtifactId"].as_str() != Some(options.manifest_artifact.as_str())
+        || value["catalog"]["targetPath"].as_str() != Some(options.catalog_target.as_str())
+        || value["catalog"]["metadataBaseUrl"].as_str() != Some(options.metadata_url.as_str())
+        || value["catalog"]["targetBaseUrl"].as_str() != Some(options.targets_url.as_str())
+    {
+        return Err(error("qualification-selector-changed"));
+    }
+    for selected in [
+        &value["stateRoot"],
+        &value["configPath"],
+        &value["artifactsDirectory"],
+        &value["localArchivePath"],
+        &value["catalog"]["metadataDir"],
+    ] {
+        qualification_path(Path::new(
+            selected
+                .as_str()
+                .ok_or_else(|| error("qualification-path-required"))?,
+        ))?;
+    }
+    let mut command = options.command.clone();
+    command.extend([
+        "--installation".into(),
+        options.installation.to_string_lossy().into_owned(),
+    ]);
+    Ok(command)
+}
+
 async fn run(options: Options) -> Result<i32> {
     private(&options.control, true)?;
     if options.retained.is_some() {
@@ -704,6 +896,7 @@ async fn run(options: Options) -> Result<i32> {
                 + envelope.catalog.releases.len()
                 + envelope.catalog.adapters.len()
                 + envelope.catalog.qualifications.len()
+                + envelope.catalog.qualification_intents.len()
                 > 100000
         {
             return Err(error("catalog-contract-unsupported"));
@@ -787,16 +980,29 @@ async fn run(options: Options) -> Result<i32> {
             );
             return Ok(0);
         }
-        if options.command.is_empty() {
-            return Err(error("runner-command-required"));
-        }
-        if !["plan", "apply", "resume", "status"].contains(&options.command[0].as_str()) {
-            return Err(error("unsupported-runner-command"));
-        }
-        let command = bind_runner_installation(&options.command, &options.installation)?;
+        let (entry, command) = if options.release_qualification {
+            (
+                release_entry(&manifest)?,
+                qualification_command(&options, &retained)?,
+            )
+        } else {
+            if options.command.is_empty()
+                || !["plan", "apply", "resume", "status"].contains(&options.command[0].as_str())
+            {
+                return Err(error("unsupported-runner-command"));
+            }
+            (
+                manifest.entrypoint.as_str(),
+                bind_runner_installation(&options.command, &options.installation)?,
+            )
+        };
+        no_recovery_owner(&options.installation)?;
         let mut child = Command::new(retained.join(&manifest.runtime.path));
+        if options.qualification_inspector {
+            child.arg("--inspect-brk=127.0.0.1:0");
+        }
         child
-            .arg(retained.join(&manifest.entrypoint))
+            .arg(retained.join(entry))
             .args(command)
             .current_dir(&options.control)
             .env_clear();
@@ -851,6 +1057,21 @@ async fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn partial_cleanup_preserves_published_or_replaced_files() {
+        let root = tempfile::TempDir::new().unwrap();
+        let temporary = root.path().join("partial");
+        let destination = root.path().join("published");
+        let partial = PartialArtifact {
+            file: File::create(&temporary).unwrap(),
+            path: temporary.clone(),
+        };
+        fs::rename(&temporary, &destination).unwrap();
+        fs::write(&temporary, b"replacement").unwrap();
+        drop(partial);
+        assert!(destination.is_file());
+        assert_eq!(fs::read(&temporary).unwrap(), b"replacement");
+    }
     #[test]
     fn binds_every_runner_selector_encoding_to_one_installation() {
         let installation = Path::new("/selected");

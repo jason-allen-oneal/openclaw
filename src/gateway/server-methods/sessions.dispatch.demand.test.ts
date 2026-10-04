@@ -85,6 +85,23 @@ async function withDemandFixture(
     const placements = new Map<string, WorkerSessionPlacementRecord>();
     const environments = new Map<string, Environment>();
     const placementReader = {
+      prepareRuntimeRefresh: async (sessionId: string) => {
+        const placement = placements.get(sessionId);
+        let released = false;
+        return {
+          placement,
+          move: undefined,
+          pendingResult: undefined,
+          assertCurrent: () => {
+            if (released || placements.get(sessionId) !== placement) {
+              throw new Error("Demand fixture placement admission changed");
+            }
+          },
+          release: () => {
+            released = true;
+          },
+        };
+      },
       getMany: (ids: readonly string[]) =>
         new Map(
           ids.flatMap((id) => {

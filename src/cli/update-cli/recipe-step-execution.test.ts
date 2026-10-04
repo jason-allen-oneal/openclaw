@@ -12,6 +12,7 @@ import {
   reconcileRecipeTargetMaintenance,
   prepareRecipeServiceActivation,
   reconcileRecipeServiceActivation,
+  observeRecipeServiceForRecovery,
 } from "./recipe-step-execution.js";
 import { approvedContext } from "./update-recipe-context.test-support.js";
 
@@ -21,6 +22,7 @@ const mocks = vi.hoisted(() => ({
   installation: vi.fn(),
   maintenance: vi.fn(),
   service: vi.fn(),
+  serviceVerdict: vi.fn(),
   ledger: vi.fn(),
 }));
 vi.mock("../../config/io.factory.js", async (importOriginal) => ({
@@ -50,10 +52,7 @@ vi.mock("./update-command-service-plan.js", async (importOriginal) => ({
 }));
 vi.mock("./update-command-service.js", async (importOriginal) => ({
   ...(await importOriginal<typeof import("./update-command-service.js")>()),
-  revalidateManagedGatewayServiceAfterUpdate: async () => ({
-    kind: "owned",
-    fingerprint: "1".repeat(64),
-  }),
+  revalidateManagedGatewayServiceAfterUpdate: mocks.serviceVerdict,
 }));
 vi.mock("./update-recipe-context.js", async (importOriginal) => ({
   ...(await importOriginal<typeof import("./update-recipe-context.js")>()),
@@ -118,6 +117,7 @@ const owner = {
 beforeEach(() => {
   vi.clearAllMocks();
   mocks.receipts.clear();
+  mocks.serviceVerdict.mockResolvedValue({ kind: "owned", fingerprint: "1".repeat(64) });
   mocks.state.mockResolvedValue(recipe.sourceStateVersions);
   mocks.installation.mockResolvedValue({
     root: recipe.maintenance.expected.installationRoot,
@@ -152,6 +152,29 @@ beforeEach(() => {
     },
   });
 });
+it.each(["running", "stopped"])(
+  "refuses an owned but unapproved %s service definition before recovery effects",
+  async (status) => {
+    mocks.service.mockResolvedValue({
+      env: owner.env,
+      running: status === "running",
+      runtime: {
+        status,
+        pid: status === "running" ? 42 : undefined,
+        systemd: {
+          scope: recipe.service.scope,
+          unit: recipe.service.unitName,
+          managerUid: recipe.service.managerUid,
+        },
+      },
+    });
+    mocks.serviceVerdict.mockResolvedValue({ kind: "owned", fingerprint: "2".repeat(64) });
+    await expect(observeRecipeServiceForRecovery(recipe, owner)).rejects.toThrow(
+      "definition differs from explicit approval",
+    );
+    expect(mocks.receipts.size).toBe(0);
+  },
+);
 it("compares the actual source state before recording publication intent", async () => {
   mocks.state.mockResolvedValue([{ ...recipe.sourceStateVersions[0], userVersion: 2 }]);
   await expect(prepareRecipePackagePublication(recipe, owner)).rejects.toThrow("before image");

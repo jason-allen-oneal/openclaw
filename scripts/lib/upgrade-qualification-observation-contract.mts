@@ -1,0 +1,172 @@
+import { z } from "zod";
+import { assertNativeObservationSelectors } from "./upgrade-qualification-observation-files.mjs";
+
+const digest = z.string().regex(/^[a-f0-9]{64}$/u);
+const pathname = z.string().startsWith("/qualification/");
+export const observationFileSchema = z.strictObject({
+  path: pathname,
+  sha256: digest,
+  length: z.number().int().positive(),
+});
+const location = z.strictObject({
+  lineNumber: z.number().int().nonnegative(),
+  columnNumber: z.number().int().nonnegative(),
+});
+const boundaries = [
+  "intent-persistence",
+  "snapshot-completion",
+  "migration-commit",
+  "package-publication",
+  "service-startup",
+  "commit-intent",
+  "gate-release",
+  "terminal-receipt",
+] as const;
+const mapping = z.strictObject({
+  id: z.string().min(1),
+  phase: z.enum(["fresh", "retained"]),
+  entry: observationFileSchema,
+  script: observationFileSchema,
+  worker: z
+    .strictObject({ url: z.string().min(1), occurrence: z.number().int().positive() })
+    .optional(),
+  location: location.optional(),
+  guardExpression: z.string().min(1).optional(),
+  actionId: z.string().min(1),
+  database: pathname.optional(),
+  operation: z.string().min(1),
+  semanticAudit: observationFileSchema,
+  source: observationFileSchema,
+  sourceMap: observationFileSchema,
+  sourceName: z.string().min(1),
+  sourceLocation: location,
+  captureRunExpression: z.string().min(1).optional(),
+  captureStage: z.literal("recipe-plan-uuid-before-ledger-admission").optional(),
+  jobId: z.string().min(1),
+  facts: z.strictObject({
+    runId: z.string().min(1),
+    actionId: z.string().min(1),
+    operation: z.string().min(1),
+    jobId: z.string().min(1),
+    database: z.string().min(1).optional(),
+  }),
+});
+/** External reviewed inputs, never authorization injected into production artifacts. */
+export const historicalObservationSchema = z
+  .strictObject({
+    schemaVersion: z.literal(1),
+    purpose: z.literal("unchanged-artifact-historical-observation"),
+    runId: z.string().uuid(),
+    boundary: z.enum(boundaries),
+    side: z.enum(["before", "after"]),
+    observer: observationFileSchema,
+    observerFiles: z.array(observationFileSchema).length(3),
+    runtime: observationFileSchema,
+    nativeBootstrap: observationFileSchema,
+    artifacts: z.array(observationFileSchema).min(1),
+    mappings: z.array(mapping).min(2),
+    selectedMappingId: z.string().min(1),
+    runCaptureMappingId: z.string().min(1),
+    // The probe is a reviewed external read-only executable, not an artifact modification.
+    durableProbe: z.strictObject({
+      executable: observationFileSchema,
+      argv: z.array(z.string()).min(1),
+      expected: z.unknown(),
+      audit: observationFileSchema,
+    }),
+    apply: z.array(z.string().min(1)).min(1),
+    resume: z.array(z.string().min(1)).min(1),
+    nativeArguments: z.array(z.string().min(1)).min(1),
+    installation: pathname,
+    ledger: pathname,
+    protectedRoots: z.array(pathname).min(2),
+    // A service child may be reparented to systemd. Its exact preallocated cgroup is explicit.
+    serviceCgroups: z.array(z.string().regex(/^\/[a-zA-Z0-9/_.@-]+$/u)),
+    timeoutMs: z.number().int().min(1000).max(7_200_000),
+  })
+  .superRefine((input, context) => {
+    const refuse = (message: string) => context.addIssue({ code: "custom", message });
+    try {
+      assertNativeObservationSelectors(input);
+    } catch (error) {
+      refuse(error instanceof Error ? error.message : String(error));
+    }
+    const toolingRoot = input.observer.path.substring(0, input.observer.path.lastIndexOf("/"));
+    const requiredTooling = [
+      input.observer.path,
+      `${toolingRoot}/upgrade-qualification-inspector.mjs`,
+      `${toolingRoot}/upgrade-qualification-observation-files.mjs`,
+    ];
+    if (
+      new Set(input.observerFiles.map((file) => file.path)).size !== 3 ||
+      requiredTooling.some(
+        (filename) => !input.observerFiles.some((file) => file.path === filename),
+      ) ||
+      !input.observerFiles.some(
+        (file) =>
+          file.path === input.observer.path &&
+          file.sha256 === input.observer.sha256 &&
+          file.length === input.observer.length,
+      )
+    )
+      refuse(
+        "External observer and both executable sidecars require exact immutable input bindings.",
+      );
+    const selected = input.mappings.filter((item) => item.id === input.selectedMappingId);
+    if (
+      selected.length !== 1 ||
+      !selected[0]?.location ||
+      !selected[0].guardExpression ||
+      selected[0].phase !== "fresh"
+    )
+      refuse("One exact fresh boundary mapping with read-only guard is required.");
+    const capture = input.mappings.filter((item) => item.id === input.runCaptureMappingId);
+    if (
+      capture.length !== 1 ||
+      capture[0]?.phase !== "fresh" ||
+      !capture[0]?.location ||
+      !capture[0]?.captureRunExpression ||
+      capture[0]?.captureStage !== "recipe-plan-uuid-before-ledger-admission" ||
+      !/(?:^|\/)src\/cli\/update-cli\/recipe-plan\.ts$/u.test(capture[0]?.sourceName ?? "") ||
+      input.runCaptureMappingId === input.selectedMappingId
+    )
+      refuse(
+        "Require the exact recipe-plan UUID capture before ledger admission and protected mutation.",
+      );
+    if (
+      capture[0]?.script.path === selected[0]?.script.path &&
+      capture[0]?.location?.lineNumber === selected[0]?.location?.lineNumber &&
+      capture[0]?.location?.columnNumber === selected[0]?.location?.columnNumber
+    )
+      refuse("UUID capture must precede, not alias, the actual mutation boundary.");
+    if (
+      !input.protectedRoots.includes(input.installation) ||
+      !input.protectedRoots.some((root) => input.ledger.startsWith(`${root}/`))
+    )
+      refuse("Protected inventory must include installation and ledger-parent state root.");
+    if (new Set(input.mappings.map((item) => item.id)).size !== input.mappings.length)
+      refuse("Mapping IDs must be unique.");
+    if (
+      !input.mappings.some(
+        (item) => item.phase === "retained" && item.location && item.guardExpression,
+      )
+    )
+      refuse("Original-run retained mappings must be separately audited.");
+    const files = new Map(input.artifacts.map((item) => [item.path, item]));
+    for (const item of [
+      input.runtime,
+      input.nativeBootstrap,
+      ...input.mappings.flatMap((item) => [item.entry, item.script, item.sourceMap]),
+    ]) {
+      const artifact = files.get(item.path);
+      if (!artifact || artifact.sha256 !== item.sha256 || artifact.length !== item.length)
+        refuse("Every observed executable/entry/script must belong to the immutable closure.");
+    }
+    if (
+      input.boundary === "migration-commit" &&
+      (!selected[0]?.facts.database ||
+        !selected[0]?.database ||
+        selected[0]?.operation !== "state.schema.repair")
+    )
+      refuse("Migration requires the exact database and schema-repair operation discriminator.");
+  });

@@ -388,18 +388,17 @@ export async function observeRecipeServiceForRecovery(recipe: RecipeUpdateContex
   if (verdict.kind !== "owned") {
     throw new Error("Recipe service receipt cannot verify its actual target installation.");
   }
+  if (verdict.fingerprint !== recipe.service.beforeDefinitionFingerprint) {
+    throw new Error("Recipe service definition differs from explicit approval.");
+  }
   return { state, verdict };
 }
 export async function prepareRecipeServiceActivation(
   recipe: RecipeUpdateContext,
   owner: Owner,
 ): Promise<void> {
-  const { state, verdict } = await observeRecipeServiceForRecovery(recipe, owner);
-  if (
-    isGatewayServiceStateLive(state) ||
-    state.runtime?.status !== "stopped" ||
-    verdict.fingerprint !== recipe.service.beforeDefinitionFingerprint
-  ) {
+  const { state } = await observeRecipeServiceForRecovery(recipe, owner);
+  if (isGatewayServiceStateLive(state) || state.runtime?.status !== "stopped") {
     throw new Error("Recipe service activation differs from its approved stopped before image.");
   }
   await prepareNew(recipe, "core.service-verify", owner);

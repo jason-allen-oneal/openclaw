@@ -11,7 +11,10 @@ import {
   createBundledPluginBuildInventory,
 } from "./scripts/lib/bundled-plugin-build-entries.mjs";
 import { createGatewayRunChunkMetadataPlugin } from "./scripts/lib/gateway-run-chunk-metadata.mts";
-import { createManagedHandoffBuildConfigs } from "./scripts/lib/managed-handoff-build-config.mts";
+import {
+  createManagedHandoffBuildConfigs,
+  OUTPUT_SOURCE_MAPS,
+} from "./scripts/lib/managed-handoff-build-config.mts";
 import { createPluginInventoryModuleRefsPlugin } from "./scripts/lib/plugin-inventory-module-refs.mts";
 import {
   buildPluginSdkEntrySources,
@@ -67,18 +70,15 @@ type ExternalOptionFunction = (
   parentId: string | undefined,
   isResolved: boolean,
 ) => boolean | null | undefined;
-
 const env = {
   NODE_ENV: "production",
 };
 const workerDeployVersion = (
   JSON.parse(fs.readFileSync("package.json", "utf8")) as { version: string }
 ).version;
-const OUTPUT_SOURCE_MAPS = process.env.OUTPUT_SOURCE_MAPS === "1";
 const RUN_NODE_SKIP_DTS_BUILD = process.env.OPENCLAW_RUN_NODE_SKIP_DTS_BUILD === "1";
 const TSDOWN_DECLARATIONS = !RUN_NODE_SKIP_DTS_BUILD;
 export { createStateSchemaInlinePlugin, STATE_SCHEMA_INLINE_PLUGIN_NAME };
-
 const SUPPRESSED_EVAL_WARNING_PATHS = [
   "@protobufjs/inquire/index.js",
   "bottleneck/lib/IORedisConnection.js",

@@ -92,7 +92,7 @@ const upgradeRecipeSchema = z.strictObject({
     rollbackContractId: id,
     unattendedEligible: z.boolean(),
   }),
-  qualificationIds: ids,
+  qualificationIds: unique(id).min(1),
   supersedes: unique(ref).optional(),
 });
 
@@ -104,7 +104,8 @@ const artifact = z.strictObject({
 const release = z.strictObject({
   id,
   version: z.string().min(1),
-  buildId: id,
+  // Published build identities include case-sensitive ISO timestamp markers.
+  buildId: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/),
   commit: z.string().regex(/^[a-f0-9]{40}$/),
   artifactId: id,
   // A separately authenticated manifest binds installed bytes, not merely package.version.
@@ -132,6 +133,18 @@ export const upgradeRecipeCatalogSchema = z.strictObject({
       outputStateContractClass: id,
     }),
   ),
+  // Signed intent allocates IDs, but makes no historical qualification claim.
+  qualificationIntents: z
+    .array(
+      z.strictObject({
+        recipe: ref,
+        qualificationId: id,
+        sourceReleaseId: id,
+        targetReleaseId: id,
+        runnerManifestArtifactId: id,
+      }),
+    )
+    .optional(),
   qualifications: z.array(
     z.strictObject({
       id,

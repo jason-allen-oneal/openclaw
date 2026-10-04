@@ -137,7 +137,11 @@ function fixture() {
     readArtifact: vi.fn(async (item) => artifactBytes.get(item.path)!),
     verifyRetainedAuthorization: vi.fn(async () => {}),
     verifyRetainedPlanAndConfig: vi.fn(async () => {}),
-    verifyRetainedRunner: vi.fn(async () => ({ ...retained.runner, nativeDependencies: [] })),
+    verifyRetainedRunner: vi.fn(async () => ({
+      ...retained.runner,
+      purpose: "production" as const,
+      nativeDependencies: [],
+    })),
     assertOriginalRecoveryOwner: vi.fn(async () => {}),
     readReceipts: vi.fn(async () => receipts),
   };

@@ -3,7 +3,7 @@ import { ScheduledTaskAutoStartRecoveryError } from "../../daemon/schtasks-updat
 import { tryReadJson } from "../../infra/json-files.js";
 import type { PackageUpdateTransaction } from "../../infra/package-update-swap-contract.js";
 import type { UpdateStateSchemaVersion } from "../../infra/update-candidate-state.js";
-import type { UpdateDoctorConfigChange } from "../../infra/update-doctor-config.js";
+import type { UpdateDoctorConfigChange } from "../../infra/update-doctor-config-format.js";
 import { resolveUpdateFinalizationTimeoutMs } from "../../infra/update-finalization-budget.js";
 import type { UpdateRunResult } from "../../infra/update-runner-types.js";
 import { hasCommandProcessCleanupError } from "../../process/exec-result.js";

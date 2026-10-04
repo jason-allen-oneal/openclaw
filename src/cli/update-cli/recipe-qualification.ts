@@ -4,13 +4,38 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { AuthenticatedUpgradeRecipeCatalog } from "../../infra/upgrade-recipes/catalog.js";
 import { validateUpgradeReleaseQualification } from "../../infra/upgrade-recipes/qualification.js";
+import { assertReleaseQualificationCustody } from "./recipe-first-qualification.js";
 import type { RecipeUpdateArtifactSelectors } from "./update-recipe-context.js";
 
 /** Actual signed qualification evidence; catalog advertisement alone is not an upgrade proof. */
 export async function verifyRecipeQualificationEvidence(
-  recipe: Pick<RecipeUpdateArtifactSelectors, "artifactsDirectory" | "route">,
+  recipe: Pick<
+    RecipeUpdateArtifactSelectors,
+    | "sourceReleaseId"
+    | "targetReleaseId"
+    | "artifactsDirectory"
+    | "route"
+    | "releaseQualification"
+    | "catalog"
+    | "runner"
+    | "localArchivePath"
+    | "maintenance"
+  >,
   catalog: AuthenticatedUpgradeRecipeCatalog,
 ): Promise<void> {
+  if (recipe.releaseQualification) {
+    await assertReleaseQualificationCustody(recipe, catalog);
+    const route = catalog.catalog.recipes.find(
+      (entry) =>
+        entry.id === recipe.route.recipe.id && entry.revision === recipe.route.recipe.revision,
+    );
+    if (route?.purpose !== "production" || recipe.route.qualificationId !== undefined) {
+      throw new Error(
+        "First qualification is not production evidence and cannot adopt a prior qualification claim.",
+      );
+    }
+    return;
+  }
   const qualification = catalog.catalog.qualifications.find(
     (entry) => entry.id === recipe.route.qualificationId,
   );

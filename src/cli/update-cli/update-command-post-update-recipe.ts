@@ -104,6 +104,7 @@ export async function prepareRecipeUpdateFinalization({
   if (receipt.phase !== "committed") {
     await prepareRecipeTargetMaintenance(recipe, recipeReceiptOwner);
     await runUpgradeRecipeTargetMaintenance({
+      recipe,
       fence: executor,
       input: recipe.maintenance,
       env,

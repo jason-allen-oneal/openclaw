@@ -111,8 +111,49 @@ export async function waitForControlUiInitialRoster(page: Page): Promise<void> {
     );
     await ready.dispose();
   } catch (cause) {
+    const snapshot = await page
+      .evaluate(() => {
+        const app = document.querySelector("openclaw-app") as
+          | (HTMLElement & {
+              hasUpdated?: boolean;
+              isUpdatePending?: boolean;
+              runtime?: { context?: { sessions?: { state?: unknown } } };
+            })
+          | null;
+        const shell = app?.querySelector("openclaw-app-shell") as
+          | (HTMLElement & { hasUpdated?: boolean; isUpdatePending?: boolean })
+          | null;
+        const sidebar = shell?.querySelector("openclaw-app-sidebar") as
+          | (HTMLElement & {
+              hasUpdated?: boolean;
+              isUpdatePending?: boolean;
+              navigationVisible?: boolean;
+            })
+          | null;
+        const state = app?.runtime?.context?.sessions?.state as
+          | { loading?: boolean; result?: unknown; resultCached?: boolean }
+          | undefined;
+        return {
+          readyState: document.readyState,
+          appDefined: Boolean(customElements.get("openclaw-app")),
+          appUpdated: app?.hasUpdated,
+          appUpdatePending: app?.isUpdatePending,
+          shellUpdated: shell?.hasUpdated,
+          shellUpdatePending: shell?.isUpdatePending,
+          sidebarDefined: Boolean(customElements.get("openclaw-app-sidebar")),
+          sidebarUpdated: sidebar?.hasUpdated,
+          sidebarUpdatePending: sidebar?.isUpdatePending,
+          navigationVisible: sidebar?.navigationVisible,
+          initialRosterDelivered: (window as MockGatewayWindow).openclawControlUiE2eGateway
+            ?.initialRosterDelivered,
+          sessionsLoading: state?.loading,
+          sessionsResultPresent: Boolean(state?.result),
+          sessionsResultCached: state?.resultCached,
+        };
+      })
+      .catch(() => ({ documentUnavailable: true }));
     throw new Error(
-      "Control UI initial roster did not finish loading and rendering. For intentional pre-roster scenarios, set awaitInitialRoster: false in installMockGateway.",
+      `Control UI initial roster did not finish loading and rendering. Readiness: ${JSON.stringify(snapshot)}. For intentional pre-roster scenarios, set awaitInitialRoster: false in installMockGateway.`,
       { cause },
     );
   }

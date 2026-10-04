@@ -53,6 +53,7 @@ describe.skipIf(process.platform === "win32")("gateway hard-kill recovery", () =
       controlUiEnabled: false,
       mutateConfig: (cfg) => ({
         ...cfg,
+        logging: { ...cfg.logging, level: "debug", consoleLevel: "debug" },
         plugins: {
           ...cfg.plugins,
           slots: { ...cfg.plugins?.slots, memory: "none" },

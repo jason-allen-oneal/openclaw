@@ -21,6 +21,7 @@ import { createRetainedUpgradeRecipeRunStore } from "../../infra/upgrade-recipes
 import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/runner-bundle.js";
 import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.js";
 import { captureOpenClawStateWorkerContext } from "../../state/openclaw-state-worker-context.js";
+import { bindReleaseQualificationTargetReceiver } from "./recipe-first-qualification.js";
 import { inspectOriginalRecipePackagePublication } from "./recipe-original-publication.js";
 import {
   assertRecipeUpdateBinding,
@@ -154,13 +155,21 @@ export async function createRecipeOriginalRecoveryPorts(options: {
       });
       assertCurrent();
       const actualEntry = await fs.realpath(fileURLToPath(options.runnerEntryUrl));
+      const retainedEntry = recipe.releaseQualification
+        ? runner.releaseQualificationEntrypointPath
+        : runner.entrypointPath;
+      if (!retainedEntry) {
+        throw new Error(
+          "Recipe resume has lost its authenticated retained qualification entrypoint.",
+        );
+      }
       const entry = options.targetReceiver
         ? path.join(
             expected.installationRoot,
             "dist",
             runtimeProcessEntrypoints.updateMigratedFinalize.distWorkerPath,
           )
-        : runner.entrypointPath;
+        : retainedEntry;
       if ((await fs.realpath(process.execPath)) !== runner.runtimePath || actualEntry !== entry) {
         throw new Error(
           "Recipe resume must run from its authenticated retained runtime and entrypoint.",
@@ -170,7 +179,7 @@ export async function createRecipeOriginalRecoveryPorts(options: {
         await verifyRecipeUpdateInstallation(recipe, expected.installationRoot, "target");
       }
       assertCurrent();
-      return runner;
+      return { ...runner, entrypointPath: retainedEntry };
     },
     assertOriginalRecoveryOwner: async (selected) => {
       requireRetained(selected);
@@ -222,6 +231,9 @@ export async function createRecipeOriginalRecoveryPorts(options: {
       }
       liveFence = fence;
       assertRecipeUpdateBinding(recipe, retained.binding.installationKey, runId, fence);
+      if (options.targetReceiver && recipe.releaseQualification) {
+        bindReleaseQualificationTargetReceiver(recipe, fence, options.runnerEntryUrl);
+      }
       assertCurrent();
     },
   };

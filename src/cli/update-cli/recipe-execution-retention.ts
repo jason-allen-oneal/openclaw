@@ -106,7 +106,9 @@ export async function retainRecipeExecution(
         manifestDigest: runner.manifestDigest,
         closureDigest: runner.closureDigest,
         runtimePath: runner.runtimePath,
-        entrypointPath: runner.entrypointPath,
+        entrypointPath: recipe.releaseQualification
+          ? runner.releaseQualificationEntrypointPath!
+          : runner.entrypointPath,
       },
       stepBindings,
     },

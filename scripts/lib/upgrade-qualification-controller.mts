@@ -1,11 +1,19 @@
 import { spawn } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
-import { constants, watch } from "node:fs";
+import { constants } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { z } from "zod";
 import { qualificationCrashOwners } from "./upgrade-qualification-crash-build.mjs";
+import { awaitBoundary } from "./upgrade-qualification-fixture-boundary.mjs";
+import {
+  assertQualificationImageIdentity,
+  assertRootlessQualificationDaemon,
+  readHistoricalObservation,
+  collectHistoricalObservation,
+} from "./upgrade-qualification-observation-collection.mjs";
+import { parseObservedProcess } from "./upgrade-qualification-observation-files.mjs";
 
 const boundFile = z.strictObject({
   path: z.string().min(1),
@@ -24,6 +32,7 @@ const cell = z.strictObject({
   // actual inventory, approval and mutation; this controller is only its test owner.
   apply: command,
   resume: command,
+  observation: boundFile.optional(),
   boundary: z
     .enum(
       qualificationCrashOwners.flatMap((owner) => [`${owner.name}-before`, `${owner.name}-after`]),
@@ -34,25 +43,17 @@ export const upgradeQualificationRunManifestSchema = z.strictObject({
   schemaVersion: z.literal(1),
   purpose: z.enum(["fixture", "historical-transition"]),
   // Pin a release-owner native-systemd image. No host service/container is adopted.
-  image: z.string().regex(/^[^\s]+@sha256:[a-f0-9]{64}$/),
+  image: z.string().regex(/^(?:[^\s]+@)?sha256:[a-f0-9]{64}$/),
   architecture: z.enum(["amd64", "arm64"]),
   timeoutMs: z.number().int().min(60_000).max(7_200_000),
   cells: z.array(cell).min(1),
 });
 
+export { assertQualificationImageIdentity } from "./upgrade-qualification-observation-collection.mjs";
+
 export function qualificationProcessIdentity(stat: string) {
-  const end = stat.lastIndexOf(")");
-  if (end < 0) {
-    throw new Error("Malformed isolated process identity.");
-  }
-  const fields = stat
-    .slice(end + 2)
-    .trim()
-    .split(/\s+/u);
-  if (!fields[0] || !fields[19] || !/^[0-9]+$/u.test(fields[19])) {
-    throw new Error("Missing process start identity.");
-  }
-  return { state: fields[0], startTime: fields[19] };
+  const { state, startTime } = parseObservedProcess(stat);
+  return { state, startTime };
 }
 
 async function copyBoundFile(binding: z.infer<typeof boundFile>, destination: string) {
@@ -86,8 +87,8 @@ async function copyBoundFile(binding: z.infer<typeof boundFile>, destination: st
   }
 }
 
-function execute(args: string[], log: string, timeout: number) {
-  const child = spawn("docker", args, { stdio: ["ignore", "pipe", "pipe"] });
+function executeDocker(args: string[], log: string, timeout: number, env: NodeJS.ProcessEnv) {
+  const child = spawn("docker", args, { env, stdio: ["ignore", "pipe", "pipe"] });
   const chunks: Buffer[] = [];
   let length = 0;
   const keep = (bytes: Buffer) => {
@@ -113,62 +114,7 @@ function execute(args: string[], log: string, timeout: number) {
   return { child, settled };
 }
 
-async function checked(args: string[], log: string, timeout: number) {
-  const result = await execute(args, log, timeout).settled;
-  if (result.code !== 0) {
-    throw new Error(`Qualification command failed (${result.code}); retained ${log}`);
-  }
-  return result.output;
-}
-
-async function awaitBoundary(directory: string, timeout: number, failed: Promise<unknown>) {
-  const filename = path.join(directory, "boundary.json");
-  const watcher = watch(directory);
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  try {
-    return await new Promise<unknown>((resolve, reject) => {
-      let reading = false;
-      const inspect = async () => {
-        if (reading) {
-          return;
-        }
-        reading = true;
-        try {
-          const handle = await fs.open(filename, constants.O_RDONLY | constants.O_NOFOLLOW);
-          try {
-            resolve(JSON.parse(await handle.readFile("utf8")));
-          } finally {
-            await handle.close();
-          }
-        } catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-            reject(error instanceof Error ? error : new Error(String(error)));
-          }
-        } finally {
-          reading = false;
-        }
-      };
-      watcher.on("change", () => {
-        void inspect();
-      });
-      watcher.on("error", reject);
-      timer = setTimeout(
-        () => reject(new Error("Required crash boundary was never reached.")),
-        timeout,
-      );
-      failed.then(
-        () => reject(new Error("Runner exited without reaching its required crash boundary.")),
-        reject,
-      );
-      void inspect();
-    });
-  } finally {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    watcher.close();
-  }
-}
+export { assertRootlessQualificationDaemon } from "./upgrade-qualification-observation-collection.mjs";
 
 /** Each cell creates and retains its own systemd machine; no synthetic systemctl shim qualifies. */
 export async function runUpgradeQualificationController(args: string[]): Promise<void> {
@@ -210,8 +156,77 @@ export async function runUpgradeQualificationController(args: string[]): Promise
       "Instrumented crash artifacts are fixture proof, not exact production artifact qualification. Use unchanged-artifact interception for production crash evidence.",
     );
   }
+  if (
+    manifest.cells.some(
+      (item) => item.observation && (manifest.purpose !== "historical-transition" || item.boundary),
+    )
+  ) {
+    throw new Error(
+      "Unchanged-artifact observation is historical-only and cannot use instrumented boundaries.",
+    );
+  }
   const output = path.resolve(values.output);
   await fs.mkdir(output, { mode: 0o700 }); // Exclusive run; never overwrite prior evidence.
+  // Capture selection once; later environment/context edits cannot redirect machine operations.
+  const initialEnv = { ...process.env };
+  const rawChecked = async (argv: string[], log: string, env: NodeJS.ProcessEnv) => {
+    const result = await executeDocker(argv, log, manifest.timeoutMs, env).settled;
+    if (result.code !== 0) {
+      throw new Error(`Qualification command failed (${result.code}); retained ${log}`);
+    }
+    return result.output;
+  };
+  let endpoint = initialEnv.DOCKER_HOST;
+  if (initialEnv.DOCKER_CONTEXT || !endpoint) {
+    const context =
+      initialEnv.DOCKER_CONTEXT ||
+      (
+        await rawChecked(["context", "show"], path.join(output, "docker-context.log"), initialEnv)
+      ).trim();
+    const contexts = z
+      .array(z.object({ Endpoints: z.object({ docker: z.object({ Host: z.string() }) }) }))
+      .length(1)
+      .parse(
+        JSON.parse(
+          await rawChecked(
+            ["context", "inspect", context],
+            path.join(output, "docker-endpoint.log"),
+            initialEnv,
+          ),
+        ),
+      );
+    endpoint = contexts[0]!.Endpoints.docker.Host;
+  }
+  if (!endpoint?.startsWith("unix://") || !path.isAbsolute(endpoint.slice(7))) {
+    throw new Error(
+      "Qualification requires an explicitly resolved local rootless Docker Unix socket; remote/TLS contexts are not admitted.",
+    );
+  }
+  const selectedEndpoint = endpoint;
+  const env = { ...initialEnv };
+  for (const name of [
+    "DOCKER_CONTEXT",
+    "DOCKER_HOST",
+    "DOCKER_TLS",
+    "DOCKER_TLS_VERIFY",
+    "DOCKER_CERT_PATH",
+  ]) {
+    delete env[name];
+  }
+  const execute = (argv: string[], log: string, timeout: number) =>
+    executeDocker(["--host", selectedEndpoint, ...argv], log, timeout, env);
+  const checked = async (argv: string[], log: string, timeout: number) => {
+    const result = await execute(argv, log, timeout).settled;
+    if (result.code !== 0) {
+      throw new Error(`Qualification command failed (${result.code}); retained ${log}`);
+    }
+    return result.output;
+  };
+  const inspectDaemon = async (log: string) =>
+    assertRootlessQualificationDaemon(
+      await checked(["info", "--format", "{{json .}}"], log, manifest.timeoutMs),
+    );
+  const daemonId = await inspectDaemon(path.join(output, "docker-isolation.log"));
   const reports: unknown[] = [];
   for (const item of manifest.cells) {
     const directory = path.join(output, item.id);
@@ -226,6 +241,9 @@ export async function runUpgradeQualificationController(args: string[]): Promise
     for (const [index, binding] of item.inputs.entries()) {
       await copyBoundFile(binding, path.join(input, `input-${index}`));
     }
+    if (item.observation)
+      await copyBoundFile(item.observation, path.join(input, "observation.json"));
+    const observation = item.observation ? await readHistoricalObservation(input, item) : undefined;
     await fs.writeFile(path.join(input, "cell.json"), JSON.stringify(item), {
       mode: 0o444,
       flag: "wx",
@@ -237,6 +255,17 @@ export async function runUpgradeQualificationController(args: string[]): Promise
     let failure: Error | undefined;
     let apply: ReturnType<typeof execute> | undefined;
     try {
+      const imageIdentity = assertQualificationImageIdentity(
+        manifest.image,
+        await checked(
+          ["image", "inspect", manifest.image, "--format", "{{.Id}}"],
+          log("image-identity"),
+          manifest.timeoutMs,
+        ),
+      );
+      if ((await inspectDaemon(log("daemon-before-create"))) !== daemonId) {
+        throw new Error("Qualification Docker daemon identity changed before machine creation.");
+      }
       creationAttempted = true;
       await checked(
         [
@@ -267,6 +296,14 @@ export async function runUpgradeQualificationController(args: string[]): Promise
         log("machine-create"),
         manifest.timeoutMs,
       );
+      const machineImageIdentity = await checked(
+        ["inspect", machine, "--format", "{{.Image}}"],
+        log("machine-image-identity"),
+        manifest.timeoutMs,
+      );
+      if (machineImageIdentity.trim() !== imageIdentity) {
+        throw new Error("Qualification machine did not start the inspected immutable image.");
+      }
       await checked(
         exec("systemctl", "is-system-running", "--wait"),
         log("systemd-boot"),
@@ -318,8 +355,24 @@ export async function runUpgradeQualificationController(args: string[]): Promise
         log("assert-source"),
         manifest.timeoutMs,
       );
-      apply = execute(exec(...item.apply), log("apply"), manifest.timeoutMs);
-      if (item.boundary) {
+      if (observation) {
+        let observationCommand = 0;
+        await collectHistoricalObservation({
+          observation,
+          result,
+          directory,
+          runId: item.runId,
+          execute: (argv) =>
+            checked(
+              exec(...argv),
+              log(`unchanged-observation-${observationCommand++}`),
+              manifest.timeoutMs,
+            ),
+        });
+      } else {
+        apply = execute(exec(...item.apply), log("apply"), manifest.timeoutMs);
+      }
+      if (item.boundary && apply) {
         const marker = z
           .strictObject({
             boundary: z.string(),
@@ -363,7 +416,7 @@ export async function runUpgradeQualificationController(args: string[]): Promise
         );
         await apply.settled; // Join before original-run resume. Nonzero after SIGKILL is expected.
         await checked(exec(...item.resume), log("resume"), manifest.timeoutMs);
-      } else if ((await apply.settled).code !== 0) {
+      } else if (apply && (await apply.settled).code !== 0) {
         throw new Error("Historical apply failed; diagnostics retained.");
       }
       await checked(
@@ -386,7 +439,9 @@ export async function runUpgradeQualificationController(args: string[]): Promise
         runId: item.runId,
         source: item.source,
         target: item.target,
-        boundary: item.boundary ?? null,
+        boundary:
+          item.boundary ?? (observation ? `${observation.boundary}-${observation.side}` : null),
+        unchangedArtifactObservation: Boolean(observation),
         outcome: "passed",
         directory,
       });

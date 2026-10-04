@@ -158,6 +158,9 @@ async fn known_revocations(
     options: &Options,
     original: &Value,
 ) -> Result<(Vec<Value>, Vec<String>)> {
+    if original["admission"]["targetPath"].as_str() != Some(options.catalog_target.as_str()) {
+        return Err(error("retained-original-custody-required"));
+    }
     let metadata = options.control.join("metadata");
     private(&metadata, true)?;
     let mut same = true;
@@ -200,6 +203,26 @@ async fn known_revocations(
     )?;
     Ok((latest.revoked_recipes, latest.revoked_artifact_ids))
 }
+fn qualification_retained_command(
+    action: &str,
+    installation: &Path,
+    ledger: &Path,
+    run_id: &str,
+) -> Result<Vec<String>> {
+    if !["resume", "status"].contains(&action) {
+        return Err(error("qualification-command-required"));
+    }
+    Ok(vec![
+        format!("--{action}"),
+        "--installation".into(),
+        installation.to_string_lossy().into_owned(),
+        "--ledger".into(),
+        ledger.to_string_lossy().into_owned(),
+        "--run-id".into(),
+        run_id.into(),
+    ])
+}
+
 pub(super) async fn run(options: &Options) -> Result<i32> {
     let (run_id, ledger) = options
         .retained
@@ -264,6 +287,7 @@ pub(super) async fn run(options: &Options) -> Result<i32> {
     if plan["maintenance"]["binding"] != retained["binding"]
         || plan["catalogDigest"] != authorization["digest"]
         || plan["catalog"]["controlRoot"].as_str() != options.control.to_str()
+        || plan["catalog"]["targetPath"].as_str() != Some(options.catalog_target.as_str())
         || plan["runner"]["manifestArtifactId"] != options.manifest_artifact
     {
         return Err(error("retained-original-custody-required"));
@@ -303,6 +327,37 @@ pub(super) async fn run(options: &Options) -> Result<i32> {
     }
     let manifest: Manifest = serde_json::from_slice(&manifest_bytes)?;
     validate_manifest(&manifest)?;
+    let qualification = !plan["releaseQualification"].is_null();
+    let entry = if qualification {
+        qualification_machine(Some(&plan["releaseQualification"]))?;
+        for selected in [&options.control, &root, ledger] {
+            qualification_path(selected)?;
+        }
+        if present(&options.installation)? {
+            qualification_path(&options.installation)?;
+        } else {
+            let parent = options
+                .installation
+                .parent()
+                .ok_or_else(|| error("qualification-path-required"))?;
+            qualification_path(parent)?;
+            if fs::canonicalize(parent)?.join(
+                options
+                    .installation
+                    .file_name()
+                    .ok_or_else(|| error("qualification-path-required"))?,
+            ) != options.installation
+            {
+                return Err(error("qualification-path-required"));
+            }
+        }
+        release_entry(&manifest)?
+    } else {
+        if options.qualification_inspector {
+            return Err(error("qualification-launch-required"));
+        }
+        manifest.entrypoint.as_str()
+    };
     let mut files: Vec<_> = manifest.files.iter().collect();
     files.sort_by(|a, b| a.path.encode_utf16().cmp(b.path.encode_utf16()));
     let mut closure = Sha256::new();
@@ -333,8 +388,7 @@ pub(super) async fn run(options: &Options) -> Result<i32> {
     if retained["runner"]["closureDigest"] != hex::encode(closure.finalize())
         || Path::new(field(&retained["runner"], "runtimePath")?)
             != root.join(&manifest.runtime.path)
-        || Path::new(field(&retained["runner"], "entrypointPath")?)
-            != root.join(&manifest.entrypoint)
+        || Path::new(field(&retained["runner"], "entrypointPath")?) != root.join(entry)
     {
         return Err(error("runner-closure-identity-mismatch"));
     }
@@ -364,9 +418,29 @@ pub(super) async fn run(options: &Options) -> Result<i32> {
     if current_rows != rows {
         return Err(error("retained-original-custody-required"));
     }
+    if qualification {
+        // Terminal success is never replayed. The release entry must support passive status.
+        let expected = vec![
+            args[0].clone(),
+            "--run".into(),
+            run_id.clone(),
+            "--state-database".into(),
+            ledger.to_string_lossy().into_owned(),
+            "--installation".into(),
+            options.installation.to_string_lossy().into_owned(),
+        ];
+        if args != expected {
+            return Err(error("qualification-command-required"));
+        }
+        args = qualification_retained_command(&args[0], &options.installation, ledger, run_id)?;
+        qualification_machine(Some(&plan["releaseQualification"]))?;
+    }
     let mut child = Command::new(root.join(&manifest.runtime.path));
+    if options.qualification_inspector {
+        child.arg("--inspect-brk=127.0.0.1:0");
+    }
     child
-        .arg(root.join(&manifest.entrypoint))
+        .arg(root.join(entry))
         .args(args)
         .current_dir(&options.control)
         .env_clear();
@@ -382,6 +456,47 @@ pub(super) async fn run(options: &Options) -> Result<i32> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[tokio::test]
+    async fn revocation_admission_cannot_select_another_signed_catalog() {
+        let original = serde_json::json!({"admission":{"targetPath":"original-catalog.json"}});
+        let failure = known_revocations(&options(&["resume"]), &original)
+            .await
+            .unwrap_err();
+        assert_eq!(failure.to_string(), "retained-original-custody-required");
+    }
+    #[test]
+    fn release_recovery_translates_status_without_replaying_apply() {
+        for action in ["status", "resume"] {
+            let args = qualification_retained_command(
+                action,
+                Path::new("/selected"),
+                Path::new("/ledger"),
+                "original",
+            )
+            .unwrap();
+            assert_eq!(
+                args,
+                vec![
+                    format!("--{action}"),
+                    "--installation".into(),
+                    "/selected".into(),
+                    "--ledger".into(),
+                    "/ledger".into(),
+                    "--run-id".into(),
+                    "original".into()
+                ]
+            );
+        }
+        for action in ["plan", "apply", "--resume"] {
+            assert!(qualification_retained_command(
+                action,
+                Path::new("/selected"),
+                Path::new("/ledger"),
+                "original"
+            )
+            .is_err());
+        }
+    }
     fn options(command_args: &[&str]) -> Options {
         Options {
             control: PathBuf::from("/private/control"),
@@ -392,6 +507,8 @@ mod tests {
             catalog_target: "catalog.json".into(),
             manifest_artifact: "runner".into(),
             verify_only: false,
+            release_qualification: false,
+            qualification_inspector: false,
             command: command_args.iter().map(|value| value.to_string()).collect(),
             retained: Some((
                 "00000000-0000-4000-8000-000000000001".into(),

@@ -33,6 +33,7 @@ import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/run
 import { runCommandWithTimeout } from "../../process/exec.js";
 import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.js";
 import { verifyRecipeQualificationEvidence } from "./recipe-qualification.js";
+import type { ReleaseQualificationBinding } from "./recipe-release-qualification-contract.js";
 import { inspectUpdateManagedServices } from "./update-command-database-context.js";
 import { withUpdateCommandExecutor } from "./update-command-executor.js";
 import {
@@ -70,7 +71,8 @@ export type ExecutableRecipePlanOptions = {
   catalog: AuthenticateUpgradeRecipeCatalogOptions;
   sourceReleaseId: string;
   targetReleaseId: string;
-  qualificationId: string;
+  qualificationId?: string;
+  releaseQualification?: ReleaseQualificationBinding;
   runnerRoot: string;
   runnerManifestArtifactId: string;
   runnerEntryUrl: string;
@@ -172,9 +174,38 @@ export async function prepareExecutableRecipePlan(
   const catalog = await authenticateUpgradeRecipeCatalog(options.catalog);
   const source = catalog.catalog.releases.find((release) => release.id === options.sourceReleaseId);
   const target = catalog.catalog.releases.find((release) => release.id === options.targetReleaseId);
-  const qualification = catalog.catalog.qualifications.find(
-    (entry) => entry.id === options.qualificationId,
-  );
+  const releaseRoute =
+    options.releaseQualification &&
+    catalog.catalog.recipes.find(
+      (entry) =>
+        entry.id === options.releaseQualification?.recipe.id &&
+        entry.revision === options.releaseQualification.recipe.revision &&
+        entry.purpose === "production" &&
+        catalog.catalog.qualificationIntents?.some(
+          (intent) =>
+            intent.recipe.id === entry.id &&
+            intent.recipe.revision === entry.revision &&
+            intent.sourceReleaseId === options.sourceReleaseId &&
+            intent.targetReleaseId === options.targetReleaseId &&
+            intent.runnerManifestArtifactId === options.runnerManifestArtifactId,
+        ),
+    );
+  const qualification = options.releaseQualification
+    ? releaseRoute &&
+      source &&
+      target &&
+      releaseRoute.source.stateContractClasses.length === 1 &&
+      releaseRoute.source.platforms.length === 1 && {
+        id: undefined,
+        recipe: options.releaseQualification.recipe,
+        sourceReleaseId: source.id,
+        targetReleaseId: target.id,
+        installKind: "npm" as const,
+        platform: releaseRoute.source.platforms[0]!,
+        runtimeFamily: "node" as const,
+        stateContractClass: releaseRoute.source.stateContractClasses[0]!,
+      }
+    : catalog.catalog.qualifications.find((entry) => entry.id === options.qualificationId);
   if (
     !source ||
     !target ||
@@ -199,7 +230,10 @@ export async function prepareExecutableRecipePlan(
   });
   if (
     (await fs.realpath(process.execPath)) !== runner.runtimePath ||
-    (await fs.realpath(fileURLToPath(options.runnerEntryUrl))) !== runner.entrypointPath
+    (await fs.realpath(fileURLToPath(options.runnerEntryUrl))) !==
+      (options.releaseQualification
+        ? runner.releaseQualificationEntrypointPath
+        : runner.entrypointPath)
   ) {
     throw new Error(
       "Executable planning must run from the exact authenticated independent runner.",
@@ -278,6 +312,9 @@ export async function prepareExecutableRecipePlan(
         throw new Error("Executable planning port differs from the actual managed launcher.");
       }
       const selectors: RecipeUpdateArtifactSelectors = {
+        ...(options.releaseQualification
+          ? { releaseQualification: options.releaseQualification }
+          : {}),
         catalog: {
           controlRoot: options.catalog.controlRoot,
           metadataDir: options.catalog.metadataDir,

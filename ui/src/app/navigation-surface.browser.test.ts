@@ -2,7 +2,7 @@ import { html, render } from "lit";
 import { afterEach, describe, expect, it } from "vitest";
 import "../components/sidebar-update-card.ts";
 import "../styles.css";
-import { renderFloatingUpdateCard } from "./navigation-surface.ts";
+import { renderFloatingUpdateCard, visibleNavDrawerToggle } from "./navigation-surface.ts";
 
 const hasBrowserLayout = !navigator.userAgent.toLowerCase().includes("jsdom");
 
@@ -25,6 +25,17 @@ function overlaps(left: DOMRect, right: DOMRect): boolean {
 }
 
 describe.skipIf(!hasBrowserLayout)("navigation surface browser layout", () => {
+  it("finds the collapsed shell chrome drawer trigger", async () => {
+    await useDesktopViewport();
+    render(
+      html`<button class="shell-chrome-controls__nav-toggle" type="button">Navigation</button>`,
+      document.body,
+    );
+    expect(visibleNavDrawerToggle(document.body)).toBe(
+      document.querySelector(".shell-chrome-controls__nav-toggle"),
+    );
+  });
+
   it("keeps the floating refresh card clear of the collapsed chrome cluster", async () => {
     await useDesktopViewport();
     render(

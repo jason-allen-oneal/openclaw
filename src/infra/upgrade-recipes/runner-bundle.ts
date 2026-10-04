@@ -29,6 +29,7 @@ const relativePath = z
 export const upgradeRecipeRunnerBundleManifestSchema = z.strictObject({
   schemaVersion: z.literal(1),
   protocol: z.literal(1),
+  purpose: z.enum(["production", "release-qualification"]).optional(),
   platform: z.strictObject({
     os: z.enum(["linux", "darwin", "win32"]),
     arch: z.enum(["x64", "arm64"]),
@@ -39,6 +40,7 @@ export const upgradeRecipeRunnerBundleManifestSchema = z.strictObject({
     version: z.string().regex(/^\d+\.\d+\.\d+$/),
   }),
   entrypoint: relativePath,
+  releaseQualificationEntrypoint: relativePath.optional(),
   externalModules: z.array(z.never()).length(0),
   files: z
     .array(
@@ -149,8 +151,11 @@ export async function verifyUpgradeRecipeRunnerBundle(options: {
     runtime.length !== 1 ||
     runtime[0]?.path !== manifest.runtime.path ||
     !runtime[0].executable ||
-    runner.length !== 1 ||
-    runner[0]?.path !== manifest.entrypoint
+    runner.length !== (manifest.releaseQualificationEntrypoint ? 2 : 1) ||
+    !runner.some((file) => file.path === manifest.entrypoint) ||
+    (manifest.releaseQualificationEntrypoint !== undefined &&
+      (manifest.releaseQualificationEntrypoint === manifest.entrypoint ||
+        !runner.some((file) => file.path === manifest.releaseQualificationEntrypoint)))
   ) {
     throw new Error("Runner manifest lacks an exact private runtime and sealed entrypoint.");
   }
@@ -204,10 +209,14 @@ export async function verifyUpgradeRecipeRunnerBundle(options: {
   });
   return Object.freeze({
     root,
+    purpose: manifest.purpose ?? "production",
     manifestDigest,
     closureDigest: hashWorkerBundleManifest(observed),
     runtimePath: path.join(root, manifest.runtime.path),
     entrypointPath: path.join(root, manifest.entrypoint),
+    releaseQualificationEntrypointPath: manifest.releaseQualificationEntrypoint
+      ? path.join(root, manifest.releaseQualificationEntrypoint)
+      : undefined,
     nativeDependencies: Object.freeze(
       manifest.files.filter((file) => file.role === "native-dependency").map((file) => file.path),
     ),

@@ -6,11 +6,13 @@ import type { UpdateRecoveryFence } from "../../infra/update-run-recovery.js";
 import { upgradeRecipeMaintenanceReceiptSchema } from "../../infra/upgrade-recipes/maintenance-contract.js";
 import { CommandProcessCleanupError } from "../../process/exec-result.js";
 import { runCommandWithTimeout } from "../../process/exec.js";
+import { admitReleaseQualificationChildInspector } from "./recipe-first-qualification.js";
 import {
   captureUpdateCommandExecutorAuthority,
   withUpdateCommandExecutorChild,
 } from "./update-command-executor.js";
 import { UpdateCommandRecoveryPendingError } from "./update-command-recovery-error.js";
+import type { RecipeUpdateContext } from "./update-recipe-context.js";
 import {
   UPDATE_RECIPE_MAINTENANCE_CAPABILITY,
   type UpdateRecipeMaintenanceInput,
@@ -26,12 +28,19 @@ const resultSchema = z.strictObject({
 /** Reuse native child custody; target receipts do not authorize a separate executor. */
 export async function runUpgradeRecipeTargetMaintenance(options: {
   fence: UpdateRecoveryFence;
+  recipe: RecipeUpdateContext;
   input: Omit<UpdateRecipeMaintenanceInput, "executor" | "capability">;
   env: NodeJS.ProcessEnv;
   /** Rehash the authenticated target closure and pinned runtime before executing it. */
   verifyTarget: () => Promise<void>;
 }) {
-  const { input, fence } = options;
+  const { input, fence, recipe } = options;
+  if (
+    recipe.maintenance.binding.runId !== input.binding.runId ||
+    recipe.maintenance.binding.installationKey !== input.binding.installationKey
+  ) {
+    throw new Error("Recipe maintenance changed its original context binding.");
+  }
   const env = cloneEnvWithPlatformSemantics(options.env);
   // Byte admission cannot validate interpreter preloads or dynamic-loader code.
   // Refuse this unsupported environment rather than silently changing its policy.
@@ -62,7 +71,7 @@ export async function runUpgradeRecipeTargetMaintenance(options: {
   }
   await options.verifyTarget();
   fence.assertCurrent();
-  const argv = [
+  const argv: [string, string] = [
     input.expected.runtimeExecutable,
     path.join(
       input.expected.installationRoot,
@@ -109,6 +118,8 @@ export async function runUpgradeRecipeTargetMaintenance(options: {
   }
   await options.verifyTarget();
   fence.assertCurrent();
+  const inspector = await admitReleaseQualificationChildInspector(recipe, fence);
+  const runArgv = inspector ? [argv[0], inspector, argv[1], "--run"] : [...argv, "--run"];
   const result = await withUpdateCommandExecutorChild(
     fence,
     input.binding.installationKey,
@@ -121,7 +132,16 @@ export async function runUpgradeRecipeTargetMaintenance(options: {
       if (Buffer.byteLength(payload) > 1024 * 1024) {
         throw new Error("Approved maintenance facts exceed the private transport bound.");
       }
-      const command = await runCommandWithTimeout([...argv, "--run"], {
+      const command = await runCommandWithTimeout(runArgv, {
+        ...(inspector
+          ? {
+              onOutputChunk: (chunk: Buffer, stream: string) => {
+                if (stream === "stderr") {
+                  process.stderr.write(chunk);
+                }
+              },
+            }
+          : {}),
         baseEnv: {},
         env,
         cwd: input.binding.installationKey,

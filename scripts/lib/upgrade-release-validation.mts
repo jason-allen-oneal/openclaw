@@ -3,7 +3,10 @@ import { createHash } from "node:crypto";
 import { constants } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { Transform } from "node:stream";
+import { pipeline } from "node:stream/promises";
 import { parseArgs } from "node:util";
+import { Parser } from "tar";
 import { z } from "zod";
 import { upgradeQualificationRecipeDigest } from "../../src/infra/upgrade-recipes/qualification-recipe-digest.js";
 import { validateUpgradeReleaseQualification } from "../../src/infra/upgrade-recipes/qualification.js";
@@ -13,7 +16,12 @@ import { deriveUpgradeChangedContracts } from "./upgrade-changed-contracts.mjs";
 /** Both catalog publication and route qualification use the same fail-closed release gate. */
 export async function runUpgradeReleaseValidation(
   args: string[],
-  expected?: { targetCommit: string; targetArtifactSha256?: string; cwd?: string },
+  expected?: {
+    targetCommit: string;
+    targetArtifactSha256?: string;
+    targetBuildId?: string;
+    cwd?: string;
+  },
 ): Promise<void> {
   const { values } = parseArgs({
     args,
@@ -68,6 +76,7 @@ export async function runUpgradeReleaseValidation(
       const artifact = catalog.artifacts.find((item) => item.id === target?.artifactId);
       if (
         target?.commit !== expected.targetCommit ||
+        (expected.targetBuildId && target?.buildId !== expected.targetBuildId) ||
         (expected.targetArtifactSha256 && artifact?.sha256 !== expected.targetArtifactSha256)
       ) {
         throw new Error("Qualified target does not match the release package and source commit.");
@@ -203,20 +212,12 @@ export async function validateTargetUpgradeRelease(options: {
     cwd: options.targetRoot,
     encoding: "utf8",
   }).trim();
-  const hash = createHash("sha256");
-  const handle = await fs.open(
-    options.targetArtifactPath,
-    constants.O_RDONLY | constants.O_NOFOLLOW,
-  );
-  try {
-    if (!(await handle.stat()).isFile()) {
-      throw new Error("Release target artifact must be a regular file.");
-    }
-    for await (const bytes of handle.createReadStream({ autoClose: false })) {
-      hash.update(bytes);
-    }
-  } finally {
-    await handle.close();
+  assertCleanReleaseSource(options.targetRoot, targetCommit);
+  const packed = await inspectPackedRelease(options.targetArtifactPath);
+  if (packed.build.commit !== targetCommit || packed.build.version !== packed.package.version) {
+    throw new Error(
+      "Packed release provenance does not match its package version and selected source commit.",
+    );
   }
   const resolveInput = (name: string) => path.resolve(path.dirname(manifestPath), name);
   await runUpgradeReleaseValidation(
@@ -234,6 +235,96 @@ export async function validateTargetUpgradeRelease(options: {
       "--head",
       targetCommit,
     ],
-    { targetCommit, targetArtifactSha256: hash.digest("hex"), cwd: options.targetRoot },
+    {
+      targetCommit,
+      targetArtifactSha256: packed.sha256,
+      targetBuildId: packed.build.buildId,
+      cwd: options.targetRoot,
+    },
   );
+  assertCleanReleaseSource(options.targetRoot, targetCommit);
+}
+
+function assertCleanReleaseSource(cwd: string, expectedHead: string) {
+  const git = (args: string[]) => execFileSync("git", args, { cwd, encoding: "utf8" }).trim();
+  if (
+    git(["rev-parse", "--verify", "HEAD^{commit}"]) !== expectedHead ||
+    git(["status", "--porcelain", "--untracked-files=no"])
+  ) {
+    throw new Error(
+      "Recipe-capable release requires an unchanged HEAD and clean tracked index/worktree.",
+    );
+  }
+}
+
+async function inspectPackedRelease(filename: string) {
+  const members = new Map<string, Buffer>();
+  const wanted = new Set(["package/package.json", "package/dist/build-info.json"]);
+  const parser = new Parser({
+    strict: true,
+    filter: (name) => wanted.has(path.posix.normalize(name.replaceAll("\\", "/"))),
+    onReadEntry(entry) {
+      if (
+        !wanted.has(entry.path) ||
+        members.has(entry.path) ||
+        entry.type !== "File" ||
+        entry.size > 1024 * 1024
+      ) {
+        parser.abort(new Error(`Invalid or duplicate packed release identity: ${entry.path}`));
+        return;
+      }
+      // Reserve the name before consuming bytes, so duplicate members cannot replace identity.
+      members.set(entry.path, Buffer.alloc(0));
+      const chunks: Buffer[] = [];
+      let length = 0;
+      entry.on("data", (bytes: Buffer) => {
+        length += bytes.length;
+        if (length > 1024 * 1024) {
+          parser.abort(new Error("Packed release identity exceeds its size limit."));
+          return;
+        }
+        chunks.push(bytes);
+      });
+      entry.on("end", () => members.set(entry.path, Buffer.concat(chunks)));
+      entry.resume();
+    },
+  });
+  const hash = createHash("sha256");
+  const hashing = new Transform({
+    transform(bytes: Buffer, _encoding, callback) {
+      hash.update(bytes);
+      callback(null, bytes);
+    },
+  });
+  const handle = await fs.open(filename, constants.O_RDONLY | constants.O_NOFOLLOW);
+  try {
+    if (!(await handle.stat()).isFile()) {
+      throw new Error("Release target artifact must be a regular file.");
+    }
+    // Hash and inspect the same descriptor stream, never a second pathname read.
+    await pipeline(handle.createReadStream({ autoClose: false }), hashing, parser);
+  } catch (error) {
+    parser.abort(error instanceof Error ? error : new Error(String(error)));
+    throw error;
+  } finally {
+    await handle.close();
+  }
+  const json = (name: string): unknown => {
+    const bytes = members.get(name);
+    if (!bytes) {
+      throw new Error(`Missing packed release identity: ${name}`);
+    }
+    return JSON.parse(bytes.toString("utf8"));
+  };
+  return {
+    sha256: hash.digest("hex"),
+    package: z.object({ version: z.string().min(1) }).parse(json("package/package.json")),
+    build: z
+      .object({
+        version: z.string().min(1),
+        commit: z.string().regex(/^[a-f0-9]{40}$/),
+        buildId: z.string().min(1),
+      })
+      .parse(json("package/dist/build-info.json")),
+  };
 }

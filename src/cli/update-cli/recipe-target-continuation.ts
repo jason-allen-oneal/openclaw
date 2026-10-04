@@ -7,6 +7,7 @@ import { runtimeProcessEntrypoints } from "../../infra/runtime-process-entrypoin
 import type { UpdateRecoveryFence } from "../../infra/update-run-recovery.js";
 import { CommandProcessCleanupError } from "../../process/exec-result.js";
 import { runUtf8CommandWithTimeout } from "../../process/exec.js";
+import { admitReleaseQualificationChildInspector } from "./recipe-first-qualification.js";
 import {
   UPDATE_RECIPE_RESUME_CAPABILITY,
   recipeResumeResultSchema,
@@ -30,7 +31,7 @@ export async function continueInAuthenticatedTarget(options: {
   const { runId, installationKey } = recipe.maintenance.binding;
   const scratch = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-recipe-resume-"));
   try {
-    const command = [
+    const command: [string, string] = [
       recipe.maintenance.expected.runtimeExecutable,
       path.join(
         installationKey,
@@ -49,12 +50,22 @@ export async function continueInAuthenticatedTarget(options: {
       argv: string[],
       input?: string,
       beforeInput?: (pid: number, argv?: readonly string[]) => void,
+      inspect = false,
     ) =>
       runUtf8CommandWithTimeout(argv, {
         cwd: installationKey,
         baseEnv: {},
         env: workerEnv,
         ...(input === undefined ? {} : { input, beforeInput }),
+        ...(inspect
+          ? {
+              onOutputChunk: (chunk: Buffer, stream: string) => {
+                if (stream === "stderr") {
+                  process.stderr.write(chunk);
+                }
+              },
+            }
+          : {}),
         timeoutMs: recipe.maintenance.timeoutMs,
         killProcessTree: true,
         requireProcessTreeExtinction: true,
@@ -87,14 +98,17 @@ export async function continueInAuthenticatedTarget(options: {
       ledgerPath: options.ledgerPath,
       resultPath,
     };
+    const inspector = await admitReleaseQualificationChildInspector(recipe, fence);
+    const targetCommand = inspector ? [command[0], inspector, command[1]] : command;
     const child = await withUpdateCommandExecutorChild(
       fence,
       installationKey,
       async (executor, bindChild) => {
         const result = await invoke(
-          [...command, "--recipe-resume"],
+          [...targetCommand, "--recipe-resume"],
           JSON.stringify({ ...input, executor }),
           bindChild,
+          inspector !== undefined,
         );
         if (result.cleanup !== "normal") {
           throw new CommandProcessCleanupError();
@@ -103,7 +117,7 @@ export async function continueInAuthenticatedTarget(options: {
       },
     );
     fence.assertCurrent();
-    if (child.stderr) {
+    if (child.stderr && !inspector) {
       process.stderr.write(child.stderr);
     }
     if (child.termination !== "exit" || child.code !== 0) {

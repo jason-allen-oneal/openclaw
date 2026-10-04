@@ -101,10 +101,9 @@ it("rejects unknown native state and failed fresh readiness without recording co
   expect(mocks.reconcile).not.toHaveBeenCalled();
 });
 it("leaves stopped service unchanged when its native definition drifts after approval", async () => {
-  mocks.observe.mockResolvedValue({
-    state: { env, running: false, runtime: { status: "stopped" } },
-    verdict: { kind: "owned", fingerprint: "foreign-definition" },
-  });
+  mocks.observe.mockRejectedValue(
+    new Error("Native service definition differs from explicit approval"),
+  );
   await expect(resumeRecipeTargetService(input)).rejects.toThrow("differs from explicit approval");
   expect(mocks.restart).not.toHaveBeenCalled();
   expect(mocks.prepare).not.toHaveBeenCalled();

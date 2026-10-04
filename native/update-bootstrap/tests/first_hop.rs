@@ -119,15 +119,15 @@ impl Fixture {
         };
         let runner = b"console.log('independent-first-hop=' + process.versions.node); if(process.env.NODE_OPTIONS) throw new Error('inherited authority');".to_vec();
         let file = |id: &str, path: &str, bytes: &[u8], role: &str, executable: bool| json!({ "path": path, "artifactId": id, "sha256": hash(bytes), "length": bytes.len(), "role": role, "executable": executable });
-        let manifest = serde_json::to_vec(&json!({ "schemaVersion":1, "protocol":1,
+        let manifest = serde_json::to_vec(&json!({ "schemaVersion":1, "protocol":1, "purpose":"production",
             "platform": { "os": "linux", "arch": if cfg!(target_arch="aarch64") {"arm64"} else {"x64"} },
-            "runtime": { "path":"node", "kind":"node", "version":version }, "entrypoint":"updater.mjs", "externalModules":[],
-            "files":[file("node-runtime","node",&runtime,"runtime",true), file("runner","updater.mjs",&runner,"runner",false)] })).unwrap();
+            "runtime": { "path":"node", "kind":"node", "version":version }, "entrypoint":"updater.mjs", "releaseQualificationEntrypoint":"release-qualification.mjs", "externalModules":[],
+            "files":[file("node-runtime","node",&runtime,"runtime",true), file("runner","updater.mjs",&runner,"runner",false), file("runner","release-qualification.mjs",&runner,"runner",false)] })).unwrap();
         let identity =
             |id: &str, bytes: &[u8]| json!({"id":id,"sha256":hash(bytes),"length":bytes.len()});
         let catalog = serde_json::to_vec(&json!({ "schemaVersion":1,
             "catalog": {"schemaVersion":1,"id":"first-hop-fixture","artifacts":[identity("node-runtime",&runtime),identity("runner",&runner),identity("runner-manifest",&manifest)],
-                "releases":[],"recipes":[],"adapters":[],"qualifications":[]},
+                "releases":[],"recipes":[],"adapters":[],"qualifications":[],"qualificationIntents":[]},
             "revokedRecipes":[],"revokedArtifactIds":if revoked {vec!["node-runtime"]} else {vec![]} })).unwrap();
         write(
             &artifacts.join("node-runtime"),
@@ -193,6 +193,9 @@ impl Fixture {
         );
     }
     fn launch(&self, verify: bool) -> Output {
+        self.launch_with(verify, &[], &["plan"])
+    }
+    fn launch_with(&self, verify: bool, bootstrap: &[&str], runner: &[&str]) -> Output {
         let mut command = Command::new(env!("CARGO_BIN_EXE_openclaw-updater"));
         command.args([
             "--control-root",
@@ -210,10 +213,11 @@ impl Fixture {
             "--manifest-artifact",
             "runner-manifest",
         ]);
+        command.args(bootstrap);
         if verify {
             command.arg("--verify-only");
         } else {
-            command.args(["--", "plan"]);
+            command.arg("--").args(runner);
         }
         command.env("PATH", "/no-application-runtime").env(
             "NODE_OPTIONS",
@@ -238,6 +242,27 @@ fn independently_launches_private_node_without_installed_runtime_or_config_loade
     // Verified cached bytes support another launch without re-downloading the private runtime.
     fs::remove_file(fixture.artifacts.join("node-runtime")).unwrap();
     assert!(fixture.launch(false).status.success());
+}
+#[test]
+fn failed_target_stream_does_not_poison_a_later_authenticated_attempt() {
+    let fixture = Fixture::new(false, true, false, false);
+    assert!(!fixture.launch(true).status.success());
+    let retained = fixture.control.join("runners").join(&fixture.manifest_sha);
+    assert!(fs::read_dir(&retained).unwrap().all(|entry| !entry
+        .unwrap()
+        .file_name()
+        .to_string_lossy()
+        .contains("partial-")));
+    write(
+        &fixture.artifacts.join("node-runtime"),
+        b"#!/bin/sh\nprintf 'UNSAFE_LAUNCH\\n'\nexit 0\n",
+    );
+    let result = fixture.launch(true);
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
 }
 #[test]
 fn refuses_expired_corrupt_revoked_or_unprovisioned_targets_without_running() {
@@ -292,4 +317,36 @@ fn refuses_signed_timestamp_rollback_across_native_processes() {
     assert!(fixture.launch(true).status.success());
     fixture.timestamp_version(1);
     assert!(!fixture.launch(false).status.success());
+}
+
+#[test]
+fn refuses_qualification_or_inspector_misuse_without_launching_signed_canary() {
+    let fixture = Fixture::new(false, false, false, false);
+    for (verify, flags, args) in [
+        (false, vec!["--qualification-inspector"], vec!["plan"]),
+        (true, vec!["--release-qualification"], vec![]),
+        (false, vec!["--release-qualification"], vec!["plan"]),
+        (
+            false,
+            vec!["--release-qualification", "--release-qualification"],
+            vec!["plan"],
+        ),
+        (
+            false,
+            vec![
+                "--release-qualification",
+                "--qualification-inspector=0.0.0.0:9229",
+            ],
+            vec!["plan"],
+        ),
+        (
+            false,
+            vec!["--release-qualification"],
+            vec!["--input", "/tmp/input", "--plan", "/tmp/plan"],
+        ),
+    ] {
+        let result = fixture.launch_with(verify, &flags, &args);
+        assert!(!result.status.success());
+        assert!(!String::from_utf8_lossy(&result.stdout).contains("UNSAFE_LAUNCH"));
+    }
 }

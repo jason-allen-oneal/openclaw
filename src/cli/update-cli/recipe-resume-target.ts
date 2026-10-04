@@ -66,7 +66,7 @@ export async function resumeRecipeTargetService(options: {
   owner.assertCurrent();
   const recorder = createFencedUpgradeRecipeStepReceiptRecorder(binding, owner);
   const intent = await recorder.read();
-  const { state, verdict } = await observeRecipeServiceForRecovery(recipe, owner);
+  const { state } = await observeRecipeServiceForRecovery(recipe, owner);
   owner.assertCurrent();
   if (state.runtime?.status === "running" && isGatewayServiceStateLive(state)) {
     if (!intent) {
@@ -79,9 +79,6 @@ export async function resumeRecipeTargetService(options: {
       throw new UpdateCommandRecipeReconciliationPendingError(
         "Previously verified service is now stopped; do not replay its historical activation.",
       );
-    }
-    if (verdict.fingerprint !== recipe.service.beforeDefinitionFingerprint) {
-      throw new Error("Stopped original service definition differs from explicit approval.");
     }
     if (!intent) {
       await prepareRecipeServiceActivation(recipe, owner);
@@ -297,6 +294,7 @@ async function resumeTargetUnderFence(options: {
         // A retained intent is reconciled by the same maintenance owner, not fresh prepare hooks.
         await createFencedUpgradeRecipeStepReceiptRecorder(binding, owner).prepareIntent();
         await runUpgradeRecipeTargetMaintenance({
+          recipe,
           fence,
           input: recipe.maintenance,
           env,

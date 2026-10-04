@@ -15,7 +15,11 @@ import { createUpgradeQualificationCrashPlugin } from "./lib/upgrade-qualificati
 /** Build only; production bundles still require authenticated runtime/native artifact provisioning. */
 export async function buildUpgradeRecipeRunner(
   outputDirectory: string,
-  options?: { qualification: { boundary: string; runId: string } },
+  options?: {
+    qualification?: { boundary: string; runId: string };
+    releaseQualification?: boolean;
+    observerSourceMaps?: boolean;
+  },
 ): Promise<void> {
   const root = fileURLToPath(new URL("../", import.meta.url));
   const output = path.resolve(outputDirectory);
@@ -32,6 +36,15 @@ export async function buildUpgradeRecipeRunner(
       .href,
     sourceWorkerName: "standalone-updater-entry",
     distWorkerPath: "openclaw-updater.mjs",
+  });
+  // Both entries are sealed into the eventual production closure, not a second runner.
+  const releaseConfig = createSealedRecoveryBuildConfig({
+    currentModuleUrl: new URL(
+      "../src/cli/update-cli/release-qualification-entry.ts",
+      import.meta.url,
+    ).href,
+    sourceWorkerName: "release-qualification-entry",
+    distWorkerPath: "openclaw-release-qualification.mjs",
   });
   const workers = upgradeRecipeRunnerProcessNames;
   const workerConfigs = workers.map((name) => {
@@ -63,23 +76,30 @@ export async function buildUpgradeRecipeRunner(
       ],
     });
   });
-  for (const sealed of [config, ...createManagedHandoffBuildConfigs(), ...workerConfigs]) {
+  for (const sealed of [
+    config,
+    releaseConfig,
+    ...createManagedHandoffBuildConfigs(),
+    ...workerConfigs,
+  ]) {
     // Disable project config discovery: this bounded owner must not accidentally
     // run the application's entire tsdown matrix or write its shared artifacts.
     await build({
       ...sealed,
-      ...(options
+      ...(options?.qualification
         ? {
             plugins: [sealed.plugins, createUpgradeQualificationCrashPlugin(options.qualification)],
           }
         : {}),
+      // Hidden companion maps support external exact-byte observation, never runtime hooks.
+      ...(options?.observerSourceMaps ? { sourcemap: "hidden" as const } : {}),
       config: false,
       cwd: root,
       outDir: output,
       clean: false,
     });
   }
-  if (options) {
+  if (options?.qualification) {
     await fs.writeFile(
       path.join(output, "QUALIFICATION_FIXTURE_ONLY.json"),
       JSON.stringify({ purpose: "fixture", ...options.qualification }),
@@ -96,6 +116,8 @@ if (isDirectRunUrl(process.argv[1], import.meta.url)) {
     args: process.argv.slice(3),
     strict: true,
     options: {
+      "release-qualification": { type: "boolean" },
+      "observer-source-maps": { type: "boolean" },
       "qualification-boundary": { type: "string" },
       "qualification-run-id": { type: "string" },
     },
@@ -105,8 +127,9 @@ if (isDirectRunUrl(process.argv[1], import.meta.url)) {
   }
   const boundary = values["qualification-boundary"];
   const runId = values["qualification-run-id"];
-  await buildUpgradeRecipeRunner(
-    output,
-    boundary && runId ? { qualification: { boundary, runId } } : undefined,
-  );
+  await buildUpgradeRecipeRunner(output, {
+    ...(boundary && runId ? { qualification: { boundary, runId } } : {}),
+    releaseQualification: values["release-qualification"],
+    observerSourceMaps: values["observer-source-maps"],
+  });
 }

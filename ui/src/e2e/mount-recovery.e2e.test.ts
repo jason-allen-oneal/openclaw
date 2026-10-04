@@ -51,7 +51,9 @@ suite.define(() => {
           }
           await route.continue();
         });
-        await installMockGateway(page);
+        // The first document deliberately cannot mount; readiness belongs to the
+        // recovered shell and welcome assertions below, not the broken navigation.
+        await installMockGateway(page, { awaitInitialRoster: false });
 
         expect(
           (
