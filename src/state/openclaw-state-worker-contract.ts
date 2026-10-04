@@ -45,6 +45,9 @@ import type {
 } from "../infra/update-run-interruption-contract.js";
 import type { UpdateRunWriteOperations } from "../infra/update-run-mutation.types.js";
 import type { UpdateRunReconciliationOperations } from "../infra/update-run-reconciliation.types.js";
+import type { UpgradeRecipeMaintenanceWriteOperations } from "../infra/upgrade-recipes/maintenance-contract.js";
+import type { UpgradeRecipeStepWriteOperations } from "../infra/upgrade-recipes/receipts-contract.js";
+import type { UpgradeRecipeRetainedRunWriteOperations } from "../infra/upgrade-recipes/retained-run.js";
 import type { PluginStateWorkerOperations } from "../plugin-state/plugin-state-worker-contract.js";
 import type { PluginMetadataStateSelector } from "../plugins/installed-plugin-index-row.js";
 import type { CaptureWorkerOperations } from "../proxy-capture/store.worker-contract.js";
@@ -76,6 +79,9 @@ export type OpenClawStateWorkerOperations = RegisteredStateWorkerOperations &
   WorkspaceStateWorkerOperations &
   UpdateRunReconciliationOperations &
   UpdateRunWriteOperations &
+  UpgradeRecipeMaintenanceWriteOperations &
+  UpgradeRecipeStepWriteOperations &
+  UpgradeRecipeRetainedRunWriteOperations &
   CaptureWorkerOperations &
   TuiLastSessionWorkerOperations &
   SessionStateWorkerOperations &

@@ -61,6 +61,7 @@ import {
 import { measureStartup, type GatewayStartupTrace } from "./server-startup-trace.js";
 import { scheduleTranscriptsSidecar } from "./server-startup-transcripts.js";
 import { createDeferredGatewayUpdateCheck } from "./server-startup-update-check.js";
+import { isGatewayRestrictedUpgradeStartup } from "./server-upgrade-startup-mode.js";
 import type { ReadinessChecker } from "./server/readiness.js";
 import {
   beginMacOSSystemCaWarmupOnce,
@@ -602,6 +603,7 @@ export async function startGatewayPostAttachRuntime(
     scheduler: GatewayScheduler;
     minimalTestGateway: boolean;
     updateCanary?: boolean;
+    upgradeMaintenance?: boolean;
     cfgAtStart: OpenClawConfig;
     getConfig: () => OpenClawConfig;
     port: number;
@@ -671,7 +673,7 @@ export async function startGatewayPostAttachRuntime(
   const restartSentinelContext = captureDeliveryQueueStateContext();
   // The CLI's hidden capability flag supplies this typed internal handoff.
   // Rehearsal loads plugins without resuming copied jobs, services, or notices.
-  const candidateCanary = params.updateCanary === true;
+  const candidateCanary = isGatewayRestrictedUpgradeStartup(params);
   const controlUiRootLifecycle = params.controlUiRootLifecycle;
   const mainSessionRecoveryStartupCheckedStorePaths = new Set<string>();
   const controlUiAssetsSidecar =
@@ -846,7 +848,12 @@ export async function startGatewayPostAttachRuntime(
             }
             params.unlockStartupMethods();
             params.onSidecarsReady?.();
-            logGatewayReady(params, "candidate gateway ready; autonomous sidecars suppressed");
+            logGatewayReady(
+              params,
+              params.upgradeMaintenance
+                ? "upgrade maintenance gateway ready; business services withheld until native commit"
+                : "candidate gateway ready; autonomous sidecars suppressed",
+            );
             return pluginRegistry;
           }
           const startupOutcomes = createGatewayStartupOutcomeRecorder({

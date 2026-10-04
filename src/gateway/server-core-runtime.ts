@@ -160,6 +160,7 @@ export async function startGatewayCoreRuntime(input: {
             minimalTestGateway,
             isClosing: () => runtime.lifecycle.closePreludeStarted,
             updateCanary: runtime.opts.updateCanary,
+            upgradeMaintenance: runtime.opts.upgradeMaintenance !== undefined,
             cfgAtStart,
             port,
             gatewayTls,
@@ -235,6 +236,7 @@ export async function startGatewayCoreRuntime(input: {
     ...runtimeSubscriptionUnsubs
   } = await startupTrace.measure("runtime.subscriptions", () =>
     startGatewayEventSubscriptions({
+      maintenanceStartup: runtime.opts.upgradeMaintenance !== undefined,
       scheduler: runtime.scheduler,
       signal: runtime.connectionWork.signal,
       getSessionRowProjection: runtime.getSessionRowProjection,
@@ -261,6 +263,7 @@ export async function startGatewayCoreRuntime(input: {
       startGatewayChannelHealthMonitor({
         channelManager,
         scheduler: runtime.scheduler,
+        maintenanceStartup: runtime.opts.upgradeMaintenance !== undefined,
       }),
     ),
   );

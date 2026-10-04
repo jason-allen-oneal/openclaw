@@ -654,3 +654,55 @@ rerunning the whole release umbrella.
 - [Tests](/reference/test) - index of the testing reference, one page per reader job
 - [Testing](/help/testing) - the full testing kit: suites, live lanes, and Docker runners
 - [Release policy](/reference/RELEASING) - the release process this checklist gates
+
+## Versioned recipe route collection
+
+`pnpm upgrade:qualify --run-manifest <manifest.json> --output <new-directory>`
+runs historical source tarballs against a candidate through the external
+bootstrap in fresh Docker machines. It is not the catalog JSON validator;
+`pnpm upgrade:catalog:validate` retains that separate responsibility.
+
+The release owner supplies a SHA-256-pinned native-systemd image (including
+Node, npm and offline dependencies), exact source/target tarballs, authenticated
+bootstrap/catalog inputs, and a bound state-fixture script. Each cell specifies
+an original run UUID, argv arrays for `apply` and original-run `resume`, and
+optional crash boundary. Inputs have `{path, sha256, length}` bindings; the
+controller stages and verifies them before launching a machine. Additional
+inputs are exposed as `/qualification/input/input-0`, `input-1`, and so on.
+The fixture receives `seed`, `assert-source`, and `assert-target` actions plus
+`/qualification/input/cell.json`; it must check the installation's actual
+identity, state, protected policy, readiness, and original ledger/receipts.
+No fixture may substitute a fresh target install for a real upgrade.
+
+Run this controller only on a dedicated disposable Docker host. Machines use
+`--privileged --cgroupns private` to provide writable private cgroups for native
+systemd, and have no network. Privileged Docker is not a security boundary for
+untrusted artifacts; do not run qualification on an operator host. The controller
+never binds host cgroups, shares host PID/cgroup namespaces, or changes host
+services. It requires an actual systemd PID 1 ELF executable and native manager
+observation, not the existing survivor lane's `systemctl` shim. Supply a compatible
+container image with irrelevant console/getty units disabled in the image;
+manager startup failure remains a failed cell. Only the newly created machine
+is removed. Verified
+inputs, process identities, apply/resume output, fixture assertions, cleanup
+output, and a collection report remain in the private output directory.
+
+Crash regression builds can use `createUpgradeQualificationCrashPlugin` from
+`scripts/lib/upgrade-qualification-crash-build.mts` in **both** sealed runner
+and candidate build configurations. The plugin anchors eight before/after
+boundaries to their real owners and refuses missing or ambiguous anchors. It
+compiles the selected boundary and UUID into that isolated artifact; production
+runtime flags cannot enable it. At the boundary, the actual process writes a
+durable marker and stops. The controller verifies its `/proc` start identity,
+kills it, joins the original apply child, and resumes the same retained run.
+Migration interception is limited to the fixture's canonical live database,
+not the rehearsal copy.
+
+Instrumented artifacts are **fixture proof only**, since instrumentation changes
+the candidate digest. Unchanged-artifact crash interception is still required
+for exact production qualification. A collection report is unsigned test
+output, not authenticated release evidence. The release owner must bind retained
+diagnostics and exact tested artifacts into the catalog's qualification
+manifest and pass the existing release validator. Missing release-owner
+artifacts or passing native-systemd cells must never be reported as qualified
+historical routes.

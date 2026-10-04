@@ -241,6 +241,13 @@ export function createPublicationOwner(
   const verifyClosure = async () => {
     assertInventory();
     assertManagedUpdateLeaseDatabaseIdentity(descriptor.authority);
+    // A recorded unlink can outlive its acknowledgment. Only the exact terminal
+    // absence permits continuing without the retired helper; the selected tree
+    // and launchers are still verified by retirement preflight.
+    if (isPackageActivationComplete(anchor, record)) {
+      assertCurrent();
+      return;
+    }
     if (packageActivationIdentity(helper(), false) !== helperIdentity) {
       throw new Error("Sealed package recovery helper identity changed.");
     }
@@ -462,6 +469,9 @@ export function createPublicationOwner(
     await verifySelectedLaunchers(selected);
     retirementSelected = selected;
     assertCurrent();
+    if (isPackageActivationComplete(anchor, record)) {
+      return await persistRetirement();
+    }
     if (!["retiring", "anchor-retired"].includes(record.phase)) {
       const publications =
         record.phase === "aborted"
@@ -551,6 +561,26 @@ export function createPublicationOwner(
     retire,
     persistRetirement,
     preflight,
+    async assertCandidateRetirement() {
+      if (selectedRetirementGeneration() !== "candidate") {
+        throw new Error("Original recipe retirement did not select the authenticated candidate.");
+      }
+      await preflight("retire");
+    },
+    /** Passive original-run continuation check; never turn untouched preparation into replay. */
+    async assertPublicationStarted() {
+      assertActionAllowed("repair");
+      if (record.phase === "preparing") {
+        throw new Error("Original publication preparation has not established forward effects.");
+      }
+      const observed = await inspect();
+      assertCurrent();
+      if (observed.selected === "previous" && !observed.previous) {
+        throw new Error(
+          "Original publication is untouched; verified preparation progression requires its original owner.",
+        );
+      }
+    },
     async disarmRollback() {
       assertCurrent();
       const observed = await inspect();

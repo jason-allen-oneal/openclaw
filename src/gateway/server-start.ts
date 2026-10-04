@@ -58,6 +58,7 @@ async function startGatewayServerWithSdkHost(
     const transport = await createGatewayHttpTransport({
       ...gatewayKernel.createHttpTransportOptions(),
       updateCanary: opts.updateCanary,
+      upgradeMaintenance: opts.upgradeMaintenance !== undefined,
       ...(!gatewayKernel.minimalTestGateway && gatewayKernel.tailscaleMode !== "off"
         ? {
             prepareManagedTailscaleIngress: async (backend) => {
@@ -119,6 +120,9 @@ async function startGatewayServerWithSdkHost(
 
   return {
     startupSettled,
+    ...(opts.upgradeMaintenance
+      ? { getUpgradeMaintenanceReadiness: gatewayKernel.createHttpTransportOptions().getReadiness }
+      : {}),
     getTailscaleIngressEndpoint: gatewayKernel.transportBridge.getTailscaleIngressEndpoint,
     close: (optsLocal) => {
       if (!closePromise) {

@@ -271,6 +271,97 @@ describe("upgrade recipe planning", () => {
     expect(createUpgradeRecipePlan(options).digest).not.toBe(before.digest);
   });
 
+  function serviceVerificationFixture() {
+    const options = fixture();
+    options.step.id = "service-ready";
+    options.step.phase = "verify";
+    options.step.adapter.id = "core.service-verify";
+    options.step.resources = [
+      { kind: "service-definition", scope: "installation", access: "write" },
+    ];
+    options.step.recovery = {
+      mode: "transactional-reconcile",
+      contractId: "core.service-verify.v1",
+      snapshotRequired: false,
+    };
+    options.step.postconditionContractIds = ["core.managed-service-ready.v1"];
+    options.adapter.id = "core.service-verify";
+    options.adapter.phases = ["verify"];
+    return options;
+  }
+
+  it("admits only the exact native service verification lifecycle declaration without granting execution", () => {
+    const options = serviceVerificationFixture();
+    const plan = createUpgradeRecipePlan(options);
+    expect(plan.blockers.map((blocker) => blocker.code)).toEqual([
+      "recipe-execution-disabled",
+      "catalog-authentication-unavailable",
+      "adapter-inspection-unverified",
+    ]);
+    expect(plan.steps).toHaveLength(1);
+    expect(plan.steps[0]).toMatchObject({
+      phase: "verify",
+      mutation: "live-state",
+      adapter: { id: "core.service-verify", revision: 1 },
+    });
+    expect(plan.mutationEnabled).toBe(false);
+  });
+
+  it.each(["state-db", "configuration", "package"] as const)(
+    "refuses verify-phase %s writes even under the native service adapter name",
+    (kind) => {
+      const options = serviceVerificationFixture();
+      options.step.resources = [{ kind, scope: "installation", access: "write" }];
+      expect(codes(options)).toContain("catalog-inconsistent");
+    },
+  );
+
+  it.each([
+    "generic-adapter",
+    "adapter-revision",
+    "wrong-recovery",
+    "snapshot-rewind",
+    "mixed-resources",
+    "wrong-scope",
+    "parameters",
+    "wrong-postcondition",
+  ] as const)("refuses service verification with %s", (defect) => {
+    const options = serviceVerificationFixture();
+    switch (defect) {
+      case "generic-adapter":
+        options.step.adapter.id = "arbitrary-service-writer";
+        options.adapter.id = "arbitrary-service-writer";
+        break;
+      case "adapter-revision":
+        options.step.adapter.revision = 2;
+        options.adapter.revision = 2;
+        break;
+      case "wrong-recovery":
+        options.step.recovery.contractId = "generic-reconcile";
+        break;
+      case "snapshot-rewind":
+        options.step.recovery.snapshotRequired = true;
+        break;
+      case "mixed-resources":
+        options.step.resources.push({
+          kind: "configuration",
+          scope: "active-profile",
+          access: "write",
+        });
+        break;
+      case "wrong-scope":
+        options.step.resources[0]!.scope = "active-profile";
+        break;
+      case "parameters":
+        options.step.parameters = { command: "unreviewed" };
+        break;
+      case "wrong-postcondition":
+        options.step.postconditionContractIds = ["generic-ready"];
+        break;
+    }
+    expect(codes(options)).toContain("catalog-inconsistent");
+  });
+
   it("does not infer migration completion from a release version", () => {
     const options = fixture();
     const plan = createUpgradeRecipePlan({

@@ -32,6 +32,10 @@ import {
   type CanaryReceiptCallbacks,
 } from "./update-candidate-canary-receipts.js";
 import {
+  collectUpdateCandidateRehearsalStateObservation,
+  type UpdateCandidateRehearsalStateObservation,
+} from "./update-candidate-rehearsal-observation.js";
+import {
   prepareUpdateCandidateRehearsal,
   type UpdateCandidateRehearsal,
 } from "./update-candidate-rehearsal.js";
@@ -67,6 +71,7 @@ type CanaryResult = {
   logTail: string[];
   steps: UpdateStepResult[];
   candidateSchemaVersions?: OpenClawSchemaVersions;
+  stateObservation?: UpdateCandidateRehearsalStateObservation;
   gatewayRestartCompletion?: boolean;
   doctorConfigWrites?: boolean;
   doctorConfigChanges?: UpdateDoctorConfigChange[];
@@ -95,6 +100,8 @@ export async function validateUpdateCandidateCanary(
     assertCurrent?: () => void;
     /** Startup-only callers must prove the preserved input boots without Doctor repair. */
     migrationPolicy?: "rehearse" | "startup-only";
+    /** Optional executable-planning evidence from actual private post-migration state. */
+    observeStateVersions?: boolean;
   } & CanaryReceiptCallbacks,
 ): Promise<CanaryResult> {
   const started = Date.now();
@@ -598,6 +605,11 @@ export async function validateUpdateCandidateCanary(
           : {}),
       };
       await recordStep(step);
+      if (params.observeStateVersions && probeFailure) {
+        throw new Error(
+          "Executable recipe rehearsal requires actual candidate readiness, not an advisory timeout.",
+        );
+      }
     } catch (error) {
       startupFailure = error;
       throw error;
@@ -611,8 +623,12 @@ export async function validateUpdateCandidateCanary(
         primaryFailure: startupFailure,
       });
     }
+    const stateObservation = params.observeStateVersions
+      ? await collectUpdateCandidateRehearsalStateObservation({ rehearsal, ...params })
+      : undefined;
     return {
       status: "ok",
+      ...(stateObservation ? { stateObservation } : {}),
       phase: progress.phase,
       durationMs: Date.now() - started,
       logTail,

@@ -5,13 +5,15 @@ import { managedHandoffRuntimeEntrypoint } from "../../src/infra/update-managed-
 import { createStateSchemaInlinePlugin } from "./state-schema-inline-plugin.mts";
 
 /** The installed CLI and invocation compiler seal the same typed lease owner. */
-export function createManagedHandoffBuildConfigs() {
+export function createManagedHandoffBuildConfigs(): UserConfig[] {
   return [managedHandoffRuntimeEntrypoint, packageActivationRuntimeEntrypoint].map((entry) =>
     createSealedRecoveryBuildConfig(entry),
   );
 }
 
-function createSealedRecoveryBuildConfig(entry: typeof managedHandoffRuntimeEntrypoint) {
+export function createSealedRecoveryBuildConfig(
+  entry: typeof managedHandoffRuntimeEntrypoint,
+): UserConfig {
   const identityReader = fileURLToPath(
     new URL("../../src/shared/freebsd-process-identity.ts", import.meta.url),
   );

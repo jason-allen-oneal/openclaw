@@ -103,6 +103,31 @@ function matchesPlatform(
   return a.os === b.os && a.arch === b.arch && a.serviceMode === b.serviceMode;
 }
 
+/** Only the fixed native service reconciler may activate a service while verifying readiness.
+ * This structural allowance is not execution authority; execution still checks the exact reviewed adapter.
+ */
+function isEngineServiceVerification(step: UpgradeRecipeStep): boolean {
+  return (
+    step.phase === "verify" &&
+    step.mutation === "live-state" &&
+    step.adapter.id === "core.service-verify" &&
+    step.adapter.revision === 1 &&
+    Object.keys(step.parameters).length === 0 &&
+    step.resources.length === 1 &&
+    step.resources.every(
+      (resource) =>
+        resource.kind === "service-definition" &&
+        resource.scope === "installation" &&
+        resource.access === "write",
+    ) &&
+    step.recovery.mode === "transactional-reconcile" &&
+    step.recovery.contractId === "core.service-verify.v1" &&
+    !step.recovery.snapshotRequired &&
+    step.postconditionContractIds.length === 1 &&
+    step.postconditionContractIds[0] === "core.managed-service-ready.v1"
+  );
+}
+
 /** Stable topological ordering within engine-owned phases; recipes cannot move the lifecycle. */
 function orderSteps(recipe: UpgradeRecipe): UpgradeRecipeStep[] {
   const byId = new Map(recipe.steps.map((step) => [step.id, step]));
@@ -118,7 +143,7 @@ function orderSteps(recipe: UpgradeRecipe): UpgradeRecipeStep[] {
     }
     if (
       (step.mutation === "live-state" && step.phase === "prepare") ||
-      (step.phase === "verify" && step.mutation !== "none") ||
+      (step.phase === "verify" && step.mutation !== "none" && !isEngineServiceVerification(step)) ||
       (step.mutation === "none" && step.resources.some((resource) => resource.access === "write"))
     ) {
       throw new Error("Mutation is incompatible with its engine phase or resource declaration.");
@@ -180,7 +205,12 @@ function validateCatalogReferences(catalog: UpgradeRecipeCatalog): void {
   const artifacts = new Set(catalog.artifacts.map((entry) => entry.id));
   const releases = new Set(catalog.releases.map((entry) => entry.id));
   if (
-    catalog.releases.some((release) => !artifacts.has(release.artifactId)) ||
+    catalog.releases.some(
+      (release) =>
+        !artifacts.has(release.artifactId) ||
+        (release.installationManifestArtifactId !== undefined &&
+          !artifacts.has(release.installationManifestArtifactId)),
+    ) ||
     catalog.adapters.some((adapter) => !artifacts.has(adapter.bundleArtifactId)) ||
     catalog.qualifications.some(
       (qualification) =>

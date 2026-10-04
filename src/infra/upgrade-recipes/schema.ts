@@ -107,6 +107,8 @@ const release = z.strictObject({
   buildId: id,
   commit: z.string().regex(/^[a-f0-9]{40}$/),
   artifactId: id,
+  // A separately authenticated manifest binds installed bytes, not merely package.version.
+  installationManifestArtifactId: id.optional(),
   runtimeFamily: z.enum(["node", "bun"]),
   stateContracts: z.strictObject({
     state: z.number().int().nonnegative(),

@@ -32,6 +32,7 @@ import { assertGatewayRuntimeSecurityConfig } from "./server-runtime-config.js";
 import { logGatewayReady } from "./server-startup-readiness.js";
 import { startGatewayTlsRenewal } from "./server-tls-renewal.js";
 import type { GatewayHttpTransport } from "./server-transport-bridge.js";
+import { isGatewayRestrictedUpgradeStartup } from "./server-upgrade-startup-mode.js";
 import { startWorkerHumanPresence } from "./server/client-human-presence.js";
 import { collectGatewayWorkerPoolMetrics } from "./server/process-vitals.js";
 import { disconnectDisallowedGatewayPolicyClients } from "./server/ws-origin-policy.js";
@@ -210,7 +211,7 @@ export async function finishGatewayStartup(params: {
   );
   const activateScheduledServicesWhenReady = () => {
     if (
-      opts.updateCanary ||
+      isGatewayRestrictedUpgradeStartup(opts) ||
       lifecycle.closePreludeStarted ||
       !postAttachRuntimeReturned ||
       !startupState.sidecarsReady ||
@@ -253,6 +254,7 @@ export async function finishGatewayStartup(params: {
           scheduler: runtime.scheduler,
           minimalTestGateway,
           updateCanary: opts.updateCanary,
+          upgradeMaintenance: opts.upgradeMaintenance !== undefined,
           cfgAtStart,
           getConfig: getRuntimeConfig,
           port,
@@ -381,7 +383,7 @@ export async function finishGatewayStartup(params: {
     ),
   );
   kernel.setPostAttachHandles(postAttachHandles);
-  if (databaseStartupAdmission && !opts.updateCanary) {
+  if (databaseStartupAdmission && !isGatewayRestrictedUpgradeStartup(opts)) {
     void postAttachHandles.startupSettled
       .then(() => {
         if (!lifecycle.closePreludeStarted) {
@@ -410,8 +412,8 @@ export async function finishGatewayStartup(params: {
     }
   }
   finishGatewayRestartTrace("restart.ready", collectGatewayProcessMemoryUsageMb());
-  if (opts.updateCanary) {
-    // Copied queues and jobs must not resume; the canary owns only startup probes.
+  if (isGatewayRestrictedUpgradeStartup(opts)) {
+    // Canary and live maintenance verify startup with all automatic business work withheld.
     return { startupSettled: postAttachHandles.startupSettled };
   }
   if (!minimalTestGateway) {

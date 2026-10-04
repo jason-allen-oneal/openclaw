@@ -5,6 +5,7 @@ import { isNixMode, resolveIsConfigReadOnly } from "../config/paths.js";
 import { GatewayScheduler } from "../infra/gateway-scheduler.js";
 import { clearGatewayAgentCliShim } from "../infra/openclaw-cli-shim.js";
 import { ensureOpenClawCliOnPath } from "../infra/path-env.js";
+import { readUpgradeRecipeMaintenanceReceipt } from "../infra/upgrade-recipes/maintenance.js";
 import { createSubsystemLogger, runtimeForLogger } from "../logging/subsystem.js";
 import { captureRemoteModelCatalogStartupSnapshot } from "../model-catalog/remote-overlay.js";
 import {
@@ -14,6 +15,7 @@ import {
 import { retainGatewayPluginMetadata } from "../plugins/plugin-metadata-lifecycle.js";
 import { hasRetainedPluginRuntimeCloseError } from "../plugins/runtime-close-error.js";
 import { createPluginRegistryOwner } from "../plugins/runtime.js";
+import { getGatewayUpgradeMaintenanceBinding } from "../process/gateway-work-admission.js";
 import { clearSecretsRuntimeSnapshotState } from "../secrets/runtime-state.js";
 import { createLazyRuntimeMethodBinder, createLazyRuntimeModule } from "../shared/lazy-runtime.js";
 import { getAgentDatabaseStartupAdmission } from "../state/agent-database-startup.js";
@@ -25,6 +27,7 @@ import type { GatewayServerOptions } from "./server-public.js";
 import { prepareGatewayKernelState } from "./server-runtime-state-prepare.js";
 import { rethrowGatewayStartupError } from "./server-shutdown.js";
 import { prepareGatewayServerBootstrap } from "./server-startup-bootstrap.js";
+import { assertGatewayUpgradeMaintenanceStartup } from "./server-upgrade-maintenance.js";
 
 const loadGatewayModelCatalogModule = createLazyRuntimeModule(
   () => import("./server-model-catalog.js"),
@@ -125,6 +128,36 @@ export async function createGatewayKernel(
   opts: GatewayServerOptions = {},
   options: GatewayKernelOptions = {},
 ) {
+  // Before plugins, model runtimes, startup migrations, or listeners can run.
+  // Rehearsal uses a private copied state family and receives no activation authority.
+  const maintenance = await readUpgradeRecipeMaintenanceReceipt();
+  if (maintenance && maintenance.phase !== "committed") {
+    if (opts.upgradeMaintenance) {
+      opts.upgradeMaintenance.owner.assertCurrent();
+      if (
+        JSON.stringify(maintenance.binding) !==
+          JSON.stringify(opts.upgradeMaintenance.owner.binding) ||
+        JSON.stringify(getGatewayUpgradeMaintenanceBinding()) !==
+          JSON.stringify(maintenance.binding)
+      ) {
+        throw new Error("Gateway maintenance startup lost its exact native upgrade owner.");
+      }
+    } else if (opts.upgradeActivation) {
+      await opts.upgradeActivation.owner.verifyCommitIntent(maintenance.binding);
+    } else {
+      throw new Error(
+        "Gateway activation is blocked by an unresolved upgrade maintenance owner. Resume that update; business work remains closed.",
+      );
+    }
+  } else if (opts.upgradeMaintenance || opts.upgradeActivation) {
+    throw new Error("Gateway upgrade startup requires an existing durable maintenance receipt.");
+  }
+  if (opts.upgradeMaintenance) {
+    await assertGatewayUpgradeMaintenanceStartup(
+      opts.upgradeMaintenance,
+      opts.startupConfigSnapshotRead,
+    );
+  }
   const scheduler = new GatewayScheduler();
   const sdkResourceHost = options.sdkResourceHost ?? new LegacyPluginSdkResourceHost();
   sdkResourceHost.bindScheduler(scheduler);
