@@ -13,6 +13,8 @@ import {
   processIdentity,
   inspectorEndpoint,
   verifyArtifacts,
+  observedEntryPath,
+  verifyObservedEntry,
   probe,
   protectedInventory,
   scan,
@@ -40,6 +42,12 @@ export async function runHistoricalObservation(binding, directory) {
   const baseline = new Map((await scan()).map((item) => [item.pid, item.startTime]));
   const sockets = new Set();
   const admissions = [];
+  const liveTargetArtifacts = new Map();
+  const onLiveTarget = (file) => liveTargetArtifacts.set(file.path, file);
+  const verifyObservedArtifacts = async () => {
+    await verifyArtifacts(binding);
+    for (const file of liveTargetArtifacts.values()) await bytes(file);
+  };
   const retained = [];
   let failure;
   let boundary;
@@ -122,6 +130,7 @@ export async function runHistoricalObservation(binding, directory) {
         })),
       };
       if (event.retained) {
+        await verifyObservedArtifacts();
         retained.push(receipt);
         return;
       }
@@ -165,7 +174,7 @@ export async function runHistoricalObservation(binding, directory) {
             throw new Error("Crash group contains an ungated running process.");
         }
       preserveStoppedOnRefusal = true;
-      await verifyArtifacts(binding);
+      await verifyObservedArtifacts();
       const durable = await probe({ ...binding, originalRunId: capturedRun });
       originalCustody = durable.custody;
       preserveStoppedOnRefusal = false;
@@ -211,12 +220,15 @@ export async function runHistoricalObservation(binding, directory) {
               throw new Error("Startup-held runtime differs from sealed executable.");
             const entry = identity.argv[2];
             const mappings = binding.mappings.filter(
-              (item) => item.phase === phase && item.entry.path === entry && !item.worker,
+              (item) => item.phase === phase && observedEntryPath(item) === entry && !item.worker,
             );
             if (!mappings.length)
               throw new Error(`Startup-held process has no reviewed ${phase} mapping: ${entry}`);
             await bytes(binding.runtime);
-            for (const mapping of mappings) await bytes(mapping.entry);
+            for (const mapping of mappings) {
+              const live = await verifyObservedEntry(mapping, binding);
+              if (live) onLiveTarget(live);
+            }
             const connection = await connect(
               await inspectorEndpoint(identity.pid),
               Math.min(binding.timeoutMs, 10000),
@@ -247,7 +259,7 @@ export async function runHistoricalObservation(binding, directory) {
                 const mapped = binding.mappings.filter(
                   (item) =>
                     item.phase === phase &&
-                    item.entry.path === entry &&
+                    observedEntryPath(item) === entry &&
                     item.worker?.url === info.workerInfo.url &&
                     item.worker.occurrence === occurrence,
                 );
@@ -279,6 +291,7 @@ export async function runHistoricalObservation(binding, directory) {
                   onError: refuse,
                   onCaptureRun: captureRun,
                   originalRunId: () => capturedRun,
+                  onLiveTarget,
                 });
               })().catch(refuse);
             };
@@ -293,6 +306,7 @@ export async function runHistoricalObservation(binding, directory) {
               onWorker,
               onCaptureRun: captureRun,
               originalRunId: () => capturedRun,
+              onLiveTarget,
             });
           }
         }
@@ -371,7 +385,7 @@ export async function runHistoricalObservation(binding, directory) {
       argv: resume,
     });
     await run(resume, "retained");
-    await verifyArtifacts(binding);
+    await verifyObservedArtifacts();
     const resumed = await probe({ ...binding, originalRunId: capturedRun }, false);
     if (!isDeepStrictEqual(originalCustody, resumed.custody))
       throw new Error("Native resume changed immutable original retained custody.");
@@ -388,6 +402,12 @@ export async function runHistoricalObservation(binding, directory) {
       originalCustody,
       resumedCustody: resumed.custody,
       immutableArtifacts: binding.artifacts,
+      ...(binding.targetInstallation
+        ? {
+            targetInstallation: binding.targetInstallation,
+            liveTargetArtifacts: [...liveTargetArtifacts.values()],
+          }
+        : {}),
       crashRecoveryObserved: true,
       qualificationPassed: false,
     });

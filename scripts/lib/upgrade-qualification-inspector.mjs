@@ -1,8 +1,10 @@
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   sha,
   delay,
   assertExactObservedLocation,
+  observedScriptPath,
+  verifyLiveTargetFile,
 } from "./upgrade-qualification-observation-files.mjs";
 
 export class Transport {
@@ -94,6 +96,7 @@ export async function admitSession({
   onWorker,
   onCaptureRun,
   originalRunId,
+  onLiveTarget,
 }) {
   let startup = false;
   let scriptGate;
@@ -107,8 +110,8 @@ export async function admitSession({
   const armScript = async (scriptId, metadata) => {
     const scriptMappings = mappings.filter(
       (item) =>
-        item.script.path === metadata?.url ||
-        pathToFileURL(item.script.path).href === metadata?.url,
+        observedScriptPath(item) === metadata?.url ||
+        pathToFileURL(observedScriptPath(item)).href === metadata?.url,
     );
     const source = await transport.call("Debugger.getScriptSource", { scriptId });
     // Every file script under fixture custody must match a sealed closure member.
@@ -117,14 +120,27 @@ export async function admitSession({
       metadata?.url?.startsWith("/qualification/")
     ) {
       const filename = metadata.url.startsWith("file:")
-        ? new URL(metadata.url).pathname
+        ? fileURLToPath(metadata.url)
         : metadata.url;
-      const artifact = binding.artifacts.find((item) => item.path === filename);
-      if (!artifact || sha(Buffer.from(source.scriptSource)) !== artifact.sha256)
+      const target = Boolean(
+        binding.targetInstallation && filename.startsWith(`${binding.installation}/`),
+      );
+      const artifact = target
+        ? await verifyLiveTargetFile(binding, filename)
+        : binding.artifacts.find((item) => item.path === filename);
+      if (
+        !artifact ||
+        Buffer.byteLength(source.scriptSource) !== artifact.length ||
+        sha(Buffer.from(source.scriptSource)) !== artifact.sha256
+      )
         throw new Error("Loaded script differs from the authenticated closure.");
+      if (target) onLiveTarget?.(artifact);
     }
     for (const mapping of scriptMappings) {
-      if (sha(Buffer.from(source.scriptSource)) !== mapping.script.sha256)
+      if (
+        Buffer.byteLength(source.scriptSource) !== mapping.script.length ||
+        sha(Buffer.from(source.scriptSource)) !== mapping.script.sha256
+      )
         throw new Error("Boundary script digest mismatch.");
       if (!mapping.location) continue; // Explicit audited startup-only mapping.
       const breakpoint = await transport.call("Debugger.setBreakpoint", {
@@ -158,11 +174,8 @@ export async function admitSession({
             });
             for (const [scriptId, metadata] of scripts)
               if (
-                mappings.some(
-                  (item) =>
-                    item.script.path === metadata.url ||
-                    pathToFileURL(item.script.path).href === metadata.url,
-                )
+                metadata.url?.startsWith("file:///qualification/") ||
+                metadata.url?.startsWith("/qualification/")
               )
                 await armScript(scriptId, metadata);
             startupResolve();

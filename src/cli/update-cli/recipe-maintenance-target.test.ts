@@ -23,6 +23,13 @@ vi.mock("./recipe-qualification.js", async (original) => ({
   ...(await original<typeof import("./recipe-qualification.js")>()),
   admitReleaseQualificationChildInspector: fixture.inspector,
 }));
+function commandCall(index: number) {
+  const call = fixture.command.mock.calls[index];
+  if (!call) {
+    throw new Error(`Expected command call ${index} was not observed`);
+  }
+  return call;
+}
 const binding = {
   protocol: 1 as const,
   runId: "run",
@@ -182,10 +189,10 @@ it("pauses only the admitted maintenance run, preserving both exact child bindin
     expect.stringContaining("dist/"),
     "--run",
   ]);
-  expect(fixture.command.mock.calls[0][1].onOutputChunk).toBeUndefined();
+  expect(commandCall(0)[1].onOutputChunk).toBeUndefined();
   const write = vi.spyOn(process.stderr, "write").mockReturnValue(true);
   try {
-    const observe = fixture.command.mock.calls[1][1].onOutputChunk;
+    const observe = commandCall(1)[1].onOutputChunk;
     const announcement = Buffer.from("Debugger listening on ws://127.0.0.1:43123/fixture\n");
     observe(announcement, "stderr");
     observe(Buffer.from("result"), "stdout");

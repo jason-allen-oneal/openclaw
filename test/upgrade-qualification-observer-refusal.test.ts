@@ -37,6 +37,8 @@ vi.mock("../scripts/lib/upgrade-qualification-observation-files.mjs", () => ({
   processIdentity: vi.fn(async () => ({ ...seams.identity })),
   inspectorEndpoint: vi.fn(async () => "ws://127.0.0.1/fixture"),
   verifyArtifacts: vi.fn(async () => {}),
+  observedEntryPath: (mapping: { entry: { path: string } }) => mapping.entry.path,
+  verifyObservedEntry: vi.fn(async () => undefined),
   probe: seams.probe,
   protectedInventory: vi.fn(async () => []),
   scan: seams.scan,

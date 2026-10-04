@@ -1,3 +1,4 @@
+import path from "node:path";
 import { z } from "zod";
 import { assertNativeObservationSelectors } from "./upgrade-qualification-observation-files.mjs";
 
@@ -27,6 +28,8 @@ const mapping = z.strictObject({
   phase: z.enum(["fresh", "retained"]),
   entry: observationFileSchema,
   script: observationFileSchema,
+  // References stay immutable; these exact target paths become admissible only when loaded.
+  liveTarget: z.strictObject({ entry: pathname, script: pathname }).optional(),
   worker: z
     .strictObject({ url: z.string().min(1), occurrence: z.number().int().positive() })
     .optional(),
@@ -64,6 +67,14 @@ export const historicalObservationSchema = z
     runtime: observationFileSchema,
     nativeBootstrap: observationFileSchema,
     artifacts: z.array(observationFileSchema).min(1),
+    targetInstallation: z
+      .strictObject({
+        manifest: observationFileSchema,
+        releaseId: z.string().min(1),
+        buildId: z.string().min(1),
+        packageArtifactId: z.string().min(1),
+      })
+      .optional(),
     mappings: z.array(mapping).min(2),
     selectedMappingId: z.string().min(1),
     runCaptureMappingId: z.string().min(1),
@@ -156,11 +167,33 @@ export const historicalObservationSchema = z
     for (const item of [
       input.runtime,
       input.nativeBootstrap,
+      ...(input.targetInstallation ? [input.targetInstallation.manifest] : []),
       ...input.mappings.flatMap((item) => [item.entry, item.script, item.sourceMap]),
     ]) {
       const artifact = files.get(item.path);
       if (!artifact || artifact.sha256 !== item.sha256 || artifact.length !== item.length)
         refuse("Every observed executable/entry/script must belong to the immutable closure.");
+    }
+    if (input.targetInstallation) {
+      if (
+        input.artifacts.some(
+          (file) =>
+            file.path === input.installation || file.path.startsWith(`${input.installation}/`),
+        )
+      )
+        refuse("Target closure references must remain outside the historical installation.");
+    }
+    for (const item of input.mappings.filter((item) => item.liveTarget)) {
+      if (
+        !input.targetInstallation ||
+        [item.liveTarget!.entry, item.liveTarget!.script].some(
+          (filename) =>
+            path.resolve(filename) !== filename || !filename.startsWith(`${input.installation}/`),
+        )
+      )
+        refuse(
+          "Live target aliases require the exact manifest and canonical native installation root.",
+        );
     }
     if (
       input.boundary === "migration-commit" &&

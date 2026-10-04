@@ -45,6 +45,13 @@ vi.mock("../../infra/upgrade-recipes/catalog.js", async (original) => ({
   ...(await original<typeof import("../../infra/upgrade-recipes/catalog.js")>()),
   assertUpgradeRecipeCatalogCurrent: mocks.currentCatalog,
 }));
+function commandCall(index: number) {
+  const call = mocks.command.mock.calls[index];
+  if (!call) {
+    throw new Error(`Expected command call ${index} was not observed`);
+  }
+  return call;
+}
 const originalExecArgv = process.execArgv;
 afterEach(() => {
   process.execArgv = originalExecArgv;
@@ -128,7 +135,7 @@ it("rehashes the installed target and binds the child before accepting exact rea
     terminalRunId: runId,
   });
   expect(mocks.verify).toHaveBeenCalledTimes(2);
-  expect(mocks.bind).toHaveBeenCalledWith(42, mocks.command.mock.calls[1][0]);
+  expect(mocks.bind).toHaveBeenCalledWith(42, commandCall(1)[0]);
   const args = mocks.command.mock.calls[1]?.[0];
   expect(args).toEqual([
     recipe.maintenance.expected.runtimeExecutable,
@@ -209,28 +216,28 @@ it("refuses a production inspector observation before delegated target spawn", a
     UpdateCommandRecipeReconciliationPendingError,
   );
   expect(mocks.child).not.toHaveBeenCalled();
-  expect(mocks.command.mock.calls[0][0]).not.toContain(inspectorFlag);
+  expect(commandCall(0)[0]).not.toContain(inspectorFlag);
 });
 it("leaves qualification without the fixed inspector observation uninstrumented", async () => {
   process.execArgv = [];
   await continueInAuthenticatedTarget(qualificationInput());
-  expect(mocks.command.mock.calls[1][0]).not.toContain(inspectorFlag);
+  expect(commandCall(1)[0]).not.toContain(inspectorFlag);
   expect(mocks.custody).not.toHaveBeenCalled();
 });
 it("admits exactly one fixed pause only on the actual resume with unchanged child binding", async () => {
   process.execArgv = [inspectorFlag];
   await continueInAuthenticatedTarget(qualificationInput());
-  expect(mocks.command.mock.calls[0][0]).not.toContain(inspectorFlag);
-  expect(mocks.command.mock.calls[1][0]).toEqual([
+  expect(commandCall(0)[0]).not.toContain(inspectorFlag);
+  expect(commandCall(1)[0]).toEqual([
     recipe.maintenance.expected.runtimeExecutable,
     inspectorFlag,
     expect.stringContaining("dist/"),
     "--recipe-resume",
   ]);
-  expect(mocks.command.mock.calls[0][1].onOutputChunk).toBeUndefined();
+  expect(commandCall(0)[1].onOutputChunk).toBeUndefined();
   const write = vi.spyOn(process.stderr, "write").mockReturnValue(true);
   try {
-    const observe = mocks.command.mock.calls[1][1].onOutputChunk;
+    const observe = commandCall(1)[1].onOutputChunk;
     const announcement = Buffer.from("Debugger listening on ws://127.0.0.1:43123/fixture\n");
     observe(announcement, "stderr");
     observe(Buffer.from("result"), "stdout");
@@ -240,7 +247,7 @@ it("admits exactly one fixed pause only on the actual resume with unchanged chil
   }
   expect(mocks.custody).toHaveBeenCalledOnce();
   expect(mocks.authority).toHaveBeenCalledWith(input.fence, runId);
-  expect(mocks.bind).toHaveBeenCalledWith(42, mocks.command.mock.calls[1][0]);
+  expect(mocks.bind).toHaveBeenCalledWith(42, commandCall(1)[0]);
 });
 it.each(["custody", "catalog", "executor"])(
   "refuses changed %s before inspector target spawn",

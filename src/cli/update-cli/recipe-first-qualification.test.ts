@@ -20,9 +20,9 @@ vi.mock("../../infra/upgrade-recipes/installation-identity.js", () => ({
 vi.mock("./update-command-executor.js", () => ({
   captureUpdateCommandExecutorAuthority: bundle.authority,
 }));
-const originalEntry = process.argv[1];
+const originalArgv = [...process.argv];
 afterEach(() => {
-  process.argv[1] = originalEntry;
+  process.argv = [...originalArgv];
   vi.restoreAllMocks();
   vi.clearAllMocks();
 });

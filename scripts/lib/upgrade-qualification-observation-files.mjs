@@ -39,6 +39,8 @@ export function assertObservationAudit(audit, mapping, binding) {
     audit.phase !== mapping.phase ||
     audit.scriptSha256 !== mapping.script.sha256 ||
     audit.entrySha256 !== mapping.entry.sha256 ||
+    !isDeepStrictEqual(audit.liveTarget, mapping.liveTarget) ||
+    audit.targetInstallationManifestSha256 !== binding.targetInstallation?.manifest.sha256 ||
     audit.actionId !== mapping.actionId ||
     audit.operation !== mapping.operation ||
     audit.captureRunExpression !== mapping.captureRunExpression ||
@@ -146,6 +148,51 @@ export async function bytes(file) {
     await handle.close();
   }
 }
+/** Installed aliases are never preflight artifacts: only the sealed external references are. */
+export const observedEntryPath = (mapping) => mapping.liveTarget?.entry ?? mapping.entry.path;
+export const observedScriptPath = (mapping) => mapping.liveTarget?.script ?? mapping.script.path;
+
+/** Bind loaded target bytes to the complete catalog installation manifest, never local self-attestation. */
+export async function verifyLiveTargetFile(binding, filename, reference) {
+  const target = binding.targetInstallation;
+  if (
+    !target ||
+    path.resolve(filename) !== filename ||
+    !filename.startsWith(`${binding.installation}/`)
+  )
+    throw new Error("Live target escaped its authenticated native installation owner.");
+  const manifest = JSON.parse(await bytes(target.manifest));
+  if (
+    manifest.schemaVersion !== 1 ||
+    manifest.releaseId !== target.releaseId ||
+    manifest.buildId !== target.buildId ||
+    manifest.packageArtifactId !== target.packageArtifactId ||
+    !Array.isArray(manifest.files) ||
+    !Array.isArray(manifest.directories) ||
+    new Set(manifest.files.map((file) => file.path)).size !== manifest.files.length
+  )
+    throw new Error("Live target has no exact full installation-manifest binding.");
+  const relative = path.relative(binding.installation, filename);
+  const declared = manifest.files.find((file) => file.path === relative);
+  if (
+    declared?.kind !== "file" ||
+    !Number.isSafeInteger(declared.length) ||
+    declared.length < 0 ||
+    !/^[a-f0-9]{64}$/u.test(declared.sha256 ?? "") ||
+    (reference && (declared.sha256 !== reference.sha256 || declared.length !== reference.length))
+  )
+    throw new Error("Live target alias differs from its immutable reviewed reference.");
+  const file = { path: filename, sha256: declared.sha256, length: declared.length };
+  await bytes(file);
+  return file;
+}
+
+export async function verifyObservedEntry(mapping, binding) {
+  if (mapping.liveTarget)
+    return verifyLiveTargetFile(binding, mapping.liveTarget.entry, mapping.entry);
+  await bytes(mapping.entry);
+}
+
 export async function retain(directory, name, value) {
   const handle = await fs.open(path.join(directory, name), "wx", 0o600);
   try {
