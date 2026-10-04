@@ -814,6 +814,13 @@ export function writePackedBundledPluginActivationConfig(homeDir: string): void 
     configPath,
     `${JSON.stringify(
       {
+        agents: {
+          defaults: {
+            models: {
+              "openai/*": { agentRuntime: { id: "openclaw" } },
+            },
+          },
+        },
         channels: {
           telegram: {
             enabled: true,

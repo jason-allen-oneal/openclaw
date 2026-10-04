@@ -5,6 +5,7 @@ import type { DiagnosticReadOperations } from "../infra/sqlite-audit-record.read
 import type { SqliteWorkerCommand } from "../infra/sqlite-worker-contract.js";
 import type { UpgradeRecipeMaintenanceStateReadOperations } from "../infra/upgrade-recipes/maintenance-contract.js";
 import type { GeneratedHtmlProvenanceReadOperations } from "../media/generated-html-provenance.worker-contract.js";
+import type { PairingReadOperations } from "../pairing/pairing-store.types.js";
 import type { SecretStoreReadOperations } from "../secrets/store/secret-store.types.js";
 import type { SessionStateReadOperations } from "../sessions/session-state-events.read.worker-contract.js";
 import type { SkillLibraryReadOperations } from "../skills/library/read.contract.js";
@@ -13,6 +14,7 @@ import { createWorkerOperationRegistry } from "./worker-operation-registry.js";
 type Operations = UpgradeRecipeMaintenanceStateReadOperations &
   DiagnosticReadOperations &
   GeneratedHtmlProvenanceReadOperations &
+  PairingReadOperations &
   MentionReadOperations &
   SkillLibraryReadOperations &
   RestartSentinelReadOperations &
@@ -30,6 +32,7 @@ export const stateReadRegistry = createWorkerOperationRegistry<Operations, Datab
     import("../media/generated-html-provenance.worker.js").then(
       (m) => m.generatedHtmlProvenanceReadOperations,
     ),
+  pairing: () => import("../pairing/pairing-store-sqlite.js").then((m) => m.pairingReadOperations),
   mentions: () => import("../gateway/mention-inbox.worker.js").then((m) => m.mentionReadOperations),
   skillLibrary: () =>
     import("../skills/library/read.kernel.js").then((m) => m.skillLibraryReadOperations),

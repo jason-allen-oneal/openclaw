@@ -28,6 +28,7 @@ import {
 } from "./update-command-executor.js";
 import type { InitializedUpdate } from "./update-command-initialization.js";
 import { preparePackageUpdateRuntime } from "./update-command-node-runtime.js";
+import { assertUpdatePackageActivationAdmission } from "./update-command-package-activation.js";
 import type { StagedPackageInstallUpdate } from "./update-command-package.js";
 import { UpdateCommandRecipeReconciliationPendingError } from "./update-command-recovery-error.js";
 import {
@@ -36,7 +37,6 @@ import {
   withUpdateAdmissionReporting,
 } from "./update-command-result.js";
 import {
-  assertUpdatePackageActivationAdmission,
   createUpdateRunProgress,
   prepareUpdateCommand,
   prepareMutableUpdateRuntime,

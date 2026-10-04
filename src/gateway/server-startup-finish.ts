@@ -10,6 +10,7 @@ import { isNixMode } from "../config/paths.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import type { createSubsystemLogger } from "../logging/subsystem.js";
 import { getActiveGatewayRootWorkCount } from "../process/gateway-work-admission.js";
+import { createDeferredCore } from "../shared/deferred.js";
 import { getAgentDatabaseStartupAdmission } from "../state/agent-database-startup.js";
 import { resolveGatewayAuth } from "./auth.js";
 import { diffGatewayReloadPaths } from "./config-diff.js";
@@ -144,6 +145,7 @@ export async function finishGatewayStartup(params: {
   } = runtime;
   const startupPluginRuntimeClaim = kernel.pluginRuntimeGeneration.currentClaim();
   const databaseStartupAdmission = getAgentDatabaseStartupAdmission();
+  const databasePreparationReady = createDeferredCore();
   const activateAgentDatabases = () => {
     if (
       databaseStartupAdmission &&
@@ -152,6 +154,7 @@ export async function finishGatewayStartup(params: {
     ) {
       activateGatewayAgentDatabaseStartup({
         admission: databaseStartupAdmission,
+        preparationReady: databasePreparationReady.promise,
         getConfig: getRuntimeConfig,
         getPluginRegistry: () => pluginRuntime.registry,
         getPluginMetadataSnapshot,
@@ -208,6 +211,7 @@ export async function finishGatewayStartup(params: {
   await startupTrace.measure("http.listen", () => startListening());
   kernel.setDispatchReady(true);
   startupTrace.mark("http.bound");
+  activateAgentDatabases();
   // Health can answer as soon as the listener binds. Discovery, remote-skill
   // setup, and maintenance do not determine liveness, so keep them off that
   // critical path while still completing before usable readiness.
@@ -376,7 +380,7 @@ export async function finishGatewayStartup(params: {
             : {}),
           onSidecarsReady: () => {
             kernel.markSidecarsReady();
-            activateAgentDatabases();
+            databasePreparationReady.resolve();
             activateScheduledServicesWhenReady();
           },
           getReadiness,
@@ -391,7 +395,7 @@ export async function finishGatewayStartup(params: {
   );
   kernel.setPostAttachHandles(postAttachHandles);
   if (minimalTestGateway) {
-    activateAgentDatabases();
+    databasePreparationReady.resolve();
   }
   startupTrace.detail("memory.ready", [
     ...collectGatewayProcessMemoryUsageMb(),
@@ -630,7 +634,7 @@ export async function finishGatewayStartup(params: {
         if (lifecycle.closePreludeStarted) {
           return null;
         }
-        return earlyRuntime.startMaintenance(activeWorkInspectors);
+        return earlyRuntime.startMaintenance(activeWorkInspectors, resolvePluginGatewayContext);
       },
       applyMaintenance: async (maintenance) => {
         if (lifecycle.closePreludeStarted) {
