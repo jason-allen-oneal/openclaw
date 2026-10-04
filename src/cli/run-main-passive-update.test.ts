@@ -3,13 +3,19 @@ import { resolveCliArgvInvocation } from "./argv-invocation.js";
 import { resolveCliCommandPathPolicy } from "./command-path-policy.js";
 
 const planCommand = vi.hoisted(() => vi.fn());
-vi.mock("./update-cli/plan.js", () => ({ updateRecipePlanCommand: planCommand }));
+vi.mock("./update-cli/plan.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-cli/plan.js")>()),
+  updateRecipePlanCommand: planCommand,
+}));
+// mock-isolation: Throw on mutable executor loading to prove passive planning never imports installed update execution.
 vi.mock("./update-cli/update-command.js", () => {
   throw new Error("Passive planning must not import mutable execution");
 });
+// mock-isolation: Throw on plugin CLI loading to prove passive planning never activates the installed plugin graph.
 vi.mock("../plugins/cli.js", () => {
   throw new Error("Passive planning must not activate plugins");
 });
+// mock-isolation: Throw on config preparation loading to prove passive dispatch precedes installed configuration admission.
 vi.mock("./program/config-guard.js", () => {
   throw new Error("Passive planning must not run config preparation");
 });

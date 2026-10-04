@@ -8,6 +8,7 @@ import {
   assertPackageActivationInventory,
   completePackageActivationCustody,
   packageActivationIdentityOrAbsent as entryIdentity,
+  resolvePackageActivationCustodyPath,
   inspectPackageActivationCustody,
 } from "./package-update-activation-custody.js";
 import {
@@ -55,18 +56,8 @@ export function createPublicationOwner(
   const live = descriptor.authority.installKey;
   const root = (name: string) => path.join(anchor, name);
   const helperIdentity = descriptor.helperIdentity;
-  const custodyPath = (name: "anchor" | "helper") => {
-    if (record.phase !== "preparing") {
-      return name === "anchor" ? anchor : resolvePackageActivationHelper(anchor);
-    }
-    const entry = inspectPackageActivationCustody(anchor, record).find(
-      (item) => item.name === name,
-    );
-    if (!entry) {
-      throw new Error("Package bootstrap custody is missing.");
-    }
-    return entry.moved ? entry.destination : entry.source;
-  };
+  const custodyPath = (name: "anchor" | "helper") =>
+    resolvePackageActivationCustodyPath(anchor, record, name);
   const helper = () => custodyPath("helper");
   const artifactNames = [
     "previous",

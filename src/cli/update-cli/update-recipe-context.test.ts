@@ -6,7 +6,8 @@ import {
 } from "./update-recipe-context.js";
 import { approvedContext } from "./update-recipe-context.test-support.js";
 
-vi.mock("./update-command-executor.js", () => ({
+vi.mock("./update-command-executor.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-executor.js")>()),
   captureUpdateCommandExecutorAuthority: (fence: { assertCurrent: () => void }) => {
     fence.assertCurrent();
     return { installKey: "/selected-install" };

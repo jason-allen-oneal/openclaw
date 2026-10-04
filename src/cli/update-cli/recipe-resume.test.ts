@@ -7,12 +7,16 @@ import { UpdateCommandRecipeReconciliationPendingError } from "./update-command-
 import { approvedContext } from "./update-recipe-context.test-support.js";
 
 const mocks = vi.hoisted(() => ({ command: vi.fn(), verify: vi.fn(), bind: vi.fn() }));
-vi.mock("../../process/exec.js", () => ({ runUtf8CommandWithTimeout: mocks.command }));
+vi.mock("../../process/exec.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../process/exec.js")>()),
+  runUtf8CommandWithTimeout: mocks.command,
+}));
 vi.mock("./update-recipe-context.js", async (original) => ({
   ...(await original<typeof import("./update-recipe-context.js")>()),
   verifyRecipeUpdateInstallation: mocks.verify,
 }));
-vi.mock("./update-command-executor.js", () => ({
+vi.mock("./update-command-executor.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-executor.js")>()),
   withUpdateCommandExecutorChild: async (
     _fence: unknown,
     _root: string,

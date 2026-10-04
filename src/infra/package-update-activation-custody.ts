@@ -202,3 +202,18 @@ export function assertPackageActivationInventory(
     throw new Error("Unknown package recovery artifacts require operator inspection.");
   }
 }
+
+export function resolvePackageActivationCustodyPath(
+  anchor: string,
+  record: PackageActivationRecord,
+  name: "anchor" | "helper",
+) {
+  if (record.phase !== "preparing") {
+    return name === "anchor" ? anchor : resolvePackageActivationHelper(anchor);
+  }
+  const entry = inspectPackageActivationCustody(anchor, record).find((item) => item.name === name);
+  if (!entry) {
+    throw new Error("Package bootstrap custody is missing.");
+  }
+  return entry.moved ? entry.destination : entry.source;
+}

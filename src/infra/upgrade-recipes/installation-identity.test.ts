@@ -7,7 +7,10 @@ import type { AuthenticatedUpgradeRecipeCatalog } from "./catalog.js";
 import { verifyAuthenticatedUpgradeInstallation } from "./installation-identity.js";
 
 // File-closure proof only. Real signature/expiry admission is covered by catalog.test.ts.
-vi.mock("./catalog.js", () => ({ assertUpgradeRecipeCatalogCurrent: vi.fn() }));
+vi.mock("./catalog.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./catalog.js")>()),
+  assertUpgradeRecipeCatalogCurrent: vi.fn(),
+}));
 const roots: string[] = [];
 afterEach(async () => {
   await Promise.all(roots.splice(0).map((root) => fs.rm(root, { recursive: true, force: true })));

@@ -18,40 +18,54 @@ const fixture = vi.hoisted(() => ({
   captured: vi.fn(),
 }));
 vi.mock("node:fs/promises", () => ({ realpath: async (pathname: string) => pathname }));
-vi.mock("../../infra/openclaw-root.js", () => ({
+vi.mock("../../infra/openclaw-root.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/openclaw-root.js")>()),
   resolveOpenClawPackageRoot: async () => "/target",
 }));
-vi.mock("../../infra/update-install-root.js", () => ({
+vi.mock("../../infra/update-install-root.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/update-install-root.js")>()),
   resolveUpdateInstallRoot: (root: string) => root,
 }));
-vi.mock("../../config/paths.js", () => ({ resolveStateDir: () => "/state" }));
-vi.mock("../../state/openclaw-state-db.paths.js", () => ({
+vi.mock("../../config/paths.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../config/paths.js")>()),
+  resolveStateDir: () => "/state",
+}));
+vi.mock("../../state/openclaw-state-db.paths.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../state/openclaw-state-db.paths.js")>()),
   resolveOpenClawStateSqlitePath: () => "/state/state/openclaw.sqlite",
 }));
-vi.mock("../../config/io.js", () => ({
+vi.mock("../../config/io.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../config/io.js")>()),
   readConfigFileSnapshotWithPluginMetadata: async () => ({
     snapshot: { sourceConfig: { plugins: { enabled: false } } },
   }),
 }));
-vi.mock("../../state/openclaw-state-db-readonly.js", () => ({
+vi.mock("../../state/openclaw-state-db-readonly.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../state/openclaw-state-db-readonly.js")>()),
   withArtifactPreservingStateReads: (run: () => unknown) => run(),
 }));
-vi.mock("../../infra/update-candidate-state.js", () => ({
+vi.mock("../../infra/update-candidate-state.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/update-candidate-state.js")>()),
   readUpdateStateSchemaVersions: fixture.inspect,
 }));
-vi.mock("../../state/openclaw-database-preflight.js", () => ({
+vi.mock("../../state/openclaw-database-preflight.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../state/openclaw-database-preflight.js")>()),
   assertOpenClawDatabasesReady: fixture.ready,
 }));
-vi.mock("./update-command-executor-delegated.js", () => ({
+vi.mock("./update-command-executor-delegated.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-executor-delegated.js")>()),
   withDelegatedUpdateCommandExecutor: fixture.delegate,
 }));
-vi.mock("./update-command-execution-guards.js", () => ({
+vi.mock("./update-command-execution-guards.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-execution-guards.js")>()),
   createUpdateCommandExecutionGuards: () => ({ captureWriteOptions: fixture.captured }),
 }));
-vi.mock("../../infra/upgrade-recipes/maintenance.js", () => ({
+vi.mock("../../infra/upgrade-recipes/maintenance.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/upgrade-recipes/maintenance.js")>()),
   createUpgradeRecipeMaintenanceOwner: fixture.owner,
 }));
-vi.mock("../../infra/gateway-lock.js", () => ({
+vi.mock("../../infra/gateway-lock.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/gateway-lock.js")>()),
   acquireGatewayLock: async () => {
     fixture.events.push("state-acquired");
     return {
@@ -65,7 +79,8 @@ vi.mock("../../infra/gateway-lock.js", () => ({
     };
   },
 }));
-vi.mock("../../gateway/server-upgrade-maintenance.js", () => ({
+vi.mock("../../gateway/server-upgrade-maintenance.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../gateway/server-upgrade-maintenance.js")>()),
   startGatewayUpgradeMaintenance: fixture.start,
 }));
 

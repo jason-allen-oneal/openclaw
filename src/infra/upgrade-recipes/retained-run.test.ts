@@ -26,7 +26,8 @@ const native = vi.hoisted(() => ({
     owner: "original-owner",
   },
 }));
-vi.mock("../../cli/update-cli/update-command-executor.js", () => ({
+vi.mock("../../cli/update-cli/update-command-executor.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../cli/update-cli/update-command-executor.js")>()),
   captureUpdateCommandExecutorAuthority: () => native.authority,
 }));
 const dirs = useAutoCleanupTempDirTracker(afterEach);

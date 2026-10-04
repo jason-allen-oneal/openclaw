@@ -19,6 +19,7 @@ import {
   originalRunSchema,
   type RetainedUpgradeRecipeRun,
   type OriginalUpgradeRecipeRun,
+  type UpgradeRecipeRecoveryPorts,
 } from "./recovery-contract.js";
 export {
   retainedUpgradeRecipeRunSchema,
@@ -36,7 +37,6 @@ export type UpgradeRecipeRecoverySelection = {
   externalWorkPossible: boolean;
   pendingStepIds: string[];
 };
-import type { UpgradeRecipeRecoveryPorts } from "./recovery-contract.js";
 export type { UpgradeRecipeRecoveryPorts } from "./recovery-contract.js";
 
 function sha256(bytes: Uint8Array): string {

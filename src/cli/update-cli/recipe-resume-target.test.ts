@@ -11,10 +11,12 @@ const mocks = vi.hoisted(() => ({
   verify: vi.fn(),
   reconcile: vi.fn(),
 }));
-vi.mock("../../infra/upgrade-recipes/receipts-worker.js", () => ({
+vi.mock("../../infra/upgrade-recipes/receipts-worker.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/upgrade-recipes/receipts-worker.js")>()),
   createFencedUpgradeRecipeStepReceiptRecorder: () => ({ read: mocks.intent }),
 }));
-vi.mock("./recipe-step-execution.js", () => ({
+vi.mock("./recipe-step-execution.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./recipe-step-execution.js")>()),
   resolveRecipeStepBinding: async () => ({}),
   observeRecipeServiceForRecovery: mocks.observe,
   prepareRecipeServiceActivation: mocks.prepare,
@@ -22,10 +24,14 @@ vi.mock("./recipe-step-execution.js", () => ({
   reconcileRecipePackagePublication: vi.fn(),
   reconcileRecipeTargetMaintenance: vi.fn(),
 }));
-vi.mock("./update-command-service-command.js", () => ({
+vi.mock("./update-command-service-command.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-service-command.js")>()),
   runUpdatedInstallGatewayCommand: mocks.restart,
 }));
-vi.mock("./update-command-verification.js", () => ({ verifyUpdatedGateway: mocks.verify }));
+vi.mock("./update-command-verification.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-verification.js")>()),
+  verifyUpdatedGateway: mocks.verify,
+}));
 const recipe = approvedContext();
 const env = { OPENCLAW_STATE_DIR: recipe.maintenance.expected.stateRoot };
 const owner = { env, assertCurrent: vi.fn(), assertEffectsSettled: vi.fn() };

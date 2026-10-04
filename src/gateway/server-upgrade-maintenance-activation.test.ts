@@ -22,19 +22,31 @@ const fixture = vi.hoisted(() => ({
   config: vi.fn(),
   start: vi.fn(),
 }));
-vi.mock("../config/io.js", () => ({ readConfigFileSnapshotWithPluginMetadata: fixture.config }));
-vi.mock("../config/paths.js", () => ({ resolveStateDir: () => fixture.root }));
-vi.mock("../infra/openclaw-root.js", () => ({
+vi.mock("../config/io.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../config/io.js")>()),
+  readConfigFileSnapshotWithPluginMetadata: fixture.config,
+}));
+vi.mock("../config/paths.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../config/paths.js")>()),
+  resolveStateDir: () => fixture.root,
+}));
+vi.mock("../infra/openclaw-root.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../infra/openclaw-root.js")>()),
   resolveOpenClawPackageRoot: async () => fixture.root,
 }));
-vi.mock("../version.js", () => ({
+vi.mock("../version.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../version.js")>()),
   VERSION: "fixture",
   resolveRuntimeServiceBuildId: () => "fixture-build",
 }));
-vi.mock("../state/openclaw-state-db-readonly.js", () => ({
+vi.mock("../state/openclaw-state-db-readonly.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../state/openclaw-state-db-readonly.js")>()),
   withArtifactPreservingStateReads: (run: () => unknown) => run(),
 }));
-vi.mock("./server.js", () => ({ startGatewayServer: fixture.start }));
+vi.mock("./server.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./server.js")>()),
+  startGatewayServer: fixture.start,
+}));
 
 let startup: GatewayUpgradeMaintenanceStartup;
 let receipt: UpgradeRecipeMaintenanceReceipt;

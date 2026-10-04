@@ -4,8 +4,12 @@ import { runUpgradeRecipeTargetMaintenance } from "./recipe-maintenance-target.j
 import { UPDATE_RECIPE_MAINTENANCE_CAPABILITY } from "./update-recipe-maintenance-contract.js";
 
 const fixture = vi.hoisted(() => ({ command: vi.fn(), bind: vi.fn() }));
-vi.mock("../../process/exec.js", () => ({ runCommandWithTimeout: fixture.command }));
-vi.mock("./update-command-executor.js", () => ({
+vi.mock("../../process/exec.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../process/exec.js")>()),
+  runCommandWithTimeout: fixture.command,
+}));
+vi.mock("./update-command-executor.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-executor.js")>()),
   captureUpdateCommandExecutorAuthority: () => ({ installKey: "/target" }),
   withUpdateCommandExecutorChild: async (
     _fence: unknown,

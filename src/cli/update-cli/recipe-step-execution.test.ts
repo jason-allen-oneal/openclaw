@@ -23,22 +23,33 @@ const mocks = vi.hoisted(() => ({
   service: vi.fn(),
   ledger: vi.fn(),
 }));
-vi.mock("../../config/io.factory.js", () => ({
+vi.mock("../../config/io.factory.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../config/io.factory.js")>()),
   createConfigIO: () => ({ readConfigFileSnapshot: async () => ({ config: {} }) }),
 }));
-vi.mock("../../infra/update-candidate-state.js", () => ({
+vi.mock("../../infra/update-candidate-state.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/update-candidate-state.js")>()),
   readUpdateStateSchemaVersions: mocks.state,
   resolveUpdateStateContentVersion: (entry: { userVersion: number }) => entry.userVersion,
 }));
-vi.mock("../../infra/update-run-ledger.js", () => ({ getUpdateRunAsync: mocks.ledger }));
-vi.mock("../../infra/upgrade-recipes/maintenance.js", () => ({
+vi.mock("../../infra/update-run-ledger.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/update-run-ledger.js")>()),
+  getUpdateRunAsync: mocks.ledger,
+}));
+vi.mock("../../infra/upgrade-recipes/maintenance.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/upgrade-recipes/maintenance.js")>()),
   readUpgradeRecipeMaintenanceReceipt: mocks.maintenance,
 }));
-vi.mock("../../daemon/service.js", () => ({ resolveGatewayService: () => ({}) }));
-vi.mock("./update-command-service-plan.js", () => ({
+vi.mock("../../daemon/service.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../daemon/service.js")>()),
+  resolveGatewayService: () => ({}),
+}));
+vi.mock("./update-command-service-plan.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-service-plan.js")>()),
   readGatewayServiceStateForUpdate: mocks.service,
 }));
-vi.mock("./update-command-service.js", () => ({
+vi.mock("./update-command-service.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./update-command-service.js")>()),
   revalidateManagedGatewayServiceAfterUpdate: async () => ({
     kind: "owned",
     fingerprint: "1".repeat(64),
@@ -64,7 +75,8 @@ vi.mock("./update-recipe-context.js", async (importOriginal) => ({
 }));
 // Exercise the production receipt coordinator; only its fenced persistence port
 // is in memory. This suite does not claim native custody or end-to-end proof.
-vi.mock("../../infra/upgrade-recipes/receipts-worker.js", () => ({
+vi.mock("../../infra/upgrade-recipes/receipts-worker.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/upgrade-recipes/receipts-worker.js")>()),
   createFencedUpgradeRecipeStepReceiptRecorder: (
     binding: Parameters<typeof createUpgradeRecipeStepReceiptRecorder>[0],
     owner: Parameters<typeof createUpgradeRecipeStepReceiptRecorder>[1],

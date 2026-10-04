@@ -3,13 +3,18 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({ authenticate: vi.fn(), passive: vi.fn(), read: vi.fn() }));
-vi.mock("../../infra/upgrade-recipes/catalog.js", () => ({
+vi.mock("../../infra/upgrade-recipes/catalog.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/upgrade-recipes/catalog.js")>()),
   authenticateUpgradeRecipeCatalog: mocks.authenticate,
 }));
-vi.mock("../../infra/upgrade-recipes/maintenance.js", () => ({
+vi.mock("../../infra/upgrade-recipes/maintenance.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/upgrade-recipes/maintenance.js")>()),
   readUpgradeRecipeMaintenanceReceipt: mocks.read,
 }));
-vi.mock("./plan.js", () => ({ updateRecipePlanCommand: mocks.passive }));
+vi.mock("./plan.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./plan.js")>()),
+  updateRecipePlanCommand: mocks.passive,
+}));
 import { runUpgradeRecipeCommand } from "./recipe-command.js";
 
 const originalExitCode = process.exitCode;

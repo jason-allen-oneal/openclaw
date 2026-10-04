@@ -29,10 +29,10 @@ import {
   type RetainedUpgradeRecipeRun,
   type UpgradeRecipeRecoveryPorts,
 } from "./recovery-contract.js";
+import { pointerSchema, type RetainedUpgradeRecipeRunPointer } from "./retained-run-contract.js";
 
 const artifactSchema = retainedUpgradeRecipeRunSchema.shape.planArtifact;
 const hash = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
-import { pointerSchema, type RetainedUpgradeRecipeRunPointer } from "./retained-run-contract.js";
 export type { RetainedUpgradeRecipeRunPointer } from "./retained-run-contract.js";
 function inside(root: string, target: string) {
   const relative = path.relative(root, target);

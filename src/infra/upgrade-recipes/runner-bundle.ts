@@ -9,6 +9,7 @@ import {
   assertUpgradeRecipeCatalogCurrent,
   type AuthenticatedUpgradeRecipeCatalog,
 } from "./catalog.js";
+import type { VerifiedUpgradeRecipeRunnerBundle } from "./runner-bundle-contract.js";
 
 const MAX_MANIFEST_BYTES = 1024 * 1024;
 const MAX_BUNDLE_BYTES = 1024 * 1024 * 1024;
@@ -56,7 +57,6 @@ export const upgradeRecipeRunnerBundleManifestSchema = z.strictObject({
 export type UpgradeRecipeRunnerBundleManifest = z.infer<
   typeof upgradeRecipeRunnerBundleManifestSchema
 >;
-import type { VerifiedUpgradeRecipeRunnerBundle } from "./runner-bundle-contract.js";
 export type { VerifiedUpgradeRecipeRunnerBundle } from "./runner-bundle-contract.js";
 function inside(root: string, candidate: string): boolean {
   const relative = path.relative(root, candidate);

@@ -5,10 +5,12 @@ const startup = vi.hoisted(() => ({
   read: vi.fn<() => Promise<UpgradeRecipeMaintenanceReceipt | null>>(),
   bootstrap: vi.fn(),
 }));
-vi.mock("../infra/upgrade-recipes/maintenance.js", () => ({
+vi.mock("../infra/upgrade-recipes/maintenance.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../infra/upgrade-recipes/maintenance.js")>()),
   readUpgradeRecipeMaintenanceReceipt: startup.read,
 }));
-vi.mock("./server-startup-bootstrap.js", () => ({
+vi.mock("./server-startup-bootstrap.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./server-startup-bootstrap.js")>()),
   prepareGatewayServerBootstrap: startup.bootstrap,
 }));
 afterEach(() => vi.clearAllMocks());

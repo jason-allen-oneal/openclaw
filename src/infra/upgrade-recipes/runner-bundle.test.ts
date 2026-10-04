@@ -12,7 +12,10 @@ import {
 
 // These are closure-owner unit tests; catalog.test.ts separately exercises real TUF verification.
 const trust = vi.hoisted(() => ({ assertCurrent: vi.fn() }));
-vi.mock("./catalog.js", () => ({ assertUpgradeRecipeCatalogCurrent: trust.assertCurrent }));
+vi.mock("./catalog.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./catalog.js")>()),
+  assertUpgradeRecipeCatalogCurrent: trust.assertCurrent,
+}));
 const dirs = useAutoCleanupTempDirTracker(afterEach);
 afterEach(() => trust.assertCurrent.mockReset());
 const hash = (bytes: Buffer) => createHash("sha256").update(bytes).digest("hex");
