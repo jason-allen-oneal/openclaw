@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { admitReleaseQualificationChildInspector } from "./recipe-first-qualification.js";
+import { admitReleaseQualificationChildInspector } from "./recipe-qualification.js";
 import { approvedContext } from "./update-recipe-context.test-support.js";
 
 const mock = vi.hoisted(() => ({ catalog: vi.fn(), authority: vi.fn(), current: vi.fn() }));

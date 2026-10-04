@@ -6,7 +6,7 @@ import type { UpdateRecoveryFence } from "../../infra/update-run-recovery.js";
 import { upgradeRecipeMaintenanceReceiptSchema } from "../../infra/upgrade-recipes/maintenance-contract.js";
 import { CommandProcessCleanupError } from "../../process/exec-result.js";
 import { runCommandWithTimeout } from "../../process/exec.js";
-import { admitReleaseQualificationChildInspector } from "./recipe-first-qualification.js";
+import { admitReleaseQualificationChildInspector } from "./recipe-qualification.js";
 import {
   captureUpdateCommandExecutorAuthority,
   withUpdateCommandExecutorChild,

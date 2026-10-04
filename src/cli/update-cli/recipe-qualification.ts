@@ -2,10 +2,19 @@ import { createHash } from "node:crypto";
 import { constants } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { AuthenticatedUpgradeRecipeCatalog } from "../../infra/upgrade-recipes/catalog.js";
+import type { UpdateRecoveryFence } from "../../infra/update-run-recovery.js";
+import {
+  assertUpgradeRecipeCatalogCurrent,
+  type AuthenticatedUpgradeRecipeCatalog,
+} from "../../infra/upgrade-recipes/catalog.js";
 import { validateUpgradeReleaseQualification } from "../../infra/upgrade-recipes/qualification.js";
 import { assertReleaseQualificationCustody } from "./recipe-first-qualification.js";
-import type { RecipeUpdateArtifactSelectors } from "./update-recipe-context.js";
+import { captureUpdateCommandExecutorAuthority } from "./update-command-executor.js";
+import {
+  resolveAuthenticatedRecipeUpdateCatalog,
+  type RecipeUpdateArtifactSelectors,
+  type RecipeUpdateContext,
+} from "./update-recipe-context.js";
 
 /** Actual signed qualification evidence; catalog advertisement alone is not an upgrade proof. */
 export async function verifyRecipeQualificationEvidence(
@@ -83,4 +92,36 @@ export async function verifyRecipeQualificationEvidence(
   } finally {
     await handle.close();
   }
+}
+
+/** Admit only the fixed startup pause, before delegation suspends the parent fence. */
+export async function admitReleaseQualificationChildInspector(
+  recipe: RecipeUpdateContext,
+  fence: UpdateRecoveryFence,
+): Promise<string | undefined> {
+  const flag = "--inspect-brk=127.0.0.1:0";
+  if (!process.execArgv.includes(flag)) {
+    return undefined;
+  }
+  if (!recipe.releaseQualification || process.execArgv.length !== 1) {
+    throw new Error("Target startup inspection requires exact release qualification custody.");
+  }
+  const { runId, installationKey } = recipe.maintenance.binding;
+  const original = captureUpdateCommandExecutorAuthority(fence, runId);
+  if (original.installKey !== installationKey) {
+    throw new Error("Target startup inspection changed its original installation.");
+  }
+  // This canonical resolver revalidates signed release qualification custody,
+  // including runner bytes, machine identity and the live admitted receiver.
+  const catalog = await resolveAuthenticatedRecipeUpdateCatalog(recipe);
+  assertUpgradeRecipeCatalogCurrent(catalog);
+  const current = captureUpdateCommandExecutorAuthority(fence, runId);
+  if (current !== original || current.installKey !== installationKey) {
+    throw new Error("Target startup inspection changed its original executor.");
+  }
+  fence.assertCurrent();
+  if (process.execArgv.length !== 1 || process.execArgv[0] !== flag) {
+    throw new Error("Target startup inspection observation changed during admission.");
+  }
+  return flag;
 }

@@ -19,7 +19,7 @@ import { runUtf8CommandWithTimeout } from "../../process/exec.js";
 import type { OpenClawSchemaVersions } from "../../state/openclaw-schema-versions.js";
 import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.js";
 import { CLI_NAME } from "../cli-name.js";
-import { admitReleaseQualificationChildInspector } from "./recipe-first-qualification.js";
+import { admitReleaseQualificationChildInspector } from "./recipe-qualification.js";
 import { resolveNodeRunner } from "./shared.js";
 import {
   requiresRetainedUpdateCommandOwner,

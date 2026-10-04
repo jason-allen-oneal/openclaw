@@ -3,7 +3,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { runtimeProcessEntrypoints } from "../../infra/runtime-process-entrypoints.js";
 import type { UpdateRecoveryFence } from "../../infra/update-run-recovery.js";
-import { assertUpgradeRecipeCatalogCurrent } from "../../infra/upgrade-recipes/catalog.js";
 import type { AuthenticatedUpgradeRecipeCatalog } from "../../infra/upgrade-recipes/catalog.js";
 import { verifyAuthenticatedUpgradeInstallation } from "../../infra/upgrade-recipes/installation-identity.js";
 import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/runner-bundle.js";
@@ -12,10 +11,6 @@ import {
   type ReleaseQualificationBinding,
 } from "./recipe-release-qualification-contract.js";
 import { captureUpdateCommandExecutorAuthority } from "./update-command-executor.js";
-import {
-  resolveAuthenticatedRecipeUpdateCatalog,
-  type RecipeUpdateContext,
-} from "./update-recipe-context.js";
 
 type Selectors = {
   releaseQualification?: ReleaseQualificationBinding;
@@ -202,36 +197,4 @@ export async function observeReleaseQualificationBinding(
     mountNamespace,
     pidNamespace,
   });
-}
-
-/** Admit only the fixed startup pause, before delegation suspends the parent fence. */
-export async function admitReleaseQualificationChildInspector(
-  recipe: RecipeUpdateContext,
-  fence: UpdateRecoveryFence,
-): Promise<string | undefined> {
-  const flag = "--inspect-brk=127.0.0.1:0";
-  if (!process.execArgv.includes(flag)) {
-    return undefined;
-  }
-  if (!recipe.releaseQualification || process.execArgv.length !== 1) {
-    throw new Error("Target startup inspection requires exact release qualification custody.");
-  }
-  const { runId, installationKey } = recipe.maintenance.binding;
-  const original = captureUpdateCommandExecutorAuthority(fence, runId);
-  if (original.installKey !== installationKey) {
-    throw new Error("Target startup inspection changed its original installation.");
-  }
-  // This canonical resolver revalidates signed release qualification custody,
-  // including runner bytes, machine identity and the live admitted receiver.
-  const catalog = await resolveAuthenticatedRecipeUpdateCatalog(recipe);
-  assertUpgradeRecipeCatalogCurrent(catalog);
-  const current = captureUpdateCommandExecutorAuthority(fence, runId);
-  if (current !== original || current.installKey !== installationKey) {
-    throw new Error("Target startup inspection changed its original executor.");
-  }
-  fence.assertCurrent();
-  if (process.execArgv.length !== 1 || process.execArgv[0] !== flag) {
-    throw new Error("Target startup inspection observation changed during admission.");
-  }
-  return flag;
 }

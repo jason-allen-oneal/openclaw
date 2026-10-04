@@ -4,7 +4,7 @@ import { useAutoCleanupTempDirTracker } from "../../../test/helpers/temp-dir.js"
 import { createConfigIO } from "../../config/io.factory.js";
 import { runtimeProcessEntrypoints } from "../../infra/runtime-process-entrypoints.js";
 import * as childCommands from "../../process/exec.js";
-import * as qualificationInspector from "./recipe-first-qualification.js";
+import * as qualificationInspector from "./recipe-qualification.js";
 import * as executorOwner from "./update-command-executor.js";
 import type { FinishUpdateParams } from "./update-command-finish-types.js";
 import { continueMigratedUpdateInFreshProcess } from "./update-command-migrated.js";

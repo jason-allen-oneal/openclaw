@@ -7,7 +7,7 @@ import { runtimeProcessEntrypoints } from "../../infra/runtime-process-entrypoin
 import type { UpdateRecoveryFence } from "../../infra/update-run-recovery.js";
 import { CommandProcessCleanupError } from "../../process/exec-result.js";
 import { runUtf8CommandWithTimeout } from "../../process/exec.js";
-import { admitReleaseQualificationChildInspector } from "./recipe-first-qualification.js";
+import { admitReleaseQualificationChildInspector } from "./recipe-qualification.js";
 import {
   UPDATE_RECIPE_RESUME_CAPABILITY,
   recipeResumeResultSchema,

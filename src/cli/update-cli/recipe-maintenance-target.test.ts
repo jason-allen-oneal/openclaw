@@ -19,8 +19,8 @@ vi.mock("./update-command-executor.js", async (importOriginal) => ({
   ) => run({ runId: "run", root: "/target" }, fixture.bind),
 }));
 // mock-isolation: policy admission is tested at its owner, not through a native runner here.
-vi.mock("./recipe-first-qualification.js", async (original) => ({
-  ...(await original<typeof import("./recipe-first-qualification.js")>()),
+vi.mock("./recipe-qualification.js", async (original) => ({
+  ...(await original<typeof import("./recipe-qualification.js")>()),
   admitReleaseQualificationChildInspector: fixture.inspector,
 }));
 const binding = {
