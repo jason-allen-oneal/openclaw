@@ -57,9 +57,24 @@ suite.define(() => {
       expect(
         await row.getByRole("link", { name: `${label} Queued repair`, exact: true }).count(),
       ).toBe(1);
-      expect(await ring.evaluate((element) => getComputedStyle(element).animationName)).toBe(
-        "session-run-spin",
-      );
+      // Production CSS may merge identical keyframes under a shared name.
+      expect(
+        await ring.evaluate((element) => {
+          const animation = element.getAnimations()[0];
+          const effect = animation?.effect as KeyframeEffect | null;
+          return {
+            duration: effect?.getTiming().duration,
+            iterations: effect?.getTiming().iterations,
+            easing: getComputedStyle(element).animationTimingFunction,
+            rotation: effect?.getKeyframes().at(-1)?.transform,
+          };
+        }),
+      ).toEqual({
+        duration: 1600,
+        iterations: Infinity,
+        easing: "linear",
+        rotation: "rotate(360deg)",
+      });
       expect(await ring.evaluate((element) => getComputedStyle(element).animationPlayState)).toBe(
         playState,
       );
