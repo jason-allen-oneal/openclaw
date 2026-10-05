@@ -122,7 +122,7 @@ const release = z.strictObject({
   }),
 });
 
-/** Local catalogs are untrusted report inputs; a future authentication owner must admit execution metadata. */
+/** Schema validity is not trust; the catalog authentication owner admits execution metadata. */
 export const upgradeRecipeCatalogSchema = z.strictObject({
   schemaVersion: z.literal(1),
   id,

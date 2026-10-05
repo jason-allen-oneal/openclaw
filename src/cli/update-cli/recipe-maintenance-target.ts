@@ -79,27 +79,52 @@ export async function runUpgradeRecipeTargetMaintenance(options: {
       runtimeProcessEntrypoints.updateRecipeMaintenance.distWorkerPath,
     ),
   ];
-  const check = await withUpdateCommandExecutorChild(
-    fence,
-    input.binding.installationKey,
-    async (_executor, bindChild) => {
-      const command = await runCommandWithTimeout([...argv, "--check"], {
-        baseEnv: {},
-        env,
-        cwd: input.binding.installationKey,
-        input: "",
-        beforeInput: bindChild,
-        timeoutMs: input.timeoutMs,
-        maxOutputBytes: { stdout: 1024, stderr: 65536 },
-        killProcessTree: true,
-        requireProcessTreeExtinction: true,
-      });
-      if (command.cleanup === "forced" || command.cleanup === "uncertain") {
-        throw new CommandProcessCleanupError();
-      }
-      return command;
-    },
-  );
+  const invoke = (mode: "--check" | "--run", inspector?: string) =>
+    withUpdateCommandExecutorChild(
+      fence,
+      input.binding.installationKey,
+      async (executor, bindChild) => {
+        const payload =
+          mode === "--check"
+            ? ""
+            : JSON.stringify({
+                ...input,
+                capability: UPDATE_RECIPE_MAINTENANCE_CAPABILITY,
+                executor,
+              });
+        if (Buffer.byteLength(payload) > 1024 * 1024) {
+          throw new Error("Approved maintenance facts exceed the private transport bound.");
+        }
+        const command = await runCommandWithTimeout(
+          inspector ? [argv[0], inspector, argv[1], mode] : [...argv, mode],
+          {
+            ...(inspector
+              ? {
+                  onOutputChunk: (chunk: Buffer, stream: string) => {
+                    if (stream === "stderr") {
+                      process.stderr.write(chunk);
+                    }
+                  },
+                }
+              : {}),
+            baseEnv: {},
+            env,
+            cwd: input.binding.installationKey,
+            input: payload,
+            beforeInput: bindChild,
+            timeoutMs: input.timeoutMs,
+            maxOutputBytes: { stdout: mode === "--check" ? 1024 : 65536, stderr: 65536 },
+            killProcessTree: true,
+            requireProcessTreeExtinction: true,
+          },
+        );
+        if (command.cleanup === "forced" || command.cleanup === "uncertain") {
+          throw new CommandProcessCleanupError();
+        }
+        return command;
+      },
+    );
+  const check = await invoke("--check");
   fence.assertCurrent();
   const expectedCapability = JSON.stringify({ capability: UPDATE_RECIPE_MAINTENANCE_CAPABILITY });
   if (
@@ -119,45 +144,7 @@ export async function runUpgradeRecipeTargetMaintenance(options: {
   await options.verifyTarget();
   fence.assertCurrent();
   const inspector = await admitReleaseQualificationChildInspector(recipe, fence);
-  const runArgv = inspector ? [argv[0], inspector, argv[1], "--run"] : [...argv, "--run"];
-  const result = await withUpdateCommandExecutorChild(
-    fence,
-    input.binding.installationKey,
-    async (executor, bindChild) => {
-      const payload = JSON.stringify({
-        ...input,
-        capability: UPDATE_RECIPE_MAINTENANCE_CAPABILITY,
-        executor,
-      });
-      if (Buffer.byteLength(payload) > 1024 * 1024) {
-        throw new Error("Approved maintenance facts exceed the private transport bound.");
-      }
-      const command = await runCommandWithTimeout(runArgv, {
-        ...(inspector
-          ? {
-              onOutputChunk: (chunk: Buffer, stream: string) => {
-                if (stream === "stderr") {
-                  process.stderr.write(chunk);
-                }
-              },
-            }
-          : {}),
-        baseEnv: {},
-        env,
-        cwd: input.binding.installationKey,
-        input: payload,
-        beforeInput: bindChild,
-        timeoutMs: input.timeoutMs,
-        maxOutputBytes: { stdout: 65536, stderr: 65536 },
-        killProcessTree: true,
-        requireProcessTreeExtinction: true,
-      });
-      if (command.cleanup === "forced" || command.cleanup === "uncertain") {
-        throw new CommandProcessCleanupError();
-      }
-      return command;
-    },
-  );
+  const result = await invoke("--run", inspector);
   fence.assertCurrent();
   if (
     result.stdoutTruncatedBytes ||

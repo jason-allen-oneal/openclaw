@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createUpgradeRecipePlan } from "./planner.js";
+import { findQualifiedUpgradeRecipes, validateUpgradeRecipeCatalogReferences } from "./planner.js";
 import { upgradeQualificationRecipeDigest } from "./qualification-recipe-digest.js";
 import { upgradeRecipeCatalogSchema, type UpgradeRecipeCatalog } from "./schema.js";
 
@@ -122,16 +122,11 @@ export function validateUpgradeReleaseQualification(options: {
   if (evidence.purpose === "fixture" && !options.allowFixtures) {
     throw new Error("Fixture evidence cannot qualify a production release.");
   }
+  validateUpgradeRecipeCatalogReferences(catalog);
   const artifacts = new Map(catalog.artifacts.map((artifact) => [artifact.id, artifact]));
-  if (artifacts.size !== catalog.artifacts.length) {
-    throw new Error("Duplicate artifact identity.");
-  }
   const qualifications = new Map(
     catalog.qualifications.map((qualification) => [qualification.id, qualification]),
   );
-  if (qualifications.size !== catalog.qualifications.length) {
-    throw new Error("Duplicate qualification identity.");
-  }
   // Selectors advertise the complete Cartesian installation-class support surface.
   for (const recipe of catalog.recipes) {
     if (recipe.purpose === "production") {
@@ -243,29 +238,12 @@ export function validateUpgradeReleaseQualification(options: {
     ) {
       throw new Error("Qualification installation class is outside its recipe selectors.");
     }
-    // Reuse the planner's graph/reference validator. These synthetic class facts validate
-    // catalog structure only; they are never installation observations or write authority.
-    const structuralPlan = createUpgradeRecipePlan({
-      catalog,
-      targetReleaseId: target.id,
-      inventory: {
-        root: "/qualification",
-        serviceRoot: "/qualification",
-        observedVersion: source.version,
-        identityClass: "verified-release",
-        releaseId: source.id,
-        installKind: qualification.installKind,
-        platform: qualification.platform,
-        runtimeFamily: qualification.runtimeFamily,
-        stateContractClass: qualification.stateContractClass,
-        recovery: "clear",
-        issues: [],
-      },
-    });
     if (
-      structuralPlan.blockers.some((item) =>
-        ["catalog-invalid", "catalog-inconsistent", "route-ambiguous"].includes(item.code),
-      )
+      findQualifiedUpgradeRecipes(catalog, target.id, {
+        ...qualification,
+        releaseId: source.id,
+        identityClass: "verified-release",
+      }).length > 1
     ) {
       throw new Error("Catalog graph, references, or route selectors are inconsistent.");
     }

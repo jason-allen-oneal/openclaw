@@ -189,7 +189,7 @@ function orderSteps(recipe: UpgradeRecipe): UpgradeRecipeStep[] {
   return ordered;
 }
 
-function validateCatalogReferences(catalog: UpgradeRecipeCatalog): void {
+export function validateUpgradeRecipeCatalogReferences(catalog: UpgradeRecipeCatalog): void {
   for (const collection of [catalog.artifacts, catalog.releases, catalog.qualifications]) {
     if (new Set(collection.map((entry) => entry.id)).size !== collection.length) {
       throw new Error("Duplicate catalog identities.");
@@ -250,6 +250,44 @@ function validateCatalogReferences(catalog: UpgradeRecipeCatalog): void {
   }
 }
 
+/** Select declarative routes only; matching metadata never grants execution authority. */
+export function findQualifiedUpgradeRecipes(
+  catalog: UpgradeRecipeCatalog,
+  targetReleaseId: string,
+  inventory: Pick<
+    UpgradeRecipeInventory,
+    | "releaseId"
+    | "identityClass"
+    | "installKind"
+    | "stateContractClass"
+    | "platform"
+    | "runtimeFamily"
+  >,
+): UpgradeRecipe[] {
+  return catalog.recipes.filter(
+    (recipe) =>
+      recipe.purpose === "production" &&
+      recipe.source.releaseIds.includes(inventory.releaseId ?? "") &&
+      recipe.targetReleaseIds.includes(targetReleaseId) &&
+      recipe.source.identityClasses.some((identity) => identity === inventory.identityClass) &&
+      recipe.source.installKinds.some((kind) => kind === inventory.installKind) &&
+      recipe.source.stateContractClasses.includes(inventory.stateContractClass ?? "") &&
+      recipe.source.platforms.some((platform) => matchesPlatform(platform, inventory.platform)) &&
+      recipe.qualificationIds.some((id) =>
+        catalog.qualifications.some(
+          (qualification) =>
+            qualification.id === id &&
+            qualification.sourceReleaseId === inventory.releaseId &&
+            qualification.targetReleaseId === targetReleaseId &&
+            qualification.installKind === inventory.installKind &&
+            matchesPlatform(qualification.platform, inventory.platform) &&
+            qualification.runtimeFamily === inventory.runtimeFamily &&
+            qualification.stateContractClass === inventory.stateContractClass,
+        ),
+      ),
+  );
+}
+
 /** Pure passive planning. Catalog bytes and probe observations are never authorization. */
 export function createUpgradeRecipePlan(options: {
   inventory: UpgradeRecipeInventory;
@@ -269,7 +307,7 @@ export function createUpgradeRecipePlan(options: {
     steps: [],
     blockers: [],
     verificationGaps: [
-      "Catalog authentication, runner/dependency admission, and execution are not implemented.",
+      "This passive report does not admit a runner or authorize execution.",
       "No private rehearsal, disk-capacity guarantee, snapshot, or rollback verification was performed.",
     ],
     digest: "",
@@ -343,7 +381,7 @@ export function createUpgradeRecipePlan(options: {
   }
   const catalog = parsed.data;
   try {
-    validateCatalogReferences(catalog);
+    validateUpgradeRecipeCatalogReferences(catalog);
   } catch {
     block(
       "catalog-inconsistent",
@@ -356,7 +394,7 @@ export function createUpgradeRecipePlan(options: {
   block(
     "catalog-authentication-unavailable",
     "Local catalog metadata and qualification claims have not been authenticated.",
-    "Do not execute catalog adapters; authenticated metadata admission is a later implementation stage.",
+    "Use authenticated executable planning before approving any migration.",
   );
   const target = catalog.releases.find((release) => release.id === targetReleaseId);
   if (!target) {
@@ -390,28 +428,7 @@ export function createUpgradeRecipePlan(options: {
     );
     return finish();
   }
-  const matches = catalog.recipes.filter(
-    (recipe) =>
-      recipe.purpose === "production" &&
-      recipe.source.releaseIds.includes(source.id) &&
-      recipe.targetReleaseIds.includes(target.id) &&
-      recipe.source.identityClasses.some((identity) => identity === inventory.identityClass) &&
-      recipe.source.installKinds.some((kind) => kind === inventory.installKind) &&
-      recipe.source.stateContractClasses.includes(inventory.stateContractClass ?? "") &&
-      recipe.source.platforms.some((platform) => matchesPlatform(platform, inventory.platform)) &&
-      recipe.qualificationIds.some((id) =>
-        catalog.qualifications.some(
-          (qualification) =>
-            qualification.id === id &&
-            qualification.sourceReleaseId === source.id &&
-            qualification.targetReleaseId === target.id &&
-            qualification.installKind === inventory.installKind &&
-            matchesPlatform(qualification.platform, inventory.platform) &&
-            qualification.runtimeFamily === inventory.runtimeFamily &&
-            qualification.stateContractClass === inventory.stateContractClass,
-        ),
-      ),
-  );
+  const matches = findQualifiedUpgradeRecipes(catalog, target.id, inventory);
   const recipe = matches[0];
   if (matches.length !== 1 || !recipe) {
     block(

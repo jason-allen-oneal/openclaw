@@ -199,6 +199,28 @@ describe("authenticated upgrade catalogs", () => {
     ).rejects.toMatchObject({ code: "metadata-untrusted" });
     expect(f.fetch).not.toHaveBeenCalled();
   });
+  it("serializes same-process refreshes through the trust-cache lock", async () => {
+    const f = await fixture();
+    const fetching = Promise.withResolvers<void>();
+    const release = Promise.withResolvers<void>();
+    const fetch = f.fetch.getMockImplementation()!;
+    f.fetch.mockImplementationOnce(async (input) => {
+      fetching.resolve();
+      await release.promise;
+      return fetch(input);
+    });
+    const first = authenticateUpgradeRecipeCatalog(f.options);
+    await fetching.promise;
+    try {
+      await expect(authenticateUpgradeRecipeCatalog(f.options)).rejects.toMatchObject({
+        code: "metadata-untrusted",
+      });
+      expect(f.fetch).toHaveBeenCalledTimes(1);
+    } finally {
+      release.resolve();
+      await first;
+    }
+  });
   it("invalidates admitted plans when another process changes retained trust metadata", async () => {
     const f = await fixture();
     const admitted = await authenticateUpgradeRecipeCatalog(f.options);

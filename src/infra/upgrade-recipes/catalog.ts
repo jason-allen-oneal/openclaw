@@ -36,7 +36,6 @@ const recoveredAdmissions = new WeakMap<
     assertKnownCurrent: () => void;
   }
 >();
-const refreshing = new Set<string>();
 const admissionContexts = new WeakMap<object, string>();
 const admissionDirectories = new WeakMap<object, string>();
 const latestAdmissions = new Map<string, AuthenticatedUpgradeRecipeCatalog>();
@@ -53,15 +52,9 @@ class UpgradeRecipeTrustError extends Error {
 
 /** Serializable evidence, not transferable execution authority or a substitute for reauthentication. */
 type UpgradeRecipeCatalogAdmission = {
-  readonly targetPath: string;
-  readonly sha256: string;
-  readonly length: number;
-  readonly rootSha256: string;
-  readonly metadataVersions: Readonly<
-    Record<"root" | "timestamp" | "snapshot" | "targets", number>
+  readonly [K in keyof z.infer<typeof retainedAdmissionSchema>]: Readonly<
+    z.infer<typeof retainedAdmissionSchema>[K]
   >;
-  readonly metadataDigests: Readonly<Record<"root" | "timestamp" | "snapshot" | "targets", string>>;
-  readonly expiresAt: string;
 };
 export type AuthenticatedUpgradeRecipeCatalog = {
   readonly catalog: UpgradeRecipeCatalog;
@@ -144,7 +137,6 @@ function deepFreeze(value: unknown): void {
 export async function authenticateUpgradeRecipeCatalog(
   options: AuthenticateUpgradeRecipeCatalogOptions,
 ): Promise<AuthenticatedUpgradeRecipeCatalog> {
-  let cacheKey: string | undefined;
   let refreshLock: FileLockHandle | undefined;
   try {
     const controlRoot = path.resolve(options.controlRoot);
@@ -203,14 +195,6 @@ export async function authenticateUpgradeRecipeCatalog(
     ) {
       throw new UpgradeRecipeTrustError("metadata-untrusted", "Invalid catalog target identity.");
     }
-    if (refreshing.has(metadataDir)) {
-      throw new UpgradeRecipeTrustError(
-        "metadata-untrusted",
-        "The metadata owner already has an active refresh.",
-      );
-    }
-    cacheKey = metadataDir;
-    refreshing.add(cacheKey);
     const targetDir = path.join(controlRoot, "targets");
     await fs.mkdir(targetDir, { mode: 0o700, recursive: true });
     await privatePath(targetDir, true);
@@ -355,9 +339,6 @@ export async function authenticateUpgradeRecipeCatalog(
         : "Update metadata authentication failed; preserve the current installation and trust cache.",
     );
   } finally {
-    if (cacheKey) {
-      refreshing.delete(cacheKey);
-    }
     await refreshLock?.release();
   }
 }
@@ -372,6 +353,30 @@ function assertAuthenticatedUpgradeRecipeCatalog(
     );
   }
 }
+/** Both fresh and original-run admissions pin the exact four-role cache generation. */
+function assertMetadataGeneration(
+  directory: string,
+  admission: UpgradeRecipeCatalogAdmission,
+): void {
+  if (realpathSync(directory) !== directory) {
+    throw new Error("Metadata storage identity changed.");
+  }
+  for (const role of ["root", "timestamp", "snapshot", "targets"] as const) {
+    const filename = path.join(directory, `${role}.json`);
+    const stat = lstatSync(filename);
+    if (
+      !stat.isFile() ||
+      stat.isSymbolicLink() ||
+      stat.size > MAX_METADATA_BYTES ||
+      (stat.mode & 0o077) !== 0 ||
+      (process.getuid && stat.uid !== process.getuid()) ||
+      sha256(readFileSync(filename)) !== admission.metadataDigests[role]
+    ) {
+      throw new Error("Metadata generation changed.");
+    }
+  }
+}
+
 /** Fresh-run guard only. Recovery authority stays with the original durable run owner. */
 export function assertUpgradeRecipeCatalogCurrent(
   value: AuthenticatedUpgradeRecipeCatalog,
@@ -389,23 +394,10 @@ export function assertUpgradeRecipeCatalogCurrent(
   } else {
     const metadataDirectory = admissionDirectories.get(value);
     try {
-      if (!metadataDirectory || realpathSync(metadataDirectory) !== metadataDirectory) {
+      if (!metadataDirectory) {
         throw new Error("Metadata storage identity changed.");
       }
-      for (const role of ["root", "timestamp", "snapshot", "targets"] as const) {
-        const filename = path.join(metadataDirectory, `${role}.json`);
-        const stat = lstatSync(filename);
-        if (
-          !stat.isFile() ||
-          stat.isSymbolicLink() ||
-          stat.size > MAX_METADATA_BYTES ||
-          (stat.mode & 0o077) !== 0 ||
-          (process.getuid && stat.uid !== process.getuid()) ||
-          sha256(readFileSync(filename)) !== value.admission.metadataDigests[role]
-        ) {
-          throw new Error("Metadata generation changed.");
-        }
-      }
+      assertMetadataGeneration(metadataDirectory, value.admission);
     } catch {
       throw new UpgradeRecipeTrustError(
         "metadata-untrusted",
@@ -564,25 +556,13 @@ export async function recoverOriginalUpgradeRecipeCatalog(
   await privatePath(path.resolve(options.catalog.controlRoot), true);
   await privatePath(metadataDirectory, true);
   const knownOriginal = () => {
-    if (realpathSync(metadataDirectory) !== metadataDirectory) {
-      throw new UpgradeRecipeTrustError("metadata-untrusted", "Known metadata owner changed.");
-    }
-    for (const role of ["root", "timestamp", "snapshot", "targets"] as const) {
-      const filename = path.join(metadataDirectory, `${role}.json`);
-      const stat = lstatSync(filename);
-      if (
-        !stat.isFile() ||
-        stat.isSymbolicLink() ||
-        (stat.mode & 0o077) !== 0 ||
-        stat.size > MAX_METADATA_BYTES ||
-        (process.getuid && stat.uid !== process.getuid()) ||
-        sha256(readFileSync(filename)) !== originalCatalog.admission.metadataDigests[role]
-      ) {
-        throw new UpgradeRecipeTrustError(
-          "metadata-untrusted",
-          "Known metadata generation changed; current authenticated revocations are required.",
-        );
-      }
+    try {
+      assertMetadataGeneration(metadataDirectory, originalCatalog.admission);
+    } catch {
+      throw new UpgradeRecipeTrustError(
+        "metadata-untrusted",
+        "Known metadata generation changed; current authenticated revocations are required.",
+      );
     }
   };
   let latest: AuthenticatedUpgradeRecipeCatalog | undefined;
