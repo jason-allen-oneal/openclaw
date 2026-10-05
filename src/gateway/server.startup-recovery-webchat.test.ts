@@ -320,33 +320,10 @@ it(
       // Hold the cancellation target in flight before queueing the survivor.
       // A started ACK precedes insertion into the followup queue.
       await sendQueuedTurn(canceledRunId, canceledMessage);
-      try {
-        await vi.waitFor(() => {
-          const queue = getExistingFollowupQueue(sessionKey);
-          expect([...(queue?.inFlight ?? [])].map((item) => item.messageId)).toEqual([
-            canceledRunId,
-          ]);
-        });
-      } catch (cause) {
+      await vi.waitFor(() => {
         const queue = getExistingFollowupQueue(sessionKey);
-        const terminal = await client.request("agent.wait", { runId: canceledRunId, timeoutMs: 1 });
-        throw new Error(
-          JSON.stringify({
-            runId: canceledRunId,
-            terminal,
-            queued: queue?.items.map((item) => item.messageId),
-            inFlight: [...(queue?.inFlight ?? [])].map((item) => item.messageId),
-            recoveryStillOwned: Boolean(
-              getSessionWorkAdmissionOwnerRelease({
-                scope: storePath,
-                identities: [sessionKey, sessionId],
-                owner: MAIN_SESSION_RECOVERY_WORK_ADMISSION_OWNER,
-              }),
-            ),
-          }),
-          { cause },
-        );
-      }
+        expect([...(queue?.inFlight ?? [])].map((item) => item.messageId)).toEqual([canceledRunId]);
+      });
       await sendQueuedTurn(survivorRunId, survivorMessage);
       await vi.waitFor(() => {
         const queue = getExistingFollowupQueue(sessionKey);
