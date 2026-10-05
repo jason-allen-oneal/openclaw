@@ -6,7 +6,6 @@ import { getUpdateRunForProgressAsync } from "../../infra/update-run-reader.js";
 import type { UpdateRecoveryFence } from "../../infra/update-run-recovery.js";
 import type { UpdateRunWriteOptions } from "../../infra/update-run-write.async.js";
 import { createRetainedUpgradeRecipeRunStore } from "../../infra/upgrade-recipes/retained-run.js";
-import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/runner-bundle.js";
 import { resolveRecipeStepBinding } from "./recipe-step-execution.js";
 import {
   assertRecipeUpdateBinding,
@@ -14,6 +13,7 @@ import {
   assertRecipeUpdateEnvironment,
   RECIPE_UPDATE_BUILTIN_ACTIONS,
   resolveAuthenticatedRecipeUpdateCatalog,
+  verifyRecipeUpdateRunner,
   type RecipeUpdateContext,
 } from "./update-recipe-context.js";
 
@@ -68,20 +68,8 @@ export async function retainRecipeExecution(
   if (catalog.digest !== recipe.catalogDigest) {
     throw new Error("Recipe retention cannot adopt a new catalog generation.");
   }
-  const runner = await verifyUpgradeRecipeRunnerBundle({
-    catalog,
-    bundleRoot: recipe.runner.root,
-    manifestArtifactId: recipe.runner.manifestArtifactId,
-    forbiddenRoots: recipe.catalog.forbiddenRoots,
-  });
+  const runner = await verifyRecipeUpdateRunner(recipe, catalog);
   assertCurrent();
-  if (
-    runner.manifestDigest !== recipe.runner.manifestDigest ||
-    runner.closureDigest !== recipe.runner.closureDigest ||
-    runner.runtimePath !== recipe.maintenance.expected.runtimeExecutable
-  ) {
-    throw new Error("Recipe retention cannot substitute its approved runner.");
-  }
   const stepBindings = [];
   for (const action of RECIPE_UPDATE_BUILTIN_ACTIONS) {
     stepBindings.push(await resolveRecipeStepBinding(recipe, action.id));

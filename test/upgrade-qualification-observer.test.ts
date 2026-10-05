@@ -11,15 +11,12 @@ import {
   assertNativeObservationSelectors,
   assertOriginalRetainedCustody,
 } from "../scripts/lib/upgrade-qualification-observation-files.mjs";
+import {
+  observationFixture,
+  observationRunId as runId,
+  requiredItem,
+} from "./upgrade-qualification.test-support.js";
 
-function requiredItem<T>(items: readonly T[], index = 0): T {
-  const item = items[index];
-  if (!item) {
-    throw new Error(`Missing fixture item ${index}`);
-  }
-  return item;
-}
-const runId = "00000000-0000-4000-8000-000000000001";
 const file = (name: string) => ({
   path: `/qualification/${name}`,
   sha256: "a".repeat(64),
@@ -55,11 +52,8 @@ const mapping = (phase: "fresh" | "retained") => ({
   },
 });
 const binding = () => ({
-  schemaVersion: 1,
-  purpose: "unchanged-artifact-historical-observation",
-  runId,
+  ...observationFixture(native.path),
   boundary: "migration-commit",
-  side: "after",
   observer: file("observer.mjs"),
   observerFiles: [
     file("observer.mjs"),
@@ -81,41 +75,13 @@ const binding = () => ({
       sourceName: "src/cli/update-cli/recipe-plan.ts",
     },
   ],
-  selectedMappingId: "fresh",
-  runCaptureMappingId: "capture",
   durableProbe: {
     executable: file("probe"),
     argv: [runId],
     expected: { committed: true },
     audit: file("probe-audit.json"),
   },
-  apply: [
-    native.path,
-    "--installation",
-    "/qualification/npm/lib/node_modules/openclaw",
-    "--release-qualification",
-    "--qualification-inspector",
-    "--control-root",
-    "/qualification/control",
-  ],
-  resume: [
-    native.path,
-    "--installation",
-    "/qualification/npm/lib/node_modules/openclaw",
-    "--qualification-inspector",
-    "--control-root",
-    "/qualification/control",
-    "--retained-run",
-    "{{original-run-id}}",
-    "--retained-ledger",
-    "/qualification/state/ledger.sqlite",
-  ],
-  nativeArguments: ["--control-root", "/qualification/control"],
-  installation: "/qualification/npm/lib/node_modules/openclaw",
-  ledger: "/qualification/state/ledger.sqlite",
-  protectedRoots: ["/qualification/npm/lib/node_modules/openclaw", "/qualification/state"],
   serviceCgroups: ["/system.slice/openclaw.service"],
-  timeoutMs: 1000,
 });
 const audit = () => ({
   purpose: "reviewed-unchanged-artifact-boundary",

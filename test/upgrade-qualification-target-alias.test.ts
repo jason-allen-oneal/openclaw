@@ -12,6 +12,11 @@ import {
   verifyLiveTargetFile,
   assertObservationAudit,
 } from "../scripts/lib/upgrade-qualification-observation-files.mjs";
+import {
+  observationFixture,
+  observationRunId as originalRun,
+  requiredItem,
+} from "./upgrade-qualification.test-support.js";
 
 const custody = vi.hoisted(() => ({ root: "" }));
 // mock-isolation: Redirect qualification paths into private real disk fixtures; real hashing,
@@ -30,16 +35,8 @@ vi.mock("node:fs/promises", async (importOriginal) => {
   };
 });
 
-function requiredItem<T>(items: readonly T[], index = 0): T {
-  const item = items[index];
-  if (!item) {
-    throw new Error(`Required fixture item ${index} is missing`);
-  }
-  return item;
-}
 const installation = "/qualification/npm/lib/node_modules/openclaw";
 const code = "export const exact = true;\n";
-const originalRun = "00000000-0000-4000-8000-000000000001";
 let actual: typeof fs;
 const write = async (filename: string, content: string) => {
   const disk = filename.replace(/^\/qualification/u, custody.root);
@@ -68,11 +65,8 @@ const mapping = (phase: "fresh" | "retained", id: string = phase) => ({
   facts: { runId: "runId", actionId: "actionId", operation: "operation", jobId: "jobId" },
 });
 const binding = () => ({
-  schemaVersion: 1,
-  purpose: "unchanged-artifact-historical-observation",
-  runId: originalRun,
+  ...observationFixture(entry.path),
   boundary: "package-publication",
-  side: "after",
   observer: { ...entry, path: "/qualification/tools/observer.mjs" },
   observerFiles: [
     "observer.mjs",
@@ -99,36 +93,7 @@ const binding = () => ({
       captureStage: "recipe-plan-uuid-before-ledger-admission",
     },
   ],
-  selectedMappingId: "fresh",
-  runCaptureMappingId: "capture",
   durableProbe: { executable: entry, argv: [originalRun], expected: {}, audit: entry },
-  apply: [
-    entry.path,
-    "--installation",
-    installation,
-    "--release-qualification",
-    "--qualification-inspector",
-    "--control-root",
-    "/qualification/control",
-  ],
-  resume: [
-    entry.path,
-    "--installation",
-    installation,
-    "--qualification-inspector",
-    "--control-root",
-    "/qualification/control",
-    "--retained-run",
-    "{{original-run-id}}",
-    "--retained-ledger",
-    "/qualification/state/ledger.sqlite",
-  ],
-  nativeArguments: ["--control-root", "/qualification/control"],
-  installation,
-  ledger: "/qualification/state/ledger.sqlite",
-  protectedRoots: [installation, "/qualification/state"],
-  serviceCgroups: [],
-  timeoutMs: 1000,
 });
 
 async function inspectLoadedTarget(scriptSource: string) {

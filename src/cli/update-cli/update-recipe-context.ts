@@ -26,7 +26,10 @@ import {
   verifyAuthenticatedUpgradeInstallation,
   type UpgradeInstallationIdentity,
 } from "../../infra/upgrade-recipes/installation-identity.js";
-import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/runner-bundle.js";
+import {
+  verifyUpgradeRecipeRunnerBundle,
+  type VerifiedUpgradeRecipeRunnerBundle,
+} from "../../infra/upgrade-recipes/runner-bundle.js";
 import { runCommandWithTimeout } from "../../process/exec.js";
 import { assertReleaseQualificationCustody } from "./recipe-first-qualification.js";
 import { releaseQualificationBindingSchema } from "./recipe-release-qualification-contract.js";
@@ -468,7 +471,7 @@ export async function verifyRecipeUpdateRunner(
     "runner" | "catalog" | "maintenance" | "route" | "releaseQualification"
   >,
   catalog: AuthenticatedUpgradeRecipeCatalog,
-): Promise<void> {
+): Promise<VerifiedUpgradeRecipeRunnerBundle> {
   const runner = await verifyUpgradeRecipeRunnerBundle({
     catalog,
     bundleRoot: recipe.runner.root,
@@ -492,6 +495,7 @@ export async function verifyRecipeUpdateRunner(
       "Recipe runtime or retained runner closure differs from the approved authenticated artifacts.",
     );
   }
+  return runner;
 }
 
 /** Rehash named local bytes immediately before staging/publication, without registry resolution. */

@@ -5,13 +5,13 @@ import { fileURLToPath } from "node:url";
 import type { UpdateRunResult } from "../../infra/update-run-result.js";
 import { authenticateUpgradeRecipeCatalog } from "../../infra/upgrade-recipes/catalog.js";
 import { assertUpgradeRecipeCapacityInputs } from "../../infra/upgrade-recipes/execution-capacity.js";
-import { verifyUpgradeRecipeRunnerBundle } from "../../infra/upgrade-recipes/runner-bundle.js";
 import { verifyRecipeQualificationEvidence } from "./recipe-qualification.js";
 import { withOwnedManagedUpdateEnv } from "./update-command-service-env.js";
 import {
   assertRecipeUpdateBinding,
   recipeUpdateContextSchema,
   verifyRecipeUpdateArchive,
+  verifyRecipeUpdateRunner,
   type RecipeUpdateContext,
 } from "./update-recipe-context.js";
 
@@ -101,16 +101,8 @@ export async function applyApprovedRecipeUpdate(options: {
   if (catalog.digest !== recipe.catalogDigest) {
     throw new Error("Authenticated recipe catalog changed; regenerate and approve the plan.");
   }
-  const runner = await verifyUpgradeRecipeRunnerBundle({
-    catalog,
-    bundleRoot: recipe.runner.root,
-    manifestArtifactId: recipe.runner.manifestArtifactId,
-    forbiddenRoots: recipe.catalog.forbiddenRoots,
-  });
+  const runner = await verifyRecipeUpdateRunner(recipe, catalog);
   if (
-    recipe.maintenance.expected.runtimeExecutable !== runner.runtimePath ||
-    runner.manifestDigest !== recipe.runner.manifestDigest ||
-    runner.closureDigest !== recipe.runner.closureDigest ||
     (await fs.realpath(process.execPath)) !== runner.runtimePath ||
     (await fs.realpath(fileURLToPath(options.runnerEntryUrl))) !==
       (recipe.releaseQualification

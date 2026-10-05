@@ -103,7 +103,7 @@ describe("memory entry origins", () => {
       await expect(
         fs.access(resolveOpenClawAgentSqlitePath({ agentId: "main" })),
       ).rejects.toThrow();
-      let db = openOpenClawAgentDatabase({ agentId: "main" }).db;
+      const db = openOpenClawAgentDatabase({ agentId: "main" }).db;
       const version = db.prepare("PRAGMA user_version").get();
       db.exec("DROP TABLE IF EXISTS memory_entry_origins");
 
@@ -142,9 +142,6 @@ describe("memory entry origins", () => {
       ]);
       expect(db.prepare("PRAGMA user_version").get()).toEqual(version);
       db.exec("DROP TABLE memory_entry_origins");
-      // Restore an older store through a fresh owner admission, not an active worker's schema facts.
-      await closeOpenClawAgentDatabasesAsync(stateDir);
-      db = openOpenClawAgentDatabase({ agentId: "main" }).db;
       await recordMemoryEntryOrigins({
         agentId: "main",
         origins: [origin("recovered", "session-2")],

@@ -39,5 +39,3 @@ export {
 } from "../state/openclaw-state-db.js";
 
 export { observeHostDataSql } from "../../test/helpers/sqlite-statement-execution-counter.js";
-
-export { observePluginStateBackupWriteFaultForTest } from "../state/plugin-state-backup-fault.test-support.js";

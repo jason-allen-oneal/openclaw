@@ -253,7 +253,7 @@ it("rejects a catalog-valid selected runner not covered by the original qualific
       executor,
     },
   ];
-  await expect(verifyRecipeUpdateRunner(recipe, input.catalog)).resolves.toBeUndefined();
+  await expect(verifyRecipeUpdateRunner(recipe, input.catalog)).resolves.toEqual(verified);
   for (const field of [
     "runnerManifestArtifactId",
     "runtimeArtifactId",

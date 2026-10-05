@@ -9,11 +9,7 @@ import {
   loadSqliteVecExtension,
 } from "openclaw/plugin-sdk/memory-core-host-engine-storage";
 import { openOpenClawAgentDatabase } from "openclaw/plugin-sdk/sqlite-runtime";
-import {
-  closeOpenClawAgentDatabasesAsync,
-  observePluginStateBackupWriteFaultForTest,
-  openOpenClawStateDatabase,
-} from "openclaw/plugin-sdk/sqlite-runtime-testing";
+import { openOpenClawStateDatabase } from "openclaw/plugin-sdk/sqlite-runtime-testing";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   readSessionIngestionState,
@@ -192,7 +188,7 @@ describe("memory forget", () => {
       });
 
       const agentDatabase = openOpenClawAgentDatabase({ agentId: "main" });
-      let db = agentDatabase.db;
+      const db = agentDatabase.db;
       const loaded = await loadSqliteVecExtension({ db });
       expect(loaded.ok).toBe(true);
       const schema = ensureMemoryIndexSchema({ db, cacheEnabled: true, ftsEnabled: true });
@@ -282,10 +278,6 @@ describe("memory forget", () => {
         ).run(chunkId, file.originClass, file.sessionKind ?? "interactive");
       }
       db.exec("DROP TABLE IF EXISTS memory_session_tombstones");
-      // The missing-table fixture is an older store admitted anew, not DDL under a live worker.
-      await closeOpenClawAgentDatabasesAsync(stateDir);
-      db = openOpenClawAgentDatabase({ agentId: "main" }).db;
-      expect((await loadSqliteVecExtension({ db })).ok).toBe(true);
       const revisionBefore = (
         db.prepare("SELECT revision FROM memory_index_state WHERE id = 1").get() as {
           revision: number;
@@ -367,7 +359,13 @@ describe("memory forget", () => {
                   : "BEFORE DELETE ON memory_entry_origins WHEN OLD.entry_key = 'mixed-entry'";
           const restore =
             failure === "backup"
-              ? await observePluginStateBackupWriteFaultForTest(openOpenClawStateDatabase().path)
+              ? (() => {
+                  const faultDb = openOpenClawStateDatabase().db;
+                  faultDb.exec(
+                    `CREATE TRIGGER abort_forget ${trigger} BEGIN SELECT RAISE(ABORT, '${failureMessage}'); END`,
+                  );
+                  return () => faultDb.exec("DROP TRIGGER abort_forget");
+                })()
               : observeMemoryForgetWorker(db, {
                   trigger: { event: trigger, message: failureMessage, action: "ABORT" },
                 });
@@ -380,7 +378,7 @@ describe("memory forget", () => {
                 : { message: failureMessage },
             );
           } finally {
-            await Promise.resolve(restore());
+            restore();
           }
         }
         expect(await listMemorySessionTombstones({ agentId: "main" })).toMatchObject([

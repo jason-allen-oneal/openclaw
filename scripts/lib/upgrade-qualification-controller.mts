@@ -87,7 +87,7 @@ function executeDocker(args: string[], log: string, timeout: number, env: NodeJS
   child.stdout.on("data", keep);
   child.stderr.on("data", keep);
   const timer = setTimeout(() => child.kill("SIGKILL"), timeout);
-  const settled = new Promise<{ code: number | null; output: string }>((resolve, reject) => {
+  return new Promise<{ code: number | null; output: string }>((resolve, reject) => {
     child.once("error", reject);
     child.once("close", (code) => {
       clearTimeout(timer);
@@ -98,7 +98,6 @@ function executeDocker(args: string[], log: string, timeout: number, env: NodeJS
       );
     });
   });
-  return { child, settled };
 }
 
 export { assertRootlessQualificationDaemon } from "./upgrade-qualification-observation-collection.mjs";
@@ -145,8 +144,13 @@ export async function runUpgradeQualificationController(args: string[]): Promise
   await fs.mkdir(output, { mode: 0o700 }); // Exclusive run; never overwrite prior evidence.
   // Capture selection once; later environment/context edits cannot redirect machine operations.
   const initialEnv = { ...process.env };
-  const rawChecked = async (argv: string[], log: string, env: NodeJS.ProcessEnv) => {
-    const result = await executeDocker(argv, log, manifest.timeoutMs, env).settled;
+  const rawChecked = async (
+    argv: string[],
+    log: string,
+    env: NodeJS.ProcessEnv,
+    timeout = manifest.timeoutMs,
+  ) => {
+    const result = await executeDocker(argv, log, timeout, env);
     if (result.code !== 0) {
       throw new Error(`Qualification command failed (${result.code}); retained ${log}`);
     }
@@ -191,13 +195,8 @@ export async function runUpgradeQualificationController(args: string[]): Promise
   }
   const execute = (argv: string[], log: string, timeout: number) =>
     executeDocker(["--host", selectedEndpoint, ...argv], log, timeout, env);
-  const checked = async (argv: string[], log: string, timeout: number) => {
-    const result = await execute(argv, log, timeout).settled;
-    if (result.code !== 0) {
-      throw new Error(`Qualification command failed (${result.code}); retained ${log}`);
-    }
-    return result.output;
-  };
+  const checked = (argv: string[], log: string, timeout: number) =>
+    rawChecked(["--host", selectedEndpoint, ...argv], log, env, timeout);
   const inspectDaemon = async (log: string) =>
     assertRootlessQualificationDaemon(
       await checked(["info", "--format", "{{json .}}"], log, manifest.timeoutMs),
@@ -230,7 +229,6 @@ export async function runUpgradeQualificationController(args: string[]): Promise
     const exec = (...argv: string[]) => ["exec", machine, ...argv];
     let creationAttempted = false;
     let failure: Error | undefined;
-    let apply: ReturnType<typeof execute> | undefined;
     try {
       const imageIdentity = assertQualificationImageIdentity(
         manifest.image,
@@ -347,10 +345,7 @@ export async function runUpgradeQualificationController(args: string[]): Promise
             ),
         });
       } else {
-        apply = execute(exec(...item.apply), log("apply"), manifest.timeoutMs);
-      }
-      if (apply && (await apply.settled).code !== 0) {
-        throw new Error("Historical apply failed; diagnostics retained.");
+        await checked(exec(...item.apply), log("apply"), manifest.timeoutMs);
       }
       await checked(
         exec(
@@ -391,7 +386,7 @@ export async function runUpgradeQualificationController(args: string[]): Promise
           ["rm", "--force", machine],
           log("machine-cleanup"),
           manifest.timeoutMs,
-        ).settled;
+        );
         if (
           cleanup.code !== 0 &&
           !(cleanup.output.includes("No such container") && cleanup.output.includes(machine))
@@ -404,10 +399,6 @@ export async function runUpgradeQualificationController(args: string[]): Promise
             "Qualification cell failed or its isolated machine cleanup is uncertain.",
           );
         }
-      }
-      if (apply) {
-        apply.child.kill("SIGKILL");
-        await apply.settled;
       }
     }
     if (failure) {

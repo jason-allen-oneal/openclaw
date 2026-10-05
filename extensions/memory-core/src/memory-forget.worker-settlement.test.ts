@@ -3,7 +3,6 @@ import path from "node:path";
 import { encodeMemoryEmbedding } from "openclaw/plugin-sdk/memory-core-host-engine-storage";
 import { resolveRuntimeWorkerUrl } from "openclaw/plugin-sdk/process-runtime";
 import * as sqliteRuntime from "openclaw/plugin-sdk/sqlite-runtime";
-import { closeOpenClawAgentDatabasesAsync } from "openclaw/plugin-sdk/sqlite-runtime-testing";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   listMemoryEntryOrigins,
@@ -30,7 +29,7 @@ describe("memory forget worker settlement", () => {
 
   async function seedSelectedMemory(withOrigins: boolean) {
     await seedMemoryForgetSession("target");
-    let { db } = sqliteRuntime.openOpenClawAgentDatabase({ agentId: "main" });
+    const { db } = sqliteRuntime.openOpenClawAgentDatabase({ agentId: "main" });
     if (withOrigins) {
       await recordMemoryEntryOrigins({
         agentId: "main",
@@ -67,9 +66,6 @@ describe("memory forget worker settlement", () => {
       VALUES ('fixture', 'fixture', 'fixture', 'selected', ?, 1, 1)`).run(
       encodeMemoryEmbedding([1]),
     );
-    // Admit the intentionally older optional-table state before exercising the fault backend.
-    await closeOpenClawAgentDatabasesAsync(fixture.stateDir);
-    db = sqliteRuntime.openOpenClawAgentDatabase({ agentId: "main" }).db;
     const derived = () => ({
       chunks: db.prepare("SELECT * FROM memory_index_chunks ORDER BY id").all(),
       sources: db.prepare("SELECT * FROM memory_index_sources ORDER BY id").all(),
