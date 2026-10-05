@@ -241,8 +241,9 @@ export async function runUpgradeQualificationController(args: string[]): Promise
     for (const [index, binding] of item.inputs.entries()) {
       await copyBoundFile(binding, path.join(input, `input-${index}`));
     }
-    if (item.observation)
+    if (item.observation) {
       await copyBoundFile(item.observation, path.join(input, "observation.json"));
+    }
     const observation = item.observation ? await readHistoricalObservation(input, item) : undefined;
     await fs.writeFile(path.join(input, "cell.json"), JSON.stringify(item), {
       mode: 0o444,

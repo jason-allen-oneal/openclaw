@@ -1,6 +1,7 @@
 /** External release tooling only; production runtime never imports these modules. */
 import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
+import { userInfo } from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { isDeepStrictEqual } from "node:util";
@@ -98,9 +99,15 @@ export async function runHistoricalObservation(binding, directory) {
     if (argv[0] !== binding.nativeBootstrap.path || !argv.includes("--qualification-inspector")) {
       throw new Error("Native startup admission is mandatory.");
     }
+    const account = userInfo();
     const child = spawn(argv[0], argv.slice(1), {
       detached: true,
-      env: { PATH: "/usr/bin:/bin", HOME: "/qualification/home" },
+      env: {
+        PATH: "/usr/bin:/bin",
+        HOME: account.homedir,
+        USER: account.username,
+        LOGNAME: account.username,
+      },
       stdio: ["ignore", "pipe", "pipe"],
     });
     const log = await fs.open(path.join(directory, `${phase}-native.log`), "wx", 0o600);

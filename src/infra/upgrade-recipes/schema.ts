@@ -27,7 +27,7 @@ const platform = z.strictObject({
   ]),
 });
 const ref = z.strictObject({ id, revision });
-export const upgradeQualifiedExecutorSchema = z.strictObject({
+const upgradeQualifiedExecutorSchema = z.strictObject({
   runnerManifestArtifactId: id,
   runtimeArtifactId: id,
   bootstrapArtifactId: id,

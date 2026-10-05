@@ -776,10 +776,12 @@ fn qualification_machine(binding: Option<&serde_json::Value>) -> Result<()> {
             .any(|line| line.contains(" / / ") && line.contains(" - overlay "))
         || !fs::read_to_string("/proc/1/cgroup")?.lines().any(|line| {
             let parts: Vec<_> = line.split(':').collect();
+            // systemd moves PID 1 into init.scope inside the private v2 namespace.
+            // Host-prefixed scopes must not satisfy disposable-machine admission.
             parts.len() == 3
-                && !parts[0].is_empty()
-                && parts[0].bytes().all(|b| b.is_ascii_digit())
-                && parts[2] == "/"
+                && parts[0] == "0"
+                && parts[1].is_empty()
+                && matches!(parts[2], "/" | "/init.scope")
         })
     {
         return Err(error("qualification-machine-required"));

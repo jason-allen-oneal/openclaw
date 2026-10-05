@@ -266,12 +266,22 @@ describe("node worker launch wire", () => {
           sessionKey: SESSION_KEY,
           limit: 20,
         });
+        const baselineReplies = history.messages?.filter(
+          (message) =>
+            (message as { role?: unknown }).role === "assistant" &&
+            wireMessageText(message).includes(BASELINE_REPLY),
+        );
         expect(
-          history.messages?.filter(
-            (message) =>
-              (message as { role?: unknown }).role === "assistant" &&
-              wireMessageText(message).includes(BASELINE_REPLY),
-          ),
+          baselineReplies,
+          baselineReplies?.length === 1
+            ? undefined
+            : JSON.stringify({
+                runId,
+                launchId,
+                requests: provider.requestCount,
+                messages: baselineReplies,
+                gateway: gateway.logs().slice(-8_000),
+              }),
         ).toHaveLength(1);
         const described = (await gateway.call("sessions.describe", { key: SESSION_KEY })) as {
           session?: { execCwd?: string; spawnedCwd?: string; placement?: Record<string, unknown> };

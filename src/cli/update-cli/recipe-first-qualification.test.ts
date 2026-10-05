@@ -62,7 +62,7 @@ describe("first qualification custody", () => {
       assertReleaseQualificationCustody(recipe, {} as AuthenticatedUpgradeRecipeCatalog),
     ).rejects.toThrow("authenticated release-only entry in the production runner");
   });
-  function receiverFixture() {
+  function receiverFixture(initCgroup = "0::/") {
     const recipe = approvedContext();
     recipe.releaseQualification = {
       purpose: "release-qualification",
@@ -97,7 +97,7 @@ describe("first qualification custody", () => {
       "/proc/1/comm": "systemd",
       "/run/systemd/container": "docker",
       "/proc/self/mountinfo": "1 0 0:1 / / rw - overlay overlay rw",
-      "/proc/1/cgroup": "0::/",
+      "/proc/1/cgroup": initCgroup,
     };
     vi.spyOn(fs, "readFile").mockImplementation(async (value) => {
       if (typeof value !== "string" || !(value in observations)) {
@@ -160,13 +160,27 @@ describe("first qualification custody", () => {
     expect(fence.assertCurrent).toHaveBeenCalled();
   });
 
-  it("admits the original signed release-only entry without transferring native target authority", async () => {
-    const { recipe, catalog } = receiverFixture();
-    process.argv[1] = "/qualification/runner/release-qualification-entry.mjs";
-    await assertReleaseQualificationCustody(recipe, catalog);
-    expect(bundle.installation).not.toHaveBeenCalled();
-    expect(bundle.authority).not.toHaveBeenCalled();
-  });
+  it.each(["0::/", "0::/init.scope"])(
+    "admits the original signed release-only entry in private cgroup %s without transferring target authority",
+    async (initCgroup) => {
+      const { recipe, catalog } = receiverFixture(initCgroup);
+      process.argv[1] = "/qualification/runner/release-qualification-entry.mjs";
+      await assertReleaseQualificationCustody(recipe, catalog);
+      expect(bundle.installation).not.toHaveBeenCalled();
+      expect(bundle.authority).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each(["0::/system.slice/docker-example.scope/init.scope", "0::/other.scope"])(
+    "refuses a release-only entry outside the private systemd root: %s",
+    async (initCgroup) => {
+      const { recipe, catalog } = receiverFixture(initCgroup);
+      process.argv[1] = "/qualification/runner/release-qualification-entry.mjs";
+      await expect(assertReleaseQualificationCustody(recipe, catalog)).rejects.toThrow(
+        "private cgroup root",
+      );
+    },
+  );
 
   it("refuses a target caller presenting a different worker entry URL", async () => {
     const { recipe, catalog, fence } = receiverFixture();

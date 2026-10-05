@@ -150,7 +150,8 @@ export async function assertReleaseQualificationCustody(
     !observations[6]
       .split("\n")
       .some((line) => line.includes(" / / ") && line.includes(" - overlay ")) ||
-    !observations[7].split("\n").some((line) => /^[0-9]+:[^:]*:\/$/.test(line))
+    // PID 1 may enter systemd's init.scope within the private cgroup-v2 root.
+    !observations[7].split("\n").some((line) => /^0::\/(?:init\.scope)?$/.test(line))
   ) {
     throw new Error(
       "First qualification lost its original isolated native systemd machine, boot, namespaces, or private cgroup root.",

@@ -10,7 +10,6 @@ import { Parser } from "tar";
 import { z } from "zod";
 import { upgradeQualificationRecipeDigest } from "../../src/infra/upgrade-recipes/qualification-recipe-digest.js";
 import { validateUpgradeReleaseQualification } from "../../src/infra/upgrade-recipes/qualification.js";
-import { upgradeRecipeRunnerBundleManifestSchema } from "../../src/infra/upgrade-recipes/runner-bundle.js";
 import { upgradeRecipeCatalogSchema } from "../../src/infra/upgrade-recipes/schema.js";
 import { deriveUpgradeChangedContracts } from "./upgrade-changed-contracts.mjs";
 
@@ -148,6 +147,9 @@ export async function runUpgradeReleaseValidation(
       await handle.close();
     }
   }
+  // Keep ordinary sparse release tooling independent of runtime state assets.
+  const { upgradeRecipeRunnerBundleManifestSchema } =
+    await import("../../src/infra/upgrade-recipes/runner-bundle.js");
   // The declared executor must describe the actual authenticated manifest bytes,
   // not merely three otherwise valid members of the catalog.
   for (const qualification of catalog.qualifications) {
