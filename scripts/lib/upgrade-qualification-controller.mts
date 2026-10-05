@@ -5,15 +5,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { z } from "zod";
-import { qualificationCrashOwners } from "./upgrade-qualification-crash-build.mjs";
-import { awaitBoundary } from "./upgrade-qualification-fixture-boundary.mjs";
 import {
   assertQualificationImageIdentity,
   assertRootlessQualificationDaemon,
   readHistoricalObservation,
   collectHistoricalObservation,
 } from "./upgrade-qualification-observation-collection.mjs";
-import { parseObservedProcess } from "./upgrade-qualification-observation-files.mjs";
 
 const boundFile = z.strictObject({
   path: z.string().min(1),
@@ -33,11 +30,6 @@ const cell = z.strictObject({
   apply: command,
   resume: command,
   observation: boundFile.optional(),
-  boundary: z
-    .enum(
-      qualificationCrashOwners.flatMap((owner) => [`${owner.name}-before`, `${owner.name}-after`]),
-    )
-    .optional(),
 });
 export const upgradeQualificationRunManifestSchema = z.strictObject({
   schemaVersion: z.literal(1),
@@ -50,11 +42,6 @@ export const upgradeQualificationRunManifestSchema = z.strictObject({
 });
 
 export { assertQualificationImageIdentity } from "./upgrade-qualification-observation-collection.mjs";
-
-export function qualificationProcessIdentity(stat: string) {
-  const { state, startTime } = parseObservedProcess(stat);
-  return { state, startTime };
-}
 
 async function copyBoundFile(binding: z.infer<typeof boundFile>, destination: string) {
   const handle = await fs.open(binding.path, constants.O_RDONLY | constants.O_NOFOLLOW);
@@ -149,21 +136,10 @@ export async function runUpgradeQualificationController(args: string[]): Promise
     throw new Error("Duplicate qualification cell.");
   }
   if (
-    manifest.purpose === "historical-transition" &&
-    manifest.cells.some((item) => item.boundary)
+    manifest.purpose !== "historical-transition" &&
+    manifest.cells.some((item) => item.observation)
   ) {
-    throw new Error(
-      "Instrumented crash artifacts are fixture proof, not exact production artifact qualification. Use unchanged-artifact interception for production crash evidence.",
-    );
-  }
-  if (
-    manifest.cells.some(
-      (item) => item.observation && (manifest.purpose !== "historical-transition" || item.boundary),
-    )
-  ) {
-    throw new Error(
-      "Unchanged-artifact observation is historical-only and cannot use instrumented boundaries.",
-    );
+    throw new Error("Unchanged-artifact observation requires a historical transition.");
   }
   const output = path.resolve(values.output);
   await fs.mkdir(output, { mode: 0o700 }); // Exclusive run; never overwrite prior evidence.
@@ -373,51 +349,7 @@ export async function runUpgradeQualificationController(args: string[]): Promise
       } else {
         apply = execute(exec(...item.apply), log("apply"), manifest.timeoutMs);
       }
-      if (item.boundary && apply) {
-        const marker = z
-          .strictObject({
-            boundary: z.string(),
-            pid: z.number().int().min(2),
-            startTime: z.string().regex(/^[0-9]+$/),
-            runId: z.string().uuid(),
-          })
-          .parse(await awaitBoundary(result, manifest.timeoutMs, apply.settled));
-        if (marker.boundary !== item.boundary || marker.runId !== item.runId) {
-          throw new Error("Crash marker belongs to another boundary/run.");
-        }
-        // A real proc observation, not a fixture-authored stopped/healthy boolean.
-        const stat = await checked(
-          exec("cat", `/proc/${marker.pid}/stat`),
-          log("crash-process"),
-          manifest.timeoutMs,
-        );
-        const identity = qualificationProcessIdentity(stat);
-        if (identity.startTime !== marker.startTime) {
-          throw new Error("Crash marker process identity changed.");
-        }
-        await checked(
-          exec("kill", "-STOP", String(marker.pid)),
-          log("crash-stop"),
-          manifest.timeoutMs,
-        );
-        const stopped = qualificationProcessIdentity(
-          await checked(
-            exec("cat", `/proc/${marker.pid}/stat`),
-            log("crash-stopped-process"),
-            manifest.timeoutMs,
-          ),
-        );
-        if (!["T", "t"].includes(stopped.state) || stopped.startTime !== marker.startTime) {
-          throw new Error("Crash process was not the stopped original process.");
-        }
-        await checked(
-          exec("kill", "-KILL", String(marker.pid)),
-          log("crash-kill"),
-          manifest.timeoutMs,
-        );
-        await apply.settled; // Join before original-run resume. Nonzero after SIGKILL is expected.
-        await checked(exec(...item.resume), log("resume"), manifest.timeoutMs);
-      } else if (apply && (await apply.settled).code !== 0) {
+      if (apply && (await apply.settled).code !== 0) {
         throw new Error("Historical apply failed; diagnostics retained.");
       }
       await checked(
@@ -440,8 +372,7 @@ export async function runUpgradeQualificationController(args: string[]): Promise
         runId: item.runId,
         source: item.source,
         target: item.target,
-        boundary:
-          item.boundary ?? (observation ? `${observation.boundary}-${observation.side}` : null),
+        boundary: observation ? `${observation.boundary}-${observation.side}` : null,
         unchangedArtifactObservation: Boolean(observation),
         outcome: "passed",
         directory,

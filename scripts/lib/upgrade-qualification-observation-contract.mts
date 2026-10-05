@@ -4,7 +4,7 @@ import { assertNativeObservationSelectors } from "./upgrade-qualification-observ
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/u);
 const pathname = z.string().startsWith("/qualification/");
-export const observationFileSchema = z.strictObject({
+const observationFileSchema = z.strictObject({
   path: pathname,
   sha256: digest,
   length: z.number().int().positive(),

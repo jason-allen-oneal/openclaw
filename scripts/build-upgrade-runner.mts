@@ -1,4 +1,3 @@
-import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
@@ -10,14 +9,11 @@ import {
   createManagedHandoffBuildConfigs,
   createSealedRecoveryBuildConfig,
 } from "./lib/managed-handoff-build-config.mts";
-import { createUpgradeQualificationCrashPlugin } from "./lib/upgrade-qualification-crash-build.mjs";
 
 /** Build only; production bundles still require authenticated runtime/native artifact provisioning. */
 export async function buildUpgradeRecipeRunner(
   outputDirectory: string,
   options?: {
-    qualification?: { boundary: string; runId: string };
-    releaseQualification?: boolean;
     observerSourceMaps?: boolean;
   },
 ): Promise<void> {
@@ -86,11 +82,6 @@ export async function buildUpgradeRecipeRunner(
     // run the application's entire tsdown matrix or write its shared artifacts.
     await build({
       ...sealed,
-      ...(options?.qualification
-        ? {
-            plugins: [sealed.plugins, createUpgradeQualificationCrashPlugin(options.qualification)],
-          }
-        : {}),
       // Hidden companion maps support external exact-byte observation, never runtime hooks.
       ...(options?.observerSourceMaps ? { sourcemap: "hidden" as const } : {}),
       config: false,
@@ -98,13 +89,6 @@ export async function buildUpgradeRecipeRunner(
       outDir: output,
       clean: false,
     });
-  }
-  if (options?.qualification) {
-    await fs.writeFile(
-      path.join(output, "QUALIFICATION_FIXTURE_ONLY.json"),
-      JSON.stringify({ purpose: "fixture", ...options.qualification }),
-      { flag: "wx", mode: 0o600 },
-    );
   }
 }
 if (isDirectRunUrl(process.argv[1], import.meta.url)) {
@@ -116,20 +100,10 @@ if (isDirectRunUrl(process.argv[1], import.meta.url)) {
     args: process.argv.slice(3),
     strict: true,
     options: {
-      "release-qualification": { type: "boolean" },
       "observer-source-maps": { type: "boolean" },
-      "qualification-boundary": { type: "string" },
-      "qualification-run-id": { type: "string" },
     },
   });
-  if (Boolean(values["qualification-boundary"]) !== Boolean(values["qualification-run-id"])) {
-    throw new Error("Qualification builds require both the boundary and original UUID.");
-  }
-  const boundary = values["qualification-boundary"];
-  const runId = values["qualification-run-id"];
   await buildUpgradeRecipeRunner(output, {
-    ...(boundary && runId ? { qualification: { boundary, runId } } : {}),
-    releaseQualification: values["release-qualification"],
     observerSourceMaps: values["observer-source-maps"],
   });
 }

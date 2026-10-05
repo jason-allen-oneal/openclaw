@@ -53,9 +53,7 @@ suite.define(() => {
       try {
         await page.goto(controlUiSessionUrl(suite.server.baseUrl, sessionKey));
         const drawerToggle = page
-          .locator(
-            ".shell-chrome-controls__nav-toggle:visible, .topbar-nav-toggle:visible, .chat-pane__nav-toggle:visible",
-          )
+          .locator(".topbar-nav-toggle:visible, .chat-pane__nav-toggle:visible")
           .first();
         await drawerToggle.waitFor({ state: "visible", timeout: 10_000 });
         await drawerToggle.click();

@@ -666,7 +666,7 @@ The release owner supplies a SHA-256-pinned native-systemd image (including
 Node, npm and offline dependencies), exact source/target tarballs, authenticated
 bootstrap/catalog inputs, and a bound state-fixture script. Each cell specifies
 an original run UUID, argv arrays for `apply` and original-run `resume`, and
-optional crash boundary. Inputs have `{path, sha256, length}` bindings; the
+an optional exact-byte crash observation. Inputs have `{path, sha256, length}` bindings; the
 controller stages and verifies them before launching a machine. Additional
 inputs are exposed as `/qualification/input/input-0`, `input-1`, and so on.
 The fixture receives `seed`, `assert-source`, and `assert-target` actions plus
@@ -687,20 +687,13 @@ is removed. Verified
 inputs, process identities, apply/resume output, fixture assertions, cleanup
 output, and a collection report remain in the private output directory.
 
-Crash regression builds can use `createUpgradeQualificationCrashPlugin` from
-`scripts/lib/upgrade-qualification-crash-build.mts` in **both** sealed runner
-and candidate build configurations. The plugin anchors eight before/after
-boundaries to their real owners and refuses missing or ambiguous anchors. It
-compiles the selected boundary and UUID into that isolated artifact; production
-runtime flags cannot enable it. At the boundary, the actual process writes a
-durable marker and stops. The controller verifies its `/proc` start identity,
-kills it, joins the original apply child, and resumes the same retained run.
-Migration interception is limited to the fixture's canonical live database,
-not the rehearsal copy.
+Crash collection uses external observation of the unchanged production artifacts.
+Its source-map bindings select the actual before/after owner locations; the observer
+verifies process identity, kills the selected process, and resumes the original
+retained run. Instrumented candidate/runner builds and self-authored crash markers
+are not supported: changed bytes cannot qualify the production artifacts.
 
-Instrumented artifacts are **fixture proof only**, since instrumentation changes
-the candidate digest. Unchanged-artifact crash interception is still required
-for exact production qualification. A collection report is unsigned test
+A collection report is unsigned test
 output, not authenticated release evidence. The release owner must bind retained
 diagnostics and exact tested artifacts into the catalog's qualification
 manifest and pass the existing release validator. Missing release-owner

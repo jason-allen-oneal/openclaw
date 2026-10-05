@@ -13,7 +13,10 @@ import {
   startMeetingRealtimeEngine,
 } from "openclaw/plugin-sdk/meeting-runtime";
 import type { RealtimeTranscriptionProviderPlugin } from "openclaw/plugin-sdk/realtime-transcription";
-import type { RealtimeVoiceProviderPlugin } from "openclaw/plugin-sdk/realtime-voice";
+import type {
+  RealtimeVoiceBridge,
+  RealtimeVoiceProviderPlugin,
+} from "openclaw/plugin-sdk/realtime-voice";
 import { isRecord } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { createRequireRecord, useMeetingTestState } from "openclaw/plugin-sdk/test-fixtures";
 import { createOpenClawTestState } from "openclaw/plugin-sdk/test-state";
@@ -25,7 +28,6 @@ import { normalizeMeetUrl } from "./src/meet-url.js";
 import { buildGoogleMeetPreflightReport, fetchGoogleMeetArtifacts } from "./src/meet.js";
 import {
   createTestMeetRealtimeAudioTransport,
-  createTestMeetVoiceProvider,
   meetAudioBridge,
   meetBrowserState,
   meetRuntime,
@@ -81,6 +83,54 @@ function createIsolatedTestDir(prefix: string): string {
 type MeetRealtimeAudioSpawn = NonNullable<
   Parameters<typeof createLocalMeetingRealtimeAudioTransport>[0]["spawn"]
 >;
+type TestMeetVoiceBridgeRequest = Parameters<RealtimeVoiceProviderPlugin["createBridge"]>[0];
+
+function createTestMeetVoiceProvider(
+  options: {
+    defaultModel?: string;
+    handleBargeIn?: RealtimeVoiceBridge["handleBargeIn"];
+    sendUserMessage?: RealtimeVoiceBridge["sendUserMessage"];
+    triggerGreeting?: RealtimeVoiceBridge["triggerGreeting"];
+  } = {},
+) {
+  let request: TestMeetVoiceBridgeRequest | undefined;
+  const bridge = {
+    connect: vi.fn(async () => {}),
+    sendAudio: vi.fn(),
+    ...(options.sendUserMessage ? { sendUserMessage: options.sendUserMessage } : {}),
+    setMediaTimestamp: vi.fn(),
+    ...(options.handleBargeIn ? { handleBargeIn: options.handleBargeIn } : {}),
+    submitToolResult: vi.fn(),
+    acknowledgeMark: vi.fn(),
+    close: vi.fn(),
+    ...(options.triggerGreeting ? { triggerGreeting: options.triggerGreeting } : {}),
+    isConnected: vi.fn(() => true),
+  };
+  const provider: RealtimeVoiceProviderPlugin = {
+    id: "openai",
+    label: "OpenAI",
+    ...(options.defaultModel ? { defaultModel: options.defaultModel } : {}),
+    autoSelectOrder: 1,
+    resolveConfig: ({ rawConfig }) => rawConfig,
+    isConfigured: () => true,
+    createBridge: (nextRequest) => {
+      request = nextRequest;
+      return bridge;
+    },
+  };
+  return {
+    bridge,
+    provider,
+    sendAudio: bridge.sendAudio,
+    requireRequest: () => {
+      if (!request) {
+        throw new Error("Expected realtime bridge callbacks");
+      }
+      return request;
+    },
+  };
+}
+
 function createGoogleMeetTestEngineBindings(params: {
   config: Parameters<typeof createMeetingRealtimeEngineBindings>[0]["config"];
   fullConfig: Parameters<typeof createMeetingRealtimeEngineBindings>[0]["fullConfig"];
@@ -3155,7 +3205,6 @@ describe("google-meet plugin", () => {
 
   it("defaults Chrome command-pair realtime to agent-driven talk-back", async () => {
     vi.useFakeTimers();
-    let handle: Awaited<ReturnType<typeof startTestLocalRealtimeAudioBridge>> | undefined;
     try {
       const responseSent = createDeferred<void>();
       const sendUserMessage = vi.fn((_message: string) => responseSent.resolve());
@@ -3193,7 +3242,7 @@ describe("google-meet plugin", () => {
         },
       };
 
-      handle = await startTestLocalRealtimeAudioBridge({
+      const handle = await startTestLocalRealtimeAudioBridge({
         config: resolveGoogleMeetConfig({ realtime: { provider: "openai", agentId: "jay" } }),
         fullConfig: {} as never,
         runtime: runtime as never,
@@ -3243,12 +3292,10 @@ describe("google-meet plugin", () => {
       expect(typeof sentUserMessage).toBe("string");
       expect(sentUserMessage).toContain(JSON.stringify("The launch is still on track."));
       expect(sessionStore).toHaveProperty("agent:jay:subagent:google-meet:meet-1");
+
+      await handle.stop();
     } finally {
-      try {
-        await handle?.stop();
-      } finally {
-        vi.useRealTimers();
-      }
+      vi.useRealTimers();
     }
   });
 

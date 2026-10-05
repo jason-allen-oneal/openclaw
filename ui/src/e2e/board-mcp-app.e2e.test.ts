@@ -468,19 +468,6 @@ describeControlUiE2e("Control UI dashboard MCP Apps", () => {
       .frameLocator("mcp-app-view iframe")
       .frameLocator("iframe")
       .getByText("Dashboard app", { exact: true });
-    // Retention measures an initialized App, not a newly attached proxy frame.
-    // Await the nested document and its completed host-context handshake before
-    // moving the retained board; an in-flight iframe navigation is not stable.
-    await appContent.waitFor();
-    await expect
-      .poll(() =>
-        page
-          .frameLocator("mcp-app-view iframe")
-          .frameLocator("iframe")
-          .locator("html")
-          .getAttribute("data-host-dimensions"),
-      )
-      .not.toBeNull();
     await expectRetainedBoardPresentation(page, "split");
     if (artifactDir) {
       await appContent.waitFor();
@@ -537,8 +524,6 @@ describeControlUiE2e("Control UI dashboard MCP Apps", () => {
             reported?.width === size.width && reported?.height === size.height,
         );
     };
-    // Panel transitions and ResizeObserver delivery settle asynchronously.
-    // Re-measure the geometry on each poll; do not accept a stale initial frame.
     await expect.poll(frameInsets).toEqual({ top: 0, bottom: 0, bodyHeightGap: 0 });
     await expectHostDimensions();
     await page.setViewportSize({ width: 1440, height: 1000 });

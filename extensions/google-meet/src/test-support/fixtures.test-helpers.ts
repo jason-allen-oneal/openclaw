@@ -5,10 +5,6 @@ import type {
   MeetingRealtimeAudioEngineHealth,
   MeetingRealtimeAudioTransport,
 } from "openclaw/plugin-sdk/meeting-runtime";
-import type {
-  RealtimeVoiceBridge,
-  RealtimeVoiceProviderPlugin,
-} from "openclaw/plugin-sdk/realtime-voice";
 import { vi } from "vitest";
 import { resolveGoogleMeetConfig } from "../config.js";
 import { GoogleMeetRuntime } from "../runtime.js";
@@ -268,52 +264,4 @@ export function testBridgeProcess(stdio: {
     return true;
   });
   return proc;
-}
-
-type TestMeetVoiceBridgeRequest = Parameters<RealtimeVoiceProviderPlugin["createBridge"]>[0];
-
-export function createTestMeetVoiceProvider(
-  options: {
-    defaultModel?: string;
-    handleBargeIn?: RealtimeVoiceBridge["handleBargeIn"];
-    sendUserMessage?: RealtimeVoiceBridge["sendUserMessage"];
-    triggerGreeting?: RealtimeVoiceBridge["triggerGreeting"];
-  } = {},
-) {
-  let request: TestMeetVoiceBridgeRequest | undefined;
-  const bridge = {
-    connect: vi.fn(async () => {}),
-    sendAudio: vi.fn(),
-    ...(options.sendUserMessage ? { sendUserMessage: options.sendUserMessage } : {}),
-    setMediaTimestamp: vi.fn(),
-    ...(options.handleBargeIn ? { handleBargeIn: options.handleBargeIn } : {}),
-    submitToolResult: vi.fn(),
-    acknowledgeMark: vi.fn(),
-    close: vi.fn(),
-    ...(options.triggerGreeting ? { triggerGreeting: options.triggerGreeting } : {}),
-    isConnected: vi.fn(() => true),
-  };
-  const provider: RealtimeVoiceProviderPlugin = {
-    id: "openai",
-    label: "OpenAI",
-    ...(options.defaultModel ? { defaultModel: options.defaultModel } : {}),
-    autoSelectOrder: 1,
-    resolveConfig: ({ rawConfig }) => rawConfig,
-    isConfigured: () => true,
-    createBridge: (nextRequest) => {
-      request = nextRequest;
-      return bridge;
-    },
-  };
-  return {
-    bridge,
-    provider,
-    sendAudio: bridge.sendAudio,
-    requireRequest: () => {
-      if (!request) {
-        throw new Error("Expected realtime bridge callbacks");
-      }
-      return request;
-    },
-  };
 }
