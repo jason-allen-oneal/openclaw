@@ -158,7 +158,8 @@ describe("DM completion fallback opt-in", () => {
       entries: { main: {} },
       defaults: { subagents: { dmCompletionFallback: enabled } },
     });
-    expect(parsed.defaults?.subagents?.dmCompletionFallback).toBe(enabled);
+    expect(parsed).toBeDefined();
+    expect(parsed?.defaults?.subagents?.dmCompletionFallback).toBe(enabled);
   });
 
   it("rejects a truthy string instead of silently opting in", () => {

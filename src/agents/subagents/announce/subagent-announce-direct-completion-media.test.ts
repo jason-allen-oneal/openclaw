@@ -50,7 +50,9 @@ async function deliver(params: {
     }),
     getRequesterSessionActivity: () => ({ sessionId: "requester-session", isActive: true }),
     queueEmbeddedAgentMessageWithOutcome: queue,
-    getRuntimeConfig: () => ({}),
+    getRuntimeConfig: () => ({
+      agents: { defaults: { subagents: { dmCompletionFallback: true } } },
+    }),
     sendMessage,
   });
   const origin = { channel: "discord", to: "dm:U123", accountId: "acct-1" };
