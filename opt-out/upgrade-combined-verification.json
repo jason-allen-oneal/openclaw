@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "recordedAt": "2026-10-10T22:12:19.461Z",
+  "initialAttempt": {
+    "receiptFile": "<proof-workspace>/upgrade-a1dcdd90a282-1/receipt.json",
+    "sha256": "0dd75bcc5285dff1c3db6a3ecf20474642d1e651a6ffc699ae00b55c888b1913",
+    "status": "fail",
+    "exitCode": 1,
+    "failure": "candidate-readiness-timeout",
+    "actualPublishedStableSessionCreated": true,
+    "actualDoctorExitCode": 0,
+    "agentMigration": {
+      "before": 24,
+      "after": 25
+    },
+    "stateMigration": {
+      "before": 19,
+      "after": 20
+    }
+  },
+  "continuation": {
+    "receiptFile": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1/receipt.json",
+    "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T22:10:13.248Z",
+    "finishedAt": "2026-10-10T22:12:19.458Z",
+    "exitCode": 0,
+    "proofStatus": "pass",
+    "verdict": {
+      "phase": "verdict",
+      "pass": true,
+      "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "sameSessionKey": "agent:main:opt-out-upgrade-proof",
+      "sameSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "originalAttemptStatus": "fail",
+      "originalFailure": "candidate-readiness-timeout",
+      "continuationStatus": "pass",
+      "agentSchema": {
+        "beforeStable": 24,
+        "afterDoctor": 25,
+        "afterContinuation": 25
+      },
+      "stateSchema": {
+        "beforeStable": 19,
+        "afterDoctor": 20,
+        "afterContinuation": 20
+      },
+      "configRetained": {
+        "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED",
+        "timeoutSeconds": 73,
+        "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+        "dmCompletionFallback": "absent-before-and-after"
+      },
+      "actualGatewayHistoryRetained": true,
+      "actualGatewayReadWriteOnRetainedSession": true,
+      "initialRecordsUnchanged": true,
+      "preservedFailedAttemptState": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1/preserved-pre-continuation-state",
+      "readiness": {
+        "timestamp": "2026-10-10T22:11:17.821Z",
+        "phase": "candidate-health-ready",
+        "healthHttpStatus": 200,
+        "elapsedMs": 64529,
+        "poll": 58
+      },
+      "remainingStartupUncertainty": "A serialized continuation within the unchanged readiness bound supports resource contention as the original cause, but does not prove startup under arbitrary concurrent workload or claim a product startup repair."
+    },
+    "error": null,
+    "output": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1"
+  },
+  "sameActualDoctorMigratedState": true,
+  "sameStableCreatedSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+  "stableAndDoctorRerun": false,
+  "nativeBootSerializationPrerequisite": {
+    "verification": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-matrix-verification.json",
+    "completedCases": 6,
+    "passedCases": 6
+  },
+  "status": "pass-after-retained-initial-failure",
+  "scopeLimitations": [
+    "Initial candidate readiness failure is retained and is not recast as a pass.",
+    "Same Doctor-migrated state is continued; the exact pre-continuation state is preserved separately.",
+    "Readiness uses the original unchanged 120 one-second poll bound.",
+    "Serialization is a controlled resource-contention diagnosis, not a source repair or proof of startup under arbitrary concurrent workload.",
+    "This lane proves real shipped stable -> Doctor -> built candidate state/config/session retention, not public-package candidate installation or fallback delivery by itself."
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "recordedAt": "2026-10-10T22:10:42.883Z",
+  "statusDerivedFrom": "actual exec_command/write_stdin terminal receipts",
+  "records": [
+    {
+      "kind": "media",
+      "mode": "unset",
+      "attempt": "optout-v1",
+      "exitCode": 0,
+      "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "transcript": "<proof-workspace>/native-media-unset-optout-v1-transcript.log"
+    },
+    {
+      "kind": "media",
+      "mode": "false",
+      "attempt": "optout-v1",
+      "exitCode": 0,
+      "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "transcript": "<proof-workspace>/native-media-false-optout-v1-transcript.log"
+    },
+    {
+      "kind": "media",
+      "mode": "true",
+      "attempt": "optout-v1",
+      "exitCode": 0,
+      "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "transcript": "<proof-workspace>/native-media-true-optout-v1-transcript.log"
+    },
+    {
+      "kind": "failure",
+      "mode": "unset",
+      "attempt": "optout-v1",
+      "exitCode": 0,
+      "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "transcript": "<proof-workspace>/native-failure-unset-optout-v1-transcript.log"
+    },
+    {
+      "kind": "failure",
+      "mode": "false",
+      "attempt": "optout-v1",
+      "exitCode": 0,
+      "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "transcript": "<proof-workspace>/native-failure-false-optout-v1-transcript.log"
+    },
+    {
+      "kind": "failure",
+      "mode": "true",
+      "attempt": "optout-v1",
+      "exitCode": 0,
+      "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "transcript": "<proof-workspace>/native-failure-true-optout-v1-transcript.log"
+    }
+  ],
+  "verifier": {
+    "command": "OPENCLAW_PROOF_EXPECTED_SHA=a1dcdd90a282d2d636eec9151a47a833be89a1af node <proof-workspace>/verify-matrix.mjs optout-v1",
+    "exitCode": 0,
+    "transcript": "<proof-workspace>/native-matrix-optout-v1-verification-transcript.log"
+  },
+  "processCleanup": {
+    "nativeDrivers": [],
+    "builtCandidateGateways": [],
+    "verifiedAt": "2026-10-10T22:10:42.883Z"
+  }
+}

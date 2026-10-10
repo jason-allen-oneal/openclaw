@@ -1,0 +1,715 @@
+$ node --import ./scripts/tsx.mjs scripts/build-all.mts
+[build-all] native-protocol
+[build-all] native-protocol done in 151ms
+[build-all] plugins:assets:build
+[canvas] build: node scripts/bundle-a2ui.mjs
+A2UI bundle up to date; skipping.
+[workboard] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard
+[x] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x
+[build-all] plugins:assets:build done in 6.34s
+[build-all] tsdown
+[tsdown-build] invocation 1/2 finished in 0.7s
+[33m[PLUGIN_TIMINGS] [0mJavaScript callbacks ran for 25.0s of this 27.0s build (93%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin tsdown:deps generateBundle (72%, 19.4s, 1 call)
+Additional callback time came from the callbacks below and from callbacks under 1s.
+1 callback is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
+  - plugin tsdown:deps resolveId (2200 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mJavaScript callbacks ran for 25.6s of this 27.0s build (95%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin tsdown:deps generateBundle (68%, 18.5s, 1 call)
+Additional callback time came from the callbacks below and from callbacks under 1s.
+1 callback is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
+  - plugin tsdown:deps resolveId (2826 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js (2400:30) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js:2400:31 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m2400 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mA[0m[38;5;249mS[0m[38;5;249mM[0m[38;5;249m_[0m[38;5;249mC[0m[38;5;249mO[0m[38;5;249mN[0m[38;5;249mS[0m[38;5;249mT[0m[38;5;249mS[0m[38;5;249m[[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249mf[0m[38;5;249mu[0m[38;5;249mn[0m[38;5;249mc[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m     │[0m                               ──┬─  
+ [38;5;240m     │[0m                                 ╰─── Use of direct `eval` here.
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m──────╯[0m
+
+node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js (2423:32) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js:2423:33 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m2423 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mm[0m[38;5;249mo[0m[38;5;249md[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249me[0m[38;5;249mE[0m[38;5;249mx[0m[38;5;249mp[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249ms[0m[38;5;249m[[0m[38;5;249mn[0m[38;5;249ma[0m[38;5;249mm[0m[38;5;249me[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249mf[0m[38;5;249mu[0m[38;5;249mn[0m[38;5;249mc[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m     │[0m                                 ──┬─  
+ [38;5;240m     │[0m                                   ╰─── Use of direct `eval` here.
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m──────╯[0m
+
+node_modules/.pnpm/baileys@7.0.0-rc14_patch_hash=c3c4601486630c689ffd1a0e7a34f4b8cf8e7231e41c312ad33afdf44_95d2ba668ed70d69903e33868de1f7ba/node_modules/baileys/lib/Utils/messages-media.js (18:85) [33m[UNRESOLVED_IMPORT] [0mCould not resolve 'sharp' in node_modules/.pnpm/baileys@7.0.0-rc14_patch_hash=c3c4601486630c689ffd1a0e7a34f4b8cf8e7231e41c312ad33afdf44_95d2ba668ed70d69903e33868de1f7ba/node_modules/baileys/lib/Utils/messages-media.js
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/baileys@7.0.0-rc14_patch_hash=c3c4601486630c689ffd1a0e7a34f4b8cf8e7231e41c312ad33afdf44_95d2ba668ed70d69903e33868de1f7ba/node_modules/baileys/lib/Utils/messages-media.js:18:86 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m18 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249m[[0m[38;5;249mj[0m[38;5;249mi[0m[38;5;249mm[0m[38;5;249mp[0m[38;5;249m,[0m[38;5;249m [0m[38;5;249ms[0m[38;5;249mh[0m[38;5;249ma[0m[38;5;249mr[0m[38;5;249mp[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249ma[0m[38;5;249mw[0m[38;5;249ma[0m[38;5;249mi[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249mP[0m[38;5;249mr[0m[38;5;249mo[0m[38;5;249mm[0m[38;5;249mi[0m[38;5;249ms[0m[38;5;249me[0m[38;5;249m.[0m[38;5;249ma[0m[38;5;249ml[0m[38;5;249ml[0m[38;5;249m([0m[38;5;249m[[0m[38;5;249mi[0m[38;5;249mm[0m[38;5;249mp[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249m([0m[38;5;249m'[0m[38;5;249mj[0m[38;5;249mi[0m[38;5;249mm[0m[38;5;249mp[0m[38;5;249m'[0m[38;5;249m)[0m[38;5;249m.[0m[38;5;249mc[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249mc[0m[38;5;249mh[0m[38;5;249m([0m[38;5;249m([0m[38;5;249m)[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m>[0m[38;5;249m [0m[38;5;249m{[0m[38;5;249m [0m[38;5;249m}[0m[38;5;249m)[0m[38;5;249m,[0m[38;5;249m [0m[38;5;249mi[0m[38;5;249mm[0m[38;5;249mp[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249m([0m'sharp'[38;5;249m)[0m[38;5;249m.[0m[38;5;249mc[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249mc[0m[38;5;249mh[0m[38;5;249m([0m[38;5;249m([0m[38;5;249m)[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m>[0m[38;5;249m [0m[38;5;249m{[0m[38;5;249m [0m[38;5;249m}[0m[38;5;249m)[0m[38;5;249m][0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m   │[0m                                                                                      ───┬───  
+ [38;5;240m   │[0m                                                                                         ╰───── Module not found, treating it as an external dependency
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@audio+decode@3.16.2/node_modules/@audio/decode/audio-decode.js (156:24) [33m[UNRESOLVED_IMPORT] [0mCould not resolve '@audio/decode-ape' in node_modules/.pnpm/@audio+decode@3.16.2/node_modules/@audio/decode/audio-decode.js
+     [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@audio+decode@3.16.2/node_modules/@audio/decode/audio-decode.js:156:25 [38;5;246m][0m
+     [38;5;246m│[0m
+ [38;5;246m156 │[0m [38;5;249mr[0m[38;5;249me[0m[38;5;249mg[0m[38;5;249m([0m[38;5;249m'[0m[38;5;249ma[0m[38;5;249mp[0m[38;5;249me[0m[38;5;249m'[0m[38;5;249m,[0m[38;5;249m [0m[38;5;249m([0m[38;5;249m)[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m>[0m[38;5;249m [0m[38;5;249mi[0m[38;5;249mm[0m[38;5;249mp[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249m([0m'@audio/decode-ape'[38;5;249m)[0m[38;5;249m)[0m
+ [38;5;240m    │[0m                         ─────────┬─────────  
+ [38;5;240m    │[0m                                  ╰─────────── Module not found, treating it as an external dependency
+[38;5;246m─────╯[0m
+
+node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js (2400:30) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js:2400:31 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m2400 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mA[0m[38;5;249mS[0m[38;5;249mM[0m[38;5;249m_[0m[38;5;249mC[0m[38;5;249mO[0m[38;5;249mN[0m[38;5;249mS[0m[38;5;249mT[0m[38;5;249mS[0m[38;5;249m[[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249mf[0m[38;5;249mu[0m[38;5;249mn[0m[38;5;249mc[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m     │[0m                               ──┬─  
+ [38;5;240m     │[0m                                 ╰─── Use of direct `eval` here.
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m──────╯[0m
+
+node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js (2423:32) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js:2423:33 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m2423 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mm[0m[38;5;249mo[0m[38;5;249md[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249me[0m[38;5;249mE[0m[38;5;249mx[0m[38;5;249mp[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249ms[0m[38;5;249m[[0m[38;5;249mn[0m[38;5;249ma[0m[38;5;249mm[0m[38;5;249me[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249mf[0m[38;5;249mu[0m[38;5;249mn[0m[38;5;249mc[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m     │[0m                                 ──┬─  
+ [38;5;240m     │[0m                                   ╰─── Use of direct `eval` here.
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m──────╯[0m
+
+node_modules/.pnpm/playwright-core@1.63.0/node_modules/playwright-core/lib/coreBundle.js (66352:28) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+       [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/playwright-core@1.63.0/node_modules/playwright-core/lib/coreBundle.js:66352:29 [38;5;246m][0m
+       [38;5;246m│[0m
+ [38;5;246m66352 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249mv[0m[38;5;249ma[0m[38;5;249ml[0m[38;5;249mu[0m[38;5;249me[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249m`[0m[38;5;249m([0m[38;5;249m$[0m[38;5;249m{[0m[38;5;249me[0m[38;5;249mx[0m[38;5;249mp[0m[38;5;249mr[0m[38;5;249m}[0m[38;5;249m)[0m[38;5;249m`[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m      │[0m                             ──┬─  
+ [38;5;240m      │[0m                               ╰─── Use of direct `eval` here.
+ [38;5;240m      │[0m 
+ [38;5;240m      │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m───────╯[0m
+
+node_modules/.pnpm/playwright-core@1.63.0/node_modules/playwright-core/lib/coreBundle.js (66359:28) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+       [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/playwright-core@1.63.0/node_modules/playwright-core/lib/coreBundle.js:66359:29 [38;5;246m][0m
+       [38;5;246m│[0m
+ [38;5;246m66359 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249mv[0m[38;5;249ma[0m[38;5;249ml[0m[38;5;249mu[0m[38;5;249me[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249m`[0m[38;5;249m([0m[38;5;249m$[0m[38;5;249m{[0m[38;5;249me[0m[38;5;249mx[0m[38;5;249mp[0m[38;5;249mr[0m[38;5;249m}[0m[38;5;249m)[0m[38;5;249m`[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m      │[0m                             ──┬─  
+ [38;5;240m      │[0m                               ╰─── Use of direct `eval` here.
+ [38;5;240m      │[0m 
+ [38;5;240m      │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m───────╯[0m
+
+node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js (2400:30) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js:2400:31 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m2400 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mA[0m[38;5;249mS[0m[38;5;249mM[0m[38;5;249m_[0m[38;5;249mC[0m[38;5;249mO[0m[38;5;249mN[0m[38;5;249mS[0m[38;5;249mT[0m[38;5;249mS[0m[38;5;249m[[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249mf[0m[38;5;249mu[0m[38;5;249mn[0m[38;5;249mc[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m     │[0m                               ──┬─  
+ [38;5;240m     │[0m                                 ╰─── Use of direct `eval` here.
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m──────╯[0m
+
+node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js (2423:32) [33m[EVAL] [0mUse of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/web-tree-sitter@0.27.0/node_modules/web-tree-sitter/web-tree-sitter.js:2423:33 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m2423 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249mm[0m[38;5;249mo[0m[38;5;249md[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249me[0m[38;5;249mE[0m[38;5;249mx[0m[38;5;249mp[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249mt[0m[38;5;249ms[0m[38;5;249m[[0m[38;5;249mn[0m[38;5;249ma[0m[38;5;249mm[0m[38;5;249me[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0meval[38;5;249m([0m[38;5;249mf[0m[38;5;249mu[0m[38;5;249mn[0m[38;5;249mc[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m     │[0m                                 ──┬─  
+ [38;5;240m     │[0m                                   ╰─── Use of direct `eval` here.
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+[38;5;246m──────╯[0m
+
+[tsdown-build] invocation 2/2 finished in 49.4s
+[build-all] tsdown done in 59.4s
+[build-all] external-plugins:local-dist
+[plugin-npm-runtime-build] build assets diffs: node --import tsx ../../scripts/build-diffs-viewer-runtime.mts curated
+[plugin-npm-runtime-build] build assets diffs-language-pack: node --import tsx ../../scripts/build-diffs-viewer-runtime.mts full
+[plugin-npm-runtime-build] build assets discord: node --import ../../scripts/tsx.mjs ../../scripts/build-discord-activity-sdk.mts
+[external-plugin-local-dist] built 96 plugins in 5706ms
+[build-all] external-plugins:local-dist done in 6.38s
+[build-all] check-cli-bootstrap-imports
+CLI bootstrap import guard passed.
+[build-all] check-cli-bootstrap-imports done in 28.4s
+[build-all] plugins:assets:copy
+[browser] copy: node scripts/copy-chrome-extension.mjs
+[canvas] copy: node scripts/copy-a2ui.mjs
+[workboard] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard --copy
+[x] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x --copy
+[build-all] plugins:assets:copy done in 3.67s
+[build-all] runtime-postbuild
+[plugin-control-plane-loads] verified 54 built modules with native require and checked doctor closures
+runtime-postbuild: 14 phases completed in 10312ms (slowest: previous release update compat chunks 4744ms)
+[build-all] runtime-postbuild done in 11.3s
+[build-all] build-stamp
+[build-all] build-stamp done in 1.05s
+[build-all] runtime-postbuild-stamp
+[build-all] runtime-postbuild-stamp done in 261ms
+[build-all] ui:build
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./control-ui-i18n-config.json" without import attributes (../scripts/lib/control-ui-i18n-sync-plan.ts:2:41). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.2 building client environment for production...
+`output.codeSplitting.groups[0].name` is a function. Set `output.codeSplitting.groups[0].debugName` so the bundler timing report can identify this group.
+`output.codeSplitting.groups[1].name` is a function. Set `output.codeSplitting.groups[1].debugName` so the bundler timing report can identify this group.
+transforming...
+[plugin rolldown:vite-resolve] Module "node:path" has been externalized for browser compatibility, imported by "<candidate>/packages/media-core/src/mime.ts". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin rolldown:vite-resolve] Module "node:path" has been externalized for browser compatibility, imported by "<candidate>/packages/media-core/src/file-name.ts". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+✓ 4201 modules transformed.
+rendering chunks...
+Control UI precompression: starting
+Control UI precompression: 213 assets (426 sidecars) written
+Control UI precompression complete: 474 assets (948 sidecars)
+computing gzip size...
+../dist/control-ui.build-3804111-Leae9T/assets/chat-attachment-image.worker-P4E63gj9.js              0.99 kB
+../dist/control-ui.build-3804111-Leae9T/assets/custom-light-DyDTxevI.webp                            1.52 kB
+../dist/control-ui.build-3804111-Leae9T/assets/crt-light-DbR0bpR3.webp                               1.64 kB
+../dist/control-ui.build-3804111-Leae9T/assets/custom-dark-B0roIpAb.webp                             1.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/phosphor-light-B6L1EVnW.webp                          1.83 kB
+../dist/control-ui.build-3804111-Leae9T/assets/phosphor-dark-DO_664om.webp                           3.12 kB
+../dist/control-ui.build-3804111-Leae9T/assets/crt-dark-Tui5yPvX.webp                                3.26 kB
+../dist/control-ui.build-3804111-Leae9T/assets/frame-BoCsE8xn.js                                     4.41 kB
+../dist/control-ui.build-3804111-Leae9T/assets/absolutely-light-CraDJas4.webp                        4.93 kB
+../dist/control-ui.build-3804111-Leae9T/assets/absolutely-dark-BCt4vgFE.webp                         7.20 kB
+../dist/control-ui.build-3804111-Leae9T/assets/manuscript-light-BtjxM-_G.webp                        7.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/manuscript-dark-CkdelLyK.webp                        12.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/miami-light-CK76ftVr.webp                            12.91 kB
+../dist/control-ui.build-3804111-Leae9T/assets/knot-light-bmQq9AbN.webp                             13.39 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tide-light-CtKGylEa.webp                             13.49 kB
+../dist/control-ui.build-3804111-Leae9T/assets/beacon-light-C8Uuyhzu.webp                           14.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/knot-dark-D6MXlduA.webp                              17.41 kB
+../dist/control-ui.build-3804111-Leae9T/assets/rose-light-xf8VQLmW.webp                             20.09 kB
+../dist/control-ui.build-3804111-Leae9T/assets/miami-dark-CxsR_EPe.webp                             21.18 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tide-dark-B6z-RwsR.webp                              22.01 kB
+../dist/control-ui.build-3804111-Leae9T/assets/beacon-dark-BUxx3gLL.webp                            22.76 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dash-light-BdkMy7z2.webp                             24.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/rose-dark-D9X1-O20.webp                              26.66 kB
+../dist/control-ui.build-3804111-Leae9T/index.html                                                  26.77 kB │ gzip:   6.53 kB
+../dist/control-ui.build-3804111-Leae9T/assets/claw-light-crdey3iy.webp                             27.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dash-dark-BQSVDng9.webp                              29.15 kB
+../dist/control-ui.build-3804111-Leae9T/assets/claw-dark-DPmO9vJN.webp                              34.36 kB
+../dist/control-ui.build-3804111-Leae9T/social-card.png                                            142.28 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mermaid.min-RZ6v1efX.js                           3,420.79 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-chrome-setup-DEA9Gvpf.css                      0.18 kB │ gzip:   0.13 kB
+../dist/control-ui.build-3804111-Leae9T/assets/skills-page-BQ5d-20G.css                              0.23 kB │ gzip:   0.17 kB
+../dist/control-ui.build-3804111-Leae9T/assets/terminal-page-DzAc6IHZ.css                            0.25 kB │ gzip:   0.16 kB
+../dist/control-ui.build-3804111-Leae9T/assets/device-page-D5hqr-vM.css                              0.33 kB │ gzip:   0.18 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-new-D-SpiTTi.css                      0.56 kB │ gzip:   0.26 kB
+../dist/control-ui.build-3804111-Leae9T/assets/browser-CJbChXBx.css                                  0.71 kB │ gzip:   0.33 kB
+../dist/control-ui.build-3804111-Leae9T/assets/markdown-file-tooltip-jvyPxCJD.css                    0.74 kB │ gzip:   0.38 kB
+../dist/control-ui.build-3804111-Leae9T/assets/website-FFS1HcOL.css                                  0.78 kB │ gzip:   0.39 kB
+../dist/control-ui.build-3804111-Leae9T/assets/unsupported-browser-DnDuIuKE.css                      0.88 kB │ gzip:   0.45 kB
+../dist/control-ui.build-3804111-Leae9T/assets/capacity-meter-Bpyn5Saf.css                           0.95 kB │ gzip:   0.39 kB
+../dist/control-ui.build-3804111-Leae9T/assets/assistant-panel-content-DzJupYdl.css                  1.13 kB │ gzip:   0.40 kB
+../dist/control-ui.build-3804111-Leae9T/assets/board-document-nXmtMAlH.css                           1.14 kB │ gzip:   0.46 kB
+../dist/control-ui.build-3804111-Leae9T/assets/credential-editor-CxfZfu4o.css                        1.15 kB │ gzip:   0.42 kB
+../dist/control-ui.build-3804111-Leae9T/assets/lane-table-CSTpz4OW.css                               1.21 kB │ gzip:   0.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-dashboard-BZzcciLT.css                     1.52 kB │ gzip:   0.56 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-processes-panel-wfftEucI.css                     1.59 kB │ gzip:   0.53 kB
+../dist/control-ui.build-3804111-Leae9T/assets/report-u5Iupsx8.css                                   1.75 kB │ gzip:   0.67 kB
+../dist/control-ui.build-3804111-Leae9T/assets/agents-home-page-DfcNNRNz.css                         1.80 kB │ gzip:   0.66 kB
+../dist/control-ui.build-3804111-Leae9T/assets/wizard-step-controls-CYe5XwZR.css                     1.86 kB │ gzip:   0.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/logs-page-Bu6yianf.css                                1.87 kB │ gzip:   0.73 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-session-panels-BDbvNV8H.css                      1.99 kB │ gzip:   0.67 kB
+../dist/control-ui.build-3804111-Leae9T/assets/onboarding-memory-import-DuWLEvoz.css                 2.02 kB │ gzip:   0.64 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-embed-CYYiIVhL.css                             2.10 kB │ gzip:   0.71 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-subagents-panel-T1NfAUyA.css                     2.13 kB │ gzip:   0.69 kB
+../dist/control-ui.build-3804111-Leae9T/assets/profile-page-C73ipYq-.css                             2.28 kB │ gzip:   0.73 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-DhbON6pC.css                     2.29 kB │ gzip:   0.76 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-session-rail-oFVOaZvm.css                        2.56 kB │ gzip:   0.88 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-background-4Ec0haXh.css                       2.91 kB │ gzip:   0.80 kB
+../dist/control-ui.build-3804111-Leae9T/assets/update-run-view-CS3ezHvV.css                          3.22 kB │ gzip:   0.90 kB
+../dist/control-ui.build-3804111-Leae9T/assets/connection-page-Cwi7GDhW.css                          3.31 kB │ gzip:   0.96 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sparkline-tile-CaHeaFDQ.css                           3.48 kB │ gzip:   1.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/portals-page-DZUgz7YJ.css                             3.55 kB │ gzip:   1.09 kB
+../dist/control-ui.build-3804111-Leae9T/assets/lobsterdex-page-BYmxmm_r.css                          3.80 kB │ gzip:   1.19 kB
+../dist/control-ui.build-3804111-Leae9T/assets/apps-page-W4BVT2Dy.css                                4.08 kB │ gzip:   1.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/devices-page-Do3i-SE3.css                             4.44 kB │ gzip:   1.18 kB
+../dist/control-ui.build-3804111-Leae9T/assets/memory-import-page-744kZiKS.css                       4.48 kB │ gzip:   1.18 kB
+../dist/control-ui.build-3804111-Leae9T/assets/about-page-DCwoVUHC.css                               4.76 kB │ gzip:   1.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sidebar-update-runtime-Bpn2ByHA.css                   4.86 kB │ gzip:   1.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/logbook-view-CcweRaNm.css                             5.68 kB │ gzip:   1.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/meetings-page-sOPnahJO.css                            5.73 kB │ gzip:   1.46 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dashboards-page-oN0QjD8g.css                          5.78 kB │ gzip:   1.50 kB
+../dist/control-ui.build-3804111-Leae9T/assets/secrets-page-DwICXUvq.css                             5.79 kB │ gzip:   1.39 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sidebar-agent-roster-D2zOS8ef.css                     6.53 kB │ gzip:   1.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugins-page-DASwYJ7_.css                             6.75 kB │ gzip:   1.71 kB
+../dist/control-ui.build-3804111-Leae9T/assets/agents-page-DFluc6jm.css                              7.03 kB │ gzip:   1.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/link-reader-hovercard-CzYUpnNa.css                    8.05 kB │ gzip:   1.88 kB
+../dist/control-ui.build-3804111-Leae9T/assets/approval-DeisL8qe.css                                 8.29 kB │ gzip:   2.02 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-sidebar-region-RpneEB-z.css                      8.41 kB │ gzip:   1.88 kB
+../dist/control-ui.build-3804111-Leae9T/assets/wizard-login-controller-CisCH8bF.css                  8.63 kB │ gzip:   2.03 kB
+../dist/control-ui.build-3804111-Leae9T/assets/skill-workshop-page-DBGEFD5q.css                      8.82 kB │ gzip:   2.01 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-session-summary-CPjGnt6E.css               9.46 kB │ gzip:   2.03 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-progress-hovercard-CWlzJYa-.css               9.98 kB │ gzip:   1.90 kB
+../dist/control-ui.build-3804111-Leae9T/assets/command-palette-NBC8ATMP.css                         10.65 kB │ gzip:   2.54 kB
+../dist/control-ui.build-3804111-Leae9T/assets/custodian-surface-D4ZqgxUa.css                       10.93 kB │ gzip:   2.59 kB
+../dist/control-ui.build-3804111-Leae9T/assets/view-status-BEc2XBgK.css                             11.09 kB │ gzip:   2.37 kB
+../dist/control-ui.build-3804111-Leae9T/assets/systems-page-CG-xKQDS.css                            11.51 kB │ gzip:   2.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/board-view-e8aVblan.css                              13.09 kB │ gzip:   3.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sessions-page-Dkc69EX8.css                           16.53 kB │ gzip:   3.31 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tool-catalog-BOFBvUd3.css                            16.63 kB │ gzip:   3.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/config-page-BP7TRHwC.css                             20.90 kB │ gzip:   4.50 kB
+../dist/control-ui.build-3804111-Leae9T/assets/activity-page-DJlgqWhW.css                           26.91 kB │ gzip:   5.01 kB
+../dist/control-ui.build-3804111-Leae9T/assets/usage-BUJiEu_u.css                                   33.25 kB │ gzip:   6.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugins-hub-header-C5tnI7Bt.css                      40.27 kB │ gzip:   7.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-styles-DrOjqWp8.css             40.61 kB │ gzip:   7.02 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-C8H7Mj-K.css                  42.47 kB │ gzip:   8.14 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-new-styles-BdSj4gdS.css              52.88 kB │ gzip:  10.14 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-transcript-styles-DsN5RxTs.css                  60.67 kB │ gzip:  10.26 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-BAACku2S.css                   112.37 kB │ gzip:  19.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-styles-D1ilN--4.css          254.27 kB │ gzip:  43.05 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-core-CpGygl9a.css                        297.15 kB │ gzip:  50.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/index-ezFxryX_.js                                     0.04 kB │ gzip:   0.06 kB
+../dist/control-ui.build-3804111-Leae9T/assets/approval-DGJeJQC2.js                                  0.14 kB │ gzip:   0.15 kB │ map:    10.59 kB
+../dist/control-ui.build-3804111-Leae9T/assets/__vite-browser-external-2447137e-Bt5J11Ku.js          0.16 kB │ gzip:   0.16 kB │ map:     0.42 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-transcript-styles-4DQqJtzZ.js                    0.20 kB │ gzip:   0.18 kB │ map:    81.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-new-styles-CLoAWhuB.js                0.21 kB │ gzip:   0.18 kB │ map:    75.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/board-layout-BmeSfx17.js                              0.26 kB │ gzip:   0.23 kB │ map:    11.30 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-styles-BcnpYNro.js               0.30 kB │ gzip:   0.19 kB │ map:    52.40 kB
+../dist/control-ui.build-3804111-Leae9T/assets/system-info-2qaVHmk-.js                               0.34 kB │ gzip:   0.27 kB │ map:     0.67 kB
+../dist/control-ui.build-3804111-Leae9T/assets/desktop-focus-window-B-kVWCvH.js                      0.34 kB │ gzip:   0.26 kB │ map:     0.78 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mcp-app-routing-DDkPTtk7.js                           0.36 kB │ gzip:   0.28 kB │ map:     0.89 kB
+../dist/control-ui.build-3804111-Leae9T/assets/provider-usage-request-BL38kD13.js                    0.37 kB │ gzip:   0.28 kB │ map:     1.63 kB
+../dist/control-ui.build-3804111-Leae9T/assets/reasoned-disabled-control-DPiCCjCr.js                 0.38 kB │ gzip:   0.28 kB │ map:     0.82 kB
+../dist/control-ui.build-3804111-Leae9T/assets/diff-B5t7Hm-P.js                                      0.43 kB │ gzip:   0.33 kB │ map:     1.27 kB
+../dist/control-ui.build-3804111-Leae9T/assets/slots-CVPLr9BR.js                                     0.48 kB │ gzip:   0.34 kB │ map:     5.82 kB
+../dist/control-ui.build-3804111-Leae9T/assets/theme-color-DAo4KRoc.js                               0.50 kB │ gzip:   0.38 kB │ map:     1.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/transcript-search-BG_V2eRq.js                         0.50 kB │ gzip:   0.36 kB │ map:     2.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/gateway-websocket-url-BW0hi5Wr.js                     0.53 kB │ gzip:   0.33 kB │ map:     1.36 kB
+../dist/control-ui.build-3804111-Leae9T/assets/user-prefs-request-CbYg7fTf.js                        0.54 kB │ gzip:   0.39 kB │ map:     1.99 kB
+../dist/control-ui.build-3804111-Leae9T/assets/worktree-preservation-B9RUOBaG.js                     0.55 kB │ gzip:   0.35 kB │ map:     1.46 kB
+../dist/control-ui.build-3804111-Leae9T/assets/cloud-worker-stop.runtime-Dg2_jHxD.js                 0.57 kB │ gzip:   0.39 kB │ map:     1.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-gateway-health.runtime-GyDqqyGU.js             0.67 kB │ gzip:   0.45 kB │ map:     2.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/brainfuck-rZhEezO0.js                                 0.74 kB │ gzip:   0.41 kB │ map:     2.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-disabled-Ck0FXL20.js                       0.78 kB │ gzip:   0.47 kB │ map:     1.96 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dock-destination-controls-BctCw6YF.js                 0.80 kB │ gzip:   0.47 kB │ map:     2.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/properties-CmMnR_Ok.js                                0.80 kB │ gzip:   0.44 kB │ map:     2.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/rolldown-runtime-8BhlS34s.js                          0.80 kB │ gzip:   0.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/custodian-alert-store-DMTYYmJp.js                     0.81 kB │ gzip:   0.42 kB │ map:     2.96 kB
+../dist/control-ui.build-3804111-Leae9T/assets/scrollbar-styles-DyMnIwYe.js                          0.82 kB │ gzip:   0.38 kB │ map:     1.18 kB
+../dist/control-ui.build-3804111-Leae9T/assets/theme-artwork-loader-DUaPZEVe.js                      0.84 kB │ gzip:   0.51 kB │ map:     2.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/cmake-D52hYidm.js                                     0.89 kB │ gzip:   0.55 kB │ map:     3.36 kB
+../dist/control-ui.build-3804111-Leae9T/assets/update-failure-report-B_Fy4S-s.js                     0.90 kB │ gzip:   0.49 kB │ map:     2.77 kB
+../dist/control-ui.build-3804111-Leae9T/assets/capacity-meter-C_vQh7hy.js                            0.90 kB │ gzip:   0.46 kB │ map:     3.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sandbox-host-Dm6XHU23.js                              0.90 kB │ gzip:   0.50 kB │ map:     3.10 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugin-help-value-CqFDqAtD.js                         0.91 kB │ gzip:   0.57 kB │ map:     2.95 kB
+../dist/control-ui.build-3804111-Leae9T/assets/response-body-CRZhZBxz.js                             0.91 kB │ gzip:   0.56 kB │ map:     3.00 kB
+../dist/control-ui.build-3804111-Leae9T/assets/asciiarmor-DqwIP8wN.js                                0.91 kB │ gzip:   0.49 kB │ map:     2.81 kB
+../dist/control-ui.build-3804111-Leae9T/assets/settings-select-row-B4HtdqEY.js                       0.92 kB │ gzip:   0.47 kB │ map:     2.16 kB
+../dist/control-ui.build-3804111-Leae9T/assets/near-viewport-observer-WgGck829.js                    0.92 kB │ gzip:   0.46 kB │ map:     2.52 kB
+../dist/control-ui.build-3804111-Leae9T/assets/protobuf-NGTE4n-r.js                                  0.94 kB │ gzip:   0.61 kB │ map:     2.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/stream-auto-follow-controller-BZ0UzGsg.js             0.95 kB │ gzip:   0.49 kB │ map:     3.02 kB
+../dist/control-ui.build-3804111-Leae9T/assets/settings-navigation-Ca0cCoX1.js                       0.96 kB │ gzip:   0.60 kB │ map:     3.91 kB
+../dist/control-ui.build-3804111-Leae9T/assets/http-CZiL40Fa.js                                      0.98 kB │ gzip:   0.50 kB │ map:     3.45 kB
+../dist/control-ui.build-3804111-Leae9T/assets/solr-CtCgyZ-O.js                                      0.99 kB │ gzip:   0.54 kB │ map:     3.49 kB
+../dist/control-ui.build-3804111-Leae9T/assets/usage-BQd4o5lO.js                                     1.01 kB │ gzip:   0.57 kB │ map:     4.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/settings-model-CdBFIzYd.js                            1.03 kB │ gzip:   0.56 kB │ map:     5.03 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ref-contract-CIpuGLBY.js                              1.04 kB │ gzip:   0.57 kB │ map:    10.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-diff-highlight.runtime-Bbja1oL4.js               1.08 kB │ gzip:   0.64 kB │ map:     4.29 kB
+../dist/control-ui.build-3804111-Leae9T/assets/agent-avatar-nA1R-Rfp.js                              1.08 kB │ gzip:   0.56 kB │ map:     2.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/troff-BQNyxWC7.js                                     1.09 kB │ gzip:   0.53 kB │ map:     3.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/route-loader-DrOMHzWt.js                              1.12 kB │ gzip:   0.63 kB │ map:     4.05 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sessions-hub-header-CX4AI5-u.js                       1.16 kB │ gzip:   0.56 kB │ map:     2.30 kB
+../dist/control-ui.build-3804111-Leae9T/assets/toml-CNMTuoya.js                                      1.18 kB │ gzip:   0.63 kB │ map:     3.86 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-session-menu.runtime-Bhg9YfRh.js               1.20 kB │ gzip:   0.60 kB │ map:     4.61 kB
+../dist/control-ui.build-3804111-Leae9T/assets/spreadsheet-NicZe-2f.js                               1.27 kB │ gzip:   0.63 kB │ map:     4.02 kB
+../dist/control-ui.build-3804111-Leae9T/assets/pasted-text-excerpt-CJ3o1S3e.js                       1.29 kB │ gzip:   0.68 kB │ map:     3.87 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-styles-BfaSdf4N.js             1.29 kB │ gzip:   0.38 kB │ map:   354.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugin-capabilities.runtime-Qk6-KlHK.js               1.31 kB │ gzip:   0.69 kB │ map:     4.70 kB
+../dist/control-ui.build-3804111-Leae9T/assets/channel-avatar-C9DzRBLS.js                            1.33 kB │ gzip:   0.63 kB │ map:     2.98 kB
+../dist/control-ui.build-3804111-Leae9T/assets/decision-model-picker-xyHagDPq.js                     1.37 kB │ gzip:   0.67 kB │ map:     4.20 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mbox-DJTpBvrI.js                                      1.53 kB │ gzip:   0.76 kB │ map:     5.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-notifications-Dbin4UO4.js                      1.58 kB │ gzip:   0.80 kB │ map:     6.21 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-native-runtime-recovery-C_zuCHO_.js              1.63 kB │ gzip:   0.74 kB │ map:     4.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/state-B8CuOwxt.js                                     1.72 kB │ gzip:   0.84 kB │ map:     8.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sieve-BHLeM6VM.js                                     1.74 kB │ gzip:   0.86 kB │ map:     6.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/rpm-6ru8X0RE.js                                       1.75 kB │ gzip:   0.92 kB │ map:     4.72 kB
+../dist/control-ui.build-3804111-Leae9T/assets/markdown-file-tooltip-C9I6uC1B.js                     1.75 kB │ gzip:   0.95 kB │ map:     6.46 kB
+../dist/control-ui.build-3804111-Leae9T/assets/update-triage.runtime-DzCgwWKQ.js                     1.76 kB │ gzip:   0.91 kB │ map:     5.06 kB
+../dist/control-ui.build-3804111-Leae9T/assets/load-CH7AGvky.js                                      1.78 kB │ gzip:   0.97 kB │ map:     7.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/factor-Q1Z7buKY.js                                    1.80 kB │ gzip:   0.70 kB │ map:     4.51 kB
+../dist/control-ui.build-3804111-Leae9T/assets/browser-document-GQHS7H7V.js                          1.81 kB │ gzip:   0.94 kB │ map:     4.71 kB
+../dist/control-ui.build-3804111-Leae9T/assets/setup-schema-DUH6o3sp.js                              1.82 kB │ gzip:   0.95 kB │ map:     8.40 kB
+../dist/control-ui.build-3804111-Leae9T/assets/eiffel-BPoKCvky.js                                    1.82 kB │ gzip:   1.00 kB │ map:     5.18 kB
+../dist/control-ui.build-3804111-Leae9T/assets/browser-bootstrap.runtime-DhVYKM7G.js                 1.86 kB │ gzip:   1.05 kB │ map:     6.56 kB
+../dist/control-ui.build-3804111-Leae9T/assets/z80-BOBAzJas.js                                       1.89 kB │ gzip:   0.88 kB │ map:     4.94 kB
+../dist/control-ui.build-3804111-Leae9T/assets/en-apps-CcQzJMRJ.js                                   1.95 kB │ gzip:   0.98 kB │ map:     3.48 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mumps-D0jN0dp_.js                                     1.97 kB │ gzip:   1.05 kB │ map:     6.64 kB
+../dist/control-ui.build-3804111-Leae9T/assets/unsupported-browser-DnnZQ8pX.js                       1.98 kB │ gzip:   0.90 kB │ map:     4.64 kB
+../dist/control-ui.build-3804111-Leae9T/assets/elm-Cw50aCOi.js                                       2.01 kB │ gzip:   0.92 kB │ map:     7.90 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-workspace-recovery.runtime-CCu15S3i.js        2.02 kB │ gzip:   1.02 kB │ map:     7.26 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mathematica-1hKRFuCQ.js                               2.05 kB │ gzip:   0.92 kB │ map:     7.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dockerfile-05JOL5Sz.js                                2.06 kB │ gzip:   0.76 kB │ map:     6.61 kB
+../dist/control-ui.build-3804111-Leae9T/assets/turtle-Uiatt2dA.js                                    2.08 kB │ gzip:   0.98 kB │ map:     7.17 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ebnf-DwPn32cL.js                                      2.11 kB │ gzip:   0.90 kB │ map:     6.79 kB
+../dist/control-ui.build-3804111-Leae9T/assets/lobster-favicon-CMuqpQXR.js                           2.15 kB │ gzip:   1.18 kB │ map:     6.81 kB
+../dist/control-ui.build-3804111-Leae9T/assets/smalltalk-DY21_MKY.js                                 2.15 kB │ gzip:   0.96 kB │ map:     6.99 kB
+../dist/control-ui.build-3804111-Leae9T/assets/terminal-page-BC_RPA0I.js                             2.15 kB │ gzip:   1.09 kB │ map:     6.82 kB
+../dist/control-ui.build-3804111-Leae9T/assets/skills-grouping-ClprUFC-.js                           2.16 kB │ gzip:   0.92 kB │ map:     6.03 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugins-hub-header-08661mJv.js                        2.16 kB │ gzip:   0.87 kB │ map:    38.94 kB
+../dist/control-ui.build-3804111-Leae9T/assets/fcl-BKSPRit5.js                                       2.16 kB │ gzip:   1.05 kB │ map:     7.41 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ntriples-D5FXROHs.js                                  2.20 kB │ gzip:   0.80 kB │ map:     8.00 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BPIZePoc.js                                      2.20 kB │ gzip:   1.39 kB │ map:     5.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dtd-BziCxTDe.js                                       2.22 kB │ gzip:   0.96 kB │ map:     7.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/octave-Y-3Aqrep.js                                    2.25 kB │ gzip:   1.18 kB │ map:     6.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/yacas-CJ_G-h-R.js                                     2.28 kB │ gzip:   1.19 kB │ map:     7.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/config-form.tiers-BT_LjOjU.js                         2.33 kB │ gzip:   1.08 kB │ map:     8.55 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-startup.runtime-Bd7WuTLV.js                    2.36 kB │ gzip:   0.86 kB │ map:     4.61 kB
+../dist/control-ui.build-3804111-Leae9T/assets/server-prefs-profile-runtime-CTq8uPXC.js              2.39 kB │ gzip:   1.15 kB │ map:     8.91 kB
+../dist/control-ui.build-3804111-Leae9T/assets/pascal-D6MnNqKh.js                                    2.39 kB │ gzip:   1.27 kB │ map:     6.01 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugin-contracts-runtime-DVUCsMtX.js                  2.41 kB │ gzip:   1.11 kB │ map:    11.16 kB
+../dist/control-ui.build-3804111-Leae9T/assets/simple-mode-B3ouou4l.js                               2.41 kB │ gzip:   1.19 kB │ map:     8.36 kB
+../dist/control-ui.build-3804111-Leae9T/assets/apl-CZuIt2s3.js                                       2.43 kB │ gzip:   1.34 kB │ map:     6.67 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-session-panels-eRjTUY5v.js                       2.44 kB │ gzip:   1.08 kB │ map:     8.88 kB
+../dist/control-ui.build-3804111-Leae9T/assets/panel-empty-state-D1cB6y1V.js                         2.45 kB │ gzip:   0.97 kB │ map:     3.73 kB
+../dist/control-ui.build-3804111-Leae9T/assets/commonlisp-JmRDT1qt.js                                2.45 kB │ gzip:   1.19 kB │ map:     7.04 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tcl-VS4aPR64.js                                       2.48 kB │ gzip:   1.32 kB │ map:     6.90 kB
+../dist/control-ui.build-3804111-Leae9T/assets/appearance-picker-o-mglkAl.js                         2.52 kB │ gzip:   1.05 kB │ map:     5.67 kB
+../dist/control-ui.build-3804111-Leae9T/assets/lane-table-BYAkqiSR.js                                2.54 kB │ gzip:   0.95 kB │ map:     8.79 kB
+../dist/control-ui.build-3804111-Leae9T/assets/shell-B-6dKEO3.js                                     2.56 kB │ gzip:   1.30 kB │ map:     8.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/theme-catalog-BjeNXF69.js                             2.61 kB │ gzip:   1.18 kB │ map:    11.56 kB
+../dist/control-ui.build-3804111-Leae9T/assets/gateway-scope-upgrade.runtime-BicxPoVa.js             2.62 kB │ gzip:   1.03 kB │ map:     9.19 kB
+../dist/control-ui.build-3804111-Leae9T/assets/webidl-y3TQ_6xd.js                                    2.62 kB │ gzip:   1.37 kB │ map:     8.24 kB
+../dist/control-ui.build-3804111-Leae9T/assets/usage-EY1DqHK9.js                                     2.62 kB │ gzip:   0.96 kB │ map:    49.12 kB
+../dist/control-ui.build-3804111-Leae9T/assets/en-debug-CpH-Wfxl.js                                  2.63 kB │ gzip:   1.22 kB │ map:     5.20 kB
+../dist/control-ui.build-3804111-Leae9T/assets/puppet-DvF9Rcyj.js                                    2.65 kB │ gzip:   1.29 kB │ map:     9.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/pig-DksdPhxP.js                                       2.65 kB │ gzip:   1.49 kB │ map:     6.99 kB
+../dist/control-ui.build-3804111-Leae9T/assets/input-dialog-CIyXTZ1a.js                              2.66 kB │ gzip:   1.11 kB │ map:     8.10 kB
+../dist/control-ui.build-3804111-Leae9T/assets/forth-CsObqcja.js                                     2.67 kB │ gzip:   1.42 kB │ map:     6.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/en-update-actions-q6uR59IG.js                         2.78 kB │ gzip:   1.36 kB │ map:     4.75 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-DrVNkJri.js                                      2.78 kB │ gzip:   1.60 kB │ map:     5.37 kB
+../dist/control-ui.build-3804111-Leae9T/assets/composer-draft-retirement.runtime-BB5pi4K2.js         2.83 kB │ gzip:   1.15 kB │ map:    11.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/velocity-DgFe8a_l.js                                  2.84 kB │ gzip:   1.20 kB │ map:     8.87 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tiddlywiki-ByLaO-PH.js                                2.92 kB │ gzip:   1.18 kB │ map:    12.09 kB
+../dist/control-ui.build-3804111-Leae9T/assets/modelica-DDfpmrWA.js                                  2.94 kB │ gzip:   1.38 kB │ map:     8.57 kB
+../dist/control-ui.build-3804111-Leae9T/assets/oz-Dw3yM8mc.js                                        3.03 kB │ gzip:   1.38 kB │ map:    10.06 kB
+../dist/control-ui.build-3804111-Leae9T/assets/website-DGbtPDqy.js                                   3.03 kB │ gzip:   1.42 kB │ map:     8.94 kB
+../dist/control-ui.build-3804111-Leae9T/assets/r-C3MfMtNT.js                                         3.06 kB │ gzip:   1.45 kB │ map:    10.57 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-snapshot-database-BP9Xf2fN.js                 3.07 kB │ gzip:   1.23 kB │ map:    10.80 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-link-menu.runtime-DL-ypSov.js                  3.09 kB │ gzip:   1.36 kB │ map:     8.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/stex-B74o6kub.js                                      3.22 kB │ gzip:   1.26 kB │ map:    12.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/link-reader-response-DM7nWb-4.js                      3.24 kB │ gzip:   1.43 kB │ map:     6.78 kB
+../dist/control-ui.build-3804111-Leae9T/assets/lua-Bjba4a35.js                                       3.26 kB │ gzip:   1.50 kB │ map:     8.16 kB
+../dist/control-ui.build-3804111-Leae9T/assets/config-form.search-CLS97-xh.js                        3.27 kB │ gzip:   1.46 kB │ map:    14.91 kB
+../dist/control-ui.build-3804111-Leae9T/assets/macos-titlebar-controls.runtime-DzFvbqpp.js           3.31 kB │ gzip:   1.16 kB │ map:     8.16 kB
+../dist/control-ui.build-3804111-Leae9T/assets/cypher-QpSxMRXq.js                                    3.33 kB │ gzip:   1.60 kB │ map:     8.92 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tiki-Cb29ipmL.js                                      3.35 kB │ gzip:   1.35 kB │ map:    13.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/en-memory-import-8FjPcxEw.js                          3.39 kB │ gzip:   1.43 kB │ map:     5.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/svg-icon-rasterizer-BkCYv-ud.js                       3.40 kB │ gzip:   1.70 kB │ map:    11.95 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sparql-CUbWMhsH.js                                    3.47 kB │ gzip:   1.70 kB │ map:    10.01 kB
+../dist/control-ui.build-3804111-Leae9T/assets/vhdl-bNtYFHwV.js                                      3.47 kB │ gzip:   1.61 kB │ map:    10.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/theme-palette-Crov4Cao.js                             3.53 kB │ gzip:   1.37 kB │ map:     9.56 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BlRVEb_N.js                                      3.54 kB │ gzip:   1.83 kB │ map:     7.48 kB
+../dist/control-ui.build-3804111-Leae9T/assets/exec-approval-CtTBv6d1.js                             3.56 kB │ gzip:   1.50 kB │ map:    10.82 kB
+../dist/control-ui.build-3804111-Leae9T/assets/nav-drawer-swipe.runtime-DqVovBLH.js                  3.60 kB │ gzip:   1.38 kB │ map:    10.63 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-progress-XpzJ7wJU.js                          3.61 kB │ gzip:   1.42 kB │ map:    10.46 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mscgen-o_TRe-wI.js                                    3.64 kB │ gzip:   1.07 kB │ map:    10.16 kB
+../dist/control-ui.build-3804111-Leae9T/assets/debug-overlay-BkRFEcP4.js                             3.73 kB │ gzip:   1.63 kB │ map:     7.09 kB
+../dist/control-ui.build-3804111-Leae9T/assets/panel-icon-button-BliHJL7k.js                         3.82 kB │ gzip:   1.25 kB │ map:     4.75 kB
+../dist/control-ui.build-3804111-Leae9T/assets/vb-B2Eic2VJ.js                                        3.82 kB │ gzip:   1.95 kB │ map:    12.48 kB
+../dist/control-ui.build-3804111-Leae9T/assets/q-CCMT7mWg.js                                         3.82 kB │ gzip:   1.78 kB │ map:    10.31 kB
+../dist/control-ui.build-3804111-Leae9T/assets/d-BVOXk3sl.js                                         3.83 kB │ gzip:   1.79 kB │ map:    11.67 kB
+../dist/control-ui.build-3804111-Leae9T/assets/swift-DkbHzSG0.js                                     3.92 kB │ gzip:   1.94 kB │ map:    11.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/coffeescript-ZFd3ZVx8.js                              4.00 kB │ gzip:   1.79 kB │ map:    14.64 kB
+../dist/control-ui.build-3804111-Leae9T/assets/fortran-D0Jwcahz.js                                   4.00 kB │ gzip:   2.03 kB │ map:    10.03 kB
+../dist/control-ui.build-3804111-Leae9T/assets/asn1-CSpwQvlk.js                                      4.10 kB │ gzip:   2.05 kB │ map:    11.70 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dylan-of2Ivqm3.js                                     4.17 kB │ gzip:   1.73 kB │ map:    14.99 kB
+../dist/control-ui.build-3804111-Leae9T/assets/gateway-vitals-CBw9INfz.js                            4.19 kB │ gzip:   1.54 kB │ map:    10.24 kB
+../dist/control-ui.build-3804111-Leae9T/assets/asterisk-CdkrETgV.js                                  4.20 kB │ gzip:   1.84 kB │ map:     9.50 kB
+../dist/control-ui.build-3804111-Leae9T/assets/livescript-U057igS5.js                                4.22 kB │ gzip:   1.73 kB │ map:    10.31 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ttcn-cfg-DWX5Nemw.js                                  4.24 kB │ gzip:   1.84 kB │ map:    11.74 kB
+../dist/control-ui.build-3804111-Leae9T/assets/agents-home-page-CzgBXcXU.js                          4.24 kB │ gzip:   1.60 kB │ map:    12.24 kB
+../dist/control-ui.build-3804111-Leae9T/assets/groovy-CuXwF6x7.js                                    4.26 kB │ gzip:   1.85 kB │ map:    13.63 kB
+../dist/control-ui.build-3804111-Leae9T/assets/haskell-DHF7m3rz.js                                   4.31 kB │ gzip:   2.02 kB │ map:    12.57 kB
+../dist/control-ui.build-3804111-Leae9T/assets/first-run-activation-receipt-IhN3gHYz.js              4.49 kB │ gzip:   1.84 kB │ map:    17.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/report-BakD5SbH.js                                    4.57 kB │ gzip:   1.96 kB │ map:    16.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mcp-app-confirm-DpPVgvWa.js                           4.63 kB │ gzip:   1.73 kB │ map:     8.41 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sparkline-tile-DidVtR7s.js                            4.64 kB │ gzip:   1.79 kB │ map:    16.83 kB
+../dist/control-ui.build-3804111-Leae9T/assets/gas-CSFUAurG.js                                       4.68 kB │ gzip:   1.36 kB │ map:    14.09 kB
+../dist/control-ui.build-3804111-Leae9T/assets/widget-sandbox-host-BhSFX2Uk.js                       4.74 kB │ gzip:   1.49 kB │ map:    13.61 kB
+../dist/control-ui.build-3804111-Leae9T/assets/request-usage-snapshot-B_jVarFZ.js                    4.87 kB │ gzip:   2.24 kB │ map:    22.00 kB
+../dist/control-ui.build-3804111-Leae9T/assets/logbook-controller-BNstD4bu.js                        4.88 kB │ gzip:   1.79 kB │ map:    19.87 kB
+../dist/control-ui.build-3804111-Leae9T/assets/pending-session-create-BnoD8f4s.js                    4.93 kB │ gzip:   2.02 kB │ map:    14.28 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugin-help-Brsu0HgY.js                               4.94 kB │ gzip:   2.11 kB │ map:    15.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mllike-Bu6D5i0x.js                                    4.96 kB │ gzip:   1.67 kB │ map:    15.12 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ttcn-Bf3i5UEf.js                                      5.00 kB │ gzip:   2.27 kB │ map:    14.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-discussion-panel-BSlVr0pN.js                  5.07 kB │ gzip:   1.95 kB │ map:    14.42 kB
+../dist/control-ui.build-3804111-Leae9T/assets/permissions-page-uFwtmtAv.js                          5.11 kB │ gzip:   1.55 kB │ map:    12.23 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-Bbgk3juY.js                                      5.16 kB │ gzip:   2.49 kB │ map:    11.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/crystal-B2OBIKGd.js                                   5.18 kB │ gzip:   2.23 kB │ map:    18.95 kB
+../dist/control-ui.build-3804111-Leae9T/assets/debug-overlay-layout.runtime-Bl06MUn8.js              5.18 kB │ gzip:   1.81 kB │ map:    15.72 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ruby-DrNj4Hrn.js                                      5.22 kB │ gzip:   2.25 kB │ map:    17.19 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ecl-BmkYUJLN.js                                       5.25 kB │ gzip:   2.42 kB │ map:    12.78 kB
+../dist/control-ui.build-3804111-Leae9T/assets/browser-BRLRiNAf.js                                   5.43 kB │ gzip:   1.86 kB │ map:    14.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/julia-CfStu5wc.js                                     5.43 kB │ gzip:   2.30 kB │ map:    17.05 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-readiness-lit-CupqL6M_.js                  5.47 kB │ gzip:   1.82 kB │ map:    18.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-placement-move-dialog-CTEY-ggW.js             5.54 kB │ gzip:   1.82 kB │ map:    17.45 kB
+../dist/control-ui.build-3804111-Leae9T/assets/vbscript-B58SZYoT.js                                  5.57 kB │ gzip:   2.65 kB │ map:    18.66 kB
+../dist/control-ui.build-3804111-Leae9T/assets/server-prefs-drain-_ckBYqvg.js                        5.60 kB │ gzip:   2.23 kB │ map:    21.51 kB
+../dist/control-ui.build-3804111-Leae9T/assets/lobsterdex-page-DkpH4Ztc.js                           5.74 kB │ gzip:   2.19 kB │ map:    20.02 kB
+../dist/control-ui.build-3804111-Leae9T/assets/provider-usage-BUkWfDBu.js                            5.79 kB │ gzip:   2.00 kB │ map:    16.12 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-chrome-setup-DthSTnqs.js                       5.80 kB │ gzip:   1.84 kB │ map:    14.17 kB
+../dist/control-ui.build-3804111-Leae9T/assets/update-run-view-DprVEjGS.js                           6.00 kB │ gzip:   2.08 kB │ map:    17.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mirc-Cx5z6OrJ.js                                      6.05 kB │ gzip:   2.82 kB │ map:    11.83 kB
+../dist/control-ui.build-3804111-Leae9T/assets/question-page-registration-B8IxARZA.js                6.28 kB │ gzip:   2.03 kB │ map:    15.96 kB
+../dist/control-ui.build-3804111-Leae9T/assets/xquery-BZ8GHY3V.js                                    6.29 kB │ gzip:   2.65 kB │ map:    22.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/roster-element-D2ycC8hf.js                            6.30 kB │ gzip:   2.57 kB │ map:    20.96 kB
+../dist/control-ui.build-3804111-Leae9T/assets/cobol-v-vbCXbt.js                                     6.37 kB │ gzip:   3.15 kB │ map:    12.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-pane-placement.runtime-CjFBbLCt.js               6.39 kB │ gzip:   2.32 kB │ map:    17.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/python-Co-oWxhj.js                                    6.40 kB │ gzip:   2.77 kB │ map:    22.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/assistant-panel-content-C9yuzs4d.js                   6.45 kB │ gzip:   1.96 kB │ map:    16.50 kB
+../dist/control-ui.build-3804111-Leae9T/assets/page-operations-DUxpnowH.js                           6.49 kB │ gzip:   2.31 kB │ map:    29.90 kB
+../dist/control-ui.build-3804111-Leae9T/assets/scheme-BNktZpsL.js                                    6.51 kB │ gzip:   2.51 kB │ map:    16.74 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sidebar-people.runtime-CJH8SgJL.js                    6.57 kB │ gzip:   2.46 kB │ map:    19.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/pug-BJ9q_C7V.js                                       6.77 kB │ gzip:   2.08 kB │ map:    21.19 kB
+../dist/control-ui.build-3804111-Leae9T/assets/update-confirmation.runtime-BEXAHQco.js               6.79 kB │ gzip:   2.24 kB │ map:    21.64 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-dashboard-OaXxVHyV.js                      6.82 kB │ gzip:   2.35 kB │ map:    11.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/textile-CigAm-LA.js                                   6.88 kB │ gzip:   2.54 kB │ map:    21.46 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-device-settings-BG_i4hsP.js                    6.88 kB │ gzip:   2.66 kB │ map:    25.98 kB
+../dist/control-ui.build-3804111-Leae9T/assets/board-document-BKz01-rc.js                            6.89 kB │ gzip:   2.35 kB │ map:    20.37 kB
+../dist/control-ui.build-3804111-Leae9T/assets/keyboard-shortcuts-dialog-HckaDpjd.js                 6.90 kB │ gzip:   2.46 kB │ map:    16.92 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-session-summary-BfhqZ9dA.js                7.04 kB │ gzip:   2.47 kB │ map:    30.93 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-outbox-receipts-ccPOXrSe.js                      7.06 kB │ gzip:   2.87 kB │ map:    32.79 kB
+../dist/control-ui.build-3804111-Leae9T/assets/en-transcripts-dELh4CLd.js                            7.18 kB │ gzip:   2.86 kB │ map:    10.44 kB
+../dist/control-ui.build-3804111-Leae9T/assets/nsis-C0kVBT_2.js                                      7.19 kB │ gzip:   3.17 kB │ map:     9.51 kB
+../dist/control-ui.build-3804111-Leae9T/assets/about-page-D97xuoBa.js                                7.23 kB │ gzip:   2.57 kB │ map:    25.04 kB
+../dist/control-ui.build-3804111-Leae9T/assets/youtube-video-card-CksMeRVT.js                        7.29 kB │ gzip:   2.38 kB │ map:    12.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/nginx-NLs6x0Nm.js                                     7.54 kB │ gzip:   2.83 kB │ map:    12.92 kB
+../dist/control-ui.build-3804111-Leae9T/assets/debug-overlay-content-DG9pXJCX.js                     7.77 kB │ gzip:   2.79 kB │ map:    23.80 kB
+../dist/control-ui.build-3804111-Leae9T/assets/powershell-BjSJShZW.js                                7.83 kB │ gzip:   3.38 kB │ map:    17.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/native-conversation-bridge-DmXLq4qk.js                7.92 kB │ gzip:   3.39 kB │ map:    32.75 kB
+../dist/control-ui.build-3804111-Leae9T/assets/haxe-W4XnxWfV.js                                      8.00 kB │ gzip:   3.05 kB │ map:    30.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/erlang-IAwUA5rr.js                                    8.00 kB │ gzip:   3.00 kB │ map:    28.63 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tooltip-D4HxQPKL.js                                   8.33 kB │ gzip:   2.90 kB │ map:    23.09 kB
+../dist/control-ui.build-3804111-Leae9T/assets/verilog-ChfNWxmV.js                                   8.60 kB │ gzip:   3.64 kB │ map:    31.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-izXw1-Fb.js                                      8.63 kB │ gzip:   3.73 kB │ map:   104.42 kB
+../dist/control-ui.build-3804111-Leae9T/assets/onboarding-memory-import-Dj3SbPwr.js                  9.34 kB │ gzip:   2.84 kB │ map:    26.72 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sas-SYA7WzvL.js                                       9.46 kB │ gzip:   4.21 kB │ map:    18.45 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-processes-panel-ByLunmbL.js                      9.49 kB │ gzip:   3.07 kB │ map:    25.14 kB
+../dist/control-ui.build-3804111-Leae9T/assets/labs-page-pMcCUzUp.js                                 9.52 kB │ gzip:   3.66 kB │ map:    28.92 kB
+../dist/control-ui.build-3804111-Leae9T/assets/clojure-CQulayJg.js                                   9.56 kB │ gzip:   4.15 kB │ map:    21.56 kB
+../dist/control-ui.build-3804111-Leae9T/assets/custodian-page-B2uS5yV-.js                            9.67 kB │ gzip:   2.84 kB │ map:    21.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/logbook-view-CLPvkt-T.js                              9.79 kB │ gzip:   2.92 kB │ map:    30.42 kB
+../dist/control-ui.build-3804111-Leae9T/assets/perl-CMrxjaCi.js                                      9.87 kB │ gzip:   3.59 kB │ map:    46.66 kB
+../dist/control-ui.build-3804111-Leae9T/assets/idl-fIUlL8fB.js                                       9.97 kB │ gzip:   4.52 kB │ map:    15.40 kB
+../dist/control-ui.build-3804111-Leae9T/assets/catalog-terminal-start-BZT3hLvG.js                   10.15 kB │ gzip:   3.29 kB │ map:    40.41 kB
+../dist/control-ui.build-3804111-Leae9T/assets/worktrees-page-CX7zqBGv.js                           10.23 kB │ gzip:   3.21 kB │ map:    27.55 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sidebar-agent-roster-BA4vZHM0.js                     10.25 kB │ gzip:   3.24 kB │ map:    33.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/view-pairing.runtime-DmcjosAv.js                     10.28 kB │ gzip:   2.73 kB │ map:    19.92 kB
+../dist/control-ui.build-3804111-Leae9T/assets/gherkin-DX-eNKsk.js                                  10.29 kB │ gzip:   5.21 kB │ map:    14.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/wizard-step-controls-kLEeLHmz.js                     10.46 kB │ gzip:   3.24 kB │ map:    30.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-background-fm5f6Ok3.js                       10.50 kB │ gzip:   3.92 kB │ map:    39.26 kB
+../dist/control-ui.build-3804111-Leae9T/assets/en-devices-DQSdVIs1.js                               10.53 kB │ gzip:   4.07 kB │ map:    17.28 kB
+../dist/control-ui.build-3804111-Leae9T/assets/logs-page-Bu8uwBpp.js                                10.63 kB │ gzip:   3.74 kB │ map:    34.69 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-organizer-archive.runtime-JgXEekLC.js        10.74 kB │ gzip:   3.29 kB │ map:    39.27 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-organizer-operations.runtime-BrWf4Yh_.js     10.77 kB │ gzip:   3.25 kB │ map:    41.46 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-session-rail-DJIRfXvK.js                        10.97 kB │ gzip:   3.57 kB │ map:    31.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dashboards-page-DTSda5nY.js                          11.06 kB │ gzip:   3.46 kB │ map:    35.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/consent-dialog-D8IetKUi.js                           11.49 kB │ gzip:   4.07 kB │ map:    28.69 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sidebar-update-runtime-CORdNaJc.js                   11.50 kB │ gzip:   3.00 kB │ map:    32.90 kB
+../dist/control-ui.build-3804111-Leae9T/assets/debug-page-BuUi6bW6.js                               11.64 kB │ gzip:   3.51 kB │ map:    30.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-group-defaults-dialog-Dzvpl7Yz.js            11.76 kB │ gzip:   2.82 kB │ map:    25.04 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-B03OKhuP.js                                     11.87 kB │ gzip:   5.38 kB │ map:    33.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/browser-B0xcCao1.js                                  11.90 kB │ gzip:   4.47 kB │ map:    42.77 kB
+../dist/control-ui.build-3804111-Leae9T/assets/canvas-widget-view-DQyWLg9E.js                       11.98 kB │ gzip:   3.94 kB │ map:    33.37 kB
+../dist/control-ui.build-3804111-Leae9T/assets/credential-editor-Cfxvx7hc.js                        12.38 kB │ gzip:   3.32 kB │ map:    30.36 kB
+../dist/control-ui.build-3804111-Leae9T/assets/approvals-page-D98lqUus.js                           12.60 kB │ gzip:   3.51 kB │ map:    31.29 kB
+../dist/control-ui.build-3804111-Leae9T/assets/panel-tab-strip-D5fqpx_g.js                          12.83 kB │ gzip:   4.51 kB │ map:    37.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/settings-targets-BrZyl6WH.js                         12.84 kB │ gzip:   3.21 kB │ map:    24.59 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-kR6DlD7e.js                     13.92 kB │ gzip:   4.88 kB │ map:   185.19 kB
+../dist/control-ui.build-3804111-Leae9T/assets/apps-page-CgDUiNqt.js                                14.11 kB │ gzip:   5.28 kB │ map:    28.26 kB
+../dist/control-ui.build-3804111-Leae9T/assets/markdown-mermaid-C_SfLVJd.js                         14.18 kB │ gzip:   5.37 kB │ map:    34.79 kB
+../dist/control-ui.build-3804111-Leae9T/assets/device-page-Ce-vBWPB.js                              14.24 kB │ gzip:   3.66 kB │ map:    35.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/wizard-login-controller-BMEegrjQ.js                  14.41 kB │ gzip:   4.40 kB │ map:    59.86 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-CswaSsgT.js                                     14.56 kB │ gzip:   5.95 kB │ map:    37.17 kB
+../dist/control-ui.build-3804111-Leae9T/assets/settings-sidebar-BtusQkPo.js                         14.72 kB │ gzip:   5.07 kB │ map:    47.60 kB
+../dist/control-ui.build-3804111-Leae9T/assets/search-page-uQm5cWHc.js                              15.64 kB │ gzip:   5.00 kB │ map:    47.80 kB
+../dist/control-ui.build-3804111-Leae9T/assets/config-form.node.shared-BvxuLo4O.js                  16.10 kB │ gzip:   6.24 kB │ map:    72.94 kB
+../dist/control-ui.build-3804111-Leae9T/assets/approval-page-registration-K3QHA-p8.js               16.14 kB │ gzip:   4.47 kB │ map:    39.87 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BMe_HS9U.js                                     16.43 kB │ gzip:   7.59 kB │ map:    22.73 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugin-page-R1br62ds.js                              16.46 kB │ gzip:   4.83 kB │ map:    44.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/javascript-Cilf6QWD.js                               17.12 kB │ gzip:   5.84 kB │ map:    68.49 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-subagents-panel-CfYRC0lX.js                     17.19 kB │ gzip:   5.78 kB │ map:    60.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/portals-page-DDRNa-ci.js                             17.31 kB │ gzip:   4.84 kB │ map:    44.27 kB
+../dist/control-ui.build-3804111-Leae9T/assets/secrets-page-evkWShAZ.js                             17.89 kB │ gzip:   5.55 kB │ map:    65.72 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-sidebar-region.runtime-CyWbaFD6.js              18.82 kB │ gzip:   5.89 kB │ map:    64.24 kB
+../dist/control-ui.build-3804111-Leae9T/assets/link-reader-hovercard-HZnZHUFr.js                    18.88 kB │ gzip:   5.99 kB │ map:    68.41 kB
+../dist/control-ui.build-3804111-Leae9T/assets/connection-page-Cp0b3are.js                          19.44 kB │ gzip:   5.68 kB │ map:    56.06 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-question-panel-C7cDbP6b.js                      20.14 kB │ gzip:   6.02 kB │ map:    48.34 kB
+../dist/control-ui.build-3804111-Leae9T/assets/gateway-runtime-Cft0IHEf.js                          20.42 kB │ gzip:   7.65 kB │ map:   114.53 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-QefyHhcr.js                                     20.91 kB │ gzip:   9.50 kB │ map:    37.05 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-CWgBxuJK.js                                     21.95 kB │ gzip:  10.27 kB │ map:    39.83 kB
+../dist/control-ui.build-3804111-Leae9T/assets/clike-NSnJbUQf.js                                    22.19 kB │ gzip:   7.84 kB │ map:    59.43 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-Cu3LFAqa.js                                     23.31 kB │ gzip:  10.65 kB │ map:    39.56 kB
+../dist/control-ui.build-3804111-Leae9T/assets/stylus-B7kK8WT_.js                                   23.71 kB │ gzip:   8.77 kB │ map:    58.00 kB
+../dist/control-ui.build-3804111-Leae9T/assets/memory-import-page-Csr8TU2M.js                       23.90 kB │ gzip:   6.48 kB │ map:    70.13 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-loader-W5jg0cDd.js                        24.27 kB │ gzip:   7.77 kB │ map:    72.31 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-bWzhws1h.js                   24.50 kB │ gzip:   9.80 kB │ map:   173.95 kB
+../dist/control-ui.build-3804111-Leae9T/assets/css-BEjrXOhK.js                                      24.84 kB │ gzip:   8.38 kB │ map:    55.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/lit-runtime-7iwiDDSy.js                              25.17 kB │ gzip:   9.48 kB │ map:    67.10 kB
+../dist/control-ui.build-3804111-Leae9T/assets/file-editor-view-Cr3wXQZh.js                         25.62 kB │ gzip:   8.95 kB │ map:   138.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/code-language-DnxmOlvv.js                            25.79 kB │ gzip:   5.46 kB │ map:    56.78 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BCNx77XN.js                                     26.62 kB │ gzip:   8.83 kB │ map:   111.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-B6pjGMqd.js                                     27.05 kB │ gzip:  12.91 kB │ map:    47.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/login-runtime-HSR2-t2L.js                            27.33 kB │ gzip:   8.56 kB │ map:    59.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/meetings-page-Dhy0M50t.js                            27.99 kB │ gzip:   8.08 kB │ map:    79.48 kB
+../dist/control-ui.build-3804111-Leae9T/assets/github-identity-view-DX9t7goq.js                     28.61 kB │ gzip:   7.61 kB │ map:    78.58 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-LGo2Koa1.js                                     28.82 kB │ gzip:  11.83 kB │ map:    76.21 kB
+../dist/control-ui.build-3804111-Leae9T/assets/skill-workshop-page-BcIaEPfs.js                      29.80 kB │ gzip:   9.58 kB │ map:    99.66 kB
+../dist/control-ui.build-3804111-Leae9T/assets/session-progress-hovercard.runtime-DJVXNsx6.js       30.66 kB │ gzip:   9.30 kB │ map:    84.27 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-DlRhaevf.js                                     31.04 kB │ gzip:  12.92 kB │ map:    45.27 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BxX-eM-I.js                                     32.42 kB │ gzip:  13.16 kB │ map:    72.27 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-CRsyJcFb.js                   35.39 kB │ gzip:  13.71 kB │ map:   204.51 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sql-DlXpQozQ.js                                      36.96 kB │ gzip:  10.99 kB │ map:    55.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/systems-page-ChsLmAqh.js                             39.18 kB │ gzip:  11.30 kB │ map:   116.66 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-C7LeHIRG.js                                     40.44 kB │ gzip:  16.89 kB │ map:    45.77 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-DXpouuaH.js                     40.78 kB │ gzip:  13.62 kB │ map:   179.16 kB
+../dist/control-ui.build-3804111-Leae9T/assets/custodian-surface-DI4frXuF.js                        41.36 kB │ gzip:  11.98 kB │ map:   145.01 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-BOEY6gBj.js                     41.54 kB │ gzip:  14.57 kB │ map:   150.91 kB
+../dist/control-ui.build-3804111-Leae9T/assets/config-form-jkJybYeI.js                              42.69 kB │ gzip:  13.22 kB │ map:   169.13 kB
+../dist/control-ui.build-3804111-Leae9T/assets/view-status-DAYO7-dv.js                              43.17 kB │ gzip:  13.13 kB │ map:   151.85 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-D5V0LL15.js                                     44.22 kB │ gzip:  15.39 kB │ map:   179.57 kB
+../dist/control-ui.build-3804111-Leae9T/assets/link-reader-panel-BHse2Jtt.js                        44.72 kB │ gzip:  12.93 kB │ map:   105.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-CzMKFsvw.js                                     45.04 kB │ gzip:  19.57 kB │ map:    74.48 kB
+../dist/control-ui.build-3804111-Leae9T/assets/model-providers-page-BlF3rvCn.js                     51.84 kB │ gzip:  14.54 kB │ map:   150.77 kB
+../dist/control-ui.build-3804111-Leae9T/assets/profile-page-v5xBa0uk.js                             53.92 kB │ gzip:  13.85 kB │ map:   139.92 kB
+../dist/control-ui.build-3804111-Leae9T/assets/terminal-panel-registration-C2-MceR0.js              55.72 kB │ gzip:  16.30 kB │ map:   162.64 kB
+../dist/control-ui.build-3804111-Leae9T/assets/command-palette-C2RBXnDq.js                          56.37 kB │ gzip:  15.85 kB │ map:   179.86 kB
+../dist/control-ui.build-3804111-Leae9T/assets/transport.runtime-C4I2zoTB.js                        56.91 kB │ gzip:  15.54 kB │ map:   217.08 kB
+../dist/control-ui.build-3804111-Leae9T/assets/board-view-7dLhAm7w.js                               58.50 kB │ gzip:  16.01 kB │ map:   166.24 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-nyv1SWEn.js                     59.60 kB │ gzip:  21.20 kB │ map:   201.04 kB
+../dist/control-ui.build-3804111-Leae9T/assets/devices-page-E2D4IuNQ.js                             60.29 kB │ gzip:  17.12 kB │ map:   193.37 kB
+../dist/control-ui.build-3804111-Leae9T/assets/model-setup-page-o1tWMmEe.js                         60.60 kB │ gzip:  15.27 kB │ map:   170.95 kB
+../dist/control-ui.build-3804111-Leae9T/assets/skills-page-CsU3fiAZ.js                              61.20 kB │ gzip:  15.99 kB │ map:   171.51 kB
+../dist/control-ui.build-3804111-Leae9T/assets/channels-page-CSIdm1Oz.js                            61.30 kB │ gzip:  16.42 kB │ map:   182.13 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tool-catalog-DaO4nw6k.js                             62.55 kB │ gzip:  18.45 kB │ map:   210.10 kB
+../dist/control-ui.build-3804111-Leae9T/assets/en-settings-DSDy2EDn.js                              68.99 kB │ gzip:  23.59 kB │ map:   108.11 kB
+../dist/control-ui.build-3804111-Leae9T/assets/desktop-panel-_HCIROUq.js                            69.56 kB │ gzip:  18.47 kB │ map:   185.42 kB
+../dist/control-ui.build-3804111-Leae9T/assets/sessions-page-Dt8q6LA0.js                            70.33 kB │ gzip:  19.52 kB │ map:   204.05 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-detail-panel-Bc2Qwsri.js                        72.77 kB │ gzip:  19.38 kB │ map:   192.81 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-DAezzG6-.js                     78.03 kB │ gzip:  24.43 kB │ map:   241.38 kB
+../dist/control-ui.build-3804111-Leae9T/assets/browser-panel-ScsY7VWB.js                            79.17 kB │ gzip:  21.03 kB │ map:   252.97 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BSX3a_8q.js                                     83.94 kB │ gzip:  30.82 kB │ map:    93.15 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-DNczPHiL.js                   84.83 kB │ gzip:  29.86 kB │ map:   370.73 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-CWpUz6hd.js                                     84.83 kB │ gzip:  33.91 kB │ map:   117.79 kB
+../dist/control-ui.build-3804111-Leae9T/assets/cloud-workers-page-DsLdEXoD.js                       84.88 kB │ gzip:  22.40 kB │ map:   245.17 kB
+../dist/control-ui.build-3804111-Leae9T/assets/agents-page-DTizFjde.js                              98.41 kB │ gzip:  26.14 kB │ map:   313.94 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-DMCf0dk_.js                                     98.56 kB │ gzip:  29.07 kB │ map:   114.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/activity-page-CXDbC1fp.js                            99.66 kB │ gzip:  28.90 kB │ map:   330.50 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BXkajx9a.js                                    104.16 kB │ gzip:  34.94 kB │ map:   114.20 kB
+../dist/control-ui.build-3804111-Leae9T/assets/usage-page-C7-tXTzD.js                              110.19 kB │ gzip:  30.59 kB │ map:   331.73 kB
+../dist/control-ui.build-3804111-Leae9T/assets/phone-runtime-DRt4IZ3-.js                           122.57 kB │ gzip:  30.60 kB │ map:   382.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/config-runtime-BecGLziM.js                          128.58 kB │ gzip:  37.14 kB │ map:   607.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/chat-html-preview-element-DKXVcNBK.js               137.74 kB │ gzip:  30.33 kB │ map:   466.35 kB
+../dist/control-ui.build-3804111-Leae9T/assets/mcp-app-view-registration-BWQ6nhjw.js               154.22 kB │ gzip:  38.59 kB │ map:   994.02 kB
+../dist/control-ui.build-3804111-Leae9T/assets/plugins-page-D4CrZm9A.js                            158.07 kB │ gzip:  46.31 kB │ map:   692.00 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-DiEvtG-S.js                  162.29 kB │ gzip:  48.94 kB │ map:   591.62 kB
+../dist/control-ui.build-3804111-Leae9T/assets/novnc-DviyAnH8.js                                   190.49 kB │ gzip:  57.63 kB │ map:   844.92 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-DmIR2xfp.js                  193.41 kB │ gzip:  64.89 kB │ map: 1,245.21 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-DtrIabes.js                  202.16 kB │ gzip:  68.92 kB │ map:   724.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/markdown-runtime-ORQpioyT.js                        204.21 kB │ gzip:  76.64 kB │ map:   804.68 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ui-BTM8XisL.js                                      267.88 kB │ gzip:  78.16 kB │ map:   928.72 kB
+../dist/control-ui.build-3804111-Leae9T/assets/config-page-B_QwC1bf.js                             269.88 kB │ gzip:  68.36 kB │ map:   803.52 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-B2_jxtrR.js                  271.04 kB │ gzip:  80.53 kB │ map: 1,654.75 kB
+../dist/control-ui.build-3804111-Leae9T/assets/dist-BVfGhkDR.js                                    277.04 kB │ gzip:  91.40 kB │ map: 1,298.63 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-zh-CN-4_Y-1VVE.js               297.82 kB │ gzip: 101.96 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-zh-TW-D2en2FHF.js               303.72 kB │ gzip: 103.07 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-id-CSLQIZ9Y.js                  331.55 kB │ gzip:  96.56 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-nl-BLR9b1RM.js                  351.54 kB │ gzip: 104.32 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-new-55PLZHzi.js                     357.95 kB │ gzip:  98.88 kB │ map: 1,072.54 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-pt-BR-C-PL52WV.js               359.88 kB │ gzip: 102.70 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-ko-DoSNZGmM.js                  364.99 kB │ gzip: 103.84 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-tr-CY3QQSA9.js                  365.39 kB │ gzip: 105.96 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-de-BALzIQSa.js                  367.82 kB │ gzip: 109.88 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-pl-CDe7mg3r.js                  368.99 kB │ gzip: 110.70 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-it-zRStF5XK.js                  370.27 kB │ gzip: 104.57 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-es-K7G9pis4.js                  376.80 kB │ gzip: 105.00 kB
+../dist/control-ui.build-3804111-Leae9T/assets/zh-CN-DtSZzNpd.js                                   388.74 kB │ gzip: 138.71 kB │ map:   121.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-fr-wkapJNgs.js                  391.86 kB │ gzip: 107.99 kB
+../dist/control-ui.build-3804111-Leae9T/assets/zh-TW-C67LFOWv.js                                   399.36 kB │ gzip: 140.25 kB │ map:   121.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-vi--YcOJ6ud.js                  411.82 kB │ gzip: 104.18 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-ja-JP-CZbDFQYF.js               421.29 kB │ gzip: 111.47 kB
+../dist/control-ui.build-3804111-Leae9T/assets/id-NUUfL5TW.js                                      424.10 kB │ gzip: 131.13 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-core-DNHYgvJR.js                         428.88 kB │ gzip: 131.99 kB │ map: 1,523.00 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-D6z39Ml5.js                    437.01 kB │ gzip: 128.37 kB │ map: 1,614.05 kB
+../dist/control-ui.build-3804111-Leae9T/assets/nl-BQgEi8Q-.js                                      447.65 kB │ gzip: 141.72 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/pt-BR-_FUB2h76.js                                   452.91 kB │ gzip: 141.14 kB │ map:   121.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/tr-BVv5eVhJ.js                                      455.88 kB │ gzip: 142.46 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-ar-jlZLPOJL.js                  462.52 kB │ gzip: 114.48 kB
+../dist/control-ui.build-3804111-Leae9T/assets/it-BWUzUc0F.js                                      462.81 kB │ gzip: 142.33 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/pl-B2K0Y8bn.js                                      463.40 kB │ gzip: 150.03 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-core-txkbWDnP.js                         464.82 kB │ gzip: 151.81 kB │ map: 1,612.88 kB
+../dist/control-ui.build-3804111-Leae9T/assets/es-ZMbFU1DS.js                                      465.67 kB │ gzip: 143.44 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-chat-Cqs6oAwZ.js                    473.93 kB │ gzip: 135.86 kB │ map: 1,571.38 kB
+../dist/control-ui.build-3804111-Leae9T/assets/de-B9WkCwwZ.js                                      475.39 kB │ gzip: 148.38 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ko-ChyaHMif.js                                      479.98 kB │ gzip: 143.50 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/fr-B8Ph03YE.js                                      487.63 kB │ gzip: 147.08 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-fa-l5OM8oXT.js                  502.35 kB │ gzip: 115.04 kB
+../dist/control-ui.build-3804111-Leae9T/assets/vi-DNfz-kNJ.js                                      524.99 kB │ gzip: 143.74 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ja-JP-Cg3CSDCE.js                                   548.86 kB │ gzip: 151.79 kB │ map:   121.25 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-uk-CEYXcBb6.js                  555.37 kB │ gzip: 124.51 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-ru-DZhOCAJs.js                  560.18 kB │ gzip: 125.77 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ar-gsB44Hgw.js                                      577.05 kB │ gzip: 154.58 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/fa-CsbvAenZ.js                                      628.10 kB │ gzip: 155.99 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ghostty-web-B6rbFqxE.js                             637.18 kB │ gzip: 187.42 kB │ map:   759.89 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-hi-CtQ4Oh2b.js                  660.05 kB │ gzip: 122.41 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-fVGxoR50.js                  685.27 kB │ gzip: 196.36 kB │ map: 2,245.09 kB
+../dist/control-ui.build-3804111-Leae9T/assets/uk-WPDhCFIG.js                                      692.28 kB │ gzip: 171.16 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/ru-pjTa5EOg.js                                      697.05 kB │ gzip: 172.84 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/locale-config-hints-th-DbW-4xvL.js                  708.21 kB │ gzip: 122.36 kB
+../dist/control-ui.build-3804111-Leae9T/assets/control-ui-boot-shared-C07wKbSo.js                  728.33 kB │ gzip: 211.56 kB │ map: 2,688.53 kB
+../dist/control-ui.build-3804111-Leae9T/assets/hi-HNAzAOnZ.js                                      838.19 kB │ gzip: 169.17 kB │ map:   121.22 kB
+../dist/control-ui.build-3804111-Leae9T/assets/th-BzmcaYZz.js                                      867.94 kB │ gzip: 163.35 kB │ map:   121.22 kB
+
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/lib/sessions/session-roster-cache.runtime.ts is dynamically imported by src/lib/sessions/session-roster-cache.ts but also statically imported by src/app/bootstrap-warm-boot.ts, dynamic import will not move module into another chunk.
+
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/pages/chat/session-snapshot-invalidation.ts is dynamically imported by src/pages/chat/session-snapshot-invalidation.runtime.ts but also statically imported by src/pages/chat/session-snapshot-invalidation.runtime.ts, src/pages/chat/session-snapshot-store.ts, dynamic import will not move module into another chunk.
+
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/pages/chat/chat-send-actions.ts is dynamically imported by src/pages/chat/initial-turn-handoff.ts but also statically imported by src/pages/chat/chat-pane-context.ts, src/pages/chat/chat-pane-retained-presentation.ts, src/pages/chat/chat-pane-session-observation.ts, src/pages/chat/chat-pane-startup-subscriptions.ts, src/pages/chat/chat-state-events.ts, ..., dynamic import will not move module into another chunk.
+
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/lib/chat/composer-draft-store.runtime.ts is dynamically imported by src/lib/chat/outbox-store-projection.ts, src/pages/chat/chat-outbox-recovery.ts, src/pages/chat/components/chat-async-question-draft.ts, src/pages/chat/durable-composer-persistence.ts, src/pages/new-session/draft-persistence.ts but also statically imported by src/lib/chat/composer-draft-retirement.runtime.ts, dynamic import will not move module into another chunk.
+
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/components/app-sidebar-session-narration.ts is dynamically imported by src/components/app-sidebar.ts but also statically imported by src/pages/chat/subagents-panel-data.ts, dynamic import will not move module into another chunk.
+
+✓ built in 30.62s
+[33m[PLUGIN_TIMINGS] [0mJavaScript callbacks ran for 27.8s of this 30.6s build (91%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin control-ui-build-output writeBundle (52%, 15.8s, 1 call)
+  - plugin vite:worker load (22%, 6.7s, 1 call)
+  - plugin control-ui-isolated-desktop-runtime resolveDynamicImport (8%, 2.4s, 360 calls)
+  - plugin vite:worker-import-meta-url transform (5%, 1.6s, 1 call)
+  - plugin vite:build-import-analysis generateBundle (5%, 1.5s, 1 call)
+These rows add up to more than the total. Callbacks can overlap, so the same time counts for more than one row.
+2 callbacks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - plugin control-ui-locale-modules load (4198 calls)
+  - plugin vite:css transform (135 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+verified 948 finalized Control UI sidecars
+Control UI performance:
+  measurement: shipped gzip sidecars; Node v24.21.0
+  startup JS: 8 requests, 366.7 KiB gzip (375508 B), 336.8 KiB br, 1211114 B raw (limits: 18 requests, 366.1 KiB gzip / 374861 B)
+  startup JS gzip vs baseline: 375508 B (baseline 374285 B + growth allowance 512 B = growth limit 374797 B; build-variance allowance 64 B; enforcement limit 374861 B; max committed baseline 374285 B)
+  startup CSS: 1 request, 48.3 KiB gzip (49438 B), 41.3 KiB br, 297154 B raw (limits: 1 request, advisory target 46080 B, hard ceiling 51200 B; headroom 1762 B)
+  largest ordinary JS: assets/control-ui-boot-shared-C07wKbSo.js, 204.4 KiB gzip (limit: 215.0 KiB)
+  largest CSS: assets/control-ui-core-CpGygl9a.css, 49438 B gzip (hard ceiling 53400 B; headroom 3962 B)
+  all JS: 404 requests, 9361.9 KiB gzip (9586593 B), 8210.1 KiB br, 34170428 B raw
+  all CSS: 70 requests, 234.9 KiB gzip (240524 B), 211.8 KiB br, 1256313 B raw
+  route boot accounting: initial-entry assets plus measured immediate dynamic imports; existing initial-entry limits unchanged
+  chat boot JS: 34 requests, 1605.0 KiB gzip (1643476 B), 1470.0 KiB br, 5450905 B raw (1267968 B beyond initial-entry JS; limit: 35 requests)
+  chat boot CSS: 10 requests, 145.7 KiB gzip (149241 B), 130.4 KiB br, 868188 B raw
+  new boot JS: 26 requests, 1273.4 KiB gzip (1303965 B), 1167.8 KiB br, 4305759 B raw (928457 B beyond initial-entry JS; limit: 35 requests)
+  new boot CSS: 7 requests, 119.1 KiB gzip (121995 B), 105.9 KiB br, 712899 B raw
+  warning: startup CSS gzip is above the 46080 B advisory target; remaining hard-ceiling headroom: 1762 B
+  isolated Mermaid JS: 1 request, 876.3 KiB gzip (897333 B), 724.7 KiB br, 3420792 B raw (limits: 1 deferred asset, 960.0 KiB gzip; forbidden at startup)
+  locale catalog JS: 40 requests, 5057.1 KiB gzip (5178463 B), 4292.7 KiB br, 19310589 B raw (largest pair: ru, 292.3 KiB gzip; limits: 1 base + 1 config-hint asset per locale, 300.0 KiB combined; forbidden at startup)
+  violations:
+    - startup JS gzip: 366.7 KiB exceeds 366.1 KiB
+[build-all] ui:build done in 32.8s
+[build-all] write-build-info
+[build-all] write-build-info done in 346ms
+[build-all] write-cli-startup-metadata (cache restored)
+[build-all] write-cli-startup-metadata done in 13.4s
+[build-all] phase timings: total 2m 43.4s; slowest tsdown 59.4s; ui:build 32.8s; check-cli-bootstrap-imports 28.4s; write-cli-startup-metadata (reused) 13.4s; runtime-postbuild 11.3s; external-plugins:local-dist 6.38s; plugins:assets:build 6.34s; plugins:assets:copy 3.67s; build-stamp 1.05s; write-build-info 346ms; runtime-postbuild-stamp 261ms; native-protocol 151ms

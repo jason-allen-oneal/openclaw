@@ -1,0 +1,32 @@
+preparation: target selection
+autoreview target: local
+branch: fix/subagent-dm-completion-opt-in
+engine: codex
+model: gpt-6.1-sol
+fallback_model: gpt-6-sol
+thinking: high
+tools: on
+web_search: on
+ref: 5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2
+preparation: evidence selection
+preparation: initial source snapshot
+preparation: bundle/evidence preparation
+bundle: 16491 bytes; review passes: 1
+review plan: 1 passes; 21184 total prompt bytes
+preparation: pre-review verification
+preparation: evidence verification
+review still running: codex elapsed=60s pid=3790338
+review still running: codex elapsed=120s pid=3790338
+review still running: codex elapsed=180s pid=3790338
+review still running: codex elapsed=240s pid=3790338
+review still running: codex elapsed=300s pid=3790338
+review usage: {"attempts": 1, "complete": false, "partial_attempts": 0, "reported_attempts": 0, "tokens": null, "unknown_attempts": 1}
+codex engine failed (1)
+2026-10-10T21:42:45.515944Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: failed to lookup address information: Try again, url: wss://api.openai.com/v1/responses
+2026-10-10T21:42:50.528235Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: failed to lookup address information: Try again, url: wss://api.openai.com/v1/responses
+2026-10-10T21:42:55.757130Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: failed to lookup address information: Try again, url: wss://api.openai.com/v1/responses
+2026-10-10T21:43:01.149112Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: failed to lookup address information: Try again, url: wss://api.openai.com/v1/responses
+2026-10-10T21:43:07.001818Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: failed to lookup address information: Try again, url: wss://api.openai.com/v1/responses
+2026-10-10T21:43:13.678601Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: failed to lookup address information: Try again, url: wss://api.openai.com/v1/responses
+2026-10-10T21:43:22.057229Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: failed to lookup address information: Try again, url: wss://api.openai.com/v1/responses
+

@@ -1,0 +1,42 @@
+{
+  "result": {
+    "name": "Built native media fallback true",
+    "status": "pass",
+    "steps": [
+      {
+        "name": "native media delivery boundary",
+        "status": "pass",
+        "details": "{\n  \"pass\": true,\n  \"sourceSha\": \"a1dcdd90a282d2d636eec9151a47a833be89a1af\",\n  \"mode\": \"true\",\n  \"kind\": \"media\",\n  \"runId\": \"6c4a29c5-e90c-4f31-9e67-a92c64877ce9\",\n  \"childSessionKey\": \"agent:qa:subagent:33aca90e-b4c3-4f7d-889f-53e76ce30172\",\n  \"requesterSessionKey\": \"agent:qa:main\",\n  \"execution\": {\n    \"status\": \"terminal\",\n    \"endedAt\": 1791670062756,\n    \"outcome\": {\n      \"status\": \"ok\"\n    }\n  },\n  \"delivery\": {\n    \"status\": \"delivered\",\n    \"disposition\": \"delivered\"\n  },\n  \"receiptKeys\": [\n    \"announce:v1:agent:qa:subagent:33aca90e-b4c3-4f7d-889f-53e76ce30172:6c4a29c5-e90c-4f31-9e67-a92c64877ce9:text-direct\"\n  ],\n  \"mediaCount\": 1,\n  \"receivedPngByteEquality\": [\n    true\n  ],\n  \"expectedPngBytes\": 103,\n  \"failureNoticeCount\": 0,\n  \"acknowledgmentTimes\": [\n    1791670060371\n  ],\n  \"kickoffAt\": 1791670013803,\n  \"terminalObservedAt\": 1791670064162,\n  \"finishedObservationAt\": 1791670099300,\n  \"postTerminalObservationMs\": 35138,\n  \"childEndedAt\": 1791670062756,\n  \"ordinaryOutbound\": [\n    {\n      \"id\": \"3bbee811-9223-48c3-97d8-0fffde6fc564\",\n      \"text\": \"Worker started.\",\n      \"timestamp\": 1791670060371\n    }\n  ],\n  \"providerFaultCaveat\": null\n}"
+      }
+    ],
+    "evidenceOccurrenceId": "c0e28852-0ef6-40f9-b813-e339dc1b705d"
+  },
+  "launch": {
+    "source": {
+      "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+    },
+    "runtime": {
+      "id": "node",
+      "version": "v24.21.0"
+    },
+    "package": null,
+    "protocol": null,
+    "accountRef": null,
+    "proofClass": null
+  },
+  "runtime": {
+    "source": {
+      "ref": null,
+      "integrity": null
+    },
+    "runtime": {
+      "id": "openclaw",
+      "version": "2026.9.9"
+    },
+    "package": null,
+    "protocol": "gateway:4",
+    "accountRef": null,
+    "proofClass": null
+  }
+}

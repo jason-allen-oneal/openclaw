@@ -1,0 +1,28 @@
+{
+  "headSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "state": "OPEN",
+  "mergeable": "MERGEABLE",
+  "checksObserved": 140,
+  "active": 0,
+  "failures": 0,
+  "ciGate": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:57:36Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/38089073787/job/114323121983",
+      "name": "openclaw/ci-gate",
+      "startedAt": "2026-10-10T21:57:34Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "StatusContext",
+      "context": "openclaw/ci-gate",
+      "startedAt": "2026-10-10T21:58:16Z",
+      "state": "SUCCESS",
+      "targetUrl": "https://github.com/openclaw/openclaw/actions/runs/38089601623"
+    }
+  ],
+  "scope": "Fresh exact-head PR check rollup; cancelled/skipped non-gating label workflows and neutral CodeQL are not reclassified as passed checks."
+}

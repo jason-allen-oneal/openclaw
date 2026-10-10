@@ -1,0 +1,33 @@
+{
+  "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "sourceStatus": "",
+  "buildInfo": {
+    "version": "2026.9.9",
+    "commit": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "builtAt": "2026-10-10T21:50:41.320Z",
+    "buildId": "2026.9.9-a1dcdd90a282-2026-10-10T21-50-41.320Z"
+  },
+  "buildInfoSha256": "9b624d8fea11cfa4920811a028beafc9d154f8a36628bbb0177cc5c84ccc5b1a",
+  "gatewayEntrySha256": "58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd",
+  "rpcClient": {
+    "file": "<candidate>/dist/gateway-rpc-client-Dz7fwEcz.mjs",
+    "exportName": "t",
+    "sha256": "84c457a77d1ec517612f8820de16cc6f94cba48fceb470d105885a54c7411a58"
+  },
+  "publishedStable": {
+    "version": "2026.9.9",
+    "buildInfo": {
+      "version": "2026.9.9",
+      "commit": "bcfc88812a35243893585dbeca87ca41b48272ca",
+      "builtAt": "2026-10-08T06:26:41.967Z",
+      "buildId": "2026.9.9-release-bcfc88812a35-2026-10-08T06-26-41.967Z"
+    },
+    "tarball": "<prior-proof-workspace>/stable/openclaw-2026.9.9.tgz",
+    "tarballSha256": "a46df5fc5e4d73837d5b3eeebc286e64a85dffc429c30f3a07f6398e2a9423f7",
+    "gatewayEntrySha256": "154951cdae1f71391e64a97f6738284a84e18660e919345bc1fd92906af48f02"
+  },
+  "stateDirectory": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state",
+  "configPath": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/openclaw.json",
+  "node": "v24.21.0",
+  "scope": "Actual stable Gateway-created session/history retained through candidate Doctor and candidate Gateway. Unset fallback field remains absent. This lane does not itself claim fallback delivery; the separate exact-head native and HTTP lanes measure that."
+}

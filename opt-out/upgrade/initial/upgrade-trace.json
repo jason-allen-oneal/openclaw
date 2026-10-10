@@ -1,0 +1,215 @@
+[
+  {
+    "timestamp": "2026-10-10T21:58:10.408Z",
+    "phase": "published-stable",
+    "method": "sessions.reset",
+    "params": {
+      "key": "agent:main:opt-out-upgrade-proof",
+      "reason": "new"
+    },
+    "response": {
+      "ok": true,
+      "key": "agent:main:opt-out-upgrade-proof",
+      "entry": {
+        "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+        "lifecycleRevision": "d67cb6f2-3bc2-4725-827e-3a76a7b4fce6",
+        "updatedAt": 1791669490224,
+        "sessionStartedAt": 1791669490224,
+        "systemSent": false,
+        "abortedLastRun": false,
+        "compactionCount": 0,
+        "createdVia": "operator",
+        "createdAt": 1791669490224,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0,
+        "totalTokensFresh": true,
+        "totalTokensVersion": 1,
+        "modelProvider": "openai",
+        "model": "gpt-6-astra"
+      },
+      "resolved": {
+        "modelProvider": "openai",
+        "model": "gpt-6-astra"
+      }
+    }
+  },
+  {
+    "timestamp": "2026-10-10T21:58:10.720Z",
+    "phase": "published-stable",
+    "method": "chat.inject",
+    "params": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "message": "QA-STABLE-OPT-OUT-PERSISTED-HISTORY"
+    },
+    "response": {
+      "ok": true,
+      "messageId": "9274e3dc-9823-4399-a77a-568dc6b836c3"
+    }
+  },
+  {
+    "timestamp": "2026-10-10T21:58:15.686Z",
+    "phase": "published-stable",
+    "method": "chat.history",
+    "params": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "limit": 30
+    },
+    "response": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "QA-STABLE-OPT-OUT-PERSISTED-HISTORY"
+            }
+          ],
+          "timestamp": 1791669490624,
+          "stopReason": "stop",
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "totalTokens": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "total": 0
+            }
+          },
+          "api": "openai-responses",
+          "provider": "openclaw",
+          "model": "gateway-injected",
+          "__openclaw": {
+            "id": "9274e3dc-9823-4399-a77a-568dc6b836c3",
+            "recordTimestampMs": 1791669490624,
+            "transcriptPosition": {
+              "source": "SQzHpRJXeT8xQ5snptQ6kaPbX7UOST0Hjo1N6ZXUSL8",
+              "rawSeq": 1
+            },
+            "seq": 1
+          }
+        }
+      ],
+      "hasMore": false,
+      "totalMessages": 1,
+      "pendingInputs": {
+        "items": [],
+        "total": 0,
+        "queuedCount": 0
+      },
+      "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJkMzcxMzYyNGYxN2E0ZDU3YWI4YmQ1NmU4MzFiN2M4NSIsImxhc3RTZXEiOjEsInNlc3Npb25JZCI6IjE5MzlhNDE1LWYwMWEtNGY5ZS1hNmQ0LWZiMDBmZDQ0NWVjNyIsInZlcnNpb24iOjF9",
+      "defaults": {
+        "modelProvider": "openai",
+        "model": "gpt-6-astra",
+        "contextTokens": 200000,
+        "agentRuntime": {
+          "id": "codex",
+          "cloudPlacementSupported": false,
+          "devicePlacementSupported": false,
+          "source": "implicit"
+        },
+        "modelSelectionTarget": "session"
+      },
+      "sessionInfo": {
+        "key": "agent:main:opt-out-upgrade-proof",
+        "visibility": "shared",
+        "permissionModePending": false,
+        "createdVia": "operator",
+        "createdAt": 1791669490224,
+        "kind": "direct",
+        "classification": "custom",
+        "agentId": "main",
+        "isMain": false,
+        "isBackground": false,
+        "updatedAt": 1791669490675,
+        "archived": false,
+        "pinned": false,
+        "unread": false,
+        "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+        "systemSent": false,
+        "abortedLastRun": false,
+        "effectiveFastMode": false,
+        "effectiveFastModeSource": "default",
+        "fastAutoOnSeconds": 60,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0,
+        "totalTokensFresh": true,
+        "effectiveResponseUsage": "off",
+        "effectiveQueueMode": "steer",
+        "modelProvider": "openai",
+        "model": "gpt-6-astra",
+        "modelOverrideSource": null,
+        "runtimeSelectionLocked": false,
+        "agentRuntime": {
+          "id": "codex",
+          "cloudPlacementSupported": false,
+          "devicePlacementSupported": false,
+          "source": "implicit"
+        },
+        "snapshotAt": 1791669495679,
+        "activitySummary": {
+          "state": "unavailable",
+          "canEnsure": true
+        },
+        "sharingRole": "admin",
+        "hasActiveRun": false,
+        "activeRunIds": [],
+        "activeLeafEntryId": "9274e3dc-9823-4399-a77a-568dc6b836c3"
+      }
+    }
+  },
+  {
+    "timestamp": "2026-10-10T21:58:17.309Z",
+    "phase": "published-stable-shutdown-schema",
+    "databases": {
+      "agent": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite",
+        "userVersion": 24,
+        "integrity": "ok"
+      },
+      "state": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/state/openclaw.sqlite",
+        "userVersion": 19,
+        "integrity": "ok"
+      }
+    }
+  },
+  {
+    "phase": "candidate-doctor",
+    "startedAt": "2026-10-10T21:58:17.310Z",
+    "command": [
+      "node",
+      "dist/index.js",
+      "doctor",
+      "--fix",
+      "--non-interactive",
+      "--yes"
+    ],
+    "finishedAt": "2026-10-10T22:00:13.974Z",
+    "exitCode": 0
+  },
+  {
+    "timestamp": "2026-10-10T22:00:14.050Z",
+    "phase": "candidate-doctor-schema",
+    "databases": {
+      "agent": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite",
+        "userVersion": 25,
+        "integrity": "ok"
+      },
+      "state": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/state/openclaw.sqlite",
+        "userVersion": 20,
+        "integrity": "ok"
+      }
+    }
+  }
+]

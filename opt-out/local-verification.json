@@ -1,0 +1,163 @@
+{
+  "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "frozenSource": true,
+  "regressionBefore": {
+    "command": "node scripts/run-vitest.mjs src/agents/subagents/announce/subagent-announce-completion-transport.test.ts -t 'gates physical transport'",
+    "productionDifference": "Only the shared guard temporarily restored to !== true; restored to === false after wrapper fully settled",
+    "exitCode": 1,
+    "intendedFailures": 2,
+    "passed": 4,
+    "skipped": 14,
+    "failure": "Unset mode returns undefined instead of delivered direct result for both arbitrary HTTP plugins"
+  },
+  "focusedTests": {
+    "command": "node scripts/run-vitest.mjs src/agents/subagents/announce/subagent-announce-completion-transport.test.ts src/agents/subagents/announce/subagent-announce-text-delivery.test.ts src/agents/subagents/announce/subagent-announce-delivery.test.ts src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts src/config/zod-schema.agents.test.ts",
+    "exitCode": 0,
+    "shards": 2,
+    "files": 5,
+    "passed": 206,
+    "wallSeconds": 98.9,
+    "includes": "Physical transport/default authority controls, failed notices, chunking/partial-send, media pipeline, shared delivery owner, strict optional boolean schema",
+    "initialAdmissionFailure": "An earlier invocation had an incorrect media-test path; exited 1 before running tests. Retained separately; corrected invocation completed and verified its compiler generation."
+  },
+  "nativeSourceReview": {
+    "status": "completed",
+    "actionableP0toP2": 0,
+    "scope": "Complete owner/callers, changed shared policy/tests/schema/docs; read-only native independent reviewer on frozen bytes committed as this SHA"
+  },
+  "canonicalAutoreview": {
+    "status": "reviewer_unavailable",
+    "exitCode": 1,
+    "reportProduced": false,
+    "failure": "First preflight did not locate codex; explicit installed executable then failed API DNS lookup. No clean helper verdict claimed. Native independent source review completed separately."
+  },
+  "changedCheck": {
+    "command": "pnpm check:changed",
+    "status": "cancelled-as-redundant",
+    "actualTerminalExitCode": 143,
+    "passedCoreTestGraphs": 4,
+    "selectedCoreTestGraphs": 28,
+    "completedEarlier": "Static guards, config metadata/baseline, core graph and production type checks",
+    "reason": "Exact-head CI already passed required production/test type and lint gates; duplicate local sweep stopped under user no-unnecessary-repeat instruction. Not credited as pass.",
+    "receipt": "<proof-workspace>/changed-check-cancellation.json",
+    "completedCoreTestGraphs": [
+      {
+        "name": "agents-root",
+        "seconds": 265.4
+      },
+      {
+        "name": "agents-other",
+        "seconds": 194.9
+      },
+      {
+        "name": "agents-tools",
+        "seconds": 200.9
+      },
+      {
+        "name": "gateway-root",
+        "seconds": 259.3
+      }
+    ]
+  },
+  "committedBuild": {
+    "command": "OPENCLAW_BUILD_PRIVATE_QA=1 OPENCLAW_RUN_NODE_SKIP_DTS_BUILD=1 pnpm build",
+    "exitCode": 0,
+    "wallSeconds": 303.1,
+    "buildInfoCommit": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "note": "Repeated after source commit because prior build captured the preceding commit identity. Same frozen source; fresh committed build binds expected SHA. Existing unrelated UI gzip budget warning retained."
+  },
+  "runtimeAdmissionRefusal": {
+    "commands": [
+      "owner-transport.mjs",
+      "upgrade.mjs"
+    ],
+    "exitCode": 1,
+    "beforeRuntimeStarted": true,
+    "cause": "Dynamic registry discovery included both defining module and re-export facade",
+    "repair": "Require a defining declaration, then select its exported owner. Production sources/assertions unchanged; refusal logs retained."
+  },
+  "ci": {
+    "conclusion": "success",
+    "createdAt": "2026-10-10T21:49:13Z",
+    "headSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "status": "completed",
+    "updatedAt": "2026-10-10T21:57:37Z",
+    "url": "https://github.com/openclaw/openclaw/actions/runs/38089073787"
+  },
+  "upgradeAttempt1": {
+    "exitCode": 1,
+    "status": "fail",
+    "stage": "candidate readiness",
+    "observed": "Actual stable session/history persisted; Doctor exit0 migrated agent24->25 and state19->20 with integrity ok. Candidate reached session admission but failed readiness deadline before RPC proof.",
+    "deadlineUnchanged": true,
+    "resourceObservation": {
+      "cpuPressureAvg10": 50.17,
+      "cpuPressureAvg60": 59.97,
+      "logicalCpus": 8,
+      "availableMemoryGiB": 36,
+      "memoryPressureAvg10": 0
+    },
+    "diagnosis": "Concurrent native Gateway probes and wide type graph active. Further proof must preserve failed trace and all assertions; no full upgrade success credited."
+  },
+  "nativeMatrix": {
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "completed": 6,
+    "passed": 6,
+    "total": 6,
+    "actualCommandExits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "verification": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-matrix-verification.json",
+    "scope": "Real built Gateway native sessions and real portable HTTP with unchanged scripted provider; bounded post-terminal absence in false mode, no external channel prerequisite."
+  },
+  "upgradeContinuation": {
+    "status": "pass-after-retained-initial-failure",
+    "exitCode": 0,
+    "sameActualDoctorMigratedState": true,
+    "stableAndDoctorRerun": false,
+    "verdict": {
+      "phase": "verdict",
+      "pass": true,
+      "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "sameSessionKey": "agent:main:opt-out-upgrade-proof",
+      "sameSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "originalAttemptStatus": "fail",
+      "originalFailure": "candidate-readiness-timeout",
+      "continuationStatus": "pass",
+      "agentSchema": {
+        "beforeStable": 24,
+        "afterDoctor": 25,
+        "afterContinuation": 25
+      },
+      "stateSchema": {
+        "beforeStable": 19,
+        "afterDoctor": 20,
+        "afterContinuation": 20
+      },
+      "configRetained": {
+        "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED",
+        "timeoutSeconds": 73,
+        "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+        "dmCompletionFallback": "absent-before-and-after"
+      },
+      "actualGatewayHistoryRetained": true,
+      "actualGatewayReadWriteOnRetainedSession": true,
+      "initialRecordsUnchanged": true,
+      "preservedFailedAttemptState": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1/preserved-pre-continuation-state",
+      "readiness": {
+        "timestamp": "2026-10-10T22:11:17.821Z",
+        "phase": "candidate-health-ready",
+        "healthHttpStatus": 200,
+        "elapsedMs": 64529,
+        "poll": 58
+      },
+      "remainingStartupUncertainty": "A serialized continuation within the unchanged readiness bound supports resource contention as the original cause, but does not prove startup under arbitrary concurrent workload or claim a product startup repair."
+    },
+    "initialFailurePreserved": true
+  }
+}

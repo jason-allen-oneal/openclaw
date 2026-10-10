@@ -1,0 +1,306 @@
+title: Built native failure fallback false
+scenario:
+  id: native-failure-false-optout-v1
+  surface: subagents
+  coverage:
+    primary:
+      - agent-runtime.subagent-turns-delivery
+    secondary:
+      - agent-runtime.subagent-turns-subagents
+      - channels.qa-channel-final-reply
+  objective: Prove native failure completion through built Gateway and portable
+    channel with false setting
+  gatewayConfigPatch:
+    tools:
+      alsoAllow:
+        - message
+    agents:
+      defaults:
+        model:
+          fallbacks: []
+      entries:
+        qa:
+          tools:
+            alsoAllow:
+              - message
+          model:
+            fallbacks: []
+  successCriteria:
+    - Native admission and authoritative terminal outcome
+    - Exact direct-fallback receipt correlation
+    - Portable transport captures actual delivered payload or post-terminal
+      absence
+    - Source account/conversation preserved
+  docsRefs:
+    - docs/tools/subagents.md
+    - docs/help/testing.md
+    - docs/channels/qa-channel.md
+  codeRefs:
+    - extensions/qa-lab/src/execution-identity-storage-inspection.ts
+    - src/agents/agent-run-terminal-reply.ts
+    - src/agents/subagents/announce/subagent-announce-delivery.ts
+    - src/agents/subagents/registry/subagent-registry-lifecycle.ts
+    - extensions/qa-lab/src/providers/mock-openai/server.ts
+  execution:
+    kind: flow
+    providerMode: mock-openai
+    retryCount: 0
+    summary: Exercise terminal-reply dispositions through mock provider, ephemeral
+      Gateway, native subagent state, and qa-channel capture.
+    config:
+      mode: "false"
+      allowFallback: false
+      kind: failure
+      label: qa-native-failure-false
+      prompt: >-
+        Call sessions_spawn task="Provider HTTP 503 after tool QA check: read
+        QA_KICKOFF_TASK.md, then reply." label="qa-native-failure-false"
+        mode=run context=isolated.
+
+        Then reply exactly `Worker started.`
+      sourceSha: a1dcdd90a282d2d636eec9151a47a833be89a1af
+      failureNotice: A delegated task failed before it could report a result. Please
+        retry the task.
+      observationMs: 30000
+    timeoutMs: 600000
+    suiteIsolation: isolated
+    isolationReason: Independent native completion policy fixture
+flow:
+  steps:
+    - name: native failure delivery boundary
+      actions:
+        - set: publishTerminalDiagnostic
+          value:
+            lambda:
+              params:
+                - artifact
+              async: true
+              expr: >
+                (async () => {
+                  const { publishQaSuiteArtifactFiles } = await qaImport('./suite-artifacts.js');
+                  const { redactQaGatewayDebugText } = await qaImport('./gateway-log-redaction.js');
+                  const filePath = path.join(env.outputDir, 'subagent-terminal-diagnostic.json');
+                  const content = redactQaGatewayDebugText(JSON.stringify(artifact));
+                  await publishQaSuiteArtifactFiles({ outputDir: env.outputDir, files: [{ filePath, content }] });
+                  if (await fs.readFile(filePath, 'utf8') !== content) throw new Error('Terminal diagnostic readback mismatch');
+                  return { artifact: path.basename(filePath), captureStage: artifact.captureStage };
+                })()
+        - set: snapshotTerminalRequests
+          value:
+            lambda:
+              params:
+                - requests
+              expr: >
+                requests.map(request => {
+                  const bounded = (value, limit) => {
+                    const json = JSON.stringify(value);
+                    return json === undefined ? null : json.length > limit ? { omitted: true, serializedCharacters: json.length } : value;
+                  };
+                  return {
+                    cursor: request.cursor, sessionId: request.sessionId, body: bounded(request.body, 262144),
+                    prompt: bounded(request.prompt, 32768), toolOutput: bounded(request.toolOutput, 32768),
+                    requestKind: request.requestKind, outcome: request.outcome, errorCode: request.errorCode,
+                    plannedToolName: request.plannedToolName, plannedWireToolName: request.plannedWireToolName,
+                    plannedToolArgs: bounded(request.plannedToolArgs, 32768), plannedToolCallId: request.plannedToolCallId,
+                    plannedToolItemId: request.plannedToolItemId, toolOutputCallId: request.toolOutputCallId
+                  };
+                })
+        - set: waitOwnerCondition
+          value:
+            lambda:
+              params:
+                - check
+                - timeoutMs
+                - intervalMs
+              async: true
+              expr: (async()=>{const
+                deadline=Date.now()+(timeoutMs??30000);while(Date.now()<deadline){const
+                value=await
+                check();if(value!==undefined&&value!==null&&value!==false)return
+                value;await sleep(intervalMs??200);}throw new Error('Native
+                proof observation deadline exceeded');})()
+        - call: waitForGatewayHealthy
+          args:
+            - ref: env
+            - 120000
+        - call: waitForQaChannelReady
+          args:
+            - ref: env
+            - 120000
+        - set: suiteRequestCursor
+          value:
+            expr: (await fetchJson(`${env.mock.baseUrl}/debug/request-cursor`)).cursor
+        - set: suiteEventCursor
+          value:
+            expr: state.getSnapshot().cursor
+        - set: activePhase
+          value:
+            expr: '"prepared"'
+        - try:
+            actions:
+              - set: activePhase
+                value:
+                  expr: '"ingress"'
+              - call: fs.writeFile
+                args:
+                  - expr: path.join(env.gateway.workspaceDir,'proof.png')
+                  - expr: imageUnderstandingValidPngBase64
+                  - base64
+              - set: expectedPngBytes
+                value:
+                  expr: await fs.readFile(path.join(env.gateway.workspaceDir,'proof.png'))
+              - set: conversationId
+                value:
+                  expr: "`native-proof-${config.kind}-${config.mode}-${randomUUID().slice(0,8)}`"
+              - set: kickoffAt
+                value:
+                  expr: Date.now()
+              - sendInbound:
+                  accountId: default
+                  conversation:
+                    id:
+                      ref: conversationId
+                    kind: direct
+                  senderId:
+                    ref: conversationId
+                  senderName: Portable Native Proof Operator
+                  text:
+                    expr: config.prompt
+                saveAs: proofIngress
+              - set: activePhase
+                value:
+                  expr: '"native-terminal"'
+              - call: waitOwnerCondition
+                args:
+                  - lambda:
+                      async: true
+                      expr: (await
+                        readNativeQaSubagentRuns(env)).find(run=>run.label===config.label&&run.execution.status==='terminal')
+                  - 240000
+                  - 200
+                saveAs: terminalRun
+              - set: terminalObservedAt
+                value:
+                  expr: Date.now()
+              - assert:
+                  expr: terminalRun.execution.outcome?.status ===
+                    (config.kind==='media'?'ok':'error')
+                  message: Native child did not record the intended execution outcome
+              - set: activePhase
+                value:
+                  expr: '"delivery-settlement"'
+              - if:
+                  expr: config.allowFallback
+                  then:
+                    - call: waitOwnerCondition
+                      args:
+                        - lambda:
+                            async: true
+                            expr: (async()=>{const run=(await
+                              readNativeQaSubagentRuns(env)).find(r=>r.runId===terminalRun.runId);const
+                              history=await
+                              env.gateway.call('chat.history',{agentId:'qa',sessionKey:terminalRun.requesterSessionKey,limit:100,maxChars:65536},{timeoutMs:10000});const
+                              receipts=(history.messages??[]).filter(m=>m.provider==='openclaw'&&m.model==='delivery-mirror'&&m.__openclaw?.idempotencyKey===`announce:v1:${terminalRun.childSessionKey}:${terminalRun.runId}:text-direct`);return
+                              run?.delivery?.status==='delivered'&&receipts.length===1?run:undefined;})()
+                        - 180000
+                        - 500
+                      saveAs: deliveredRun
+                  else: []
+              - call: sleep
+                args:
+                  - expr: config.observationMs
+              - set: finishedObservationAt
+                value:
+                  expr: Date.now()
+              - set: finalRun
+                value:
+                  expr: (await
+                    readNativeQaSubagentRuns(env)).find(run=>run.runId===terminalRun.runId)
+              - set: requesterHistory
+                value:
+                  expr: await
+                    env.gateway.call('chat.history',{agentId:'qa',sessionKey:terminalRun.requesterSessionKey,limit:100,maxChars:131072},{timeoutMs:10000})
+              - set: childTranscript
+                value:
+                  expr: await readSessionTranscriptSummary(env,terminalRun.childSessionKey)
+              - set: childHistory
+                value:
+                  expr: await
+                    env.gateway.call('chat.history',{agentId:'qa',sessionKey:terminalRun.childSessionKey,limit:100,maxChars:65536},{timeoutMs:10000})
+              - set: receipts
+                value:
+                  expr: (requesterHistory.messages??[]).filter(m=>m.provider==='openclaw'&&m.model==='delivery-mirror'&&m.__openclaw?.idempotencyKey===`announce:v1:${terminalRun.childSessionKey}:${terminalRun.runId}:text-direct`)
+              - set: events
+                value:
+                  expr: state.getSnapshot().events.filter(event=>event.cursor>suiteEventCursor&&['outbound-message','message-edited','message-deleted'].includes(event.kind))
+              - set: outbound
+                value:
+                  expr: state.getSnapshot().messages.filter(message=>message.direction==='outbound'&&message.conversation.id===conversationId&&!message.deleted)
+              - set: mediaDeliveries
+                value:
+                  expr: outbound.filter(message=>(message.attachments?.length??0)>0)
+              - set: noticeDeliveries
+                value:
+                  expr: outbound.filter(message=>String(message.text??'').trim()===config.failureNotice)
+              - set: parentAcknowledgments
+                value:
+                  expr: outbound.filter(message=>String(message.text??'').trim()==='Worker
+                    started.')
+              - set: requests
+                value:
+                  expr: await
+                    fetchJson(`${env.mock.baseUrl}/debug/requests?after=${suiteRequestCursor}`)
+              - set: spawnRequests
+                value:
+                  expr: requests.filter(request=>request.plannedToolName==='sessions_spawn'&&request.plannedToolArgs?.label===config.label)
+              - set: pngMatches
+                value:
+                  expr: mediaDeliveries.map(message=>message.attachments.length===1&&message.attachments[0].mimeType==='image/png'&&typeof
+                    message.attachments[0].contentBase64==='string'&&Buffer.from(message.attachments[0].contentBase64,'base64').equals(expectedPngBytes))
+              - assert:
+                  expr: requests.some(request=>request.plannedToolName==='read'&&request.plannedToolArgs?.path==='QA_KICKOFF_TASK.md')&&childTranscript.successfulToolCallCounts.read===1
+                  message: Native child must actually read the intended workspace file exactly
+                    once
+              - assert:
+                  expr: spawnRequests.length===1&&spawnRequests[0].plannedToolArgs?.task===config.prompt.match(/task="([^"]+)"/)[1]
+                  message: Expected exactly one real native spawn with the intended task
+              - assert:
+                  expr: receipts.length===(config.allowFallback?1:0)
+                  message: Unexpected exact native direct-fallback mirror count
+              - assert:
+                  expr: mediaDeliveries.length===(config.kind==='media'&&config.allowFallback?1:0)&&pngMatches.every(Boolean)
+                  message: Unexpected media count or received PNG bytes
+              - assert:
+                  expr: noticeDeliveries.length===(config.kind==='failure'&&config.allowFallback?1:0)
+                  message: Unexpected native failure-notice count
+              - assert:
+                  expr: events.every(event=>event.message?.conversation.id===conversationId&&event.message?.accountId==='default')
+                  message: Outbound event crossed the source account or conversation
+              - assert:
+                  expr: config.kind!=='media'||parentAcknowledgments.some(message=>message.timestamp<terminalRun.execution.endedAt)
+                  message: Media child did not finish after parent acknowledgment
+              - set: verdict
+                value:
+                  expr: ({pass:true,sourceSha:config.sourceSha,mode:config.mode,kind:config.kind,runId:finalRun.runId,childSessionKey:finalRun.childSessionKey,requesterSessionKey:finalRun.requesterSessionKey,execution:finalRun.execution,delivery:finalRun.delivery,receiptKeys:receipts.map(m=>m.__openclaw.idempotencyKey),mediaCount:mediaDeliveries.length,receivedPngByteEquality:pngMatches,expectedPngBytes:expectedPngBytes.length,failureNoticeCount:noticeDeliveries.length,acknowledgmentTimes:parentAcknowledgments.map(m=>m.timestamp),kickoffAt,terminalObservedAt,finishedObservationAt,postTerminalObservationMs:finishedObservationAt-terminalObservedAt,childEndedAt:terminalRun.execution.endedAt,ordinaryOutbound:outbound.filter(m=>!mediaDeliveries.includes(m)&&!noticeDeliveries.includes(m)).map(m=>({id:m.id,text:m.text,isError:m.isError,timestamp:m.timestamp})),providerFaultCaveat:config.kind==='failure'?'HTTP503
+                    matcher also applies to parent post-spawn continuation;
+                    failure of requester handoff is intentional':null})
+              - set: activePhase
+                value:
+                  expr: '"complete"'
+            catchAs: nativeProofError
+            catch:
+              - throw:
+                  expr: "`[${activePhase}] ${String(nativeProofError)}`"
+            finally:
+              - set: nativeProofDiagnostic
+                value:
+                  expr: >-
+                    (async()=>{
+                     const requests=await fetchJson(`${env.mock.baseUrl}/debug/requests?after=${suiteRequestCursor}`);
+                     const runs=await readNativeQaSubagentRuns(env);
+                     const events=state.getSnapshot().events.filter(event=>event.cursor>suiteEventCursor&&['outbound-message','message-edited','message-deleted'].includes(event.kind));
+                     const selected=requests.length>30?[...requests.slice(0,15),...requests.slice(-15)]:requests;
+                     const artifact={captureStage:'final',activePhase,config,verdict:typeof verdict==='undefined'?null:verdict,failure:typeof nativeProofError==='undefined'?null:String(nativeProofError),runCount:runs.length,runs,requestCount:requests.length,omittedRequestCount:requests.length-selected.length,requests:snapshotTerminalRequests(selected),outboundEventCount:events.length,outboundEvents:events,requesterHistory:typeof requesterHistory==='undefined'?null:requesterHistory,childHistory:typeof childHistory==='undefined'?null:childHistory,gatewayLogs:env.gateway.logs?.()};
+                     return await publishTerminalDiagnostic(artifact);
+                    })()
+      detailsExpr: JSON.stringify(verdict,null,2)

@@ -1,0 +1,18 @@
+{
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "[REDACTED]"
+    }
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+      "timeoutSeconds": 73
+    }
+  },
+  "messages": {
+    "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED"
+  }
+}

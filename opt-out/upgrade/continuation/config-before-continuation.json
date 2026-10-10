@@ -1,0 +1,70 @@
+{
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "[REDACTED]"
+    }
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+      "timeoutSeconds": 73
+    },
+    "entries": {
+      "main": {}
+    }
+  },
+  "messages": {
+    "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED"
+  },
+  "meta": {
+    "migrations": {
+      "webhookListeners": {
+        "feishu": [],
+        "nextcloud-talk": [],
+        "telegram": []
+      },
+      "modelPolicyAllowlist": true,
+      "utilityModelSeparation": true
+    },
+    "lastTouchedVersion": "2026.9.9"
+  },
+  "wizard": {
+    "lastRunAt": "2026-10-10T21:59:59.838Z",
+    "lastRunVersion": "2026.9.9",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "skills": {
+    "entries": {
+      "coding-agent": {
+        "enabled": false
+      },
+      "goplaces": {
+        "enabled": false
+      },
+      "mcporter": {
+        "enabled": false
+      },
+      "model-usage": {
+        "enabled": false
+      },
+      "obsidian": {
+        "enabled": false
+      },
+      "openai-whisper-api": {
+        "enabled": false
+      },
+      "oracle": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      }
+    }
+  }
+}

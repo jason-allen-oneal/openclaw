@@ -1,0 +1,47 @@
+{
+  "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "startedAt": "2026-10-10T22:10:13.248Z",
+  "finishedAt": "2026-10-10T22:12:19.458Z",
+  "exitCode": 0,
+  "proofStatus": "pass",
+  "verdict": {
+    "phase": "verdict",
+    "pass": true,
+    "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "sameSessionKey": "agent:main:opt-out-upgrade-proof",
+    "sameSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+    "originalAttemptStatus": "fail",
+    "originalFailure": "candidate-readiness-timeout",
+    "continuationStatus": "pass",
+    "agentSchema": {
+      "beforeStable": 24,
+      "afterDoctor": 25,
+      "afterContinuation": 25
+    },
+    "stateSchema": {
+      "beforeStable": 19,
+      "afterDoctor": 20,
+      "afterContinuation": 20
+    },
+    "configRetained": {
+      "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED",
+      "timeoutSeconds": 73,
+      "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+      "dmCompletionFallback": "absent-before-and-after"
+    },
+    "actualGatewayHistoryRetained": true,
+    "actualGatewayReadWriteOnRetainedSession": true,
+    "initialRecordsUnchanged": true,
+    "preservedFailedAttemptState": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1/preserved-pre-continuation-state",
+    "readiness": {
+      "timestamp": "2026-10-10T22:11:17.821Z",
+      "phase": "candidate-health-ready",
+      "healthHttpStatus": 200,
+      "elapsedMs": 64529,
+      "poll": 58
+    },
+    "remainingStartupUncertainty": "A serialized continuation within the unchanged readiness bound supports resource contention as the original cause, but does not prove startup under arbitrary concurrent workload or claim a product startup repair."
+  },
+  "error": null,
+  "output": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1"
+}

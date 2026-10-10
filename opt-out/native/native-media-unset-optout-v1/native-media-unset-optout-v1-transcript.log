@@ -1,0 +1,262 @@
+{"id":"native-media-unset-optout-v1","command":"node <proof-workspace>/native-matrix.mts unset media optout-v1","startedAt":"2026-10-10T21:58:28.399Z","entry":"<candidate>/dist/index.js","sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","buildBindings":{"sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","recordedAt":"2026-10-10T21:58:14.923Z","nodeVersion":"v24.21.0","modules":{"owner":{"file":"<candidate>/dist/subagent-announce-completion-delivery-Dwepxznt.mjs","localName":"deliverCompletionDirect","exportName":"n","sha256":"32000e41d1d747cac8fd56beaf1e7acfc721e59e6034ce21a2e2e1b838004229","bytes":27675},"registry":{"file":"<candidate>/dist/runtime-wpiOJesu.mjs","localName":"setActivePluginRegistry","exportName":"C","sha256":"7fe5632f63cef8a1d9df97161cb1ef07ce6b07b71c3843b27a69577d0b6f36d9","bytes":46534},"emptyRegistry":{"file":"<candidate>/dist/registry-empty-mS6HujHb.mjs","localName":"createEmptyPluginRegistry","exportName":"t","sha256":"026994b8613f10bff379b625e4ef0edbe0b3ef728d31b759eebb82c802b71432","bytes":2074},"scenarioCatalog":{"file":"<candidate>/dist/scenario-catalog-DpPUMUOS.mjs","localName":"readQaScenarioFile","exportName":"s","sha256":"834de5caa6b8104a45ec2bc3527b42a4d2fd91e74e2c9ccf3323bd70ffa637f6","bytes":23241}},"provenanceFiles":{"gatewayEntry":{"file":"<candidate>/dist/index.js","sha256":"58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd","bytes":5744},"qaApi":{"file":"<candidate>/dist/extensions/qa-lab/api.js","sha256":"3d5be3f170779cb042a52d1ed56e2cb3e35b75e1bc7c6015f0b9f25744b9b9a7","bytes":1904},"scenario":{"file":"<candidate>/qa/scenarios/agents/subagent-completion-direct-fallback.yaml","sha256":"080d72efbe5572c942166b6a26d629919506ceec9388b96713281f89c07633cf","bytes":45174},"provider":{"file":"<candidate>/extensions/qa-lab/src/providers/mock-openai/server.ts","sha256":"279b07e40348611d676533aa5ae5b56b6b07ad26ce7a278c7cbcda2861f46929","bytes":96460}}},"driverSha256":"d83ef303c98ef910574c5783bb6d603576d5cd7b5787a8512340f2a8c51b9fbe"}
+[state/agent-db] agent database clean-close receipt: written
+[state/agent-db] agent database clean-close receipt: written
+[state/agent-db] agent database clean-close receipt: written
+{
+  "executionKind": "flow",
+  "expectedCells": [],
+  "observedCells": [],
+  "result": {
+    "outputDir": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-media-unset-optout-v1",
+    "evidence": {
+      "kind": "openclaw.qa.evidence-summary",
+      "schemaVersion": 3,
+      "generatedAt": "2026-10-10T22:02:13.835Z",
+      "evidenceMode": "full",
+      "entries": [
+        {
+          "test": {
+            "kind": "qa-scenario",
+            "id": "native-media-unset-optout-v1",
+            "title": "Built native media fallback unset",
+            "source": {
+              "path": "<proof-workspace>/native-media-unset-optout-v1.yaml"
+            }
+          },
+          "coverage": [
+            {
+              "id": "agent-runtime.subagent-turns-delivery",
+              "role": "primary"
+            },
+            {
+              "id": "agent-runtime.subagent-turns-subagents",
+              "role": "secondary"
+            },
+            {
+              "id": "channels.qa-channel-final-reply",
+              "role": "secondary"
+            }
+          ],
+          "refs": [
+            {
+              "kind": "docs",
+              "path": "docs/tools/subagents.md"
+            },
+            {
+              "kind": "docs",
+              "path": "docs/help/testing.md"
+            },
+            {
+              "kind": "docs",
+              "path": "docs/channels/qa-channel.md"
+            },
+            {
+              "kind": "code",
+              "path": "extensions/qa-lab/src/execution-identity-storage-inspection.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/agent-run-terminal-reply.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/subagents/announce/subagent-announce-delivery.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/subagents/registry/subagent-registry-lifecycle.ts"
+            },
+            {
+              "kind": "code",
+              "path": "extensions/qa-lab/src/providers/mock-openai/server.ts"
+            }
+          ],
+          "execution": {
+            "runner": "host",
+            "environment": {
+              "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+              "os": "linux",
+              "nodeVersion": "v24.21.0"
+            },
+            "provider": {
+              "id": "openai",
+              "live": false,
+              "model": {
+                "name": "gpt-5.6-luna",
+                "ref": "mock-openai/gpt-5.6-luna"
+              },
+              "fixture": "mock-openai"
+            },
+            "channel": {
+              "id": "qa-channel",
+              "live": false
+            },
+            "packageSource": {
+              "kind": "source-checkout"
+            },
+            "artifacts": [
+              {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/7eb73b12-6e5c-4ce9-826f-f897f65c691b.json",
+                "source": "qa-suite"
+              },
+              {
+                "kind": "summary",
+                "path": "qa-suite-summary.json",
+                "source": "qa-suite"
+              },
+              {
+                "kind": "report",
+                "path": "qa-suite-report.md",
+                "source": "qa-suite"
+              }
+            ]
+          },
+          "result": {
+            "status": "pass"
+          },
+          "binding": {
+            "occurrenceId": "7eb73b12-6e5c-4ce9-826f-f897f65c691b",
+            "assertionId": null,
+            "receiptId": "7eb73b12-6e5c-4ce9-826f-f897f65c691b:runtime"
+          },
+          "effective": true
+        }
+      ],
+      "occurrences": [
+        {
+          "id": "b8f1bf95-b73a-4623-8af3-1914561d70b8",
+          "parentCell": {
+            "scenarioId": "native-media-unset-optout-v1",
+            "executionKind": "flow",
+            "channel": "qa-channel"
+          },
+          "scenario": {
+            "kind": "instance",
+            "resultOccurrenceId": "7eb73b12-6e5c-4ce9-826f-f897f65c691b"
+          },
+          "retryOf": null,
+          "terminalStatus": null,
+          "assertions": null,
+          "launch": {
+            "source": {
+              "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+              "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+            },
+            "runtime": {
+              "id": "node",
+              "version": "v24.21.0"
+            },
+            "package": null,
+            "protocol": null,
+            "accountRef": null,
+            "proofClass": null
+          },
+          "receipts": []
+        },
+        {
+          "id": "7eb73b12-6e5c-4ce9-826f-f897f65c691b",
+          "parentCell": {
+            "scenarioId": "native-media-unset-optout-v1",
+            "executionKind": "flow",
+            "channel": "qa-channel"
+          },
+          "scenario": {
+            "kind": "observation",
+            "instanceOccurrenceId": "b8f1bf95-b73a-4623-8af3-1914561d70b8"
+          },
+          "retryOf": null,
+          "terminalStatus": "pass",
+          "assertions": null,
+          "launch": {
+            "source": {
+              "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+              "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+            },
+            "runtime": {
+              "id": "node",
+              "version": "v24.21.0"
+            },
+            "package": null,
+            "protocol": null,
+            "accountRef": null,
+            "proofClass": null
+          },
+          "receipts": [
+            {
+              "id": "7eb73b12-6e5c-4ce9-826f-f897f65c691b:prepared",
+              "phase": "prepared",
+              "identity": {
+                "source": {
+                  "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+                  "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+                },
+                "runtime": {
+                  "id": "node",
+                  "version": "v24.21.0"
+                },
+                "package": null,
+                "protocol": null,
+                "accountRef": null,
+                "proofClass": null
+              },
+              "artifact": {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/7eb73b12-6e5c-4ce9-826f-f897f65c691b.json",
+                "source": "qa-suite",
+                "sha256": "9e4ec5469b66c78744b5ca29c8b96ddaa95be669f4351eaf607ab9fa69c5e1f6"
+              }
+            },
+            {
+              "id": "7eb73b12-6e5c-4ce9-826f-f897f65c691b:runtime",
+              "phase": "runtime",
+              "identity": {
+                "source": {
+                  "ref": null,
+                  "integrity": null
+                },
+                "runtime": {
+                  "id": "openclaw",
+                  "version": "2026.9.9"
+                },
+                "package": null,
+                "protocol": "gateway:4",
+                "accountRef": null,
+                "proofClass": null
+              },
+              "artifact": {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/7eb73b12-6e5c-4ce9-826f-f897f65c691b.json",
+                "source": "qa-suite",
+                "sha256": "9e4ec5469b66c78744b5ca29c8b96ddaa95be669f4351eaf607ab9fa69c5e1f6"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "evidencePath": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-media-unset-optout-v1/qa-evidence.json",
+    "report": "# OpenClaw QA Scenario Suite\n\n- Started: 2026-10-10T21:58:28.511Z\n- Finished: 2026-10-10T22:02:13.835Z\n- Duration ms: 225324\n- Passed: 1\n- Failed: 0\n- Skipped: 0\n\n\n## Scenarios\n\n### Built native media fallback unset\n\n- Status: pass\n- Steps:\n  - [x] native media delivery boundary\n    - Details:\n\n```text\n{\n  \"pass\": true,\n  \"sourceSha\": \"a1dcdd90a282d2d636eec9151a47a833be89a1af\",\n  \"mode\": \"unset\",\n  \"kind\": \"media\",\n  \"runId\": \"b49b71f8-816d-4026-8267-6892f996ad70\",\n  \"childSessionKey\": \"agent:qa:subagent:ad50f9bf-2f86-4f7c-9077-995ede3ca1fb\",\n  \"requesterSessionKey\": \"agent:qa:main\",\n  \"execution\": {\n    \"status\": \"terminal\",\n    \"endedAt\": 1791669684920,\n    \"outcome\": {\n      \"status\": \"ok\"\n    }\n  },\n  \"delivery\": {\n    \"status\": \"delivered\",\n    \"disposition\": \"delivered\"\n  },\n  \"receiptKeys\": [\n    \"announce:v1:agent:qa:subagent:ad50f9bf-2f86-4f7c-9077-995ede3ca1fb:b49b71f8-816d-4026-8267-6892f996ad70:text-direct\"\n  ],\n  \"mediaCount\": 1,\n  \"receivedPngByteEquality\": [\n    true\n  ],\n  \"expectedPngBytes\": 103,\n  \"failureNoticeCount\": 0,\n  \"acknowledgmentTimes\": [\n    1791669680379\n  ],\n  \"kickoffAt\": 1791669581458,\n  \"terminalObservedAt\": 1791669687599,\n  \"finishedObservationAt\": 1791669722583,\n  \"postTerminalObservationMs\": 34984,\n  \"childEndedAt\": 1791669684920,\n  \"ordinaryOutbound\": [\n    {\n      \"id\": \"32f8af06-2837-4b53-8707-d5967c93fa98\",\n      \"text\": \"Worker started.\",\n      \"timestamp\": 1791669680379\n    }\n  ],\n  \"providerFaultCaveat\": null\n}\n```\n\n\n## Notes\n\n- Runs against qa-channel + qa-lab bus + real gateway child + mock-openai provider.\n- Scenarios run serially in one gateway worker.\n- Scheduling scenarios verify stored schedules and execution behavior through the Gateway.\n",
+    "reportPath": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-media-unset-optout-v1/qa-suite-report.md",
+    "summaryPath": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-media-unset-optout-v1/qa-suite-summary.json",
+    "scenarios": [
+      {
+        "name": "Built native media fallback unset",
+        "status": "pass",
+        "steps": [
+          {
+            "name": "native media delivery boundary",
+            "status": "pass",
+            "details": "{\n  \"pass\": true,\n  \"sourceSha\": \"a1dcdd90a282d2d636eec9151a47a833be89a1af\",\n  \"mode\": \"unset\",\n  \"kind\": \"media\",\n  \"runId\": \"b49b71f8-816d-4026-8267-6892f996ad70\",\n  \"childSessionKey\": \"agent:qa:subagent:ad50f9bf-2f86-4f7c-9077-995ede3ca1fb\",\n  \"requesterSessionKey\": \"agent:qa:main\",\n  \"execution\": {\n    \"status\": \"terminal\",\n    \"endedAt\": 1791669684920,\n    \"outcome\": {\n      \"status\": \"ok\"\n    }\n  },\n  \"delivery\": {\n    \"status\": \"delivered\",\n    \"disposition\": \"delivered\"\n  },\n  \"receiptKeys\": [\n    \"announce:v1:agent:qa:subagent:ad50f9bf-2f86-4f7c-9077-995ede3ca1fb:b49b71f8-816d-4026-8267-6892f996ad70:text-direct\"\n  ],\n  \"mediaCount\": 1,\n  \"receivedPngByteEquality\": [\n    true\n  ],\n  \"expectedPngBytes\": 103,\n  \"failureNoticeCount\": 0,\n  \"acknowledgmentTimes\": [\n    1791669680379\n  ],\n  \"kickoffAt\": 1791669581458,\n  \"terminalObservedAt\": 1791669687599,\n  \"finishedObservationAt\": 1791669722583,\n  \"postTerminalObservationMs\": 34984,\n  \"childEndedAt\": 1791669684920,\n  \"ordinaryOutbound\": [\n    {\n      \"id\": \"32f8af06-2837-4b53-8707-d5967c93fa98\",\n      \"text\": \"Worker started.\",\n      \"timestamp\": 1791669680379\n    }\n  ],\n  \"providerFaultCaveat\": null\n}"
+          }
+        ],
+        "evidenceOccurrenceId": "7eb73b12-6e5c-4ce9-826f-f897f65c691b"
+      }
+    ],
+    "startedScenarioIds": [
+      "native-media-unset-optout-v1"
+    ],
+    "watchUrl": "[isolated HTTP endpoint]"
+  }
+}
+{"terminalReceipt":{"command":"node <proof-workspace>/native-matrix.mts unset media optout-v1","sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","startedAt":"2026-10-10T21:58:28.399Z","finishedAt":"2026-10-10T22:02:14.612Z","exitStatus":0,"canonicalSummaryFile":"<candidate>/.artifacts/dm-runtime-proof-opt-out/native-media-unset-optout-v1/qa-suite-summary.json","canonicalCounts":{"total":1,"passed":1,"failed":0,"skipped":0},"canonicalScenarioStatus":"pass","statusDerivedFrom":"qa-suite-summary.json","buildBindings":{"sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","recordedAt":"2026-10-10T21:58:14.923Z","nodeVersion":"v24.21.0","modules":{"owner":{"file":"<candidate>/dist/subagent-announce-completion-delivery-Dwepxznt.mjs","localName":"deliverCompletionDirect","exportName":"n","sha256":"32000e41d1d747cac8fd56beaf1e7acfc721e59e6034ce21a2e2e1b838004229","bytes":27675},"registry":{"file":"<candidate>/dist/runtime-wpiOJesu.mjs","localName":"setActivePluginRegistry","exportName":"C","sha256":"7fe5632f63cef8a1d9df97161cb1ef07ce6b07b71c3843b27a69577d0b6f36d9","bytes":46534},"emptyRegistry":{"file":"<candidate>/dist/registry-empty-mS6HujHb.mjs","localName":"createEmptyPluginRegistry","exportName":"t","sha256":"026994b8613f10bff379b625e4ef0edbe0b3ef728d31b759eebb82c802b71432","bytes":2074},"scenarioCatalog":{"file":"<candidate>/dist/scenario-catalog-DpPUMUOS.mjs","localName":"readQaScenarioFile","exportName":"s","sha256":"834de5caa6b8104a45ec2bc3527b42a4d2fd91e74e2c9ccf3323bd70ffa637f6","bytes":23241}},"provenanceFiles":{"gatewayEntry":{"file":"<candidate>/dist/index.js","sha256":"58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd","bytes":5744},"qaApi":{"file":"<candidate>/dist/extensions/qa-lab/api.js","sha256":"3d5be3f170779cb042a52d1ed56e2cb3e35b75e1bc7c6015f0b9f25744b9b9a7","bytes":1904},"scenario":{"file":"<candidate>/qa/scenarios/agents/subagent-completion-direct-fallback.yaml","sha256":"080d72efbe5572c942166b6a26d629919506ceec9388b96713281f89c07633cf","bytes":45174},"provider":{"file":"<candidate>/extensions/qa-lab/src/providers/mock-openai/server.ts","sha256":"279b07e40348611d676533aa5ae5b56b6b07ad26ce7a278c7cbcda2861f46929","bytes":96460}}},"finalBuildBindings":{"sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","recordedAt":"2026-10-10T22:02:14.612Z","nodeVersion":"v24.21.0","modules":{"owner":{"file":"<candidate>/dist/subagent-announce-completion-delivery-Dwepxznt.mjs","localName":"deliverCompletionDirect","exportName":"n","sha256":"32000e41d1d747cac8fd56beaf1e7acfc721e59e6034ce21a2e2e1b838004229","bytes":27675},"registry":{"file":"<candidate>/dist/runtime-wpiOJesu.mjs","localName":"setActivePluginRegistry","exportName":"C","sha256":"7fe5632f63cef8a1d9df97161cb1ef07ce6b07b71c3843b27a69577d0b6f36d9","bytes":46534},"emptyRegistry":{"file":"<candidate>/dist/registry-empty-mS6HujHb.mjs","localName":"createEmptyPluginRegistry","exportName":"t","sha256":"026994b8613f10bff379b625e4ef0edbe0b3ef728d31b759eebb82c802b71432","bytes":2074},"scenarioCatalog":{"file":"<candidate>/dist/scenario-catalog-DpPUMUOS.mjs","localName":"readQaScenarioFile","exportName":"s","sha256":"834de5caa6b8104a45ec2bc3527b42a4d2fd91e74e2c9ccf3323bd70ffa637f6","bytes":23241}},"provenanceFiles":{"gatewayEntry":{"file":"<candidate>/dist/index.js","sha256":"58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd","bytes":5744},"qaApi":{"file":"<candidate>/dist/extensions/qa-lab/api.js","sha256":"3d5be3f170779cb042a52d1ed56e2cb3e35b75e1bc7c6015f0b9f25744b9b9a7","bytes":1904},"scenario":{"file":"<candidate>/qa/scenarios/agents/subagent-completion-direct-fallback.yaml","sha256":"080d72efbe5572c942166b6a26d629919506ceec9388b96713281f89c07633cf","bytes":45174},"provider":{"file":"<candidate>/extensions/qa-lab/src/providers/mock-openai/server.ts","sha256":"279b07e40348611d676533aa5ae5b56b6b07ad26ce7a278c7cbcda2861f46929","bytes":96460}}},"outputDir":"<candidate>/.artifacts/dm-runtime-proof-opt-out/native-media-unset-optout-v1","scenarioFile":"<proof-workspace>/native-media-unset-optout-v1.yaml"}}

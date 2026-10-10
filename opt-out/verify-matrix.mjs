@@ -1,0 +1,28 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {bindBuild,repoRoot,proofRoot} from './build-bindings.mjs';
+const buildBindings=bindBuild();
+const attempt=process.argv[2]??'optout-v1';
+const cases=[];
+for(const kind of ['media','failure'])for(const mode of ['unset','false','true']){
+ const id=`native-${kind}-${mode}-${attempt}`;
+ const outputDir=path.join(repoRoot,'.artifacts/dm-runtime-proof-opt-out',id);
+ const summaryFile=path.join(outputDir,'qa-suite-summary.json');
+ const summary=JSON.parse(fs.readFileSync(summaryFile,'utf8'));
+ const diagnostic=JSON.parse(fs.readFileSync(path.join(outputDir,'subagent-terminal-diagnostic.json'),'utf8'));
+ const receipt=JSON.parse(fs.readFileSync(path.join(proofRoot,`${id}-receipt.json`),'utf8'));
+ const scenario=summary.scenarios?.[0];
+ const verdict=JSON.parse(scenario?.steps?.[0]?.details??'null');
+ const receivedAttachments=(diagnostic.outboundEvents??[]).flatMap(event=>event.message?.attachments??[]).map(a=>({id:a.id,mimeType:a.mimeType,fileName:a.fileName,bytes:Buffer.from(a.contentBase64??'','base64').length,sha256:crypto.createHash('sha256').update(Buffer.from(a.contentBase64??'','base64')).digest('hex')}));
+ const allow=mode!=='false';
+ const checks={canonicalScenarioPass:scenario?.status==='pass',canonicalCounts:summary.counts?.total===1&&summary.counts?.passed===1&&summary.counts?.failed===0&&summary.counts?.skipped===0,terminalReceiptPass:receipt.exitStatus===0,headBound:receipt.sourceSha===buildBindings.sourceSha&&verdict?.sourceSha===buildBindings.sourceSha,canonicalRunCompleted:summary.run?.status==='completed',canonicalAndDiagnosticMatch:JSON.stringify(verdict)===JSON.stringify(diagnostic.verdict),nativeOutcome:verdict?.execution?.status==='terminal'&&verdict?.execution?.outcome?.status===(kind==='media'?'ok':'error'),exactDirectMirrorCount:verdict?.receiptKeys?.length===(allow?1:0),exactDirectMirrorCorrelation:(verdict?.receiptKeys??[]).every(key=>key===`announce:v1:${verdict.childSessionKey}:${verdict.runId}:text-direct`),expectedMediaCount:verdict?.mediaCount===(kind==='media'&&allow?1:0),receivedPngByteEquality:kind!=='media'||!allow||verdict?.receivedPngByteEquality?.length===1&&verdict.receivedPngByteEquality[0]===true,expectedFailureNoticeCount:verdict?.failureNoticeCount===(kind==='failure'&&allow?1:0),observationWindow:verdict?.postTerminalObservationMs>=30000,allowedDelivered:!allow||verdict?.delivery?.status==='delivered'};
+ cases.push({id,pass:Object.values(checks).every(Boolean),checks,canonicalScenarioStatus:scenario?.status,canonicalCounts:summary.counts,terminalReceipt:receipt,verdict,receivedAttachments,summaryFile,outputDir});
+}
+const result={schemaVersion:1,recordedAt:new Date().toISOString(),sourceSha:buildBindings.sourceSha,checkoutClean:!buildBindings.sourceStatus.trim(),completedCases:cases.length,passedCases:cases.filter(x=>x.pass).length,totalCases:6,statusDerivedFrom:'qa-suite-summary.json, cross-checked with diagnostics, native mirror/run correlation, received payloads and retained actual terminal receipts',runtime:{builtGatewayCommand:`node ${path.join(repoRoot,'dist/index.js')} gateway run`,transport:'real portable qa-channel HTTP bus',provider:'unchanged maintained mock-openai scripted provider',pluginFixtureMode:'usePackagedPlugins:false; repository-staged private QA fixtures',externalChannelsUsed:false,liveConfigMutations:false,sourceMutations:false},buildBindings,scopeLimitations:['Built CLI and real localhost portable transport, not an installed public package or live external provider/channel.','Provider HTTP503 matcher also affects parent post-spawn continuation; ordinary sanitized provider-error traffic is retained and excluded from direct-fallback notices.','False failure result is bounded absence for >=30 seconds after native terminal error, not proof of permanent suspension if captured delivery is pending.','Source-account/conversation checks apply to each isolated direct case; private-parent isolation is a separate owner.'],cases};
+const outputRoot=path.join(repoRoot,'.artifacts/dm-runtime-proof-opt-out');
+fs.writeFileSync(path.join(outputRoot,'native-matrix-verification.json'),JSON.stringify(result,null,2)+'\n');
+const lines=[`# Native opt-out media/failure matrix`,``,`Source: \`${result.sourceSha}\`. ${result.passedCases}/${result.totalCases} canonical cases passed. Status is derived from retained canonical summaries and real native/receiver observations.`,``,`| Case | Outcome | Delivery | Media | Failure notices | Direct mirrors | Post-terminal observation |`,`|---|---|---|---:|---:|---:|---:|`,...cases.map(x=>`| ${x.id} | ${x.verdict?.execution?.outcome?.status??'unknown'} | ${x.verdict?.delivery?.status??'unknown'} | ${x.verdict?.mediaCount??'unknown'} | ${x.verdict?.failureNoticeCount??'unknown'} | ${x.verdict?.receiptKeys?.length??'unknown'} | ${x.verdict?.postTerminalObservationMs??'unknown'} ms |`),``,`Unset and true preserve eligible fallback. Explicit false withholds fallback. Received PNG byte-for-byte assertions, exact native run/child-correlated mirrors and source-account/conversation assertions are part of every relevant canonical case.`,``,`## Scope`,``,...result.scopeLimitations.map(x=>`- ${x}`),``];
+fs.writeFileSync(path.join(outputRoot,'native-matrix-report.md'),lines.join('\n'));
+console.log(JSON.stringify({sourceSha:result.sourceSha,completedCases:result.completedCases,passedCases:result.passedCases,totalCases:result.totalCases,verification:path.join(outputRoot,'native-matrix-verification.json')}));
+process.exitCode=result.passedCases===6?0:1;

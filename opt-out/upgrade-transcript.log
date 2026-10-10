@@ -1,0 +1,296 @@
+{
+  "timestamp": "2026-10-10T21:58:10.408Z",
+  "phase": "published-stable",
+  "method": "sessions.reset",
+  "params": {
+    "key": "agent:main:opt-out-upgrade-proof",
+    "reason": "new"
+  },
+  "response": {
+    "ok": true,
+    "key": "agent:main:opt-out-upgrade-proof",
+    "entry": {
+      "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "lifecycleRevision": "d67cb6f2-3bc2-4725-827e-3a76a7b4fce6",
+      "updatedAt": 1791669490224,
+      "sessionStartedAt": 1791669490224,
+      "systemSent": false,
+      "abortedLastRun": false,
+      "compactionCount": 0,
+      "createdVia": "operator",
+      "createdAt": 1791669490224,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "totalTokensFresh": true,
+      "totalTokensVersion": 1,
+      "modelProvider": "openai",
+      "model": "gpt-6-astra"
+    },
+    "resolved": {
+      "modelProvider": "openai",
+      "model": "gpt-6-astra"
+    }
+  }
+}
+{
+  "timestamp": "2026-10-10T21:58:10.720Z",
+  "phase": "published-stable",
+  "method": "chat.inject",
+  "params": {
+    "sessionKey": "agent:main:opt-out-upgrade-proof",
+    "message": "QA-STABLE-OPT-OUT-PERSISTED-HISTORY"
+  },
+  "response": {
+    "ok": true,
+    "messageId": "9274e3dc-9823-4399-a77a-568dc6b836c3"
+  }
+}
+{
+  "timestamp": "2026-10-10T21:58:15.686Z",
+  "phase": "published-stable",
+  "method": "chat.history",
+  "params": {
+    "sessionKey": "agent:main:opt-out-upgrade-proof",
+    "limit": 30
+  },
+  "response": {
+    "sessionKey": "agent:main:opt-out-upgrade-proof",
+    "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "QA-STABLE-OPT-OUT-PERSISTED-HISTORY"
+          }
+        ],
+        "timestamp": 1791669490624,
+        "stopReason": "stop",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "totalTokens": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "api": "openai-responses",
+        "provider": "openclaw",
+        "model": "gateway-injected",
+        "__openclaw": {
+          "id": "9274e3dc-9823-4399-a77a-568dc6b836c3",
+          "recordTimestampMs": 1791669490624,
+          "transcriptPosition": {
+            "source": "SQzHpRJXeT8xQ5snptQ6kaPbX7UOST0Hjo1N6ZXUSL8",
+            "rawSeq": 1
+          },
+          "seq": 1
+        }
+      }
+    ],
+    "hasMore": false,
+    "totalMessages": 1,
+    "pendingInputs": {
+      "items": [],
+      "total": 0,
+      "queuedCount": 0
+    },
+    "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJkMzcxMzYyNGYxN2E0ZDU3YWI4YmQ1NmU4MzFiN2M4NSIsImxhc3RTZXEiOjEsInNlc3Npb25JZCI6IjE5MzlhNDE1LWYwMWEtNGY5ZS1hNmQ0LWZiMDBmZDQ0NWVjNyIsInZlcnNpb24iOjF9",
+    "defaults": {
+      "modelProvider": "openai",
+      "model": "gpt-6-astra",
+      "contextTokens": 200000,
+      "agentRuntime": {
+        "id": "codex",
+        "cloudPlacementSupported": false,
+        "devicePlacementSupported": false,
+        "source": "implicit"
+      },
+      "modelSelectionTarget": "session"
+    },
+    "sessionInfo": {
+      "key": "agent:main:opt-out-upgrade-proof",
+      "visibility": "shared",
+      "permissionModePending": false,
+      "createdVia": "operator",
+      "createdAt": 1791669490224,
+      "kind": "direct",
+      "classification": "custom",
+      "agentId": "main",
+      "isMain": false,
+      "isBackground": false,
+      "updatedAt": 1791669490675,
+      "archived": false,
+      "pinned": false,
+      "unread": false,
+      "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "systemSent": false,
+      "abortedLastRun": false,
+      "effectiveFastMode": false,
+      "effectiveFastModeSource": "default",
+      "fastAutoOnSeconds": 60,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "totalTokensFresh": true,
+      "effectiveResponseUsage": "off",
+      "effectiveQueueMode": "steer",
+      "modelProvider": "openai",
+      "model": "gpt-6-astra",
+      "modelOverrideSource": null,
+      "runtimeSelectionLocked": false,
+      "agentRuntime": {
+        "id": "codex",
+        "cloudPlacementSupported": false,
+        "devicePlacementSupported": false,
+        "source": "implicit"
+      },
+      "snapshotAt": 1791669495679,
+      "activitySummary": {
+        "state": "unavailable",
+        "canEnsure": true
+      },
+      "sharingRole": "admin",
+      "hasActiveRun": false,
+      "activeRunIds": [],
+      "activeLeafEntryId": "9274e3dc-9823-4399-a77a-568dc6b836c3"
+    }
+  }
+}
+{
+  "timestamp": "2026-10-10T21:58:17.309Z",
+  "phase": "published-stable-shutdown-schema",
+  "databases": {
+    "agent": {
+      "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite",
+      "userVersion": 24,
+      "integrity": "ok"
+    },
+    "state": {
+      "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/state/openclaw.sqlite",
+      "userVersion": 19,
+      "integrity": "ok"
+    }
+  }
+}
+{
+  "phase": "candidate-doctor",
+  "startedAt": "2026-10-10T21:58:17.310Z",
+  "command": [
+    "node",
+    "dist/index.js",
+    "doctor",
+    "--fix",
+    "--non-interactive",
+    "--yes"
+  ],
+  "finishedAt": "2026-10-10T22:00:13.974Z",
+  "exitCode": 0
+}
+{
+  "timestamp": "2026-10-10T22:00:14.050Z",
+  "phase": "candidate-doctor-schema",
+  "databases": {
+    "agent": {
+      "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite",
+      "userVersion": 25,
+      "integrity": "ok"
+    },
+    "state": {
+      "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/state/openclaw.sqlite",
+      "userVersion": 20,
+      "integrity": "ok"
+    }
+  }
+}
+Error: candidate readiness timeout: [gateway] startup phase: entry.run-main-import starting total=4722.2ms
+[gateway] startup phase: entry.run-main-import 159.5ms total=4881.7ms start=4722.2ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=6608.4ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 29585.8ms total=36194.2ms start=6608.4ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=36401.1ms
+[gateway] startup phase: cli.main.gateway-run-imports 70.8ms total=36471.9ms start=36401.1ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=36640.6ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 16231.4ms total=52872.0ms start=36640.6ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=52872.2ms
+[gateway] startup phase: cli.command.config-ready starting total=52894.2ms
+[gateway] startup phase: cli.command.config-guard-import starting total=52894.7ms
+[gateway] startup phase: cli.command.config-guard-import 206.5ms total=53101.2ms start=52894.7ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=53313.8ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner 43.8ms total=53357.6ms start=53313.8ms
+[gateway] startup phase: cli.bootstrap.admission.core-config starting total=53367.9ms
+[gateway] startup phase: cli.bootstrap.admission.core-config 19.8ms total=53387.7ms start=53367.9ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=53391.6ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=56219.4ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery 312.0ms total=56531.4ms start=56219.4ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=56531.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 600.7ms total=57132.6ms start=56531.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=57135.8ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 5852.7ms total=62988.5ms start=57135.8ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=0
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import starting total=62988.8ms
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import 2641.1ms total=65629.9ms start=62988.8ms
+[gateway] startup phase: cli.bootstrap.admission.agent-inventory starting total=65630.1ms
+[gateway] startup phase: cli.bootstrap.admission.agent-inventory 26.7ms total=65656.8ms start=65630.1ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets starting total=65657.0ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets 7.1ms total=65664.0ms start=65657.0ms agentCount=1 registeredDatabaseCount=1
+[gateway] startup phase: cli.bootstrap.admission.session-readiness starting total=65664.8ms
+[gateway] startup phase: cli.bootstrap.admission.session-readiness 0.7ms total=65665.5ms start=65664.8ms targetCount=1
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import starting total=65665.6ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import 32.5ms total=65698.1ms start=65665.6ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness starting total=65698.3ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness 18.5ms total=65716.8ms start=65698.3ms agentCount=1
+[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=65717.4ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config 3117.0ms total=68834.4ms start=65717.4ms
+[gateway] startup phase: cli.bootstrap.admission.config-recovery starting total=68835.0ms
+[gateway] startup phase: cli.bootstrap.admission.config-recovery 68.6ms total=68903.7ms start=68835.0ms
+[gateway] startup phase: cli.bootstrap.admission.device-identity starting total=68903.9ms
+[gateway] startup phase: cli.bootstrap.admission.device-identity 49.8ms total=68953.8ms start=68903.9ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot 15595.3ms total=68987.0ms start=53391.6ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard starting total=68987.1ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard 0.9ms total=68988.0ms start=68987.1ms
+[gateway] startup phase: cli.bootstrap.webhook-readiness starting total=69002.8ms
+[gateway] startup phase: cli.bootstrap.webhook-readiness 2433.6ms total=71436.4ms start=69002.8ms
+[gateway] startup phase: cli.bootstrap.plugin-plan-import starting total=86011.7ms
+[gateway] startup phase: cli.bootstrap.plugin-plan-import 84.6ms total=86096.3ms start=86011.7ms
+[gateway] startup phase: cli.bootstrap.plugin-plan starting total=86096.5ms
+[gateway] startup phase: cli.bootstrap.plugin-plan 31.7ms total=86128.2ms start=86096.5ms
+[gateway] startup phase: cli.command.config-ready 33317.8ms total=86212.0ms start=52894.2ms
+[gateway] startup phase: cli.main.gateway-run-reload-environment starting total=86212.5ms
+[gateway] startup phase: cli.main.gateway-run-reload-environment 1.3ms total=86213.8ms start=86212.5ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap 33347.5ms total=86219.7ms start=52872.2ms
+2026-10-10T22:01:42.474+00:00 [gateway] loading configuration…
+2026-10-10T22:01:42.569+00:00 [gateway] resolving authentication…
+2026-10-10T22:01:42.586+00:00 [gateway] starting...
+[gateway] startup phase: cli.bootstrap.lifecycle-runtime starting total=88508.4ms
+[gateway] startup phase: cli.bootstrap.lifecycle-runtime 758.0ms total=89266.4ms start=88508.4ms
+[gateway] startup phase: cli.bootstrap.gateway-lock starting total=89267.3ms
+[gateway] startup phase: cli.bootstrap.gateway-lock 2441.1ms total=91708.4ms start=89267.3ms
+2026-10-10T22:01:46.029+00:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-gateway.service TimeoutStopUSec=330000ms
+[gateway] startup phase: cli.bootstrap.boot-lifecycle starting total=91947.3ms
+[gateway] startup phase: cli.bootstrap.boot-lifecycle 40.8ms total=91988.1ms start=91947.3ms
+2026-10-10T22:01:47.205+00:00 [gateway] spawn broker ready pid=3835714
+[gateway] startup phase: gateway.server-start-import starting total=93114.1ms
+[gateway] startup phase: gateway.server-start-import 1858.8ms total=94972.8ms start=93114.1ms
+2026-10-10T22:01:50.400+00:00 [gateway] startup phase: process.bootstrap 96302.6ms total=96302.6ms
+2026-10-10T22:01:53.192+00:00 [gateway] startup phase: state.schema-preflight starting total=99081.3ms
+2026-10-10T22:01:55.887+00:00 [gateway] startup phase: state.schema-preflight 2710.5ms total=101791.7ms
+2026-10-10T22:01:56.069+00:00 [gateway] startup phase: config.auth starting total=101923.4ms
+2026-10-10T22:01:59.496+00:00 [gateway] startup phase: config.auth 3471.7ms total=105395.1ms
+2026-10-10T22:02:00.461+00:00 [gateway] startup phase: state.desktop-approval-admission starting total=106358.8ms
+2026-10-10T22:02:00.473+00:00 [gateway] startup phase: state.desktop-approval-admission 19.7ms total=106378.5ms
+2026-10-10T22:02:00.474+00:00 [gateway] startup phase: sessions.admission starting total=106380.8ms
+2026-10-10T22:02:06.546+00:00 [session-sqlite] slow SQLite reclamation Worker operation pid=3831447 threadId=0 isMainThread=true reclamationKind=canonical-validation workerThreadId=10 elapsedMs=5894 outcome=resolved
+[state/agent-db] agent database clean-close receipt: written
+2026-10-10T22:02:07.194+00:00 [session-sqlite] reclamation worker retired reason=exclusive-handoff kind=canonical-validation ageMs=6575 opsServed=2
+2026-10-10T22:02:07.270+00:00 [gateway] startup phase: sessions.admission 6791.4ms total=113172.2ms
+2026-10-10T22:02:10.035+00:00 [gateway] starting HTTP server...
+
+    at start (file://<proof-workspace>/upgrade.mjs:89:19)
+    at async file://<proof-workspace>/upgrade.mjs:134:10

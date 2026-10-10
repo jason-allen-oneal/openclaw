@@ -1,0 +1,42 @@
+{
+  "result": {
+    "name": "Built native failure fallback unset",
+    "status": "pass",
+    "steps": [
+      {
+        "name": "native failure delivery boundary",
+        "status": "pass",
+        "details": "{\n  \"pass\": true,\n  \"sourceSha\": \"a1dcdd90a282d2d636eec9151a47a833be89a1af\",\n  \"mode\": \"unset\",\n  \"kind\": \"failure\",\n  \"runId\": \"239decb6-55d0-462f-922d-fa16df124b68\",\n  \"childSessionKey\": \"agent:qa:subagent:6d81eaa7-4980-40f7-ab43-f942f001e9a6\",\n  \"requesterSessionKey\": \"agent:qa:main\",\n  \"execution\": {\n    \"status\": \"terminal\",\n    \"endedAt\": 1791669685222,\n    \"outcome\": {\n      \"status\": \"error\"\n    }\n  },\n  \"delivery\": {\n    \"status\": \"delivered\",\n    \"disposition\": \"delivered\"\n  },\n  \"receiptKeys\": [\n    \"announce:v1:agent:qa:subagent:6d81eaa7-4980-40f7-ab43-f942f001e9a6:239decb6-55d0-462f-922d-fa16df124b68:text-direct\"\n  ],\n  \"mediaCount\": 0,\n  \"receivedPngByteEquality\": [],\n  \"expectedPngBytes\": 103,\n  \"failureNoticeCount\": 1,\n  \"acknowledgmentTimes\": [],\n  \"kickoffAt\": 1791669575652,\n  \"terminalObservedAt\": 1791669686327,\n  \"finishedObservationAt\": 1791669759954,\n  \"postTerminalObservationMs\": 73627,\n  \"childEndedAt\": 1791669685222,\n  \"ordinaryOutbound\": [\n    {\n      \"id\": \"dee4998b-4829-4a4a-9f74-b4da3922a720\",\n      \"text\": \"The AI service is temporarily overloaded. Please try again in a moment.\",\n      \"isError\": true,\n      \"timestamp\": 1791669679647\n    }\n  ],\n  \"providerFaultCaveat\": \"HTTP503 matcher also applies to parent post-spawn continuation; failure of requester handoff is intentional\"\n}"
+      }
+    ],
+    "evidenceOccurrenceId": "8016c6c9-c491-42f7-9985-a8084a3a2fd7"
+  },
+  "launch": {
+    "source": {
+      "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+    },
+    "runtime": {
+      "id": "node",
+      "version": "v24.21.0"
+    },
+    "package": null,
+    "protocol": null,
+    "accountRef": null,
+    "proofClass": null
+  },
+  "runtime": {
+    "source": {
+      "ref": null,
+      "integrity": null
+    },
+    "runtime": {
+      "id": "openclaw",
+      "version": "2026.9.9"
+    },
+    "package": null,
+    "protocol": "gateway:4",
+    "accountRef": null,
+    "proofClass": null
+  }
+}

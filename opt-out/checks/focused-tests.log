@@ -1,0 +1,323 @@
+[test] starting test/vitest/vitest.runtime-config.config.ts
+
+ RUN  v5.0.1 <candidate>
+
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent roster ownership > rejects an empty roster after load-time migration 9ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent roster ownership > accepts sole and explicitly owned multi-agent rosters without a stored default 5ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent roster ownership > rejects a markerless multi-agent roster without explicit ownership 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent roster ownership > accepts one legacy default marker 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent roster ownership > rejects multiple legacy default markers 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent roster ownership > rejects entry keys that resolve to the same agent id 2ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent roster ownership > rejects a legacy marker with explicit ownership 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > explicit ambient agent targets > rejects an unknown explicit target 22ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > explicit ambient agent targets > accepts configured heartbeat, system-agent, compatibility, and Talk targets 4ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > explicit ambient agent targets > validates targets against the implicit main roster 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > explicit ambient agent targets > allows upgrade compatibility owners to outlive their roster entries 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent GitHub sandbox identity > accepts allowInSandbox=undefined for one agent 5ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent GitHub sandbox identity > accepts allowInSandbox=false for one agent 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent GitHub sandbox identity > accepts allowInSandbox=true for one agent 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent GitHub sandbox identity > rejects non-boolean allowInSandbox=true 2ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent GitHub sandbox identity > rejects non-boolean allowInSandbox=1 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent GitHub sandbox identity > rejects non-boolean allowInSandbox=null 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > agent GitHub sandbox identity > rejects a global sandbox identity opt-in 4ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > DM completion fallback opt-out > accepts the boolean setting (undefined) 3ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > DM completion fallback opt-out > accepts the boolean setting (false) 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > DM completion fallback opt-out > accepts the boolean setting (true) 0ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > DM completion fallback opt-out > rejects a string instead of a boolean (true) 1ms
+ ✓ |runtime-config| src/config/zod-schema.agents.test.ts > DM completion fallback opt-out > rejects a string instead of a boolean (false) 2ms
+
+ Test Files  1 passed (1)
+      Tests  23 passed (23)
+   Start at  17:41:26
+   Duration  2.68s (worker 59%, transform 17%, import 16%, tests 4%, setup 4%)
+
+[test] starting test/vitest/vitest.agents-support.config.ts
+
+ RUN  v5.0.1 <candidate>
+
+[vitest-workers] local cache miss after 10219ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m48 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m11 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m6 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m9 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m12 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+[vitest] still running with no output for 60000ms.
+[vitest-workers] prepared cae6fda8604e in 64955ms (14883 inputs, 19106 outputs)
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > gates physical transport with opt-out undefined 533ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > gates physical transport with opt-out false 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > gates physical transport with opt-out true 36ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > gates failure notices with opt-out undefined 32ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > gates failure notices with opt-out false 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > gates failure notices with opt-out true 33ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > blocks retired source authority before preparation before physical I/O 22ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > blocks retired source authority after preparation before physical I/O 25ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > blocks cancellation after preparation before physical I/O 22ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-alpha > does not authorize a conflicting requester agent 22ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > gates physical transport with opt-out undefined 22ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > gates physical transport with opt-out false 3ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > gates physical transport with opt-out true 27ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > gates failure notices with opt-out undefined 20ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > gates failure notices with opt-out false 2ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > gates failure notices with opt-out true 17ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-completion-transport.test.ts: draining agent database custody {"databases":1,"leases":1,"pending":0,"activePending":0,"retainedCloses":0,"resources":0,"closing":0,"selections":0}
+
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-completion-transport.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-completion-transport.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-completion-transport.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-completion-transport.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-completion-transport.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-completion-transport.test.ts: retiring openclaw.cron.receiptAuthority
+
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > blocks retired source authority before preparation before physical I/O 16ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > blocks retired source authority after preparation before physical I/O 17ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > blocks cancellation after preparation before physical I/O 15ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-completion-transport.test.ts > universal completion policy through completion-proof-beta > does not authorize a conflicting requester agent 13ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > queued completion handoff > keeps an accepted busy-parent completion pending until execution: source retired 24ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > queued completion handoff > keeps an accepted busy-parent completion pending until execution: post-start expiry 11ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > queued completion handoff > keeps an accepted busy-parent completion pending until execution: delivery deadline 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > queued completion handoff > keeps an accepted busy-parent completion pending until execution: private 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > loads a custom main alias through its canonical requester key 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > uses the requester agent when bare session keys collide 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > loads a persisted custom bare requester under its durable storage key 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > fails closed for a restored bare requester key without an owner 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > rejects a restored bare requester whose explicit agent conflicts with the store owner 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > fails closed for a restored bare requester key with a retired store owner 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > does not drop the transcript-commit gate for active runtimes without support 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > keeps retrying compaction past the backoff schedule until the delivery timeout (86566) 202ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > passes the remaining delivery window into compaction retries (86566) 17ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > does not report delivery when active requester steering is rejected 28ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > falls through to direct delivery when requester ends during awaited steering failure 25ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement active requester steering > falls through to direct delivery when steering is refused for a stale run 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fences completion when source ownership changes before dispatch 14ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fences completion when source ownership changes during compaction 19ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fences completion when source ownership changes during a direct retry 19ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fences completion when source ownership changes before text fallback 31ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > records intentional non-delivery when sessions_yield owns the active handoff 17ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > records intentional non-delivery when an isolated cron run is stale 18ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fences an active completion delivery when sessions_yield takes ownership mid-wait 13ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > delivers direct-message child text when requester synthesis omits the child res… 20ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > delivers direct-message child text when requester synthesis returns incomplete 14ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: private text 17ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: source final 16ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: source progress only 14ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: off-target final 10ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: source final before re-yield 17ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: source final before pending continuation 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: nested parent source final 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: source final without captured channel 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves private parent consumption and final evidence: source final without captured target 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > records private handoff accepted without raw fallback 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > records private handoff error without raw fallback 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > records private handoff operator cancellation without raw fallback 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not deliver private completion to a missing or replaced parent: null 13ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not deliver private completion to a missing or replaced parent: replacement-parent 10ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > reports intentional suppression from direct text completion fallback 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > reports adapter ambiguity from direct text completion fallback 14ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > uses the caller owner for direct completion delivery to a bare requester key 11ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > sanitizes and bounds text before direct completion fallback delivery 16ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > sends one generic direct notice when requester synthesis repeats an error child completion 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > stops a failed-child notice when cancelled at platform dispatch 11ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > stops a failed-child notice when source owner changed at platform dispatch 15ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not send a failed-child notice for an untrusted or non-direct discord event 10ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not send a failed-child notice for an untrusted or non-direct thread event 13ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > directly delivers unprefixed direct targets recognized by the channel grammar 29ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not raw-send channel completions just because the requester key is direct 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > delivers dormant child completion under restrictive gateway roles with Gateway-owned timeout policy 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > settles descendant wakes under restrictive gateway roles with current currency 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > settles descendant wakes under restrictive gateway roles with changed currency 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > settles descendant wakes under restrictive gateway roles with unavailable currency 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > refuses a wake retry after 1 attempts when currency changes 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > refuses a wake retry after 3 attempts when currency changes 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > rejects a session-only attachment witho… 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > accepts non-subagent session-only compl… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > accepts session-only completion with co… 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > accepts session-only completion with co… 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > reports requester-agent delivery failure even when output stayed visible 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not credit stale thread completions after no-visible-payload suppression 14ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > keeps typed missing output on the generic retry path 37ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > persists fallback-steered completion provenance after the requester session rotates 6908ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not restart a requester in timeout 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not restart a requester in recovering_timeout 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > queues video completion without opt-in or dire… 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > queues generated-media failure notice without … 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > queues video completion with a stringified Tel… 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > queues generated media before attempting activ… 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > handles unavailable durable media persistence 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > handles failed durable media persistence 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > handles completed durable media persistence 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > keeps private generated media on the owning session agent loop 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > rejects missing automatic visible delivery for no-output channel completion 13ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > blocks automatic replay after committed outbound side effects for no-output channel completion 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fails error completions when parent silently skips the required message tool for no-output channel completion 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > gates a reworded no-visible-result placeholder for no-output channel completion 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not gate a result that only reads like the placeholder for no-output channel completion 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > rejects off-target messaging alone for no-output channel completion 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > delivers Telegram forum-topic subagent completions through the normal parent handoff 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fails configured channel subagent completions when parent skips required message tool 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not replay a still-owned accepted completion handoff 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not replay a still-owned in_flight completion handoff 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not replay a still-owned yielded completion handoff 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > records a committed direct completion when the announce turn ends incomplete 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > accepts legacy targetless delivery on the requester provider 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > repairs a completion sent to another recipient 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > repairs a targetless completion sent through another provider 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > repairs a completion sent through another requester account 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves authoritative source delivery alongside an unrelated send 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > preserves targetless source media alongside an unrelated targeted send 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not mistake an off-target attachment for targetless source media 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > falls back to the external requester route when completion origin is internal 13ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not credit a unidentified adapter after no_visible_p… automatic completion receipt 10ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not credit a empty output before a hook cancellation automatic completion receipt 11ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not credit a unidentified adapter before a later fai… automatic completion receipt 11ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not credit a partial send without per-payload details automatic completion receipt 12ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not credit a empty automatic completion receipt 10ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: preserves automatic delivery final evid… 14ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: preserves final message tool final evid… 27ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: acknowledges a core-settled next wave w… 11ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects unproven or failed continuation… 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects unproven or failed continuation… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects unproven or failed continuation… 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: retains an accepted settle handoff unti… 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: retains an in_flight settle handoff unt… 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: does not record a canceled partial answ… 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: records a non-yielded visible final wit… 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > WebChat: records a non-yielded visible final wit… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > nested requester with inherited Discord…: records a non-yielded visible final wit… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: preserves an ordinary non-yielded direc… 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects a yielded turn without a result 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects error instead of a final answer 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects reasoning instead of a final an… 9ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects commentary instead of a final a… 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects compaction notice instead of a … 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects fallback notice instead of a fi… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects status notice instead of a fina… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects supplemental TTS audio instead … 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects an explicitly hidden assistant … 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects a yielded turn that emits only … 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > no origin: rejects a visible final whose delivery … 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: rejects a messaging-tool flag without a… 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: does not let an off-target final upgrad… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: accepts an automatic source-matched fin… 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: accepts a source final after source pro… 3ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > Discord: accepts a committed source final when a… 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > external channel without destination: rejects terminal text when an external … 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > destination without channel: rejects terminal text when an external … 3ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > unknown channel: rejects terminal text when an external … 26ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > retries transient network failures nested through delivery wrappers 15ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > runs the full typed adapter-resolution retry schedule 65ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > keeps exhausted typed adapter-resolution failures retryable 65ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > leaves a parent restart admission race retryable for the lifecycle owner 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > classifies wrapped permanent channel failures as permanent 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > honors typed permanent rejection over a transient-looking cause 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > never retries after an identified outbound platform send 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > never retries after a nested visible reply receipt 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not retry writer rebound with send evidence 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > retries writer rebound without send evidence 14ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.cron.receiptAuthority
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-delivery.test.ts: retiring openclaw.sessionGroupCatalog
+
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not text-fallback after an identified incomplete platform send 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > detects sentBeforeError on writer rebound and prevents retry 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > does not send when DM fallback is explicitly disabled 3ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > delivers the complete chunked result with fallback setting undefined 84ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-text-delivery.test.ts: draining agent database custody {"databases":1,"leases":1,"pending":0,"activePending":0,"retainedCloses":0,"resources":0,"closing":0,"selections":0}
+
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-text-delivery.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-text-delivery.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-text-delivery.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-text-delivery.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-text-delivery.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-text-delivery.test.ts: retiring openclaw.cron.receiptAuthority
+
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > delivers the complete chunked result with fallback setting true 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > settles a chunked result when its second chunk is rejected 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > settles a chunked result when its second chunk is aborted 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > reports complete delivery before transcript mirroring settles 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > preserves complete delivery when later mirror bookkeeping rejects 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-text-delivery.test.ts > direct completion text delivery > preserves complete delivery when later report bookkeeping rejects 7ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts: retiring openclaw.cron.receiptAuthority
+
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: structured media 14ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: captionless media 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: attachment metadata 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: visible directive beside hidden context 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: voice directive 6ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: hidden-only media 7ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: genuine placeholder-shaped result 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: requester voice payload 4ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: recorded absent result 8ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > delivers only visible completed content: failed completion without its media 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > does not settle or retry a partially sent media batch 5ms
+ ✓ |agents-support| src/agents/subagents/announce/subagent-announce-direct-completion-media.test.ts > subagent completion media after requester wake failure > settles the full batch before mirroring, retaining delivery if bookkeeping fails 8ms
+
+ Test Files  4 passed (4)
+      Tests  183 passed (183)
+   Start at  17:41:30
+   Duration  88.38s (transform 81%, tests 11%, import 6%, worker 1%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 2 Vitest shards in 98.90s

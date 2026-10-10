@@ -1,0 +1,226 @@
+┌  OpenClaw doctor
+Original state capture was unavailable: SQLite staging ancestor must not allow another user to replace its child: <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state. Doctor will continue; inspect retained evidence manually before restoring state.
+Saved pre-migration SQLite backup: <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-da267f75-2538-8e38-89a9-299101dc1782.bak
+Saved pre-migration SQLite backup: <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/state/openclaw.sqlite.pre-startup-migration-da267f75-2538-8e38-89a9-299101dc1782.bak
+│
+◇  Session SQLite ───────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                        │
+│  - Session entry inspection awaits its database schema repair: OpenClaw                                                │
+│    agent database                                                                                                      │
+│    <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite  │
+│    uses schema version 24; stop active agents and run openclaw doctor                                                  │
+│    --fix to migrate session identities before using it.                                                                │
+│                                                                                                                        │
+├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+[state/agent-db] agent database schema migration pending; verifying integrity first
+[state/agent-db] agent database clean-close receipt: verification-missing
+[state/agent-db] agent database clean-close receipt: verification-missing
+[state-migrations] Auto-migrated legacy state:
+- Upgraded agent database schema in <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite: v24 -> v25.
+- Retired the Skill Workshop proposal tables.
+│
+◇  Doctor changes ────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                         │
+│  - Upgraded agent database schema in                                                                                    │
+│    <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite:  │
+│    v24 -> v25.                                                                                                          │
+│  - Retired the Skill Workshop proposal tables.                                                                          │
+│                                                                                                                         │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor changes ───────────────────────────────────────╮
+│                                                        │
+│  Prepared the canonical agent roster for persistence.  │
+│                                                        │
+├────────────────────────────────────────────────────────╯
+│
+◇  Doctor changes ────────────────────────────────────────────────╮
+│                                                                 │
+│  Recorded webhook listener decisions; removed pins will not be  │
+│  recreated.                                                     │
+│  Recorded webhook listener decisions; removed pins will not be  │
+│  recreated.                                                     │
+│  Recorded webhook listener decisions; removed pins will not be  │
+│  recreated.                                                     │
+│                                                                 │
+├─────────────────────────────────────────────────────────────────╯
+Updated config: <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/openclaw.json
+  Backup: <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/openclaw.json.bak
+│
+◇  Command owner ──────────────────────────────────────────────────────────╮
+│                                                                          │
+│  No command owner is configured.                                         │
+│  A command owner is your trusted human operator account, allowed to      │
+│  update OpenClaw with /update, restart the Gateway, change               │
+│  configuration, and approve commands. Chat allowlists do not grant this  │
+│  authority.                                                              │
+│  Run openclaw channels add and complete a channel's setup to choose      │
+│  your operator account, including servers and groups without DM          │
+│  pairing.                                                                │
+│  CLI pairing approval records the first command owner. Control UI        │
+│  pairing approval has a separate owner checkbox.                         │
+│  Fix: set commands.ownerAllowFrom to your channel user id, for example   │
+│  openclaw config set commands.ownerAllowFrom '["telegram:123456789"]'    │
+│  Restart the gateway after changing this if it is already running.       │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+[state/agent-db] agent database clean-close receipt: verification-missing
+│
+◇  Plugin registry ────────────────────────────────────────────╮
+│                                                              │
+│  Plugin registry refreshed: 86/164 enabled plugins indexed.  │
+│                                                              │
+├──────────────────────────────────────────────────────────────╯
+│
+◇  State integrity ─────────────────────────────────────────────────────────────────────────────╮
+│                                                                                               │
+│  - State directory is on a volatile filesystem                                                │
+│    (<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state;               │
+│    fs tmpfs, mount /tmp).                                                                     │
+│  - Sessions, credentials, config, and SQLite state (including                                 │
+│    WAL/journal sidecars) will be lost on reboot.                                              │
+│  - Move OPENCLAW_STATE_DIR to a persistent filesystem to avoid data                           │
+│    loss.                                                                                      │
+│  - OAuth dir not present                                                                      │
+│    (<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/credentials).  │
+│    Skipping create because no WhatsApp/pairing channel config is                              │
+│    active.                                                                                    │
+│                                                                                               │
+├───────────────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Backups ─────────────────────────────────────────────────────────────╮
+│                                                                       │
+│  No successful backup is recorded.                                    │
+│  Create one now with openclaw backup create.                          │
+│  Schedule versioned backups with openclaw backup enable --repository  │
+│  <dir>.                                                               │
+│                                                                       │
+├───────────────────────────────────────────────────────────────────────╯
+[state/agent-db] agent database integrity gate
+[state/agent-db] slow OpenClaw agent database open agentId=main elapsedMs=1448 path=<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite pid=3824962 threadId=0 isMainThread=true admissionMode=async phaseDurationsMs={"open":9,"validation":1336,"configuration":14,"schema":77,"registration":12} integrityGateReason=no-proof integrityGateMode=full integrityGateOutcome=healthy integrityGateMs=1234 integrityWorkerCheckMs=8 integrityWorkerLifetimeMs=1230 integrityOutsideWorkerMs=4 canonicalIndexMs=41 repairedIndexCount=0 thresholdMs=1000
+│
+◇  Control UI assets ───────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                       │
+│  Removed obsolete Control UI asset cache at                                                           │
+│  <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/cache/control-ui-assets.  │
+│                                                                                                       │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Host desktop ────────────────────────────────────────────────────╮
+│                                                                   │
+│  disabled; enable the Desktop lab with desktop.host.enabled=true  │
+│                                                                   │
+├───────────────────────────────────────────────────────────────────╯
+│
+◇  Security ─────────────────────────────────────────────────────────────╮
+│                                                                        │
+│  - WARNING: openclaw.json contains plaintext secret-bearing config     │
+│    fields.                                                             │
+│    Migrate them to SecretRefs with openclaw secrets configure or       │
+│    openclaw secrets apply, then verify with openclaw secrets audit     │
+│    --check.                                                            │
+│    Paths: gateway.auth.token                                           │
+│    Agents or workspace tools that can read config files may see these  │
+│    API keys/tokens.                                                    │
+│  - Run: openclaw security audit --deep                                 │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────╯
+│
+◇  GitHub projects ───────────────────────────────────────────────────────╮
+│                                                                         │
+│  Set gateway.controlUi.github.token with gateway.controlUi.github.host  │
+│  matching gateway.github.host for private project access. Public        │
+│  github.com can also use GH_TOKEN/GITHUB_TOKEN; otherwise search is     │
+│  public-only.                                                           │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────╯
+│
+◇  Browser relay authentication ──────────────────────────────────────────╮
+│                                                                         │
+│  - Legacy Browser Relay Authentication is enabled                       │
+│    (browser.extensionRelay.allowLegacyAuth=true).                       │
+│  - Update paired Chrome extensions and external CDP clients to Browser  │
+│    Relay Authentication v2, then set                                    │
+│    browser.extensionRelay.allowLegacyAuth=false.                        │
+│  - V2 clients never downgrade to legacy authentication.                 │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor information ─────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Local STT auto-selection: whisper (observed=unknown); Python Whisper  │
+│    chooses its runtime device when the model loads.                      │
+│    path: tools.media.models                                              │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Skills ─────────────────────────────────────────────────────────────────╮
+│                                                                          │
+│  9 allowed skills are not usable in this environment (missing binaries,  │
+│  env vars, or config).                                                   │
+│  - coding-agent, goplaces, mcporter, model-usage, obsidian,              │
+│    openai-whisper-api, oracle, sherpa-onnx-tts, trello                   │
+│  Inspect details: openclaw skills check --agent <id> or openclaw skills  │
+│  info <name> --agent <id>                                                │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor changes ────────────────╮
+│                                 │
+│  - Disabled coding-agent        │
+│  - Disabled goplaces            │
+│  - Disabled mcporter            │
+│  - Disabled model-usage         │
+│  - Disabled obsidian            │
+│  - Disabled openai-whisper-api  │
+│  - Disabled oracle              │
+│  - Disabled sherpa-onnx-tts     │
+│  - Disabled trello              │
+│                                 │
+├─────────────────────────────────╯
+│
+◇  Gateway ─────────────────────────────────────────────╮
+│                                                       │
+│  Gateway health will be checked after Doctor repair.  │
+│                                                       │
+├───────────────────────────────────────────────────────╯
+│
+◇  Memory search ───────────────────────────────────────────────────────╮
+│                                                                       │
+│  Memory search provider is set to "openai" but no API key was found.  │
+│  Semantic recall will not work without a valid API key.               │
+│                                                                       │
+│                                                                       │
+│  Fix (pick one):                                                      │
+│  - Set OPENAI_API_KEY in your environment                             │
+│  - Configure credentials: openclaw configure --section model          │
+│  - To disable: openclaw config set memory.search.enabled false        │
+│                                                                       │
+│  Verify: openclaw memory status --deep                                │
+│                                                                       │
+├───────────────────────────────────────────────────────────────────────╯
+Updated config: <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/openclaw.json
+  Backup: <proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/openclaw.json.bak
+│
+◇  Workspace ──────────────────────────────────────────────────────╮
+│                                                                  │
+│  - Tip: back up the agent workspace in a private git repo; keep  │
+│    ~/.openclaw out of git (credentials, sessions). Details:      │
+│    /concepts/agent-workspace#git-backup-recommended-private      │
+│                                                                  │
+├──────────────────────────────────────────────────────────────────╯
+│
+◇  Workspace ────────────────────────────────────────────────────────────────────────────╮
+│                                                                                        │
+│  Memory system not found in workspace.                                                 │
+│  Paste this into your agent:                                                           │
+│                                                                                        │
+│  Install the memory system by applying:                                                │
+│  https://github.com/openclaw/openclaw/commit/9ffea23f31ca1df5183b25668f8f814bee0fb34e  │
+│  https://github.com/openclaw/openclaw/commit/7d1fee70e76f2f634f1b41fca927ee663914183a  │
+│                                                                                        │
+├────────────────────────────────────────────────────────────────────────────────────────╯
+[state/agent-db] agent database clean-close receipt: written
+│
+└  Doctor complete.
+

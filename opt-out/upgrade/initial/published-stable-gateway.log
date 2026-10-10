@@ -1,0 +1,28 @@
+2026-10-10T21:57:57.169+00:00 [gateway] loading configuration…
+2026-10-10T21:57:57.231+00:00 [gateway] resolving authentication…
+2026-10-10T21:57:57.241+00:00 [gateway] starting...
+2026-10-10T21:57:58.024+00:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-gateway.service TimeoutStopUSec=330000ms
+2026-10-10T21:57:58.188+00:00 [gateway] spawn broker ready pid=3824149
+2026-10-10T21:58:02.639+00:00 [gateway] starting HTTP server...
+2026-10-10T21:58:05.534+00:00 [gateway] agent model: openai/gpt-6-astra (thinking=medium, fast=off)
+2026-10-10T21:58:05.536+00:00 [gateway] http server listening (14 plugins: anthropic, browser, canvas, cua-computer, device-pair, file-transfer, geolocation, github, linux-node, memory-core, ollama, openai, talk-voice, xai; 7.5s)
+2026-10-10T21:58:05.539+00:00 [gateway] log file: /tmp/openclaw/openclaw-2026-10-10.log
+2026-10-10T21:58:05.541+00:00 [gateway] native runtime: {"pid":3823203,"platform":"linux","arch":"x64","node":"24.21.0","v8":"13.6.233.17-node.53","uv":"1.52.1","openssl":"3.5.8","sqlite":"3.53.4"}
+2026-10-10T21:58:05.544+00:00 [gateway] worker startup state: {"workerCount":4,"workerLifecycle":[{"script":"sqlite-store.worker.js","started":1,"retired":[]},{"script":"openclaw-state-lease-heartbeat.worker.js","started":1,"retired":[]},{"script":"openclaw-state-read.worker.js","started":2,"retired":[]}],"compute":{"limit":7,"active":0,"waitingPools":0,"pendingTasks":0,"pendingBytes":0}}
+2026-10-10T21:58:05.755+00:00 [gateway] starting channels and sidecars...
+2026-10-10T21:58:06.483+00:00 [gateway/channels] skipping channel start (OPENCLAW_SKIP_CHANNELS=1 or OPENCLAW_SKIP_PROVIDERS=1)
+2026-10-10T21:58:06.689+00:00 [plugins] memory-core: created managed dreaming cron job.
+2026-10-10T21:58:06.695+00:00 [gateway] startup outcomes: internal-hooks=skipped (not-configured); internal-startup-hook=skipped (no-handlers-loaded); gateway-start-hooks=scheduled; gmail-watcher=skipped (hooks-disabled); gmail-model=skipped (not-configured)
+2026-10-10T21:58:06.699+00:00 [heartbeat] started
+2026-10-10T21:58:06.716+00:00 [gateway] ready
+2026-10-10T21:58:08.455+00:00 [gateway] remote model catalog downloaded; restart the Gateway to apply it
+2026-10-10T21:58:10.405+00:00 [sessions/lifecycle] slow session lifecycle operation pid=3823203 threadId=0 isMainThread=true diagnosticEpoch=52885340aa0a7529 omittedObservations=0 operationId=1 operation=mutation operationTraceId=67483bb09017e7b602f0d3b8a1c0e8df operationSpanId=4278cc6edbc9293e elapsedMs=3367 completionDelayMs=4 mutationQueueWaitMs=1 lifecycleQueueWaitMs=0 phaseDurationsMs={"prepare":2,"run":3356,"finalize":2} signalAborted=false
+2026-10-10T21:58:10.412+00:00 [ws] ⇄ res ✓ sessions.reset 3623ms conn=1630d3d3…c7ce id=2:b8f6ec07-e…5372
+2026-10-10T21:58:10.721+00:00 [ws] ⇄ res ✓ chat.inject 260ms conn=1630d3d3…c7ce id=3:cffaa2ec-c…636f
+2026-10-10T21:58:15.689+00:00 [ws] ⇄ res ✓ chat.history 4724ms conn=1630d3d3…c7ce id=4:fddcdf63-6…35df
+2026-10-10T21:58:15.751+00:00 [admission] closed: stop (SIGTERM)
+2026-10-10T21:58:15.755+00:00 [gateway] received SIGTERM; shutting down
+2026-10-10T21:58:15.868+00:00 [gateway] shutdown budget at shutdown: drain=314878ms shutdown=324878ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-gateway.service TimeoutStopUSec=330000ms
+2026-10-10T21:58:15.889+00:00 [gateway] active-work drain settled; beginning server close
+2026-10-10T21:58:16.089+00:00 [gmail-watcher] gmail watcher stopped
+2026-10-10T21:58:16.612+00:00 [shutdown] completed cleanly in 691ms

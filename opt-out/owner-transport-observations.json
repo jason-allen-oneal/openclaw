@@ -1,0 +1,392 @@
+[
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "unset",
+    "kind": "completed_result",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:40.758Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:40.874Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"RUNTIME-PROOF-CHILD-RESULT\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-0\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669460889
+    },
+    "finishedAt": "2026-10-10T21:57:41.859Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "false",
+    "kind": "completed_result",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.860Z",
+    "wire": [],
+    "result": null,
+    "finishedAt": "2026-10-10T21:57:41.860Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "true",
+    "kind": "completed_result",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.860Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:41.876Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"RUNTIME-PROOF-CHILD-RESULT\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-2\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669461878
+    },
+    "finishedAt": "2026-10-10T21:57:41.884Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "unset",
+    "kind": "failed_notice",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.884Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:41.891Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"A delegated task failed before it could report a result. Please retry the task.\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-3\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669461893
+    },
+    "finishedAt": "2026-10-10T21:57:41.899Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "false",
+    "kind": "failed_notice",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.899Z",
+    "wire": [],
+    "result": null,
+    "finishedAt": "2026-10-10T21:57:41.899Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "true",
+    "kind": "failed_notice",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.899Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:41.906Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"A delegated task failed before it could report a result. Please retry the task.\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-5\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669461908
+    },
+    "finishedAt": "2026-10-10T21:57:41.913Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "unset",
+    "control": "retired-before",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.913Z",
+    "wire": [],
+    "result": {
+      "delivered": false,
+      "path": "none",
+      "reason": "source_owner_changed",
+      "error": "subagent source lifecycle changed before completion delivery",
+      "terminal": true,
+      "disposition": "intentional_non_delivery"
+    },
+    "finishedAt": "2026-10-10T21:57:41.913Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "unset",
+    "control": "retired-after-prepare",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.913Z",
+    "wire": [],
+    "result": {
+      "delivered": false,
+      "path": "none",
+      "reason": "source_owner_changed",
+      "error": "subagent source lifecycle changed before completion delivery",
+      "terminal": true,
+      "disposition": "intentional_non_delivery"
+    },
+    "finishedAt": "2026-10-10T21:57:41.921Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "unset",
+    "control": "cancelled-after-prepare",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.921Z",
+    "wire": [],
+    "result": {
+      "delivered": false,
+      "path": "none"
+    },
+    "finishedAt": "2026-10-10T21:57:41.926Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-alpha",
+    "mode": "unset",
+    "control": "conflicting-agent",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.926Z",
+    "wire": [],
+    "result": null,
+    "finishedAt": "2026-10-10T21:57:41.927Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "unset",
+    "kind": "completed_result",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.928Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:41.934Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"RUNTIME-PROOF-CHILD-RESULT\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-10\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669461936
+    },
+    "finishedAt": "2026-10-10T21:57:41.942Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "false",
+    "kind": "completed_result",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.942Z",
+    "wire": [],
+    "result": null,
+    "finishedAt": "2026-10-10T21:57:41.942Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "true",
+    "kind": "completed_result",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.942Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:41.948Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"RUNTIME-PROOF-CHILD-RESULT\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-12\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669461950
+    },
+    "finishedAt": "2026-10-10T21:57:41.956Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "unset",
+    "kind": "failed_notice",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.956Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:41.961Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"A delegated task failed before it could report a result. Please retry the task.\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-13\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669461963
+    },
+    "finishedAt": "2026-10-10T21:57:41.970Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "false",
+    "kind": "failed_notice",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.970Z",
+    "wire": [],
+    "result": null,
+    "finishedAt": "2026-10-10T21:57:41.970Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "true",
+    "kind": "failed_notice",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.971Z",
+    "wire": [
+      {
+        "at": "2026-10-10T21:57:41.975Z",
+        "request": {
+          "method": "POST",
+          "path": "/completion",
+          "body": "{\"to\":\"recipient\",\"text\":\"A delegated task failed before it could report a result. Please retry the task.\"}"
+        },
+        "response": {
+          "status": 200,
+          "body": "{\"messageId\":\"wire-15\",\"accepted\":true}"
+        }
+      }
+    ],
+    "result": {
+      "delivered": true,
+      "path": "direct",
+      "deliveredAt": 1791669461977
+    },
+    "finishedAt": "2026-10-10T21:57:41.981Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "unset",
+    "control": "retired-before",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.981Z",
+    "wire": [],
+    "result": {
+      "delivered": false,
+      "path": "none",
+      "reason": "source_owner_changed",
+      "error": "subagent source lifecycle changed before completion delivery",
+      "terminal": true,
+      "disposition": "intentional_non_delivery"
+    },
+    "finishedAt": "2026-10-10T21:57:41.982Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "unset",
+    "control": "retired-after-prepare",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.982Z",
+    "wire": [],
+    "result": {
+      "delivered": false,
+      "path": "none",
+      "reason": "source_owner_changed",
+      "error": "subagent source lifecycle changed before completion delivery",
+      "terminal": true,
+      "disposition": "intentional_non_delivery"
+    },
+    "finishedAt": "2026-10-10T21:57:41.987Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "unset",
+    "control": "cancelled-after-prepare",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.987Z",
+    "wire": [],
+    "result": {
+      "delivered": false,
+      "path": "none"
+    },
+    "finishedAt": "2026-10-10T21:57:41.989Z",
+    "expectationMet": true
+  },
+  {
+    "channel": "runtime-proof-beta",
+    "mode": "unset",
+    "control": "conflicting-agent",
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:41.990Z",
+    "wire": [],
+    "result": null,
+    "finishedAt": "2026-10-10T21:57:41.990Z",
+    "expectationMet": true
+  }
+]

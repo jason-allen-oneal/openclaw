@@ -1,0 +1,227 @@
+{
+  "kind": "openclaw.qa.evidence-summary",
+  "schemaVersion": 3,
+  "generatedAt": "2026-10-10T22:09:50.427Z",
+  "evidenceMode": "full",
+  "entries": [
+    {
+      "test": {
+        "kind": "qa-scenario",
+        "id": "native-failure-true-optout-v1",
+        "title": "Built native failure fallback true",
+        "source": {
+          "path": "<proof-workspace>/native-failure-true-optout-v1.yaml"
+        }
+      },
+      "coverage": [
+        {
+          "id": "agent-runtime.subagent-turns-delivery",
+          "role": "primary"
+        },
+        {
+          "id": "agent-runtime.subagent-turns-subagents",
+          "role": "secondary"
+        },
+        {
+          "id": "channels.qa-channel-final-reply",
+          "role": "secondary"
+        }
+      ],
+      "refs": [
+        {
+          "kind": "docs",
+          "path": "docs/tools/subagents.md"
+        },
+        {
+          "kind": "docs",
+          "path": "docs/help/testing.md"
+        },
+        {
+          "kind": "docs",
+          "path": "docs/channels/qa-channel.md"
+        },
+        {
+          "kind": "code",
+          "path": "extensions/qa-lab/src/execution-identity-storage-inspection.ts"
+        },
+        {
+          "kind": "code",
+          "path": "src/agents/agent-run-terminal-reply.ts"
+        },
+        {
+          "kind": "code",
+          "path": "src/agents/subagents/announce/subagent-announce-delivery.ts"
+        },
+        {
+          "kind": "code",
+          "path": "src/agents/subagents/registry/subagent-registry-lifecycle.ts"
+        },
+        {
+          "kind": "code",
+          "path": "extensions/qa-lab/src/providers/mock-openai/server.ts"
+        }
+      ],
+      "execution": {
+        "runner": "host",
+        "environment": {
+          "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+          "os": "linux",
+          "nodeVersion": "v24.21.0"
+        },
+        "provider": {
+          "id": "openai",
+          "live": false,
+          "model": {
+            "name": "gpt-5.6-luna",
+            "ref": "mock-openai/gpt-5.6-luna"
+          },
+          "fixture": "mock-openai"
+        },
+        "channel": {
+          "id": "qa-channel",
+          "live": false
+        },
+        "packageSource": {
+          "kind": "source-checkout"
+        },
+        "artifacts": [
+          {
+            "kind": "scenario-observation",
+            "path": "artifacts/occurrences/0b0505da-ed26-496f-8eba-6d6f7cce92c6.json",
+            "source": "qa-suite"
+          },
+          {
+            "kind": "summary",
+            "path": "qa-suite-summary.json",
+            "source": "qa-suite"
+          },
+          {
+            "kind": "report",
+            "path": "qa-suite-report.md",
+            "source": "qa-suite"
+          }
+        ]
+      },
+      "result": {
+        "status": "pass"
+      },
+      "binding": {
+        "occurrenceId": "0b0505da-ed26-496f-8eba-6d6f7cce92c6",
+        "assertionId": null,
+        "receiptId": "0b0505da-ed26-496f-8eba-6d6f7cce92c6:runtime"
+      },
+      "effective": true
+    }
+  ],
+  "occurrences": [
+    {
+      "id": "2b776075-2bb2-449f-a292-898abc6dd96a",
+      "parentCell": {
+        "scenarioId": "native-failure-true-optout-v1",
+        "executionKind": "flow",
+        "channel": "qa-channel"
+      },
+      "scenario": {
+        "kind": "instance",
+        "resultOccurrenceId": "0b0505da-ed26-496f-8eba-6d6f7cce92c6"
+      },
+      "retryOf": null,
+      "terminalStatus": null,
+      "assertions": null,
+      "launch": {
+        "source": {
+          "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+          "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+        },
+        "runtime": {
+          "id": "node",
+          "version": "v24.21.0"
+        },
+        "package": null,
+        "protocol": null,
+        "accountRef": null,
+        "proofClass": null
+      },
+      "receipts": []
+    },
+    {
+      "id": "0b0505da-ed26-496f-8eba-6d6f7cce92c6",
+      "parentCell": {
+        "scenarioId": "native-failure-true-optout-v1",
+        "executionKind": "flow",
+        "channel": "qa-channel"
+      },
+      "scenario": {
+        "kind": "observation",
+        "instanceOccurrenceId": "2b776075-2bb2-449f-a292-898abc6dd96a"
+      },
+      "retryOf": null,
+      "terminalStatus": "pass",
+      "assertions": null,
+      "launch": {
+        "source": {
+          "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+          "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+        },
+        "runtime": {
+          "id": "node",
+          "version": "v24.21.0"
+        },
+        "package": null,
+        "protocol": null,
+        "accountRef": null,
+        "proofClass": null
+      },
+      "receipts": [
+        {
+          "id": "0b0505da-ed26-496f-8eba-6d6f7cce92c6:prepared",
+          "phase": "prepared",
+          "identity": {
+            "source": {
+              "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+              "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+            },
+            "runtime": {
+              "id": "node",
+              "version": "v24.21.0"
+            },
+            "package": null,
+            "protocol": null,
+            "accountRef": null,
+            "proofClass": null
+          },
+          "artifact": {
+            "kind": "scenario-observation",
+            "path": "artifacts/occurrences/0b0505da-ed26-496f-8eba-6d6f7cce92c6.json",
+            "source": "qa-suite",
+            "sha256": "8614e52b312afd156cb8c77ae791aab0ae214c577b419661d31acd791ee4f98c"
+          }
+        },
+        {
+          "id": "0b0505da-ed26-496f-8eba-6d6f7cce92c6:runtime",
+          "phase": "runtime",
+          "identity": {
+            "source": {
+              "ref": null,
+              "integrity": null
+            },
+            "runtime": {
+              "id": "openclaw",
+              "version": "2026.9.9"
+            },
+            "package": null,
+            "protocol": "gateway:4",
+            "accountRef": null,
+            "proofClass": null
+          },
+          "artifact": {
+            "kind": "scenario-observation",
+            "path": "artifacts/occurrences/0b0505da-ed26-496f-8eba-6d6f7cce92c6.json",
+            "source": "qa-suite",
+            "sha256": "8614e52b312afd156cb8c77ae791aab0ae214c577b419661d31acd791ee4f98c"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{"id":"native-failure-true-optout-v1","command":"node <proof-workspace>/native-matrix.mts true failure optout-v1","startedAt":"2026-10-10T22:06:38.581Z","entry":"<candidate>/dist/index.js","sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","buildBindings":{"sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","recordedAt":"2026-10-10T22:06:29.098Z","nodeVersion":"v24.21.0","modules":{"owner":{"file":"<candidate>/dist/subagent-announce-completion-delivery-Dwepxznt.mjs","localName":"deliverCompletionDirect","exportName":"n","sha256":"32000e41d1d747cac8fd56beaf1e7acfc721e59e6034ce21a2e2e1b838004229","bytes":27675},"registry":{"file":"<candidate>/dist/runtime-wpiOJesu.mjs","localName":"setActivePluginRegistry","exportName":"C","sha256":"7fe5632f63cef8a1d9df97161cb1ef07ce6b07b71c3843b27a69577d0b6f36d9","bytes":46534},"emptyRegistry":{"file":"<candidate>/dist/registry-empty-mS6HujHb.mjs","localName":"createEmptyPluginRegistry","exportName":"t","sha256":"026994b8613f10bff379b625e4ef0edbe0b3ef728d31b759eebb82c802b71432","bytes":2074},"scenarioCatalog":{"file":"<candidate>/dist/scenario-catalog-DpPUMUOS.mjs","localName":"readQaScenarioFile","exportName":"s","sha256":"834de5caa6b8104a45ec2bc3527b42a4d2fd91e74e2c9ccf3323bd70ffa637f6","bytes":23241}},"provenanceFiles":{"gatewayEntry":{"file":"<candidate>/dist/index.js","sha256":"58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd","bytes":5744},"qaApi":{"file":"<candidate>/dist/extensions/qa-lab/api.js","sha256":"3d5be3f170779cb042a52d1ed56e2cb3e35b75e1bc7c6015f0b9f25744b9b9a7","bytes":1904},"scenario":{"file":"<candidate>/qa/scenarios/agents/subagent-completion-direct-fallback.yaml","sha256":"080d72efbe5572c942166b6a26d629919506ceec9388b96713281f89c07633cf","bytes":45174},"provider":{"file":"<candidate>/extensions/qa-lab/src/providers/mock-openai/server.ts","sha256":"279b07e40348611d676533aa5ae5b56b6b07ad26ce7a278c7cbcda2861f46929","bytes":96460}}},"driverSha256":"d83ef303c98ef910574c5783bb6d603576d5cd7b5787a8512340f2a8c51b9fbe"}
+[state/agent-db] agent database clean-close receipt: written
+[state/agent-db] agent database clean-close receipt: written
+[state/agent-db] agent database clean-close receipt: written
+{
+  "executionKind": "flow",
+  "expectedCells": [],
+  "observedCells": [],
+  "result": {
+    "outputDir": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-failure-true-optout-v1",
+    "evidence": {
+      "kind": "openclaw.qa.evidence-summary",
+      "schemaVersion": 3,
+      "generatedAt": "2026-10-10T22:09:50.427Z",
+      "evidenceMode": "full",
+      "entries": [
+        {
+          "test": {
+            "kind": "qa-scenario",
+            "id": "native-failure-true-optout-v1",
+            "title": "Built native failure fallback true",
+            "source": {
+              "path": "<proof-workspace>/native-failure-true-optout-v1.yaml"
+            }
+          },
+          "coverage": [
+            {
+              "id": "agent-runtime.subagent-turns-delivery",
+              "role": "primary"
+            },
+            {
+              "id": "agent-runtime.subagent-turns-subagents",
+              "role": "secondary"
+            },
+            {
+              "id": "channels.qa-channel-final-reply",
+              "role": "secondary"
+            }
+          ],
+          "refs": [
+            {
+              "kind": "docs",
+              "path": "docs/tools/subagents.md"
+            },
+            {
+              "kind": "docs",
+              "path": "docs/help/testing.md"
+            },
+            {
+              "kind": "docs",
+              "path": "docs/channels/qa-channel.md"
+            },
+            {
+              "kind": "code",
+              "path": "extensions/qa-lab/src/execution-identity-storage-inspection.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/agent-run-terminal-reply.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/subagents/announce/subagent-announce-delivery.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/subagents/registry/subagent-registry-lifecycle.ts"
+            },
+            {
+              "kind": "code",
+              "path": "extensions/qa-lab/src/providers/mock-openai/server.ts"
+            }
+          ],
+          "execution": {
+            "runner": "host",
+            "environment": {
+              "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+              "os": "linux",
+              "nodeVersion": "v24.21.0"
+            },
+            "provider": {
+              "id": "openai",
+              "live": false,
+              "model": {
+                "name": "gpt-5.6-luna",
+                "ref": "mock-openai/gpt-5.6-luna"
+              },
+              "fixture": "mock-openai"
+            },
+            "channel": {
+              "id": "qa-channel",
+              "live": false
+            },
+            "packageSource": {
+              "kind": "source-checkout"
+            },
+            "artifacts": [
+              {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/0b0505da-ed26-496f-8eba-6d6f7cce92c6.json",
+                "source": "qa-suite"
+              },
+              {
+                "kind": "summary",
+                "path": "qa-suite-summary.json",
+                "source": "qa-suite"
+              },
+              {
+                "kind": "report",
+                "path": "qa-suite-report.md",
+                "source": "qa-suite"
+              }
+            ]
+          },
+          "result": {
+            "status": "pass"
+          },
+          "binding": {
+            "occurrenceId": "0b0505da-ed26-496f-8eba-6d6f7cce92c6",
+            "assertionId": null,
+            "receiptId": "0b0505da-ed26-496f-8eba-6d6f7cce92c6:runtime"
+          },
+          "effective": true
+        }
+      ],
+      "occurrences": [
+        {
+          "id": "2b776075-2bb2-449f-a292-898abc6dd96a",
+          "parentCell": {
+            "scenarioId": "native-failure-true-optout-v1",
+            "executionKind": "flow",
+            "channel": "qa-channel"
+          },
+          "scenario": {
+            "kind": "instance",
+            "resultOccurrenceId": "0b0505da-ed26-496f-8eba-6d6f7cce92c6"
+          },
+          "retryOf": null,
+          "terminalStatus": null,
+          "assertions": null,
+          "launch": {
+            "source": {
+              "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+              "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+            },
+            "runtime": {
+              "id": "node",
+              "version": "v24.21.0"
+            },
+            "package": null,
+            "protocol": null,
+            "accountRef": null,
+            "proofClass": null
+          },
+          "receipts": []
+        },
+        {
+          "id": "0b0505da-ed26-496f-8eba-6d6f7cce92c6",
+          "parentCell": {
+            "scenarioId": "native-failure-true-optout-v1",
+            "executionKind": "flow",
+            "channel": "qa-channel"
+          },
+          "scenario": {
+            "kind": "observation",
+            "instanceOccurrenceId": "2b776075-2bb2-449f-a292-898abc6dd96a"
+          },
+          "retryOf": null,
+          "terminalStatus": "pass",
+          "assertions": null,
+          "launch": {
+            "source": {
+              "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+              "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+            },
+            "runtime": {
+              "id": "node",
+              "version": "v24.21.0"
+            },
+            "package": null,
+            "protocol": null,
+            "accountRef": null,
+            "proofClass": null
+          },
+          "receipts": [
+            {
+              "id": "0b0505da-ed26-496f-8eba-6d6f7cce92c6:prepared",
+              "phase": "prepared",
+              "identity": {
+                "source": {
+                  "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+                  "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+                },
+                "runtime": {
+                  "id": "node",
+                  "version": "v24.21.0"
+                },
+                "package": null,
+                "protocol": null,
+                "accountRef": null,
+                "proofClass": null
+              },
+              "artifact": {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/0b0505da-ed26-496f-8eba-6d6f7cce92c6.json",
+                "source": "qa-suite",
+                "sha256": "8614e52b312afd156cb8c77ae791aab0ae214c577b419661d31acd791ee4f98c"
+              }
+            },
+            {
+              "id": "0b0505da-ed26-496f-8eba-6d6f7cce92c6:runtime",
+              "phase": "runtime",
+              "identity": {
+                "source": {
+                  "ref": null,
+                  "integrity": null
+                },
+                "runtime": {
+                  "id": "openclaw",
+                  "version": "2026.9.9"
+                },
+                "package": null,
+                "protocol": "gateway:4",
+                "accountRef": null,
+                "proofClass": null
+              },
+              "artifact": {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/0b0505da-ed26-496f-8eba-6d6f7cce92c6.json",
+                "source": "qa-suite",
+                "sha256": "8614e52b312afd156cb8c77ae791aab0ae214c577b419661d31acd791ee4f98c"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "evidencePath": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-failure-true-optout-v1/qa-evidence.json",
+    "report": "# OpenClaw QA Scenario Suite\n\n- Started: 2026-10-10T22:06:38.714Z\n- Finished: 2026-10-10T22:09:50.427Z\n- Duration ms: 191713\n- Passed: 1\n- Failed: 0\n- Skipped: 0\n\n\n## Scenarios\n\n### Built native failure fallback true\n\n- Status: pass\n- Steps:\n  - [x] native failure delivery boundary\n    - Details:\n\n```text\n{\n  \"pass\": true,\n  \"sourceSha\": \"a1dcdd90a282d2d636eec9151a47a833be89a1af\",\n  \"mode\": \"true\",\n  \"kind\": \"failure\",\n  \"runId\": \"79bbe0ab-0114-47ff-9961-277f8d888634\",\n  \"childSessionKey\": \"agent:qa:subagent:a89c2be9-1e01-4db9-9818-a7956eaa5b10\",\n  \"requesterSessionKey\": \"agent:qa:main\",\n  \"execution\": {\n    \"status\": \"terminal\",\n    \"endedAt\": 1791670114122,\n    \"outcome\": {\n      \"status\": \"error\"\n    }\n  },\n  \"delivery\": {\n    \"status\": \"delivered\",\n    \"disposition\": \"delivered\"\n  },\n  \"receiptKeys\": [\n    \"announce:v1:agent:qa:subagent:a89c2be9-1e01-4db9-9818-a7956eaa5b10:79bbe0ab-0114-47ff-9961-277f8d888634:text-direct\"\n  ],\n  \"mediaCount\": 0,\n  \"receivedPngByteEquality\": [],\n  \"expectedPngBytes\": 103,\n  \"failureNoticeCount\": 1,\n  \"acknowledgmentTimes\": [],\n  \"kickoffAt\": 1791670080911,\n  \"terminalObservedAt\": 1791670114900,\n  \"finishedObservationAt\": 1791670184034,\n  \"postTerminalObservationMs\": 69134,\n  \"childEndedAt\": 1791670114122,\n  \"ordinaryOutbound\": [\n    {\n      \"id\": \"dc0e44ed-91fb-4eec-818d-f311a09131b4\",\n      \"text\": \"The AI service is temporarily overloaded. Please try again in a moment.\",\n      \"isError\": true,\n      \"timestamp\": 1791670112914\n    }\n  ],\n  \"providerFaultCaveat\": \"HTTP503 matcher also applies to parent post-spawn continuation; failure of requester handoff is intentional\"\n}\n```\n\n\n## Notes\n\n- Runs against qa-channel + qa-lab bus + real gateway child + mock-openai provider.\n- Scenarios run serially in one gateway worker.\n- Scheduling scenarios verify stored schedules and execution behavior through the Gateway.\n",
+    "reportPath": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-failure-true-optout-v1/qa-suite-report.md",
+    "summaryPath": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-failure-true-optout-v1/qa-suite-summary.json",
+    "scenarios": [
+      {
+        "name": "Built native failure fallback true",
+        "status": "pass",
+        "steps": [
+          {
+            "name": "native failure delivery boundary",
+            "status": "pass",
+            "details": "{\n  \"pass\": true,\n  \"sourceSha\": \"a1dcdd90a282d2d636eec9151a47a833be89a1af\",\n  \"mode\": \"true\",\n  \"kind\": \"failure\",\n  \"runId\": \"79bbe0ab-0114-47ff-9961-277f8d888634\",\n  \"childSessionKey\": \"agent:qa:subagent:a89c2be9-1e01-4db9-9818-a7956eaa5b10\",\n  \"requesterSessionKey\": \"agent:qa:main\",\n  \"execution\": {\n    \"status\": \"terminal\",\n    \"endedAt\": 1791670114122,\n    \"outcome\": {\n      \"status\": \"error\"\n    }\n  },\n  \"delivery\": {\n    \"status\": \"delivered\",\n    \"disposition\": \"delivered\"\n  },\n  \"receiptKeys\": [\n    \"announce:v1:agent:qa:subagent:a89c2be9-1e01-4db9-9818-a7956eaa5b10:79bbe0ab-0114-47ff-9961-277f8d888634:text-direct\"\n  ],\n  \"mediaCount\": 0,\n  \"receivedPngByteEquality\": [],\n  \"expectedPngBytes\": 103,\n  \"failureNoticeCount\": 1,\n  \"acknowledgmentTimes\": [],\n  \"kickoffAt\": 1791670080911,\n  \"terminalObservedAt\": 1791670114900,\n  \"finishedObservationAt\": 1791670184034,\n  \"postTerminalObservationMs\": 69134,\n  \"childEndedAt\": 1791670114122,\n  \"ordinaryOutbound\": [\n    {\n      \"id\": \"dc0e44ed-91fb-4eec-818d-f311a09131b4\",\n      \"text\": \"The AI service is temporarily overloaded. Please try again in a moment.\",\n      \"isError\": true,\n      \"timestamp\": 1791670112914\n    }\n  ],\n  \"providerFaultCaveat\": \"HTTP503 matcher also applies to parent post-spawn continuation; failure of requester handoff is intentional\"\n}"
+          }
+        ],
+        "evidenceOccurrenceId": "0b0505da-ed26-496f-8eba-6d6f7cce92c6"
+      }
+    ],
+    "startedScenarioIds": [
+      "native-failure-true-optout-v1"
+    ],
+    "watchUrl": "[isolated HTTP endpoint]"
+  }
+}
+{"terminalReceipt":{"command":"node <proof-workspace>/native-matrix.mts true failure optout-v1","sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","startedAt":"2026-10-10T22:06:38.581Z","finishedAt":"2026-10-10T22:09:50.957Z","exitStatus":0,"canonicalSummaryFile":"<candidate>/.artifacts/dm-runtime-proof-opt-out/native-failure-true-optout-v1/qa-suite-summary.json","canonicalCounts":{"total":1,"passed":1,"failed":0,"skipped":0},"canonicalScenarioStatus":"pass","statusDerivedFrom":"qa-suite-summary.json","buildBindings":{"sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","recordedAt":"2026-10-10T22:06:29.098Z","nodeVersion":"v24.21.0","modules":{"owner":{"file":"<candidate>/dist/subagent-announce-completion-delivery-Dwepxznt.mjs","localName":"deliverCompletionDirect","exportName":"n","sha256":"32000e41d1d747cac8fd56beaf1e7acfc721e59e6034ce21a2e2e1b838004229","bytes":27675},"registry":{"file":"<candidate>/dist/runtime-wpiOJesu.mjs","localName":"setActivePluginRegistry","exportName":"C","sha256":"7fe5632f63cef8a1d9df97161cb1ef07ce6b07b71c3843b27a69577d0b6f36d9","bytes":46534},"emptyRegistry":{"file":"<candidate>/dist/registry-empty-mS6HujHb.mjs","localName":"createEmptyPluginRegistry","exportName":"t","sha256":"026994b8613f10bff379b625e4ef0edbe0b3ef728d31b759eebb82c802b71432","bytes":2074},"scenarioCatalog":{"file":"<candidate>/dist/scenario-catalog-DpPUMUOS.mjs","localName":"readQaScenarioFile","exportName":"s","sha256":"834de5caa6b8104a45ec2bc3527b42a4d2fd91e74e2c9ccf3323bd70ffa637f6","bytes":23241}},"provenanceFiles":{"gatewayEntry":{"file":"<candidate>/dist/index.js","sha256":"58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd","bytes":5744},"qaApi":{"file":"<candidate>/dist/extensions/qa-lab/api.js","sha256":"3d5be3f170779cb042a52d1ed56e2cb3e35b75e1bc7c6015f0b9f25744b9b9a7","bytes":1904},"scenario":{"file":"<candidate>/qa/scenarios/agents/subagent-completion-direct-fallback.yaml","sha256":"080d72efbe5572c942166b6a26d629919506ceec9388b96713281f89c07633cf","bytes":45174},"provider":{"file":"<candidate>/extensions/qa-lab/src/providers/mock-openai/server.ts","sha256":"279b07e40348611d676533aa5ae5b56b6b07ad26ce7a278c7cbcda2861f46929","bytes":96460}}},"finalBuildBindings":{"sourceSha":"a1dcdd90a282d2d636eec9151a47a833be89a1af","sourceStatus":"","recordedAt":"2026-10-10T22:09:50.957Z","nodeVersion":"v24.21.0","modules":{"owner":{"file":"<candidate>/dist/subagent-announce-completion-delivery-Dwepxznt.mjs","localName":"deliverCompletionDirect","exportName":"n","sha256":"32000e41d1d747cac8fd56beaf1e7acfc721e59e6034ce21a2e2e1b838004229","bytes":27675},"registry":{"file":"<candidate>/dist/runtime-wpiOJesu.mjs","localName":"setActivePluginRegistry","exportName":"C","sha256":"7fe5632f63cef8a1d9df97161cb1ef07ce6b07b71c3843b27a69577d0b6f36d9","bytes":46534},"emptyRegistry":{"file":"<candidate>/dist/registry-empty-mS6HujHb.mjs","localName":"createEmptyPluginRegistry","exportName":"t","sha256":"026994b8613f10bff379b625e4ef0edbe0b3ef728d31b759eebb82c802b71432","bytes":2074},"scenarioCatalog":{"file":"<candidate>/dist/scenario-catalog-DpPUMUOS.mjs","localName":"readQaScenarioFile","exportName":"s","sha256":"834de5caa6b8104a45ec2bc3527b42a4d2fd91e74e2c9ccf3323bd70ffa637f6","bytes":23241}},"provenanceFiles":{"gatewayEntry":{"file":"<candidate>/dist/index.js","sha256":"58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd","bytes":5744},"qaApi":{"file":"<candidate>/dist/extensions/qa-lab/api.js","sha256":"3d5be3f170779cb042a52d1ed56e2cb3e35b75e1bc7c6015f0b9f25744b9b9a7","bytes":1904},"scenario":{"file":"<candidate>/qa/scenarios/agents/subagent-completion-direct-fallback.yaml","sha256":"080d72efbe5572c942166b6a26d629919506ceec9388b96713281f89c07633cf","bytes":45174},"provider":{"file":"<candidate>/extensions/qa-lab/src/providers/mock-openai/server.ts","sha256":"279b07e40348611d676533aa5ae5b56b6b07ad26ce7a278c7cbcda2861f46929","bytes":96460}}},"outputDir":"<candidate>/.artifacts/dm-runtime-proof-opt-out/native-failure-true-optout-v1","scenarioFile":"<proof-workspace>/native-failure-true-optout-v1.yaml"}}

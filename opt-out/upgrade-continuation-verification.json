@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-10T22:13:32.935Z",
+  "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "passed": true,
+  "passedChecks": 22,
+  "totalChecks": 22,
+  "statusDerivedFrom": "Actual terminal command receipt, retained stable/Doctor and continuation RPC traces, failed initial receipt, state/schema/config records and unchanged runtime input hashes",
+  "checks": {
+    "cleanExpectedSource": true,
+    "originalAttemptStillFailed": true,
+    "originalRecordsUnchanged": true,
+    "preservedPreContinuationState": true,
+    "exactSameOriginalMigratedState": true,
+    "realPublishedStableSession": true,
+    "realDoctorSucceeded": true,
+    "actualAgentMigration": true,
+    "actualStateMigration": true,
+    "sqliteIntegrity": true,
+    "unchangedCandidateRuntimeInputs": true,
+    "sixNativeCasesCompleteBeforeBoot": true,
+    "healthWithinOriginalBound": true,
+    "realGatewayRpcConnected": true,
+    "realGatewayConfigLoaded": true,
+    "originalHistoryReallyRead": true,
+    "sameSessionReallyWrittenAndRead": true,
+    "settingsRetained": true,
+    "fallbackFieldNeverMaterialized": true,
+    "actualTerminalExitZero": true,
+    "noStableOrDoctorRerun": true,
+    "combinedReportsInitialFailure": true
+  },
+  "initialReceipt": {
+    "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T21:57:44.099Z",
+    "finishedAt": "2026-10-10T22:02:23.699Z",
+    "exitCode": 1,
+    "proofStatus": "fail",
+    "verdict": null,
+    "error": "Error: candidate readiness timeout: [gateway] startup phase: entry.run-main-import starting total=4722.2ms\n[gateway] startup phase: entry.run-main-import 159.5ms total=4881.7ms start=4722.2ms\n[gateway] startup phase: cli.main.gateway-run-select-environment starting total=6608.4ms\n[gateway] startup phase: cli.main.gateway-run-select-environment 29585.8ms total=36194.2ms start=6608.4ms\n[gateway] startup phase: cli.main.gateway-run-imports starting total=36401.1ms\n[gateway] startup phase: cli.main.gateway-run-imports 70.8ms total=36471.9ms start=36401.1ms\n[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=36640.6ms\n[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 16231.4ms total=52872.0ms start=36640.6ms\n[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=52872.2ms\n[gateway] startup phase: cli.command.config-ready starting total=52894.2ms\n[gateway] startup phase: cli.command.config-guard-import starting total=52894.7ms\n[gateway] startup phase: cli.command.config-guard-import 206.5ms total=53101.2ms start=52894.7ms\n[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=53313.8ms\n[gateway] startup phase: cli.bootstrap.admission.live-owner 43.8ms total=53357.6ms start=53313.8ms\n[gateway] startup phase: cli.bootstrap.admission.core-config starting total=53367.9ms\n[gateway] startup phase: cli.bootstrap.admission.core-config 19.8ms total=53387.7ms start=53367.9ms\n[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=53391.6ms\n[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=56219.4ms\n[gateway] startup phase: cli.bootstrap.admission.core-recovery 312.0ms total=56531.4ms start=56219.4ms\n[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=56531.9ms\n[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 600.7ms total=57132.6ms start=56531.9ms\n[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=57135.8ms\n[gateway] startup phase: cli.bootstrap.admission.database-readiness 5852.7ms total=62988.5ms start=57135.8ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=0\n[gateway] startup phase: cli.bootstrap.admission.session-runtime-import starting total=62988.8ms\n[gateway] startup phase: cli.bootstrap.admission.session-runtime-import 2641.1ms total=65629.9ms start=62988.8ms\n[gateway] startup phase: cli.bootstrap.admission.agent-inventory starting total=65630.1ms\n[gateway] startup phase: cli.bootstrap.admission.agent-inventory 26.7ms total=65656.8ms start=65630.1ms\n[gateway] startup phase: cli.bootstrap.admission.session-targets starting total=65657.0ms\n[gateway] startup phase: cli.bootstrap.admission.session-targets 7.1ms total=65664.0ms start=65657.0ms agentCount=1 registeredDatabaseCount=1\n[gateway] startup phase: cli.bootstrap.admission.session-readiness starting total=65664.8ms\n[gateway] startup phase: cli.bootstrap.admission.session-readiness 0.7ms total=65665.5ms start=65664.8ms targetCount=1\n[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import starting total=65665.6ms\n[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import 32.5ms total=65698.1ms start=65665.6ms\n[gateway] startup phase: cli.bootstrap.admission.workspace-readiness starting total=65698.3ms\n[gateway] startup phase: cli.bootstrap.admission.workspace-readiness 18.5ms total=65716.8ms start=65698.3ms agentCount=1\n[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=65717.4ms\n[gateway] startup phase: cli.bootstrap.admission.plugin-config 3117.0ms total=68834.4ms start=65717.4ms\n[gateway] startup phase: cli.bootstrap.admission.config-recovery starting total=68835.0ms\n[gateway] startup phase: cli.bootstrap.admission.config-recovery 68.6ms total=68903.7ms start=68835.0ms\n[gateway] startup phase: cli.bootstrap.admission.device-identity starting total=68903.9ms\n[gateway] startup phase: cli.bootstrap.admission.device-identity 49.8ms total=68953.8ms start=68903.9ms\n[gateway] startup phase: cli.bootstrap.admission.state-snapshot 15595.3ms total=68987.0ms start=53391.6ms\n[gateway] startup phase: cli.bootstrap.admission.config-guard starting total=68987.1ms\n[gateway] startup phase: cli.bootstrap.admission.config-guard 0.9ms total=68988.0ms start=68987.1ms\n[gateway] startup phase: cli.bootstrap.webhook-readiness starting total=69002.8ms\n[gateway] startup phase: cli.bootstrap.webhook-readiness 2433.6ms total=71436.4ms start=69002.8ms\n[gateway] startup phase: cli.bootstrap.plugin-plan-import starting total=86011.7ms\n[gateway] startup phase: cli.bootstrap.plugin-plan-import 84.6ms total=86096.3ms start=86011.7ms\n[gateway] startup phase: cli.bootstrap.plugin-plan starting total=86096.5ms\n[gateway] startup phase: cli.bootstrap.plugin-plan 31.7ms total=86128.2ms start=86096.5ms\n[gateway] startup phase: cli.command.config-ready 33317.8ms total=86212.0ms start=52894.2ms\n[gateway] startup phase: cli.main.gateway-run-reload-environment starting total=86212.5ms\n[gateway] startup phase: cli.main.gateway-run-reload-environment 1.3ms total=86213.8ms start=86212.5ms\n[gateway] startup phase: cli.main.gateway-run-bootstrap 33347.5ms total=86219.7ms start=52872.2ms\n2026-10-10T22:01:42.474+00:00 [gateway] loading configuration…\n2026-10-10T22:01:42.569+00:00 [gateway] resolving authentication…\n2026-10-10T22:01:42.586+00:00 [gateway] starting...\n[gateway] startup phase: cli.bootstrap.lifecycle-runtime starting total=88508.4ms\n[gateway] startup phase: cli.bootstrap.lifecycle-runtime 758.0ms total=89266.4ms start=88508.4ms\n[gateway] startup phase: cli.bootstrap.gateway-lock starting total=89267.3ms\n[gateway] startup phase: cli.bootstrap.gateway-lock 2441.1ms total=91708.4ms start=89267.3ms\n2026-10-10T22:01:46.029+00:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-gateway.service TimeoutStopUSec=330000ms\n[gateway] startup phase: cli.bootstrap.boot-lifecycle starting total=91947.3ms\n[gateway] startup phase: cli.bootstrap.boot-lifecycle 40.8ms total=91988.1ms start=91947.3ms\n2026-10-10T22:01:47.205+00:00 [gateway] spawn broker ready pid=3835714\n[gateway] startup phase: gateway.server-start-import starting total=93114.1ms\n[gateway] startup phase: gateway.server-start-import 1858.8ms total=94972.8ms start=93114.1ms\n2026-10-10T22:01:50.400+00:00 [gateway] startup phase: process.bootstrap 96302.6ms total=96302.6ms\n2026-10-10T22:01:53.192+00:00 [gateway] startup phase: state.schema-preflight starting total=99081.3ms\n2026-10-10T22:01:55.887+00:00 [gateway] startup phase: state.schema-preflight 2710.5ms total=101791.7ms\n2026-10-10T22:01:56.069+00:00 [gateway] startup phase: config.auth starting total=101923.4ms\n2026-10-10T22:01:59.496+00:00 [gateway] startup phase: config.auth 3471.7ms total=105395.1ms\n2026-10-10T22:02:00.461+00:00 [gateway] startup phase: state.desktop-approval-admission starting total=106358.8ms\n2026-10-10T22:02:00.473+00:00 [gateway] startup phase: state.desktop-approval-admission 19.7ms total=106378.5ms\n2026-10-10T22:02:00.474+00:00 [gateway] startup phase: sessions.admission starting total=106380.8ms\n2026-10-10T22:02:06.546+00:00 [session-sqlite] slow SQLite reclamation Worker operation pid=3831447 threadId=0 isMainThread=true reclamationKind=canonical-validation workerThreadId=10 elapsedMs=5894 outcome=resolved\n[state/agent-db] agent database clean-close receipt: written\n2026-10-10T22:02:07.194+00:00 [session-sqlite] reclamation worker retired reason=exclusive-handoff kind=canonical-validation ageMs=6575 opsServed=2\n2026-10-10T22:02:07.270+00:00 [gateway] startup phase: sessions.admission 6791.4ms total=113172.2ms\n2026-10-10T22:02:10.035+00:00 [gateway] starting HTTP server...\n\n    at start (file://<proof-workspace>/upgrade.mjs:89:19)\n    at async file://<proof-workspace>/upgrade.mjs:134:10",
+    "output": "<proof-workspace>/upgrade-a1dcdd90a282-1"
+  },
+  "continuationReceipt": {
+    "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "startedAt": "2026-10-10T22:10:13.248Z",
+    "finishedAt": "2026-10-10T22:12:19.458Z",
+    "exitCode": 0,
+    "proofStatus": "pass",
+    "verdict": {
+      "phase": "verdict",
+      "pass": true,
+      "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "sameSessionKey": "agent:main:opt-out-upgrade-proof",
+      "sameSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "originalAttemptStatus": "fail",
+      "originalFailure": "candidate-readiness-timeout",
+      "continuationStatus": "pass",
+      "agentSchema": {
+        "beforeStable": 24,
+        "afterDoctor": 25,
+        "afterContinuation": 25
+      },
+      "stateSchema": {
+        "beforeStable": 19,
+        "afterDoctor": 20,
+        "afterContinuation": 20
+      },
+      "configRetained": {
+        "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED",
+        "timeoutSeconds": 73,
+        "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+        "dmCompletionFallback": "absent-before-and-after"
+      },
+      "actualGatewayHistoryRetained": true,
+      "actualGatewayReadWriteOnRetainedSession": true,
+      "initialRecordsUnchanged": true,
+      "preservedFailedAttemptState": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1/preserved-pre-continuation-state",
+      "readiness": {
+        "timestamp": "2026-10-10T22:11:17.821Z",
+        "phase": "candidate-health-ready",
+        "healthHttpStatus": 200,
+        "elapsedMs": 64529,
+        "poll": 58
+      },
+      "remainingStartupUncertainty": "A serialized continuation within the unchanged readiness bound supports resource contention as the original cause, but does not prove startup under arbitrary concurrent workload or claim a product startup repair."
+    },
+    "error": null,
+    "output": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1"
+  },
+  "sameStableCreatedSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+  "readiness": {
+    "timestamp": "2026-10-10T22:11:17.821Z",
+    "phase": "candidate-health-ready",
+    "healthHttpStatus": 200,
+    "elapsedMs": 64529,
+    "poll": 58
+  },
+  "scopeLimitations": [
+    "Initial candidate readiness failure is retained and is not recast as a pass.",
+    "Same Doctor-migrated state is continued; the exact pre-continuation state is preserved separately.",
+    "Readiness uses the original unchanged 120 one-second poll bound.",
+    "Serialization is a controlled resource-contention diagnosis, not a source repair or proof of startup under arbitrary concurrent workload.",
+    "This lane proves real shipped stable -> Doctor -> built candidate state/config/session retention, not public-package candidate installation or fallback delivery by itself."
+  ]
+}

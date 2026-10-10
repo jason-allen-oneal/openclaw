@@ -1,0 +1,809 @@
+[
+  {
+    "timestamp": "2026-10-10T22:10:13.290Z",
+    "phase": "retained-migrated-state-before-continuation",
+    "databases": {
+      "agent": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite",
+        "userVersion": 25,
+        "integrity": "ok",
+        "sha256": "a3bf7a4bd60086ae983a07f7ce516ae02b1c52b467349c87d2c5322ca064522e"
+      },
+      "state": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/state/openclaw.sqlite",
+        "userVersion": 20,
+        "integrity": "ok",
+        "sha256": "c94a7d028be8f0a262eb8920c97443321651350f94893ae0518a15b53f2b7b38"
+      }
+    }
+  },
+  {
+    "timestamp": "2026-10-10T22:11:17.821Z",
+    "phase": "candidate-health-ready",
+    "healthHttpStatus": 200,
+    "elapsedMs": 64529,
+    "poll": 58
+  },
+  {
+    "timestamp": "2026-10-10T22:11:25.021Z",
+    "phase": "candidate-rpc-connected",
+    "evidenceIdentity": {
+      "protocol": 4,
+      "version": "2026.9.9"
+    }
+  },
+  {
+    "timestamp": "2026-10-10T22:11:30.361Z",
+    "phase": "candidate-continuation",
+    "method": "config.get",
+    "params": {},
+    "response": {
+      "path": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/openclaw.json",
+      "includedPaths": [],
+      "includeProvenance": [],
+      "agentRosterIncludeOwned": false,
+      "bindingsIncludeOwned": false,
+      "exists": true,
+      "raw": "{\n  \"gateway\": {\n    \"mode\": \"local\",\n    \"auth\": {\n      \"mode\": \"token\",\n      \"token\": \"__OPENCLAW_REDACTED__\"\n    }\n  },\n  \"agents\": {\n    \"defaults\": {\n      \"workspace\": \"<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace\",\n      \"timeoutSeconds\": 73\n    },\n    \"entries\": {\n      \"main\": {}\n    }\n  },\n  \"messages\": {\n    \"responsePrefix\": \"QA-OPT-OUT-UPGRADE-PRESERVED\"\n  },\n  \"meta\": {\n    \"migrations\": {\n      \"webhookListeners\": {\n        \"feishu\": [],\n        \"nextcloud-talk\": [],\n        \"telegram\": []\n      },\n      \"modelPolicyAllowlist\": true,\n      \"utilityModelSeparation\": true\n    },\n    \"lastTouchedVersion\": \"2026.9.9\"\n  },\n  \"wizard\": {\n    \"lastRunAt\": \"2026-10-10T21:59:59.838Z\",\n    \"lastRunVersion\": \"2026.9.9\",\n    \"lastRunCommand\": \"doctor\",\n    \"lastRunMode\": \"local\"\n  },\n  \"skills\": {\n    \"entries\": {\n      \"coding-agent\": {\n        \"enabled\": false\n      },\n      \"goplaces\": {\n        \"enabled\": false\n      },\n      \"mcporter\": {\n        \"enabled\": false\n      },\n      \"model-usage\": {\n        \"enabled\": false\n      },\n      \"obsidian\": {\n        \"enabled\": false\n      },\n      \"openai-whisper-api\": {\n        \"enabled\": false\n      },\n      \"oracle\": {\n        \"enabled\": false\n      },\n      \"sherpa-onnx-tts\": {\n        \"enabled\": false\n      },\n      \"trello\": {\n        \"enabled\": false\n      }\n    }\n  }\n}\n",
+      "parsed": {
+        "gateway": {
+          "mode": "local",
+          "auth": {
+            "mode": "token",
+            "token": "__OPENCLAW_REDACTED__"
+          }
+        },
+        "agents": {
+          "defaults": {
+            "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+            "timeoutSeconds": 73
+          },
+          "entries": {
+            "main": {}
+          }
+        },
+        "messages": {
+          "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED"
+        },
+        "meta": {
+          "migrations": {
+            "webhookListeners": {
+              "feishu": [],
+              "nextcloud-talk": [],
+              "telegram": []
+            },
+            "modelPolicyAllowlist": true,
+            "utilityModelSeparation": true
+          },
+          "lastTouchedVersion": "2026.9.9"
+        },
+        "wizard": {
+          "lastRunAt": "2026-10-10T21:59:59.838Z",
+          "lastRunVersion": "2026.9.9",
+          "lastRunCommand": "doctor",
+          "lastRunMode": "local"
+        },
+        "skills": {
+          "entries": {
+            "coding-agent": {
+              "enabled": false
+            },
+            "goplaces": {
+              "enabled": false
+            },
+            "mcporter": {
+              "enabled": false
+            },
+            "model-usage": {
+              "enabled": false
+            },
+            "obsidian": {
+              "enabled": false
+            },
+            "openai-whisper-api": {
+              "enabled": false
+            },
+            "oracle": {
+              "enabled": false
+            },
+            "sherpa-onnx-tts": {
+              "enabled": false
+            },
+            "trello": {
+              "enabled": false
+            }
+          }
+        }
+      },
+      "sourceConfig": {
+        "gateway": {
+          "mode": "local",
+          "auth": {
+            "mode": "token",
+            "token": "__OPENCLAW_REDACTED__"
+          }
+        },
+        "agents": {
+          "defaults": {
+            "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+            "timeoutSeconds": 73
+          },
+          "entries": {
+            "main": {}
+          }
+        },
+        "messages": {
+          "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED"
+        },
+        "meta": {
+          "migrations": {
+            "webhookListeners": {
+              "feishu": [],
+              "nextcloud-talk": [],
+              "telegram": []
+            },
+            "modelPolicyAllowlist": true,
+            "utilityModelSeparation": true
+          },
+          "lastTouchedVersion": "2026.9.9"
+        },
+        "wizard": {
+          "lastRunAt": "2026-10-10T21:59:59.838Z",
+          "lastRunVersion": "2026.9.9",
+          "lastRunCommand": "doctor",
+          "lastRunMode": "local"
+        },
+        "skills": {
+          "entries": {
+            "coding-agent": {
+              "enabled": false
+            },
+            "goplaces": {
+              "enabled": false
+            },
+            "mcporter": {
+              "enabled": false
+            },
+            "model-usage": {
+              "enabled": false
+            },
+            "obsidian": {
+              "enabled": false
+            },
+            "openai-whisper-api": {
+              "enabled": false
+            },
+            "oracle": {
+              "enabled": false
+            },
+            "sherpa-onnx-tts": {
+              "enabled": false
+            },
+            "trello": {
+              "enabled": false
+            }
+          }
+        }
+      },
+      "resolved": {
+        "gateway": {
+          "mode": "local",
+          "auth": {
+            "mode": "token",
+            "token": "__OPENCLAW_REDACTED__"
+          }
+        },
+        "agents": {
+          "defaults": {
+            "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+            "timeoutSeconds": 73
+          },
+          "entries": {
+            "main": {}
+          }
+        },
+        "messages": {
+          "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED"
+        },
+        "meta": {
+          "migrations": {
+            "webhookListeners": {
+              "feishu": [],
+              "nextcloud-talk": [],
+              "telegram": []
+            },
+            "modelPolicyAllowlist": true,
+            "utilityModelSeparation": true
+          },
+          "lastTouchedVersion": "2026.9.9"
+        },
+        "wizard": {
+          "lastRunAt": "2026-10-10T21:59:59.838Z",
+          "lastRunVersion": "2026.9.9",
+          "lastRunCommand": "doctor",
+          "lastRunMode": "local"
+        },
+        "skills": {
+          "entries": {
+            "coding-agent": {
+              "enabled": false
+            },
+            "goplaces": {
+              "enabled": false
+            },
+            "mcporter": {
+              "enabled": false
+            },
+            "model-usage": {
+              "enabled": false
+            },
+            "obsidian": {
+              "enabled": false
+            },
+            "openai-whisper-api": {
+              "enabled": false
+            },
+            "oracle": {
+              "enabled": false
+            },
+            "sherpa-onnx-tts": {
+              "enabled": false
+            },
+            "trello": {
+              "enabled": false
+            }
+          }
+        }
+      },
+      "valid": true,
+      "runtimeConfig": {
+        "meta": {
+          "lastTouchedVersion": "2026.9.9",
+          "migrations": {
+            "modelPolicyAllowlist": true,
+            "utilityModelSeparation": true,
+            "webhookListeners": {
+              "feishu": [],
+              "nextcloud-talk": [],
+              "telegram": []
+            }
+          }
+        },
+        "wizard": {
+          "lastRunAt": "2026-10-10T21:59:59.838Z",
+          "lastRunVersion": "2026.9.9",
+          "lastRunCommand": "doctor",
+          "lastRunMode": "local"
+        },
+        "agents": {
+          "defaults": {
+            "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+            "timeoutSeconds": 73,
+            "maxConcurrent": 32,
+            "subagents": {
+              "maxConcurrent": 8,
+              "archiveAfterMinutes": 60
+            },
+            "compaction": {
+              "mode": "safeguard"
+            }
+          },
+          "entries": {
+            "main": {}
+          }
+        },
+        "messages": {
+          "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED",
+          "ackReactionScope": "group-mentions"
+        },
+        "commands": {
+          "native": "auto",
+          "nativeSkills": "auto",
+          "restart": true
+        },
+        "gateway": {
+          "mode": "local",
+          "auth": {
+            "mode": "token",
+            "token": "__OPENCLAW_REDACTED__"
+          }
+        },
+        "skills": {
+          "entries": {
+            "coding-agent": {
+              "enabled": false
+            },
+            "goplaces": {
+              "enabled": false
+            },
+            "mcporter": {
+              "enabled": false
+            },
+            "model-usage": {
+              "enabled": false
+            },
+            "obsidian": {
+              "enabled": false
+            },
+            "openai-whisper-api": {
+              "enabled": false
+            },
+            "oracle": {
+              "enabled": false
+            },
+            "sherpa-onnx-tts": {
+              "enabled": false
+            },
+            "trello": {
+              "enabled": false
+            }
+          }
+        }
+      },
+      "config": {
+        "meta": {
+          "lastTouchedVersion": "2026.9.9",
+          "migrations": {
+            "modelPolicyAllowlist": true,
+            "utilityModelSeparation": true,
+            "webhookListeners": {
+              "feishu": [],
+              "nextcloud-talk": [],
+              "telegram": []
+            }
+          }
+        },
+        "wizard": {
+          "lastRunAt": "2026-10-10T21:59:59.838Z",
+          "lastRunVersion": "2026.9.9",
+          "lastRunCommand": "doctor",
+          "lastRunMode": "local"
+        },
+        "agents": {
+          "defaults": {
+            "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+            "timeoutSeconds": 73,
+            "maxConcurrent": 32,
+            "subagents": {
+              "maxConcurrent": 8,
+              "archiveAfterMinutes": 60
+            },
+            "compaction": {
+              "mode": "safeguard"
+            }
+          },
+          "entries": {
+            "main": {}
+          }
+        },
+        "messages": {
+          "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED",
+          "ackReactionScope": "group-mentions"
+        },
+        "commands": {
+          "native": "auto",
+          "nativeSkills": "auto",
+          "restart": true
+        },
+        "gateway": {
+          "mode": "local",
+          "auth": {
+            "mode": "token",
+            "token": "__OPENCLAW_REDACTED__"
+          }
+        },
+        "skills": {
+          "entries": {
+            "coding-agent": {
+              "enabled": false
+            },
+            "goplaces": {
+              "enabled": false
+            },
+            "mcporter": {
+              "enabled": false
+            },
+            "model-usage": {
+              "enabled": false
+            },
+            "obsidian": {
+              "enabled": false
+            },
+            "openai-whisper-api": {
+              "enabled": false
+            },
+            "oracle": {
+              "enabled": false
+            },
+            "sherpa-onnx-tts": {
+              "enabled": false
+            },
+            "trello": {
+              "enabled": false
+            }
+          }
+        }
+      },
+      "hash": "hmac-sha256:v1:b2VVZlCtffitAVfP3WolPfXIN65Vp55XCKWU4l5Jnuc",
+      "issues": [],
+      "warnings": [],
+      "legacyIssues": [],
+      "configRevisionHash": "hmac-sha256:v1:w-lqgbq4JQ2DAs8BmgVR0HkSRzMgqI76enMIKkkApqc",
+      "appliedConfigHash": "hmac-sha256:v1:w-lqgbq4JQ2DAs8BmgVR0HkSRzMgqI76enMIKkkApqc"
+    }
+  },
+  {
+    "timestamp": "2026-10-10T22:11:44.795Z",
+    "phase": "candidate-continuation",
+    "method": "chat.history",
+    "params": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "limit": 30
+    },
+    "response": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "QA-STABLE-OPT-OUT-PERSISTED-HISTORY"
+            }
+          ],
+          "timestamp": 1791669490624,
+          "stopReason": "stop",
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "totalTokens": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "total": 0
+            }
+          },
+          "api": "openai-responses",
+          "provider": "openclaw",
+          "model": "gateway-injected",
+          "__openclaw": {
+            "id": "9274e3dc-9823-4399-a77a-568dc6b836c3",
+            "recordTimestampMs": 1791669490624,
+            "transcriptPosition": {
+              "source": "SQzHpRJXeT8xQ5snptQ6kaPbX7UOST0Hjo1N6ZXUSL8",
+              "rawSeq": 1
+            },
+            "seq": 1
+          }
+        }
+      ],
+      "hasMore": false,
+      "totalMessages": 1,
+      "pendingInputs": {
+        "items": [],
+        "total": 0,
+        "queuedCount": 0
+      },
+      "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJkMzcxMzYyNGYxN2E0ZDU3YWI4YmQ1NmU4MzFiN2M4NSIsImxhc3RTZXEiOjEsInNlc3Npb25JZCI6IjE5MzlhNDE1LWYwMWEtNGY5ZS1hNmQ0LWZiMDBmZDQ0NWVjNyIsInZlcnNpb24iOjF9",
+      "defaults": {
+        "modelProvider": "openai",
+        "model": "gpt-6-astra",
+        "contextTokens": 200000,
+        "agentRuntime": {
+          "id": "codex",
+          "cloudPlacementSupported": false,
+          "devicePlacementSupported": false,
+          "source": "implicit"
+        },
+        "communication": {
+          "send": "always",
+          "receive": "always"
+        },
+        "modelSelectionTarget": "session"
+      },
+      "sessionInfo": {
+        "key": "agent:main:opt-out-upgrade-proof",
+        "sessionModelRevision": "SofCPeHbZ-8f2YRWmYL1dMT6Op1256nwQza87oITQNg",
+        "visibility": "shared",
+        "effectiveCommunication": {
+          "send": "always",
+          "receive": "always"
+        },
+        "permissionModePending": false,
+        "createdVia": "operator",
+        "createdAt": 1791669490224,
+        "kind": "direct",
+        "classification": "custom",
+        "agentId": "main",
+        "isMain": false,
+        "isDock": false,
+        "isBackground": false,
+        "updatedAt": 1791669490675,
+        "archived": false,
+        "pinned": false,
+        "sidebarRoot": false,
+        "unread": false,
+        "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+        "lifecycleRevision": "d67cb6f2-3bc2-4725-827e-3a76a7b4fce6",
+        "systemSent": false,
+        "abortedLastRun": false,
+        "effectiveFastMode": false,
+        "effectiveFastModeSource": "default",
+        "fastAutoOnSeconds": 60,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0,
+        "totalTokensFresh": true,
+        "effectiveResponseUsage": "off",
+        "effectiveQueueMode": "steer",
+        "modelProvider": "openai",
+        "model": "gpt-6-astra",
+        "modelOverrideSource": null,
+        "runtimeSelectionLocked": false,
+        "agentRuntime": {
+          "id": "codex",
+          "cloudPlacementSupported": false,
+          "devicePlacementSupported": false,
+          "source": "implicit"
+        },
+        "snapshotAt": 1791670304729,
+        "activitySummary": {
+          "state": "stale",
+          "canEnsure": true
+        },
+        "hasBoard": false,
+        "childOwnerSessionKeys": [],
+        "sharingRole": "admin",
+        "sendDisabledReason": null,
+        "hasActiveRun": false,
+        "activeRunIds": [],
+        "activeLeafEntryId": "9274e3dc-9823-4399-a77a-568dc6b836c3"
+      }
+    }
+  },
+  {
+    "timestamp": "2026-10-10T22:12:02.798Z",
+    "phase": "candidate-continuation",
+    "method": "chat.inject",
+    "params": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "message": "QA-CANDIDATE-OPT-OUT-USES-EXISTING-SESSION"
+    },
+    "response": {
+      "ok": true,
+      "messageId": "8a7e9f94-7664-4b67-b1ac-296542578c51"
+    }
+  },
+  {
+    "timestamp": "2026-10-10T22:12:03.694Z",
+    "phase": "candidate-continuation",
+    "method": "chat.history",
+    "params": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "limit": 30
+    },
+    "response": {
+      "sessionKey": "agent:main:opt-out-upgrade-proof",
+      "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "QA-STABLE-OPT-OUT-PERSISTED-HISTORY"
+            }
+          ],
+          "timestamp": 1791669490624,
+          "stopReason": "stop",
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "totalTokens": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "total": 0
+            }
+          },
+          "api": "openai-responses",
+          "provider": "openclaw",
+          "model": "gateway-injected",
+          "__openclaw": {
+            "id": "9274e3dc-9823-4399-a77a-568dc6b836c3",
+            "recordTimestampMs": 1791669490624,
+            "transcriptPosition": {
+              "source": "SQzHpRJXeT8xQ5snptQ6kaPbX7UOST0Hjo1N6ZXUSL8",
+              "rawSeq": 1
+            },
+            "seq": 1
+          }
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "QA-CANDIDATE-OPT-OUT-USES-EXISTING-SESSION"
+            }
+          ],
+          "timestamp": 1791670305037,
+          "stopReason": "stop",
+          "usage": {
+            "input": 0,
+            "output": 0,
+            "totalTokens": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "total": 0
+            }
+          },
+          "api": "openai-responses",
+          "provider": "openclaw",
+          "model": "gateway-injected",
+          "__openclaw": {
+            "id": "8a7e9f94-7664-4b67-b1ac-296542578c51",
+            "recordTimestampMs": 1791670305037,
+            "transcriptPosition": {
+              "source": "SQzHpRJXeT8xQ5snptQ6kaPbX7UOST0Hjo1N6ZXUSL8",
+              "rawSeq": 2
+            },
+            "seq": 2
+          }
+        }
+      ],
+      "hasMore": false,
+      "totalMessages": 2,
+      "pendingInputs": {
+        "items": [],
+        "total": 0,
+        "queuedCount": 0
+      },
+      "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJkMzcxMzYyNGYxN2E0ZDU3YWI4YmQ1NmU4MzFiN2M4NSIsImxhc3RTZXEiOjIsInNlc3Npb25JZCI6IjE5MzlhNDE1LWYwMWEtNGY5ZS1hNmQ0LWZiMDBmZDQ0NWVjNyIsInZlcnNpb24iOjF9",
+      "defaults": {
+        "modelProvider": "openai",
+        "model": "gpt-6-astra",
+        "contextTokens": 200000,
+        "agentRuntime": {
+          "id": "codex",
+          "cloudPlacementSupported": false,
+          "devicePlacementSupported": false,
+          "source": "implicit"
+        },
+        "communication": {
+          "send": "always",
+          "receive": "always"
+        },
+        "modelSelectionTarget": "session"
+      },
+      "sessionInfo": {
+        "key": "agent:main:opt-out-upgrade-proof",
+        "sessionModelRevision": "SofCPeHbZ-8f2YRWmYL1dMT6Op1256nwQza87oITQNg",
+        "visibility": "shared",
+        "effectiveCommunication": {
+          "send": "always",
+          "receive": "always"
+        },
+        "permissionModePending": false,
+        "createdVia": "operator",
+        "createdAt": 1791669490224,
+        "kind": "direct",
+        "classification": "custom",
+        "agentId": "main",
+        "isMain": false,
+        "isDock": false,
+        "isBackground": false,
+        "updatedAt": 1791670322588,
+        "archived": false,
+        "pinned": false,
+        "sidebarRoot": false,
+        "unread": false,
+        "sessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+        "lifecycleRevision": "d67cb6f2-3bc2-4725-827e-3a76a7b4fce6",
+        "systemSent": false,
+        "abortedLastRun": false,
+        "effectiveFastMode": false,
+        "effectiveFastModeSource": "default",
+        "fastAutoOnSeconds": 60,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0,
+        "totalTokensFresh": true,
+        "effectiveResponseUsage": "off",
+        "effectiveQueueMode": "steer",
+        "modelProvider": "openai",
+        "model": "gpt-6-astra",
+        "modelOverrideSource": null,
+        "runtimeSelectionLocked": false,
+        "agentRuntime": {
+          "id": "codex",
+          "cloudPlacementSupported": false,
+          "devicePlacementSupported": false,
+          "source": "implicit"
+        },
+        "snapshotAt": 1791670323656,
+        "activitySummary": {
+          "state": "updating",
+          "canEnsure": true
+        },
+        "hasBoard": false,
+        "childOwnerSessionKeys": [],
+        "sharingRole": "admin",
+        "sendDisabledReason": null,
+        "hasActiveRun": false,
+        "activeRunIds": [],
+        "activeLeafEntryId": "8a7e9f94-7664-4b67-b1ac-296542578c51"
+      }
+    }
+  },
+  {
+    "timestamp": "2026-10-10T22:12:18.699Z",
+    "phase": "candidate-continuation-shutdown-schema",
+    "databases": {
+      "agent": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/agents/main/agent/openclaw-agent.sqlite",
+        "userVersion": 25,
+        "integrity": "ok",
+        "sha256": "8c83a86de05aa55b740469f2cfe49e898b273c21560a7f740ba2663a609241e9"
+      },
+      "state": {
+        "file": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state/state/openclaw.sqlite",
+        "userVersion": 20,
+        "integrity": "ok",
+        "sha256": "fa7471ae88bda68cd8d8f3ef5541968d8304e06fa0de10540df55e0f7c64fe46"
+      }
+    }
+  },
+  {
+    "phase": "verdict",
+    "pass": true,
+    "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "sameSessionKey": "agent:main:opt-out-upgrade-proof",
+    "sameSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+    "originalAttemptStatus": "fail",
+    "originalFailure": "candidate-readiness-timeout",
+    "continuationStatus": "pass",
+    "agentSchema": {
+      "beforeStable": 24,
+      "afterDoctor": 25,
+      "afterContinuation": 25
+    },
+    "stateSchema": {
+      "beforeStable": 19,
+      "afterDoctor": 20,
+      "afterContinuation": 20
+    },
+    "configRetained": {
+      "responsePrefix": "QA-OPT-OUT-UPGRADE-PRESERVED",
+      "timeoutSeconds": 73,
+      "workspace": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace",
+      "dmCompletionFallback": "absent-before-and-after"
+    },
+    "actualGatewayHistoryRetained": true,
+    "actualGatewayReadWriteOnRetainedSession": true,
+    "initialRecordsUnchanged": true,
+    "preservedFailedAttemptState": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1/preserved-pre-continuation-state",
+    "readiness": {
+      "timestamp": "2026-10-10T22:11:17.821Z",
+      "phase": "candidate-health-ready",
+      "healthHttpStatus": 200,
+      "elapsedMs": 64529,
+      "poll": 58
+    },
+    "remainingStartupUncertainty": "A serialized continuation within the unchanged readiness bound supports resource contention as the original cause, but does not prove startup under arbitrary concurrent workload or claim a product startup repair."
+  }
+]

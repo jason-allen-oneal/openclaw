@@ -1,0 +1,42 @@
+{
+  "result": {
+    "name": "Built native media fallback false",
+    "status": "pass",
+    "steps": [
+      {
+        "name": "native media delivery boundary",
+        "status": "pass",
+        "details": "{\n  \"pass\": true,\n  \"sourceSha\": \"a1dcdd90a282d2d636eec9151a47a833be89a1af\",\n  \"mode\": \"false\",\n  \"kind\": \"media\",\n  \"runId\": \"6eefb820-adeb-4c9f-b3a3-327e45c1fff3\",\n  \"childSessionKey\": \"agent:qa:subagent:62ee2f12-b482-401f-891c-52711a644667\",\n  \"requesterSessionKey\": \"agent:qa:main\",\n  \"execution\": {\n    \"status\": \"terminal\",\n    \"endedAt\": 1791669869267,\n    \"outcome\": {\n      \"status\": \"ok\"\n    }\n  },\n  \"delivery\": {\n    \"status\": \"suspended\",\n    \"disposition\": \"permanent_failure\"\n  },\n  \"receiptKeys\": [],\n  \"mediaCount\": 0,\n  \"receivedPngByteEquality\": [],\n  \"expectedPngBytes\": 103,\n  \"failureNoticeCount\": 0,\n  \"acknowledgmentTimes\": [\n    1791669867280\n  ],\n  \"kickoffAt\": 1791669831615,\n  \"terminalObservedAt\": 1791669869967,\n  \"finishedObservationAt\": 1791669899987,\n  \"postTerminalObservationMs\": 30020,\n  \"childEndedAt\": 1791669869267,\n  \"ordinaryOutbound\": [\n    {\n      \"id\": \"994b2341-0f3a-444f-933d-6945b5fc94ba\",\n      \"text\": \"Worker started.\",\n      \"timestamp\": 1791669867280\n    },\n    {\n      \"id\": \"77051d7c-cee7-411c-b20d-2c9e206f8bb6\",\n      \"text\": \"Protocol note: acknowledged. Continue with the QA scenario plan and report worked, failed, and blocked items.\",\n      \"timestamp\": 1791669874695\n    }\n  ],\n  \"providerFaultCaveat\": null\n}"
+      }
+    ],
+    "evidenceOccurrenceId": "8424ee93-27ea-4ed7-b936-7e0f7e143ad9"
+  },
+  "launch": {
+    "source": {
+      "ref": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "integrity": "git:a1dcdd90a282d2d636eec9151a47a833be89a1af"
+    },
+    "runtime": {
+      "id": "node",
+      "version": "v24.21.0"
+    },
+    "package": null,
+    "protocol": null,
+    "accountRef": null,
+    "proofClass": null
+  },
+  "runtime": {
+    "source": {
+      "ref": null,
+      "integrity": null
+    },
+    "runtime": {
+      "id": "openclaw",
+      "version": "2026.9.9"
+    },
+    "package": null,
+    "protocol": "gateway:4",
+    "accountRef": null,
+    "proofClass": null
+  }
+}

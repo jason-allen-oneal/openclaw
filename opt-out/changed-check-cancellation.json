@@ -1,0 +1,21 @@
+{
+  "command": "pnpm check:changed",
+  "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "status": "cancelled-as-redundant",
+  "at": "2026-10-10T22:15:21.224906+00:00",
+  "ownerPid": 3797896,
+  "signaledOwnedPids": [
+    3869564,
+    3798035,
+    3798007,
+    3797966,
+    3797965,
+    3797964,
+    3797935,
+    3797896
+  ],
+  "reason": "User requested no unnecessary repeated work; exact-head GitHub CI already passed production/test type and lint gates. Existing duplicate local sweep stopped, not credited as passed.",
+  "exactHeadCi": "https://github.com/openclaw/openclaw/actions/runs/38089073787",
+  "actualTerminalExitCode": 143,
+  "statusDerivedFrom": "Parent exec session35672 actual terminal receipt"
+}

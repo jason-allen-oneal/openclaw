@@ -1,0 +1,125 @@
+{
+  "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+  "sourceStatus": "",
+  "buildBindings": {
+    "sourceSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "sourceStatus": "",
+    "recordedAt": "2026-10-10T22:10:05.718Z",
+    "nodeVersion": "v24.21.0",
+    "modules": {
+      "owner": {
+        "file": "<candidate>/dist/subagent-announce-completion-delivery-Dwepxznt.mjs",
+        "localName": "deliverCompletionDirect",
+        "exportName": "n",
+        "sha256": "32000e41d1d747cac8fd56beaf1e7acfc721e59e6034ce21a2e2e1b838004229",
+        "bytes": 27675
+      },
+      "registry": {
+        "file": "<candidate>/dist/runtime-wpiOJesu.mjs",
+        "localName": "setActivePluginRegistry",
+        "exportName": "C",
+        "sha256": "7fe5632f63cef8a1d9df97161cb1ef07ce6b07b71c3843b27a69577d0b6f36d9",
+        "bytes": 46534
+      },
+      "emptyRegistry": {
+        "file": "<candidate>/dist/registry-empty-mS6HujHb.mjs",
+        "localName": "createEmptyPluginRegistry",
+        "exportName": "t",
+        "sha256": "026994b8613f10bff379b625e4ef0edbe0b3ef728d31b759eebb82c802b71432",
+        "bytes": 2074
+      },
+      "scenarioCatalog": {
+        "file": "<candidate>/dist/scenario-catalog-DpPUMUOS.mjs",
+        "localName": "readQaScenarioFile",
+        "exportName": "s",
+        "sha256": "834de5caa6b8104a45ec2bc3527b42a4d2fd91e74e2c9ccf3323bd70ffa637f6",
+        "bytes": 23241
+      }
+    },
+    "provenanceFiles": {
+      "gatewayEntry": {
+        "file": "<candidate>/dist/index.js",
+        "sha256": "58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd",
+        "bytes": 5744
+      },
+      "qaApi": {
+        "file": "<candidate>/dist/extensions/qa-lab/api.js",
+        "sha256": "3d5be3f170779cb042a52d1ed56e2cb3e35b75e1bc7c6015f0b9f25744b9b9a7",
+        "bytes": 1904
+      },
+      "scenario": {
+        "file": "<candidate>/qa/scenarios/agents/subagent-completion-direct-fallback.yaml",
+        "sha256": "080d72efbe5572c942166b6a26d629919506ceec9388b96713281f89c07633cf",
+        "bytes": 45174
+      },
+      "provider": {
+        "file": "<candidate>/extensions/qa-lab/src/providers/mock-openai/server.ts",
+        "sha256": "279b07e40348611d676533aa5ae5b56b6b07ad26ce7a278c7cbcda2861f46929",
+        "bytes": 96460
+      }
+    }
+  },
+  "buildInfo": {
+    "version": "2026.9.9",
+    "commit": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+    "builtAt": "2026-10-10T21:50:41.320Z",
+    "buildId": "2026.9.9-a1dcdd90a282-2026-10-10T21-50-41.320Z"
+  },
+  "buildInfoSha256": "9b624d8fea11cfa4920811a028beafc9d154f8a36628bbb0177cc5c84ccc5b1a",
+  "gatewayEntrySha256": "58309819e9885bf7ce065d7bec26109f5853e87e9677f6dace0327d3053b29bd",
+  "rpcClient": {
+    "file": "<candidate>/dist/gateway-rpc-client-Dz7fwEcz.mjs",
+    "exportName": "t",
+    "sha256": "84c457a77d1ec517612f8820de16cc6f94cba48fceb470d105885a54c7411a58"
+  },
+  "originalAttempt": {
+    "directory": "<proof-workspace>/upgrade-a1dcdd90a282-1",
+    "receipt": {
+      "candidateSha": "a1dcdd90a282d2d636eec9151a47a833be89a1af",
+      "startedAt": "2026-10-10T21:57:44.099Z",
+      "finishedAt": "2026-10-10T22:02:23.699Z",
+      "exitCode": 1,
+      "proofStatus": "fail",
+      "verdict": null,
+      "error": "Error: candidate readiness timeout: [gateway] startup phase: entry.run-main-import starting total=4722.2ms\n[gateway] startup phase: entry.run-main-import 159.5ms total=4881.7ms start=4722.2ms\n[gateway] startup phase: cli.main.gateway-run-select-environment starting total=6608.4ms\n[gateway] startup phase: cli.main.gateway-run-select-environment 29585.8ms total=36194.2ms start=6608.4ms\n[gateway] startup phase: cli.main.gateway-run-imports starting total=36401.1ms\n[gateway] startup phase: cli.main.gateway-run-imports 70.8ms total=36471.9ms start=36401.1ms\n[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=36640.6ms\n[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 16231.4ms total=52872.0ms start=36640.6ms\n[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=52872.2ms\n[gateway] startup phase: cli.command.config-ready starting total=52894.2ms\n[gateway] startup phase: cli.command.config-guard-import starting total=52894.7ms\n[gateway] startup phase: cli.command.config-guard-import 206.5ms total=53101.2ms start=52894.7ms\n[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=53313.8ms\n[gateway] startup phase: cli.bootstrap.admission.live-owner 43.8ms total=53357.6ms start=53313.8ms\n[gateway] startup phase: cli.bootstrap.admission.core-config starting total=53367.9ms\n[gateway] startup phase: cli.bootstrap.admission.core-config 19.8ms total=53387.7ms start=53367.9ms\n[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=53391.6ms\n[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=56219.4ms\n[gateway] startup phase: cli.bootstrap.admission.core-recovery 312.0ms total=56531.4ms start=56219.4ms\n[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=56531.9ms\n[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 600.7ms total=57132.6ms start=56531.9ms\n[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=57135.8ms\n[gateway] startup phase: cli.bootstrap.admission.database-readiness 5852.7ms total=62988.5ms start=57135.8ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=0\n[gateway] startup phase: cli.bootstrap.admission.session-runtime-import starting total=62988.8ms\n[gateway] startup phase: cli.bootstrap.admission.session-runtime-import 2641.1ms total=65629.9ms start=62988.8ms\n[gateway] startup phase: cli.bootstrap.admission.agent-inventory starting total=65630.1ms\n[gateway] startup phase: cli.bootstrap.admission.agent-inventory 26.7ms total=65656.8ms start=65630.1ms\n[gateway] startup phase: cli.bootstrap.admission.session-targets starting total=65657.0ms\n[gateway] startup phase: cli.bootstrap.admission.session-targets 7.1ms total=65664.0ms start=65657.0ms agentCount=1 registeredDatabaseCount=1\n[gateway] startup phase: cli.bootstrap.admission.session-readiness starting total=65664.8ms\n[gateway] startup phase: cli.bootstrap.admission.session-readiness 0.7ms total=65665.5ms start=65664.8ms targetCount=1\n[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import starting total=65665.6ms\n[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import 32.5ms total=65698.1ms start=65665.6ms\n[gateway] startup phase: cli.bootstrap.admission.workspace-readiness starting total=65698.3ms\n[gateway] startup phase: cli.bootstrap.admission.workspace-readiness 18.5ms total=65716.8ms start=65698.3ms agentCount=1\n[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=65717.4ms\n[gateway] startup phase: cli.bootstrap.admission.plugin-config 3117.0ms total=68834.4ms start=65717.4ms\n[gateway] startup phase: cli.bootstrap.admission.config-recovery starting total=68835.0ms\n[gateway] startup phase: cli.bootstrap.admission.config-recovery 68.6ms total=68903.7ms start=68835.0ms\n[gateway] startup phase: cli.bootstrap.admission.device-identity starting total=68903.9ms\n[gateway] startup phase: cli.bootstrap.admission.device-identity 49.8ms total=68953.8ms start=68903.9ms\n[gateway] startup phase: cli.bootstrap.admission.state-snapshot 15595.3ms total=68987.0ms start=53391.6ms\n[gateway] startup phase: cli.bootstrap.admission.config-guard starting total=68987.1ms\n[gateway] startup phase: cli.bootstrap.admission.config-guard 0.9ms total=68988.0ms start=68987.1ms\n[gateway] startup phase: cli.bootstrap.webhook-readiness starting total=69002.8ms\n[gateway] startup phase: cli.bootstrap.webhook-readiness 2433.6ms total=71436.4ms start=69002.8ms\n[gateway] startup phase: cli.bootstrap.plugin-plan-import starting total=86011.7ms\n[gateway] startup phase: cli.bootstrap.plugin-plan-import 84.6ms total=86096.3ms start=86011.7ms\n[gateway] startup phase: cli.bootstrap.plugin-plan starting total=86096.5ms\n[gateway] startup phase: cli.bootstrap.plugin-plan 31.7ms total=86128.2ms start=86096.5ms\n[gateway] startup phase: cli.command.config-ready 33317.8ms total=86212.0ms start=52894.2ms\n[gateway] startup phase: cli.main.gateway-run-reload-environment starting total=86212.5ms\n[gateway] startup phase: cli.main.gateway-run-reload-environment 1.3ms total=86213.8ms start=86212.5ms\n[gateway] startup phase: cli.main.gateway-run-bootstrap 33347.5ms total=86219.7ms start=52872.2ms\n2026-10-10T22:01:42.474+00:00 [gateway] loading configuration…\n2026-10-10T22:01:42.569+00:00 [gateway] resolving authentication…\n2026-10-10T22:01:42.586+00:00 [gateway] starting...\n[gateway] startup phase: cli.bootstrap.lifecycle-runtime starting total=88508.4ms\n[gateway] startup phase: cli.bootstrap.lifecycle-runtime 758.0ms total=89266.4ms start=88508.4ms\n[gateway] startup phase: cli.bootstrap.gateway-lock starting total=89267.3ms\n[gateway] startup phase: cli.bootstrap.gateway-lock 2441.1ms total=91708.4ms start=89267.3ms\n2026-10-10T22:01:46.029+00:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-gateway.service TimeoutStopUSec=330000ms\n[gateway] startup phase: cli.bootstrap.boot-lifecycle starting total=91947.3ms\n[gateway] startup phase: cli.bootstrap.boot-lifecycle 40.8ms total=91988.1ms start=91947.3ms\n2026-10-10T22:01:47.205+00:00 [gateway] spawn broker ready pid=3835714\n[gateway] startup phase: gateway.server-start-import starting total=93114.1ms\n[gateway] startup phase: gateway.server-start-import 1858.8ms total=94972.8ms start=93114.1ms\n2026-10-10T22:01:50.400+00:00 [gateway] startup phase: process.bootstrap 96302.6ms total=96302.6ms\n2026-10-10T22:01:53.192+00:00 [gateway] startup phase: state.schema-preflight starting total=99081.3ms\n2026-10-10T22:01:55.887+00:00 [gateway] startup phase: state.schema-preflight 2710.5ms total=101791.7ms\n2026-10-10T22:01:56.069+00:00 [gateway] startup phase: config.auth starting total=101923.4ms\n2026-10-10T22:01:59.496+00:00 [gateway] startup phase: config.auth 3471.7ms total=105395.1ms\n2026-10-10T22:02:00.461+00:00 [gateway] startup phase: state.desktop-approval-admission starting total=106358.8ms\n2026-10-10T22:02:00.473+00:00 [gateway] startup phase: state.desktop-approval-admission 19.7ms total=106378.5ms\n2026-10-10T22:02:00.474+00:00 [gateway] startup phase: sessions.admission starting total=106380.8ms\n2026-10-10T22:02:06.546+00:00 [session-sqlite] slow SQLite reclamation Worker operation pid=3831447 threadId=0 isMainThread=true reclamationKind=canonical-validation workerThreadId=10 elapsedMs=5894 outcome=resolved\n[state/agent-db] agent database clean-close receipt: written\n2026-10-10T22:02:07.194+00:00 [session-sqlite] reclamation worker retired reason=exclusive-handoff kind=canonical-validation ageMs=6575 opsServed=2\n2026-10-10T22:02:07.270+00:00 [gateway] startup phase: sessions.admission 6791.4ms total=113172.2ms\n2026-10-10T22:02:10.035+00:00 [gateway] starting HTTP server...\n\n    at start (file://<proof-workspace>/upgrade.mjs:89:19)\n    at async file://<proof-workspace>/upgrade.mjs:134:10",
+      "output": "<proof-workspace>/upgrade-a1dcdd90a282-1"
+    },
+    "recordHashes": {
+      "receipt.json": "0dd75bcc5285dff1c3db6a3ecf20474642d1e651a6ffc699ae00b55c888b1913",
+      "upgrade-trace.json": "dc9b2bbea3cc6259f24c41a0227d86158a596a2c49772026969264672e291738",
+      "provenance.json": "579c09e9d1a0a64ef797e2f70d84a11f26a8c700f9fab1312f1892f766438d66",
+      "config-before-doctor.json": "45354bc09105395a71b536bd6dfad5cbbd481dac006233e3fecd8bd682172c3b",
+      "published-stable-gateway.log": "cb737f43e57153306d9d23ecb93a45dd8e96b3db7cbaab928452a0a1be71812c",
+      "doctor.log": "e0ac8e786fe765dec3fa457e185e8a10b2c74b3328028a8b9f3e7954cb1da2bc",
+      "candidate-gateway.log": "f8aedae8e85cfab64dc0ccbd9c4c88c35e56d3a9846b7d036a0080fc3c1bd52a"
+    },
+    "doctorMigration": {
+      "agent": {
+        "before": 24,
+        "afterDoctor": 25
+      },
+      "state": {
+        "before": 19,
+        "afterDoctor": 20
+      }
+    }
+  },
+  "nativePrerequisite": {
+    "verification": "<candidate>/.artifacts/dm-runtime-proof-opt-out/native-matrix-verification.json",
+    "sha256": "41f24280292833700c066906ff1e3a9df2c8019d636e73e9caceb6232df42d47",
+    "completedCases": 6,
+    "passedCases": 6
+  },
+  "stateDirectory": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/state",
+  "configPath": "<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/openclaw.json",
+  "preservedOriginalState": "<proof-workspace>/upgrade-a1dcdd90a282-continuation-1/preserved-pre-continuation-state",
+  "sameSessionKey": "agent:main:opt-out-upgrade-proof",
+  "sameStableCreatedSessionId": "1939a415-f01a-4f9e-a6d4-fb00fd445ec7",
+  "node": "v24.21.0",
+  "readiness": {
+    "polls": 120,
+    "intervalMs": 1000,
+    "unchangedFromInitial": true
+  },
+  "scope": "Continue the same actual stable-created and Doctor-migrated state after the first candidate boot exceeded unchanged readiness bounds under concurrent native Gateway/large type-graph workload. Stable and Doctor are not rerun. The failed initial receipt remains a failure; serialization is a controlled resource-contention diagnosis, not a claimed product startup repair."
+}
