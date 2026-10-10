@@ -314,7 +314,7 @@ export const CORE_FIELD_HELP: Record<string, string> = {
   "agents.defaults.skills":
     "Optional default skill allowlist inherited by agents that omit agents.entries.*.skills. Omit for unrestricted skills, set [] to give inheriting agents no skills, and remember explicit agents.entries.*.skills replaces this default instead of merging with it.",
   "agents.defaults.subagents.dmCompletionFallback":
-    "Opt in to automatic direct-message completion fallback when requester synthesis fails or omits a visible result. Disabled by default. Does not affect explicit messages or normal source-conversation replies.",
+    "Allow automatic direct-message completion fallback when requester synthesis fails or omits a visible result. Enabled by default; set false to disable. Does not affect explicit messages or normal source-conversation replies.",
   "agents.defaults.subagents.delegationMode":
     'Prompt-only sub-agent delegation strength. Defaults to "prefer" in each agent\'s main session and "suggest" elsewhere; "prefer" strongly instructs the agent to delegate non-trivial work via sessions_spawn.',
   "agents.entries.*.subagents.delegateToolsTo":

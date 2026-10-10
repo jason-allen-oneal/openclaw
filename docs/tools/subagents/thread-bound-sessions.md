@@ -82,8 +82,8 @@ See [Configuration reference](/gateway/configuration-reference) and
   Timeout for gateway `agent` announcement handoff attempts. Once a handoff is accepted, waiting for the parent session's turn does not consume this budget. After execution starts, the requester's normal [runtime timeout and cancellation controls](/concepts/agent-loop#timeouts) apply; the announcement timer does not restart. Values are positive integer milliseconds and are clamped to the platform-safe timer maximum. Queue waits, requester execution, and transient retries can make total delivery time longer than one configured timeout.
 </ParamField>
 
-<ParamField path="agents.defaults.subagents.dmCompletionFallback" type="boolean" default="false">
-  Opt in to automatic direct-message delivery of a child result or failure notice when the requester handoff fails or does not produce a visible reply. This fallback is disabled unless explicitly set to `true`; existing installations that relied on it must opt in. Normal source-conversation replies, explicit message-tool sends, and thread/channel delivery are unchanged. This setting does not change conversation isolation or authorize a new recipient.
+<ParamField path="agents.defaults.subagents.dmCompletionFallback" type="boolean" default="true">
+  Allow automatic direct-message delivery of a child result or failure notice when an eligible requester handoff fails or does not produce a visible reply. Set `false` to disable this fallback; leaving it unset or `true` preserves the existing behavior. Normal source-conversation replies, explicit message-tool sends, and thread/channel delivery are unchanged. This setting does not change conversation isolation or authorize a new recipient.
 </ParamField>
 
 If the requester session is sandboxed, `sessions_spawn` rejects targets

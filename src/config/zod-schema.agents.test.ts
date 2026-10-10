@@ -152,7 +152,7 @@ describe("agent GitHub sandbox identity", () => {
   });
 });
 
-describe("DM completion fallback opt-in", () => {
+describe("DM completion fallback opt-out", () => {
   it.each([undefined, false, true])("accepts the boolean setting (%s)", (enabled) => {
     const parsed = AgentsSchema.parse({
       entries: { main: {} },
@@ -162,11 +162,11 @@ describe("DM completion fallback opt-in", () => {
     expect(parsed?.defaults?.subagents?.dmCompletionFallback).toBe(enabled);
   });
 
-  it("rejects a truthy string instead of silently opting in", () => {
+  it.each(["true", "false"])("rejects a string instead of a boolean (%s)", (enabled) => {
     expect(
       AgentsSchema.safeParse({
         entries: { main: {} },
-        defaults: { subagents: { dmCompletionFallback: "true" } },
+        defaults: { subagents: { dmCompletionFallback: enabled } },
       }).success,
     ).toBe(false);
   });

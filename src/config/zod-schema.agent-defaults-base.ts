@@ -266,7 +266,7 @@ export const AgentDefaultsBaseSchema = z.strictObject({
         .boolean()
         .optional()
         .describe(
-          "Allow automatic direct-message completion fallback when requester synthesis does not deliver a result (default: false).",
+          "Allow automatic direct-message completion fallback when requester synthesis does not deliver a result (default: true; false disables).",
         ),
       requireAgentId: z.boolean().optional(),
     })

@@ -80,13 +80,22 @@ function setup(outcome: "rejected" | "aborted" | "sent" = "sent", dmCompletionFa
 }
 
 describe("direct completion text delivery", () => {
-  it.each([undefined, false])(
-    "does not send without explicit DM fallback opt-in (%s)",
+  it("does not send when DM fallback is explicitly disabled", async () => {
+    const fixture = setup("sent", false);
+    await expect(fixture.direct()).resolves.toBeUndefined();
+    expect(fixture.sendText).not.toHaveBeenCalled();
+    expect(fixture.onDeliveryResult).not.toHaveBeenCalled();
+  });
+
+  it.each([undefined, true])(
+    "delivers the complete chunked result with fallback setting %s",
     async (enabled) => {
       const fixture = setup("sent", enabled);
-      await expect(fixture.direct()).resolves.toBeUndefined();
-      expect(fixture.sendText).not.toHaveBeenCalled();
-      expect(fixture.onDeliveryResult).not.toHaveBeenCalled();
+      await expect(fixture.direct()).resolves.toMatchObject({ delivered: true, path: "direct" });
+      expect(fixture.received.join(" ")).toBe(content);
+      expect(fixture.onDeliveryResult).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ delivered: true, deliveredAt: expect.any(Number) }),
+      );
     },
   );
 

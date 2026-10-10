@@ -14,6 +14,10 @@ Each one runs in its own session (`agent:<agentId>:subagent:<uuid>`) and,
 by default, **announces** its result back to the requester for review.
 Subagent runs are tracked by the native subagent lifecycle owner.
 
+Eligible direct-message completion fallback is enabled by default. Set
+`agents.defaults.subagents.dmCompletionFallback: false` to disable it; see
+[Sub-agent announce](/tools/subagents/announce) for the delivery rules.
+
 Goals:
 
 - Parallelize research, long tasks, and slow tool work without blocking the main run.

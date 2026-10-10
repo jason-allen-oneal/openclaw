@@ -50,14 +50,14 @@ context messages. If transcript persistence rejects a completion because its
 keyed input belongs to a closed turn, delivery records a permanent failure with
 the error. It does not retry other models or keep scheduling the same completion.
 
-Automatic direct-message completion fallback is disabled by default. Set
-`agents.defaults.subagents.dmCompletionFallback: true` to opt in to delivering a
-child result or failure notice when requester synthesis fails or produces no
-visible reply. Leaving it unset or `false` keeps the normal requester handoff
-without sending the fallback DM. Explicit messages and normal source replies are
-unaffected.
+Automatic direct-message completion fallback is enabled by default. When an
+eligible requester handoff fails or produces no visible reply, OpenClaw can send
+the child result or failure notice to the requester's direct-message destination.
+Set `agents.defaults.subagents.dmCompletionFallback: false` to disable this
+fallback; leaving it unset or `true` preserves the existing fallback behavior.
+Explicit messages and normal source replies are unaffected.
 
-If a chunk in an opted-in direct-message text fallback fails or is aborted after earlier
+If a chunk in a direct-message text fallback fails or is aborted after earlier
 chunks were sent, OpenClaw records an incomplete delivery. It stops automatic
 retries to avoid duplicating chunks the recipient already received. A successful
 child's result remains available for recovery.

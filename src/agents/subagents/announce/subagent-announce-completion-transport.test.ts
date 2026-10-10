@@ -100,11 +100,11 @@ describe.each(["completion-proof-alpha", "completion-proof-beta"])(
   "universal completion policy through %s",
   (channel) => {
     it.each([undefined, false, true])(
-      "gates physical transport with opt-in %s",
+      "gates physical transport with opt-out %s",
       async (enabled) => {
         await withTransport(channel, async ({ deliver, requests }) => {
           const result = await deliver(enabled);
-          if (enabled === true) {
+          if (enabled !== false) {
             expect(result).toMatchObject({ delivered: true, path: "direct" });
             expect(requests).toEqual([{ to: "recipient", text: "Synthetic child result" }]);
           } else {
@@ -115,10 +115,10 @@ describe.each(["completion-proof-alpha", "completion-proof-beta"])(
       },
     );
 
-    it.each([undefined, false, true])("gates failure notices with opt-in %s", async (enabled) => {
+    it.each([undefined, false, true])("gates failure notices with opt-out %s", async (enabled) => {
       await withTransport(channel, async ({ deliver, requests }) => {
         const result = await deliver(enabled, { contentKind: "failed_notice" });
-        if (enabled === true) {
+        if (enabled !== false) {
           expect(result).toMatchObject({ delivered: true, path: "direct" });
           expect(requests).toEqual([
             {
@@ -143,7 +143,7 @@ describe.each(["completion-proof-alpha", "completion-proof-beta"])(
             current = false;
           });
           await expect(
-            deliver(true, { isSourceSessionEffectsAllowed: () => current }),
+            deliver(undefined, { isSourceSessionEffectsAllowed: () => current }),
           ).resolves.toMatchObject({
             delivered: false,
             reason: "source_owner_changed",
@@ -161,7 +161,7 @@ describe.each(["completion-proof-alpha", "completion-proof-beta"])(
           await Promise.resolve();
           controller.abort();
         });
-        await expect(deliver(true, { signal: controller.signal })).resolves.toMatchObject({
+        await expect(deliver(undefined, { signal: controller.signal })).resolves.toMatchObject({
           delivered: false,
         });
         expect(requests).toEqual([]);
@@ -170,7 +170,9 @@ describe.each(["completion-proof-alpha", "completion-proof-beta"])(
 
     it("does not authorize a conflicting requester agent", async () => {
       await withTransport(channel, async ({ deliver, requests }) => {
-        await expect(deliver(true, { requesterAgentId: "replacement" })).resolves.toBeUndefined();
+        await expect(
+          deliver(undefined, { requesterAgentId: "replacement" }),
+        ).resolves.toBeUndefined();
         expect(requests).toEqual([]);
       });
     });

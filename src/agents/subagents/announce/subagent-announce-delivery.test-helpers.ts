@@ -23,7 +23,7 @@ export function createPayloadGatewayMock(...payloads: Record<string, unknown>[])
   });
 }
 
-/** Existing fallback-delivery fixtures exercise the explicitly opted-in behavior. */
+/** Existing fallback-delivery fixtures exercise explicitly enabled recovery. */
 export function withDmCompletionFallback(cfg: OpenClawConfig): OpenClawConfig {
   return {
     ...cfg,
