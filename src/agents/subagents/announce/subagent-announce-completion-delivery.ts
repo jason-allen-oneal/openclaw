@@ -505,7 +505,12 @@ export async function deliverCompletionDirect(params: {
         ...(mediaUrls.length > 0 ? { missingMediaUrls: mediaUrls } : {}),
       };
     }
-    if (err instanceof SourceOwnerChangedError) {
+    // The outbound pipeline may wrap an adapter's dispatch failure. Recheck
+    // live source authority so revocation stays terminal rather than retryable.
+    if (
+      err instanceof SourceOwnerChangedError ||
+      params.isSourceSessionEffectsAllowed?.() === false
+    ) {
       return sourceOwnerChangedResult();
     }
     if (params.signal?.aborted) {
