@@ -1,0 +1,301 @@
+{
+  "scenarios": [
+    {
+      "name": "Built Gateway DM completion fallback unset",
+      "status": "pass",
+      "steps": [
+        {
+          "name": "proves terminal-reply channel behavior including restart recovery",
+          "status": "pass",
+          "details": "{\n  \"verdicts\": [\n    {\n      \"case\": \"fallback\",\n      \"conversationId\": \"terminal-fallback-8ea192c5\",\n      \"runId\": \"20bc0758-6be2-4594-993d-4dfb59239317\",\n      \"deliveryStatus\": \"pending\",\n      \"inputDisposition\": \"fallback\",\n      \"representation\": \"exact terminal text\",\n      \"restart\": false,\n      \"fallback\": true,\n      \"expectedTerminalSendCount\": 0,\n      \"actualTerminalSendCount\": 0,\n      \"capturedTerminalPayloads\": [],\n      \"auxiliaryChannelEvents\": [\n        \"Worker started.\",\n        \"Worker started.\",\n        \"Protocol note: acknowledged. Continue with the QA scenario plan and report worked, failed, and blocked items.\"\n      ],\n      \"silenceTokenLeaked\": false,\n      \"internalMetadataLeak\": false,\n      \"pass\": true\n    }\n  ],\n  \"directFallbackProofs\": [\n    {\n      \"case\": \"fallback\",\n      \"runId\": \"20bc0758-6be2-4594-993d-4dfb59239317\",\n      \"receiptKeys\": []\n    }\n  ]\n}"
+        }
+      ],
+      "evidenceOccurrenceId": "ec3f9f19-98f3-4bc8-8cd0-d1f54125689d"
+    }
+  ],
+  "counts": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "metrics": {
+    "wallMs": 85024,
+    "gatewayProcessCpuMs": 78000,
+    "gatewayCpuCoreRatio": 0.917,
+    "gatewayProcessRssStartBytes": 1716801536,
+    "gatewayProcessRssEndBytes": 2622382080,
+    "gatewayProcessRssDeltaBytes": 905580544,
+    "gatewayProcessRssPeakBytes": 2622382080,
+    "gatewayProcessRssPeakDeltaBytes": 905580544,
+    "gatewayProcessRssSamples": [
+      {
+        "label": "suite-start",
+        "at": "2026-10-10T21:00:00.944Z",
+        "gatewayProcessRssBytes": 1716801536
+      },
+      {
+        "label": "scenario:dm-completion-runtime-unset:start",
+        "at": "2026-10-10T21:00:00.996Z",
+        "gatewayProcessRssBytes": 1737834496
+      },
+      {
+        "label": "scenario:dm-completion-runtime-unset:finish",
+        "at": "2026-10-10T21:00:57.573Z",
+        "gatewayProcessRssBytes": 2622353408
+      },
+      {
+        "label": "suite-finish",
+        "at": "2026-10-10T21:00:57.615Z",
+        "gatewayProcessRssBytes": 2622382080
+      }
+    ]
+  },
+  "evidence": {
+    "kind": "openclaw.qa.evidence-summary",
+    "schemaVersion": 3,
+    "generatedAt": "2026-10-10T21:00:58.463Z",
+    "evidenceMode": "full",
+    "entries": [
+      {
+        "test": {
+          "kind": "qa-scenario",
+          "id": "dm-completion-runtime-unset",
+          "title": "Built Gateway DM completion fallback unset",
+          "source": {
+            "path": "<proof-workspace>/unset.yaml"
+          }
+        },
+        "coverage": [
+          {
+            "id": "agent-runtime.subagent-turns-delivery",
+            "role": "primary"
+          },
+          {
+            "id": "agent-runtime.subagent-turns-subagents",
+            "role": "secondary"
+          },
+          {
+            "id": "channels.qa-channel-final-reply",
+            "role": "secondary"
+          }
+        ],
+        "refs": [
+          {
+            "kind": "docs",
+            "path": "docs/tools/subagents.md"
+          },
+          {
+            "kind": "docs",
+            "path": "docs/help/testing.md"
+          },
+          {
+            "kind": "docs",
+            "path": "docs/channels/qa-channel.md"
+          },
+          {
+            "kind": "code",
+            "path": "extensions/qa-lab/src/execution-identity-storage-inspection.ts"
+          },
+          {
+            "kind": "code",
+            "path": "src/agents/agent-run-terminal-reply.ts"
+          },
+          {
+            "kind": "code",
+            "path": "src/agents/subagents/announce/subagent-announce-delivery.ts"
+          },
+          {
+            "kind": "code",
+            "path": "src/agents/subagents/registry/subagent-registry-lifecycle.ts"
+          },
+          {
+            "kind": "code",
+            "path": "extensions/qa-lab/src/providers/mock-openai/server.ts"
+          }
+        ],
+        "execution": {
+          "runner": "host",
+          "environment": {
+            "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+            "os": "linux",
+            "nodeVersion": "v24.21.0"
+          },
+          "provider": {
+            "id": "openai",
+            "live": false,
+            "model": {
+              "name": "gpt-5.6-luna",
+              "ref": "mock-openai/gpt-5.6-luna"
+            },
+            "fixture": "mock-openai"
+          },
+          "channel": {
+            "id": "qa-channel",
+            "live": false
+          },
+          "packageSource": {
+            "kind": "source-checkout"
+          },
+          "artifacts": [
+            {
+              "kind": "scenario-observation",
+              "path": "artifacts/occurrences/ec3f9f19-98f3-4bc8-8cd0-d1f54125689d.json",
+              "source": "qa-suite"
+            },
+            {
+              "kind": "summary",
+              "path": "qa-suite-summary.json",
+              "source": "qa-suite"
+            },
+            {
+              "kind": "report",
+              "path": "qa-suite-report.md",
+              "source": "qa-suite"
+            }
+          ]
+        },
+        "result": {
+          "status": "pass"
+        },
+        "binding": {
+          "occurrenceId": "ec3f9f19-98f3-4bc8-8cd0-d1f54125689d",
+          "assertionId": null,
+          "receiptId": "ec3f9f19-98f3-4bc8-8cd0-d1f54125689d:runtime"
+        },
+        "effective": true
+      }
+    ],
+    "occurrences": [
+      {
+        "id": "24c5dbc8-dc0d-423f-a994-29cbaa8766d4",
+        "parentCell": {
+          "scenarioId": "dm-completion-runtime-unset",
+          "executionKind": "flow",
+          "channel": "qa-channel"
+        },
+        "scenario": {
+          "kind": "instance",
+          "resultOccurrenceId": "ec3f9f19-98f3-4bc8-8cd0-d1f54125689d"
+        },
+        "retryOf": null,
+        "terminalStatus": null,
+        "assertions": null,
+        "launch": {
+          "source": {
+            "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+            "integrity": "git:5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2"
+          },
+          "runtime": {
+            "id": "node",
+            "version": "v24.21.0"
+          },
+          "package": null,
+          "protocol": null,
+          "accountRef": null,
+          "proofClass": null
+        },
+        "receipts": []
+      },
+      {
+        "id": "ec3f9f19-98f3-4bc8-8cd0-d1f54125689d",
+        "parentCell": {
+          "scenarioId": "dm-completion-runtime-unset",
+          "executionKind": "flow",
+          "channel": "qa-channel"
+        },
+        "scenario": {
+          "kind": "observation",
+          "instanceOccurrenceId": "24c5dbc8-dc0d-423f-a994-29cbaa8766d4"
+        },
+        "retryOf": null,
+        "terminalStatus": "pass",
+        "assertions": null,
+        "launch": {
+          "source": {
+            "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+            "integrity": "git:5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2"
+          },
+          "runtime": {
+            "id": "node",
+            "version": "v24.21.0"
+          },
+          "package": null,
+          "protocol": null,
+          "accountRef": null,
+          "proofClass": null
+        },
+        "receipts": [
+          {
+            "id": "ec3f9f19-98f3-4bc8-8cd0-d1f54125689d:prepared",
+            "phase": "prepared",
+            "identity": {
+              "source": {
+                "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+                "integrity": "git:5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2"
+              },
+              "runtime": {
+                "id": "node",
+                "version": "v24.21.0"
+              },
+              "package": null,
+              "protocol": null,
+              "accountRef": null,
+              "proofClass": null
+            },
+            "artifact": {
+              "kind": "scenario-observation",
+              "path": "artifacts/occurrences/ec3f9f19-98f3-4bc8-8cd0-d1f54125689d.json",
+              "source": "qa-suite",
+              "sha256": "67dc6e160e8c3a466a5679a8cacb220543b4665d5c7a08c97a0a1e5ad4bd4825"
+            }
+          },
+          {
+            "id": "ec3f9f19-98f3-4bc8-8cd0-d1f54125689d:runtime",
+            "phase": "runtime",
+            "identity": {
+              "source": {
+                "ref": null,
+                "integrity": null
+              },
+              "runtime": {
+                "id": "openclaw",
+                "version": "2026.9.9"
+              },
+              "package": null,
+              "protocol": "gateway:4",
+              "accountRef": null,
+              "proofClass": null
+            },
+            "artifact": {
+              "kind": "scenario-observation",
+              "path": "artifacts/occurrences/ec3f9f19-98f3-4bc8-8cd0-d1f54125689d.json",
+              "source": "qa-suite",
+              "sha256": "67dc6e160e8c3a466a5679a8cacb220543b4665d5c7a08c97a0a1e5ad4bd4825"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "run": {
+    "status": "completed",
+    "startedAt": "2026-10-10T20:59:32.549Z",
+    "finishedAt": "2026-10-10T21:00:58.463Z",
+    "providerMode": "mock-openai",
+    "primaryModel": "mock-openai/gpt-5.6-luna",
+    "primaryProvider": "mock-openai",
+    "primaryModelName": "gpt-5.6-luna",
+    "alternateModel": "mock-openai/gpt-5.6-luna-alt",
+    "alternateProvider": "mock-openai",
+    "alternateModelName": "gpt-5.6-luna-alt",
+    "fastMode": false,
+    "concurrency": 1,
+    "channelDriver": "qa-channel",
+    "channel": "qa-channel",
+    "channelCapabilityMatrixPath": null,
+    "channelDriverSmokePath": null,
+    "scenarioIds": null,
+    "runtimePair": null
+  }
+}

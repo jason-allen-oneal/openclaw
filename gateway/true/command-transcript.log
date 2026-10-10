@@ -1,0 +1,258 @@
+{"mode":"true","entry":"<candidate>/dist/index.js","startedAt":"2026-10-10T20:52:35.191Z"}
+{
+  "executionKind": "flow",
+  "expectedCells": [],
+  "observedCells": [],
+  "result": {
+    "outputDir": "<candidate>/.artifacts/dm-runtime-proof/true",
+    "evidence": {
+      "kind": "openclaw.qa.evidence-summary",
+      "schemaVersion": 3,
+      "generatedAt": "2026-10-10T20:58:20.494Z",
+      "evidenceMode": "full",
+      "entries": [
+        {
+          "test": {
+            "kind": "qa-scenario",
+            "id": "dm-completion-runtime-true",
+            "title": "Built Gateway DM completion fallback true",
+            "source": {
+              "path": "<proof-workspace>/true.yaml"
+            }
+          },
+          "coverage": [
+            {
+              "id": "agent-runtime.subagent-turns-delivery",
+              "role": "primary"
+            },
+            {
+              "id": "agent-runtime.subagent-turns-subagents",
+              "role": "secondary"
+            },
+            {
+              "id": "channels.qa-channel-final-reply",
+              "role": "secondary"
+            }
+          ],
+          "refs": [
+            {
+              "kind": "docs",
+              "path": "docs/tools/subagents.md"
+            },
+            {
+              "kind": "docs",
+              "path": "docs/help/testing.md"
+            },
+            {
+              "kind": "docs",
+              "path": "docs/channels/qa-channel.md"
+            },
+            {
+              "kind": "code",
+              "path": "extensions/qa-lab/src/execution-identity-storage-inspection.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/agent-run-terminal-reply.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/subagents/announce/subagent-announce-delivery.ts"
+            },
+            {
+              "kind": "code",
+              "path": "src/agents/subagents/registry/subagent-registry-lifecycle.ts"
+            },
+            {
+              "kind": "code",
+              "path": "extensions/qa-lab/src/providers/mock-openai/server.ts"
+            }
+          ],
+          "execution": {
+            "runner": "host",
+            "environment": {
+              "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+              "os": "linux",
+              "nodeVersion": "v24.21.0"
+            },
+            "provider": {
+              "id": "openai",
+              "live": false,
+              "model": {
+                "name": "gpt-5.6-luna",
+                "ref": "mock-openai/gpt-5.6-luna"
+              },
+              "fixture": "mock-openai"
+            },
+            "channel": {
+              "id": "qa-channel",
+              "live": false
+            },
+            "packageSource": {
+              "kind": "source-checkout"
+            },
+            "artifacts": [
+              {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/fe858d4d-5c41-42b7-8647-851f76507348.json",
+                "source": "qa-suite"
+              },
+              {
+                "kind": "summary",
+                "path": "qa-suite-summary.json",
+                "source": "qa-suite"
+              },
+              {
+                "kind": "report",
+                "path": "qa-suite-report.md",
+                "source": "qa-suite"
+              }
+            ]
+          },
+          "result": {
+            "status": "pass"
+          },
+          "binding": {
+            "occurrenceId": "fe858d4d-5c41-42b7-8647-851f76507348",
+            "assertionId": null,
+            "receiptId": "fe858d4d-5c41-42b7-8647-851f76507348:runtime"
+          },
+          "effective": true
+        }
+      ],
+      "occurrences": [
+        {
+          "id": "15d3d5cc-ecec-47e3-884b-75dad44f8e8d",
+          "parentCell": {
+            "scenarioId": "dm-completion-runtime-true",
+            "executionKind": "flow",
+            "channel": "qa-channel"
+          },
+          "scenario": {
+            "kind": "instance",
+            "resultOccurrenceId": "fe858d4d-5c41-42b7-8647-851f76507348"
+          },
+          "retryOf": null,
+          "terminalStatus": null,
+          "assertions": null,
+          "launch": {
+            "source": {
+              "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+              "integrity": "git:5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2"
+            },
+            "runtime": {
+              "id": "node",
+              "version": "v24.21.0"
+            },
+            "package": null,
+            "protocol": null,
+            "accountRef": null,
+            "proofClass": null
+          },
+          "receipts": []
+        },
+        {
+          "id": "fe858d4d-5c41-42b7-8647-851f76507348",
+          "parentCell": {
+            "scenarioId": "dm-completion-runtime-true",
+            "executionKind": "flow",
+            "channel": "qa-channel"
+          },
+          "scenario": {
+            "kind": "observation",
+            "instanceOccurrenceId": "15d3d5cc-ecec-47e3-884b-75dad44f8e8d"
+          },
+          "retryOf": null,
+          "terminalStatus": "pass",
+          "assertions": null,
+          "launch": {
+            "source": {
+              "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+              "integrity": "git:5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2"
+            },
+            "runtime": {
+              "id": "node",
+              "version": "v24.21.0"
+            },
+            "package": null,
+            "protocol": null,
+            "accountRef": null,
+            "proofClass": null
+          },
+          "receipts": [
+            {
+              "id": "fe858d4d-5c41-42b7-8647-851f76507348:prepared",
+              "phase": "prepared",
+              "identity": {
+                "source": {
+                  "ref": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+                  "integrity": "git:5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2"
+                },
+                "runtime": {
+                  "id": "node",
+                  "version": "v24.21.0"
+                },
+                "package": null,
+                "protocol": null,
+                "accountRef": null,
+                "proofClass": null
+              },
+              "artifact": {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/fe858d4d-5c41-42b7-8647-851f76507348.json",
+                "source": "qa-suite",
+                "sha256": "8a572ee0a43c78fea0a401c741f0a647331a6cec9aeed74883b4ecac05cdcae5"
+              }
+            },
+            {
+              "id": "fe858d4d-5c41-42b7-8647-851f76507348:runtime",
+              "phase": "runtime",
+              "identity": {
+                "source": {
+                  "ref": null,
+                  "integrity": null
+                },
+                "runtime": {
+                  "id": "openclaw",
+                  "version": "2026.9.9"
+                },
+                "package": null,
+                "protocol": "gateway:4",
+                "accountRef": null,
+                "proofClass": null
+              },
+              "artifact": {
+                "kind": "scenario-observation",
+                "path": "artifacts/occurrences/fe858d4d-5c41-42b7-8647-851f76507348.json",
+                "source": "qa-suite",
+                "sha256": "8a572ee0a43c78fea0a401c741f0a647331a6cec9aeed74883b4ecac05cdcae5"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "evidencePath": "<candidate>/.artifacts/dm-runtime-proof/true/qa-evidence.json",
+    "report": "# OpenClaw QA Scenario Suite\n\n- Started: 2026-10-10T20:52:35.276Z\n- Finished: 2026-10-10T20:58:20.494Z\n- Duration ms: 345218\n- Passed: 1\n- Failed: 0\n- Skipped: 0\n\n\n## Scenarios\n\n### Built Gateway DM completion fallback true\n\n- Status: pass\n- Steps:\n  - [x] proves terminal-reply channel behavior including restart recovery\n    - Details:\n\n```text\n{\n  \"verdicts\": [\n    {\n      \"case\": \"fallback\",\n      \"conversationId\": \"terminal-fallback-ce864545\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"deliveryStatus\": \"delivered\",\n      \"inputDisposition\": \"fallback\",\n      \"representation\": \"exact terminal text\",\n      \"restart\": false,\n      \"fallback\": true,\n      \"expectedTerminalSendCount\": 1,\n      \"actualTerminalSendCount\": 1,\n      \"capturedTerminalPayloads\": [\n        \"QA-SUBAGENT-TERMINAL-FALLBACK-OK\"\n      ],\n      \"auxiliaryChannelEvents\": [\n        \"Worker started.\",\n        \"Worker started.\"\n      ],\n      \"silenceTokenLeaked\": false,\n      \"internalMetadataLeak\": false,\n      \"pass\": true\n    }\n  ],\n  \"directFallbackProofs\": [\n    {\n      \"case\": \"fallback\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"receiptKeys\": [\n        \"announce:v1:agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5:5665ded2-e3d7-491a-92e3-eca70a7d1565:text-direct\"\n      ]\n    }\n  ]\n}\n```\n\n\n## Notes\n\n- Runs against qa-channel + qa-lab bus + real gateway child + mock-openai provider.\n- Scenarios run serially in one gateway worker.\n- Scheduling scenarios verify stored schedules and execution behavior through the Gateway.\n",
+    "reportPath": "<candidate>/.artifacts/dm-runtime-proof/true/qa-suite-report.md",
+    "summaryPath": "<candidate>/.artifacts/dm-runtime-proof/true/qa-suite-summary.json",
+    "scenarios": [
+      {
+        "name": "Built Gateway DM completion fallback true",
+        "status": "pass",
+        "steps": [
+          {
+            "name": "proves terminal-reply channel behavior including restart recovery",
+            "status": "pass",
+            "details": "{\n  \"verdicts\": [\n    {\n      \"case\": \"fallback\",\n      \"conversationId\": \"terminal-fallback-ce864545\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"deliveryStatus\": \"delivered\",\n      \"inputDisposition\": \"fallback\",\n      \"representation\": \"exact terminal text\",\n      \"restart\": false,\n      \"fallback\": true,\n      \"expectedTerminalSendCount\": 1,\n      \"actualTerminalSendCount\": 1,\n      \"capturedTerminalPayloads\": [\n        \"QA-SUBAGENT-TERMINAL-FALLBACK-OK\"\n      ],\n      \"auxiliaryChannelEvents\": [\n        \"Worker started.\",\n        \"Worker started.\"\n      ],\n      \"silenceTokenLeaked\": false,\n      \"internalMetadataLeak\": false,\n      \"pass\": true\n    }\n  ],\n  \"directFallbackProofs\": [\n    {\n      \"case\": \"fallback\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"receiptKeys\": [\n        \"announce:v1:agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5:5665ded2-e3d7-491a-92e3-eca70a7d1565:text-direct\"\n      ]\n    }\n  ]\n}"
+          }
+        ],
+        "evidenceOccurrenceId": "fe858d4d-5c41-42b7-8647-851f76507348"
+      }
+    ],
+    "startedScenarioIds": [
+      "dm-completion-runtime-true"
+    ],
+    "watchUrl": "[isolated HTTP endpoint]"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "candidateSha": "5f290ed0edb1bc9a9bdb2d7db09a9615b2d0b9e2",
+  "sourceStatus": "",
+  "node": "v24.21.0",
+  "platform": "Linux-7.1.5+kali-amd64-x86_64-with-glibc2.43",
+  "latestStable": "v2026.9.9",
+  "publishedPackage": "https://registry.npmjs.org/openclaw/-/openclaw-2026.9.9.tgz",
+  "buildCommand": "OPENCLAW_BUILD_PRIVATE_QA=1 OPENCLAW_RUN_NODE_SKIP_DTS_BUILD=1 pnpm build",
+  "artifactSha256": {
+    "openclaw-2026.9.9.tgz": "a46df5fc5e4d73837d5b3eeebc286e64a85dffc429c30f3a07f6398e2a9423f7",
+    "index.js": "4406ec85efc0558795d49c7f6b9dc14df0cdc89027ac7cc9c20b2c4c7f18374b",
+    "build-info.json": "7d4a2ac7cdf9c63b8380d4583a52ed93daad4d38b7ec13c6753f8cf7acd8644a"
+  },
+  "instrumentation": "Existing QA mock-openai model provider; actual built Gateway and qa-channel HTTP transport; no core/transport mocks",
+  "stableOwnerInstrumentation": {
+    "originalBundle": "dist/subagent-announce-delivery-DrtquvDR.mjs",
+    "originalSha256": "1fdbcaada27741b03e8757ddec7319141f3c817762a2da88a2f18ca9437effc5",
+    "onlyModification": "export { deliverCompletionDirect as behaviorProofOwner };",
+    "purpose": "Expose existing private production function; no changed behavior, no mocked owner/transport"
+  },
+  "nativeGatewayPackaging": {
+    "true": "Built candidate CLI with packaged private QA plugins and CLI update repair",
+    "unsetFalse": "Same built candidate CLI with repository-staged QA plugin fixtures; packaged bootstrap retries had repair-phase timeout. No production owner changes."
+  },
+  "publicationRedaction": "Private absolute paths and isolated loopback endpoints are replaced in published copies. original-artifact-sha256.json records original captured bytes."
+}

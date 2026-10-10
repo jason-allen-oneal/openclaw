@@ -1,0 +1,78 @@
+{"mode":"false","entry":"<candidate>/dist/index.js","startedAt":"2026-10-10T20:53:17.218Z"}
+file://<candidate>/dist/gateway-child-C9muCJe6.mjs:507
+			const primary = error instanceof QaSuiteInfraError ? new QaSuiteInfraError(error.code, message, { cause: error }) : new Error(message, { cause: error });
+			                                                                                                                    ^
+
+Error: installed package plugin setup failed (update repair): qa gateway CLI made no update repair phase progress for 120000ms: [update finalize] {"step":"finalize:preflight","status":"in_progress","startedAtMs":1791665654049}
+[update finalize] {"step":"finalize:preflight","status":"completed","endedAtMs":1791665656379}
+[update finalize] {"step":"finalize:targetConfigValidation","status":"in_progress","startedAtMs":1791665656396}
+[update finalize] {"step":"finalize:targetConfigValidation","status":"completed","endedAtMs":1791665659468}
+[update finalize] {"step":"finalize:configSnapshot","status":"in_progress","startedAtMs":1791665663158}
+[update finalize] {"step":"finalize:configSnapshot","status":"completed","endedAtMs":1791665663178}
+[update finalize] {"step":"finalize:doctor","status":"in_progress","startedAtMs":1791665663191}
+[state/db] Shared-state WAL maintenance failed error="OpenClaw state at <isolated-gateway>/state/state/openclaw.sqlite is undergoing offline maintenance; retry when it finishes." path=/tmp/openclaw/openclaw-qa-suit
+… output omitted …                                   │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Gateway ─────────────────────────────────────────────╮
+│                                                       │
+│  Gateway health will be checked after Doctor repair.  │
+│                                                       │
+├───────────────────────────────────────────────────────╯
+│
+◇  Memory search ────────────────────────────────────────────────────────╮
+│                                                                        │
+│  Remember across conversations is effectively enabled for agent "qa",  │
+│  but the Active Memory plugin is disabled. Enable the plugin or set    │
+│  memory.search.rememberAcrossConversations to false.                   │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────╯
+[state/agent-db] agent database clean-close receipt: written
+│
+└  Doctor complete.
+QA gateway temp root preserved at <isolated-gateway>
+    at QaGatewayChildLifecycle.run (file://<candidate>/dist/gateway-child-C9muCJe6.mjs:507:120)
+    at async runQaFlowSuiteStandard (file://<candidate>/dist/suite-run.runtime-CE7MuDWy.mjs:452:25)
+    ... 4 lines matching cause stack trace ...
+    at async runQaSuite (file://<candidate>/dist/suite-launch.runtime-urV9kqoH.mjs:1775:17)
+    at async file://<proof-workspace>/run.mts:34:14 {
+  [cause]: Error: installed package plugin setup failed (update repair): qa gateway CLI made no update repair phase progress for 120000ms: [update finalize] {"step":"finalize:preflight","status":"in_progress","startedAtMs":1791665654049}
+  [update finalize] {"step":"finalize:preflight","status":"completed","endedAtMs":1791665656379}
+  [update finalize] {"step":"finalize:targetConfigValidation","status":"in_progress","startedAtMs":1791665656396}
+  [update finalize] {"step":"finalize:targetConfigValidation","status":"completed","endedAtMs":1791665659468}
+  [update finalize] {"step":"finalize:configSnapshot","status":"in_progress","startedAtMs":1791665663158}
+  [update finalize] {"step":"finalize:configSnapshot","status":"completed","endedAtMs":1791665663178}
+  [update finalize] {"step":"finalize:doctor","status":"in_progress","startedAtMs":1791665663191}
+  [state/db] Shared-state WAL maintenance failed error="OpenClaw state at <isolated-gateway>/state/state/openclaw.sqlite is undergoing offline maintenance; retry when it finishes." path=/tmp/openclaw/openclaw-qa-suit
+  … output omitted …                                   │
+  ├──────────────────────────────────────────────────────────────────────────╯
+  │
+  ◇  Gateway ─────────────────────────────────────────────╮
+  │                                                       │
+  │  Gateway health will be checked after Doctor repair.  │
+  │                                                       │
+  ├───────────────────────────────────────────────────────╯
+  │
+  ◇  Memory search ────────────────────────────────────────────────────────╮
+  │                                                                        │
+  │  Remember across conversations is effectively enabled for agent "qa",  │
+  │  but the Active Memory plugin is disabled. Enable the plugin or set    │
+  │  memory.search.rememberAcrossConversations to false.                   │
+  │                                                                        │
+  ├────────────────────────────────────────────────────────────────────────╯
+  [state/agent-db] agent database clean-close receipt: written
+  │
+  └  Doctor complete.
+      at runQaPackagedBootstrap (file://<candidate>/dist/gateway-child-C9muCJe6.mjs:1407:9)
+      at async Object.prepareAttempt (file://<candidate>/dist/gateway-child-C9muCJe6.mjs:1714:5)
+      at async startOwnedGatewayChild (file://<candidate>/dist/gateway-child-C9muCJe6.mjs:2035:12)
+      at async QaGatewayChildLifecycle.run (file://<candidate>/dist/gateway-child-C9muCJe6.mjs:502:11)
+      at async runQaFlowSuiteStandard (file://<candidate>/dist/suite-run.runtime-CE7MuDWy.mjs:452:25)
+      at async runQaFlowSuiteFromRuntime (file://<candidate>/dist/suite-run.runtime-CE7MuDWy.mjs:1065:121)
+      at async runQaFlowSuite (file://<candidate>/dist/suite-C4WDaCjD.mjs:3531:9)
+      at async file://<candidate>/dist/suite-launch.runtime-urV9kqoH.mjs:1108:27
+      at async runQaSuiteWithInfraRetry (file://<candidate>/dist/suite-launch.runtime-urV9kqoH.mjs:49:10)
+      at async runQaSuite (file://<candidate>/dist/suite-launch.runtime-urV9kqoH.mjs:1775:17)
+}
+
+Node.js v24.21.0

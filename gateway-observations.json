@@ -1,0 +1,829 @@
+[
+  {
+    "mode": "unset",
+    "suiteStatus": "pass",
+    "verdicts": [
+      {
+        "case": "fallback",
+        "conversationId": "terminal-fallback-8ea192c5",
+        "runId": "20bc0758-6be2-4594-993d-4dfb59239317",
+        "deliveryStatus": "pending",
+        "inputDisposition": "fallback",
+        "representation": "exact terminal text",
+        "restart": false,
+        "fallback": true,
+        "expectedTerminalSendCount": 0,
+        "actualTerminalSendCount": 0,
+        "capturedTerminalPayloads": [],
+        "auxiliaryChannelEvents": [
+          "Worker started.",
+          "Worker started.",
+          "Protocol note: acknowledged. Continue with the QA scenario plan and report worked, failed, and blocked items."
+        ],
+        "silenceTokenLeaked": false,
+        "internalMetadataLeak": false,
+        "pass": true
+      }
+    ],
+    "directFallbackProofs": [
+      {
+        "case": "fallback",
+        "runId": "20bc0758-6be2-4594-993d-4dfb59239317",
+        "receiptKeys": []
+      }
+    ],
+    "nativeRunsAtFinalCapture": [
+      {
+        "runId": "20bc0758-6be2-4594-993d-4dfb59239317",
+        "label": "qa-terminal-fallback",
+        "execution": {
+          "status": "terminal",
+          "endedAt": 1791666025942,
+          "outcome": {
+            "status": "ok"
+          }
+        },
+        "delivery": {
+          "status": "suspended",
+          "disposition": "permanent_failure"
+        },
+        "childSessionKey": "agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8"
+      }
+    ],
+    "receiverEvents": [
+      {
+        "cursor": 2,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "53225c65-dc1d-4164-b990-7ffc9d9c96f1",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-8ea192c5",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791666023855,
+          "replyToId": "d5ba3931-25e9-4cfe-bdb2-d38b36c2a4bb",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": []
+        }
+      },
+      {
+        "cursor": 3,
+        "kind": "message-deleted",
+        "accountId": "default",
+        "message": {
+          "id": "53225c65-dc1d-4164-b990-7ffc9d9c96f1",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-8ea192c5",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791666023855,
+          "replyToId": "d5ba3931-25e9-4cfe-bdb2-d38b36c2a4bb",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": [],
+          "deleted": true
+        }
+      },
+      {
+        "cursor": 4,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "333d2fbc-37ab-4822-a507-612d32d58909",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-8ea192c5",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791666025115,
+          "replyToId": "d5ba3931-25e9-4cfe-bdb2-d38b36c2a4bb",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": []
+        }
+      },
+      {
+        "cursor": 5,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "bf41402d-d910-44d6-b9e9-0f72ecf07eb8",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-8ea192c5",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Protocol note: acknowledged. Continue with the QA scenario plan and report worked, failed, and blocked items.",
+          "timestamp": 1791666029426,
+          "replyToId": "c7314261-333a-4c45-8614-2f82dba6c169",
+          "attachments": [],
+          "reactions": []
+        }
+      }
+    ],
+    "providerRequests": [
+      {
+        "cursor": 1,
+        "sessionId": "a13dde68-9042-49a1-8a44-6d4921b98bee",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": "sessions_spawn",
+        "plannedToolArgs": {
+          "task": "Subagent terminal reply QA worker: fallback.",
+          "label": "qa-terminal-fallback",
+          "thread": false,
+          "mode": "run"
+        },
+        "prompt": "[Sat 2026-10-10 17:00 EDT] Conversation info: \u27e6openclaw:ctx\u27e7\n```json\n{\"sender\":{\"id\":\"terminal-fallback-8ea192c5\",\"name\":\"QA Terminal Reply Operator\"}}\n```\n\nSubagent terminal reply QA check: fallback. Spawn one native worker, then finish the parent turn without waiting. Do not use ACP.",
+        "toolOutput": ""
+      },
+      {
+        "cursor": 2,
+        "sessionId": "a13dde68-9042-49a1-8a44-6d4921b98bee",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 17:00 EDT] Conversation info: \u27e6openclaw:ctx\u27e7\n```json\n{\"sender\":{\"id\":\"terminal-fallback-8ea192c5\",\"name\":\"QA Terminal Reply Operator\"}}\n```\n\nSubagent terminal reply QA check: fallback. Spawn one native worker, then finish the parent turn without waiting. Do not use ACP.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8\\\",\\n  \\\"runId\\\": \\\"20bc0758-6be2-4594-993d-4dfb59239317\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8\",\n      \"runId\": \"20bc0758-6be2-4594-993d-4dfb59239317\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 3,
+        "sessionId": "8f8424d6-6d06-48f8-bae7-e8a14e89d252",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 17:00 EDT] [[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]\n\n[Subagent Context] You are running as a subagent (depth 1/5). Complete the current [Subagent Task]; inherited conversation is background context, not your assignment.\n\n## Session Context\n- Label: qa-terminal-fallback\n- Requester session: agent:qa:main.\n- Requester channel: qa-channel.\n- Your session: agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8.\n\n[Subagent Task]\n\n[[OPENCLAW_INTERNAL_CONTEXT_END]]\n\nSubagent terminal reply QA worker: fallback.\n\n[[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]\n\nBegin. Execute the assigned task to completion.\n\n[[OPENCLAW_INTERNAL_CONTEXT_END]]",
+        "toolOutput": ""
+      },
+      {
+        "cursor": 4,
+        "sessionId": "a13dde68-9042-49a1-8a44-6d4921b98bee",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 17:00 EDT] Continue the OpenClaw runtime event.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8\\\",\\n  \\\"runId\\\": \\\"20bc0758-6be2-4594-993d-4dfb59239317\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8\",\n      \"runId\": \"20bc0758-6be2-4594-993d-4dfb59239317\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 7,
+        "sessionId": "a13dde68-9042-49a1-8a44-6d4921b98bee",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 17:00 EDT] The previous attempt did not produce a user-visible answer. Continue from the current state and produce the visible answer now. Do not restart from scratch.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8\\\",\\n  \\\"runId\\\": \\\"20bc0758-6be2-4594-993d-4dfb59239317\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:d0accfa4-38da-40d4-9e1a-715cb845f9a8\",\n      \"runId\": \"20bc0758-6be2-4594-993d-4dfb59239317\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 8,
+        "sessionId": "a13dde68-9042-49a1-8a44-6d4921b98bee",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 17:00 EDT] Subagent completion delivery is blocked: completion agent did not use the message tool for message-tool-only delivery; message_tool_delivery_missing; direct-primary: completion agent did not use the message tool for message-tool-only delivery",
+        "toolOutput": ""
+      }
+    ]
+  },
+  {
+    "mode": "false",
+    "suiteStatus": "pass",
+    "verdicts": [
+      {
+        "case": "fallback",
+        "conversationId": "terminal-fallback-6136939c",
+        "runId": "e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d",
+        "deliveryStatus": "pending",
+        "inputDisposition": "fallback",
+        "representation": "exact terminal text",
+        "restart": false,
+        "fallback": true,
+        "expectedTerminalSendCount": 0,
+        "actualTerminalSendCount": 0,
+        "capturedTerminalPayloads": [],
+        "auxiliaryChannelEvents": [
+          "Worker started.",
+          "Worker started.",
+          "Protocol note: acknowledged. Continue with the QA scenario plan and report worked, failed, and blocked items."
+        ],
+        "silenceTokenLeaked": false,
+        "internalMetadataLeak": false,
+        "pass": true
+      }
+    ],
+    "directFallbackProofs": [
+      {
+        "case": "fallback",
+        "runId": "e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d",
+        "receiptKeys": []
+      }
+    ],
+    "nativeRunsAtFinalCapture": [
+      {
+        "runId": "e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d",
+        "label": "qa-terminal-fallback",
+        "execution": {
+          "status": "terminal",
+          "endedAt": 1791665977719,
+          "outcome": {
+            "status": "ok"
+          }
+        },
+        "delivery": {
+          "status": "suspended",
+          "disposition": "permanent_failure"
+        },
+        "childSessionKey": "agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d"
+      }
+    ],
+    "receiverEvents": [
+      {
+        "cursor": 2,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "ed8786f4-c267-45c5-8478-2e74e931a304",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-6136939c",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791665974760,
+          "replyToId": "08578e95-0675-407f-9108-474e34e1c003",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": []
+        }
+      },
+      {
+        "cursor": 3,
+        "kind": "message-deleted",
+        "accountId": "default",
+        "message": {
+          "id": "ed8786f4-c267-45c5-8478-2e74e931a304",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-6136939c",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791665974760,
+          "replyToId": "08578e95-0675-407f-9108-474e34e1c003",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": [],
+          "deleted": true
+        }
+      },
+      {
+        "cursor": 4,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "9f9b58a9-4245-4dbe-b523-8a7ee37e07a0",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-6136939c",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791665976514,
+          "replyToId": "08578e95-0675-407f-9108-474e34e1c003",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": []
+        }
+      },
+      {
+        "cursor": 5,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "a99af6b6-1bbb-4292-b4a4-cddf738c452b",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-6136939c",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Protocol note: acknowledged. Continue with the QA scenario plan and report worked, failed, and blocked items.",
+          "timestamp": 1791665982023,
+          "replyToId": "9cd88ed2-d3b3-447e-9a56-7a271a107e2a",
+          "attachments": [],
+          "reactions": []
+        }
+      }
+    ],
+    "providerRequests": [
+      {
+        "cursor": 1,
+        "sessionId": "db504f4c-0446-4b1a-8936-6ac43be334e8",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": "sessions_spawn",
+        "plannedToolArgs": {
+          "task": "Subagent terminal reply QA worker: fallback.",
+          "label": "qa-terminal-fallback",
+          "thread": false,
+          "mode": "run"
+        },
+        "prompt": "[Sat 2026-10-10 16:58 EDT] Conversation info: \u27e6openclaw:ctx\u27e7\n```json\n{\"sender\":{\"id\":\"terminal-fallback-6136939c\",\"name\":\"QA Terminal Reply Operator\"}}\n```\n\nSubagent terminal reply QA check: fallback. Spawn one native worker, then finish the parent turn without waiting. Do not use ACP.",
+        "toolOutput": ""
+      },
+      {
+        "cursor": 2,
+        "sessionId": "db504f4c-0446-4b1a-8936-6ac43be334e8",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:58 EDT] Conversation info: \u27e6openclaw:ctx\u27e7\n```json\n{\"sender\":{\"id\":\"terminal-fallback-6136939c\",\"name\":\"QA Terminal Reply Operator\"}}\n```\n\nSubagent terminal reply QA check: fallback. Spawn one native worker, then finish the parent turn without waiting. Do not use ACP.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d\\\",\\n  \\\"runId\\\": \\\"e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d\",\n      \"runId\": \"e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 3,
+        "sessionId": "407e3dfb-7827-486d-aa09-ee8c7f2ae0e1",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:59 EDT] [[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]\n\n[Subagent Context] You are running as a subagent (depth 1/5). Complete the current [Subagent Task]; inherited conversation is background context, not your assignment.\n\n## Session Context\n- Label: qa-terminal-fallback\n- Requester session: agent:qa:main.\n- Requester channel: qa-channel.\n- Your session: agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d.\n\n[Subagent Task]\n\n[[OPENCLAW_INTERNAL_CONTEXT_END]]\n\nSubagent terminal reply QA worker: fallback.\n\n[[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]\n\nBegin. Execute the assigned task to completion.\n\n[[OPENCLAW_INTERNAL_CONTEXT_END]]",
+        "toolOutput": ""
+      },
+      {
+        "cursor": 4,
+        "sessionId": "db504f4c-0446-4b1a-8936-6ac43be334e8",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:59 EDT] Continue the OpenClaw runtime event.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d\\\",\\n  \\\"runId\\\": \\\"e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d\",\n      \"runId\": \"e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 7,
+        "sessionId": "db504f4c-0446-4b1a-8936-6ac43be334e8",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:59 EDT] The previous attempt did not produce a user-visible answer. Continue from the current state and produce the visible answer now. Do not restart from scratch.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d\\\",\\n  \\\"runId\\\": \\\"e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:906e0208-0793-4a5b-bc7d-f33c2f511b2d\",\n      \"runId\": \"e29f6ad8-1686-4638-bc39-eaf8ceaf8c9d\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 8,
+        "sessionId": "db504f4c-0446-4b1a-8936-6ac43be334e8",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:59 EDT] Subagent completion delivery is blocked: completion agent did not use the message tool for message-tool-only delivery; message_tool_delivery_missing; direct-primary: completion agent did not use the message tool for message-tool-only delivery",
+        "toolOutput": ""
+      }
+    ]
+  },
+  {
+    "mode": "true",
+    "suiteStatus": "pass",
+    "verdicts": [
+      {
+        "case": "fallback",
+        "conversationId": "terminal-fallback-ce864545",
+        "runId": "5665ded2-e3d7-491a-92e3-eca70a7d1565",
+        "deliveryStatus": "delivered",
+        "inputDisposition": "fallback",
+        "representation": "exact terminal text",
+        "restart": false,
+        "fallback": true,
+        "expectedTerminalSendCount": 1,
+        "actualTerminalSendCount": 1,
+        "capturedTerminalPayloads": [
+          "QA-SUBAGENT-TERMINAL-FALLBACK-OK"
+        ],
+        "auxiliaryChannelEvents": [
+          "Worker started.",
+          "Worker started."
+        ],
+        "silenceTokenLeaked": false,
+        "internalMetadataLeak": false,
+        "pass": true
+      }
+    ],
+    "directFallbackProofs": [
+      {
+        "case": "fallback",
+        "runId": "5665ded2-e3d7-491a-92e3-eca70a7d1565",
+        "receiptKeys": [
+          "announce:v1:agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5:5665ded2-e3d7-491a-92e3-eca70a7d1565:text-direct"
+        ]
+      }
+    ],
+    "nativeRunsAtFinalCapture": [
+      {
+        "runId": "5665ded2-e3d7-491a-92e3-eca70a7d1565",
+        "label": "qa-terminal-fallback",
+        "execution": {
+          "status": "terminal",
+          "endedAt": 1791665894272,
+          "outcome": {
+            "status": "ok"
+          }
+        },
+        "delivery": {
+          "status": "delivered",
+          "disposition": "delivered"
+        },
+        "childSessionKey": "agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5"
+      }
+    ],
+    "receiverEvents": [
+      {
+        "cursor": 2,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "017f0126-43d7-4d7f-befc-dc73bdf1a6fd",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-ce864545",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791665892320,
+          "replyToId": "4550e032-8db5-4496-9492-76629f0deeae",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": []
+        }
+      },
+      {
+        "cursor": 3,
+        "kind": "message-deleted",
+        "accountId": "default",
+        "message": {
+          "id": "017f0126-43d7-4d7f-befc-dc73bdf1a6fd",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-ce864545",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791665892320,
+          "replyToId": "4550e032-8db5-4496-9492-76629f0deeae",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": [],
+          "deleted": true
+        }
+      },
+      {
+        "cursor": 4,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "5c2c56c1-2125-48b3-b9ad-75f9f15b6448",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-ce864545",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "Worker started.",
+          "timestamp": 1791665893435,
+          "replyToId": "4550e032-8db5-4496-9492-76629f0deeae",
+          "attachments": [],
+          "toolCalls": [
+            {
+              "name": "tool_call",
+              "arguments": {
+                "id": "[redacted]",
+                "args": {
+                  "task": "[redacted]",
+                  "label": "[redacted]",
+                  "thread": false,
+                  "mode": "[redacted]"
+                }
+              }
+            },
+            {
+              "name": "sessions_spawn",
+              "arguments": {
+                "task": "[redacted]",
+                "label": "[redacted]",
+                "thread": false,
+                "mode": "[redacted]"
+              }
+            }
+          ],
+          "reactions": []
+        }
+      },
+      {
+        "cursor": 5,
+        "kind": "outbound-message",
+        "accountId": "default",
+        "message": {
+          "id": "2c1a82bc-a113-4621-a7c5-d7afe6c441eb",
+          "accountId": "default",
+          "direction": "outbound",
+          "conversation": {
+            "id": "terminal-fallback-ce864545",
+            "kind": "direct"
+          },
+          "senderId": "openclaw",
+          "senderName": "OpenClaw QA",
+          "text": "QA-SUBAGENT-TERMINAL-FALLBACK-OK",
+          "timestamp": 1791665898102,
+          "attachments": [],
+          "reactions": []
+        }
+      }
+    ],
+    "providerRequests": [
+      {
+        "cursor": 1,
+        "sessionId": "75df23de-42d4-4846-9d16-c9385989ae52",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": "sessions_spawn",
+        "plannedToolArgs": {
+          "task": "Subagent terminal reply QA worker: fallback.",
+          "label": "qa-terminal-fallback",
+          "thread": false,
+          "mode": "run"
+        },
+        "prompt": "[Sat 2026-10-10 16:57 EDT] Conversation info: \u27e6openclaw:ctx\u27e7\n```json\n{\"sender\":{\"id\":\"terminal-fallback-ce864545\",\"name\":\"QA Terminal Reply Operator\"}}\n```\n\nSubagent terminal reply QA check: fallback. Spawn one native worker, then finish the parent turn without waiting. Do not use ACP.",
+        "toolOutput": ""
+      },
+      {
+        "cursor": 2,
+        "sessionId": "75df23de-42d4-4846-9d16-c9385989ae52",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:57 EDT] Conversation info: \u27e6openclaw:ctx\u27e7\n```json\n{\"sender\":{\"id\":\"terminal-fallback-ce864545\",\"name\":\"QA Terminal Reply Operator\"}}\n```\n\nSubagent terminal reply QA check: fallback. Spawn one native worker, then finish the parent turn without waiting. Do not use ACP.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\\\",\\n  \\\"runId\\\": \\\"5665ded2-e3d7-491a-92e3-eca70a7d1565\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 3,
+        "sessionId": "cd63e5e1-2ddf-4257-ae67-fcc2a5840532",
+        "requestKind": "agent-initial",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:58 EDT] [[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]\n\n[Subagent Context] You are running as a subagent (depth 1/5). Complete the current [Subagent Task]; inherited conversation is background context, not your assignment.\n\n## Session Context\n- Label: qa-terminal-fallback\n- Requester session: agent:qa:main.\n- Requester channel: qa-channel.\n- Your session: agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5.\n\n[Subagent Task]\n\n[[OPENCLAW_INTERNAL_CONTEXT_END]]\n\nSubagent terminal reply QA worker: fallback.\n\n[[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]\n\nBegin. Execute the assigned task to completion.\n\n[[OPENCLAW_INTERNAL_CONTEXT_END]]",
+        "toolOutput": ""
+      },
+      {
+        "cursor": 4,
+        "sessionId": "75df23de-42d4-4846-9d16-c9385989ae52",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:58 EDT] Continue the OpenClaw runtime event.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\\\",\\n  \\\"runId\\\": \\\"5665ded2-e3d7-491a-92e3-eca70a7d1565\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 6,
+        "sessionId": "75df23de-42d4-4846-9d16-c9385989ae52",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:58 EDT] [Retry after the previous model attempt failed or timed out]\nContinue the OpenClaw runtime event.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\\\",\\n  \\\"runId\\\": \\\"5665ded2-e3d7-491a-92e3-eca70a7d1565\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      },
+      {
+        "cursor": 7,
+        "sessionId": "75df23de-42d4-4846-9d16-c9385989ae52",
+        "requestKind": "tool-continuation",
+        "outcome": "success",
+        "plannedToolName": null,
+        "plannedToolArgs": null,
+        "prompt": "[Sat 2026-10-10 16:58 EDT] The previous attempt did not produce a user-visible answer. Continue from the current state and produce the visible answer now. Do not restart from scratch.",
+        "toolOutput": "{\n  \"tool\": {\n    \"id\": \"openclaw:core:sessions_spawn\",\n    \"name\": \"sessions_spawn\",\n    \"source\": \"openclaw\"\n  },\n  \"result\": {\n    \"content\": [\n      {\n        \"type\": \"text\",\n        \"text\": \"{\\n  \\\"status\\\": \\\"accepted\\\",\\n  \\\"childSessionKey\\\": \\\"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\\\",\\n  \\\"runId\\\": \\\"5665ded2-e3d7-491a-92e3-eca70a7d1565\\\",\\n  \\\"mode\\\": \\\"run\\\",\\n  \\\"expectsCompletionMessage\\\": true,\\n  \\\"context\\\": \\\"isolated\\\",\\n  \\\"note\\\": \\\"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\\\",\\n  \\\"resolvedModel\\\": \\\"mock-openai/gpt-5.6-luna\\\",\\n  \\\"resolvedProvider\\\": \\\"mock-openai\\\",\\n  \\\"modelApplied\\\": true\\n}\"\n      }\n    ],\n    \"details\": {\n      \"status\": \"accepted\",\n      \"childSessionKey\": \"agent:qa:subagent:5e69b989-e3f0-4389-b3ea-9b1a851702b5\",\n      \"runId\": \"5665ded2-e3d7-491a-92e3-eca70a7d1565\",\n      \"mode\": \"run\",\n      \"expectsCompletionMessage\": true,\n      \"context\": \"isolated\",\n      \"note\": \"The final reply returns to the requester as a completion event. Continue any independent work. Wait for completion events for ALL required children before your final answer; never busy-poll. A late completion still requires review and any unfinished work; avoid repeating already delivered updates.\",\n      \"resolvedModel\": \"mock-openai/gpt-5.6-luna\",\n      \"resolvedProvider\": \"mock-openai\",\n      \"modelApplied\": true\n    }\n  }\n}"
+      }
+    ]
+  }
+]
