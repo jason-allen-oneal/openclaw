@@ -49,6 +49,11 @@ import {
   taskCompletionEvents,
 } from "../../subagent-test-fixtures.test-helpers.js";
 import {
+  createGatewayMock,
+  createPayloadGatewayMock,
+  withDmCompletionFallback,
+} from "./subagent-announce-delivery.test-helpers.js";
+import {
   testing,
   deliverSubagentAnnouncement,
   loadRequesterSessionEntry,
@@ -270,23 +275,6 @@ const slackThreadOrigin = {
 } as const;
 
 const sentDeliveryStatus = { status: "sent", resultCount: 1 } as const;
-
-function createGatewayMock(response: Record<string, unknown> | Error = {}, onCall?: () => void) {
-  return vi.fn(async (opts: Parameters<typeof runtimeCallGateway>[0]) => {
-    onCall?.();
-    if (response instanceof Error) {
-      throw response;
-    }
-    opts.onAccepted?.({ status: "accepted" });
-    return response;
-  }) as unknown as typeof runtimeCallGateway;
-}
-
-function createPayloadGatewayMock(...payloads: Record<string, unknown>[]) {
-  return createGatewayMock({
-    result: { payloads, ...(payloads.length > 0 ? { deliveryStatus: sentDeliveryStatus } : {}) },
-  });
-}
 
 function createInProcessGatewayMock(response: Record<string, unknown> = {}) {
   return vi.fn(async () => response) as unknown as typeof runtimeDispatchGatewayMethodInProcess;
@@ -541,7 +529,7 @@ async function deliverFixture(
   testing.setDepsForTest({
     callGateway,
     sendMessage,
-    getRuntimeConfig: () => cfg,
+    getRuntimeConfig: () => withDmCompletionFallback(cfg),
     getRequesterSessionActivity:
       requesterSessionActivity ??
       (() => ({

@@ -262,6 +262,12 @@ export const AgentDefaultsBaseSchema = z.strictObject({
       thinking: z.string().optional(),
       runTimeoutSeconds: z.number().int().min(0).optional(),
       announceTimeoutMs: z.number().int().positive().optional(),
+      dmCompletionFallback: z
+        .boolean()
+        .optional()
+        .describe(
+          "Allow automatic direct-message completion fallback when requester synthesis does not deliver a result (default: false).",
+        ),
       requireAgentId: z.boolean().optional(),
     })
     .optional(),

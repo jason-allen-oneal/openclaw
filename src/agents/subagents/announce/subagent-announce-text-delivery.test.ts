@@ -18,7 +18,7 @@ afterEach(() => {
   setActivePluginRegistry(createTestRegistry());
 });
 
-function setup(outcome: "rejected" | "aborted" | "sent" = "sent") {
+function setup(outcome: "rejected" | "aborted" | "sent" = "sent", dmCompletionFallback?: boolean) {
   const controller = new AbortController();
   const onDeliveryResult =
     vi.fn<NonNullable<Parameters<typeof deliverCompletionDirect>[0]["onDeliveryResult"]>>();
@@ -52,36 +52,48 @@ function setup(outcome: "rejected" | "aborted" | "sent" = "sent") {
     ]),
   );
   const steer = vi.fn(async () => ({ status: "steered" as const }));
+  const direct = () =>
+    deliverCompletionDirect({
+      cfg: { agents: { defaults: { subagents: { dmCompletionFallback } } } },
+      requesterSessionKey: "agent:main:discord:dm:U123",
+      directIdempotencyKey: "chunked-text-completion",
+      deliveryTarget: { deliver: true, channel: "discord", to: "dm:U123" },
+      internalEvents: taskCompletionEvents({ result: content }),
+      contentKind: "completed_result",
+      signal: controller.signal,
+      onDeliveryResult,
+    });
   const deliver = () =>
     runSubagentAnnounceDispatch({
       expectsCompletionMessage: true,
       signal: controller.signal,
       steer,
       direct: async () => {
-        const result = await deliverCompletionDirect({
-          cfg: {},
-          requesterSessionKey: "agent:main:discord:dm:U123",
-          directIdempotencyKey: "chunked-text-completion",
-          deliveryTarget: { deliver: true, channel: "discord", to: "dm:U123" },
-          internalEvents: taskCompletionEvents({ result: content }),
-          contentKind: "completed_result",
-          signal: controller.signal,
-          onDeliveryResult,
-        });
+        const result = await direct();
         if (!result) {
           throw new Error("Expected a direct text completion attempt");
         }
         return result;
       },
     });
-  return { deliver, received, sendText, onDeliveryResult, steer };
+  return { direct, deliver, received, sendText, onDeliveryResult, steer };
 }
 
 describe("direct completion text delivery", () => {
+  it.each([undefined, false])(
+    "does not send without explicit DM fallback opt-in (%s)",
+    async (enabled) => {
+      const fixture = setup("sent", enabled);
+      await expect(fixture.direct()).resolves.toBeUndefined();
+      expect(fixture.sendText).not.toHaveBeenCalled();
+      expect(fixture.onDeliveryResult).not.toHaveBeenCalled();
+    },
+  );
+
   it.each(["rejected", "aborted"] as const)(
     "settles a chunked result when its second chunk is %s",
     async (outcome) => {
-      const fixture = setup(outcome);
+      const fixture = setup(outcome, true);
       const result = await fixture.deliver();
 
       expect(fixture.sendText).toHaveBeenCalledTimes(2);
@@ -98,7 +110,7 @@ describe("direct completion text delivery", () => {
   );
 
   it("reports complete delivery before transcript mirroring settles", async () => {
-    const fixture = setup();
+    const fixture = setup("sent", true);
     const mirrorEntered = createDeferredCore();
     const releaseMirror = createDeferredCore();
     vi.spyOn(transcript, "mirrorDeliveredPayloads").mockImplementation(async () => {
@@ -129,7 +141,7 @@ describe("direct completion text delivery", () => {
   it.each(["mirror", "report"] as const)(
     "preserves complete delivery when later %s bookkeeping rejects",
     async (failure) => {
-      const fixture = setup();
+      const fixture = setup("sent", true);
       const error = new Error("post-send bookkeeping failed");
       if (failure === "mirror") {
         vi.spyOn(transcript, "mirrorDeliveredPayloads").mockRejectedValue(error);

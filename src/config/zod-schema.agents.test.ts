@@ -151,3 +151,22 @@ describe("agent GitHub sandbox identity", () => {
     }
   });
 });
+
+describe("DM completion fallback opt-in", () => {
+  it.each([undefined, false, true])("accepts the boolean setting (%s)", (enabled) => {
+    const parsed = AgentsSchema.parse({
+      entries: { main: {} },
+      defaults: { subagents: { dmCompletionFallback: enabled } },
+    });
+    expect(parsed.defaults?.subagents?.dmCompletionFallback).toBe(enabled);
+  });
+
+  it("rejects a truthy string instead of silently opting in", () => {
+    expect(
+      AgentsSchema.safeParse({
+        entries: { main: {} },
+        defaults: { subagents: { dmCompletionFallback: "true" } },
+      }).success,
+    ).toBe(false);
+  });
+});

@@ -132,6 +132,7 @@ the page that now holds the content.
 - <a id="param-agents-defaults-subagents-allow-agents" />[`agents.defaults.subagents.allowAgents`](/tools/subagents/thread-bound-sessions#param-agents-defaults-subagents-allow-agents)
 - <a id="param-agents-defaults-subagents-require-agent-id" />[`agents.defaults.subagents.requireAgentId`](/tools/subagents/thread-bound-sessions#param-agents-defaults-subagents-require-agent-id)
 - <a id="param-agents-defaults-subagents-announce-timeout-ms" />[`agents.defaults.subagents.announceTimeoutMs`](/tools/subagents/thread-bound-sessions#param-agents-defaults-subagents-announce-timeout-ms)
+- <a id="param-agents-defaults-subagents-dm-completion-fallback" />[`agents.defaults.subagents.dmCompletionFallback`](/tools/subagents/thread-bound-sessions#param-agents-defaults-subagents-dm-completion-fallback)
 - <a id="discovery" />[Discovery](/tools/subagents/thread-bound-sessions#discovery)
 - <a id="auto-archive" />[Auto-archive](/tools/subagents/thread-bound-sessions#auto-archive)
 - <a id="nested-sub-agents" />[Nested sub-agents](/tools/subagents/nesting#nested-sub-agents)

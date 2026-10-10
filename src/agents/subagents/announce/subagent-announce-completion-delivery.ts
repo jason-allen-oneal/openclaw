@@ -389,6 +389,10 @@ export async function deliverCompletionDirect(params: {
   onDeliveryResult?: (delivery: SubagentAnnounceDeliveryResult) => void | Promise<void>;
   isSourceSessionEffectsAllowed?: () => boolean;
 }): Promise<SubagentAnnounceDeliveryResult | undefined> {
+  // A failed requester handoff does not implicitly authorize a direct message.
+  if (params.cfg.agents?.defaults?.subagents?.dmCompletionFallback !== true) {
+    return undefined;
+  }
   const completionContent = collectDirectCompletionContent({
     agentResult: params.agentResult,
     events: params.internalEvents,

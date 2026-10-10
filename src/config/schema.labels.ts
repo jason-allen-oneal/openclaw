@@ -5,6 +5,7 @@ import { APPROVAL_FIELD_LABELS } from "./schema.labels.approvals.js";
 import { BROWSER_FIELD_LABELS } from "./schema.labels.browser.js";
 import { GITHUB_TOOL_FIELD_LABELS } from "./schema.labels.github.js";
 import { SESSION_FIELD_LABELS } from "./schema.labels.session.js";
+import { SUBAGENT_FIELD_LABELS } from "./schema.labels.subagents.js";
 import { WORKSPACE_FIELD_LABELS } from "./schema.labels.workspace.js";
 import { META_FIELD_LABELS } from "./schema.meta.js";
 import { NODE_CAPABILITY_FIELD_LABELS } from "./schema.node-capabilities.js";
@@ -16,6 +17,7 @@ import { TELEMETRY_FIELD_LABELS } from "./zod-schema.telemetry.js";
 
 export const FIELD_LABELS: Record<string, string> = {
   ...META_FIELD_LABELS,
+  ...SUBAGENT_FIELD_LABELS,
   ...BROWSER_FIELD_LABELS,
   env: "Environment",
   "env.shellEnv": "Shell Environment Import",
@@ -321,8 +323,6 @@ export const FIELD_LABELS: Record<string, string> = {
   "skills.load.watch": "Watch Skills",
   "skills.workshop.autonomous.mode": "Skill Workshop Autonomous Mode",
   "agents.defaults.skills": "Skills",
-  "agents.defaults.subagents.delegationMode": "Sub-agent Delegation Mode",
-  "agents.entries.*.subagents.delegationMode": "Sub-agent Delegation Mode",
   ...WORKSPACE_FIELD_LABELS,
   "agents.defaults.experimental": "Experimental Agent Flags",
   "agents.defaults.experimental.localModelLean": "Enable Lean Local Model Mode (Experimental)",
