@@ -200,7 +200,7 @@ stderr | unknown test
  ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > gates a reworded no-visible-result placeholder for no-output channel completion 6ms
  ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not gate a result that only reads like the placeholder for no-output channel completion 6ms
  ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > rejects off-target messaging alone for no-output channel completion 5ms
- ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > delivers Telegram forum-topic subagent completions through the normal parent handoff 5ms
+[non-exercised adapter/help/test output omitted]
  ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > fails configured channel subagent completions when parent skips required message tool 5ms
  ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not replay a still-owned accepted completion handoff 4ms
  ✓ |agents-support| src/agents/subagents/announce/subagent-announce-delivery.test.ts > deliverSubagentAnnouncement completion delivery > does not replay a still-owned in_flight completion handoff 4ms

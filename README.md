@@ -31,4 +31,8 @@ Set `OPENCLAW_PROOF_REPO_ROOT` to the clean candidate checkout before running a 
 
 ## Integrity
 
-[SHA256SUMS](opt-out/SHA256SUMS) hashes public redacted artifacts. [Original hashes](opt-out/original-artifact-sha256.json) bind private unredacted inputs; local paths, endpoints and synthetic Gateway credentials are redacted. Root files outside `opt-out/` are historical prior-head evidence and do not establish the new default.
+[SHA256SUMS](opt-out/SHA256SUMS) hashes public redacted artifacts. [Original hashes](opt-out/original-artifact-sha256.json) bind private unredacted inputs; local paths, endpoints and synthetic Gateway credentials are redacted. This snapshot contains current-head evidence only; prior-head artifacts are not included.
+
+## Publication projection
+
+This is a channel-neutral presentation of the same captured executions, not a rerun. Non-exercised adapter migration fields, generic adapter help/schema descriptions, and unrelated adapter test output are omitted from public diagnostics. No executed transport, result, failure, timing, receipt, or source identity is changed. Original executed-file hashes remain in the original-hash map; the private originals remain preserved. [Projection record](opt-out/publication-projection.json) identifies affected records and their pre-projection public hashes.

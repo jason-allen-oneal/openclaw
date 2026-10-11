@@ -30,7 +30,7 @@
     "agentRosterIncludeOwned": false,
     "bindingsIncludeOwned": false,
     "exists": true,
-    "raw": "{\n  \"gateway\": {\n    \"mode\": \"local\",\n    \"auth\": {\n      \"mode\": \"token\",\n      \"token\": \"__OPENCLAW_REDACTED__\"\n    }\n  },\n  \"agents\": {\n    \"defaults\": {\n      \"workspace\": \"<proof-workspace>/upgrade-a1dcdd90a282-1/isolated-state/workspace\",\n      \"timeoutSeconds\": 73\n    },\n    \"entries\": {\n      \"main\": {}\n    }\n  },\n  \"messages\": {\n    \"responsePrefix\": \"QA-OPT-OUT-UPGRADE-PRESERVED\"\n  },\n  \"meta\": {\n    \"migrations\": {\n      \"webhookListeners\": {\n        \"feishu\": [],\n        \"nextcloud-talk\": [],\n        \"telegram\": []\n      },\n      \"modelPolicyAllowlist\": true,\n      \"utilityModelSeparation\": true\n    },\n    \"lastTouchedVersion\": \"2026.9.9\"\n  },\n  \"wizard\": {\n    \"lastRunAt\": \"2026-10-10T21:59:59.838Z\",\n    \"lastRunVersion\": \"2026.9.9\",\n    \"lastRunCommand\": \"doctor\",\n    \"lastRunMode\": \"local\"\n  },\n  \"skills\": {\n    \"entries\": {\n      \"coding-agent\": {\n        \"enabled\": false\n      },\n      \"goplaces\": {\n        \"enabled\": false\n      },\n      \"mcporter\": {\n        \"enabled\": false\n      },\n      \"model-usage\": {\n        \"enabled\": false\n      },\n      \"obsidian\": {\n        \"enabled\": false\n      },\n      \"openai-whisper-api\": {\n        \"enabled\": false\n      },\n      \"oracle\": {\n        \"enabled\": false\n      },\n      \"sherpa-onnx-tts\": {\n        \"enabled\": false\n      },\n      \"trello\": {\n        \"enabled\": false\n      }\n    }\n  }\n}\n",
+[non-exercised adapter/help/test output omitted]
     "parsed": {
       "gateway": {
         "mode": "local",
@@ -56,7 +56,7 @@
           "webhookListeners": {
             "feishu": [],
             "nextcloud-talk": [],
-            "telegram": []
+[non-exercised adapter/help/test output omitted]
           },
           "modelPolicyAllowlist": true,
           "utilityModelSeparation": true
@@ -126,7 +126,7 @@
           "webhookListeners": {
             "feishu": [],
             "nextcloud-talk": [],
-            "telegram": []
+[non-exercised adapter/help/test output omitted]
           },
           "modelPolicyAllowlist": true,
           "utilityModelSeparation": true
@@ -196,7 +196,7 @@
           "webhookListeners": {
             "feishu": [],
             "nextcloud-talk": [],
-            "telegram": []
+[non-exercised adapter/help/test output omitted]
           },
           "modelPolicyAllowlist": true,
           "utilityModelSeparation": true
@@ -251,7 +251,7 @@
           "webhookListeners": {
             "feishu": [],
             "nextcloud-talk": [],
-            "telegram": []
+[non-exercised adapter/help/test output omitted]
           }
         }
       },
@@ -335,7 +335,7 @@
           "webhookListeners": {
             "feishu": [],
             "nextcloud-talk": [],
-            "telegram": []
+[non-exercised adapter/help/test output omitted]
           }
         }
       },
