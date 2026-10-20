@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { collectPluginSafetyInspectedFiles } from "../plugins/plugin-safety-inspected-files.js";
+import { hashFileMutationSnapshotSync } from "./file-descriptor.js";
 import { root as openRoot } from "./fs-safe.js";
 import { hasNodeErrorCode } from "./path-guards.js";
 import { copyUpdateCandidatePluginFileBytes } from "./update-candidate-plugin-file.js";
@@ -28,10 +29,10 @@ const isLinkUnsupported = (error: unknown) =>
 /**
  * Retain the admitted tree by hard-linking its files into the private directory.
  *
- * Retention only needs the inventoried inodes to outlive the installer's rename or
- * unlink, so files share their inode with the source and bytes are copied only when
- * the filesystem cannot preserve identity, a plugin boundary checks it, or relocation rewrites it.
- * Source edits during preparation are best effort; publication still checks private links.
+ * Retention normally keeps inventoried inodes alive across the installer's rename or unlink.
+ * Filesystem copy-up may change identity; that path must still prove the retained bytes and mode.
+ * Bytes are copied only when the filesystem cannot hard-link, a plugin boundary checks them, or
+ * relocation rewrites them. Writes through an already-linked inode remain best effort.
  */
 export async function linkUpdateCandidatePluginTrees(
   plan: UpdateCandidatePluginTreePlan,
@@ -121,11 +122,19 @@ export async function linkUpdateCandidatePluginTrees(
         await copyEntry(entry, destination);
         counts.copied += 1;
       } else {
-        const linked = await fs.lstat(destination);
+        const linked = await fs.lstat(destination, { bigint: true });
         if (!linked.isFile()) {
           throw new Error(`Retained runtime entry is not a regular file: ${entry.path}`);
         }
-        if (linked.size > entry.size) {
+        const sameIdentity =
+          linked.dev.toString() === entry.dev && linked.ino.toString() === entry.ino;
+        if (
+          linked.size > BigInt(entry.size) ||
+          (!sameIdentity &&
+            (linked.size !== BigInt(entry.size) ||
+              Number(linked.mode & 0o7777n) !== entry.mode ||
+              hashFileMutationSnapshotSync(destination, linked) !== entry.sha256))
+        ) {
           throw new Error(`Plugin entry changed after snapshot inventory: ${entry.path}`);
         }
         counts.linked += 1;

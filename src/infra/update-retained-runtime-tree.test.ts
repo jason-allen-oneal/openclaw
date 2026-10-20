@@ -113,6 +113,44 @@ it("rejects hardlinked files larger than their inventory budget", async () => {
   await expect(f.link()).rejects.toThrow("Plugin entry changed after snapshot inventory");
 });
 
+it("rejects same-size pathname replacements after inventory", async () => {
+  const f = await fixture(async (source) => {
+    const unique = await writeFile(source, "dist/unique.js", workerCode);
+    await fs.chmod(unique, 0o444);
+  });
+  const unique = f.original("dist/unique.js");
+  beforeLink((source) => {
+    if (source !== unique) {
+      return;
+    }
+    fsSync.renameSync(unique, `${unique}.inventoried`);
+    fsSync.writeFileSync(unique, workerCode.replace("retained", "foreign!"));
+    fsSync.chmodSync(unique, 0o444);
+  });
+
+  await expect(f.link()).rejects.toThrow("Plugin entry changed after snapshot inventory");
+});
+
+it("accepts a different inode when its retained bytes and mode match inventory", async () => {
+  const f = await fixture(async (source) => {
+    const unique = await writeFile(source, "dist/unique.js", workerCode);
+    await fs.chmod(unique, 0o444);
+  });
+  const unique = f.original("dist/unique.js");
+  const link = fs.link;
+  vi.spyOn(fs, "link").mockImplementation(async (source, destination) => {
+    if (source !== unique) {
+      return await link(source, destination);
+    }
+    await fs.copyFile(source, destination);
+    await fs.chmod(destination, 0o444);
+  });
+
+  await expect(f.link()).resolves.toMatchObject({ linked: expect.any(Number) });
+  expect(await read(f.retained("dist/unique.js"))).toBe(workerCode);
+  expect(inode(f.retained("dist/unique.js"))).not.toEqual(inode(unique));
+});
+
 it.each([false, true])(
   "preserves plugin safety (existing manifest twin=%s)",
   async (existingTwin) => {
