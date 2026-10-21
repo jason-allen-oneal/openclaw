@@ -233,8 +233,8 @@ describe("manual root catalog authorship", () => {
       const generatedProviders = JSON.parse(generated.contents).providers;
       expect(generatedProviders.fixture).toMatchObject({
         baseUrl: "https://persisted.example/v1",
-        apiKey: "persisted-plugin-key",
       });
+      expect(generatedProviders.fixture).not.toHaveProperty("apiKey");
       expect(generatedProviders.fixture.models.map((model: { id: string }) => model.id)).toEqual([
         "native-model",
         ...modelIds,
