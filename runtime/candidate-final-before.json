@@ -1,0 +1,59 @@
+{
+  "authoredRootSha256": "cb5acf82f292069232df70ce0b9693be7ffc8f5ad661ee33ec2c46f5d5afa315",
+  "profiles": [
+    {
+      "id": "recovered:default",
+      "provider": "recovered",
+      "type": "api_key",
+      "database": "state/openclaw.sqlite",
+      "store": "authProfiles.store",
+      "matchesFixture": "recovered"
+    }
+  ],
+  "catalogs": [
+    {
+      "pluginId": "proof-owner",
+      "provider": "canonical",
+      "hasApiKey": false,
+      "hasHeaders": false,
+      "modelIds": [
+        "fixture-model"
+      ]
+    },
+    {
+      "pluginId": "proof-owner",
+      "provider": "recovered",
+      "hasApiKey": false,
+      "hasHeaders": false,
+      "modelIds": [
+        "fixture-model"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "openclaw.json",
+      "sha256": "7a06a15cf703e8e26a25b4ffaeffbb7429475e8e2a7b1833b56bc47f102d3509",
+      "sizeBytes": 2933,
+      "mode": "0o600"
+    },
+    {
+      "path": "agents/main/agent/models.json",
+      "sha256": "cb5acf82f292069232df70ce0b9693be7ffc8f5ad661ee33ec2c46f5d5afa315",
+      "sizeBytes": 732,
+      "mode": "0o600"
+    },
+    {
+      "path": "agents/main/agent/openclaw-agent.sqlite",
+      "sha256": "a7e769a2b5e9e4c4e5a7b572db2b6dfb41955f86922bedc2b4aef8502b843ff0",
+      "sizeBytes": 1138688,
+      "mode": "0o600"
+    },
+    {
+      "path": "state/openclaw.sqlite",
+      "sha256": "bba5eeef337654268ff4a769195facea3322fda0fca366c9640e6e2cedc085eb",
+      "sizeBytes": 3092480,
+      "mode": "0o600"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+[vitest-workers] local cache hit after 11810ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 4980bb14dab3 in 12016ms (16778 inputs, 21762 outputs)
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > publishes generated inventory without provider or model credential fields
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retains legacy credentials during ordinary replace without blocking unrelated publication
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retains legacy credentials during ordinary delete-missing without blocking unrelated publication
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > reads only named catalog rows without running migration or repair
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > skips unrelated credentials and observes a later legacy-catalog update
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > waits for an uncommitted catalog publication before skipping a clean catalog
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > removes generated model rows whose API semantics cannot be derived
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > leaves malformed persisted catalogs and valid sibling timestamps unchanged
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not overwrite a provider refresh when repair uses an older catalog snapshot
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not create an agent database for a read-only cache miss
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not create agent state when an empty catalog is already current
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > imports a released catalog only through explicit migration
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retires migrated credential recovery data after verifying the canonical catalog
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > protects migration recovery credentials when a plugin directory cannot be inspected
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > detects a released catalog that appears after an earlier empty scan
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > migrates a later provider catalog after an earlier migration completed
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > migrates a changed later sidecar for an already migrated provider
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > preserves released credentials and unrelated regenerated SQLite catalogs
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recovers a released sidecar that appears after a catalog replacement was planned
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > treats an already-completed legacy migration as safe to repeat
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > accepts a sidecar already migrated and removed by another process
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > keeps committed catalogs available when a released sidecar cannot be removed
+ × |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > defers credential cleanup until a retained sidecar can finish migration 342ms
+   → expected [ …(2) ] to deeply equal [ { pluginId: 'anthropic', …(2) } ]
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never deletes retained migrated credentials after a newer catalog replaces them
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > atomically preserves a provider catalog refreshed immediately before migration claims it
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never publishes a stale scan after another process removes the legacy source
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retains an in-flight migration claim until a later explicit repair
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never migrates a provider while one retained claim cannot be read
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recovers a retained atomic migration claim after an interrupted upgrade
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recovers a retained claim before applying a newer canonical provider catalog
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > preserves conflicting retained claims without guessing which credential is newer
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not let an unreadable sidecar hide other committed provider catalogs
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never migrates or deletes an unmarked user-authored catalog
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > preserves SQLite catalog key order in committed receipts
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recognizes unchanged payloads and atomically removes stale provider rows
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > rejects invalid planning keys without deleting the committed catalog
+ ↓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > round-trips encoded plugin ownership without filesystem discovery
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > defers credential cleanup until a retained sidecar can finish migration
+AssertionError: expected [ …(2) ] to deeply equal [ { pluginId: 'anthropic', …(2) } ]
+
+- Expected
++ Received
+
+@@ -2,6 +2,11 @@
+    {
+      "completedCostModelCount": 0,
+      "pluginId": "anthropic",
+      "removedModelCount": 0,
+    },
++   {
++     "completedCostModelCount": 0,
++     "pluginId": "zai",
++     "removedModelCount": 0,
++   },
+  ]
+
+ ❯ src/agents/plugin-model-catalog.test.ts:743:25
+    741|     await withPermissions(pluginDir, 0o500, 0o700, () => {
+    742|       expectMigration([0, "Could not remove migrated legacy provider c…
+    743|       expect(cleanup()).toEqual([
+       |                         ^
+    744|         { pluginId: "anthropic", removedModelCount: 0, completedCostMo…
+    745|       ]);
+ ❯ withPermissions src/agents/plugin-model-catalog.test.ts:142:11
+ ❯ src/agents/plugin-model-catalog.test.ts:741:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 36 skipped (37)
+   Start at  20:01:12
+   Duration  6.92s (transform 67%, setup 15%, import 12%, tests 6%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 27.60s
+[test] FAILED (exit 1)

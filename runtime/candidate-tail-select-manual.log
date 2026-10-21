@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "path": "<proof-root>/state/agents/main/agent/openclaw-agent.sqlite",
+  "key": "agent:main:explicit:catalog-upgrade-real-cpu",
+  "entry": {
+    "sessionId": "catalog-upgrade-real-cpu",
+    "updatedAt": 1792543069695,
+    "sessionStartedAt": 1792540948223,
+    "lastInteractionAt": 1792542841668,
+    "delivery": {
+      "kind": "none"
+    },
+    "displayName": "explicit:catalog-upgrade-real-cpu",
+    "createdVia": "run",
+    "createdAt": 1792540948489,
+    "startedAt": 1792542834034,
+    "abortedLastRun": false,
+    "lastActivityAt": 1792542841694,
+    "agentHarnessId": "openclaw",
+    "inputTokens": 1838,
+    "outputTokens": 8,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "estimatedCostUsd": 0,
+    "totalTokens": 1838,
+    "totalTokensFresh": true,
+    "totalTokensVersion": 1,
+    "suppressErrorNotice": false,
+    "usageReport": {
+      "state": "available"
+    },
+    "providerOverride": "manual",
+    "modelOverride": "qwen3:0.6b",
+    "modelOverrideSource": "user",
+    "modelOverrideRouteResolution": "resolved",
+    "liveModelSwitchPending": true,
+    "status": "done",
+    "endedAt": 1792542841694,
+    "runtimeMs": 7660
+  },
+  "resolved": {
+    "modelProvider": "manual",
+    "model": "qwen3:0.6b",
+    "agentRuntime": {
+      "id": "openclaw",
+      "source": "implicit"
+    },
+    "runtimeSelectionLocked": false,
+    "thinkingLevel": "off",
+    "thinkingLevels": [
+      {
+        "id": "off",
+        "label": "off"
+      },
+      {
+        "id": "ultra",
+        "label": "ultra"
+      }
+    ]
+  }
+}

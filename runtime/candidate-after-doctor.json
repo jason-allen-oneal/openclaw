@@ -1,0 +1,75 @@
+{
+  "authoredRootSha256": "cb5acf82f292069232df70ce0b9693be7ffc8f5ad661ee33ec2c46f5d5afa315",
+  "profiles": [
+    {
+      "id": "canonical:default",
+      "provider": "canonical",
+      "type": "api_key",
+      "database": "state/openclaw.sqlite",
+      "store": "authProfiles.store",
+      "matchesFixture": "canonical"
+    },
+    {
+      "id": "manual:default",
+      "provider": "manual",
+      "type": "api_key",
+      "database": "state/openclaw.sqlite",
+      "store": "authProfiles.store",
+      "matchesFixture": "manual"
+    },
+    {
+      "id": "recovered:default",
+      "provider": "recovered",
+      "type": "api_key",
+      "database": "state/openclaw.sqlite",
+      "store": "authProfiles.store",
+      "matchesFixture": "recovered"
+    }
+  ],
+  "catalogs": [
+    {
+      "pluginId": "proof-owner",
+      "provider": "canonical",
+      "hasApiKey": false,
+      "hasHeaders": false,
+      "modelIds": [
+        "fixture-model"
+      ]
+    },
+    {
+      "pluginId": "proof-owner",
+      "provider": "recovered",
+      "hasApiKey": false,
+      "hasHeaders": false,
+      "modelIds": [
+        "fixture-model"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "openclaw.json",
+      "sha256": "7a06a15cf703e8e26a25b4ffaeffbb7429475e8e2a7b1833b56bc47f102d3509",
+      "sizeBytes": 2933,
+      "mode": "0o600"
+    },
+    {
+      "path": "agents/main/agent/models.json",
+      "sha256": "cb5acf82f292069232df70ce0b9693be7ffc8f5ad661ee33ec2c46f5d5afa315",
+      "sizeBytes": 732,
+      "mode": "0o600"
+    },
+    {
+      "path": "agents/main/agent/openclaw-agent.sqlite",
+      "sha256": "e85f3913e2ab57d0f441e8c8ae68c354ee9655e921d22a0854fb2524971857cc",
+      "sizeBytes": 1073152,
+      "mode": "0o600"
+    },
+    {
+      "path": "state/openclaw.sqlite",
+      "sha256": "ec6edeedf3efab528cd797ef9845c26dba3f759c9d73ee2095c96e5920223b24",
+      "sizeBytes": 3092480,
+      "mode": "0o600"
+    }
+  ]
+}

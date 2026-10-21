@@ -1,0 +1,87 @@
+--- a/src/commands/doctor-model-catalog-credentials.ts
++++ b/src/commands/doctor-model-catalog-credentials.ts
+@@ -26,8 +26,6 @@
+   repairPersistedPluginModelCatalogs,
+   type PersistedPluginModelCatalog,
+ } from "../agents/plugin-model-catalog.js";
+-import { createConfigIO } from "../config/io.factory.js";
+-import { assertBaseSnapshotStillCurrent } from "../config/io.write-safety.js";
+ import { resolveStateDir } from "../config/paths.js";
+ import { resolveConfiguredAgentDatabaseCandidatePaths } from "../config/sessions/targets.js";
+ import type { OpenClawConfig } from "../config/types.openclaw.js";
+@@ -428,7 +426,6 @@
+ /** Copies, verifies, and retires only generated credential copies. */
+ export async function maybeMigrateModelCatalogCredentials(params: {
+   cfg: OpenClawConfig;
+-  configSource?: { path: string; hash: string | null };
+   env?: NodeJS.ProcessEnv;
+   prompter: DoctorPrompter;
+   runtime: RuntimeEnv;
+@@ -511,32 +508,6 @@
+       "Model catalog credentials",
+     );
+   }
+-  const configSource = JSON.stringify(params.cfg.models?.providers);
+-  const configIo = createConfigIO({
+-    env,
+-    configPath: params.configSource?.path,
+-    observe: false,
+-    pluginValidation: "skip",
+-    shellEnvFallback: "defer",
+-  });
+-  const configRead = await configIo.readConfigFileSnapshotForWrite();
+-  const assertConfigCurrent = () => {
+-    const expected = params.configSource;
+-    if (
+-      configRead.snapshot.readError ||
+-      (expected &&
+-        (expected.path !== configRead.snapshot.path ||
+-          expected.hash === null ||
+-          expected.hash !== configRead.snapshot.hash)) ||
+-      JSON.stringify(params.cfg.models?.providers) !== configSource
+-    ) {
+-      throw new Error("model config changed since Doctor planned its repairs");
+-    }
+-    assertBaseSnapshotStillCurrent(configRead.snapshot, configIo.configPath, fs, {
+-      hashes: configRead.writeOptions.includeFileHashesForWrite ?? {},
+-      targets: configRead.writeOptions.includeFileTargetsForWrite ?? {},
+-    });
+-  };
+   const shouldRepair =
+     params.prompter.shouldRepair ||
+     (await params.prompter.confirmAutoFix({
+@@ -547,15 +518,13 @@
+     return { detected, migrated: 0, removed: 0, warnings };
+   }
+ 
+-  try {
+-    assertConfigCurrent();
+-  } catch (error) {
+-    const warning = `Model config changed before credential repair: ${error instanceof Error ? error.message : String(error)}; rerun openclaw doctor --fix.`;
+-    warnings.push(warning);
+-    params.runtime.error(warning);
+-    return { detected, migrated: 0, removed: 0, warnings };
+-  }
+-  // Confirmation is not a snapshot lease. Reread catalogs and auth after it settles.
++  // Confirmation is not a snapshot lease. Never recover keys removed while it was pending.
++  const configSource = JSON.stringify(params.cfg.models?.providers);
++  const assertConfigCurrent = () => {
++    if (JSON.stringify(params.cfg.models?.providers) !== configSource) {
++      throw new Error("model configuration changed; rerun openclaw doctor --fix");
++    }
++  };
+   let migrated = 0;
+   let removed = 0;
+   let cleaned = 0;
+@@ -624,11 +593,6 @@
+         agentDir,
+         catalogs: catalog.generated,
+         credentials,
+-        onDeferredCredentialCleanup: (pluginId) => {
+-          warnings.push(
+-            `Retained credentials for plugin "${pluginId}" until its legacy catalog migration completes; resolve the migration warning and rerun openclaw doctor --fix.`,
+-          );
+-        },
+         assertCurrent: () => {
+           assertConfigCurrent();
+           catalog.assertRootCurrent();

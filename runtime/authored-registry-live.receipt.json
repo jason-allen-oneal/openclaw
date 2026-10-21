@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "node",
+    "<proof-root>/authored-registry-live.mjs",
+    "<candidate-checkout>",
+    "<proof-root>"
+  ],
+  "environment": {
+    "PATH": "<host-executable-search-path>",
+    "HOME": "<proof-root>/home",
+    "OPENCLAW_HOME": "<proof-root>/home",
+    "OPENCLAW_STATE_DIR": "<proof-root>/state",
+    "OPENCLAW_CONFIG_PATH": "<proof-root>/state/openclaw.json",
+    "OPENCLAW_AGENT_DIR": "<proof-root>/state/agents/main/agent",
+    "NO_COLOR": "1",
+    "OPENCLAW_NO_RESPAWN": "1",
+    "OPENCLAW_SKIP_UPDATE_CHECK": "1"
+  },
+  "candidateSha": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "startedAtUnix": 1792543606.4968863,
+  "endedAtUnix": 1792543611.3163023,
+  "exitCode": 0,
+  "driverSha256": "9d8238564218cd1e40c87277690df83fc8e13ae5df739efe9c181949a86db766"
+}

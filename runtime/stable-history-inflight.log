@@ -1,0 +1,199 @@
+{
+  "sessionKey": "agent:main:explicit:catalog-upgrade-real-cpu",
+  "sessionId": "catalog-upgrade-real-cpu",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Remember the proof word COPPER-FINCH. Reply with exactly COPPER-FINCH and do not use tools.",
+      "timestamp": 1792540948607,
+      "idempotencyKey": "<id-20f0e38204>:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "<id-1990877dbb>",
+        "idempotencyKey": "<id-20f0e38204>:user",
+        "recordTimestampMs": 1792540961422,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 4
+        },
+        "seq": 1
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "COPPER-FINCH."
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "canonical",
+      "model": "qwen3:0.6b",
+      "usage": {
+        "input": 1589,
+        "output": 8,
+        "totalTokens": 1597,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "stop",
+      "timestamp": 1792540961504,
+      "responseId": "cpu-1",
+      "__openclaw": {
+        "runId": "<id-20f0e38204>",
+        "id": "<id-eb6fe1512e>",
+        "recordTimestampMs": 1792540987982,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 5
+        },
+        "seq": 2
+      }
+    }
+  ],
+  "hasMore": false,
+  "totalMessages": 2,
+  "pendingInputs": {
+    "items": [],
+    "total": 0,
+    "queuedCount": 0
+  },
+  "deltaCursor": "<opaque-fixture-identifier>",
+  "defaults": {
+    "modelProvider": "canonical",
+    "model": "qwen3:0.6b",
+    "contextTokens": 32768,
+    "agentRuntime": {
+      "id": "openclaw",
+      "cloudPlacementSupported": true,
+      "cloudPlacementExecutionMode": "worker-turn",
+      "devicePlacement": {
+        "requiredNodeCommands": [],
+        "consumesWorkerSlot": true
+      },
+      "devicePlacementSupported": true,
+      "source": "provider"
+    },
+    "modelSelectionTarget": "session"
+  },
+  "sessionInfo": {
+    "key": "agent:main:explicit:catalog-upgrade-real-cpu",
+    "visibility": "shared",
+    "permissionModePending": false,
+    "createdVia": "run",
+    "participants": [
+      {
+        "identity": {
+          "type": "observation",
+          "pluginId": null,
+          "accountId": null,
+          "senderKind": "unknown",
+          "id": "cli"
+        }
+      }
+    ],
+    "expandedParticipants": [
+      {
+        "identity": {
+          "type": "observation",
+          "pluginId": null,
+          "accountId": null,
+          "senderKind": "unknown",
+          "id": "cli"
+        }
+      }
+    ],
+    "participantCount": 1,
+    "createdAt": 1792540948489,
+    "kind": "direct",
+    "classification": "explicit",
+    "agentId": "main",
+    "isMain": false,
+    "isBackground": false,
+    "displayName": "explicit:catalog-upgrade-real-cpu",
+    "updatedAt": 1792540988312,
+    "archived": false,
+    "pinned": false,
+    "unread": true,
+    "lastInteractionAt": 1792540988266,
+    "lastActivityAt": 1792540988300,
+    "sessionId": "catalog-upgrade-real-cpu",
+    "abortedLastRun": false,
+    "effectiveFastMode": false,
+    "effectiveFastModeSource": "default",
+    "fastAutoOnSeconds": 60,
+    "inputTokens": 1589,
+    "outputTokens": 8,
+    "totalTokens": 1589,
+    "totalTokensFresh": true,
+    "estimatedCostUsd": 0,
+    "status": "done",
+    "startedAt": 1792540959535,
+    "endedAt": 1792540988300,
+    "runtimeMs": 28765,
+    "lastRunId": "<id-20f0e38204>",
+    "effectiveResponseUsage": "off",
+    "effectiveQueueMode": "steer",
+    "modelProvider": "canonical",
+    "model": "qwen3:0.6b",
+    "modelOverrideSource": null,
+    "runtimeSelectionLocked": false,
+    "agentRuntime": {
+      "id": "openclaw",
+      "cloudPlacementSupported": true,
+      "cloudPlacementExecutionMode": "worker-turn",
+      "devicePlacement": {
+        "requiredNodeCommands": [],
+        "consumesWorkerSlot": true
+      },
+      "devicePlacementSupported": true,
+      "source": "provider"
+    },
+    "contextTokens": 32768,
+    "contextBudgetStatus": {
+      "schemaVersion": 1,
+      "source": "pre-prompt-estimate",
+      "updatedAt": 1792540961369,
+      "provider": "canonical",
+      "model": "qwen3:0.6b",
+      "route": "fits",
+      "shouldCompact": false,
+      "estimatedPromptTokens": 3063,
+      "contextTokenBudget": 32768,
+      "promptBudgetBeforeReserve": 24576,
+      "reserveTokens": 8192,
+      "effectiveReserveTokens": 8192,
+      "remainingPromptBudgetTokens": 21513,
+      "overflowTokens": 0,
+      "toolResultReducibleChars": 0,
+      "messageCount": 0,
+      "unwindowedMessageCount": 0,
+      "sessionId": "catalog-upgrade-real-cpu"
+    },
+    "snapshotAt": 1792541009038,
+    "placement": {
+      "state": "local",
+      "generation": 0,
+      "createdAtMs": 1792540960156,
+      "updatedAtMs": 1792540988236,
+      "stateChangedAtMs": 1792540960156
+    },
+    "activitySummary": {
+      "state": "unavailable",
+      "canEnsure": true
+    },
+    "sharingRole": "owner",
+    "sendDisabledReason": null,
+    "hasActiveRun": false,
+    "activeRunIds": [],
+    "activeLeafEntryId": "<id-eb6fe1512e>"
+  }
+}

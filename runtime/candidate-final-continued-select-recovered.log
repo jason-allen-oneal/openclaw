@@ -1,0 +1,65 @@
+{
+  "ok": true,
+  "path": "<proof-root>/state/agents/main/agent/openclaw-agent.sqlite",
+  "key": "agent:main:explicit:catalog-upgrade-real-cpu",
+  "entry": {
+    "sessionId": "catalog-upgrade-real-cpu",
+    "updatedAt": 1792543671822,
+    "sessionStartedAt": 1792540948223,
+    "lastInteractionAt": 1792543509875,
+    "delivery": {
+      "kind": "none"
+    },
+    "displayName": "explicit:catalog-upgrade-real-cpu",
+    "createdVia": "run",
+    "createdAt": 1792540948489,
+    "startedAt": 1792543510506,
+    "abortedLastRun": false,
+    "lastActivityAt": 1792543512803,
+    "agentHarnessId": "openclaw",
+    "inputTokens": 1838,
+    "outputTokens": 8,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "estimatedCostUsd": 0,
+    "totalTokens": 1838,
+    "totalTokensFresh": true,
+    "totalTokensVersion": 1,
+    "suppressErrorNotice": false,
+    "usageReport": {
+      "state": "available"
+    },
+    "modelOverrideSource": "user",
+    "restartRecoveryTerminalRunIds": [
+      "<id-fb7812f3d3>"
+    ],
+    "status": "failed",
+    "lastRunError": "Live session model switch requested: canonical/qwen3:0.6b",
+    "endedAt": 1792543512803,
+    "runtimeMs": 2297,
+    "providerOverride": "recovered",
+    "modelOverride": "qwen3:0.6b",
+    "modelOverrideRouteResolution": "resolved",
+    "liveModelSwitchPending": true
+  },
+  "resolved": {
+    "modelProvider": "recovered",
+    "model": "qwen3:0.6b",
+    "agentRuntime": {
+      "id": "openclaw",
+      "source": "provider"
+    },
+    "runtimeSelectionLocked": false,
+    "thinkingLevel": "off",
+    "thinkingLevels": [
+      {
+        "id": "off",
+        "label": "off"
+      },
+      {
+        "id": "ultra",
+        "label": "ultra"
+      }
+    ]
+  }
+}

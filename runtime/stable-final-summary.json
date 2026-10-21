@@ -1,0 +1,46 @@
+{
+  "stableVersion": "2026.10.3",
+  "packageIntegrityVerified": "sha512-ncl6LntMlf76K39LFhVrDXQTbaGNAG5j52f7PL5P8vIn0knWmCrvfAe9DHMslFq+47HeOWBH2CBYQH8zEb+UAA==",
+  "launcherSha256": "aa8606ca0d62ff133ef5b7bd2323ec8ff3f8eb384404399cd5e742918d63b0a1",
+  "gatewayStopped": 1792541047.160581,
+  "stateDir": "<proof-root>/state",
+  "configSha256": "5d61d8b3b2c798afd6a38c4a245cfd898544122d73eeccd42c02c00497adfdf2",
+  "authoredRootSha256": "cb5acf82f292069232df70ce0b9693be7ffc8f5ad661ee33ec2c46f5d5afa315",
+  "rootCredentialAuthorship": "manual literal synthetic key retained byte-for-byte after stable Gateway turn",
+  "sessionKey": "agent:main:explicit:catalog-upgrade-real-cpu",
+  "sessionId": "catalog-upgrade-real-cpu",
+  "runId": "<id-20f0e38204>",
+  "realModel": "qwen3:0.6b",
+  "realModelTransport": "actual stable launcher -> Gateway -> OpenClaw runtime -> synthetic-key enforcing loopback HTTP proxy -> Ollama native /api/chat CPU-only -> real local model",
+  "receiverSequence": "cpu-1",
+  "response": "COPPER-FINCH.",
+  "retainedHistoryMessages": 2,
+  "generatedCatalogProviders": [
+    {
+      "provider": "canonical",
+      "hasApiKey": true,
+      "hasHeaders": true
+    },
+    {
+      "provider": "recovered",
+      "hasApiKey": true,
+      "hasHeaders": false
+    }
+  ],
+  "canonicalAuthProfiles": [
+    "canonical:default"
+  ],
+  "limitations": [
+    "AuthStorage and catalog exported stable owners seeded synthetic profile/catalog fixture data before launch; real agent/session and auth request flowed through launcher/Gateway.",
+    "4B GPU attempt failed with host Vulkan ErrorDeviceLost; retained receipt and then used verified installed CPU model.",
+    "Existing helper seed failed before request; retained separately and not claimed as passing.",
+    "First launcher setup used obsolete memorySearch config; retained failed startup and corrected test config."
+  ],
+  "receipts": [
+    "stable-live-cpu-turn.receipt.json",
+    "stable-history-inflight.receipt.json",
+    "stable-gateway-cpu.process.json",
+    "live-proxy.requests.jsonl",
+    "live-proxy.responses.jsonl"
+  ]
+}

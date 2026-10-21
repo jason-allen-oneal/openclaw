@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "candidateSha": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "error": "Revoked credential caused physical model I/O",
+  "cleanupError": null,
+  "observations": [
+    {
+      "operation": "model-selection",
+      "provider": "canonical",
+      "accepted": true
+    }
+  ],
+  "receipts": [
+    "candidate-final-gateway-health.receipt.json",
+    "candidate-final-select-canonical.receipt.json",
+    "candidate-final-revoked-refusal.receipt.json",
+    "candidate-final-gateway.process.json"
+  ]
+}

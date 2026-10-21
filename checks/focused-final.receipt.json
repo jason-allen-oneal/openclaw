@@ -1,0 +1,24 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "src/agents/plugin-model-catalog.test.ts",
+    "src/agents/models-config.applies-config-env-vars.test.ts",
+    "src/agents/models-config.root-authorship.test.ts",
+    "src/commands/doctor-model-catalog-credentials.test.ts",
+    "src/commands/doctor-plugin-model-catalog.test.ts",
+    "src/agents/plugin-model-catalog-auth.test.ts",
+    "src/agents/plugin-model-catalog-read.test.ts",
+    "src/agents/models-config.providers.auth-provenance.test.ts",
+    "src/flows/doctor-health-contributions.auth-import-order.test.ts",
+    "src/agents/models-config.ollama-secretref.test.ts",
+    "src/agents/auth-profiles/profiles.catalog.test.ts",
+    "src/commands/models/auth-logout.test.ts",
+    "--maxWorkers=1"
+  ],
+  "head": "e6b866d3adb8d19ca878d493e4a0d21f1e9c3974",
+  "workingDiffSha256": "22ab33fe59883d89734a9e0abec88de64a0a9eb9a0a9e876c2dbb077f01fe7d3",
+  "exitCode": 0,
+  "seconds": 324.46,
+  "completedAt": "2026-10-21T00:18:26.746655+00:00"
+}

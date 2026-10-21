@@ -1,0 +1,11 @@
+{
+  "ok": false,
+  "runId": "<id-fb7812f3d3>",
+  "origin": "gateway",
+  "error": {
+    "type": "cli_error",
+    "message": "No API key found for provider \"manual\". Auth store: <proof-root>/state/agents/main/agent/openclaw-agent.sqlite (agentDir: <proof-root>/state/agents/main/agent). Configure an API key (openclaw --profile catalog-upgrade-proof models auth paste-api-key --provider manual; add --agent <id> for a non-default agent) or copy only portable static auth profiles from the main agentDir. | missing-provider-auth"
+  }
+}
+[openclaw] The CLI command failed.
+[openclaw] For help, run `openclaw --profile catalog-upgrade-proof doctor`.

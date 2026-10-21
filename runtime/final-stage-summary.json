@@ -1,0 +1,25 @@
+{
+  "candidateSha": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "status": "storage/migration runtime proof complete within disclosed scope",
+  "initialUpgradeImplementationSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "initialUpgrade": "Real published 2026.10.3 state and conversation migrated by actual built launcher Doctor; recovered/canonical Gateway requests pass. See original stage receipts.",
+  "finalHeadBinding": "final-source-binding.json proves 19 bound launchers and changed-owner artifacts byte-identical; only test type assertion and build-info identity differ.",
+  "finalHeadRuntime": "candidate-final-continued-result.json: retained release conversation recalled through migrated profile; revoked profile absent; localhost request sends no Authorization and receives terminal 401, with zero Ollama requests.",
+  "authoredCompatibility": "authored-registry-live.json: built ModelRegistry plus real LLM SDK inference, empty in-memory auth store, original authored root unchanged; ROOT-AUTH-OK.",
+  "disclosedLimitations": [
+    "Authored-root-only Gateway attempt fails on an unchanged embedded auth path; no universal Gateway root-only claim. Nine relevant files byte-identical to base; no base runtime comparison executed.",
+    "The first final-head negative expected zero receiver I/O, which is incorrect for existing configured loopback no-auth policy. Failed receipt retained; actual revocation contract is no credential resurrection and no authorized inference.",
+    "Initial helper/config/GPU/readiness/config-checkpoint/unnamed-profile failures remain failures. No state was reseeded to hide them."
+  ],
+  "stageLinks": [
+    "candidate-doctor.receipt.json",
+    "candidate-after-doctor.json",
+    "candidate-continued-result.json",
+    "candidate-tail-after-logout.json",
+    "candidate-final-result.json",
+    "candidate-final-continued-result.json",
+    "authored-registry-live.json",
+    "authored-gateway-boundary.json"
+  ],
+  "hostedGate": "Separate exact-head CI and ClawSweeper observations required; not implied by local proof."
+}

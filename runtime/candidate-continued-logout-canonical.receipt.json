@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "node",
+    "<candidate-checkout>/openclaw.mjs",
+    "models",
+    "auth",
+    "logout",
+    "canonical:default",
+    "--agent",
+    "main",
+    "--yes"
+  ],
+  "environment": {
+    "PATH": "<host-executable-search-path>",
+    "HOME": "<proof-root>/home",
+    "OPENCLAW_HOME": "<proof-root>/home",
+    "OPENCLAW_STATE_DIR": "<proof-root>/state",
+    "OPENCLAW_CONFIG_PATH": "<proof-root>/state/openclaw.json",
+    "OPENCLAW_AGENT_DIR": "<proof-root>/state/agents/main/agent",
+    "NO_COLOR": "1",
+    "OPENCLAW_NO_RESPAWN": "1",
+    "OPENCLAW_SKIP_UPDATE_CHECK": "1"
+  },
+  "candidateSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "startedAtUnix": 1792542844.1582246,
+  "endedAtUnix": 1792542849.7166045,
+  "exitCode": 1,
+  "log": "candidate-continued-logout-canonical.log"
+}

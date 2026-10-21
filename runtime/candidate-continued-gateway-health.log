@@ -1,0 +1,96 @@
+{
+  "ok": true,
+  "ts": 1792542800540,
+  "durationMs": 2,
+  "configReload": {
+    "hotReloadStatus": "active"
+  },
+  "channels": {},
+  "channelOrder": [],
+  "channelLabels": {},
+  "heartbeatSeconds": 1800,
+  "defaultAgentId": "main",
+  "agents": [
+    {
+      "agentId": "main",
+      "isDefault": true,
+      "heartbeat": {
+        "enabled": true,
+        "every": "30m",
+        "everyMs": 1800000,
+        "prompt": "Follow the heartbeat monitor scratch context when provided. Recurring tasks are automations; create or change their schedules with the automations tool, not heartbeat scratch. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply NO_REPLY.",
+        "target": "owner",
+        "ackMaxChars": 300
+      },
+      "sessions": {
+        "path": "<proof-root>/state/agents/main/agent/openclaw-agent.sqlite",
+        "count": 3,
+        "recent": [
+          {
+            "key": "agent:main:explicit:catalog-upgrade-real-cpu",
+            "updatedAt": 1792540988312,
+            "age": 1812228
+          },
+          {
+            "key": "agent:main:explicit:catalog-upgrade-live-session",
+            "updatedAt": 1792540857419,
+            "age": 1943121
+          },
+          {
+            "key": "agent:main:catalog-proof-retained-session",
+            "updatedAt": 1792540230651,
+            "age": 2569889
+          }
+        ]
+      }
+    }
+  ],
+  "sessions": {
+    "path": "<proof-root>/state/agents/main/agent/openclaw-agent.sqlite",
+    "count": 3,
+    "recent": [
+      {
+        "key": "agent:main:explicit:catalog-upgrade-real-cpu",
+        "updatedAt": 1792540988312,
+        "age": 1812228
+      },
+      {
+        "key": "agent:main:explicit:catalog-upgrade-live-session",
+        "updatedAt": 1792540857419,
+        "age": 1943121
+      },
+      {
+        "key": "agent:main:catalog-proof-retained-session",
+        "updatedAt": 1792540230651,
+        "age": 2569889
+      }
+    ]
+  },
+  "modelRuntime": {
+    "degraded": false,
+    "pendingAgents": []
+  },
+  "eventLoop": {
+    "degraded": true,
+    "degradedSinceMs": 0,
+    "reasons": [
+      "cpu"
+    ],
+    "intervalMs": 1005.6698610000021,
+    "delayP99Ms": 108.9,
+    "delayMaxMs": 108.9,
+    "utilization": 0.171,
+    "cpuCoreRatio": 3.316,
+    "cpuBreakdown": {
+      "mainThreadCoreRatio": 0.153,
+      "hostUtilization": 0.885,
+      "hostCpuCount": 8,
+      "workerCoreRatio": 1.94,
+      "otherThreadsCoreRatio": 1.223
+    }
+  },
+  "childRuntime": {
+    "execPath": "/usr/bin/node",
+    "available": true
+  }
+}

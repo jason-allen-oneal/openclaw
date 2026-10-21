@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-21T00:49:22.052839+00:00",
+  "status": "passed",
+  "artifacts": 86,
+  "inputOriginals": 82,
+  "runtimeBytes": 440796,
+  "checked": [
+    "All staged public hashes against snapshot manifest",
+    "README relative artifact links",
+    "Python AST and node --check for public driver source",
+    "Path/private-identity/raw-UUID/opaque-cursor/email scan"
+  ],
+  "limitations": [
+    "This is a staging integrity/privacy audit, not a new product runtime test or a whole-bundle publication manifest.",
+    "Authored-root-only runtime failure and downstream unfinished boundary remain disclosed."
+  ],
+  "issues": []
+}

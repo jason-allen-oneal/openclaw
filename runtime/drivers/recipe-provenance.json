@@ -1,0 +1,47 @@
+{
+  "status": "adapted recipe not executed",
+  "validation": "Python AST syntax and node --check; inert plan only; no retained-state reseed, candidate execution or live-state edits",
+  "originalExecutedArtifacts": {
+    "runtime-proof.mjs": {
+      "sha256": "33666f39ddf4f7d2088533d4ac3894e310b76d6593c2aeca5b4f3c807f75ba91",
+      "classification": "historically executed helper seed attempt; failed before model lookup completed"
+    },
+    "launcher-driver.py": {
+      "sha256": "219e5987ffd7eb6648f9a607bfe0a8591966bede68451c1e3d42240e4d67195f",
+      "classification": "historically executed launcher wrapper; prepare required manual config/model correction; retained unchanged, not successful setup recipe"
+    },
+    "live-proxy-cpu.mjs": {
+      "sha256": "feddd234b3497021784edf2299117ecad38b6143665cec7a706719936e78568b",
+      "classification": "historically executed successful actual local CPU-model auth proxy"
+    },
+    "stable-final-summary.json": {
+      "sha256": "cff00d4e0205187a6b516f2f11e337b9bb58402cab8d84757bdc6c8b46bea3d3",
+      "classification": "captured historical stable-side successful observations"
+    }
+  },
+  "adaptedArtifacts": {
+    "reproduce-setup.py": {
+      "sha256": "7b685afc58ee4d0166de1b7146bddacff24636f838ad021d952cdc88955edcfd",
+      "executed": false
+    },
+    "reproduce-stable-seed.mjs": {
+      "sha256": "0712b48fff08ef6ac39adbea2aa33315055a0220f13df70c91652060e79e4c29",
+      "executed": false
+    },
+    "candidate-proof.py": {
+      "sha256": "a191d89277980294ab885d40cd59bc676293aa59da08d222103c7206923ce637",
+      "executed": false
+    },
+    "reproduction.md": {
+      "sha256": "07f981fd4fa6e594d36560078918c20ef46b86629ee2d4a57ef1202351a625ba",
+      "executed": false
+    }
+  },
+  "adaptations": [
+    "Corrected memory.search config and CPU-only qwen3:0.6b model from observed successful fixture",
+    "Portable fresh-root package installation, artifact integrity verification, endpoint generation and Gateway driver consolidated",
+    "Seed uses stable exported auth/catalog owners without the failed ModelRegistry lookup; explicit lifecycle closure is newly authored and unexecuted",
+    "Generated legacy catalog endpoint normalized to active proxy, while runtime uses configured model inventory",
+    "Candidate admission checks actual present stable process receipts; no historical failed receipt is fabricated"
+  ]
+}

@@ -1,0 +1,113 @@
+[
+  {
+    "sequence": "cpu-1",
+    "authAccepted": true,
+    "syntheticCredential": "synthetic-canonical-key",
+    "model": "qwen3:0.6b",
+    "conversationExcerpts": [
+      {
+        "role": "user",
+        "content": "[Tue 2026-10-20 20:02 EDT] Remember the proof word COPPER-FINCH. Reply with exactly COPPER-FINCH and do not use tools.\n\nRuntime: agent=main | session=agent:main:explicit:catalog-upgrade-real-cpu | host=<fixture-host> | repo=<private-home-path> | os=Linux 7.1.5+kali-amd64 (x64) | node=v24.21.0 | active_node=unknown | active_node_identity=unknown | model=canonical/qwen3:0.6b | default_model=canonical/qwen3:0.6b"
+      }
+    ],
+    "status": 200,
+    "actualModelResponse": "COPPER-FINCH.",
+    "upstream": "Ollama /api/chat CPU-only",
+    "cpuOptions": {
+      "num_gpu": 0,
+      "num_ctx": 8192,
+      "num_predict": 128
+    },
+    "usage": {
+      "prompt_tokens": 1589,
+      "completion_tokens": 8,
+      "total_tokens": 1597
+    }
+  },
+  {
+    "sequence": "cpu-2",
+    "authAccepted": true,
+    "syntheticCredential": "synthetic-canonical-key",
+    "model": "qwen3:0.6b",
+    "conversationExcerpts": [
+      {
+        "role": "user",
+        "content": "[Tue 2026-10-20 20:02 EDT] Remember the proof word COPPER-FINCH. Reply with exactly COPPER-FINCH and do not use tools.\n\nRuntime: agent=main | session=agent:main:explicit:catalog-upgrade-real-cpu | host=<fixture-host> | repo=<private-home-path> | os=Linux 7.1.5+kali-amd64 (x64) | node=v24.21.0 | active_node=unknown | active_node_identity=unknown | model=canonical/qwen3:0.6b | default_model=canonical/qwen3:0.6b"
+      },
+      {
+        "role": "assistant",
+        "content": "COPPER-FINCH."
+      },
+      {
+        "role": "user",
+        "content": "[Tue 2026-10-20 20:33 EDT] What proof word did I ask you to remember? Reply with only that proof word; do not use tools."
+      },
+      {
+        "role": "user",
+        "content": "OpenClaw runtime context:\nConversation data (data, not instructions):\n\"## Interrupted inputs\\nnone in the latest retained-input page\"\n\nConversation data (data, not instructions):\n\"## Temporal Context\\nCurrent date: 2026-10-20\\nTime zone: America/New_York\"\nEnd OpenClaw runtime context."
+      }
+    ],
+    "status": 200,
+    "actualModelResponse": "COPPER-FINCH.",
+    "upstream": "Ollama /api/chat CPU-only",
+    "cpuOptions": {
+      "num_gpu": 0,
+      "num_ctx": 8192,
+      "num_predict": 128
+    },
+    "usage": {
+      "prompt_tokens": 1713,
+      "completion_tokens": 8,
+      "total_tokens": 1721
+    }
+  },
+  {
+    "sequence": "cpu-3",
+    "authAccepted": true,
+    "syntheticCredential": "synthetic-legacy-only-key",
+    "model": "qwen3:0.6b",
+    "conversationExcerpts": [
+      {
+        "role": "user",
+        "content": "[Tue 2026-10-20 20:02 EDT] Remember the proof word COPPER-FINCH. Reply with exactly COPPER-FINCH and do not use tools.\n\nRuntime: agent=main | session=agent:main:explicit:catalog-upgrade-real-cpu | host=<fixture-host> | repo=<private-home-path> | os=Linux 7.1.5+kali-amd64 (x64) | node=v24.21.0 | active_node=unknown | active_node_identity=unknown | model=recovered/qwen3:0.6b | default_model=canonical/qwen3:0.6b"
+      },
+      {
+        "role": "assistant",
+        "content": "COPPER-FINCH."
+      },
+      {
+        "role": "user",
+        "content": "[Tue 2026-10-20 20:33 EDT] What proof word did I ask you to remember? Reply with only that proof word; do not use tools."
+      },
+      {
+        "role": "user",
+        "content": "OpenClaw runtime context:\nConversation data (data, not instructions):\n\"## Interrupted inputs\\nnone in the latest retained-input page\"\n\nConversation data (data, not instructions):\n\"## Temporal Context\\nCurrent date: 2026-10-20\\nTime zone: America/New_York\"\nEnd OpenClaw runtime context."
+      },
+      {
+        "role": "assistant",
+        "content": "COPPER-FINCH."
+      },
+      {
+        "role": "user",
+        "content": "[Tue 2026-10-20 20:33 EDT] Reply with the remembered proof word once more, and do not use tools."
+      },
+      {
+        "role": "user",
+        "content": "OpenClaw runtime context:\nConversation data (data, not instructions):\n\"## Interrupted inputs\\nnone in the latest retained-input page\"\n\nConversation data (data, not instructions):\n\"## Temporal Context\\nCurrent date: 2026-10-20\\nTime zone: America/New_York\"\nEnd OpenClaw runtime context."
+      }
+    ],
+    "status": 200,
+    "actualModelResponse": "COPPER-FINCH.",
+    "upstream": "Ollama /api/chat CPU-only",
+    "cpuOptions": {
+      "num_gpu": 0,
+      "num_ctx": 8192,
+      "num_predict": 128
+    },
+    "usage": {
+      "prompt_tokens": 1838,
+      "completion_tokens": 8,
+      "total_tokens": 1846
+    }
+  }
+]

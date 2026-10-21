@@ -1,0 +1,10 @@
+{
+  "reason": "Candidate Gateway log uses http server listening instead of the obsolete ready message; actual health RPC now decides readiness.",
+  "originalDriverSha256": "a191d89277980294ab885d40cd59bc676293aa59da08d222103c7206923ce637",
+  "correctedDriverSha256": "1692bf4128102012ef855bb737cbf5f80c74c125a09ec73abfdca02dd825f655",
+  "preservedResult": "candidate-result.json",
+  "noProductSourceChange": true,
+  "noStateReseed": true,
+  "resumeAdmissionCorrection": "Compare resumed config to captured post-Doctor hash, because stock Doctor adds defaults/metadata; original stable config is used only before initial migration.",
+  "additionalFailedResult": "candidate-resume-result.json"
+}

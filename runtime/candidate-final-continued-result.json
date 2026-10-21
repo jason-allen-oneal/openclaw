@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "candidateSha": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "observations": [
+    {
+      "operation": "model-selection",
+      "provider": "recovered",
+      "accepted": true
+    },
+    {
+      "operation": "retained-recovered-turn",
+      "provider": "recovered",
+      "allowed": true,
+      "physicalRequests": 1,
+      "receiverSequences": [
+        "cpu-6"
+      ],
+      "runId": "<id-6e24dc99a2>",
+      "response": "COPPER-FINCH.",
+      "requestShaping": {
+        "authMode": "auth-profile",
+        "thinking": "off"
+      }
+    },
+    {
+      "operation": "logged-out-local-refusal",
+      "provider": "canonical",
+      "allowed": false,
+      "physicalRequests": 1,
+      "receiverSequences": [
+        "cpu-7"
+      ],
+      "authorizationHeadersAbsent": true,
+      "upstreamInferenceRequests": 0,
+      "terminalFailure": {
+        "ok": false,
+        "runId": "<id-a6147ef780>",
+        "origin": "gateway",
+        "error": {
+          "type": "cli_error",
+          "message": "\u26a0\ufe0f Couldn't sign in to the AI service. Sign in again under Models in the Control UI or run `openclaw configure`. | 401"
+        }
+      },
+      "policy": "Existing configured loopback-provider synthetic no-auth policy permits credential-free requests. The validating receiver rejects them; no revoked credential was resurrected. Zero receiver I/O was an invalid expectation for this fixture."
+    }
+  ],
+  "receipts": [
+    "candidate-final-continued-gateway-health.receipt.json",
+    "candidate-final-continued-select-recovered.receipt.json",
+    "candidate-final-continued-retained-recovered-turn.receipt.json",
+    "candidate-final-continued-final-history.receipt.json",
+    "candidate-final-continued-logged-out-local-refusal.receipt.json",
+    "candidate-final-continued-gateway.process.json"
+  ],
+  "sessionId": "catalog-upgrade-real-cpu",
+  "sessionKey": "agent:main:explicit:catalog-upgrade-real-cpu",
+  "scope": "Final-head retained-state Gateway restart, recovered-key real inference and retained release conversation, no revoked-key resurrection after logout. Local no-auth fallback is not a zero-I/O contract."
+}

@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "node",
+    "<proof-root>/runtime-proof.mjs",
+    "stable-seed",
+    "<stable-package>",
+    "<proof-root>"
+  ],
+  "exitCode": 1,
+  "environment": {
+    "PATH": "<host-executable-search-path>",
+    "HOME": "<proof-root>/home",
+    "OPENCLAW_HOME": "<proof-root>/home",
+    "OPENCLAW_STATE_DIR": "<proof-root>/state",
+    "OPENCLAW_CONFIG_PATH": "<proof-root>/state/openclaw.json",
+    "OPENCLAW_AGENT_DIR": "<proof-root>/state/agents/main/agent",
+    "NO_COLOR": "1"
+  }
+}

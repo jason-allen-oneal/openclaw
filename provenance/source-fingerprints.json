@@ -1,0 +1,116 @@
+{
+  "candidateSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "baseSha": "e6b866d3adb8d19ca878d493e4a0d21f1e9c3974",
+  "sourceTree": "57bc0b9c63ae2804212daaa3f1a399e5ac9cdb12",
+  "committedDiffSha256": "22ab33fe59883d89734a9e0abec88de64a0a9eb9a0a9e876c2dbb077f01fe7d3",
+  "changedFiles": [
+    {
+      "path": "docs/auth-credential-semantics.md",
+      "sha256": "2deeddcc39a9fa5382b2d9dbc53121af5c6b1fecf2a2cc7187b736c2d07c669e",
+      "bytes": 31545
+    },
+    {
+      "path": "docs/gateway/doctor/state-and-sessions.md",
+      "sha256": "88f69c48d13fa979768545c8df717ecec9956b9b50414f68515ed5bd8aad9376",
+      "bytes": 45658
+    },
+    {
+      "path": "src/agents/auth-profiles/profiles.catalog.test.ts",
+      "sha256": "34ed332f9dcdaaf7ddf96bb822df8e7d0c98f9adf5aaa97c17405f5e2ad85d8a",
+      "bytes": 13823
+    },
+    {
+      "path": "src/agents/models-config.applies-config-env-vars.test.ts",
+      "sha256": "3927bad2578e0aead771bb683705322d4a1f417af501555c97050dedd403266a",
+      "bytes": 10719
+    },
+    {
+      "path": "src/agents/models-config.ollama-secretref.test.ts",
+      "sha256": "c6ba3794fbf3d99e8b28ba281976f4a68b6b2b335961bcc12c57c3e707b6527b",
+      "bytes": 8200
+    },
+    {
+      "path": "src/agents/models-config.plan.ts",
+      "sha256": "c8048746e84615b253a482f2fe6ae30e6fb88d69e293e4c28c6a910ea2713ec8",
+      "bytes": 13400
+    },
+    {
+      "path": "src/agents/models-config.providers.normalize.ts",
+      "sha256": "db8feb7dcd639f469f884332b59299a7f0b3ff16985c869177779190b15fb7b0",
+      "bytes": 6654
+    },
+    {
+      "path": "src/agents/models-config.root-authorship.test.ts",
+      "sha256": "1f56dc01b59319a04810bc40b4f61331939f7dc5d5bdf31a4f18b005b752c624",
+      "bytes": 10541
+    },
+    {
+      "path": "src/agents/plugin-model-catalog-repair.ts",
+      "sha256": "2af60dbb8fa0379b1883c2d709c77c905e4bd12e3f16af9802098f93c39bcea1",
+      "bytes": 5276
+    },
+    {
+      "path": "src/agents/plugin-model-catalog.kernel.ts",
+      "sha256": "a49fcb7bbcffbd2769f175ad6d4307dbba43b0659a3a955309f9a50eeaf0005b",
+      "bytes": 7603
+    },
+    {
+      "path": "src/agents/plugin-model-catalog.test.ts",
+      "sha256": "1994360e75980bee69b9111672b768f8259ef7c00781ae1709f47ea4f4189e31",
+      "bytes": 39959
+    },
+    {
+      "path": "src/agents/plugin-model-catalog.ts",
+      "sha256": "1a21794a300984cdaee7afd90919d8cf6cc99713bd60ac639e9a7d8df5dd3d24",
+      "bytes": 27484
+    },
+    {
+      "path": "src/commands/doctor-model-catalog-credentials.test.ts",
+      "sha256": "5c0509834022be8104f1c60841fa09ea4771ae2acd0437cb709fb99e6a845240",
+      "bytes": 24639
+    },
+    {
+      "path": "src/commands/doctor-model-catalog-credentials.ts",
+      "sha256": "edd9e208b6e3fce15f36c8e68a0777cd34ec34c16da2cfbd53fadedfd9bf738d",
+      "bytes": 25339
+    },
+    {
+      "path": "src/commands/doctor-plugin-model-catalog.test.ts",
+      "sha256": "f389700e9ff27591af9d314ed332a7f08af348c5c6585acb46d8c95a9cc78e20",
+      "bytes": 20587
+    },
+    {
+      "path": "src/commands/models/auth-logout.test.ts",
+      "sha256": "f301246b580a24c64d1010bed246c35b8760d43f3b03d3a7ab27a56e7b525e32",
+      "bytes": 19130
+    },
+    {
+      "path": "src/flows/doctor-auth-health.ts",
+      "sha256": "9956bfb405dd4bea84c30480b6cc6efa0a6e6f075531fc9f5256fbaa4bd1ae64",
+      "bytes": 4418
+    },
+    {
+      "path": "src/infra/database-engine/post-ready.conformance.test.ts",
+      "sha256": "0db76a9afab38b4b36096b93d2b198377b102be1f1a6989607172ce3227d9296",
+      "bytes": 8035
+    }
+  ],
+  "regressionSnapshots": [
+    {
+      "candidatePath": "src/commands/doctor-model-catalog-credentials.ts",
+      "candidateSha256": "edd9e208b6e3fce15f36c8e68a0777cd34ec34c16da2cfbd53fadedfd9bf738d",
+      "preFixSource": "doctor-model-catalog-credentials.pre-p1.ts",
+      "preFixSha256": "b5524d95ee5c0b1e798aa6aeded3ce918268b2afe2f2573248417ccae0a5bf58",
+      "restorePatch": "regressions/restore-pre-p1.patch",
+      "note": "Intermediate draft snapshot used for a deliberately failing audit regression, not the unchanged base revision."
+    },
+    {
+      "candidatePath": "src/agents/plugin-model-catalog.ts",
+      "candidateSha256": "1a21794a300984cdaee7afd90919d8cf6cc99713bd60ac639e9a7d8df5dd3d24",
+      "preFixSource": "plugin-model-catalog.pre-p2.ts",
+      "preFixSha256": "4054f928a5688f9bdead2aa4b5866a8f80c9c61d75ca8414f2282d8825c98cef",
+      "restorePatch": "regressions/restore-pre-p2.patch",
+      "note": "Intermediate draft snapshot used for a deliberately failing audit regression, not the unchanged base revision."
+    }
+  ]
+}

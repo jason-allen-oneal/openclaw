@@ -1,0 +1,55 @@
+{
+  "candidateSha": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "scope": "Supplemental built ModelRegistry/LLM SDK contract, not Gateway embedded-auth success",
+  "bindings": {
+    "dist/build-info.json": "559a69e978cd944cbc5280885a02e4b1e1e0da805f3a573faa1c7e021359422b",
+    "dist/plugin-sdk/agent-sessions.js": "d4665ea837134dc7b4e4bd394c6930a68e576b8a8aeaa815a74343e16d5a8912",
+    "dist/plugin-sdk/llm.js": "4eb6c880e63b6cc5b3e2b271ff65c9d2a41c9141e88466359ae090469bde7192",
+    "dist/auth-storage-dE54tmPT.mjs": "3a2fcd2a597f2e40ee47fd9574702aa4ab07b0e2dd620fc00e516768f505525b",
+    "dist/model-registry-BVcFVS4c.mjs": "d0a2868d30abf4ff7c1da1bc7cd4aab24799b76d01d9cb267e115fe0a9cef3aa"
+  },
+  "driverSha256": "9d8238564218cd1e40c87277690df83fc8e13ae5df739efe9c181949a86db766",
+  "authStore": "empty in-memory AuthStorage; no canonical profile or environment key",
+  "authoredRootSha256": "cb5acf82f292069232df70ce0b9693be7ffc8f5ad661ee33ec2c46f5d5afa315",
+  "authoredRootUnchanged": true,
+  "result": {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "ROOT-AUTH-OK"
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "manual",
+    "model": "qwen3:0.6b",
+    "usage": {
+      "input": 27,
+      "output": 6,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "cacheTelemetry": {
+        "state": "unavailable"
+      },
+      "contextUsage": {
+        "state": "available",
+        "promptTokens": 27,
+        "totalTokens": 33
+      },
+      "totalTokens": 33,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      },
+      "usageReport": {
+        "state": "available"
+      }
+    },
+    "stopReason": "stop",
+    "timestamp": 1792543609215,
+    "responseId": "cpu-5"
+  }
+}

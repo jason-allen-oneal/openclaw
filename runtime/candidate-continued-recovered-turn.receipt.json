@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "node",
+    "<candidate-checkout>/openclaw.mjs",
+    "agent",
+    "--agent",
+    "main",
+    "--session-id",
+    "catalog-upgrade-real-cpu",
+    "--message",
+    "Reply with the remembered proof word once more, and do not use tools.",
+    "--json",
+    "--timeout",
+    "120"
+  ],
+  "environment": {
+    "PATH": "<host-executable-search-path>",
+    "HOME": "<proof-root>/home",
+    "OPENCLAW_HOME": "<proof-root>/home",
+    "OPENCLAW_STATE_DIR": "<proof-root>/state",
+    "OPENCLAW_CONFIG_PATH": "<proof-root>/state/openclaw.json",
+    "OPENCLAW_AGENT_DIR": "<proof-root>/state/agents/main/agent",
+    "NO_COLOR": "1",
+    "OPENCLAW_NO_RESPAWN": "1",
+    "OPENCLAW_SKIP_UPDATE_CHECK": "1"
+  },
+  "candidateSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "startedAtUnix": 1792542830.9891603,
+  "endedAtUnix": 1792542841.8673122,
+  "exitCode": 0,
+  "log": "candidate-continued-recovered-turn.log"
+}

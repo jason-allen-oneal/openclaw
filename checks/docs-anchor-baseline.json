@@ -1,0 +1,52 @@
+{
+  "base": "e6b866d3adb8d19ca878d493e4a0d21f1e9c3974",
+  "anchorAudit": "docs-links-final.receipt.json",
+  "unchangedSourceAndTargets": [
+    {
+      "path": "docs/gateway/config-tools.md",
+      "sha256": "e359fe6b857960b8b1d29d4aacee7c64a751dbba89c67348c612bde2f22e3df3",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/gateway/config-tools/provider-examples.md",
+      "sha256": "b7c1b26afd5a97b4fc63413182f9ab881d8156cb1802d0ab605f3a7df745765c",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/gateway/protocol/rpc-talk-config-and-agents.md",
+      "sha256": "3fda27012560f8139f84210e52c6e54019e11bfb188f97b0cc4832a7cf3a6a3e",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/cli/claws.md",
+      "sha256": "c6bd07dcc821ac891a216257af1f6e63a1dfb49da7108660c57e49a68b32cd68",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/providers/ollama.md",
+      "sha256": "630364728b486668242bd81f65c6b3f0c6e320a7f02ac6ee4232792356e913ea",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/providers/ollama/troubleshooting.md",
+      "sha256": "209f9b28d0c6ac1fce63144d5d6e56ebc381ea5e531a2a386c0903cc946fc3f4",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/releases/2026.10.1.md",
+      "sha256": "e870dbbc9ed2d923fc12ccb8585175cbe16773180585144c617072e002de6f65",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/providers/openai/runtimes.md",
+      "sha256": "604bd1b157eb60311f120a2f982110c6e1958ba058311cc8ca7f39fbb3106bbf",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "docs/releases/2026.9.2.md",
+      "sha256": "b98b04f1d5f245007e593d1c3d72f27c7cf3351bbbfb76c4f9c2d4bae8e601b7",
+      "unchangedFromBase": true
+    }
+  ],
+  "scope": "Five unrelated pre-existing anchor failures; new link target passed this audit. ClawHub fragments unavailable."
+}

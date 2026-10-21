@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "src/commands/doctor-model-catalog-credentials.test.ts",
+    "--maxWorkers=1",
+    "--testNamePattern",
+    "authored (root|include) source changes"
+  ],
+  "source": "pre-P1 production; data preservation asserted before warning",
+  "exitCode": 1,
+  "seconds": 32.77,
+  "completedAt": "2026-10-21T00:03:43.045964+00:00"
+}

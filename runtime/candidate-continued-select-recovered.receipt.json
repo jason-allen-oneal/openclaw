@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "node",
+    "<candidate-checkout>/openclaw.mjs",
+    "gateway",
+    "call",
+    "sessions.patch",
+    "--json",
+    "--params",
+    "{\"key\": \"agent:main:explicit:catalog-upgrade-real-cpu\", \"agentId\": \"main\", \"expectedSessionId\": \"catalog-upgrade-real-cpu\", \"model\": \"recovered/qwen3:0.6b\"}",
+    "--timeout",
+    "60000"
+  ],
+  "environment": {
+    "PATH": "<host-executable-search-path>",
+    "HOME": "<proof-root>/home",
+    "OPENCLAW_HOME": "<proof-root>/home",
+    "OPENCLAW_STATE_DIR": "<proof-root>/state",
+    "OPENCLAW_CONFIG_PATH": "<proof-root>/state/openclaw.json",
+    "OPENCLAW_AGENT_DIR": "<proof-root>/state/agents/main/agent",
+    "NO_COLOR": "1",
+    "OPENCLAW_NO_RESPAWN": "1",
+    "OPENCLAW_SKIP_UPDATE_CHECK": "1"
+  },
+  "candidateSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "startedAtUnix": 1792542828.8135173,
+  "endedAtUnix": 1792542830.987374,
+  "exitCode": 0,
+  "log": "candidate-continued-select-recovered.log"
+}

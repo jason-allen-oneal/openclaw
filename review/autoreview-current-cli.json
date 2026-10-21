@@ -1,0 +1,26 @@
+{
+  "findings": [],
+  "overall_correctness": "patch is correct",
+  "overall_explanation": "No actionable P0\u2013P2 defects were identified in the supplied change. Generated catalog publication strips credential fields, legacy credential-bearing rows remain byte-for-byte recoverable until Doctor can verify canonical storage, cleanup uses current source/auth snapshots and compare-and-set persistence, and authored root/config bytes are only inspected rather than rewritten. The tests cover confirmation-time source changes, configured-agent scoping, deferred migration recovery, unmatched credential retention, and concurrent catalog replacement. Confidence is moderated because only the supplied changed files and source datasets were available, not the unchanged repository context or executable test environment.",
+  "overall_confidence": 0.82,
+  "provider_report": {
+    "findings": [],
+    "overall_correctness": "patch is correct",
+    "overall_explanation": "No actionable P0\u2013P2 defects were identified in the supplied change. Generated catalog publication strips credential fields, legacy credential-bearing rows remain byte-for-byte recoverable until Doctor can verify canonical storage, cleanup uses current source/auth snapshots and compare-and-set persistence, and authored root/config bytes are only inspected rather than rewritten. The tests cover confirmation-time source changes, configured-agent scoping, deferred migration recovery, unmatched credential retention, and concurrent catalog replacement. Confidence is moderated because only the supplied changed files and source datasets were available, not the unchanged repository context or executable test environment.",
+    "overall_confidence": 0.82
+  },
+  "usage": {
+    "attempts": 1,
+    "reported_attempts": 1,
+    "unknown_attempts": 0,
+    "partial_attempts": 0,
+    "complete": true,
+    "tokens": {
+      "input_tokens": 90164,
+      "cached_input_tokens": 44672,
+      "output_tokens": 4434,
+      "reasoning_output_tokens": 4111
+    }
+  },
+  "review_status": "scoped-clean"
+}

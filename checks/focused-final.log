@@ -1,0 +1,405 @@
+[vitest-workers] local cache miss after 5890ms
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest-workers] prepared 22d99e18ba9e in 79619ms (16778 inputs, 21762 outputs)
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > publishes generated inventory without provider or model credential fields 1060ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retains legacy credentials during ordinary replace without blocking unrelated publication 909ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retains legacy credentials during ordinary delete-missing without blocking unrelated publication 822ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > reads only named catalog rows without running migration or repair 642ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > skips unrelated credentials and observes a later legacy-catalog update 1127ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > waits for an uncommitted catalog publication before skipping a clean catalog 650ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > removes generated model rows whose API semantics cannot be derived 569ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > leaves malformed persisted catalogs and valid sibling timestamps unchanged 616ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not overwrite a provider refresh when repair uses an older catalog snapshot 46ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not create an agent database for a read-only cache miss 4ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not create agent state when an empty catalog is already current 5ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > imports a released catalog only through explicit migration 41ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retires migrated credential recovery data after verifying the canonical catalog 57ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > protects migration recovery credentials when a plugin directory cannot be inspected 42ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > detects a released catalog that appears after an earlier empty scan 44ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > migrates a later provider catalog after an earlier migration completed 58ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > migrates a changed later sidecar for an already migrated provider 67ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > preserves released credentials and unrelated regenerated SQLite catalogs 62ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recovers a released sidecar that appears after a catalog replacement was planned 881ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > treats an already-completed legacy migration as safe to repeat 53ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > accepts a sidecar already migrated and removed by another process 54ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > keeps committed catalogs available when a released sidecar cannot be removed 664ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > defers credential cleanup until a retained sidecar can finish migration 46ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never deletes retained migrated credentials after a newer catalog replaces them 53ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > atomically preserves a provider catalog refreshed immediately before migration claims it 42ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never publishes a stale scan after another process removes the legacy source 46ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > retains an in-flight migration claim until a later explicit repair 49ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never migrates a provider while one retained claim cannot be read 44ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recovers a retained atomic migration claim after an interrupted upgrade 57ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recovers a retained claim before applying a newer canonical provider catalog 45ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > preserves conflicting retained claims without guessing which credential is newer 4ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > does not let an unreadable sidecar hide other committed provider catalogs 41ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > never migrates or deletes an unmarked user-authored catalog 3ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > preserves SQLite catalog key order in committed receipts 502ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > recognizes unchanged payloads and atomically removes stale provider rows 642ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > rejects invalid planning keys without deleting the committed catalog 623ms
+ ✓ |infra| src/agents/plugin-model-catalog.test.ts > SQLite-backed plugin model catalogs > round-trips encoded plugin ownership without filesystem discovery 3ms
+ ✓ |infra| src/flows/doctor-health-contributions.auth-import-order.test.ts > reports interrupted archive recovery when the remaining migration is failed 3062ms
+│
+◇  Auth profile SQLite migration ───────────────────────────────────────────────────────────────────────────╮
+│                                                                                                           │
+│  - <TEST_TMP>/openclaw-doctor-auth-import-order-<FIXTURE_ID>/state/agents/main/agent/auth-profiles.json  │
+│    /                                                                                                      │
+│    <TEST_TMP>/openclaw-doctor-auth-import-order-<FIXTURE_ID>/state/agents/main/agent/auth-state.json     │
+│    (affected providers: openai, openai-codex)                                                             │
+│  - openclaw doctor --fix imports legacy auth profile JSON into SQLite,                                    │
+│    verifies it, records a receipt, and archives the original bytes.                                       │
+│                                                                                                           │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor changes ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                                 │
+│  Migrated auth profile JSON for                                                                                                                                                 │
+│  <TEST_TMP>/openclaw-doctor-auth-import-order-<FIXTURE_ID>/state/agents/main/agent/auth-profiles.json                                                                          │
+│  into SQLite (archives:                                                                                                                                                         │
+│  <TEST_TMP>/openclaw-doctor-auth-import-order-<FIXTURE_ID>/state/agents/main/agent/auth-profiles.json.migrated-2026-10-21T00-14-49.603Z-<UUID>,  │
+│  <TEST_TMP>/openclaw-doctor-auth-import-order-<FIXTURE_ID>/state/agents/main/agent/auth-state.json.migrated-2026-10-21T00-14-49.603Z-<UUID>).    │
+│                                                                                                                                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor changes ─────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                          │
+│  Migrated retired auth profile identifiers in                                                            │
+│  <TEST_TMP>/openclaw-doctor-auth-import-order-<FIXTURE_ID>/state/agents/main/agent/auth-profiles.json.  │
+│                                                                                                          │
+├──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ ✓ |infra| src/flows/doctor-health-contributions.auth-import-order.test.ts > reports interrupted archive recovery when the remaining migration is declined 141ms
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  The config changed after Doctor prepared these repairs.                 │
+│  These config fixes were not written. Rerun "openclaw doctor" to review  │
+│  repairs for the current config.                                         │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+ ✓ |infra| src/flows/doctor-health-contributions.auth-import-order.test.ts > commits config credentials and standalone state with one mapping after acceptance 1672ms
+ ✓ |infra| src/agents/plugin-model-catalog-read.test.ts > can read model catalogs with a Windows environment Proxy 587ms
+ ✓ |infra| src/agents/plugin-model-catalog-read.test.ts > can write model catalogs with a Windows environment Proxy 1419ms
+ ✓ |infra| src/agents/plugin-model-catalog-read.test.ts > identifies the rejected protocol field without exposing values or suggesting migration 38ms
+ ✓ |infra| src/agents/plugin-model-catalog-read.test.ts > reads without creating shared state and observes canonical replacements on the same worker 1364ms
+ ✓ |infra| src/agents/plugin-model-catalog-read.test.ts > rejects quarantine and tracked schema damage after warm reads, then accepts cleared quarantine 702ms
+ ✓ |infra| src/agents/plugin-model-catalog-read.test.ts > bounds large catalog transfers and refuses a replaced source before exposing its result 1352ms
+ ✓ |infra| src/agents/plugin-model-catalog-auth.test.ts > captures cold shared and local credentials from the explicit root through workers 2889ms
+ ✓ |infra| src/agents/plugin-model-catalog-auth.test.ts > refuses an unreadable local store instead of publishing a partial auth snapshot 1802ms
+ ✓ |infra| src/agents/plugin-model-catalog-auth.test.ts > returns committed rows when credential stripping skips invalid planned catalogs 3148ms
+ ✓ |infra| src/agents/models-config.root-authorship.test.ts > manual root catalog authorship > rebuilds a missing root catalog 917ms
+ ✓ |infra| src/agents/models-config.root-authorship.test.ts > manual root catalog authorship > rebuilds a malformed JSON root catalog 466ms
+ ✓ |infra| src/agents/models-config.root-authorship.test.ts > manual root catalog authorship > preserves manual catalog bytes when the existing file cannot be read 24ms
+ ✓ |infra| src/agents/models-config.root-authorship.test.ts > manual root catalog authorship > keeps manual, implicit, and generated ids literal across replanning 4412ms
+ ✓ |infra| src/agents/models-config.root-authorship.test.ts > manual root catalog authorship > keeps discovery output under an unowned hook alias out of the root catalog 376ms
+
+ Test Files  5 passed (5)
+      Tests  54 passed (54)
+   Start at  20:14:27
+   Duration  58.09s (tests 62%, import 19%, transform 11%, setup 7%)
+
+[test] starting test/vitest/vitest.commands.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > detects SQLite-only catalogs without repairing them 1790ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > repairs only partial retained costs and persists the repair across reopening 1251ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > does not report a repair when SQLite rejects the planned update 944ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > retires an orphaned recovery credential only on Doctor fix 117ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > imports a malformed shipped sidecar and preserves its credential 85ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > discovers every explicit-roster agent without requiring a legacy default 130ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > preserves legacy credentials and does not create SQLite when repair is declined 4ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated plugin model catalog migration > migrates readable providers when another legacy catalog is unreadable 76ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated catalog copies in root models.json (JSON) > removes an exact copy once, keeping a byte-exact backup 1471ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated catalog copies in root models.json (JSON) > keeps edited copies and ids that config declares 2475ms
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated catalog copies in root models.json (JSONC) > removes an exact copy once, keeping a byte-exact backup 1284ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-plugin-model-catalog.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓ |commands| src/commands/doctor-plugin-model-catalog.test.ts > doctor generated catalog copies in root models.json (JSONC) > keeps edited copies and ids that config declares 2438ms
+(node:<PID>) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: saveAuthProfileStore is deprecated; use updateAuthProfileStoreWithLock from openclaw/plugin-sdk/provider-auth instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > retires already-canonical generated credentials without changing authored root bytes 975ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > does not recover a generated credential removed while confirmation is pending 2060ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > does not recover an authored credential removed while confirmation is pending 132ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves generated headers when their authored root source changes during confirmation 2074ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves generated headers when their authored include source changes during confirmation 1590ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > migrates generated-only configured agents without scanning unconfigured agent data 1445ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > does not import credentials using an invalidated Doctor config revision 201ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > cleans only accounted provider/model headers and leaves unmatched credentials recoverable 267ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > copies and verifies keys before cleaning generated catalogs while preserving authored sources 794ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves custom provider env references and removes profiles containing their markers 1917ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves a main credential replaced while the repair prompt is pending 2251ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves a helper credential replaced while the repair prompt is pending 1271ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > does not copy a stale generated credential over an explicit provider SecretRef 120ms
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > refuses to overwrite an unreadable canonical auth store 1971ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.pluginStateObservationCache
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+
+ ✓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > allocates a global config profile that child stores cannot shadow 1541ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > removes the config reference before deleting the credential 561ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > refuses removal for profile "openai:missing" 12ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > refuses removal for profile "  " 7ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > clears a provider binding before removing its key, preserving model selection 342ms
+(node:<PID>) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: loadAuthProfileStoreWithoutExternalProfiles is deprecated; use loadAuthProfileStoreWithoutExternalProfilesAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > removes cached credential copies across agents without disabling another account 3647ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > restores the credential and config after final catalog cleanup fails, then permits retry 4153ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > reconciles partial profiles removal and retry without losing other bindings 652ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.pluginStateObservationCache
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/commands/models/auth-logout.test.ts: retiring openclaw.sessionGroupCatalog
+
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > reconciles partial api_key removal and retry without losing other bindings 230ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > keeps unconfirmed credentials with stdin TTY=true 4ms
+ ✓ |commands| src/commands/models/auth-logout.test.ts > models auth logout > keeps unconfirmed credentials with stdin TTY=false 2ms
+
+ Test Files  3 passed (3)
+      Tests  37 passed (37)
+   Start at  20:15:27
+   Duration  66.98s (tests 61%, transform 25%, import 11%, worker 2%, setup 1%)
+
+[test] starting test/vitest/vitest.agents-core.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > authenticates published store-backed api_key discovery through resolveProviderAuth 5935ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > authenticates published env-backed token discovery through resolveProviderApiKey 459ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > isolates api_key agent-mismatch without fallback or anonymous HTTP 255ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > isolates api_key provider-mismatch without fallback or anonymous HTTP 312ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > isolates api_key ref-mismatch without fallback or anonymous HTTP 277ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > isolates token missing-value without fallback or anonymous HTTP 255ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > isolates api_key cleared without fallback or anonymous HTTP 288ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > isolates api_key cold without fallback or anonymous HTTP 243ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > skips expired profiles through resolveProviderAuth and uses the next canonical candidate 321ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > uses OAuth discovery credentials with auth flow undefined 234ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > uses OAuth discovery credentials with auth flow chatgpt-identity 254ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > uses cold env refs without a published auth snapshot 237ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > prefers ambient auth and ignores unselected failures through resolveProviderApiKey 257ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > applies stored catalog order through resolveProviderAuth 250ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > applies model cooldown scope during catalog discovery 339ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > applies profile cooldown scope during catalog discovery 343ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > uses the pinned credential instead of the first ordered profile 285ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > fails closed when the pinned profile contains another provider 261ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > fails closed when the pinned profile contains OAuth 237ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > fails closed when the pinned profile contains an empty key 263ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > fails closed when the pinned profile contains an expired token 281ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > fails closed when the pinned profile contains an inactive setup replacement 213ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > rejects an incompatible configured profile {"provider":"anthropic","mode":"api_key"} 239ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > rejects an incompatible configured profile {"provider":"openai","mode":"oauth"} 366ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > keeps an unknown profile-shaped literal as the actual request key 217ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderApiKey configured profile references > keeps materialized SecretRef bytes opaque even when profile-shaped 258ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > uses the pinned credential instead of the first ordered profile 300ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > fails closed when the pinned profile contains another provider 471ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > fails closed when the pinned profile contains OAuth 365ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > fails closed when the pinned profile contains an empty key 363ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > fails closed when the pinned profile contains an expired token 785ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > fails closed when the pinned profile contains an inactive setup replacement 474ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > rejects an incompatible configured profile {"provider":"anthropic","mode":"api_key"} 423ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > rejects an incompatible configured profile {"provider":"openai","mode":"oauth"} 735ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > keeps an unknown profile-shaped literal as the actual request key 516ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolveProviderAuth configured profile references > keeps materialized SecretRef bytes opaque even when profile-shaped 490ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > does not switch profiles when the configured full-auth profile is excluded 537ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > keeps ambient API-key precedence over a configured profile reference 829ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > keeps marker-shaped prepared config Ref bytes opaque through resolveProviderAuth 550ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > isolates selected unmaterialized config refs through resolveProviderAuth before HTTP 593ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > preserves synthetic auth provenance for xai-plugin-key 541ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > preserves synthetic auth provenance for custom-local 398ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolves configured credential ${MY_VLLM_KEY} with {"MY_VLLM_KEY":"<redacted len=12>"} 437ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolves configured credential ${MY_VLLM_KEY} with {} 497ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolves configured credential VLLM_API_KEY with {} 517ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > resolves configured credential ALLCAPS_SAMPLE with {} 507ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > keeps unresolved non-env refs sterile in the pure full-auth factory 329ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config provider auth provenance > keeps synthetic markers in the mixed prepared credential map transport-free 728ms
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config catalog runtime headers > passes resolved catalog headers while persisting their source markers 537ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/models-config.providers.auth-provenance.test.ts: retiring openclaw.pluginStateObservationCache
+
+ ✓ |agents-core| src/agents/models-config.providers.auth-provenance.test.ts > models-config catalog runtime headers > keeps unresolved catalog headers fail-closed 561ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > does not duplicate a canonical profile key into an authored provider without apiKey 616ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > omits derived credentials from planned plugin catalogs while retaining inventory 37ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > does not expose the full registry to provider policy hooks for a scoped snapshot 9ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > keeps the implicit catalog when the explicit baseUrl is blank 16ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > publishes keyless catalogs and leaves authentication to the registry 544ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > treats empty replace-mode provider sets as authoritative 43ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > writes canonical env markers for discovered providers 9ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > keeps static catalog rows when an auth profile supplies the key 9ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.pluginStateObservationCache
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/models-config.applies-config-env-vars.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > uses config env vars without replacing host value undefined 22ms
+ ✓ |agents-core| src/agents/models-config.applies-config-env-vars.test.ts > models-config planning > uses config env vars without replacing host value from-host 21ms
+ ✓ |agents-core| src/agents/models-config.ollama-secretref.test.ts > keeps profile refs out of writable plans at https://ollama-profile.example/v1 (explicit=false, value=resolved-ollama-profile-fixture) 1355ms
+ ✓ |agents-core| src/agents/models-config.ollama-secretref.test.ts > keeps profile refs out of writable plans at https://ollama-profile.example/v1 (explicit=true, value=resolved-ollama-profile-fixture) 687ms
+ ✓ |agents-core| src/agents/models-config.ollama-secretref.test.ts > keeps profile refs out of writable plans at http://127.0.0.1:11434 (explicit=true, value=resolved-ollama-profile-fixture) 386ms
+ ✓ |agents-core| src/agents/models-config.ollama-secretref.test.ts > keeps config refs out of writable plans at http://127.0.0.1:11434 (explicit=false, value=OLLAMA_API_KEY) 413ms
+ ✓ |agents-core| src/agents/models-config.ollama-secretref.test.ts > keeps config refs out of writable plans at http://127.0.0.1:11434 (explicit=true, value=ollama-local) 430ms
+ ✓ |agents-core| src/agents/models-config.ollama-secretref.test.ts > keeps config refs out of writable plans at http://127.0.0.1:11435 (explicit=false, value=secretref-managed) 428ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/models-config.ollama-secretref.test.ts: retiring openclaw.pluginStateObservationCache
+
+ ✓ |agents-core| src/agents/models-config.ollama-secretref.test.ts > lists chat models pulled after setup, keeps setup model settings, and keeps setup models when listing fails 608ms
+
+ Test Files  3 passed (3)
+      Tests  67 passed (67)
+   Start at  20:16:35
+   Duration  46.44s (tests 71%, import 14%, transform 12%, setup 2%, worker 1%)
+
+[test] starting test/vitest/vitest.agents-support.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+(node:<PID>) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: saveAuthProfileStore is deprecated; use updateAuthProfileStoreWithLock from openclaw/plugin-sdk/provider-auth instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:<PID>) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: loadAuthProfileStoreWithoutExternalProfiles is deprecated; use loadAuthProfileStoreWithoutExternalProfilesAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > does not retain a held refresh credential published before-delete (unchanged) 3605ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > does not retain a held refresh credential published after-delete (unchanged) 2323ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > does not retain a held refresh credential published after-delete (rotated) 2971ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > does not retain a held refresh credential published after-delete (added) 2295ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > scrubs cached credentials after partial removal ends with contention 2411ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > scrubs cached credentials after partial removal ends with failure 2190ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > restores an absent credential cell and exact state after catalog cleanup fails 1021ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > revokes a retained credential and the next CLI inference after logout commits 3399ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.catalog.test.ts: retiring openclaw.pluginStateObservationCache
+
+ ✓ |agents-support| src/agents/auth-profiles/profiles.catalog.test.ts > preserves newer credentials and selection when failed cleanup compensates logout 1475ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  20:17:24
+   Duration  56.94s (transform 49%, tests 39%, import 9%, worker 3%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 4 Vitest shards in 322.90s

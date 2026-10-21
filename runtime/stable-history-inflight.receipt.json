@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "node",
+    "<stable-package>/openclaw.mjs",
+    "gateway",
+    "call",
+    "chat.history",
+    "--json",
+    "--params",
+    "{\"sessionKey\":\"agent:main:explicit:catalog-upgrade-real-cpu\",\"agentId\":\"main\",\"limit\":12}"
+  ],
+  "environment": {
+    "PATH": "<host-executable-search-path>",
+    "HOME": "<proof-root>/home",
+    "OPENCLAW_HOME": "<proof-root>/home",
+    "OPENCLAW_STATE_DIR": "<proof-root>/state",
+    "OPENCLAW_CONFIG_PATH": "<proof-root>/state/openclaw.json",
+    "OPENCLAW_AGENT_DIR": "<proof-root>/state/agents/main/agent",
+    "NO_COLOR": "1",
+    "OPENCLAW_NO_RESPAWN": "1",
+    "OPENCLAW_SKIP_UPDATE_CHECK": "1"
+  },
+  "exitCode": 0,
+  "elapsedSeconds": 2.32,
+  "log": "stable-history-inflight.log"
+}

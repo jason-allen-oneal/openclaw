@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "candidateSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "error": "Candidate did not reach readiness within 60 seconds; preserve failed attempt",
+  "cleanupError": null,
+  "observations": [
+    {
+      "operation": "doctor",
+      "generatedCredentialsRemoved": true,
+      "legacyOnlyCredentialRecovered": true,
+      "authoredRootUnchanged": true
+    }
+  ],
+  "receipts": [
+    "candidate-doctor.receipt.json",
+    "candidate-gateway.process.json"
+  ],
+  "resumePolicy": "Inspect retained failures and current state. Do not rerun Doctor or recreate stable state merely to obtain green."
+}

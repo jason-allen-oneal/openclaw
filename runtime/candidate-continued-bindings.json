@@ -1,0 +1,44 @@
+{
+  "candidateSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "buildInfo": {
+    "version": "2026.10.5",
+    "commit": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+    "builtAt": "2026-10-21T00:23:09.723Z",
+    "buildId": "2026.10.5-ae73bd7e38f7-2026-10-21T00-23-09.723Z"
+  },
+  "sha256": {
+    "cli-invocation.mjs": "d986786fcc33a9601b6fbba1f7e3fe98d609b5e63d0033322588759c56941107",
+    "cli-parent-lifetime.mjs": "ea3e4018367731671600be70437f44ccac3a767c6d6db6310951cb0c70ab3825",
+    "cli-root-options.mjs": "793b92f2cfd702593128282e477b1ce076f8322c096af5e2446213be55c58cd1",
+    "dist/build-info.json": "51b0d627c11b8868237378756a999238d946b929e55e18d2d06aa28e9ed82579",
+    "dist/doctor-model-catalog-credentials-QXknUTEF.mjs": "bd4141602e7491ff5494a4bda3e94c1075ec195085ffc89045a7762059f9ad7b",
+    "dist/plugin-model-catalog-B5DmIFCG.mjs": "ebfdba8fe3c1a008b9f4a39f88259ec3544bbad1098d90e836c454c49e542560",
+    "dist/plugin-model-catalog-repair-BuOwuYbB.mjs": "fe7ac994cd517b2b6e998ca4b33a643e95753d83748de8b8e38843bf9403a50b",
+    "docker-entrypoint.mjs": "d0a631f80f02903e85a69b0cde1b04a8394e524355efead88371f04b80cf98b4",
+    "gateway-prewarm.mjs": "9dc15186165bdd0873fb3ebe2f616e481bda4cc0354c6ef84ae38a8dbb4e5363",
+    "gateway-run-argv.mjs": "b564a671dfe48a0c81bc799cb489783d2949e8795264926cf338c1b5fcdb02e3",
+    "gateway-shutdown-budget.mjs": "02757141fd71a0e03ee885d952edbcd664395a420b26c6b7ba596529336baa3a",
+    "node-compile-cache.mjs": "37fad2195b4f03da1d385f1a9b89f63688babc4b9f875cbf271104c39230a235",
+    "node-host-launcher.mjs": "1abae02fc2fa8e17d9312e51fdc8674afaa013552a2da3eb97153acb45c525d9",
+    "node-runtime-env.mjs": "c4dc600a751e0bcc3f295f1a395a76eb493e22785e0db5240974199739f71820",
+    "node-runtime-recovery.mjs": "7c3ec40c55ce9e163b39e607aed13eb61999628469cb355be51a332ff735533d",
+    "node-runtime-update.mjs": "85354df70dc027c8fb4cc8257b83801162c8f381938899557d9638f7ca912480",
+    "node-sqlite.mjs": "fe82bd2483555449afda53e818261451f7b21a1c09402c741792429c5b484927",
+    "node-version.mjs": "69cfc83b49d2119d6fb2db9f598dcfc1170d148bb84317df6f3df9e017f2c24d",
+    "openclaw.mjs": "56648571cf87e40d18de36991f2dbfec0f01a6964113daab71a05dcb14be9da7",
+    "worker-heap-flag.mjs": "2f9aefb660d83836b1edafd4f56c17a4415d367b98772d4de218dcfa5c4e373e"
+  },
+  "ownerDefinitions": {
+    "maybeMigrateModelCatalogCredentials": [
+      "dist/doctor-model-catalog-credentials-QXknUTEF.mjs"
+    ],
+    "replacePersistedPluginModelCatalogs": [
+      "dist/plugin-model-catalog-B5DmIFCG.mjs"
+    ],
+    "stripPluginModelCatalogCredentials": [
+      "dist/plugin-model-catalog-repair-BuOwuYbB.mjs"
+    ]
+  },
+  "driverSha256": "1692bf4128102012ef855bb737cbf5f80c74c125a09ec73abfdca02dd825f655",
+  "proxyDriverSha256": "feddd234b3497021784edf2299117ecad38b6143665cec7a706719936e78568b"
+}

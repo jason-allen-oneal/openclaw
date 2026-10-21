@@ -1,0 +1,448 @@
+{
+  "sessionKey": "agent:main:explicit:catalog-upgrade-real-cpu",
+  "sessionId": "catalog-upgrade-real-cpu",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Remember the proof word COPPER-FINCH. Reply with exactly COPPER-FINCH and do not use tools.",
+      "timestamp": 1792540948607,
+      "idempotencyKey": "<id-20f0e38204>:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "<id-1990877dbb>",
+        "idempotencyKey": "<id-20f0e38204>:user",
+        "recordTimestampMs": 1792540961422,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 4
+        },
+        "seq": 1
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "COPPER-FINCH."
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "canonical",
+      "model": "qwen3:0.6b",
+      "usage": {
+        "input": 1589,
+        "output": 8,
+        "totalTokens": 1597,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        },
+        "contextUsage": {
+          "state": "available",
+          "promptTokens": 1589,
+          "totalTokens": 1597
+        }
+      },
+      "stopReason": "stop",
+      "timestamp": 1792540961504,
+      "responseId": "cpu-1",
+      "__openclaw": {
+        "runId": "<id-20f0e38204>",
+        "id": "<id-eb6fe1512e>",
+        "recordTimestampMs": 1792540987982,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 5
+        },
+        "seq": 2
+      }
+    },
+    {
+      "role": "user",
+      "content": "What proof word did I ask you to remember? Reply with only that proof word; do not use tools.",
+      "timestamp": 1792542805960,
+      "idempotencyKey": "<id-117c571d93>:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "<id-f6e1e7e63b>",
+        "idempotencyKey": "<id-117c571d93>:user",
+        "recordTimestampMs": 1792542808074,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 6
+        },
+        "seq": 3
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "COPPER-FINCH."
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "canonical",
+      "model": "qwen3:0.6b",
+      "usage": {
+        "input": 1713,
+        "output": 8,
+        "totalTokens": 1721,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "usageReport": {
+          "state": "available"
+        },
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        },
+        "contextUsage": {
+          "state": "available",
+          "promptTokens": 1713,
+          "totalTokens": 1721
+        }
+      },
+      "stopReason": "stop",
+      "timestamp": 1792542808662,
+      "responseId": "cpu-2",
+      "__openclaw": {
+        "runId": "<id-117c571d93>",
+        "id": "<id-650f546a46>",
+        "recordTimestampMs": 1792542828425,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 9
+        },
+        "seq": 4
+      }
+    },
+    {
+      "role": "user",
+      "content": "Reply with the remembered proof word once more, and do not use tools.",
+      "timestamp": 1792542833936,
+      "idempotencyKey": "<id-ed278c6cf4>:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "<id-698b46fd66>",
+        "idempotencyKey": "<id-ed278c6cf4>:user",
+        "recordTimestampMs": 1792542834261,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 12
+        },
+        "seq": 5
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "COPPER-FINCH."
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "recovered",
+      "model": "qwen3:0.6b",
+      "usage": {
+        "input": 1838,
+        "output": 8,
+        "totalTokens": 1846,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "usageReport": {
+          "state": "available"
+        },
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        },
+        "contextUsage": {
+          "state": "available",
+          "promptTokens": 1838,
+          "totalTokens": 1846
+        }
+      },
+      "stopReason": "stop",
+      "timestamp": 1792542834414,
+      "responseId": "cpu-3",
+      "__openclaw": {
+        "runId": "<id-ed278c6cf4>",
+        "id": "<id-4a9aba0dab>",
+        "recordTimestampMs": 1792542841625,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 15
+        },
+        "seq": 6
+      }
+    },
+    {
+      "role": "user",
+      "content": "Reply with REVOKED-SHOULD-NOT-SEND.",
+      "timestamp": 1792543509923,
+      "idempotencyKey": "<id-4d8c337097>:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "<id-e6ad028a25>",
+        "idempotencyKey": "<id-4d8c337097>:user",
+        "recordTimestampMs": 1792543512452,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 18
+        },
+        "seq": 7
+      }
+    },
+    {
+      "role": "custom",
+      "customType": "run-failed-before-reply",
+      "content": "Your request couldn't be completed: Live session model switch requested: canonical/qwen3:0.6b",
+      "display": true,
+      "timestamp": 1792543512861,
+      "__openclaw": {
+        "id": "<id-565beaac48>",
+        "recordTimestampMs": 1792543512861,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 22
+        },
+        "seq": 9,
+        "runId": "<id-4d8c337097>"
+      },
+      "openclawRunError": {
+        "runId": "<id-4d8c337097>",
+        "summary": "Your request couldn't be completed: Live session model switch requested: canonical/qwen3:0.6b"
+      }
+    },
+    {
+      "role": "user",
+      "content": "What was the proof word I asked you to remember? Reply with the proof word only. Do not use tools.",
+      "timestamp": 1792543674519,
+      "idempotencyKey": "<id-6e24dc99a2>:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "<id-02b19f855d>",
+        "idempotencyKey": "<id-6e24dc99a2>:user",
+        "recordTimestampMs": 1792543676854,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 25
+        },
+        "seq": 10
+      }
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "COPPER-FINCH."
+        }
+      ],
+      "api": "openai-completions",
+      "provider": "recovered",
+      "model": "qwen3:0.6b",
+      "usage": {
+        "input": 2269,
+        "output": 8,
+        "totalTokens": 2277,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "usageReport": {
+          "state": "available"
+        },
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        },
+        "contextUsage": {
+          "state": "available",
+          "promptTokens": 2269,
+          "totalTokens": 2277
+        }
+      },
+      "stopReason": "stop",
+      "timestamp": 1792543676961,
+      "responseId": "cpu-6",
+      "__openclaw": {
+        "runId": "<id-6e24dc99a2>",
+        "id": "<id-5412346e84>",
+        "recordTimestampMs": 1792543700152,
+        "transcriptPosition": {
+          "source": "<opaque-fixture-identifier>",
+          "rawSeq": 28
+        },
+        "seq": 11
+      }
+    }
+  ],
+  "hasMore": false,
+  "totalMessages": 11,
+  "pendingInputs": {
+    "items": [
+      {
+        "id": "<id-39e3e33e69>",
+        "acceptedAt": 1792543072291,
+        "state": "interrupted",
+        "message": {
+          "role": "user",
+          "content": "Reply with ROOT-AUTH-OK and do not use tools.",
+          "timestamp": 1792543072291,
+          "__openclaw": {
+            "senderIsOwner": true,
+            "id": "pending:<id-39e3e33e69>"
+          }
+        },
+        "runId": "<id-fb7812f3d3>"
+      }
+    ],
+    "total": 1,
+    "queuedCount": 0
+  },
+  "deltaCursor": "<opaque-fixture-identifier>",
+  "defaults": {
+    "modelProvider": "canonical",
+    "model": "qwen3:0.6b",
+    "contextTokens": 32768,
+    "agentRuntime": {
+      "id": "openclaw",
+      "cloudPlacementSupported": true,
+      "cloudPlacementExecutionMode": "worker-turn",
+      "devicePlacement": {
+        "requiredNodeCommands": [],
+        "consumesWorkerSlot": true
+      },
+      "devicePlacementSupported": true,
+      "source": "provider"
+    },
+    "communication": {
+      "send": "always",
+      "receive": "always"
+    },
+    "modelSelectionTarget": "session"
+  },
+  "sessionInfo": {
+    "key": "agent:main:explicit:catalog-upgrade-real-cpu",
+    "sessionModelRevision": "Y_wRFsn2tMeRe-WYNcJbk0gWlnu7o83pbvBeMvb5BiU",
+    "visibility": "shared",
+    "effectiveCommunication": {
+      "send": "always",
+      "receive": "always"
+    },
+    "permissionModePending": false,
+    "createdVia": "run",
+    "participants": [
+      {
+        "identity": {
+          "type": "observation",
+          "pluginId": null,
+          "accountId": null,
+          "senderKind": "unknown",
+          "id": "cli"
+        }
+      }
+    ],
+    "expandedParticipants": [
+      {
+        "identity": {
+          "type": "observation",
+          "pluginId": null,
+          "accountId": null,
+          "senderKind": "unknown",
+          "id": "cli"
+        }
+      }
+    ],
+    "participantCount": 1,
+    "createdAt": 1792540948489,
+    "kind": "direct",
+    "classification": "explicit",
+    "agentId": "main",
+    "isMain": false,
+    "isDock": false,
+    "isBackground": false,
+    "displayName": "explicit:catalog-upgrade-real-cpu",
+    "updatedAt": 1792543700297,
+    "archived": false,
+    "pinned": false,
+    "sidebarRoot": false,
+    "unread": true,
+    "lastInteractionAt": 1792543700243,
+    "lastActivityAt": 1792543700266,
+    "sessionId": "catalog-upgrade-real-cpu",
+    "abortedLastRun": false,
+    "effectiveFastMode": false,
+    "effectiveFastModeSource": "default",
+    "fastAutoOnSeconds": 60,
+    "inputTokens": 2269,
+    "outputTokens": 8,
+    "usageReport": {
+      "state": "available"
+    },
+    "lastRunId": "<id-6e24dc99a2>",
+    "effectiveResponseUsage": "off",
+    "effectiveQueueMode": "steer",
+    "modelProvider": "recovered",
+    "model": "qwen3:0.6b",
+    "modelOverrideSource": "user",
+    "runtimeSelectionLocked": false,
+    "agentRuntime": {
+      "id": "openclaw",
+      "cloudPlacementSupported": true,
+      "cloudPlacementExecutionMode": "worker-turn",
+      "devicePlacement": {
+        "requiredNodeCommands": [],
+        "consumesWorkerSlot": true
+      },
+      "devicePlacementSupported": true,
+      "source": "provider"
+    },
+    "contextTokens": 32768,
+    "snapshotAt": 1792543701546,
+    "status": "done",
+    "suppressErrorNotice": false,
+    "startedAt": 1792543675089,
+    "endedAt": 1792543700266,
+    "runtimeMs": 25177,
+    "totalTokens": 2269,
+    "totalTokensFresh": true,
+    "estimatedCostUsd": 0,
+    "placement": {
+      "state": "local",
+      "generation": 0,
+      "createdAtMs": 1792540960156,
+      "updatedAtMs": 1792543700236,
+      "stateChangedAtMs": 1792540960156
+    },
+    "activitySummary": {
+      "state": "unavailable",
+      "canEnsure": true
+    },
+    "hasBoard": false,
+    "titlePending": false,
+    "childOwnerSessionKeys": [],
+    "sharingRole": "owner",
+    "sendDisabledReason": null,
+    "hasActiveRun": false,
+    "activeRunIds": [],
+    "activeLeafEntryId": "<id-5412346e84>"
+  }
+}

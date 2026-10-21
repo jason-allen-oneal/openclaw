@@ -1,0 +1,35 @@
+{
+  "status": "partial; overall runtime proof NOT passed",
+  "executedBuildCommit": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "currentSourceCommit": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "passedStages": [
+    "Published stable real launcher/Gateway/local CPU-model turn and retained two-message history",
+    "Candidate built launcher Doctor imported two credentials, stripped one generated catalog, preserved authored root bytes",
+    "Candidate canonical and recovered-legacy real CPU-model turns each recalled retained proof word, with one receiver request each",
+    "Gateway history retained six conversation messages after candidate continuations",
+    "Explicit named-profile offline CLI logout removed canonical and imported manual profiles; generated inventory and authored root unchanged"
+  ],
+  "failedOrPendingStages": [
+    {
+      "stage": "Initial candidate admission",
+      "observed": "Harness waited for an obsolete readiness log marker despite HTTP server listening; attempt failed and was stopped. Later actual health-RPC admission continued same already-migrated state."
+    },
+    {
+      "stage": "First resume",
+      "observed": "Harness compared post-Doctor config with pre-Doctor hash and refused; corrected to recorded post-Doctor state without reseeding."
+    },
+    {
+      "stage": "Initial offline logout invocation",
+      "observed": "CLI exited 1; explicit named profile isolated service ownership and subsequent real logout commands passed. Private operator-config debug output is omitted."
+    },
+    {
+      "stage": "Authored-root-only Gateway turn",
+      "observed": "Failed after imported manual profile removal: missing-provider-auth. Root file bytes remained unchanged. Attribution investigation pending; not claimed passed or fixed."
+    },
+    {
+      "stage": "Canonical post-logout refusal",
+      "observed": "Not reached by recorded driver because authored-root turn failed; no refusal success is claimed."
+    }
+  ],
+  "publication": "Not published. No overall candidate pass, exact-head hosted CI, or review acceptance is claimed."
+}

@@ -1,0 +1,29 @@
+{
+  "command": [
+    "node",
+    "scripts/run-oxlint.mjs",
+    "--tsconfig",
+    "config/tsconfig/oxlint.core.json",
+    "src/agents/auth-profiles/profiles.catalog.test.ts",
+    "src/agents/models-config.applies-config-env-vars.test.ts",
+    "src/agents/models-config.ollama-secretref.test.ts",
+    "src/agents/models-config.plan.ts",
+    "src/agents/models-config.providers.normalize.ts",
+    "src/agents/models-config.root-authorship.test.ts",
+    "src/agents/plugin-model-catalog-repair.ts",
+    "src/agents/plugin-model-catalog.kernel.ts",
+    "src/agents/plugin-model-catalog.test.ts",
+    "src/agents/plugin-model-catalog.ts",
+    "src/commands/doctor-model-catalog-credentials.test.ts",
+    "src/commands/doctor-model-catalog-credentials.ts",
+    "src/commands/doctor-plugin-model-catalog.test.ts",
+    "src/commands/models/auth-logout.test.ts",
+    "src/flows/doctor-auth-health.ts",
+    "src/infra/database-engine/post-ready.conformance.test.ts"
+  ],
+  "head": "e6b866d3adb8d19ca878d493e4a0d21f1e9c3974",
+  "workingDiffSha256": "22ab33fe59883d89734a9e0abec88de64a0a9eb9a0a9e876c2dbb077f01fe7d3",
+  "exitCode": 0,
+  "seconds": 81.32,
+  "completedAt": "2026-10-21T00:14:40.313052+00:00"
+}

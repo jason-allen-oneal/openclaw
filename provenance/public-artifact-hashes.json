@@ -1,0 +1,223 @@
+{
+  "scope": "Sanitized public check/review/regression artifacts only. README and later runtime additions are outside this manifest; publish a final whole-bundle manifest after closure.",
+  "artifacts": [
+    {
+      "path": "checks/focused-final.receipt.json",
+      "sha256": "a532c1d1d13e374e065b83dbd86050dcb5db2dc171372fc41c663b5eb0de0fb1",
+      "bytes": 1008,
+      "originalSource": "focused-final.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "checks/focused-final.log",
+      "sha256": "5c34d105ad48b5e8fb6bb9fde4b18cf20d0bdf6d2ab3cc2b9ddf361bc67d10a9",
+      "bytes": 53960,
+      "originalSource": "focused-final.log",
+      "transformations": {
+        "checkout path": 4,
+        "terminal ANSI escapes": 130,
+        "temporary test workspace": 6,
+        "temporary fixture directory": 6,
+        "process identifier": 4,
+        "ephemeral UUID": 2
+      }
+    },
+    {
+      "path": "checks/targeted-lint-final.receipt.json",
+      "sha256": "b773046bf1928713a5b626ef05ed41e35bbc8ad381890a6bf60971a84bc602c9",
+      "bytes": 1196,
+      "originalSource": "targeted-lint-final.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "checks/targeted-lint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalSource": "targeted-lint-final.log",
+      "transformations": {}
+    },
+    {
+      "path": "checks/core-types-final.receipt.json",
+      "sha256": "bdec0b0c94bcb619190ea2e4a615b7ee4c08b2d8de917af002c06b564162f0ca",
+      "bytes": 425,
+      "originalSource": "core-types-final.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "checks/core-types-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalSource": "core-types-final.log",
+      "transformations": {}
+    },
+    {
+      "path": "checks/docs-mdx-final.receipt.json",
+      "sha256": "f1d7ceac3c56ca71b844ffac2ce11eb07e9d86bb03670ed40285731303c2ea68",
+      "bytes": 392,
+      "originalSource": "docs-mdx-final.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "checks/docs-mdx-final.log",
+      "sha256": "2fc5b11c0fdb603b8853c33fbe9ed72b75753379f82ea75f75d8b7f4b71106c5",
+      "bytes": 40,
+      "originalSource": "docs-mdx-final.log",
+      "transformations": {}
+    },
+    {
+      "path": "checks/docs-route-links-final.receipt.json",
+      "sha256": "d422e769585c689e20d949eeaed8ac5591e80168e3e39677a8563f99c5fd1d5d",
+      "bytes": 304,
+      "originalSource": "docs-route-links-final.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "checks/docs-route-links-final.log",
+      "sha256": "254a5b36c51712fece888ceedeb3e24a52fc6d411b2f7fc257b4234d3e02e157",
+      "bytes": 44,
+      "originalSource": "docs-route-links-final.log",
+      "transformations": {}
+    },
+    {
+      "path": "checks/docs-links-final.receipt.json",
+      "sha256": "4e78b117d4151575766444ff02aa9ae9b34184b0d7adf1882e2237ace949b76d",
+      "bytes": 320,
+      "originalSource": "docs-links-final.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "checks/docs-links-final.log",
+      "sha256": "0e6f12f695f1b6e71a6a9a77aade650fd18dd8c2d05db835074fdb437dbf3e9e",
+      "bytes": 1223,
+      "originalSource": "docs-links-final.log",
+      "transformations": {}
+    },
+    {
+      "path": "checks/docs-anchor-baseline.json",
+      "sha256": "24c09f99956c458f28bd1be7e65915ee9a35527f19277940318d0f23811971f9",
+      "bytes": 1882,
+      "originalSource": "docs-anchor-baseline.json",
+      "transformations": {}
+    },
+    {
+      "path": "regressions/audit-regressions-red.receipt.json",
+      "sha256": "48de4326170162ccc65138336b9fd37d0fa786fb3da88d00b53a0ccdf529dccc",
+      "bytes": 504,
+      "originalSource": "audit-regressions-red.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "regressions/audit-regressions-red.log",
+      "sha256": "ef5bf2c5996223aada6df688dbfa5aa79612bcbefc87c54c88f0e791996d2802",
+      "bytes": 7984,
+      "originalSource": "audit-regressions-red.log",
+      "transformations": {
+        "checkout path": 1
+      }
+    },
+    {
+      "path": "regressions/config-data-loss-red.receipt.json",
+      "sha256": "23e6bae2d3fc31baff60c0048623976bd3147b71b0cced78d8a27473a285f61a",
+      "bytes": 384,
+      "originalSource": "config-data-loss-red.receipt.json",
+      "transformations": {}
+    },
+    {
+      "path": "regressions/config-data-loss-red.log",
+      "sha256": "c030f909633a67866d5ba303628ff6f0b6ce785bda58e1b5964d7d3a2a4918dc",
+      "bytes": 6979,
+      "originalSource": "config-data-loss-red.log",
+      "transformations": {
+        "checkout path": 1
+      }
+    },
+    {
+      "path": "review/autoreview-current-cli.receipt.json",
+      "sha256": "d00882c825edfac5ebdb0e5fb050556104144509345d476710efde1e09ff17c1",
+      "bytes": 1550,
+      "originalSource": "autoreview-current-cli.receipt.json",
+      "transformations": {
+        "proof root path": 4,
+        "AutoReview executable": 1,
+        "Codex executable": 1
+      }
+    },
+    {
+      "path": "review/autoreview-current-cli.md",
+      "sha256": "ea7e641a48b7b02adda3e62c2d92242136d6b50eb68e6ffcf64cf5d8602cc4fd",
+      "bytes": 853,
+      "originalSource": "autoreview-current-cli.md",
+      "transformations": {}
+    },
+    {
+      "path": "review/autoreview-current-cli.json",
+      "sha256": "5c998b8172a44a29e5ba31f6fb163376755caed19b4d2d178df0694bf104c15c",
+      "bytes": 2064,
+      "originalSource": "autoreview-current-cli.json",
+      "transformations": {}
+    },
+    {
+      "path": "review/autoreview-current-cli.status.json",
+      "sha256": "f5abbfa0aeaf83ae17c588ad1ded764fc7fa6401ab9d5e5f27ce14fd12d208b0",
+      "bytes": 485,
+      "originalSource": "autoreview-current-cli.status.json",
+      "transformations": {}
+    },
+    {
+      "path": "provenance/candidate-source-binding.json",
+      "sha256": "a7bec2f6eedf0baab209ae14d5bdddb662b35e66f25e87d7af74dabe9f70df28",
+      "bytes": 366,
+      "originalSource": "candidate-source-binding.json",
+      "transformations": {}
+    },
+    {
+      "path": "provenance/simplification.json",
+      "sha256": "d4b93973c2f10788bda8e27dbe7f493dce496dbc77869f2c6219c1bfdf853518",
+      "bytes": 1421,
+      "originalSource": "simplification.json",
+      "transformations": {}
+    },
+    {
+      "path": "regressions/restore-pre-p1.patch",
+      "sha256": "f76fde4ca89a0e64fc1f08eeaae75ebb326bd38a1b710cfade3063ec66aea88d",
+      "bytes": 3585,
+      "derivedFrom": [
+        {
+          "source": "src/commands/doctor-model-catalog-credentials.ts",
+          "sourceAt": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+          "sha256": "edd9e208b6e3fce15f36c8e68a0777cd34ec34c16da2cfbd53fadedfd9bf738d"
+        },
+        {
+          "source": "doctor-model-catalog-credentials.pre-p1.ts",
+          "sha256": "b5524d95ee5c0b1e798aa6aeded3ce918268b2afe2f2573248417ccae0a5bf58"
+        }
+      ]
+    },
+    {
+      "path": "regressions/restore-pre-p2.patch",
+      "sha256": "f0218891d66d9274caf01264106d1dac99bb0b18cc67662576df1f7e9212b887",
+      "bytes": 1665,
+      "derivedFrom": [
+        {
+          "source": "src/agents/plugin-model-catalog.ts",
+          "sourceAt": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+          "sha256": "1a21794a300984cdaee7afd90919d8cf6cc99713bd60ac639e9a7d8df5dd3d24"
+        },
+        {
+          "source": "plugin-model-catalog.pre-p2.ts",
+          "sha256": "4054f928a5688f9bdead2aa4b5866a8f80c9c61d75ca8414f2282d8825c98cef"
+        }
+      ]
+    },
+    {
+      "path": "provenance/source-fingerprints.json",
+      "sha256": "ce05e6b2218581e696ac6d48bc95d1169e7cd7dab3e10b12e4f6ef83035e87a5",
+      "bytes": 4579
+    },
+    {
+      "path": "provenance/original-artifact-hashes.json",
+      "sha256": "c8799507b1751883a8ddfb16726d2bc844e2d075da1b4205bd631451dbcfb9a5",
+      "bytes": 5798
+    }
+  ]
+}

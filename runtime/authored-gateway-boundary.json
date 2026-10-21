@@ -1,0 +1,56 @@
+{
+  "candidateSha": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "baseSha": "e6b866d3adb8d19ca878d493e4a0d21f1e9c3974",
+  "observation": "The authored-root-only Gateway request failed before registry request authentication; the core provider auth resolver only sees configured/provider canonical auth. This is not a changed runtime-auth path in the storage repair. The SDK registry retains authored-file fallback.",
+  "scope": "Independent source-path analysis plus actual candidate failure. No base Gateway runtime comparison executed.",
+  "files": [
+    {
+      "path": "src/agents/embedded-agent-runner/run/runtime-preparation.ts",
+      "sha256": "07a407bc83458796f8972a2303a81f5ef0adce3f953eae28e2bab9acbe3f2a32",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/embedded-agent-runner/run/auth-controller.ts",
+      "sha256": "9f1a44bce084de73c18a0ea83b649b72bc39dd7f48b3a3fc44f0ee30e0826dd3",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/model-auth-model.ts",
+      "sha256": "e5e3e12bf59e4e154df45e8bd364090c357dcfd4470a5ef0e570dd066fffd3e3",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/model-auth-provider.ts",
+      "sha256": "639b99bd4ffe7def8ff330cb18303ba397da0781f42360ada79490d7668e54fc",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/model-auth-provider-config.ts",
+      "sha256": "56e0a9e37f2229ef254b3deee0cfe16970c9900556cf55b67c618ea5b59c59e9",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/sessions/model-registry.ts",
+      "sha256": "35e6f9c4524baf7d1b29896a8b1fb2f79d59e9c03b06a5091ae097e6fd1b283e",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/sessions/model-registry-request-auth.ts",
+      "sha256": "5a5dbcecc3ca15143134801da2b0fd81e2efe4f52e0e1ef0c251071e116bf3ac",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/sessions/model-registry.sources.test.ts",
+      "sha256": "514d201f6dbf9556f52be7f1197389ffa0b94b4f7fa16181a9cbf741522edc35",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/agents/sessions/model-registry-sources.ts",
+      "sha256": "fbf7c8dc78ede508b5c52aa90c7ac30a3dd7cfd371f945d53ddf634c0595b65d",
+      "identicalToBase": true
+    }
+  ],
+  "failedAttempt": "candidate-tail-authored-root-turn.log",
+  "authoredRootSha256": "cb5acf82f292069232df70ce0b9693be7ffc8f5ad661ee33ec2c46f5d5afa315",
+  "proofCorrection": "Do not claim universal authored-root-only Gateway authentication. Preserve authored bytes and unchanged registry request-auth semantics; canonical migrated auth is separately demonstrated through the actual Gateway."
+}

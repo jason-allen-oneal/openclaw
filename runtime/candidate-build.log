@@ -1,0 +1,112 @@
+[build-all] plugins:assets:build
+[canvas] build: node --import ../../scripts/tsx.mjs ../../scripts/bundle-a2ui.mts
+<DIR>/a2ui.bundle.js  chunk │ size: 580.35 kB
+<DIR>/a2ui-v0.9.bundle.js  chunk │ size: 1,015.33 kB
+
+✔ rolldown v1.2.13 Finished in 311.74 ms
+[clawrouter] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/clawrouter
+[mcp-relay] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/mcp-relay
+[memory-core] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/memory-core
+[nostr] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/nostr
+[whatsapp] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/whatsapp
+[workboard] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard
+[x] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x
+[build-all] plugins:assets:build done in 24.3s
+[build-all] tsdown
+[tsdown-build] invocation 1/2 finished in 1.2s
+node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js (68248:28) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+       ╭─[ node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js:68248:29 ]
+       │
+ 68248 │               const value = eval(`(${expr})`);
+       │                             ──┬─  
+       │                               ╰─── Use of direct `eval` here.
+       │ 
+       │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+───────╯
+
+node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js (68255:28) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+       ╭─[ node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js:68255:29 ]
+       │
+ 68255 │               const value = eval(`(${expr})`);
+       │                             ──┬─  
+       │                               ╰─── Use of direct `eval` here.
+       │ 
+       │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+───────╯
+
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2400:30) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2400:31 ]
+      │
+ 2400 │           ASM_CONSTS[start] = eval(func);
+      │                               ──┬─  
+      │                                 ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2423:32) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2423:33 ]
+      │
+ 2423 │           moduleExports[name] = eval(func);
+      │                                 ──┬─  
+      │                                   ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2400:30) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2400:31 ]
+      │
+ 2400 │           ASM_CONSTS[start] = eval(func);
+      │                               ──┬─  
+      │                                 ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2423:32) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2423:33 ]
+      │
+ 2423 │           moduleExports[name] = eval(func);
+      │                                 ──┬─  
+      │                                   ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+[tsdown-build] still running pid=<process-id>; no output for 34s
+[tsdown-build] invocation 2/2 finished in 95.0s
+[build-all] tsdown done in 1m 46.8s
+[build-all] external-plugins:local-dist
+[plugin-npm-runtime-build] build assets diffs: node --import tsx ../../scripts/build-diffs-viewer-runtime.mts curated
+[plugin-npm-runtime-build] build assets diffs-language-pack: node --import tsx ../../scripts/build-diffs-viewer-runtime.mts full
+[plugin-npm-runtime-build] build assets discord: node --import ../../scripts/tsx.mjs ../../scripts/build-discord-activity-sdk.mts
+[plugin-npm-runtime-build] build assets nostr: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/nostr
+[plugin-npm-runtime-build] build assets whatsapp: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/whatsapp
+[external-plugin-local-dist] built 99 plugins in 15187ms
+[build-all] external-plugins:local-dist done in 15.9s
+[build-all] check-cli-bootstrap-imports
+CLI bootstrap import guard passed.
+[build-all] check-cli-bootstrap-imports done in 30.8s
+[build-all] plugins:assets:copy
+[browser] copy: node scripts/copy-chrome-extension.mjs
+[canvas] copy: node scripts/copy-a2ui.mjs
+[clawrouter] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/clawrouter --copy
+[mcp-relay] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/mcp-relay --copy
+[memory-core] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/memory-core --copy
+[nostr] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/nostr --copy
+[whatsapp] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/whatsapp --copy
+[workboard] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard --copy
+[x] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x --copy
+[build-all] plugins:assets:copy done in 14.9s
+[build-all] runtime-postbuild
+[plugin-control-plane-loads] verified 55 built modules with native require and checked doctor closures
+runtime-postbuild: 14 phases completed in 8788ms (slowest: built plugin control-plane loads 5610ms)
+[build-all] runtime-postbuild done in 10.3s
+[build-all] build-stamp
+[build-all] build-stamp done in 311ms
+[build-all] runtime-postbuild-stamp
+[build-all] runtime-postbuild-stamp done in 148ms
+[build-all] write-build-info
+[build-all] write-build-info done in 302ms
+[build-all] phase timings: total 3m 25.7s; slowest tsdown 1m 46.8s; check-cli-bootstrap-imports 30.8s; plugins:assets:build 24.3s; external-plugins:local-dist 15.9s; plugins:assets:copy 14.9s; runtime-postbuild 10.3s; build-stamp 311ms; write-build-info 302ms; runtime-postbuild-stamp 148ms

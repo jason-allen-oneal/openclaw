@@ -1,0 +1,10 @@
+checked_internal_links=17383
+broken_links=5
+omitted_compatibility_aliases=0
+mirrored_clawhub_docs=no
+docs:check-links: ClawHub docs are authored in openclaw/clawhub and are absent from this checkout. /clawhub/** routes were accepted from docs.json navigation and their fragments were not checked. Set OPENCLAW_DOCS_SYNC_CLAWHUB_REPO to a ClawHub checkout to verify them.
+gateway/config-tools.md:60 :: /gateway/config-tools/provider-examples#cerebras-glm-4-7-gpt-oss :: fragment not found (terminal: /gateway/config-tools/provider-examples#cerebras-glm-4-7-gpt-oss)
+gateway/protocol/rpc-talk-config-and-agents.md:79 :: /cli/claws#remove-an-installed-claw :: fragment not found (terminal: /cli/claws#remove-an-installed-claw)
+providers/ollama.md:128 :: /providers/ollama/troubleshooting#model-outputs-tool-json-as-text :: fragment not found (terminal: /providers/ollama/troubleshooting#model-outputs-tool-json-as-text)
+releases/2026.10.1.md:849 :: /providers/openai/runtimes#agents-api-mvp :: fragment not found (terminal: /providers/openai/runtimes#agents-api-mvp)
+releases/2026.9.2.md:3365 :: https://docs.openclaw.ai/cli/claws#remove-an-installed-claw :: fragment not found (terminal: /cli/claws#remove-an-installed-claw)

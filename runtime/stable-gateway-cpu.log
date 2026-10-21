@@ -1,0 +1,58 @@
+[gateway] startup phase: entry.run-main-import starting total=231.8ms
+[gateway] startup phase: entry.run-main-import 95.0ms total=326.8ms start=231.8ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=1149.8ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 630.3ms total=1780.1ms start=1149.8ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=1845.2ms
+[gateway] startup phase: cli.main.gateway-run-imports 11.1ms total=1856.2ms start=1845.2ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=1873.3ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 25.3ms total=1898.6ms start=1873.3ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=1898.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=2101.6ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 2383.0ms total=4484.5ms start=2101.6ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=0
+[gateway] startup phase: cli.main.gateway-run-bootstrap 8784.5ms total=10683.4ms start=1898.9ms
+2026-10-20T20:01:57.985-04:00 [gateway] loading configuration…
+2026-10-20T20:01:58.641-04:00 [gateway] resolving authentication…
+2026-10-20T20:01:58.659-04:00 [gateway] auth mode=none explicitly configured; all gateway connections are unauthenticated.
+2026-10-20T20:01:58.662-04:00 [gateway] starting...
+2026-10-20T20:02:00.387-04:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-gateway.service TimeoutStopUSec=330000ms
+2026-10-20T20:02:00.881-04:00 [gateway] spawn broker ready pid=<process-id>
+[gateway] startup phase: gateway.server-start-import starting total=14197.6ms
+[gateway] startup phase: gateway.server-start-import 1258.3ms total=15455.9ms start=14197.6ms
+2026-10-20T20:02:02.743-04:00 [gateway] startup phase: process.bootstrap 16055.1ms total=16055.1ms
+2026-10-20T20:02:03.875-04:00 [gateway] startup phase: state.schema-preflight starting total=17186.8ms
+2026-10-20T20:02:04.773-04:00 [gateway] startup phase: state.schema-preflight 899.6ms total=18086.3ms
+2026-10-20T20:02:04.810-04:00 [gateway] startup phase: config.auth starting total=18121.3ms
+2026-10-20T20:02:05.348-04:00 [gateway] startup phase: config.auth 539.7ms total=18661.0ms
+2026-10-20T20:02:08.281-04:00 [gateway] startup phase: startup.maintenance starting total=21594.2ms
+2026-10-20T20:02:10.596-04:00 [gateway] startup phase: startup.maintenance 2297.2ms total=23891.4ms
+2026-10-20T20:02:11.717-04:00 [gateway] starting HTTP server...
+2026-10-20T20:02:12.366-04:00 [health-monitor] started (interval: 300s, startup-grace: 60s, channel-connect-grace: 120s)
+2026-10-20T20:02:16.982-04:00 [gateway] startup phase: http.bound 0.1ms total=30294.5ms
+2026-10-20T20:02:17.090-04:00 [gateway] agent model: canonical/qwen3:0.6b (thinking=off, fast=off)
+2026-10-20T20:02:17.091-04:00 [gateway] http server listening (0 plugins, 16.7s)
+2026-10-20T20:02:17.091-04:00 [gateway] log file: <temporary-path>
+2026-10-20T20:02:17.092-04:00 [gateway] Older local CLI/SDK versions can bypass Gateway state mutation routing. Use matching CLI/SDK and Gateway versions; legacy direct writers remain supported.
+2026-10-20T20:02:17.093-04:00 [gateway] native runtime: {"pid":2522544,"platform":"linux","arch":"x64","node":"24.21.0","v8":"13.6.233.17-node.53","uv":"1.52.1","openssl":"3.5.8","sqlite":"3.53.4","sqliteClose":{"explicitSqliteCloseReleasesNativeResources":true,"decided":true,"reason":"Node runtime"}}
+2026-10-20T20:02:17.095-04:00 [gateway] worker startup state: {"workerCount":8,"workerLifecycle":[{"script":"other","started":1,"retired":[{"reason":"exit","count":1}]},{"script":"sqlite-store.worker.js","started":1,"retired":[]},{"script":"gateway-state-owner-heartbeat.worker.js","started":2,"retired":[{"reason":"exit","count":1}]},{"script":"openclaw-state-lease-heartbeat.worker.js","started":1,"retired":[]},{"script":"worker-native-lifecycle.worker.js","started":1,"retired":[]},{"script":"openclaw-state-read.worker.js","started":2,"retired":[]},{"script":"session-transcript.worker.js","started":2,"retired":[]}],"compute":{"limit":7,"active":0,"waitingPools":0,"pendingTasks":0,"pendingBytes":0}}
+2026-10-20T20:02:17.204-04:00 [gateway] starting channels and sidecars...
+2026-10-20T20:02:21.200-04:00 [gateway] startup outcomes: internal-hooks=skipped (not-configured); internal-startup-hook=skipped (no-handlers-loaded); gateway-start-hooks=skipped (no-handlers-loaded); gmail-watcher=skipped (hooks-disabled); gmail-model=skipped (not-configured)
+2026-10-20T20:02:21.207-04:00 [gateway] ready
+2026-10-20T20:02:21.230-04:00 [gateway] startup phase: ready 14.7ms total=34543.2ms
+2026-10-20T20:02:21.285-04:00 [heartbeat] started
+2026-10-20T20:02:22.775-04:00 [state/database-verify] database integrity verification passed
+2026-10-20T20:02:30.475-04:00 [state/database-verify] database integrity verification passed
+2026-10-20T20:02:35.802-04:00 [ws] ⇄ res ✓ agent 7758ms runId=<id-20f0e38204> bytes=253 conn=<connection-id> id=2:657a1cfe-2…9d38
+2026-10-20T20:02:35.950-04:00 [session-sqlite] slow SQLite reclamation Worker operation pid=<process-id> threadId=0 isMainThread=true reclamationKind=maintenance-plan workerThreadId=15 elapsedMs=7101 outcome=resolved
+2026-10-20T20:02:39.119-04:00 [ws] ⇄ res ✓ sessions.list 117ms bytes=5300 conn=<connection-id> id=2:a9d9d469-a…c4ce
+2026-10-20T20:03:06.145-04:00 [provider-transport-fetch] [model-fetch] response provider=canonical api=openai-completions model=qwen3:0.6b status=200 elapsedMs=23552 dispatcher=new contentType=text/event-stream
+2026-10-20T20:03:08.295-04:00 COPPER-FINCH.
+2026-10-20T20:03:08.299-04:00 [agents/agent-command] [agent] run <id-20f0e38204> ended with stopReason=stop
+2026-10-20T20:03:29.051-04:00 [ws] ⇄ res ✓ chat.history 160ms bytes=4274 conn=<connection-id> id=2:c1c2cbcd-3…aedb
+2026-10-20T20:04:06.505-04:00 [admission] closed: stop (SIGTERM)
+2026-10-20T20:04:06.508-04:00 [gateway] received SIGTERM; shutting down
+2026-10-20T20:04:06.571-04:00 [gateway] shutdown budget at shutdown: drain=314933ms shutdown=324933ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-gateway.service TimeoutStopUSec=330000ms
+2026-10-20T20:04:06.628-04:00 [gateway] active-work drain settled; beginning server close
+[state/agent-db] agent database clean-close receipt: active-leases
+2026-10-20T20:04:06.673-04:00 [gmail-watcher] gmail watcher stopped
+2026-10-20T20:04:06.778-04:00 [state/agent-db] agent database clean-close receipt: written
+2026-10-20T20:04:06.875-04:00 [shutdown] completed cleanly in 234ms

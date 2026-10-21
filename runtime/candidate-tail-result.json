@@ -1,0 +1,77 @@
+{
+  "status": "failed",
+  "candidateSha": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "error": "authored-root-turn exited 1; inspect candidate-tail-authored-root-turn.log",
+  "cleanupError": null,
+  "observations": [
+    {
+      "operation": "doctor",
+      "generatedCredentialsRemoved": true,
+      "legacyOnlyCredentialRecovered": true,
+      "authoredRootUnchanged": true
+    },
+    {
+      "operation": "resume-after-doctor",
+      "previousResult": "candidate-result.json",
+      "reason": "Replaced obsolete readiness log assertion with actual health RPC; preserved post-Doctor state, no reseed or repeated migration."
+    },
+    {
+      "operation": "canonical-turn",
+      "provider": "canonical",
+      "allowed": true,
+      "physicalRequests": 1,
+      "receiverSequences": [
+        "cpu-2"
+      ],
+      "runId": "<id-117c571d93>",
+      "response": "COPPER-FINCH.",
+      "requestShaping": {
+        "authMode": "auth-profile",
+        "thinking": "off"
+      }
+    },
+    {
+      "operation": "model-selection",
+      "provider": "recovered",
+      "accepted": true
+    },
+    {
+      "operation": "recovered-turn",
+      "provider": "recovered",
+      "allowed": true,
+      "physicalRequests": 1,
+      "receiverSequences": [
+        "cpu-3"
+      ],
+      "runId": "<id-ed278c6cf4>",
+      "response": "COPPER-FINCH.",
+      "requestShaping": {
+        "authMode": "auth-profile",
+        "thinking": "off"
+      }
+    },
+    {
+      "operation": "model-selection",
+      "provider": "manual",
+      "accepted": true
+    }
+  ],
+  "receipts": [
+    "candidate-doctor.receipt.json",
+    "candidate-gateway.process.json",
+    "candidate-continued-gateway-health.receipt.json",
+    "candidate-continued-retained-history.receipt.json",
+    "candidate-continued-canonical-turn.receipt.json",
+    "candidate-continued-select-recovered.receipt.json",
+    "candidate-continued-recovered-turn.receipt.json",
+    "candidate-continued-continued-history.receipt.json",
+    "candidate-continued-gateway.process.json",
+    "candidate-continued-logout-canonical.receipt.json",
+    "candidate-tail-logout-canonical.receipt.json",
+    "candidate-tail-logout-manual.receipt.json",
+    "candidate-tail-gateway-restart-health.receipt.json",
+    "candidate-tail-select-manual.receipt.json",
+    "candidate-tail-authored-root-turn.receipt.json",
+    "candidate-tail-gateway-restart.process.json"
+  ]
+}

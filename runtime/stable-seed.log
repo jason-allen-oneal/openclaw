@@ -1,0 +1,17 @@
+[state/agent-db] agent database clean-close receipt: active-leases
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Model canonical
+    at request (file://<proof-root>/runtime-proof.mjs:54:82)
+    at file://<proof-root>/runtime-proof.mjs:74:24 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

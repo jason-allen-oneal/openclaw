@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "src/commands/doctor-model-catalog-credentials.test.ts",
+    "src/agents/plugin-model-catalog.test.ts",
+    "--maxWorkers=1",
+    "--testNamePattern",
+    "authored (root|include) source changes|retained sidecar can finish migration"
+  ],
+  "head": "e6b866d3adb8d19ca878d493e4a0d21f1e9c3974",
+  "source": "pre-P1/P2 production with new regressions",
+  "exitCode": 1,
+  "seconds": 30.27,
+  "completedAt": "2026-10-21T00:01:23.032570+00:00"
+}

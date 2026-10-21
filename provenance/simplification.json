@@ -1,0 +1,33 @@
+{
+  "scope": "Smallest complete remaining stage: generated credential storage and explicit verified retirement. Request-time auth and logout shipped separately and are not reimplemented.",
+  "removedFromPriorProposal": [
+    "Runtime authored-models.json authentication cutover",
+    "New jsonc-parser dependency",
+    "New runtime profile-selection policy"
+  ],
+  "owners": [
+    "Existing catalog publication kernel and explicit sidecar migration",
+    "Existing auth profile lock/update owner",
+    "Existing config snapshot and include guards",
+    "Existing catalog transactional compare-and-set repair"
+  ],
+  "necessaryGrowth": "Doctor needs source rereads and provider/model accounting before removing retained copies. The source/confirmation race and pending recovery-byte mismatch were independently reproduced red, then fixed. Tests cover distinct publication, recovery, scope, authority and logout boundaries; no new schema, manager, runtime cache, or public option was added.",
+  "deltaAgainstBase": {
+    "production": {
+      "added": 395,
+      "removed": 67,
+      "files": 7
+    },
+    "tests": {
+      "added": 545,
+      "removed": 66,
+      "files": 9
+    },
+    "docs": {
+      "added": 14,
+      "removed": 0,
+      "files": 2
+    }
+  },
+  "unexecutedScope": "Mixed PostgreSQL conformance runtime was not available locally; the affected test fixture now uses a valid generated catalog envelope."
+}

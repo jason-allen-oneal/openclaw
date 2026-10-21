@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "scripts/run-tsgo-core-test-shards.mjs",
+    "--ci-graphs-json",
+    "[\"core-test-commands-doctor\"]",
+    "--concurrency",
+    "1"
+  ],
+  "head": "ae73bd7e38f7f62ab85dddedcaab5c9c7ed5f421",
+  "workingDiffSha256": "77c601d0ee0cd16279655d59c642d73b58ce42e02407e2be2eb10d5af93aad02",
+  "exitCode": 0,
+  "seconds": 35.44,
+  "completedAt": "2026-10-21T00:34:10.508646+00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "node",
+    "<candidate-checkout>/openclaw.mjs",
+    "--profile",
+    "catalog-upgrade-proof",
+    "health",
+    "--json"
+  ],
+  "environment": {
+    "PATH": "<host-executable-search-path>",
+    "HOME": "<proof-root>/home",
+    "OPENCLAW_HOME": "<proof-root>/home",
+    "OPENCLAW_STATE_DIR": "<proof-root>/state",
+    "OPENCLAW_CONFIG_PATH": "<proof-root>/state/openclaw.json",
+    "OPENCLAW_AGENT_DIR": "<proof-root>/state/agents/main/agent",
+    "NO_COLOR": "1",
+    "OPENCLAW_NO_RESPAWN": "1",
+    "OPENCLAW_SKIP_UPDATE_CHECK": "1"
+  },
+  "candidateSha": "4382a3109df1849e0fb0a6350c5f279d080756f8",
+  "startedAtUnix": 1792543664.3534691,
+  "endedAtUnix": 1792543669.5643525,
+  "exitCode": 0,
+  "log": "candidate-final-continued-gateway-health.log"
+}

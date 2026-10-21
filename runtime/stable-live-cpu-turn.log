@@ -1,0 +1,202 @@
+{
+  "runId": "<id-20f0e38204>",
+  "status": "ok",
+  "summary": "completed",
+  "result": {
+    "payloads": [
+      {
+        "text": "COPPER-FINCH.",
+        "mediaUrl": null
+      }
+    ],
+    "meta": {
+      "durationMs": 28026,
+      "agentMeta": {
+        "sessionId": "catalog-upgrade-real-cpu",
+        "sessionFile": "agent:main:explicit:catalog-upgrade-real-cpu",
+        "provider": "canonical",
+        "model": "qwen3:0.6b",
+        "contextTokens": 32768,
+        "contextTokensSource": "resolved",
+        "agentHarnessId": "openclaw",
+        "credentialSource": {
+          "kind": "profile"
+        },
+        "usage": {
+          "input": 1589,
+          "output": 8,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 1597,
+          "cost": {
+            "total": 0
+          }
+        },
+        "lastCallUsage": {
+          "input": 1589,
+          "output": 8,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": {
+            "total": 0
+          },
+          "contextUsage": {
+            "state": "available",
+            "promptTokens": 1589,
+            "totalTokens": 1597
+          },
+          "total": 1597
+        },
+        "promptTokens": 1589,
+        "contextBudgetStatus": {
+          "schemaVersion": 1,
+          "source": "pre-prompt-estimate",
+          "updatedAt": 1792540961369,
+          "provider": "canonical",
+          "model": "qwen3:0.6b",
+          "route": "fits",
+          "shouldCompact": false,
+          "estimatedPromptTokens": 3063,
+          "contextTokenBudget": 32768,
+          "promptBudgetBeforeReserve": 24576,
+          "reserveTokens": 8192,
+          "effectiveReserveTokens": 8192,
+          "remainingPromptBudgetTokens": 21513,
+          "overflowTokens": 0,
+          "toolResultReducibleChars": 0,
+          "messageCount": 0,
+          "unwindowedMessageCount": 0,
+          "sessionId": "catalog-upgrade-real-cpu"
+        },
+        "codeModeEngaged": false,
+        "assistantTurns": 1,
+        "bridgeCalls": {
+          "search": 0,
+          "describe": 0,
+          "call": 0
+        },
+        "costUsd": 0,
+        "terminalReceipt": {
+          "runId": "<id-20f0e38204>",
+          "sessionId": "catalog-upgrade-real-cpu",
+          "turnId": "<id-20f0e38204>",
+          "requested": {
+            "provider": "canonical",
+            "model": "qwen3:0.6b"
+          },
+          "effective": {
+            "provider": "canonical",
+            "model": "qwen3:0.6b",
+            "responseModel": "qwen3:0.6b"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        }
+      },
+      "aborted": false,
+      "systemPromptReport": {
+        "source": "run",
+        "generatedAt": 1792540960797,
+        "sessionId": "catalog-upgrade-real-cpu",
+        "sessionKey": "agent:main:explicit:catalog-upgrade-real-cpu",
+        "provider": "canonical",
+        "model": "qwen3:0.6b",
+        "workspaceDir": "<proof-root>/state/workspace",
+        "bootstrapMaxChars": 20000,
+        "bootstrapTotalMaxChars": 60000,
+        "bootstrapTruncation": {
+          "warningMode": "always",
+          "warningShown": false,
+          "truncatedFiles": 0,
+          "nearLimitFiles": 0,
+          "totalNearLimit": false
+        },
+        "sandbox": {
+          "mode": "off",
+          "sandboxed": false
+        },
+        "systemPrompt": {
+          "chars": 6933,
+          "hash": "6feb8f0a59e251559afe9d6767715d9c03d5e8b5e6f08cdbc729c6806ccfae52",
+          "projectContextChars": 0,
+          "nonProjectContextChars": 6933
+        },
+        "injectedWorkspaceFiles": [],
+        "skills": {
+          "promptChars": 0,
+          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "entries": []
+        },
+        "tools": {
+          "listChars": 0,
+          "schemaChars": 1474,
+          "entries": [
+            {
+              "name": "tool_search",
+              "summaryChars": 502,
+              "summaryHash": "acdcab138b356606711452241e668c366bdb15428e39a28a94d7be27d7968626",
+              "schemaChars": 1139,
+              "schemaHash": "0a78304973631f66103ff3f0c767433fdc00fb89d629bd5b12d1ada29940d382",
+              "propertiesCount": 3
+            },
+            {
+              "name": "tool_describe",
+              "summaryChars": 92,
+              "summaryHash": "fc74d14dc28e4026dba1a8904339a6bef1ce8118588e0bff809c37be73ce7a02",
+              "schemaChars": 125,
+              "schemaHash": "8b60055097c87990f29b27c1f82ecea48435ffb1163c486121a2189f118aa0a4",
+              "propertiesCount": 1
+            },
+            {
+              "name": "tool_call",
+              "summaryChars": 61,
+              "summaryHash": "0dc569a573cbc94928d868c94a178930879ac898b541cd9009338699a3e7d1fd",
+              "schemaChars": 210,
+              "schemaHash": "f48bfb0705c11b32ccbdfd456b791ce458604b1f51b1e31f61bc2d7b25ae07b9",
+              "propertiesCount": 2
+            }
+          ]
+        },
+        "currentTurn": {
+          "promptChars": 91,
+          "runtimeContextChars": 0,
+          "modelOnlyPromptChars": 0
+        }
+      },
+      "finalPromptText": "Remember the proof word COPPER-FINCH. Reply with exactly COPPER-FINCH and do not use tools.",
+      "finalAssistantVisibleText": "COPPER-FINCH.",
+      "finalAssistantRawText": "COPPER-FINCH.",
+      "replayInvalid": false,
+      "livenessState": "working",
+      "stopReason": "stop",
+      "executionTrace": {
+        "winnerProvider": "canonical",
+        "winnerModel": "qwen3:0.6b",
+        "attempts": [
+          {
+            "provider": "canonical",
+            "model": "qwen3:0.6b",
+            "result": "success",
+            "stage": "assistant"
+          }
+        ],
+        "fallbackUsed": false,
+        "runner": "embedded"
+      },
+      "requestShaping": {
+        "authMode": "auth-profile",
+        "thinking": "off"
+      },
+      "completion": {
+        "stopReason": "stop",
+        "finishReason": "stop"
+      },
+      "terminalReply": {
+        "disposition": "visible",
+        "text": "COPPER-FINCH."
+      }
+    },
+    "sourceReplyDeliveryState": "missing"
+  }
+}

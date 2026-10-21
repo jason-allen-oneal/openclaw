@@ -1,0 +1,66 @@
+[test] starting test/vitest/vitest.commands.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+[vitest-workers] local cache hit after 9284ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 8eada9966507 in 9502ms (16778 inputs, 21762 outputs)
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > retires already-canonical generated credentials without changing authored root bytes
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > does not recover a generated credential removed while confirmation is pending
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > does not recover an authored credential removed while confirmation is pending
+ × |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves generated headers when their authored root source changes during confirmation 1128ms
+   → expected '{"generatedBy":"openclaw-plugin-model…' to be '{"generatedBy":"openclaw-plugin-model…' // Object.is equality
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.pluginStateObservationCache
+[sqlite-test-lifecycle] src/commands/doctor-model-catalog-credentials.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+
+ × |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves generated headers when their authored include source changes during confirmation 211ms
+   → expected '{"generatedBy":"openclaw-plugin-model…' to be '{"generatedBy":"openclaw-plugin-model…' // Object.is equality
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > migrates generated-only configured agents without scanning unconfigured agent data
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > cleans only accounted provider/model headers and leaves unmatched credentials recoverable
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > copies and verifies keys before cleaning generated catalogs while preserving authored sources
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves custom provider env references and removes profiles containing their markers
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves a main credential replaced while the repair prompt is pending
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves a helper credential replaced while the repair prompt is pending
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > does not copy a stale generated credential over an explicit provider SecretRef
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > refuses to overwrite an unreadable canonical auth store
+ ↓ |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > allocates a global config profile that child stores cannot shadow
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves generated headers when their authored root source changes during confirmation
+ FAIL  |commands| src/commands/doctor-model-catalog-credentials.test.ts > doctor model catalog credential migration > preserves generated headers when their authored include source changes during confirmation
+AssertionError: expected '{"generatedBy":"openclaw-plugin-model…' to be '{"generatedBy":"openclaw-plugin-model…' // Object.is equality
+
+Expected: "{"generatedBy":"openclaw-plugin-model-catalog-v1","providers":{"custom":{"api":"openai-completions","apiKey":"","baseUrl":"https://models.example/v1","models":[{"id":"example-model","name":"Example model","reasoning":false,"input":["text"],"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0},"contextWindow":128000,"maxTokens":16384}],"headers":{"X-Owned":"synthetic-header"}}}}"
+Received: "{"generatedBy":"openclaw-plugin-model-catalog-v1","providers":{"custom":{"api":"openai-completions","baseUrl":"https://models.example/v1","models":[{"id":"example-model","name":"Example model","reasoning":false,"input":["text"],"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0},"contextWindow":128000,"maxTokens":16384}]}}}"
+
+ ❯ src/commands/doctor-model-catalog-credentials.test.ts:271:85
+    269|
+    270|       expect(confirmAutoFix).toHaveBeenCalledOnce();
+    271|       expect(loadPersistedPluginModelCatalogsReadOnly(state.agentDir)[…
+       |                                                                                     ^
+    272|       expect(result.warnings).toEqual(expect.arrayContaining([expect.s…
+    273|       expect(loadPersistedSharedAuthProfileStore(state.env)?.profiles …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 12 skipped (14)
+   Start at  20:03:15
+   Duration  23.50s (transform 76%, import 14%, tests 6%, worker 2%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 30.18s
+[test] FAILED (exit 1)

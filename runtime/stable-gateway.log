@@ -1,0 +1,21 @@
+[gateway] startup phase: entry.run-main-import starting total=1397.0ms
+[gateway] startup phase: entry.run-main-import 116.0ms total=1513.0ms start=1397.0ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=2162.7ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 776.5ms total=2939.2ms start=2162.7ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=3049.9ms
+[gateway] startup phase: cli.main.gateway-run-imports 18.5ms total=3068.4ms start=3049.9ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=3093.4ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 17.6ms total=3111.1ms start=3093.4ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=3111.3ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=3247.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 3303.4ms total=6551.3ms start=3247.9ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=1
+OpenClaw config is invalid
+File: <proof-root>/state/openclaw.json
+Problem:
+  - openclaw.json:17 — agents.defaults: Unrecognized key: "memorySearch"
+Legacy config keys detected:
+  - agents.defaults.memorySearch: agents.defaults.memorySearch moved to memory.search. Run "openclaw doctor --fix".
+
+Inspect: openclaw config validate
+Audit, status, health, logs, and doctor commands still run with invalid config.
+Run "openclaw doctor --fix" to repair the config, then retry.
