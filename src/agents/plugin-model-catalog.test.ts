@@ -230,6 +230,39 @@ describe("SQLite-backed plugin model catalogs", () => {
     },
   );
 
+  it.each(["replace", "delete-missing"])(
+    "removes revoked credentials from a mixed retained row during %s",
+    async (operation) => {
+      const removedKey = "synthetic-removed-mixed-key";
+      const legacy = JSON.parse(catalogContents("zai", removedKey));
+      legacy.providers.zai.headers = { "X-Recovery": "synthetic-retained-header" };
+      seedLegacyCatalogs(agentDir, { zai: JSON.stringify(legacy) });
+      const expected = structuredClone(legacy);
+      delete expected.providers.zai.apiKey;
+
+      const publication = await replacePersistedPluginModelCatalogs({
+        agentDir,
+        pluginCatalogWrites:
+          operation === "replace"
+            ? { [encodePluginModelCatalogRelativePath("zai")]: catalogContents("zai") }
+            : {},
+        // Discovery observed this key before its canonical profile was removed.
+        authSnapshot: [
+          {
+            databasePath: resolveAuthProfileDatabasePath(agentDir),
+            kind: "agent",
+            credentials: { "zai:default": [removedKey] },
+          },
+        ],
+      });
+
+      expect(publication.changed).toBe(true);
+      expect(publication.catalogs).toHaveLength(1);
+      expect(JSON.parse(publication.catalogs[0]!.contents)).toEqual(expected);
+      expect(loadPersistedPluginModelCatalogsReadOnly(agentDir)).toEqual(publication.catalogs);
+    },
+  );
+
   it("reads only named catalog rows without running migration or repair", async () => {
     const zai = catalogContents("zai");
     const anthropic = catalogContents("anthropic");

@@ -72,7 +72,7 @@ export function replacePluginModelCatalogEntriesInDatabase(params: {
       .where("scope", "=", PLUGIN_MODEL_CATALOG_CACHE_SCOPE),
   ).rows;
   const existingByPluginId = new Map(existing.map((row) => [row.key, row.value_json]));
-  const retainedPluginIds = new Set<string>();
+  const retainedByPluginId = new Map<string, string>();
   if (!params.migrationPayloads) {
     for (const [pluginId, contents] of existingByPluginId) {
       if (contents === null || (params.deleteMissing === false && !params.planned.has(pluginId))) {
@@ -83,8 +83,9 @@ export function replacePluginModelCatalogEntriesInDatabase(params: {
         : contents;
       if (retained !== null && stripPluginModelCatalogCredentials(retained) !== retained) {
         // Doctor must preserve canonical auth before this row can be retired.
-        // Retain it byte-for-byte without blocking unrelated catalog refreshes.
-        retainedPluginIds.add(pluginId);
+        // Preserve unrelated recovery fields, but never retain an explicitly
+        // revoked credential just because another field still needs recovery.
+        retainedByPluginId.set(pluginId, retained);
       }
     }
   }
@@ -142,8 +143,15 @@ export function replacePluginModelCatalogEntriesInDatabase(params: {
     }
   };
   let changed = false;
+  for (const [pluginId, contents] of retainedByPluginId) {
+    if (existingByPluginId.get(pluginId) !== contents) {
+      queueCacheEntry(PLUGIN_MODEL_CATALOG_CACHE_SCOPE, pluginId, contents);
+      existingByPluginId.set(pluginId, contents);
+      changed = true;
+    }
+  }
   for (const [pluginId, plannedContents] of params.planned) {
-    if (retainedPluginIds.has(pluginId)) {
+    if (retainedByPluginId.has(pluginId)) {
       continue;
     }
     // Explicit sidecar migration keeps recovery bytes until its claim is
@@ -171,7 +179,7 @@ export function replacePluginModelCatalogEntriesInDatabase(params: {
   upsertCacheEntry();
   if (params.deleteMissing !== false) {
     const removed = [...existingByPluginId.keys()].filter(
-      (pluginId) => !params.planned.has(pluginId) && !retainedPluginIds.has(pluginId),
+      (pluginId) => !params.planned.has(pluginId) && !retainedByPluginId.has(pluginId),
     );
     for (const pluginIds of chunkItems(removed, CATALOG_WRITE_BATCH_SIZE)) {
       executeSqliteQuerySync(

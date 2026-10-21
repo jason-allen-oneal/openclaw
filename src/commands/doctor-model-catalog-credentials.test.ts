@@ -27,6 +27,7 @@ import {
   migrateLegacyPluginModelCatalogs,
   PLUGIN_MODEL_CATALOG_GENERATED_BY,
 } from "../agents/plugin-model-catalog.js";
+import { createConfigIO } from "../config/io.factory.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import {
   captureSqliteDatabaseAdmissions,
@@ -276,6 +277,47 @@ describe("doctor model catalog credential migration", () => {
         expect.arrayContaining([expect.stringContaining("config changed")]),
       );
       expect(loadPersistedSharedAuthProfileStore(state.env)?.profiles ?? {}).toEqual({});
+    },
+  );
+
+  it.each(["key", "header"])(
+    "rejects stale included %s authority captured before credential repair",
+    async (authority) => {
+      const state = createState();
+      const configPath = path.join(state.stateDir, "openclaw.json");
+      const includePath = path.join(state.stateDir, "providers.json");
+      state.env.OPENCLAW_CONFIG_PATH = configPath;
+      const entry = {
+        ...provider(authority === "key" ? "synthetic-removed-config-key" : ""),
+        ...(authority === "header" ? { headers: { "X-Owned": "synthetic-removed-header" } } : {}),
+      };
+      fs.writeFileSync(includePath, JSON.stringify({ providers: { custom: entry } }));
+      fs.writeFileSync(configPath, JSON.stringify({ models: { $include: "providers.json" } }));
+      const io = createConfigIO({ env: state.env, configPath, pluginValidation: "skip" });
+      const confirmed = await io.readConfigFileSnapshotForWrite();
+      expect(confirmed.snapshot.hash).toEqual(expect.any(String));
+      expect(confirmed.snapshot.config.models?.providers?.custom).toMatchObject(entry);
+      const contents = JSON.stringify({
+        generatedBy: PLUGIN_MODEL_CATALOG_GENERATED_BY,
+        providers: authority === "header" ? { custom: entry } : {},
+      });
+      importLegacyCatalog(state, contents);
+      // Doctor captured cfg and its composite revision before this function was reached.
+      // Replacing only an include must invalidate that receipt despite unchanged root bytes.
+      fs.writeFileSync(includePath, "{}\n");
+      const changed = await io.readConfigFileSnapshotForWrite();
+      expect(changed.snapshot.raw).toBe(confirmed.snapshot.raw);
+      expect(changed.snapshot.hash).not.toBe(confirmed.snapshot.hash);
+
+      const result = await maybeMigrateModelCatalogCredentials({
+        ...migrationParams(state, confirmed.snapshot.config),
+        configSource: { path: configPath, hash: confirmed.snapshot.hash ?? null },
+      });
+
+      expect(loadPersistedSharedAuthProfileStore(state.env)?.profiles ?? {}).toEqual({});
+      expect(loadPersistedPluginModelCatalogsReadOnly(state.agentDir)[0]!.contents).toBe(contents);
+      expect(result).toMatchObject({ migrated: 0, removed: 0 });
+      expect(result.warnings).toEqual([expect.stringContaining("config changed")]);
     },
   );
 
