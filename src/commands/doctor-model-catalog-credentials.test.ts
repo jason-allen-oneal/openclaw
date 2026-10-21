@@ -342,7 +342,7 @@ describe("doctor model catalog credential migration", () => {
               "X-Expected-Name": "wrong-name-value",
               "X-Clean": "matched-header",
             },
-            models: [{ ...provider("").models[0], headers: { "X-Model": "model-header" } }],
+            models: [{ ...provider("").models[0]!, headers: { "X-Model": "model-header" } }],
           },
         },
       },
