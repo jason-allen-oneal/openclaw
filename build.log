@@ -1,0 +1,128 @@
+[build-all] plugins:assets:build
+[canvas] build: node --import ../../scripts/tsx.mjs ../../scripts/bundle-a2ui.mts
+A2UI bundle up to date; shared artifacts reused.
+[clawrouter] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/clawrouter
+[mcp-relay] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/mcp-relay
+[memory-core] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/memory-core
+[nostr] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/nostr
+[whatsapp] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/whatsapp
+[workboard] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard
+[x] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x
+[build-all] plugins:assets:build done in 55.6s
+[build-all] tsdown
+[tsdown-cache] tsdown-runtime-ai: reused
+[tsdown-build] invocation 1/2 finished in 5.9s
+[tsdown-cache] tsdown-runtime-agent-core: reused
+[tsdown-cache] tsdown-runtime-gateway-protocol: reused
+[tsdown-cache] tsdown-runtime-gateway-client: reused
+[tsdown-cache] tsdown-runtime-net-policy: reused
+[tsdown-cache] tsdown-runtime-media-generation-core: reused
+[tsdown-cache] tsdown-runtime-media-understanding-common: reused
+[tsdown-cache] tsdown-runtime-markdown-core: reused
+[tsdown-cache] tsdown-runtime-normalization-core: reused
+[tsdown-cache] tsdown-runtime-retry: reused
+[tsdown-cache] tsdown-runtime-worker-runtime: reused
+[tsdown-cache] tsdown-runtime-sdk: reused
+[tsdown-cache] tsdown-runtime-media-core: reused
+[tsdown-cache] tsdown-runtime-acp-core: reused
+[tsdown-cache] tsdown-runtime-terminal-core: reused
+[tsdown-cache] tsdown-runtime-llm-core: reused
+[tsdown-cache] tsdown-runtime-model-catalog-core: reused
+[tsdown-build] still running pid=90621; no output for 51s
+[tsdown-build] still running pid=90621; no output for 30s
+[tsdown-build] still running pid=90621; no output for 30s
+[tsdown-build] still running pid=90621; no output for 30s
+[tsdown-build] still running pid=90621; no output for 30s
+node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js (68248:28) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+       ╭─[ node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js:68248:29 ]
+       │
+ 68248 │               const value = eval(`(${expr})`);
+       │                             ──┬─  
+       │                               ╰─── Use of direct `eval` here.
+       │ 
+       │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+───────╯
+
+node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js (68255:28) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+       ╭─[ node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js:68255:29 ]
+       │
+ 68255 │               const value = eval(`(${expr})`);
+       │                             ──┬─  
+       │                               ╰─── Use of direct `eval` here.
+       │ 
+       │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+───────╯
+
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2400:30) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2400:31 ]
+      │
+ 2400 │           ASM_CONSTS[start] = eval(func);
+      │                               ──┬─  
+      │                                 ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2423:32) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2423:33 ]
+      │
+ 2423 │           moduleExports[name] = eval(func);
+      │                                 ──┬─  
+      │                                   ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+[tsdown-build] still running pid=90621; no output for 42s
+[tsdown-build] still running pid=90621; no output for 30s
+[tsdown-build] still running pid=90621; no output for 30s
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2400:30) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2400:31 ]
+      │
+ 2400 │           ASM_CONSTS[start] = eval(func);
+      │                               ──┬─  
+      │                                 ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js (2423:32) [EVAL] Use of direct `eval` function is strongly discouraged as it poses security risks and may cause issues with minification.
+      ╭─[ node_modules/.pnpm/web-tree-sitter@0.27.1/node_modules/web-tree-sitter/web-tree-sitter.js:2423:33 ]
+      │
+ 2423 │           moduleExports[name] = eval(func);
+      │                                 ──┬─  
+      │                                   ╰─── Use of direct `eval` here.
+      │ 
+      │ Help: Consider using indirect eval. For more information, check the documentation: https://rolldown.rs/guide/troubleshooting#avoiding-direct-eval
+──────╯
+
+[tsdown-build] still running pid=90621; no output for 59s
+[tsdown-build] still running pid=90621; no output for 30s
+[tsdown-build] invocation 2/2 finished in 409.4s
+[build-all] tsdown done in 7m 59.9s
+[build-all] external-plugins:local-dist
+[external-plugin-local-dist] built 99 plugins in 13445ms
+[build-all] external-plugins:local-dist done in 16.4s
+[build-all] check-cli-bootstrap-imports
+CLI bootstrap import guard passed.
+[build-all] check-cli-bootstrap-imports done in 1m 5.6s
+[build-all] plugins:assets:copy
+[browser] copy: node scripts/copy-chrome-extension.mjs
+[canvas] copy: node scripts/copy-a2ui.mjs
+[clawrouter] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/clawrouter --copy
+[mcp-relay] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/mcp-relay --copy
+[memory-core] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/memory-core --copy
+[nostr] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/nostr --copy
+[whatsapp] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/whatsapp --copy
+[workboard] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard --copy
+[x] copy: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x --copy
+[build-all] plugins:assets:copy done in 39.9s
+[build-all] runtime-postbuild
+[plugin-control-plane-loads] verified 55 built modules with native require and checked doctor closures
+runtime-postbuild: 14 phases completed in 16531ms (slowest: built plugin control-plane loads 9534ms)
+[build-all] runtime-postbuild done in 19.9s
+[build-all] build-stamp
+[build-all] build-stamp done in 212ms
+[build-all] runtime-postbuild-stamp
+[build-all] runtime-postbuild-stamp done in 176ms
+[build-all] phase timings: total 11m 23.2s; slowest tsdown 7m 59.9s; check-cli-bootstrap-imports 1m 5.6s; plugins:assets:build 55.6s; plugins:assets:copy 39.9s; runtime-postbuild 19.9s; external-plugins:local-dist 16.4s; build-stamp 212ms; runtime-postbuild-stamp 176ms

@@ -1,0 +1,45 @@
+{
+  "sourceHead": "2975dedca83e94d3530fdb339077bfe040d1b560",
+  "steps": [
+    {
+      "label": "seed",
+      "command": [
+        "node",
+        "<PROOF_ROOT>/built-interruption.mjs",
+        "seed"
+      ],
+      "buildSource": "a8ead196291935d24c44a4f40b67397d88c70256",
+      "startedAt": "2026-10-22T23:50:04.234131+00:00",
+      "finishedAt": "2026-10-22T23:50:07.286248+00:00",
+      "exitCode": -9
+    },
+    {
+      "label": "recovered",
+      "command": [
+        "node",
+        "<PROOF_ROOT>/built-interruption.mjs"
+      ],
+      "buildSource": "2975dedca83e94d3530fdb339077bfe040d1b560",
+      "startedAt": "2026-10-22T23:50:07.286287+00:00",
+      "finishedAt": "2026-10-22T23:50:13.879633+00:00",
+      "exitCode": 0
+    },
+    {
+      "label": "restart",
+      "command": [
+        "node",
+        "<PROOF_ROOT>/built-interruption.mjs"
+      ],
+      "buildSource": "2975dedca83e94d3530fdb339077bfe040d1b560",
+      "startedAt": "2026-10-22T23:50:13.879660+00:00",
+      "finishedAt": "2026-10-22T23:50:20.388461+00:00",
+      "exitCode": 0
+    }
+  ],
+  "previousBytesAndProvenanceRetained": true,
+  "counts": [
+    6,
+    12
+  ],
+  "passed": true
+}

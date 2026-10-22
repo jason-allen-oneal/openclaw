@@ -1,30 +1,48 @@
 # Session-memory capture evidence — #159826
 
-Candidate source: `2975dedca83e94d3530fdb339077bfe040d1b560`. Baseline: `a8ead196291935d24c44a4f40b67397d88c70256`.
+Candidate: `2975dedca83e94d3530fdb339077bfe040d1b560`. Baseline: `a8ead196291935d24c44a4f40b67397d88c70256`.
 
-## Observed results
+## Observed behavior
 
-| Boundary | Result |
+| Boundary | Observed result |
 | --- | --- |
-| Baseline shipped CLI / Gateway / WebSocket | Six sessions received distinct markers through `chat.inject`; six concurrent `sessions.reset` calls and six success logs retained only five files. Two success logs name the same capture path. |
-| Regression on baseline | Six expected captures, one retained: failure. |
-| Candidate focused checks | Three relevant session-memory suites, 19 tests passed; scoped lint, formatting and core typecheck passed on source bytes verified identical to candidate commit. |
-| Exact-head shipped Gateway and retained-state replay | Pending; no claim of completion. |
+| Baseline shipped CLI / Gateway / WebSocket | Six distinct `chat.inject` markers, six concurrent `sessions.reset` calls and six save-success logs retained only **five** files. Two saves name the same path; `CAPTURE-baseline-2-ONLY` was lost. |
+| Exact-head candidate reopens baseline state | Existing six sessions load; all five surviving baseline artifacts remain byte-identical. Six new concurrent reset captures are retained exactly once with matching hashes/session provenance: **11 files** total. |
+| Exact-head Gateway restart | Six further concurrent captures succeed: **17 files** total. All prior 11 files remain byte-identical, each retained marker occurs once, and all provenance hashes/session identities match. Both Gateway exits are 0. |
+| Interrupted publication and recovery | Baseline-built lock/provenance owners commit provenance without a file, then the process is SIGKILLed. Exact-head built handler reclaims the dead lock, reuses the absent filename and keeps conservative untrusted classification; **6/6 captures** survive. A fresh process adds six more: **12/12**, with earlier hashes and provenance unchanged. |
+| Regression | New real-filesystem/SQLite regression fails on baseline (1 of 6 retained); relevant candidate suites pass **19/19**. |
 
-## Inspectable records
+The fixed Gateway cannot recover the baseline's already-overwritten capture. The successful candidate assertions concern retaining all new captures and preserving the five surviving baseline artifacts.
 
-- [Gateway request/response receipt](gateway-baseline-receipt.json)
-- [Actual baseline Gateway output](gateway-baseline.log)
-- [Regression failure](test-red.log) and [focused passing suite](test-green.log)
-- [Candidate source hashes](candidate-source.json)
+## Shipped entry-point records
+
+- [Baseline request/response and persisted-state receipt](gateway-baseline-receipt.json), [baseline Gateway output](gateway-baseline.log)
+- [Exact-head request/response, before/after and restart receipt](gateway-exact-receipt.json)
+- [Exact command exit](gateway-exact-command.json), [runtime console](gateway-runtime-output.log)
+- [Upgraded Gateway log](gateway-upgraded.log), [restarted Gateway log](gateway-restart.log)
 - [Portable Gateway driver](gateway-runtime.mjs)
+- [Built entrypoint/production-owner hashes](runtime-identity.json), [build command/exit](build-command.json), [build output](build.log)
 
-The runtime invokes `node openclaw.mjs gateway run` and `node openclaw.mjs gateway call` against isolated loopback state. It uses real session/transcript, hook, filesystem and SQLite owners, synthetic conversation markers, no model/provider and no external channel. Recorded missing marker: `CAPTURE-baseline-2-ONLY`. Baseline Gateway stopped with exit 0. This is a data-loss result, not a readiness or compilation failure.
+Execution uses `node openclaw.mjs gateway run` and real loopback-WebSocket `node openclaw.mjs gateway call` requests. The driver runs with `PROOF_BUILD_ROOT`, `PROOF_SOURCE_ROOT`, `PROOF_ARTIFACT_ROOT`, `PROOF_SOURCE_HEAD`, `PROOF_LABEL`, `PROOF_RESTART=1` and `PROOF_RETAIN_EXISTING=1`; invoke it using `node --import ./scripts/tsx.mjs <driver>` from the candidate checkout. The baseline used the earlier driver before the retained-state options were added; its reset sequence and shipped boundary are unchanged. The source import only claims an isolated test port; hooks, transcript writes, session resets, database and filesystem operations use the built product.
 
-The public records redact machine-specific checkout, home and artifact roots; loopback constants and synthetic IDs are retained. The portable driver copy is supplied for reproduction; the output records are from the actual original execution. A restart and injected interrupted-publication run from earlier source exist locally but are not promoted here as exact committed-head proof.
+## Interrupted-state records
 
-## Implementation and compatibility
+- [Process exits and retained-bytes/provenance comparison](interrupted-receipt.json)
+- [Injected interrupted state](interrupted-state.json)
+- [Recovered artifacts](interrupted-recovered.json), [restarted artifacts](interrupted-restarted.json)
+- [Recovery output](interrupted-recovered.log), [restart output](interrupted-restarted.log)
+- [Portable fault driver](built-interruption.mjs)
 
-The existing file-lock owner serializes allocation, provenance reservation and exclusive create. The sequential filename allocator remains authoritative. No schema, provenance format, configuration, retention policy, or durable filename registry is added. In particular, old provenance rows do not permanently reserve absent paths. This differs from the unresolved durable-reservation policy in closed PR #144146.
+This supplementary fault is explicitly injected through real built lock/provenance owners, followed by direct built-hook execution with synthetic captured excerpts. It is not claimed as an observed live Gateway crash. The primary end-to-end proof above uses shipped Gateway commands.
 
-The one added observable regression checks every captured marker, content hash, session identity and trust classification. Optional slug generation and transcript reads stay outside the critical section. Production delta: +23/-10; regression delta: +69; docs delta: +2/-1. Simplification found no extra machinery to remove; the 23 production lines reuse existing owners rather than introduce a reservation registry.
+## Checks, scope and limits
+
+[Regression RED](test-red.log), [focused GREEN](test-green.log), [exit/timing summary](focused-checks.json), [committed source hashes](candidate-source.json), [artifact checksums](SHA256SUMS).
+
+Focused command: `node scripts/run-vitest.mjs src/hooks/bundled/session-memory/handler-auto-reset.test.ts src/hooks/bundled/session-memory/handler.test.ts src/hooks/bundled/session-memory/handler-admission.test.ts --maxWorkers=1`. Three files / 19 tests; reported Vitest duration 24.91s, wrapper wall 109.73s including compiled workers. Formatting, scoped type-aware lint (`config/tsconfig/oxlint.core.json`) and core typecheck (`tsconfig.core.json`) passed. Source bytes were verified identical before commit; the exact committed head was then built and exercised above. Broad CI remains on the PR.
+
+There is no model/provider or external channel invocation, no embedding publication, and no network-filesystem/multi-Gateway claim. Synthetic conversation text and real session/filesystem/SQLite owners are used throughout. Public copies replace private checkout/home/artifact roots and host names and strip ANSI coloring; executable loopback constants and synthetic IDs remain. Portable driver copies are provided for reproduction, not falsely presented as separately rerun copies.
+
+The implementation reuses the existing file-lock owner around allocation, provenance reservation and exclusive creation. Transcript capture and optional slug generation stay outside that lock. The sequential filename allocator and existing provenance recovery behavior remain authoritative. No schema, provenance format, configuration, retention policy, or durable filename registry is added; old rows do **not** permanently reserve absent files. The retained-state and absent-file-reuse observations verify that no-migration case instead of adopting the unresolved durable reservation proposed in closed #144146.
+
+Simplification: no new manager, schema or reservation registry. Production +23/-10, regression +69, docs +2/-1; every hunk protects the single capture-retention invariant. The added regression independently checks markers, content hashes, session identities and trusted/untrusted classification.

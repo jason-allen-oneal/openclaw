@@ -22,6 +22,7 @@ const config = {
  agents:{defaults:{workspace:workspaceDir,userTimezone:'UTC',skipBootstrap:true}},
  hooks:{internal:{enabled:true,entries:{'session-memory':{enabled:true,llmSlug:false}}}},
  plugins:{enabled:false},discovery:{mdns:{mode:'off'}},cron:{enabled:false},
+ logging:{file:path.join(artifactRoot,'gateway-runtime.jsonl')},
 };
 await fs.writeFile(configPath,JSON.stringify(config,null,2));
 const env = {...process.env,HOME:homeDir,OPENCLAW_STATE_DIR:stateDir,OPENCLAW_CONFIG_PATH:configPath,
@@ -114,10 +115,14 @@ const inspect=async(label)=>{
 const label=process.env.PROOF_LABEL??'baseline';
 const receipt={label,sourceHead:process.env.PROOF_SOURCE_HEAD,buildRoot,entrypoint:'openclaw gateway call sessions.reset (real loopback WebSocket)',sessions,transcript,stages:[]};
 try {
+ const prior=process.env.PROOF_RETAIN_EXISTING==='1'?await inspect('before-upgrade'):undefined;
+ if(prior) receipt.priorState=prior;
  await start(label);
  const writes=await capture(label);
  const shutdown=await stop();
- receipt.stages.push({...await inspect(label),writes,shutdown});
+ const firstStage=await inspect(label);
+ if(prior) firstStage.previousBytesRetained=prior.artifacts.every(a=>firstStage.artifacts.some(b=>b.name===a.name&&b.hash===a.hash));
+ receipt.stages.push({...firstStage,writes,shutdown});
  if (process.env.PROOF_RESTART==='1') {
   const before=receipt.stages[0].artifacts;
   await start(`${label}-restart`);
