@@ -1,0 +1,41 @@
+$ node scripts/test-projects.mts src/config/sessions/session-transcript-reconcile-pool.test.ts --maxWorkers=1 -t 'joins transcript lease settlement before closing an agent \(task-timeout\)'
+[test] starting test/vitest/vitest.runtime-config.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+[vitest-workers] local cache hit after 4816ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared b3d6c7476b8d in 4916ms (16835 inputs, 21901 outputs)
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > closes a queued admission without dispatching it after shutdown
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > reconciles a dirty projection while the parent retains serving Gateway ownership
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through complete before retiring its lifecycle
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through native-exit before retiring its lifecycle
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (complete)
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (native-exit)
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (pool-timeout)
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout) 5326ms
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > revokes scheduled reconciliation before its first disk admission
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 8 skipped (9)
+   Start at  19:52:27
+   Duration  17.14s (transform 54%, tests 32%, import 12%, worker 2%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 21.48s

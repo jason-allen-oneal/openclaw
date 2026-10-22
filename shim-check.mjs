@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import { Worker } from 'node:worker_threads';
+import { setTimeout as sleep } from 'node:timers/promises';
+const root = process.env.OPENCLAW_PROOF_FSYNC_ROOT;
+fs.writeFileSync(`${root}/arm`, '');
+const worker = new Worker(`const fs=require('node:fs'); const {workerData}=require('node:worker_threads'); const fd=fs.openSync(workerData+'/synthetic.jsonl-stage','w'); fs.writeSync(fd,'synthetic retained bytes'); fs.fsyncSync(fd); fs.closeSync(fd);`,{eval:true,workerData:root});
+while (!fs.existsSync(`${root}/native.jsonl`)) await sleep(10);
+let exited=false;
+const termination=worker.terminate().then(code=>{exited=true;console.log(JSON.stringify({event:'worker-exit',code,threadId:worker.threadId}));});
+await sleep(100);
+console.log(JSON.stringify({event:'termination-pending-in-native',exited,threadId:worker.threadId}));
+if(exited) throw new Error('Worker unexpectedly exited during stalled native fsync');
+fs.writeFileSync(`${root}/release`,'');
+await termination;
+console.log(fs.readFileSync(`${root}/native.jsonl`,'utf8'));

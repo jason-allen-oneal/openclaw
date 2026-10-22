@@ -1,0 +1,168 @@
+$ node scripts/test-projects.mts src/config/sessions/session-accessor.sqlite-archive-admission.test.ts src/config/sessions/session-accessor.sqlite-archive-session.test.ts src/config/sessions/session-transcript-reconcile-pool.test.ts --maxWorkers=1
+[test] starting test/vitest/vitest.runtime-config.config.ts
+
+ RUN  v5.0.3 <CHECKOUT>
+
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+[vitest-workers] local cache miss after 65806ms
+[vitest] still running with no output for 90000ms.
+[vitest] still running with no output for 120000ms.
+[vitest] still running with no output for 150000ms.
+[vitest] still running with no output for 180000ms.
+[vitest] still running with no output for 210000ms.
+[vitest] still running with no output for 240000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest] still running with no output for 270000ms.
+[vitest] still running with no output for 300000ms.
+[vitest-workers] prepared 7b5f1da614c8 in 310314ms (16835 inputs, 21901 outputs)
+[vitest] still running with no output for 30000ms.
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > closes a queued admission without dispatching it after shutdown 1223ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > reconciles a dirty projection while the parent retains serving Gateway ownership 13495ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through complete before retiring its lifecycle 14978ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through native-exit before retiring its lifecycle 12778ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (complete) 12673ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (native-exit) 8368ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (pool-timeout) 8206ms
+ × |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout) 7803ms
+   → Reconciliation task has no settlement deadline
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > revokes scheduled reconciliation before its first disk admission 2689ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out one-shot archive before releasing its FIFO and staging files 16727ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out scoped archive before releasing its FIFO and staging files 8586ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reads fresh pending archives without waiting for reclamation or writer admission 738ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses one archive worker across deletion generations and joins it at database close 9010ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > publishes archive metadata off the main thread even inside a native deletion scope 7031ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins a failed publisher and recovers its committed archive after result recording fails 7507ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=false) 9600ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=true) 9951ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires queued archive work without waiting on the blocked global FIFO 3094ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive done before database close and refuses later scope work 6511ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive published before database close and refuses later scope work 6124ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued file publication when its agent closes 4220ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued prepare publication when its agent closes 4641ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued record publication when its state closes 3936ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical path owner 3509ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical agent owner 3533ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before file without publishing to its successor 6861ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before record without publishing to its successor 4539ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: false) 329ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: true) 111ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.agentDatabaseLifecycle
+
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > bounds outstanding archive claims until their FIFO slots physically settle 2ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > drops a revoked before-enqueue request while preserving surviving FIFO order 1ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > drops a revoked queued request while preserving surviving FIFO order 0ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > joins admitted work that fulfills even when its request is revoked 1ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > joins admitted work that rejects even when its request is revoked 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout)
+Error: Reconciliation task has no settlement deadline
+ ❯ src/config/sessions/session-transcript-reconcile-pool.test.ts:<redacted len=6>
+    447|         expect(terminate).not.toHaveBeenCalled();
+    448|         if (!expire) {
+    449|           throw new Error("Reconciliation task has no settlement deadl…
+       |                 ^
+    450|         }
+    451|         expire();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 33 passed (34)
+   Start at  19:40:55
+   Duration  573.80s (transform 61%, tests 35%, import 3%, worker 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 594.06s
+[test] FAILED (exit 1)
+[ELIFECYCLE] Test failed. See above for more details.
