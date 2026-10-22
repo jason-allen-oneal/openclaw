@@ -1,0 +1,99 @@
+[vitest-workers] local cache miss after 15728ms
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest-workers] prepared 5f08de193142 in 188443ms (16834 inputs, 21900 outputs)
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.3 /candidate
+
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+[vitest] still running with no output for 90000ms.
+[vitest] still running with no output for 120000ms.
+[vitest] still running with no output for 150000ms.
+[vitest] still running with no output for 180000ms.
+[vitest] still running with no output for 210000ms.
+ × |infra| src/hooks/bundled/session-memory/handler-auto-reset.test.ts > session-memory automatic reset > retains overlapping captures with matching content and provenance 6830ms
+   → expected [ '2026-10-21-2030.md' ] to have a length of 6 but got 1
+ ✓ |infra| src/hooks/bundled/session-memory/handler-auto-reset.test.ts > session-memory automatic reset > creates memory from the ended session on daily reset 1418ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler-auto-reset.test.ts > session-memory automatic reset > creates memory from the ended session on idle reset 422ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |infra| src/hooks/bundled/session-memory/handler-auto-reset.test.ts > session-memory automatic reset > retains overlapping captures with matching content and provenance
+AssertionError: expected [ '2026-10-21-2030.md' ] to have a length of 6 but got 1
+
+- Expected
++ Received
+
+- 6
++ 1
+
+ ❯ src/hooks/bundled/session-memory/handler-auto-reset.test.ts:70:19
+     68|     const memoryDir = path.join(tempDir, "memory");
+     69|     const files = await fs.readdir(memoryDir);
+     70|     expect(files).toHaveLength(sessions.length);
+       |                   ^
+     71|     const artifacts = await Promise.all(
+     72|       files.map(async (filename) => ({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  22:53:41
+   Duration  258.08s (transform 84%, import 12%, tests 3%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 470.85s
+[test] FAILED (exit 1)

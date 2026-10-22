@@ -1,0 +1,87 @@
+[vitest-workers] local cache miss after 16915ms
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest-workers] prepared e16e10814db8 in 78500ms (16834 inputs, 21900 outputs)
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.3 /candidate
+
+ ✓ |infra| src/hooks/bundled/session-memory/handler-auto-reset.test.ts > session-memory automatic reset > retains overlapping captures with matching content and provenance 2599ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler-auto-reset.test.ts > session-memory automatic reset > creates memory from the ended session on daily reset 365ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler-auto-reset.test.ts > session-memory automatic reset > creates memory from the ended session on idle reset 62ms
+stdout | src/hooks/bundled/session-memory/handler-admission.test.ts > session-memory gateway admission > keeps detached manual-reset slug generation admitted after the request returns
+[hooks/session-memory] Session context saved to /tmp/oc-vt-wUs8vG/openclaw-session-memory-admission-jThkpV/memory/2026-10-21-admitted-slug.md
+
+ ✓ |infra| src/hooks/bundled/session-memory/handler-admission.test.ts > session-memory gateway admission > keeps detached manual-reset slug generation admitted after the request returns 2268ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > does not capture Incognito command:new memory (agent:main:dashboard:incognito-new) 13ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > does not capture Incognito session:<redacted len=21>
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > does not capture Incognito command:reset memory (agent:main:private) 2ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > skips commands other than new 3ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > records owner-only transcript provenance before committing the file 1492ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > records non-owner transcript provenance before committing the file 72ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > records tainted assistant response provenance before committing the file 75ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > does not commit session memory when provenance recording fails 58ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > records and warns when transcript loading fails after reset capture 6ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > fills the configured memory window past ineligible tail messages 66ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > does not call the model provider for a filename slug by default 75ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > uses local timezone date and fallback time in memory filenames and headers 583ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > prefers configured user timezone over the host timezone 12ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > keeps same-minute fallback timestamp captures by adding a filename suffix 19ms
+ ✓ |infra| src/hooks/bundled/session-memory/handler.test.ts > session-memory hook > prefers workspaceDir from hook context when sessionKey points at main 80ms
+
+ Test Files  3 passed (3)
+      Tests  19 passed (19)
+   Start at  23:22:50
+   Duration  24.91s (transform 33%, tests 33%, import 30%, setup 5%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 109.73s
