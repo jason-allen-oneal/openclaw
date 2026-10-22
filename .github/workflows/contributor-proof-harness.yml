@@ -38,7 +38,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: bash
         run: |
@@ -64,7 +64,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: bash
         run: |
@@ -106,7 +106,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: bash
         run: |
@@ -292,7 +292,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Run real source-install preference transcript
         shell: bash
         run: |
@@ -427,7 +427,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: pwsh
         run: |
@@ -468,7 +468,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Run native PowerShell source-install traces
         shell: pwsh
         run: |
@@ -614,7 +614,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: bash
         run: |
@@ -654,7 +654,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Exercise configured-root runtime identity against a real gateway
         shell: bash
         run: |
@@ -970,7 +970,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: bash
         run: |
@@ -1009,7 +1009,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Run real multi-candidate preflight
         shell: bash
         run: |
@@ -1300,7 +1300,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: pwsh
         run: |
@@ -1421,7 +1421,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install dependencies without lifecycle scripts
         shell: bash
         run: |
@@ -1505,7 +1505,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Generate exact-head prompt snapshots
         id: snapshots
         shell: bash
@@ -1557,7 +1557,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install exact-head dependencies and pinned Codex runtime
         shell: bash
         run: |
@@ -1931,7 +1931,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 24.19.0
+          node-version: 24.22.1
       - name: Install exact-head dependencies and pinned Codex runtime
         shell: bash
         run: |
