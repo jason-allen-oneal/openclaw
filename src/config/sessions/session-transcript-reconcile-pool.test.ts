@@ -374,7 +374,7 @@ it.each(["complete", "native-exit"] as const)(
   30_000,
 );
 
-it.each(["complete", "native-exit", "pool-timeout"] as const)(
+it.each(["complete", "native-exit", "pool-timeout", "task-timeout"] as const)(
   "joins transcript lease settlement before closing an agent (%s)",
   async (ending) => {
     const { stateDir, env, options } = fixture("agent-close");
@@ -405,6 +405,9 @@ it.each(["complete", "native-exit", "pool-timeout"] as const)(
         }
         return true;
       }, events);
+      if (ending === "task-timeout") {
+        vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+      }
       reconciliation = Promise.allSettled([reconcile(options)]);
       await gate.ready;
       const close = database.db.close.bind(database.db);
@@ -430,6 +433,13 @@ it.each(["complete", "native-exit", "pool-timeout"] as const)(
         expect(terminate).toHaveBeenCalledOnce();
         vi.useRealTimers();
         await poolClosing;
+      }
+      if (ending === "task-timeout") {
+        const terminate = vi.spyOn(gate.worker, "terminate");
+        expect(terminate).not.toHaveBeenCalled();
+        await vi.advanceTimersByTimeAsync(180_000);
+        expect(terminate).toHaveBeenCalledOnce();
+        vi.useRealTimers();
       }
       closing = closeDatabase(database.path);
       if (ending === "native-exit") {

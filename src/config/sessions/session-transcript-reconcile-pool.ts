@@ -319,6 +319,7 @@ async function startReconcileWorkerTask(
             },
             {
               inputBytes,
+              timeoutMs: 180_000,
               transferList: (task) => [
                 task.port,
                 ...(task.coordination?.databaseAdmission
