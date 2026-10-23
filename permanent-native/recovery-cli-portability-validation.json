@@ -1,0 +1,28 @@
+{
+  "completedAt": "2026-10-23T02:44:33.033623+00:00",
+  "runtimeProofHead": "ca6b3dff7d9473f03f49e89b9eca39bdf7bd8a9b",
+  "changedPaths": [
+    "src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts"
+  ],
+  "productionFilesUnchanged": true,
+  "fixtureSha256": "b8b785edc416b3975b5dccaf62f5fd830b2cd6bc5e07db6dc2e26358bce7111e",
+  "independentReview": "Pass: partial mock matches existing synthetic service boundary; shared setup forces Linux while service state is mocked. Actual exports preserved, only isSupported is replaced. Dedicated 48-case owner suite still tests preparation, no late probe and unavailable-capability refusal.",
+  "checks": {
+    "cliTests": {
+      "exitCode": 0,
+      "testsPassed": 5,
+      "receipt": "recovery-cli-portability-tests.receipt.json"
+    },
+    "scopedTypeAwareLint": {
+      "exitCode": 0,
+      "log": "recovery-cli-portability-lint.log"
+    },
+    "format": {
+      "exitCode": 0,
+      "log": "recovery-cli-portability-format.log"
+    },
+    "diffCheck": {
+      "exitCode": 0
+    }
+  }
+}

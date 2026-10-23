@@ -1,0 +1,354 @@
+RECOVERY_REPORT_CALL Error
+    at process.report.getReport (file:///isolated-proof/proof/observe-workers-v6.mjs:55:81)
+    at isMuslFromReport (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:62:39)
+    at isMusl (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:162:24)
+    at target (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:173:47)
+    at getNativeBinding (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:187:30)
+    at Module.isSupported (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/systemd.js:146:24)
+    at file:///isolated-proof/proof/observe-workers-v6.mjs:57:217
+DIAGNOSTIC_PREWARM_SYSTEMD true
+[gateway] startup phase: entry.run-main-import starting total=162.2ms
+[gateway] startup phase: entry.run-main-import 59.3ms total=221.5ms start=162.2ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=756.4ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 442.7ms total=1199.2ms start=756.4ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=1228.7ms
+[gateway] startup phase: cli.main.gateway-run-imports 4.9ms total=1233.6ms start=1228.7ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=1247.3ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 13.4ms total=1260.7ms start=1247.3ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=1260.8ms
+[gateway] startup phase: cli.command.config-ready starting total=1262.8ms
+[gateway] startup phase: cli.command.config-guard-import starting total=1263.0ms
+[gateway] startup phase: cli.command.config-guard-import 26.5ms total=1289.6ms start=1263.0ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=1365.0ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner 4.1ms total=1369.1ms start=1365.0ms
+[gateway] startup phase: cli.bootstrap.admission.core-config starting total=1369.1ms
+[gateway] startup phase: cli.bootstrap.admission.core-config 2.5ms total=1371.7ms start=1369.1ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=1371.8ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=1372.5ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery 0.8ms total=1373.3ms start=1372.5ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=1373.6ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=1373.6ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 55.9ms total=1429.5ms start=1373.6ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=1429.7ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 461.1ms total=1890.8ms start=1429.7ms agentCount=1 schemaProcessCount=0 schemaInspectionCount=0 schemaSnapshotCount=0
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import starting total=1890.9ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion starting total=1891.0ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion 400.9ms total=2291.9ms start=1891.0ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config 918.5ms total=2292.1ms start=1373.6ms registrySnapshotMs=375.48434299999985 manifestRegistryMs=36.889746999999716 ownerMapsMs=10.707556000000068 totalMs=426.2382759999998 indexPluginCount=174 manifestPluginCount=174
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import 512.4ms total=2403.3ms start=1890.9ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets starting total=2403.4ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets 1.9ms total=2405.3ms start=2403.4ms agentCount=1 registeredDatabaseCount=0
+[gateway] startup phase: cli.bootstrap.admission.session-readiness starting total=2405.5ms
+[gateway] startup phase: cli.bootstrap.admission.session-readiness 0.4ms total=2405.8ms start=2405.5ms targetCount=1
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import starting total=2405.9ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import 4.8ms total=2410.7ms start=2405.9ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness starting total=2410.8ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness 2.7ms total=2413.5ms start=2410.8ms agentCount=1
+[gateway] startup phase: cli.bootstrap.admission.config-recovery starting total=2413.8ms
+[gateway] startup phase: cli.bootstrap.admission.config-recovery 0.9ms total=2414.6ms start=2413.8ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot 1042.9ms total=2414.7ms start=1371.8ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard starting total=2414.8ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard 1.2ms total=2416.0ms start=2414.8ms
+[gateway] startup phase: cli.bootstrap.admission.device-identity starting total=2420.5ms
+[gateway] startup phase: cli.bootstrap.admission.device-identity 472.8ms total=2893.2ms start=2420.5ms
+[gateway] startup phase: cli.bootstrap.webhook-readiness starting total=2969.9ms
+[gateway] startup phase: cli.bootstrap.webhook-readiness 189.9ms total=3159.8ms start=2969.9ms
+[gateway] startup phase: cli.bootstrap.plugin-plan-import starting total=3877.6ms
+[gateway] startup phase: cli.bootstrap.plugin-plan-import 6.1ms total=3883.7ms start=3877.6ms
+[gateway] startup phase: cli.bootstrap.plugin-plan starting total=3883.8ms
+[gateway] startup phase: cli.bootstrap.plugin-plan 2.6ms total=3886.4ms start=3883.8ms
+[gateway] startup phase: cli.command.config-ready 2629.9ms total=3892.7ms start=1262.8ms
+[gateway] startup phase: cli.main.gateway-run-reload-environment starting total=3892.9ms
+[gateway] startup phase: cli.main.gateway-run-reload-environment 0.8ms total=3893.7ms start=3892.9ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap 2633.0ms total=3893.7ms start=1260.8ms
+2026-10-22T22:24:56.887-04:00 [gateway] loading configuration…
+2026-10-22T22:24:56.907-04:00 [gateway] resolving authentication…
+2026-10-22T22:24:56.910-04:00 [gateway] starting...
+[gateway] startup phase: cli.bootstrap.lifecycle-runtime starting total=4240.3ms
+[gateway] startup phase: cli.bootstrap.lifecycle-runtime 213.3ms total=4453.6ms start=4240.3ms
+[gateway] startup phase: cli.bootstrap.gateway-lock starting total=4499.5ms
+[gateway] startup phase: cli.bootstrap.gateway-lock 803.9ms total=5303.4ms start=4499.5ms
+2026-10-22T22:24:57.977-04:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-176080-proof-archive-stage-v4.service TimeoutStopUSec=330000ms
+[gateway] startup phase: cli.bootstrap.boot-lifecycle starting total=5308.6ms
+[gateway] startup phase: cli.bootstrap.boot-lifecycle 13.8ms total=5322.4ms start=5308.6ms
+2026-10-22T22:24:58.356-04:00 [gateway] spawn broker ready pid=598933
+[gateway] startup phase: gateway.server-start-import starting total=5688.9ms
+[gateway] startup phase: gateway.server-start-import 489.7ms total=6178.5ms start=5688.9ms
+2026-10-22T22:24:58.956-04:00 [gateway] startup phase: process.bootstrap 6282.6ms total=6282.6ms
+2026-10-22T22:24:59.419-04:00 [gateway] startup phase: state.schema-preflight starting total=6746.1ms
+2026-10-22T22:24:59.650-04:00 [gateway] startup phase: state.schema-preflight 231.2ms total=6977.3ms
+2026-10-22T22:24:59.673-04:00 [gateway] startup phase: config.auth starting total=6996.6ms
+2026-10-22T22:24:59.966-04:00 [gateway] startup phase: config.auth 296.6ms total=7293.2ms
+2026-10-22T22:24:59.996-04:00 [gateway] startup phase: state.desktop-approval-admission starting total=7323.2ms
+2026-10-22T22:25:00.040-04:00 [gateway] startup phase: state.desktop-approval-admission 44.3ms total=7367.5ms
+2026-10-22T22:25:00.042-04:00 [gateway] startup phase: sessions.admission starting total=7369.4ms
+2026-10-22T22:25:00.607-04:00 [gateway] startup phase: sessions.admission 565.1ms total=7934.5ms
+2026-10-22T22:25:01.757-04:00 [gateway] starting HTTP server...
+2026-10-22T22:25:02.139-04:00 RECOVERY_REPORT_CALL Error
+    at process.report.getReport (file:///isolated-proof/proof/observe-workers-v6.mjs:55:81)
+    at isMuslFromReport (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:78:39)
+    at isMusl (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:178:24)
+    at bundledTarget (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:200:18)
+    at loadBundledBinding (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:209:20)
+    at getNativeBinding (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:258:28)
+    at createNativeExclusiveFile (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native-operations.js:34:21)
+    at acquireSidecarLock (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/sidecar-lock-acquire.js:297:36)
+    at async Object.acquire (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/sidecar-lock.js:245:16)
+    at async Object.acquire (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/file-lock.js:46:20)
+2026-10-22T22:25:02.288-04:00 [gateway] startup phase: http.bound 0.0ms total=9615.4ms
+2026-10-22T22:25:02.289-04:00 [gateway] startup phase: runtime.early starting total=9616.9ms
+2026-10-22T22:25:02.296-04:00 [gateway] startup phase: runtime.early.discovery starting total=9622.9ms
+2026-10-22T22:25:02.297-04:00 [gateway] startup phase: sidecars.main-session-recovery starting total=9624.7ms
+2026-10-22T22:25:02.309-04:00 [gateway] startup phase: runtime.early.discovery 13.5ms total=9636.4ms
+2026-10-22T22:25:02.309-04:00 [gateway] startup phase: runtime.early.lazy-runtime-imports starting total=9636.7ms
+2026-10-22T22:25:02.315-04:00 [gateway] startup phase: runtime.early.lazy-runtime-imports 5.8ms total=9642.5ms
+2026-10-22T22:25:02.316-04:00 [gateway] startup phase: runtime.early.skills-listener starting total=9643.7ms
+2026-10-22T22:25:02.321-04:00 [gateway] startup phase: runtime.early.skills-listener 5.3ms total=9649.0ms
+2026-10-22T22:25:02.322-04:00 [gateway] startup phase: runtime.early 32.5ms total=9649.4ms
+2026-10-22T22:25:03.675-04:00 [gateway] startup phase: sidecars.main-session-recovery 1377.5ms total=11002.2ms
+2026-10-22T22:25:03.787-04:00 [gateway] startup phase: post-attach.system-ca starting total=11114.6ms
+2026-10-22T22:25:03.788-04:00 [gateway] startup phase: post-attach.system-ca 0.5ms total=11115.1ms
+2026-10-22T22:25:03.792-04:00 [gateway] startup phase: runtime.worker-pool-metrics starting total=11119.1ms
+2026-10-22T22:25:03.796-04:00 [gateway] startup phase: runtime.worker-pool-metrics 4.8ms total=11124.0ms
+2026-10-22T22:25:03.882-04:00 [gateway] startup phase: plugins.runtime-post-bind starting total=11209.5ms
+2026-10-22T22:25:04.625-04:00 [gateway] startup phase: plugins.runtime-post-bind 743.1ms total=11952.6ms
+2026-10-22T22:25:04.625-04:00 [gateway] startup phase: plugins.runtime-attach starting total=11953.0ms
+2026-10-22T22:25:04.635-04:00 [gateway] startup phase: plugins.runtime-attach 9.1ms total=11962.1ms
+2026-10-22T22:25:04.644-04:00 [gateway] agent model: [configured-default-model] (thinking=medium, fast=off)
+2026-10-22T22:25:04.644-04:00 [gateway] http server listening (19 plugins: acpx, anthropic, browser, canvas, cua-computer, device-pair, file-transfer, geolocation, github, google-meet, linux-node, llama-cpp, memory-core, ollama, openai, talk-voice, teams-meetings, xai, zoom-meetings; 6.7s)
+2026-10-22T22:25:04.644-04:00 [gateway] log file: /tmp/openclaw/openclaw-2026-10-22.log
+2026-10-22T22:25:04.645-04:00 [gateway] Older local CLI/SDK versions can bypass Gateway state mutation routing. Use matching CLI/SDK and Gateway versions; direct state writes from another process while this Gateway owns state are unsupported.
+2026-10-22T22:25:04.645-04:00 [gateway] native runtime: {"pid":598872,"platform":"linux","arch":"x64","node":"24.22.1","v8":"13.6.233.17-node.58","uv":"1.52.1","openssl":"3.5.9","sqlite":"3.53.4","sqliteClose":{"explicitSqliteCloseReleasesNativeResources":true,"decided":true,"reason":"Node runtime"}}
+2026-10-22T22:25:04.646-04:00 [gateway] worker startup state: {"workerCount":10,"workerLifecycle":[{"script":"client-credential.worker.js","started":1,"retired":[]},{"script":"sqlite-store.worker.js","started":1,"retired":[]},{"script":"gateway-state-owner-heartbeat.worker.js","started":2,"retired":[{"reason":"exit","count":1}]},{"script":"worker-native-lifecycle.worker.js","started":1,"retired":[]},{"script":"openclaw-state-read.worker.js","started":2,"retired":[]},{"script":"openclaw-state-lease-heartbeat.worker.js","started":1,"retired":[]},{"script":"session-transcript.worker.js","started":2,"retired":[]},{"script":"other","started":1,"retired":[]}],"workerTaskMetrics":[{"workerClass":"singleton","script":"client-credential.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":32897520,"gc":[]},{"workerClass":"other","script":"openclaw-state-read.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":24835936,"gc":[]},{"workerClass":"other","script":"session-transcript.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":30646208,"gc":[]},{"workerClass":"writer","script":"session-transcript.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":0,"gc":[]}],"compute":{"limit":7,"active":0,"waitingPools":0,"pendingTasks":0,"pendingBytes":0}}
+2026-10-22T22:25:04.654-04:00 [gateway] startup phase: sidecars.worker-environments starting total=11981.7ms
+2026-10-22T22:25:04.655-04:00 [gateway] startup phase: sidecars.worker-environments.github-ready starting total=11983.1ms
+2026-10-22T22:25:04.656-04:00 [gateway] startup phase: sidecars.worker-environments.github-ready 0.4ms total=11983.4ms
+2026-10-22T22:25:04.656-04:00 [gateway] startup phase: sidecars.worker-environments.workspaces starting total=11983.7ms
+2026-10-22T22:25:04.674-04:00 [gateway] startup phase: sidecars.worker-environments.workspaces 17.6ms total=12001.2ms
+2026-10-22T22:25:04.674-04:00 [gateway] startup phase: sidecars.worker-environments.active starting total=12001.8ms
+2026-10-22T22:25:04.681-04:00 [gateway] startup phase: sidecars.worker-environments.active 6.3ms total=12008.0ms
+2026-10-22T22:25:04.681-04:00 [gateway] startup phase: sidecars.worker-environments.publications starting total=12008.4ms
+2026-10-22T22:25:04.719-04:00 [gateway] startup phase: sidecars.worker-environments.publications 38.3ms total=12046.7ms
+2026-10-22T22:25:04.726-04:00 [gateway] startup phase: sidecars.worker-environments 72.2ms total=12054.0ms
+2026-10-22T22:25:04.727-04:00 [gateway] starting channels and sidecars...
+2026-10-22T22:25:04.728-04:00 [gateway] startup phase: sidecars.internal-hooks starting total=12055.4ms
+2026-10-22T22:25:04.731-04:00 [gateway] startup phase: sidecars.model-runtime starting total=12058.1ms
+2026-10-22T22:25:04.731-04:00 [gateway] startup phase: sidecars.reply-runtime starting total=12058.8ms
+2026-10-22T22:25:05.076-04:00 [gateway] startup phase: sidecars.internal-hooks 347.9ms total=12403.3ms
+2026-10-22T22:25:05.388-04:00 [gateway] startup phase: sidecars.reply-runtime 656.4ms total=12715.2ms
+2026-10-22T22:25:05.717-04:00 [gateway] startup phase: sidecars.model-runtime 986.4ms total=13044.5ms
+2026-10-22T22:25:05.728-04:00 [gateway] startup phase: sidecars.chat-metadata starting total=13055.6ms
+2026-10-22T22:25:05.729-04:00 [gateway] startup phase: sidecars.chat-metadata 0.9ms total=13056.4ms
+2026-10-22T22:25:05.729-04:00 [gateway] startup phase: sidecars.plugin-services starting total=13056.7ms
+2026-10-22T22:25:05.730-04:00 [gateway] startup phase: sidecars.channels starting total=13057.4ms
+2026-10-22T22:25:05.730-04:00 [gateway/channels] skipping channel start (OPENCLAW_SKIP_CHANNELS=1 or OPENCLAW_SKIP_PROVIDERS=1)
+2026-10-22T22:25:05.732-04:00 [gateway] startup phase: sidecars.channels 2.6ms total=13060.0ms
+2026-10-22T22:25:05.759-04:00 [agent/embedded] Codex app-server: using bundled 0.162.1 (no codex on PATH)
+2026-10-22T22:25:05.765-04:00 [plugins] embedded acpx runtime backend registered lazily
+2026-10-22T22:25:05.848-04:00 [gateway] startup phase: sidecars.plugin-services 118.9ms total=13175.6ms
+2026-10-22T22:25:05.851-04:00 [gateway] startup outcomes: internal-hooks=skipped (not-configured); internal-startup-hook=skipped (no-handlers-loaded); gateway-start-hooks=scheduled; gmail-watcher=skipped (hooks-disabled); gmail-model=skipped (not-configured)
+2026-10-22T22:25:05.852-04:00 [gateway] ready
+2026-10-22T22:25:06.453-04:00 [gateway] startup phase: sidecars.subagent-recovery starting total=13780.3ms
+2026-10-22T22:25:06.502-04:00 [gateway] startup phase: sidecars.subagent-recovery 48.5ms total=13828.8ms readersMs=0.0 execMs=47.8 registryLoadMs=9.2 registryActivationMs=6.3 registryActivationBindMs=1.0 registryActivationRequestersMs=0.4 registryActivationReserveMs=0.5 registryActivationResumeMs=1.3 registryActivationAuthorityRestoreMs=0.0 registryActivationPublishMs=0.0 registryActivationSessionReadMs=0.0 registryActivationYieldMs=0.0 registryActivationRuns=0.0 registryActivationActiveRuns=0.0 registryActivationRecoveredRuns=0.0 registryActivationPublishedRuns=0.0 outcome=success
+2026-10-22T22:25:07.345-04:00 [cron/maintenance] Session registry maintenance deferred reason=agent-database-snapshot-changed retryAtMs=1792722367340 lastSuccessAtMs=null
+2026-10-22T22:25:08.771-04:00 [cron/maintenance] Session registry maintenance completed
+2026-10-22T22:25:09.558-04:00 [gateway] database page-cache residency: database=state scope=file-sample resident=100.0% readBytes=202 diskBytes=0 payloadBytes=0 payloadMessages=0 elapsedMs=9.9 projectionQueryMs=n/a->n/a limited=false
+2026-10-22T22:25:09.704-04:00 [ws] client connected conn=0feacde0-e792-417c-acd2-916033d8dfc2 client=cli name=cli mode=probe role=operator auth=token version=dev platform=linux build=legacy remote=127.0.0.1
+2026-10-22T22:25:10.377-04:00 [gateway] startup phase: post-ready.startup-maintenance starting total=17705.0ms
+2026-10-22T22:25:10.378-04:00 [gateway] startup phase: startup.maintenance.plugin-registry starting total=17705.7ms
+2026-10-22T22:25:10.380-04:00 [gateway] startup phase: startup.maintenance.channels starting total=17707.3ms
+2026-10-22T22:25:10.380-04:00 [gateway] startup phase: startup.maintenance.sessions starting total=17708.0ms
+2026-10-22T22:25:10.381-04:00 [gateway] startup phase: startup.maintenance.pairing starting total=17708.3ms
+2026-10-22T22:25:10.385-04:00 [gateway] startup phase: startup.maintenance.sessions 4.4ms total=17712.4ms
+2026-10-22T22:25:10.386-04:00 [gateway] startup phase: startup.maintenance.channels 6.2ms total=17713.4ms
+2026-10-22T22:25:10.391-04:00 [gateway] startup phase: startup.maintenance.pairing 10.2ms total=17718.5ms
+2026-10-22T22:25:10.959-04:00 [gateway] startup phase: startup.maintenance.plugin-registry 580.5ms total=18286.2ms
+2026-10-22T22:25:10.959-04:00 [gateway] startup phase: post-ready.startup-maintenance 581.6ms total=18286.6ms
+2026-10-22T22:25:11.001-04:00 [ws] client connected conn=46a6945b-833a-44ec-a40e-b5fbb097ea31 client=cli name=Archive native-custody proof mode=cli role=operator auth=token version=proof platform=linux build=legacy remote=127.0.0.1
+2026-10-22T22:25:21.119-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:21.121-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:21.121-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:21.122-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:22.768-04:00 [sessions/lifecycle] slow session lifecycle operation pid=598872 threadId=0 isMainThread=true diagnosticEpoch=020717a17d14c00d omittedObservations=0 operationId=2 operation=mutation mutationKind=create sessionScopeHash=207ef21cc91795b835fa7e48c79db71946ba25fc4af01515382cdf6b6de7b4d7 identityCount=1 operationTraceId=afe0e06c075f74718d631b0393f0264f operationSpanId=3410ba13d57c3523 elapsedMs=1634 completionDelayMs=1 mutationQueueWaitMs=0 lifecycleQueueWaitMs=0 phaseDurationsMs={"prepare":0,"run":1633,"finalize":0} signalAborted=false
+2026-10-22T22:25:22.771-04:00 [ws] ⇄ res ✓ sessions.create 1760ms bytes=798 conn=46a6945b…ea31 id=9212dc66…28fb
+2026-10-22T22:25:22.775-04:00 [sessions] slow session create elapsedMs=1706 phaseDurationsMs={"preflight":58,"admission":4,"lifecycleAdmission":2,"targetPreparation":11,"entry":20,"worktree":0,"snapshot":914,"writerAdmission":2,"commit":638,"publication":36,"effects":15,"initialTurn":1,"response":2,"handlerExit":3}
+2026-10-22T22:25:22.782-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:22.782-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:22.783-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:22.784-04:00 [diagnostic] session controller phase
+2026-10-22T22:25:23.726-04:00 (node:598872) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: getMany is deprecated; use getManyAsync instead. Synchronous reads use committed in-process receipts; cold or inventory reads require the async replacement. Removal requires an announced ordinary stable release window.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-22T22:25:24.886-04:00 [plugins] embedded acpx runtime backend registered (cwd: /isolated-proof/proof/diagnostic-archive-stage-v4/workspace)
+2026-10-22T22:25:27.973-04:00 [session-sqlite] Session archiving took longer than 3 minutes. Wait for it to stop, then retry; if it remains stuck, restart the Gateway.
+2026-10-22T22:25:33.243-04:00 [admission] closed: restart-signal fence
+2026-10-22T22:25:33.244-04:00 [admission] reopened: restart-signal fence
+2026-10-22T22:25:33.244-04:00 [admission] closed: restart-signal fence
+2026-10-22T22:25:33.246-04:00 [session-sqlite] Service Node verified; requested a bounded fresh-process restart for the unsettled native worker.
+2026-10-22T22:25:33.253-04:00 [admission] closed: restart (SIGUSR2: gateway.native-worker-unsettled)
+2026-10-22T22:25:33.254-04:00 [gateway] received SIGUSR2; restarting
+2026-10-22T22:25:33.288-04:00 [gateway] shutdown budget at shutdown: drain=314956ms shutdown=324956ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-176080-proof-archive-stage-v4.service TimeoutStopUSec=330000ms
+2026-10-22T22:25:33.292-04:00 [gateway] draining active work before restart with timeout 0ms: rootRequests=1 sessionMutations=1
+2026-10-22T22:25:33.292-04:00 [gateway] restart drain budget 0ms exhausted; cutting short rootRequests=1 sessionMutations=1
+2026-10-22T22:25:38.316-04:00 [gateway] shutdown pending: count=1 shutdown.received-connection-work=5001ms
+2026-10-22T22:25:43.293-04:00 [gateway] shutdown deadline reached; waiting for unfinished cleanup and active work before restart; last observed: rootRequests=1 sessionMutations=1; pending owners: 1 active gateway request(s): ws:sessions.delete; 1 active session lifecycle mutation(s); pending close steps: shutdown.received-connection-work=9975ms; cleanup incomplete; exitCode=0
+2026-10-22T22:25:43.296-04:00 [gateway] wrote stability bundle: /isolated-proof/proof/diagnostic-archive-stage-v4/state/logs/stability/openclaw-stability-2026-10-23T02-25-43-294Z-598872-gateway.restart_shutdown_timeout.json
+2026-10-22T22:25:43.315-04:00 [gateway] shutdown pending: count=2 shutdown.received-connection-work=10001ms, restart.close.retained-cleanup=16ms
+RECOVERY_REPORT_CALL Error
+    at process.report.getReport (file:///isolated-proof/proof/observe-workers-v6.mjs:55:81)
+    at isMuslFromReport (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:62:39)
+    at isMusl (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:162:24)
+    at target (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:173:47)
+    at getNativeBinding (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:187:30)
+    at Module.isSupported (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/systemd.js:146:24)
+    at file:///isolated-proof/proof/observe-workers-v6.mjs:57:217
+DIAGNOSTIC_PREWARM_SYSTEMD true
+[gateway] startup phase: entry.run-main-import starting total=164.3ms
+[gateway] startup phase: entry.run-main-import 59.9ms total=224.2ms start=164.3ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=754.3ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 445.2ms total=1199.6ms start=754.3ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=1229.4ms
+[gateway] startup phase: cli.main.gateway-run-imports 5.3ms total=1234.7ms start=1229.4ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=1249.0ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 12.3ms total=1261.3ms start=1249.0ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=1261.4ms
+[gateway] startup phase: cli.command.config-ready starting total=1263.7ms
+[gateway] startup phase: cli.command.config-guard-import starting total=1263.8ms
+[gateway] startup phase: cli.command.config-guard-import 25.8ms total=1289.7ms start=1263.8ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=1364.8ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner 8.7ms total=1373.5ms start=1364.8ms
+[gateway] startup phase: cli.bootstrap.admission.core-config starting total=1373.6ms
+[gateway] startup phase: cli.bootstrap.admission.core-config 2.6ms total=1376.2ms start=1373.6ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=1376.3ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=2381.9ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery 0.5ms total=2382.4ms start=2381.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=2382.8ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=2382.8ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 59.8ms total=2442.6ms start=2382.8ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=2442.8ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion starting total=3308.1ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion 44.5ms total=3352.6ms start=3308.1ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config 969.9ms total=3352.7ms start=2382.8ms registrySnapshotMs=493.0902070000002 manifestRegistryMs=34.71815000000015 ownerMapsMs=8.461826000000201 totalMs=537.967846 indexPluginCount=174 manifestPluginCount=174
+[state/agent-admission] Agent main has not completed startup inspection and preparation. Inspection and writable admission continue after the Gateway listener binds.
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 924.0ms total=3366.9ms start=2442.8ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=0
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import starting total=3366.9ms
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import 429.5ms total=3796.5ms start=3366.9ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets starting total=3796.6ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets 2.4ms total=3799.0ms start=3796.6ms agentCount=1 registeredDatabaseCount=1
+[gateway] startup phase: cli.bootstrap.admission.session-readiness starting total=3799.1ms
+[gateway] startup phase: cli.bootstrap.admission.session-readiness 0.3ms total=3799.4ms start=3799.1ms targetCount=0
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import starting total=3799.5ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import 4.7ms total=3804.2ms start=3799.5ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness starting total=3804.3ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness 1.3ms total=3805.6ms start=3804.3ms agentCount=1
+[gateway] startup phase: cli.bootstrap.admission.config-recovery starting total=3805.8ms
+[gateway] startup phase: cli.bootstrap.admission.config-recovery 0.8ms total=3806.7ms start=3805.8ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot 2472.8ms total=3849.1ms start=1376.3ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard starting total=3849.2ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard 0.6ms total=3849.8ms start=3849.2ms
+[gateway] startup phase: cli.bootstrap.admission.device-identity starting total=3861.1ms
+[gateway] startup phase: cli.bootstrap.admission.device-identity 459.3ms total=4320.4ms start=3861.1ms
+[gateway] startup phase: cli.bootstrap.plugin-plan-import starting total=4600.7ms
+[gateway] startup phase: cli.bootstrap.plugin-plan-import 4.8ms total=4605.4ms start=4600.7ms
+[gateway] startup phase: cli.bootstrap.plugin-plan starting total=4605.5ms
+[gateway] startup phase: cli.bootstrap.plugin-plan 2.6ms total=4608.1ms start=4605.5ms
+[gateway] startup phase: cli.command.config-ready 3350.1ms total=4613.8ms start=1263.7ms
+[gateway] startup phase: cli.main.gateway-run-reload-environment starting total=4613.9ms
+[gateway] startup phase: cli.main.gateway-run-reload-environment 0.6ms total=4614.6ms start=4613.9ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap 3353.2ms total=4614.6ms start=1261.4ms
+2026-10-22T22:25:55.534-04:00 [gateway] loading configuration…
+2026-10-22T22:25:55.553-04:00 [gateway] resolving authentication…
+2026-10-22T22:25:55.557-04:00 [gateway] starting...
+[gateway] startup phase: cli.bootstrap.lifecycle-runtime starting total=4928.9ms
+[gateway] startup phase: cli.bootstrap.lifecycle-runtime 200.4ms total=5129.2ms start=4928.9ms
+[gateway] startup phase: cli.bootstrap.gateway-lock starting total=5170.5ms
+[gateway] startup phase: cli.bootstrap.gateway-lock 475.7ms total=5646.2ms start=5170.5ms
+2026-10-22T22:25:56.278-04:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=systemd user openclaw-176080-proof-archive-stage-v4.service TimeoutStopUSec=330000ms
+[gateway] startup phase: cli.bootstrap.boot-lifecycle starting total=5651.1ms
+[gateway] startup phase: cli.bootstrap.boot-lifecycle 678.4ms total=6329.5ms start=5651.1ms
+2026-10-22T22:25:57.319-04:00 [gateway] spawn broker ready pid=599574
+[gateway] startup phase: gateway.server-start-import starting total=6693.0ms
+[gateway] startup phase: gateway.server-start-import 464.6ms total=7157.6ms start=6693.0ms
+2026-10-22T22:25:58.007-04:00 [gateway] startup phase: process.bootstrap 7375.3ms total=7375.3ms
+2026-10-22T22:25:58.480-04:00 [gateway] startup phase: state.schema-preflight starting total=7848.4ms
+2026-10-22T22:25:58.705-04:00 [gateway] startup phase: state.schema-preflight 225.9ms total=8074.3ms
+2026-10-22T22:25:58.728-04:00 [gateway] startup phase: config.auth starting total=8093.6ms
+2026-10-22T22:25:58.978-04:00 [gateway] startup phase: config.auth 252.8ms total=8346.4ms
+2026-10-22T22:25:59.013-04:00 [gateway] startup phase: state.desktop-approval-admission starting total=8381.8ms
+2026-10-22T22:25:59.053-04:00 [gateway] startup phase: state.desktop-approval-admission 40.7ms total=8422.5ms
+2026-10-22T22:25:59.055-04:00 [gateway] startup phase: sessions.admission starting total=8424.5ms
+2026-10-22T22:25:59.670-04:00 [gateway] startup phase: sessions.admission 614.6ms total=9039.0ms
+2026-10-22T22:26:00.796-04:00 [gateway] starting HTTP server...
+2026-10-22T22:26:01.158-04:00 RECOVERY_REPORT_CALL Error
+    at process.report.getReport (file:///isolated-proof/proof/observe-workers-v6.mjs:55:81)
+    at isMuslFromReport (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:78:39)
+    at isMusl (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:178:24)
+    at bundledTarget (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:200:18)
+    at loadBundledBinding (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:209:20)
+    at getNativeBinding (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native.js:258:28)
+    at createNativeExclusiveFile (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/native-operations.js:34:21)
+    at acquireSidecarLock (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/sidecar-lock-acquire.js:297:36)
+    at async Object.acquire (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/sidecar-lock.js:245:16)
+    at async Object.acquire (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe@0.26.8/node_modules/@openclaw/fs-safe/dist/file-lock.js:46:20)
+2026-10-22T22:26:01.301-04:00 [gateway] startup phase: http.bound 0.0ms total=10670.0ms
+2026-10-22T22:26:01.302-04:00 [gateway] startup phase: runtime.early starting total=10671.5ms
+2026-10-22T22:26:01.308-04:00 [gateway] startup phase: runtime.early.discovery starting total=10677.6ms
+2026-10-22T22:26:01.310-04:00 [gateway] startup phase: sidecars.main-session-recovery starting total=10678.9ms
+2026-10-22T22:26:01.321-04:00 [gateway] startup phase: runtime.early.discovery 12.7ms total=10690.3ms
+2026-10-22T22:26:01.321-04:00 [gateway] startup phase: runtime.early.lazy-runtime-imports starting total=10690.7ms
+2026-10-22T22:26:01.325-04:00 [gateway] startup phase: runtime.early.lazy-runtime-imports 3.2ms total=10693.9ms
+2026-10-22T22:26:01.326-04:00 [gateway] startup phase: runtime.early.skills-listener starting total=10695.1ms
+2026-10-22T22:26:01.331-04:00 [gateway] startup phase: runtime.early.skills-listener 5.4ms total=10700.5ms
+2026-10-22T22:26:01.331-04:00 [gateway] startup phase: runtime.early 29.4ms total=10700.8ms
+2026-10-22T22:26:02.618-04:00 [gateway] startup phase: sidecars.main-session-recovery 1308.6ms total=11987.6ms
+2026-10-22T22:26:02.705-04:00 [gateway] startup phase: post-attach.system-ca starting total=12073.9ms
+2026-10-22T22:26:02.705-04:00 [gateway] startup phase: post-attach.system-ca 0.4ms total=12074.3ms
+2026-10-22T22:26:02.709-04:00 [gateway] startup phase: runtime.worker-pool-metrics starting total=12078.3ms
+2026-10-22T22:26:02.717-04:00 [gateway] startup phase: runtime.worker-pool-metrics 8.3ms total=12086.7ms
+2026-10-22T22:26:02.785-04:00 [gateway] startup phase: plugins.runtime-post-bind starting total=12154.3ms
+2026-10-22T22:26:03.457-04:00 [gateway] startup phase: plugins.runtime-post-bind 672.3ms total=12826.6ms
+2026-10-22T22:26:03.457-04:00 [gateway] startup phase: plugins.runtime-attach starting total=12826.9ms
+2026-10-22T22:26:03.464-04:00 [gateway] startup phase: plugins.runtime-attach 6.9ms total=12833.8ms
+2026-10-22T22:26:03.472-04:00 [gateway] agent model: [configured-default-model] (thinking=medium, fast=off)
+2026-10-22T22:26:03.473-04:00 [gateway] http server listening (19 plugins: acpx, anthropic, browser, canvas, cua-computer, device-pair, file-transfer, geolocation, github, google-meet, linux-node, llama-cpp, memory-core, ollama, openai, talk-voice, teams-meetings, xai, zoom-meetings; 7.2s)
+2026-10-22T22:26:03.473-04:00 [gateway] log file: /tmp/openclaw/openclaw-2026-10-22.log
+2026-10-22T22:26:03.473-04:00 [gateway] Older local CLI/SDK versions can bypass Gateway state mutation routing. Use matching CLI/SDK and Gateway versions; direct state writes from another process while this Gateway owns state are unsupported.
+2026-10-22T22:26:03.473-04:00 [gateway] native runtime: {"pid":599475,"platform":"linux","arch":"x64","node":"24.22.1","v8":"13.6.233.17-node.58","uv":"1.52.1","openssl":"3.5.9","sqlite":"3.53.4","sqliteClose":{"explicitSqliteCloseReleasesNativeResources":true,"decided":true,"reason":"Node runtime"}}
+2026-10-22T22:26:03.475-04:00 [gateway] worker startup state: {"workerCount":9,"workerLifecycle":[{"script":"worker-native-lifecycle.worker.js","started":1,"retired":[]},{"script":"sqlite-snapshot-staging.worker.js","started":1,"retired":[{"reason":"rotation","count":1}]},{"script":"openclaw-state-read.worker.js","started":3,"retired":[{"reason":"closed","count":1}]},{"script":"client-credential.worker.js","started":1,"retired":[]},{"script":"gateway-state-owner-heartbeat.worker.js","started":1,"retired":[]},{"script":"openclaw-state-lease-heartbeat.worker.js","started":1,"retired":[]},{"script":"sqlite-store.worker.js","started":1,"retired":[]},{"script":"session-transcript.worker.js","started":1,"retired":[]},{"script":"other","started":1,"retired":[]}],"workerTaskMetrics":[{"workerClass":"writer","script":"sqlite-snapshot-staging.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":28318216,"gc":[]},{"workerClass":"other","script":"openclaw-state-read.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":24997920,"gc":[]},{"workerClass":"singleton","script":"client-credential.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":32834120,"gc":[]},{"workerClass":"other","script":"session-transcript.worker.js","tasksCompleted":0,"heapUsedHighWaterBytes":30758824,"gc":[]}],"compute":{"limit":7,"active":0,"waitingPools":0,"pendingTasks":0,"pendingBytes":0}}
+2026-10-22T22:26:03.482-04:00 [gateway] startup phase: sidecars.worker-environments starting total=12851.3ms
+2026-10-22T22:26:03.483-04:00 [gateway] startup phase: sidecars.worker-environments.github-ready starting total=12852.3ms
+2026-10-22T22:26:03.483-04:00 [gateway] startup phase: sidecars.worker-environments.github-ready 0.2ms total=12852.6ms
+2026-10-22T22:26:03.483-04:00 [gateway] startup phase: sidecars.worker-environments.workspaces starting total=12852.8ms
+2026-10-22T22:26:03.508-04:00 [gateway] startup phase: sidecars.worker-environments.workspaces 24.9ms total=12877.7ms
+2026-10-22T22:26:03.509-04:00 [gateway] startup phase: sidecars.worker-environments.active starting total=12878.1ms
+2026-10-22T22:26:03.513-04:00 [gateway] startup phase: sidecars.worker-environments.active 4.2ms total=12882.2ms
+2026-10-22T22:26:03.513-04:00 [gateway] startup phase: sidecars.worker-environments.publications starting total=12882.5ms
+2026-10-22T22:26:03.546-04:00 [gateway] startup phase: sidecars.worker-environments.publications 32.9ms total=12915.5ms
+2026-10-22T22:26:03.551-04:00 [gateway] startup phase: sidecars.worker-environments 69.3ms total=12920.5ms
+2026-10-22T22:26:03.552-04:00 [gateway] starting channels and sidecars...
+2026-10-22T22:26:03.552-04:00 [gateway] startup phase: sidecars.internal-hooks starting total=12921.6ms
+2026-10-22T22:26:03.554-04:00 [gateway] startup phase: sidecars.model-runtime starting total=12923.4ms
+2026-10-22T22:26:03.555-04:00 [gateway] startup phase: sidecars.reply-runtime starting total=12923.9ms
+2026-10-22T22:26:03.931-04:00 [gateway] startup phase: sidecars.internal-hooks 378.3ms total=13300.0ms
+2026-10-22T22:26:04.265-04:00 [gateway] startup phase: sidecars.model-runtime 710.4ms total=13633.8ms
+2026-10-22T22:26:04.271-04:00 [gateway] startup phase: sidecars.reply-runtime 716.8ms total=13640.7ms
+2026-10-22T22:26:04.272-04:00 [gateway] startup phase: sidecars.chat-metadata starting total=13641.1ms
+2026-10-22T22:26:04.272-04:00 [gateway] startup phase: sidecars.chat-metadata 0.4ms total=13641.5ms
+2026-10-22T22:26:04.272-04:00 [gateway] startup phase: sidecars.plugin-services starting total=13641.8ms
+2026-10-22T22:26:04.273-04:00 [gateway] startup phase: sidecars.channels starting total=13642.5ms
+2026-10-22T22:26:04.274-04:00 [gateway/channels] skipping channel start (OPENCLAW_SKIP_CHANNELS=1 or OPENCLAW_SKIP_PROVIDERS=1)
+2026-10-22T22:26:04.275-04:00 [gateway] startup phase: sidecars.channels 2.3ms total=13644.8ms
+2026-10-22T22:26:04.281-04:00 [plugins] embedded acpx runtime backend registered lazily
+2026-10-22T22:26:04.362-04:00 [gateway] startup phase: sidecars.plugin-services 89.6ms total=13731.4ms
+2026-10-22T22:26:04.365-04:00 [gateway] startup outcomes: internal-hooks=skipped (not-configured); internal-startup-hook=skipped (no-handlers-loaded); gateway-start-hooks=scheduled; gmail-watcher=skipped (hooks-disabled); gmail-model=skipped (not-configured)
+[state/agent-db] agent database stale lease: owner-pid-dead; previous release not observed
+[state/agent-db] agent database integrityGateReason=stale-lease-full because=legacy-provenance-missing
+[state/agent-db] agent database integrity gate
+2026-10-22T22:26:04.694-04:00 [cron/maintenance] Session registry maintenance skipped reason="session child inventory incomplete" retryAtMs=1792722424689 lastSuccessAtMs=null
+2026-10-22T22:26:05.027-04:00 [gateway] startup phase: sidecars.subagent-recovery starting total=14396.0ms
+2026-10-22T22:26:05.945-04:00 [session-sqlite] slow SQLite reclamation Worker operation pid=599475 threadId=0 isMainThread=true reclamationKind=canonical-validation workerThreadId=14 elapsedMs=1327 outcome=resolved
+[state/agent-db] agent database clean-close receipt: active-leases; agent=main
+2026-10-22T22:26:06.661-04:00 [state/agent-admission] agent database recovered after background inspection and preparation
+2026-10-22T22:26:06.706-04:00 [agent/embedded] Codex app-server: using bundled 0.162.1 (no codex on PATH)
+2026-10-22T22:26:08.099-04:00 [gateway] startup phase: sidecars.subagent-recovery 3068.2ms total=17464.2ms readersMs=0.0 execMs=3067.0 registryLoadMs=12.1 registryActivationMs=7.3 registryActivationBindMs=1.1 registryActivationRequestersMs=0.5 registryActivationReserveMs=0.6 registryActivationResumeMs=1.4 registryActivationAuthorityRestoreMs=0.0 registryActivationPublishMs=0.0 registryActivationSessionReadMs=0.0 registryActivationYieldMs=0.0 registryActivationRuns=0.0 registryActivationActiveRuns=0.0 registryActivationRecoveredRuns=0.0 registryActivationPublishedRuns=0.0 outcome=success
+2026-10-22T22:26:08.155-04:00 [cron/maintenance] Session registry maintenance completed
+2026-10-22T22:26:08.900-04:00 [gateway] database page-cache residency: database=state scope=file-sample resident=100.0% readBytes=204 diskBytes=0 payloadBytes=0 payloadMessages=0 elapsedMs=9.0 projectionQueryMs=n/a->n/a limited=false

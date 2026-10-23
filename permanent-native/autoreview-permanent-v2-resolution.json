@@ -1,0 +1,22 @@
+{
+  "reviewStatus": "findings",
+  "finding": "P1 INDEX-only stale native recovery initializer",
+  "resolution": "Stage the exact working-tree version reviewed as addressing the deadlock. No new source change. Full7pass review found no additional P0-P2 working-tree defect.",
+  "files": {
+    "src/hooks/loader.cache-invalidation.test.ts": {
+      "sha256": "50af615f69de0e824ad5f39e7cb6d796fc8db4b09cb8077ef90db12fecdabc04",
+      "indexBlob": "c7abb955c7c004bbe9e4d559213707fef320119d",
+      "workingTreeBlob": "c7abb955c7c004bbe9e4d559213707fef320119d"
+    },
+    "src/infra/process-respawn.runtime-unavailable.test.ts": {
+      "sha256": "da6a4c90ffc6ccb8494e1bfd4eb8afca3f4103429ef8f89e39b14d558b295b25",
+      "indexBlob": "9343e3a021d04100369168c45f4a103e8c53cfa1",
+      "workingTreeBlob": "9343e3a021d04100369168c45f4a103e8c53cfa1"
+    },
+    "src/infra/process-respawn.ts": {
+      "sha256": "b5c1435bb5b739b892452bab4b3488c0fb125563cfb5383f546a5347fd1028d3",
+      "indexBlob": "472d3ff1256a126ed5a317912ac49cd1c2448ede",
+      "workingTreeBlob": "472d3ff1256a126ed5a317912ac49cd1c2448ede"
+    }
+  }
+}

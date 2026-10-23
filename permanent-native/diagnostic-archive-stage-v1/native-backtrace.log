@@ -1,0 +1,753 @@
+[New LWP 595167]
+[New LWP 595166]
+[New LWP 595103]
+[New LWP 595037]
+[New LWP 594962]
+[New LWP 594959]
+[New LWP 594935]
+[New LWP 594933]
+[New LWP 594853]
+[New LWP 594845]
+[New LWP 594843]
+[New LWP 594841]
+[New LWP 594840]
+[New LWP 594839]
+[New LWP 594812]
+[New LWP 594773]
+[New LWP 594740]
+[New LWP 594739]
+[New LWP 594738]
+[New LWP 594737]
+[New LWP 594728]
+[New LWP 594727]
+[New LWP 594725]
+[New LWP 594724]
+[New LWP 594723]
+[New LWP 594722]
+[New LWP 594720]
+[New LWP 594719]
+[New LWP 594718]
+[New LWP 594717]
+[New LWP 594716]
+[New LWP 594715]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 33 (Thread 0x7fc83bafb6c0 (LWP 594715) "DelayedTaskSche"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x27987e98, timeout=-1) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x27987e98, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x00000000009f5b65 in node::WorkerThreadsTaskRunner::DelayedTaskScheduler::Start()::{lambda(void*)#1}::_FUN(void*) ()
+#7  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#8  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 32 (Thread 0x7fc83b2fa6c0 (LWP 594716) "V8Worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:835
+#5  0x00000000009f0d6b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 31 (Thread 0x7fc83aaf96c0 (LWP 594717) "V8Worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:835
+#5  0x00000000009f0d6b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 30 (Thread 0x7fc83a2f86c0 (LWP 594718) "V8Worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:835
+#5  0x00000000009f0d6b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 29 (Thread 0x7fc839af76c0 (LWP 594719) "V8Worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:835
+#5  0x00000000009f0d6b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 28 (Thread 0x7fc83c0766c0 (LWP 594720) "SignalInspector"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bca6920 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a45512 in uv__sem_wait (sem=<optimized out>) at ../deps/uv/src/unix/thread.c:660
+#5  uv_sem_wait (sem=0x6bb0ce0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>) at ../deps/uv/src/unix/thread.c:716
+#6  0x0000000000b5911a in node::inspector::(anonymous namespace)::StartIoThreadMain(void*) ()
+#7  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#8  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 27 (Thread 0x7fc838ef56c0 (LWP 594722) "libuv-worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=cond@entry=0x6bc3a40 <cond>, mutex=mutex@entry=0x6bc3a00 <mutex>) at ../deps/uv/src/unix/thread.c:835
+#5  0x0000000001a30be6 in worker (arg=0x0) at ../deps/uv/src/threadpool.c:77
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 26 (Thread 0x7fc7ebfff6c0 (LWP 594723) "libuv-worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=cond@entry=0x6bc3a40 <cond>, mutex=mutex@entry=0x6bc3a00 <mutex>) at ../deps/uv/src/unix/thread.c:835
+#5  0x0000000001a30be6 in worker (arg=0x0) at ../deps/uv/src/threadpool.c:77
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 25 (Thread 0x7fc7eb7fe6c0 (LWP 594724) "libuv-worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=cond@entry=0x6bc3a40 <cond>, mutex=mutex@entry=0x6bc3a00 <mutex>) at ../deps/uv/src/unix/thread.c:835
+#5  0x0000000001a30be6 in worker (arg=0x0) at ../deps/uv/src/threadpool.c:77
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 24 (Thread 0x7fc7eaffd6c0 (LWP 594725) "libuv-worker"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=cond@entry=0x6bc3a40 <cond>, mutex=mutex@entry=0x6bc3a00 <mutex>) at ../deps/uv/src/unix/thread.c:835
+#5  0x0000000001a30be6 in worker (arg=0x0) at ../deps/uv/src/threadpool.c:77
+#6  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#7  0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 23 (Thread 0x7fc8392f66c0 (LWP 594727) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc8392f5938, timeout=-1) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc8392f5938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 22 (Thread 0x7fc8384246c0 (LWP 594728) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc838423938, timeout=1572766) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc838423938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 21 (Thread 0x7fc7ea7fc6c0 (LWP 594737) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc7ea7fb938, timeout=7168) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc7ea7fb938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 20 (Thread 0x7fc7e99f96c0 (LWP 594738) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc7e99f8938, timeout=8100) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc7e99f8938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 19 (Thread 0x7fc7e95f86c0 (LWP 594739) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc7e95f7938, timeout=1581093) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc7e95f7938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 18 (Thread 0x7fc7e91f76c0 (LWP 594740) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc7e91f6938, timeout=29950) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc7e91f6938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 17 (Thread 0x7fc7e870d6c0 (LWP 594773) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc7e870c938, timeout=1588743) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc7e870c938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 16 (Thread 0x7fc6fffff6c0 (LWP 594812) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6ffffe938, timeout=1607033) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6ffffe938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 15 (Thread 0x7fc6ffbfe6c0 (LWP 594839) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6ffbfd938, timeout=1591843) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6ffbfd938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 14 (Thread 0x7fc6ff7fd6c0 (LWP 594840) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6ff7fc938, timeout=8100) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6ff7fc938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 13 (Thread 0x7fc7e830c6c0 (LWP 594841) "fs-safe-watch"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd0fa06 in poll () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x00007fc7e8d2b6e8 in fs_safe_native::watch::run () from /isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe-linux-x64-gnu@0.26.8/node_modules/@openclaw/fs-safe-linux-x64-gnu/fs-safe-native.node
+#5  0x00007fc7e8d520d8 in std::sys::backtrace::__rust_begin_short_backtrace::<fs_safe_native::watch::start::{closure#0}, ()> () from /isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe-linux-x64-gnu@0.26.8/node_modules/@openclaw/fs-safe-linux-x64-gnu/fs-safe-native.node
+#6  0x00007fc7e8d51fbd in <std::thread::lifecycle::spawn_unchecked<fs_safe_native::watch::start::{closure#0}, ()>::{closure#1} as core::ops::function::FnOnce<()>>::call_once::{shim:vtable#0} () from /isolated-proof/candidate/node_modules/.pnpm/@openclaw+fs-safe-linux-x64-gnu@0.26.8/node_modules/@openclaw/fs-safe-linux-x64-gnu/fs-safe-native.node
+#7  0x00007fc7e8dc5e93 in alloc::boxed::{impl#31}::call_once<(), (dyn core::ops::function::FnOnce<(), Output=()> + core::marker::Send), alloc::alloc::Global> () at library/alloc/src/boxed.rs:2320
+#8  std::sys::thread::unix::{impl#2}::new::thread_start () at library/std/src/sys/thread/unix.rs:123
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 12 (Thread 0x7fc6feffb6c0 (LWP 594843) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6feffa938, timeout=29969) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6feffa938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 11 (Thread 0x7fc6febfa6c0 (LWP 594845) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6febf9938, timeout=1572645) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6febf9938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 10 (Thread 0x7fc6fe7f96c0 (LWP 594853) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fe7f8938, timeout=-1) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fe7f8938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 9 (Thread 0x7fc6fe3f86c0 (LWP 594933) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fe3f7938, timeout=1573620) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fe3f7938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 8 (Thread 0x7fc6fdff76c0 (LWP 594935) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fdff6938, timeout=1589683) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fdff6938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 7 (Thread 0x7fc6fdbf66c0 (LWP 594959) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fdbf5938, timeout=8100) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fdbf5938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 6 (Thread 0x7fc6fd7f56c0 (LWP 594962) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fd7f4938, timeout=1588795) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fd7f4938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 5 (Thread 0x7fc6fcff36c0 (LWP 595037) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fcff2938, timeout=-1) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fcff2938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 4 (Thread 0x7fc6fcbf26c0 (LWP 595103) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fcbf1938, timeout=1589363) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fcbf1938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 3 (Thread 0x7fc6fc7f16c0 (LWP 595166) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9b6ad in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bd1ca5d in epoll_pwait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a4b9e4 in uv__io_poll (loop=loop@entry=0x7fc6fc7f0938, timeout=1589272) at ../deps/uv/src/unix/linux.c:1451
+#5  0x0000000001a36027 in uv_run (loop=0x7fc6fc7f0938, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:460
+#6  0x000000000080d6f5 in node::SpinEventLoopInternal(node::Environment*) ()
+#7  0x0000000000acc0b9 in node::worker::Worker::Run() ()
+#8  0x0000000000acc206 in node::worker::Worker::StartThread(v8::FunctionCallbackInfo<v8::Value> const&)::{lambda(void*)#1}::_FUN(void*) ()
+#9  0x00007fc83bc9eb7b in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#10 0x00007fc83bd1c7f8 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+
+Thread 2 (Thread 0x7fc0dbfff6c0 (LWP 595167) "WorkerThread"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bce7fba in clock_nanosleep () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bcf33d3 in nanosleep () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x00007fc83c26339a in fsync () from /isolated-proof/proof/stall-fsync.so
+#5  0x0000000001a3954a in uv__fs_fsync (req=0x7fc0dbff8ea0) at ../deps/uv/src/unix/fs.c:189
+#6  uv__fs_work (w=w@entry=0x7fc0dbff8ff0) at ../deps/uv/src/unix/fs.c:1707
+#7  0x0000000001a3aefc in uv_fs_fsync (loop=0x0, req=0x7fc0dbff8ea0, file=<optimized out>, cb=<optimized out>) at ../deps/uv/src/unix/fs.c:1890
+#8  0x00000000009550d9 in node::fs::Fsync(v8::FunctionCallbackInfo<v8::Value> const&) ()
+#9  0x0000000001a5f08d in Builtins_CallApiCallbackGeneric ()
+#10 0x00007fc0dbff90e8 in ?? ()
+#11 0x00007fc0dbff9120 in ?? ()
+#12 0x0000000000000001 in ?? ()
+#13 0x00007fc0dbff90b0 in ?? ()
+#14 0x0000000000000038 in ?? ()
+#15 0x00007fc0dbff9168 in ?? ()
+#16 0x0000000001a5d654 in Builtins_InterpreterEntryTrampoline ()
+#17 0x000020ee32c00011 in ?? ()
+#18 0x00007fc0d4002000 in ?? ()
+#19 0x0000097bfec40109 in ?? ()
+#20 0x000020ee32c00011 in ?? ()
+#21 0x00002c7dd02f8e21 in ?? ()
+#22 0x000020ee32c00011 in ?? ()
+#23 0x0000360a05f00719 in ?? ()
+#24 0x000000bd00000000 in ?? ()
+#25 0x0000360a05f00719 in ?? ()
+#26 0x00000ce8d43e7f79 in ?? ()
+#27 0x000020ee32c00011 in ?? ()
+#28 0x0000006900000000 in ?? ()
+#29 0x00000bee43642829 in ?? ()
+#30 0x0000000000000002 in ?? ()
+#31 0x00002a0a2e9e4d61 in ?? ()
+#32 0x00002a0a2e9e3f61 in ?? ()
+#33 0x00007fc0dbff9270 in ?? ()
+#34 0x0000000001a5d654 in Builtins_InterpreterEntryTrampoline ()
+#35 0x0000360a05f200e9 in ?? ()
+#36 0x000000bd00000000 in ?? ()
+#37 0x000020ee32c04cd9 in ?? ()
+#38 0x000025bd4d481fd9 in ?? ()
+#39 0x000002970363c729 in ?? ()
+#40 0x000025bd4d482609 in ?? ()
+#41 0x000002970363c639 in ?? ()
+#42 0x000020ee32c00d31 in ?? ()
+#43 0xffffffff00000000 in ?? ()
+#44 0xffffffff00000000 in ?? ()
+#45 0x000000bd00000000 in ?? ()
+#46 0x0000360a05f200e9 in ?? ()
+#47 0x00002a0a2e9e4d61 in ?? ()
+#48 0x000002970363c639 in ?? ()
+#49 0x000020ee32c00d31 in ?? ()
+#50 0x0000360a05f200e9 in ?? ()
+#51 0x00002a0a2e9e52a1 in ?? ()
+#52 0x00000000d3292199 in ?? ()
+#53 0x0000022b00000000 in ?? ()
+#54 0x000025bd4d4822b9 in ?? ()
+#55 0x000020ee32c00011 in ?? ()
+#56 0x000002970362cee1 in ?? ()
+#57 0x000025bd4d4822b9 in ?? ()
+#58 0x000002970363c749 in ?? ()
+#59 0x0000000200000000 in ?? ()
+#60 0x000020ee32c00011 in ?? ()
+#61 0x0000024e00000000 in ?? ()
+#62 0x000015a0f99d3d19 in ?? ()
+#63 0x0000000000000004 in ?? ()
+#64 0x0000177b34c5ea41 in ?? ()
+#65 0x000002970363c639 in ?? ()
+#66 0x00007fc0dbff9308 in ?? ()
+#67 0x0000000001a5d654 in Builtins_InterpreterEntryTrampoline ()
+#68 0x000020ee32c00011 in ?? ()
+#69 0x00002f9fde2e6619 in ?? ()
+#70 0x000011fc478bc489 in ?? ()
+#71 0x00002f9fde2c0bd9 in ?? ()
+#72 0x00002f9fde2c0bd9 in ?? ()
+#73 0x000011fc478bc489 in ?? ()
+#74 0x00002f9fde2e6619 in ?? ()
+#75 0x0000177b34c5ea41 in ?? ()
+#76 0x0000000000000000 in ?? ()
+
+Thread 1 (Thread 0x7fc83c11b900 (LWP 594713) "openclaw-gatewa"):
+#0  0x00007fc83bca69ee in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007fc83bc9b668 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007fc83bc9bc8c in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007fc83bc9e158 in pthread_cond_wait () from /lib/x86_64-linux-gnu/libc.so.6
+#4  0x0000000001a456c9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:835
+#5  0x0000000000a191d7 in node::report::WriteNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_ostream<char, std::char_traits<char> >&, v8::Local<v8::Value>, bool, bool, bool) ()
+#6  0x0000000000a1bf7a in node::GetNodeReport(node::Environment*, char const*, char const*, v8::Local<v8::Value>, std::basic_ostream<char, std::char_traits<char> >&) ()
+#7  0x0000000000a20fab in node::report::GetReport(v8::FunctionCallbackInfo<v8::Value> const&) ()
+#8  0x00007fc81bdcf08d in ?? ()
+#9  0x00007ffed2b82b78 in ?? ()
+#10 0x00007ffed2b82bb0 in ?? ()
+#11 0x0000000000000001 in ?? ()
+#12 0x00007ffed2b82b40 in ?? ()
+#13 0x0000000000000038 in ?? ()
+#14 0x00007ffed2b82c00 in ?? ()
+#15 0x00007fc81bdcd654 in ?? ()
+#16 0x000020ee32c00011 in ?? ()
+#17 0x0000000027998000 in ?? ()
+#18 0x000029c839940109 in ?? ()
+#19 0x000020ee32c00011 in ?? ()
+#20 0x0000228c5bbad099 in ?? ()
+#21 0x000020ee32c00011 in ?? ()
+#22 0x00001e466f16a021 in ?? ()
+#23 0x00003a71f3d90a01 in ?? ()
+#24 0x00001e466f16a021 in ?? ()
+#25 0x0000228c5bbad159 in ?? ()
+#26 0x000029c839973251 in ?? ()
+#27 0x000020ee32c00011 in ?? ()
+#28 0x0000006d00000000 in ?? ()
+#29 0x0000014307d85281 in ?? ()
+#30 0x0000000000000001 in ?? ()
+#31 0x00001e466f16aca1 in ?? ()
+#32 0x00001e466f16a451 in ?? ()
+#33 0x00007ffed2b82c78 in ?? ()
+#34 0x00007fc81bdcd654 in ?? ()
+#35 0x00001e466f167319 in ?? ()
+#36 0x00003a71f3d90a01 in ?? ()
+#37 0x000020ee32c00011 in ?? ()
+#38 0x00001e466f167319 in ?? ()
+#39 0x00001e466f16aca1 in ?? ()
+#40 0x000001829a5947f1 in ?? ()
+#41 0x000020ee32c00011 in ?? ()
+#42 0x000020ee32c00011 in ?? ()
+#43 0x0000006d00000000 in ?? ()
+#44 0x000033749f7dd4d9 in ?? ()
+#45 0x0000000000000001 in ?? ()
+#46 0x000015a896f525c1 in ?? ()
+#47 0x000001829a5947f1 in ?? ()
+#48 0x00007ffed2b82d30 in ?? ()
+#49 0x00007fc81bdcd654 in ?? ()
+#50 0x000020ee32c00011 in ?? ()
+#51 0x000020ee32c00011 in ?? ()
+#52 0x000020ee32c00011 in ?? ()
+#53 0x000015a896f525c1 in ?? ()
+#54 0x000001829a5947f1 in ?? ()
+#55 0x000020ee32c00d31 in ?? ()
+#56 0x000020ee32c00011 in ?? ()
+#57 0x000020ee32c00011 in ?? ()
+#58 0x000020ee32c00081 in ?? ()
+#59 0x00003a71f3d908a9 in ?? ()
+#60 0x000002c4076f19a1 in ?? ()
+#61 0x000020ee32c00011 in ?? ()
+#62 0x000015a896f525c1 in ?? ()
+#63 0x000020ee32c00011 in ?? ()
+#64 0x000015a896f525c1 in ?? ()
+#65 0x000020ee32c00011 in ?? ()
+#66 0x000000a200000000 in ?? ()
+#67 0x000033749f7dd331 in ?? ()
+#68 0x0000000000000001 in ?? ()
+#69 0x000015a896f526c1 in ?? ()
+#70 0x000001829a5947f1 in ?? ()
+#71 0x00007ffed2b82da0 in ?? ()
+#72 0x00007fc81bdcd654 in ?? ()
+#73 0x000020ee32c00011 in ?? ()
+#74 0x000015a896f526c1 in ?? ()
+#75 0x000020ee32c05021 in ?? ()
+#76 0x000020ee32c00011 in ?? ()
+#77 0x0000236657e8e8b1 in ?? ()
+#78 0x0000236657e8e8c9 in ?? ()
+#79 0x000020ee32c00011 in ?? ()
+#80 0x0000006500000000 in ?? ()
+#81 0x000033749f7dd181 in ?? ()
+#82 0x0000000000000001 in ?? ()
+#83 0x000015a896f52701 in ?? ()
+#84 0x000001829a5947f1 in ?? ()
+#85 0x00007ffed2b82e20 in ?? ()
+#86 0x00007fc81bdcd654 in ?? ()
+#87 0x000020ee32c00011 in ?? ()
+#88 0x000020ee32c00011 in ?? ()
+#89 0x000020ee32c00011 in ?? ()
+#90 0x000020ee32c00011 in ?? ()
+#91 0x000015a896f52701 in ?? ()
+#92 0x000001829a5947f1 in ?? ()
+#93 0x000001829a5947f1 in ?? ()
+#94 0x000020ee32c065f9 in ?? ()
+#95 0x000020ee32c00011 in ?? ()
+#96 0x0000006d00000000 in ?? ()
+#97 0x000033749f7dcdd9 in ?? ()
+#98 0x0000000000000001 in ?? ()
+#99 0x000001829a5949a9 in ?? ()
+#100 0x00003a71f3d90839 in ?? ()
+#101 0x00007ffed2b82ed8 in ?? ()
+#102 0x00007fc81bdcd654 in ?? ()
+#103 0x000020ee32c00011 in ?? ()
+#104 0x000020ee32c00011 in ?? ()
+#105 0x000020ee32c00011 in ?? ()
+#106 0x000020ee32c00011 in ?? ()
+#107 0x000020ee32c00011 in ?? ()
+#108 0x000020ee32c00011 in ?? ()
+#109 0x000020ee32c00011 in ?? ()
+#110 0x0000039ba18429a1 in ?? ()
+#111 0x000012e12fa6aeb1 in ?? ()
+#112 0x000001829a5949a9 in ?? ()
+#113 0x000002b32a64eba1 in ?? ()
+#114 0x000020ee32c00011 in ?? ()
+#115 0x000020ee32c00011 in ?? ()
+#116 0x000020ee32c00011 in ?? ()
+#117 0x00003a71f3d90739 in ?? ()
+#118 0x000020ee32c00011 in ?? ()
+#119 0x0000009f00000000 in ?? ()
+#120 0x000033749f7dc801 in ?? ()
+#121 0x0000000000000004 in ?? ()
+#122 0x000002b32a650fc1 in ?? ()
+#123 0x000002b32a64eba1 in ?? ()
+#124 0x00007ffed2b82f70 in ?? ()
+#125 0x00007fc81bdcd654 in ?? ()
+#126 0x00001acb545c4009 in ?? ()
+#127 0x00003b6626209909 in ?? ()
+#128 0x000012e12fa6aeb1 in ?? ()
+#129 0x00003a71f3d904e9 in ?? ()
+#130 0x00003a71f3d904e9 in ?? ()
+#131 0x000012e12fa6aeb1 in ?? ()
+#132 0x00003b6626209909 in ?? ()
+#133 0x00001acb545c4009 in ?? ()
+#134 0x000002b32a650fc1 in ?? ()
+#135 0x000002b32a64eba1 in ?? ()
+#136 0x00003a71f3d90619 in ?? ()
+#137 0x000020ee32c00011 in ?? ()
+#138 0x0000007400000000 in ?? ()
+#139 0x000033749f7dc5c1 in ?? ()
+#140 0x0000000000000003 in ?? ()
+#141 0x000002b32a651031 in ?? ()
+#142 0x000002b32a64eba1 in ?? ()
+#143 0x00007ffed2b82fe8 in ?? ()
+#144 0x00007fc81bdcd654 in ?? ()
+#145 0x00001acb545c4009 in ?? ()
+#146 0x000012e12fa6aeb1 in ?? ()
+#147 0x00003a71f3d904e9 in ?? ()
+#148 0x00003a71f3d904e9 in ?? ()
+#149 0x000012e12fa6aeb1 in ?? ()
+#150 0x00001acb545c4009 in ?? ()
+#151 0x000002b32a651031 in ?? ()
+#152 0x000020ee32c00011 in ?? ()
+#153 0x0000005800000000 in ?? ()
+#154 0x000033749f7dc4f1 in ?? ()
+#155 0x0000000000000002 in ?? ()
+#156 0x00003a71f3d90251 in ?? ()
+#157 0x00003a71f3d90159 in ?? ()
+#158 0x00007ffed2b83090 in ?? ()
+#159 0x00007fc81bdcd654 in ?? ()
+#160 0x000020ee32c00011 in ?? ()
+#161 0x00003a71f3d904d9 in ?? ()
+#162 0x000020eae057e1b1 in ?? ()
+#163 0x0000314f95ae2ef1 in ?? ()
+#164 0x000007008ed473f1 in ?? ()
+#165 0x00003a71f3d904d9 in ?? ()
+#166 0x000020ee32c00011 in ?? ()
+#167 0x00003acb18fd8bc1 in ?? ()
+#168 0x00003a71f3d902c9 in ?? ()
+#169 0x0000273918392f51 in ?? ()
+#170 0x000020ee32c00011 in ?? ()
+#171 0x0000314f95ae2ef1 in ?? ()
+#172 0x00003a71f3d903e1 in ?? ()
+#173 0x000020ee32c00011 in ?? ()
+#174 0x0000009300000000 in ?? ()
+#175 0x000033749f7dc209 in ?? ()
+#176 0x0000000000000003 in ?? ()
+#177 0x000030bb21e43b41 in ?? ()
+#178 0x00003a71f3d902c9 in ?? ()
+#179 0x00007ffed2b83118 in ?? ()
+#180 0x00007fc81bdcd654 in ?? ()
+#181 0x000020ee32c00011 in ?? ()
+#182 0x00003a71f3d90251 in ?? ()
+#183 0x000007008ed473f1 in ?? ()
+#184 0x000020ee32c00011 in ?? ()
+#185 0x00003a71f3d90251 in ?? ()
+#186 0x000030bb21e43b41 in ?? ()
+#187 0x00003a71f3d90159 in ?? ()
+#188 0x0000273918392f51 in ?? ()
+#189 0x00003a71f3d901f9 in ?? ()
+#190 0x000020ee32c00011 in ?? ()
+#191 0x0000006000000000 in ?? ()
+#192 0x000033749f7dc001 in ?? ()
+#193 0x0000000000000003 in ?? ()
+#194 0x0000273918393269 in ?? ()
+#195 0x00003a71f3d90159 in ?? ()
+#196 0x00007ffed2b83230 in ?? ()
+#197 0x00007fc81bdcd654 in ?? ()
+#198 0x000020ee32c00011 in ?? ()
+#199 0x000012e12fa6aeb1 in ?? ()
+#200 0x000007008ed473f1 in ?? ()
+#201 0x000020ee32c00011 in ?? ()
+#202 0x000020ee32c00011 in ?? ()
+#203 0x000007008ed473f1 in ?? ()
+#204 0x000012e12fa6aeb1 in ?? ()
+#205 0x0000273918393269 in ?? ()
+#206 0x00003a71f3d84629 in ?? ()
+#207 0x00003a71f3d84629 in ?? ()
+#208 0x00003a71f3d84629 in ?? ()
+#209 0x000020ee32c00d31 in ?? ()
+#210 0x000029c839941a81 in ?? ()
+#211 0x000003e800000000 in ?? ()
+#212 0x00003a71f3d84629 in ?? ()
+#213 0x00003a71f3d84431 in ?? ()
+#214 0x000020ee32c00011 in ?? ()
+#215 0x000020ee32c00011 in ?? ()
+#216 0x000020ee32c00011 in ?? ()
+#217 0x000020ee32c00011 in ?? ()
+#218 0x000020ee32c00011 in ?? ()
+#219 0x000020ee32c00011 in ?? ()
+#220 0x000012e12fa6a809 in ?? ()
+#221 0x00003a71f3d84769 in ?? ()
+#222 0x000020ee32c00011 in ?? ()
+#223 0x00003a71f3d88779 in ?? ()
+#224 0x00003a71f3d847c1 in ?? ()
+#225 0x000020ee32c00011 in ?? ()
+#226 0x000001ac00000000 in ?? ()
+#227 0x000033749f7db441 in ?? ()
+#228 0x0000000000000001 in ?? ()
+#229 0x00003a71f3d84541 in ?? ()
+#230 0x00003a71f3d887b1 in ?? ()
+#231 0x00007ffed2b83268 in ?? ()
+#232 0x00007fc81be104fb in ?? ()
+#233 0x000020ee32c00011 in ?? ()
+#234 0x000013fb3352ec11 in ?? ()
+#235 0x0000000000000002 in ?? ()
+#236 0x00003a71f3d8f9d9 in ?? ()
+#237 0x00003a71f3d8f9b1 in ?? ()
+#238 0x00007ffed2b832a0 in ?? ()
+#239 0x00007fc81befa1f5 in ?? ()
+#240 0x000029c839940059 in ?? ()
+#241 0x000012e12fa6a809 in ?? ()
+#242 0x00003a71f3d8f9b1 in ?? ()
+#243 0x000020ee32c00011 in ?? ()
+#244 0x0000000000000024 in ?? ()
+#245 0x00007ffed2b83308 in ?? ()
+#246 0x00007fc81bdfe549 in ?? ()
+#247 0x000029c839940109 in ?? ()
+#248 0x0000000000000003 in ?? ()
+#249 0x000029c839940109 in ?? ()
+#250 0x00003af6e8dc2d41 in ?? ()
+#251 0x000029c839940109 in ?? ()
+#252 0x000020ee32c00011 in ?? ()
+#253 0x00003a71f3d8f9b1 in ?? ()
+#254 0x0000000000000003 in ?? ()
+#255 0x000029c839940109 in ?? ()
+#256 0x00000000279ab620 in ?? ()
+#257 0x0000000000000024 in ?? ()
+#258 0x00007ffed2b83380 in ?? ()
+#259 0x00007fc81bdcb167 in ?? ()
+#260 0x0000000000000000 in ?? ()
+[Inferior 1 (process 594713) detached]

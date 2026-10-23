@@ -1,0 +1,22 @@
+{
+  "sourceHead": "694679651b408fc381e2bab54fa0117c93200c95",
+  "command": [
+    "/node-runtime/node-v24.22.1-linux-x64/bin/node",
+    "/isolated-proof/candidate/openclaw.mjs",
+    "gateway",
+    "--port",
+    "19683",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "unit": "openclaw-176080-proof-archive-v1.service",
+  "startedAt": "2026-10-23T01:55:41.586599+00:00",
+  "instrumentationSha256": {
+    "observe-workers-v2.mjs": "402876b6bf7524380d73d4137aefc3fc60ae3d6eecdce20e9d36a84c41e88625",
+    "stall-fsync.c": "a7ef913ac0b5c92b53d132c932aa561718d6c1e5b98091a01a5bf3cfe2942b9a",
+    "stall-pread-v2.c": "90f502674718f1561c178b2476bc87a73d640678e492079ef8d2a6b6e7e8afc5",
+    "run-archive-permanent.mjs": "528751c217723813a044bf14b94dfee90264a5cbde4736f6becf95497f5c77c7"
+  },
+  "initialService": "MainPID=583149\nNRestarts=0\nExecStart={ path=/node-runtime/node-v24.22.1-linux-x64/bin/node ; argv[]=/node-runtime/node-v24.22.1-linux-x64/bin/node /isolated-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured ; ignore_errors=no ; start_time=[Thu 2026-10-22 21:55:42 EDT] ; stop_time=[n/a] ; pid=583149 ; code=(null) ; status=0/0 }\nActiveState=active\nSubState=running\nFragmentPath=/home/jason/.config/systemd/user/openclaw-176080-proof-archive-v1.service\n"
+}

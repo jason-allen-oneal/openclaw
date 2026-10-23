@@ -1,0 +1,208 @@
+{
+  "cli": {
+    "version": "2026.10.6",
+    "entrypoint": "/isolated-proof/candidate/openclaw.mjs"
+  },
+  "logFile": "/tmp/openclaw/openclaw-2026-10-22.log",
+  "service": {
+    "label": "systemd user",
+    "systemdInstallation": {
+      "kind": "user",
+      "user": {
+        "scope": "user",
+        "unitName": "openclaw-176080-proof-archive-v3.service",
+        "unitPath": "/isolated-proof/proof/permanent-archive-v3/home/.config/systemd/user/openclaw-176080-proof-archive-v3.service"
+      }
+    },
+    "loaded": true,
+    "loadState": {
+      "status": "loaded"
+    },
+    "loadedText": "enabled",
+    "notLoadedText": "disabled",
+    "targetRole": "diagnostic-only",
+    "command": {
+      "programArguments": [
+        "/node-runtime/node-v24.22.1-linux-x64/bin/node",
+        "/isolated-proof/candidate/openclaw.mjs",
+        "gateway",
+        "--port",
+        "19683",
+        "--bind",
+        "loopback",
+        "--allow-unconfigured"
+      ],
+      "workingDirectory": "/isolated-proof/candidate",
+      "environment": {
+        "OPENCLAW_STATE_DIR": "/isolated-proof/proof/permanent-archive-v3/state",
+        "OPENCLAW_CONFIG_PATH": "/isolated-proof/proof/permanent-archive-v3/config.json"
+      },
+      "environmentValueSources": {
+        "PATH": "inline",
+        "HOME": "inline",
+        "LANG": "inline",
+        "XDG_RUNTIME_DIR": "inline",
+        "DBUS_SESSION_BUS_ADDRESS": "inline",
+        "OPENCLAW_SYSTEMD_UNIT": "inline",
+        "OPENCLAW_STATE_DIR": "inline",
+        "OPENCLAW_CONFIG_PATH": "inline",
+        "OPENCLAW_SKIP_CHANNELS": "inline",
+        "OPENCLAW_SKIP_PROVIDERS": "inline",
+        "OPENCLAW_SKIP_GMAIL_WATCHER": "inline",
+        "OPENCLAW_SKIP_CRON": "inline",
+        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER": "inline",
+        "OPENCLAW_SKIP_CANVAS_HOST": "inline",
+        "OPENCLAW_PROOF_FSYNC_ROOT": "inline",
+        "OPENCLAW_PROOF_PREAD_ROOT": "inline",
+        "OPENCLAW_PROOF_WORKER_TRACE": "inline",
+        "LD_PRELOAD": "inline",
+        "NODE_OPTIONS": "inline"
+      },
+      "sourcePath": "/run/user/1000/systemd/user/openclaw-176080-proof-archive-v3.service"
+    },
+    "layout": {
+      "execStart": "/node-runtime/node-v24.22.1-linux-x64/bin/node /isolated-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured",
+      "sourcePath": "/run/user/1000/systemd/user/openclaw-176080-proof-archive-v3.service",
+      "sourcePathReal": "/isolated-proof/proof/permanent-archive-v3/home/.config/systemd/user/openclaw-176080-proof-archive-v3.service",
+      "sourceScope": "user",
+      "entrypoint": "/isolated-proof/candidate/openclaw.mjs",
+      "entrypointReal": "/isolated-proof/candidate/openclaw.mjs",
+      "packageRoot": "/isolated-proof/candidate",
+      "packageRootReal": "/isolated-proof/candidate",
+      "packageVersion": "2026.10.6",
+      "entrypointSourceCheckout": true
+    },
+    "runtime": {
+      "status": "running",
+      "state": "active",
+      "subState": "running",
+      "pid": 607121,
+      "lastExitStatus": 0,
+      "lastExitReason": "0",
+      "systemd": {
+        "scope": "user",
+        "transport": {
+          "kind": "session-bus",
+          "address": "unix:path=/run/user/1000/bus",
+          "runtimeDir": "/run/user/1000"
+        },
+        "unit": "openclaw-176080-proof-archive-v3.service",
+        "controlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/openclaw-176080-proof-archive-v3.service",
+        "killMode": "control-group",
+        "tasksCurrent": 49,
+        "memoryCurrent": 1747263488,
+        "result": "success",
+        "nRestarts": 0,
+        "startLimitBurst": 5
+      }
+    },
+    "configAudit": {
+      "ok": false,
+      "issues": [
+        {
+          "code": "gateway-path-missing-dirs",
+          "message": "Gateway service PATH missing required dirs: /usr/local/bin",
+          "level": "recommended"
+        },
+        {
+          "code": "systemd-after-network-online",
+          "message": "Missing systemd After=network-online.target",
+          "detail": "/isolated-proof/proof/permanent-archive-v3/home/.config/systemd/user/openclaw-176080-proof-archive-v3.service",
+          "level": "recommended"
+        },
+        {
+          "code": "systemd-wants-network-online",
+          "message": "Missing systemd Wants=network-online.target",
+          "detail": "/isolated-proof/proof/permanent-archive-v3/home/.config/systemd/user/openclaw-176080-proof-archive-v3.service",
+          "level": "recommended"
+        },
+        {
+          "code": "systemd-kill-mode-control-group",
+          "message": "KillMode=mixed is required to drain active turns before final service child cleanup; inspect unit and drop-in overrides.",
+          "detail": "/isolated-proof/proof/permanent-archive-v3/home/.config/systemd/user/openclaw-176080-proof-archive-v3.service: control-group",
+          "level": "recommended"
+        }
+      ],
+      "definitionDriftError": "Systemd definition inspection skipped: the selected service is outside the managed user-unit path."
+    },
+    "gatewayHeap": {
+      "maxOldSpaceSizeMiB": 8192,
+      "availableMemoryMiB": 31989,
+      "memorySource": "physical",
+      "floorMiB": 2048,
+      "capMiB": 8192,
+      "headroomCapMiB": 23991,
+      "nodeOptions": "",
+      "execArgv": []
+    }
+  },
+  "config": {
+    "cli": {
+      "path": "/isolated-proof/proof/permanent-archive-v3/config.json",
+      "exists": true,
+      "valid": true,
+      "controlUi": {
+        "enabled": false
+      }
+    },
+    "daemon": {
+      "path": "/isolated-proof/proof/permanent-archive-v3/config.json",
+      "exists": true,
+      "valid": true,
+      "controlUi": {
+        "enabled": false
+      }
+    }
+  },
+  "gateway": {
+    "bindMode": "loopback",
+    "bindHost": "127.0.0.1",
+    "port": 19683,
+    "portSource": "env/config",
+    "probeUrl": "ws://127.0.0.1:19683",
+    "probeNote": "Loopback-only gateway; only local clients can connect.",
+    "version": "2026.10.6"
+  },
+  "hostDesktop": {
+    "enabled": false,
+    "state": "disabled",
+    "port": 5900
+  },
+  "port": {
+    "port": 19683,
+    "status": "busy",
+    "listeners": [
+      {
+        "pid": 607121,
+        "command": "openclaw-gatewa",
+        "address": "127.0.0.1:19683",
+        "user": "jason",
+        "commandLine": "openclaw-gateway",
+        "ppid": 992
+      }
+    ],
+    "hints": []
+  },
+  "rpc": {
+    "ok": true,
+    "kind": "connect",
+    "capability": "connected_no_operator_scope",
+    "auth": {
+      "role": "operator",
+      "scopes": [],
+      "capability": "connected_no_operator_scope"
+    },
+    "server": {
+      "version": "2026.10.6",
+      "buildId": "2026.10.6-ca6b3dff7d94-2026-10-23T02-36-26.706Z",
+      "connId": "674bea8a-f67b-4391-a5bd-515387fef07c"
+    },
+    "version": "2026.10.6",
+    "url": "ws://127.0.0.1:19683"
+  },
+  "extraServices": [],
+  "pluginVersionDrift": {
+    "gatewayVersion": "2026.10.6",
+    "drifts": []
+  }
+}

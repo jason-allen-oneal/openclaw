@@ -1,0 +1,31 @@
+{
+  "completedAt": "2026-10-23T02:25:26.290804+00:00",
+  "head": "ad80e15d681d326b24915f98e4a32914ee1e3b71",
+  "mergeHead": "936b57750cf99dbef410e224412a99a91f0d3f46",
+  "path": "src/hooks/loader.cache-invalidation.test.ts",
+  "sha256": "50af615f69de0e824ad5f39e7cb6d796fc8db4b09cb8077ef90db12fecdabc04",
+  "checks": {
+    "focusedTests": {
+      "exitCode": 0,
+      "tests": 2,
+      "receipt": "hook-fixture-repair-tests.receipt.json"
+    },
+    "configCliTestTypes": {
+      "exitCode": 0,
+      "receipt": "hook-fixture-repair-types.receipt.json"
+    },
+    "scopedLint": {
+      "exitCode": 0,
+      "command": "node scripts/run-oxlint.mjs --tsconfig config/tsconfig/oxlint.core.json src/hooks/loader.cache-invalidation.test.ts",
+      "log": "hook-fixture-repair-lint.log"
+    },
+    "format": {
+      "exitCode": 0,
+      "log": "hook-fixture-repair-format.log"
+    },
+    "unstagedAndStagedDiffCheck": {
+      "exitCode": 0
+    }
+  },
+  "independentReview": "Matches current loader.test.ts pinConfigDir/environment isolation and cleanup; both behavior assertions remain unchanged."
+}

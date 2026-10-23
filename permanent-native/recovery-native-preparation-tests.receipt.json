@@ -1,0 +1,21 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "src/infra/process-respawn.runtime-unavailable.test.ts",
+    "src/infra/process-respawn.test.ts"
+  ],
+  "head": "ad80e15d681d326b24915f98e4a32914ee1e3b71",
+  "mergeHead": "936b57750cf99dbef410e224412a99a91f0d3f46",
+  "sourceSha256": {
+    "src/infra/process-respawn.ts": "b5c1435bb5b739b892452bab4b3488c0fb125563cfb5383f546a5347fd1028d3",
+    "src/infra/process-respawn.runtime-unavailable.test.ts": "da6a4c90ffc6ccb8494e1bfd4eb8afca3f4103429ef8f89e39b14d558b295b25"
+  },
+  "exitCode": 0,
+  "elapsedSeconds": 308.448915469,
+  "sourceUnchanged": true,
+  "finishedAt": "2026-10-23T02:30:18.434785+00:00",
+  "testsPassed": 48,
+  "testFilesPassed": 2
+}

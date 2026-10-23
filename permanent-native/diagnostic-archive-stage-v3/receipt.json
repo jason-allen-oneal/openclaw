@@ -1,0 +1,30 @@
+{
+  "diagnosticOnly": true,
+  "taskBudgetOverrideMs": 3000,
+  "sourceHead": "ad80e15d681d326b24915f98e4a32914ee1e3b71",
+  "command": [
+    "/node-runtime/node-v24.22.1-linux-x64/bin/node",
+    "/isolated-proof/candidate/openclaw.mjs",
+    "gateway",
+    "--port",
+    "19683",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "unit": "openclaw-176080-proof-archive-stage-v3.service",
+  "startedAt": "2026-10-23T02:24:24.438289+00:00",
+  "instrumentationSha256": {
+    "observe-workers-v5.mjs": "ecfc76f9fb43f039f5bccf0bb61d3154631ef6027b2a787c8da9328ba4b8098b",
+    "stall-fsync.c": "a7ef913ac0b5c92b53d132c932aa561718d6c1e5b98091a01a5bf3cfe2942b9a",
+    "stall-pread-v2.c": "90f502674718f1561c178b2476bc87a73d640678e492079ef8d2a6b6e7e8afc5",
+    "run-archive-debug-v3.mjs": "29642b18cf358aa675b07d4cdef41e70e2b04a59582e2908f09e1ca3810d35de"
+  },
+  "runtimeEnabledState": "enabled-runtime",
+  "initialService": "MainPID=598537\nNRestarts=0\nExecStart={ path=/node-runtime/node-v24.22.1-linux-x64/bin/node ; argv[]=/node-runtime/node-v24.22.1-linux-x64/bin/node /isolated-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured ; ignore_errors=no ; start_time=[Thu 2026-10-22 22:24:24 EDT] ; stop_time=[n/a] ; pid=598537 ; code=(null) ; status=0/0 }\nActiveState=active\nSubState=running\nFragmentPath=/run/user/1000/systemd/user/openclaw-176080-proof-archive-stage-v3.service\n",
+  "releaseExistedBeforeCleanup": false,
+  "stopExitCode": 0,
+  "stoppedService": "MainPID=0\nNRestarts=2\nActiveState=inactive\nSubState=dead\n",
+  "unlinkExitCode": 0,
+  "finishedAt": "2026-10-23T02:24:36.432968+00:00"
+}

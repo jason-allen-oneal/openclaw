@@ -1,0 +1,85 @@
+{
+  "events": [
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "seq": 0,
+      "json": "{\"type\":\"session\",\"version\":4,\"id\":\"e3d97860-11e7-4402-9ed3-234cd3e08487\",\"timestamp\":\"2026-10-23T00:47:02.175Z\",\"cwd\":\"/isolated-proof/proof/candidate-archive/workspace\"}"
+    },
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "seq": 1,
+      "json": "{\"type\":\"message\",\"id\":\"a38071d5-4ca6-47fd-96f7-a9ff2ce8d1c8\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:47:02.197Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792716422197,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+    }
+  ],
+  "index": [
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "indexed_seq": 1,
+      "leaf_event_id": "a38071d5-4ca6-47fd-96f7-a9ff2ce8d1c8",
+      "needs_rebuild": 1,
+      "active_event_count": 1,
+      "active_message_count": 1,
+      "updated_at": 1792716874108
+    }
+  ],
+  "leases": [
+    {
+      "lease_id": "15b90241-4d26-43cf-b7be-c456c4534521",
+      "agent_id": "main",
+      "path": "/isolated-proof/proof/permanent-reconcile-v1/state/agents/main/agent/openclaw-agent.sqlite",
+      "owner_pid": 583151,
+      "owner_start_time": 220735325,
+      "opened_at": 1792720560939,
+      "provenance": "process-v1:a8cb8c7d1eda53f1969eb60f83302fa0add361e8e0632e6d08108404c518ddf4"
+    },
+    {
+      "lease_id": "c1f88535-c604-4340-9b7e-f89bf3ec45d2",
+      "agent_id": "main",
+      "path": "/isolated-proof/proof/permanent-reconcile-v1/state/agents/main/agent/openclaw-agent.sqlite",
+      "owner_pid": 583151,
+      "owner_start_time": 220735325,
+      "opened_at": 0,
+      "provenance": "process-v1:a8cb8c7d1eda53f1969eb60f83302fa0add361e8e0632e6d08108404c518ddf4"
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ],
+  "time": 1792720748803,
+  "workerEvents": [
+    {
+      "time": 1792720565794,
+      "event": "worker-created",
+      "pid": 583151,
+      "threadId": 21,
+      "url": "file:///isolated-proof/candidate/dist/config/sessions/session-transcript-reconcile.worker.js"
+    },
+    {
+      "time": 1792720565794,
+      "event": "worker-dispatch",
+      "threadId": 21,
+      "url": "file:///isolated-proof/candidate/dist/config/sessions/session-transcript-reconcile.worker.js",
+      "input": {
+        "mode": "disk",
+        "sessionIds": [
+          "e3d97860-11e7-4402-9ed3-234cd3e08487"
+        ],
+        "leaseId": "c1f88535-c604-4340-9b7e-f89bf3ec45d2",
+        "agentId": "main",
+        "path": "/isolated-proof/proof/permanent-reconcile-v1/state/agents/main/agent/openclaw-agent.sqlite",
+        "stateDir": "/isolated-proof/proof/permanent-reconcile-v1/state",
+        "externallySupervised": false
+      }
+    },
+    {
+      "time": 1792720745793,
+      "event": "worker-terminate-request",
+      "pid": 583151,
+      "threadId": 21,
+      "url": "file:///isolated-proof/candidate/dist/config/sessions/session-transcript-reconcile.worker.js"
+    }
+  ],
+  "nativeThreadExists": true
+}

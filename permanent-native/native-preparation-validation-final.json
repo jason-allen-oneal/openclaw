@@ -1,0 +1,32 @@
+{
+  "head": "ca6b3dff7d9473f03f49e89b9eca39bdf7bd8a9b",
+  "sourceManifest": "final-head-ca6-source.json",
+  "processRespawn": {
+    "testsPassed": 48,
+    "exitCode": 0,
+    "receipt": "recovery-native-preparation-tests.receipt.json"
+  },
+  "remainingRegressionTests": {
+    "testsPassed": 55,
+    "receipt": "recovery-native-preparation-regressions.receipt.json",
+    "note": "Successful4-shard terminal summary; separate post-test wrapper metadata failure retained."
+  },
+  "hookFixture": {
+    "testsPassed": 2,
+    "receipt": "hook-fixture-repair-validation.json"
+  },
+  "typeAwareLint": {
+    "exitCode": 0,
+    "log": "recovery-native-preparation-lint.log"
+  },
+  "format": {
+    "exitCode": 0,
+    "command": "OPENCLAW_FORMAT_TOOL=oxfmt node scripts/run-format.mts --check src/infra/process-respawn.ts src/infra/process-respawn.runtime-unavailable.test.ts"
+  },
+  "coreTypes": {
+    "exitCode": 0,
+    "receipt": "post-main-core-types.receipt.json"
+  },
+  "independentReview": "native-preparation-review.md",
+  "nativeProof": "Parent-owned unchanged-timeout final-source proof remains pending."
+}

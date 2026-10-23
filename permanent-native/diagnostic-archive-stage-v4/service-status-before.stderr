@@ -1,0 +1,9 @@
+RECOVERY_REPORT_CALL Error
+    at process.report.getReport (file:///isolated-proof/proof/observe-workers-v6.mjs:55:81)
+    at isMuslFromReport (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:62:39)
+    at isMusl (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:162:24)
+    at target (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:173:47)
+    at getNativeBinding (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/native.js:187:30)
+    at Module.isSupported (file:///isolated-proof/candidate/node_modules/.pnpm/@openclaw+proc-safe@0.4.2/node_modules/@openclaw/proc-safe/dist/systemd.js:146:24)
+    at file:///isolated-proof/proof/observe-workers-v6.mjs:57:217
+DIAGNOSTIC_PREWARM_SYSTEMD true

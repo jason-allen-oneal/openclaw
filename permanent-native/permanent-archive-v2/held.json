@@ -1,0 +1,105 @@
+{
+  "time": 1792721538773,
+  "firstSettled": false,
+  "nextSettled": false,
+  "workerEvents": [
+    {
+      "time": 1792721355073,
+      "event": "worker-created",
+      "pid": 590738,
+      "threadId": 24,
+      "url": "file:///isolated-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js"
+    },
+    {
+      "time": 1792721355074,
+      "event": "worker-dispatch",
+      "threadId": 24,
+      "url": "file:///isolated-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js",
+      "type": "archive-operation"
+    },
+    {
+      "time": 1792721355734,
+      "event": "worker-temporary-file",
+      "threadId": 24,
+      "type": "archive-temporary-file",
+      "filePath": "/isolated-proof/proof/permanent-archive-v2/state/agents/main/sessions/fd00e1ca-f099-47f1-b491-540a0a02e52b.jsonl.deleted.2026-10-23T02-09-15.733Z.dbeefa7bb5494668b099f323ce269cbe.1461d124-b957-4b1e-97d4-da93540ccc5f.jsonl-stage",
+      "retained": true
+    },
+    {
+      "time": 1792721535078,
+      "event": "worker-terminate-request",
+      "pid": 590738,
+      "threadId": 24,
+      "url": "file:///isolated-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js"
+    },
+    {
+      "time": 1792721535078,
+      "event": "worker-terminate-returned",
+      "pid": 590738,
+      "threadId": 24,
+      "url": "file:///isolated-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js"
+    }
+  ],
+  "nativeThreadExists": true,
+  "stageExists": true,
+  "stageSha256": "d4eaf6d5fdaa13b35ddb01b42092972ee3b9ca7e9901d6a9a6b837df0fc87b11",
+  "snapshot": {
+    "nodes": [
+      {
+        "session_key": "agent:main:archive-stall-first",
+        "current_session_id": "fd00e1ca-f099-47f1-b491-540a0a02e52b"
+      },
+      {
+        "session_key": "agent:main:archive-stall-next",
+        "current_session_id": "f2c65dfe-867a-4cd4-a5a7-a6c96aff120b"
+      },
+      {
+        "session_key": "agent:main:reconcile-retained",
+        "current_session_id": "7015978d-81e2-4a4f-9910-8bb6e5ba8edf"
+      }
+    ],
+    "events": [
+      {
+        "session_id": "7015978d-81e2-4a4f-9910-8bb6e5ba8edf",
+        "seq": 0,
+        "event_utf8_bytes": 205,
+        "json": "{\"type\":\"session\",\"version\":4,\"id\":\"7015978d-81e2-4a4f-9910-8bb6e5ba8edf\",\"timestamp\":\"2026-10-23T02:09:14.397Z\",\"cwd\":\"/isolated-proof/proof/permanent-archive-v2/workspace\"}"
+      },
+      {
+        "session_id": "7015978d-81e2-4a4f-9910-8bb6e5ba8edf",
+        "seq": 1,
+        "event_utf8_bytes": 612,
+        "json": "{\"type\":\"message\",\"id\":\"9f1f32d7-1de4-42d5-b482-110ddec81f64\",\"parentId\":null,\"timestamp\":\"2026-10-23T02:09:14.460Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792721354460,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+      },
+      {
+        "session_id": "f2c65dfe-867a-4cd4-a5a7-a6c96aff120b",
+        "seq": 0,
+        "event_utf8_bytes": 205,
+        "json": "{\"type\":\"session\",\"version\":4,\"id\":\"f2c65dfe-867a-4cd4-a5a7-a6c96aff120b\",\"timestamp\":\"2026-10-23T02:09:14.231Z\",\"cwd\":\"/isolated-proof/proof/permanent-archive-v2/workspace\"}"
+      },
+      {
+        "session_id": "f2c65dfe-867a-4cd4-a5a7-a6c96aff120b",
+        "seq": 1,
+        "event_utf8_bytes": 612,
+        "json": "{\"type\":\"message\",\"id\":\"98e909ca-23ec-43d5-82f5-9b7191c02897\",\"parentId\":null,\"timestamp\":\"2026-10-23T02:09:14.274Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-next\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-next\"}],\"timestamp\":1792721354274,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+      },
+      {
+        "session_id": "fd00e1ca-f099-47f1-b491-540a0a02e52b",
+        "seq": 0,
+        "event_utf8_bytes": 205,
+        "json": "{\"type\":\"session\",\"version\":4,\"id\":\"fd00e1ca-f099-47f1-b491-540a0a02e52b\",\"timestamp\":\"2026-10-23T02:09:10.919Z\",\"cwd\":\"/isolated-proof/proof/permanent-archive-v2/workspace\"}"
+      },
+      {
+        "session_id": "fd00e1ca-f099-47f1-b491-540a0a02e52b",
+        "seq": 1,
+        "event_utf8_bytes": 614,
+        "json": "{\"type\":\"message\",\"id\":\"bf20e0f1-6156-4ca2-b3fd-3386dba0dcf8\",\"parentId\":null,\"timestamp\":\"2026-10-23T02:09:11.040Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-first\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-first\"}],\"timestamp\":1792721351040,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+      }
+    ],
+    "quickCheck": [
+      {
+        "quick_check": "ok"
+      }
+    ]
+  }
+}

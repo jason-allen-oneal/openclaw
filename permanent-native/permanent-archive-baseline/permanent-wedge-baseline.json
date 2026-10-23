@@ -1,0 +1,11 @@
+{
+  "sourceHead": "699ff2529067bea705e86005baf0c418906fbf03",
+  "expected": "automatic fresh-process recovery without releasing the native fault",
+  "actual": "same process and worker remain live; active request and queued successor are still pending",
+  "heldMilliseconds": 210013,
+  "gatewayPid": 565291,
+  "nativeThreadExists": true,
+  "activePending": true,
+  "successorPending": true,
+  "releaseExists": false
+}

@@ -1,0 +1,32 @@
+{
+  "sourceHead": "ca6b3dff7d9473f03f49e89b9eca39bdf7bd8a9b",
+  "command": [
+    "/node-runtime/node-v24.22.1-linux-x64/bin/node",
+    "/isolated-proof/candidate/openclaw.mjs",
+    "gateway",
+    "--port",
+    "19683",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "unit": "openclaw-176080-proof-archive-v3.service",
+  "startedAt": "2026-10-23T02:40:08.275726+00:00",
+  "instrumentationSha256": {
+    "observe-workers-v3.mjs": "e1d04f6de9371213a4a7723bd2d8cce21e97e8f38d9c3abf828e6e3c393526e1",
+    "stall-fsync.c": "a7ef913ac0b5c92b53d132c932aa561718d6c1e5b98091a01a5bf3cfe2942b9a",
+    "stall-pread-v2.c": "90f502674718f1561c178b2476bc87a73d640678e492079ef8d2a6b6e7e8afc5",
+    "run-archive-permanent.mjs": "528751c217723813a044bf14b94dfee90264a5cbde4736f6becf95497f5c77c7"
+  },
+  "runtimeEnabledState": "enabled-runtime",
+  "initialService": "MainPID=607121\nNRestarts=0\nExecStart={ path=/node-runtime/node-v24.22.1-linux-x64/bin/node ; argv[]=/node-runtime/node-v24.22.1-linux-x64/bin/node /isolated-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured ; ignore_errors=no ; start_time=[Thu 2026-10-22 22:40:08 EDT] ; stop_time=[n/a] ; pid=607121 ; code=(null) ; status=0/0 }\nActiveState=active\nSubState=running\nFragmentPath=/run/user/1000/systemd/user/openclaw-176080-proof-archive-v3.service\n",
+  "readySeconds": 14.784712075721473,
+  "serviceStatusExitCode": 0,
+  "driverExitCode": 0,
+  "finalService": "MainPID=609540\nNRestarts=1\nExecStart={ path=/node-runtime/node-v24.22.1-linux-x64/bin/node ; argv[]=/node-runtime/node-v24.22.1-linux-x64/bin/node /isolated-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured ; ignore_errors=no ; start_time=[Thu 2026-10-22 22:43:56 EDT] ; stop_time=[n/a] ; pid=609540 ; code=(null) ; status=0/0 }\nActiveState=active\nSubState=running\nFragmentPath=/run/user/1000/systemd/user/openclaw-176080-proof-archive-v3.service\n",
+  "releaseExistedBeforeCleanup": false,
+  "stopExitCode": 0,
+  "stoppedService": "MainPID=0\nNRestarts=1\nActiveState=failed\nSubState=failed\n",
+  "unlinkExitCode": 0,
+  "finishedAt": "2026-10-23T02:44:18.264761+00:00"
+}

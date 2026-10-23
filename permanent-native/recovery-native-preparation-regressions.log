@@ -1,0 +1,178 @@
+[test] starting test/vitest/vitest.tooling.config.ts
+
+ RUN  v5.0.3 /checkout
+
+
+ RUN  v5.0.3 /checkout
+
+[vitest] still running with no output for 30000ms.
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > keeps packaged scripts closed over runtime imports 408ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > keeps the PR wrapper inventory closed over runtime imports 28649ms
+[vitest] still running with no output for 30000ms.
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > acquires wrapper leases and manages templates without the application command runtime 6297ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > resolves wrapper package exports and workspace aliases from the extracted dependency context 29201ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > matches plain Node's dependency requirement for import type { Missing } from "./missing… 284ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > matches plain Node's dependency requirement for import { type Missing } from "./missing… 227ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > matches plain Node's dependency requirement for export type { Missing } from "./missing… 352ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > matches plain Node's dependency requirement for export { type Missing } from "./missing… 247ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > boots an anchor handed off by an older wrapper (dependencies=empty) 2306ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > boots an anchor handed off by an older wrapper (dependencies=legacy) 3324ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > boots an anchor handed off by an older wrapper (dependencies=outdated) 705ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > launches a pre-helper anchor (manifest=false) 804ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > launches a pre-helper anchor (manifest=true) 746ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > captures lazy platform modules and their runtime dependencies without loading them 93ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > resolves runtime aliases and import/require conditions without following declarations 171ms
+[vitest] still running with no output for 30000ms.
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > keeps native update authority independent of deferred owners 12037ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > keeps migrated finalization independent of deferred owners 44193ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > keeps Git operation workers independent of deferred owners 5945ms
+stderr | unknown test
+[sqlite-test-lifecycle] test/scripts/eager-import-closure.test.ts: retiring openclaw.agentDatabaseReaders
+
+stderr | unknown test
+[sqlite-test-lifecycle] test/scripts/eager-import-closure.test.ts: retiring openclaw.agentDatabaseReaders
+
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts > keeps Ollama config metadata independent of deferred owners 403ms
+ ✓ |tooling| test/scripts/eager-import-closure.test.ts (19 tests) 136401ms
+   ✓ keeps packaged scripts closed over runtime imports 408ms
+   ✓ keeps the PR wrapper inventory closed over runtime imports 28649ms
+   ✓ acquires wrapper leases and manages templates without the application command runtime 6297ms
+   ✓ resolves wrapper package exports and workspace aliases from the extracted dependency context 29201ms
+   ✓ matches plain Node's dependency requirement for export type { Missing } from "./missing… 352ms
+   ✓ boots an anchor handed off by an older wrapper (dependencies=empty) 2306ms
+   ✓ boots an anchor handed off by an older wrapper (dependencies=legacy) 3324ms
+   ✓ boots an anchor handed off by an older wrapper (dependencies=outdated) 705ms
+   ✓ launches a pre-helper anchor (manifest=false) 804ms
+   ✓ launches a pre-helper anchor (manifest=true) 746ms
+   ✓ keeps native update authority independent of deferred owners 12037ms
+   ✓ keeps migrated finalization independent of deferred owners 44193ms
+   ✓ keeps Git operation workers independent of deferred owners 5945ms
+   ✓ keeps Ollama config metadata independent of deferred owners 403ms
+
+ Test Files  1 passed (1)
+      Tests  19 passed (19)
+   Start at  22:30:35
+   Duration  141.46s (tests 97%, worker 2%)
+
+
+ Test Files  1 passed (1)
+      Tests  19 passed (19)
+   Start at  22:30:35
+   Duration  141.47s (tests 97%, worker 2%)
+
+[test] starting test/vitest/vitest.runtime-config.config.ts
+
+ RUN  v5.0.3 /checkout
+
+[vitest-workers] local cache hit after 21918ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 825364f436da in 22184ms (16799 inputs, 21908 outputs)
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retains a timed-out one-shot archive until native exit and requests recovery when retirement stalls 17774ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retains a timed-out scoped archive until native exit and requests recovery when retirement stalls 11564ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reads fresh pending archives without waiting for reclamation or writer admission 902ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses one archive worker across deletion generations and joins it at database close 10729ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > publishes archive metadata off the main thread even inside a native deletion scope 8047ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins a failed publisher and recovers its committed archive after result recording fails 10616ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=false) 15155ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=true) 14009ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires queued archive work without waiting on the blocked global FIFO 4634ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive done before database close and refuses later scope work 12446ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive published before database close and refuses later scope work 9692ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued file publication when its agent closes 7714ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued prepare publication when its agent closes 7778ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued record publication when its state closes 7011ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical path owner 7264ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical agent owner 7804ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before file without publishing to its successor 16052ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before record without publishing to its successor 15726ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: false) 1239ms
+ ✓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: true) 486ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > closes a queued admission without dispatching it after shutdown 502ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > reconciles a dirty projection while the parent retains serving Gateway ownership 7406ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through complete before retiring its lifecycle 13250ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through native-exit before retiring its lifecycle 14362ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (complete) 9028ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (native-exit) 5904ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (pool-timeout) 7191ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout) 7792ms
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (stalled-retirement) 6927ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > revokes scheduled reconciliation before its first disk admission 3450ms
+
+ Test Files  2 passed (2)
+      Tests  30 passed (30)
+   Start at  22:33:01
+   Duration  380.63s (tests 69%, transform 25%, import 4%, worker 1%)
+
+[test] starting test/vitest/vitest.cli-process.config.ts
+
+ RUN  v5.0.3 /checkout
+
+ ✓ |cli-process| src/cli/gateway-cli/shutdown-hard-exit.process.test.ts > cancels one watchdog before another kills a blocked main thread 1654ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:39:25
+   Duration  10.66s (transform 67%, tests 17%, setup 16%)
+
+[test] starting test/vitest/vitest.cli.config.ts
+
+ RUN  v5.0.3 /checkout
+
+[vitest] still running with no output for 30000ms.
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > closes admission and drains active work before handing runtime recovery to the supervisor 42637ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > finishes cleanup instead of restarting in-process when a fresh-process handoff fails 41ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > exits instead of restarting in-process when a native-worker handoff is disabled 23ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > exits instead of restarting in-process when a native-worker handoff is failed 39ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > keeps the process hard-exit watchdog armed while native-worker close is unsettled 44ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  22:39:38
+   Duration  58.36s (tests 74%, transform 17%, worker 7%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 4 Vitest shards in 611.12s

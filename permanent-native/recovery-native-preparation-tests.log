@@ -1,0 +1,121 @@
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.3 /checkout
+
+[vitest] still running with no output for 30000ms.
+[vitest-workers] local cache miss after 37398ms
+[vitest] still running with no output for 60000ms.
+[vitest] still running with no output for 90000ms.
+[vitest] still running with no output for 120000ms.
+[vitest] still running with no output for 150000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest] still running with no output for 180000ms.
+[vitest] still running with no output for 210000ms.
+[vitest] still running with no output for 240000ms.
+[vitest-workers] prepared fd304b1952f3 in 237765ms (16799 inputs, 21908 outputs)
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > requests one graceful restart after systemd Node proves viable 3103ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > requests one graceful restart after launchd Node proves viable 357ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > stays up and reports the unusable service runtime without requesting restart 190ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > keeps unmanaged report-only 239ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > keeps respawn disabled report-only 299ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > keeps external supervisor report-only 185ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > keeps embedded lifecycle report-only 161ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > keeps a recently restarted successor up instead of repeating runtime recovery 194ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > stays report-only when restart history is unavailable 203ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > reports an earlier diagnosis once when its history reader can no longer start 231ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > does not request restart after its lifecycle retires during preflight 343ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > keeps a rewritten launchd plist report-only when it does not match the loaded job 195ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > coalesces unsettled native workers into one forced fresh-process request 190ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > prepares native systemd inspection before a worker can require recovery 165ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > keeps recovery report-only when native systemd inspection was unavailable at startup 229ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > does not restart for a native worker that settles during service verification 101ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > refuses native recovery after the registering lifecycle retires during verification 167ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > refuses automatic native-worker recovery for unmanaged 119ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > refuses automatic native-worker recovery for respawn disabled 82ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > refuses automatic native-worker recovery for external supervisor 152ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > refuses automatic native-worker recovery for embedded lifecycle 89ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > does not claim an unrelated coalesced restart acquired fresh-process authority 166ms
+ ✓ |infra| src/infra/process-respawn.runtime-unavailable.test.ts > reports a failed native service probe instead of rejecting the worker's cleanup 89ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > keeps OPENCLAW_NO_RESPAWN ahead of inherited supervisor hints 92ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > actively schedules relaunch when OpenClaw launchd markers are present on macOS 15ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns supervised for a real gateway launchd job without the injected marker 19ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns supervised for a real gateway XPC launchd job without the injected marker 15ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns failed when the launchd handoff cannot be scheduled 12ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > does not schedule kickstart on non-darwin platforms 11ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > does not treat inherited XPC_SERVICE_NAME as launchd supervision 14ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > uses in-process restart on unmanaged Unix so custom supervisors keep the tracked PID 8ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns supervised when OPENCLAW_LAUNCHD_LABEL is set (stock launchd plist) 8ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns supervised when OPENCLAW_SYSTEMD_UNIT is set 45ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > exits to external supervision without invoking inherited native restart hooks 18ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns supervised when OpenClaw gateway task markers are set on Windows 16ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns the task-supervisor restart code without launching a detached handoff 24ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > rejects a task-supervisor child without its private restart marker 18ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > keeps generic service markers out of non-Windows supervisor detection 20ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns disabled on Windows without Scheduled Task markers 15ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > returns disabled in containers so PID 1 stays alive for in-process restart 10ms
+ ✓ |infra| src/infra/process-respawn.test.ts > restartGatewayProcessWithFreshPid > ignores node task script hints for gateway restart detection on Windows 6ms
+ ✓ |infra| src/infra/process-respawn.test.ts > respawnGatewayProcessForUpdate > keeps OPENCLAW_NO_RESPAWN semantics for update restarts 27ms
+ ✓ |infra| src/infra/process-respawn.test.ts > respawnGatewayProcessForUpdate > allows detached respawn on unmanaged Windows during updates 32ms
+ ✓ |infra| src/infra/process-respawn.test.ts > respawnGatewayProcessForUpdate > rewrites a pnpm-versioned OpenClaw entry before detached update respawn 18ms
+ ✓ |infra| src/infra/process-respawn.test.ts > respawnGatewayProcessForUpdate > does not rewrite another package's pnpm-versioned entry 7ms
+ ✓ |infra| src/infra/process-respawn.test.ts > respawnGatewayProcessForUpdate > spawns a detached update process when macOS only has inherited XPC state 14ms
+ ✓ |infra| src/infra/process-respawn.test.ts > respawnGatewayProcessForUpdate > registers a no-op detached child error listener before unref 44ms
+ ✓ |infra| src/infra/process-respawn.test.ts > respawnGatewayProcessForUpdate > returns failed when update detached respawn throws 22ms
+
+ Test Files  2 passed (2)
+      Tests  48 passed (48)
+   Start at  22:25:27
+   Duration  280.22s (transform 95%, tests 3%, setup 1%, import 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 302.29s

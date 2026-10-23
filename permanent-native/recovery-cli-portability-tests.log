@@ -1,0 +1,30 @@
+[test] starting test/vitest/vitest.cli.config.ts
+
+ RUN  v5.0.3 /checkout
+
+[vitest] still running with no output for 30000ms.
+[vitest-workers] local cache hit after 33271ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 6c3404bb16e8 in 33964ms (16799 inputs, 21908 outputs)
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > closes admission and drains active work before handing runtime recovery to the supervisor 21003ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > finishes cleanup instead of restarting in-process when a fresh-process handoff fails 124ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > exits instead of restarting in-process when a native-worker handoff is disabled 100ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > exits instead of restarting in-process when a native-worker handoff is failed 109ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > keeps the process hard-exit watchdog armed while native-worker close is unsettled 211ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  22:42:38
+   Duration  75.11s (transform 66%, tests 29%, worker 3%, setup 1%, import 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 99.22s

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "scripts/run-tsgo.mjs",
+    "-p",
+    "tsconfig.core.json",
+    "--incremental",
+    "--tsBuildInfoFile",
+    ".artifacts/tsgo-cache/core.tsbuildinfo"
+  ],
+  "exitCode": 0,
+  "seconds": 95.70876528000008,
+  "main": "936b57750cf99dbef410e224412a99a91f0d3f46",
+  "recoverySha256": "b5c1435bb5b739b892452bab4b3488c0fb125563cfb5383f546a5347fd1028d3"
+}

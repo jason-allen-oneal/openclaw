@@ -1,0 +1,47 @@
+{
+  "sourceHead": "ca6b3dff7d9473f03f49e89b9eca39bdf7bd8a9b",
+  "archives": [
+    {
+      "name": "53dd430b-b0ed-4dab-8498-e63e15b70513.jsonl.deleted.2026-10-23T02-44-17.320Z.226f52cb33b24f45a10d99df86230ec7.zst",
+      "compressedBytes": 442,
+      "sha256": "bc485993f9afbd58fa3a039deff57b36934d2e2be85eff8612ffb192fa61140d",
+      "plainBytes": 819,
+      "plainSha256": "f2c2c5207a1cbc58df2fa00cf15d3c3115d38767345f3ae4b2dccdc7db83d7a8",
+      "sessionId": "53dd430b-b0ed-4dab-8498-e63e15b70513",
+      "exactCanonicalRows": 2
+    },
+    {
+      "name": "172740c5-2d8e-4169-afb4-7ac7ef7619b4.jsonl.deleted.2026-10-23T02-44-17.515Z.1f6fbc78948447b88e1299622e5e551b.zst",
+      "compressedBytes": 443,
+      "sha256": "64a8342b7a45219762f676e863d9076e0e7806fb6cfc16288e1b2edfca5b7958",
+      "plainBytes": 821,
+      "plainSha256": "1b773dd8a64755da08cfd285180eb1e01f604701139205058d2e60fa7db3b2ce",
+      "sessionId": "172740c5-2d8e-4169-afb4-7ac7ef7619b4",
+      "exactCanonicalRows": 2
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ],
+  "stagingRemoved": false,
+  "orphanedStagePreserved": true,
+  "failedSourcePreserved": true,
+  "retrySucceeded": true,
+  "retainedHistoryRead": true,
+  "terminationRequestedMsAfterNativeObservation": 179336,
+  "oldPid": 607121,
+  "newPid": 609540,
+  "oldProcessDeathObservedAt": 1792723431406,
+  "native": [
+    {
+      "event": "fsync-enter",
+      "pid": 607121,
+      "tid": 607867,
+      "fd": 201,
+      "monotonic_ns": 2210045674350861,
+      "path": "/isolated-proof/proof/permanent-archive-v3/state/agents/main/sessions/172740c5-2d8e-4169-afb4-7ac7ef7619b4.jsonl.deleted.2026-10-23T02-40-34.515Z.1f6fbc78948447b88e1299622e5e551b.a855a74e-b9fe-4bfd-9d18-80ce524f2e1c.jsonl-stage"
+    }
+  ]
+}
