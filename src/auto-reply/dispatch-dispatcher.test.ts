@@ -33,9 +33,9 @@ it("joins in-flight settled work without running it from the waiting owner", asy
   expect(calls).toEqual([]);
   const settle = settleSourceDispatcher({ dispatcher });
   const rejected = expect(settle).rejects.toBe(failure);
-  await entered.promise;
   const concurrent = settleSourceDispatcher({ dispatcher });
   const concurrentRejected = expect(concurrent).rejects.toBe(failure);
+  await entered.promise;
   expect(ownerSettled).toBe(false);
   release.resolve();
   await Promise.all([rejected, concurrentRejected, owner]);
