@@ -1,0 +1,10 @@
+{"event":"result","passed":false,"stageCounts":[],"error":"Error: Gateway exited: 1"}
+<PROOF_HOME>/.local/share/openclaw-159826-proof/proof/gateway-runtime.mjs:67
+  if (gateway.exitCode!==null) throw new Error(`Gateway exited: ${gateway.exitCode}`);
+                                     ^
+
+Error: Gateway exited: 1
+    at start (<PROOF_HOME>/.local/share/openclaw-159826-proof/proof/gateway-runtime.mjs:67:38)
+    at async <anonymous> (<PROOF_HOME>/.local/share/openclaw-159826-proof/proof/gateway-runtime.mjs:120:2)
+
+Node.js v24.22.1

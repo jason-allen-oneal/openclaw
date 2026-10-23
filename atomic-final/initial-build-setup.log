@@ -1,0 +1,7 @@
+[build-all] plugins:assets:build
+[canvas] build: node --import ../../scripts/tsx.mjs ../../scripts/bundle-a2ui.mts
+A2UI package missing and no complete prebuilt bundle found at: <PROOF_HOME>/.local/share/openclaw-159826-proof/candidate/extensions/canvas/src/host/a2ui/a2ui.bundle.js, <PROOF_HOME>/.local/share/openclaw-159826-proof/candidate/extensions/canvas/src/host/a2ui/a2ui-v0.9.bundle.js
+A2UI bundling failed. Re-run with: pnpm canvas:a2ui:bundle
+If this persists, verify pnpm deps and try again.
+[build-all] plugins:assets:build failed after 800ms
+[build-all] phase timings: total 801ms; slowest plugins:assets:build (failed) 800ms

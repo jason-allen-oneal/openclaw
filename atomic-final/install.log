@@ -1,0 +1,17 @@
+Scope: all 200 workspace projects
+. pnpm:devPreinstall$ node scripts/check-install-dependency-ownership.mjs
+. pnpm:devPreinstall: Done
+. preinstall$ node scripts/preinstall-package-manager-warning.mjs
+. preinstall: Done
+✓ Lockfile passes supply-chain policies (verified 1h ago)
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Agent skills awaiting approval: @copilotkit/aimock, @solidjs/web, acpx, chrome-devtools-mcp, solid-js.
+Run "pnpm approve" to review them.
+. postinstall$ node scripts/postinstall-bundled-plugins.mjs
+. postinstall: Done
+. prepare$ node scripts/prepare-git-hooks.mjs
+. prepare: [native-protocol] swift: generated
+. prepare: [native-protocol] kotlin: generated
+. prepare: Done
+Done in 2s using pnpm v12.15.0

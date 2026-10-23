@@ -1,0 +1,60 @@
+{
+  "command": [
+    "<PROOF_HOME>/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "--import",
+    "./scripts/tsx.mjs",
+    "scripts/build-all.mts",
+    "qaRuntime"
+  ],
+  "sourceHead": "18ea9065fdd8c1b300a9bce1952769a998b0a016",
+  "startedAt": "2026-10-23T03:46:45.029473+00:00",
+  "exitCode": 0,
+  "finishedAt": "2026-10-23T03:49:25.812023+00:00",
+  "files": {
+    "openclaw.mjs": {
+      "sha256": "17aef9acdbe968fc07fa80685319c6fe974e019a89e0d657042b10129bc7ea51",
+      "bytes": 24156
+    },
+    "dist/index.js": {
+      "sha256": "0c9f4a79288397f998f74ccbf847998df8219c9b07107cde629e368d613563c5",
+      "bytes": 7608
+    },
+    "dist/bundled/session-memory/handler.js": {
+      "sha256": "9a7383da6677142438c1332d5338f6e2dc7cdeed356e9efb775ce47ba931c763",
+      "bytes": 13614
+    },
+    "package.json": {
+      "sha256": "df6c8cb12b361f50ea0588081eb66d6da71d5db3a819d7da743f02d60e73dde6",
+      "bytes": 151564
+    },
+    "pnpm-lock.yaml": {
+      "sha256": "8ee0f9e7c0bcdecec3d791dff04f2df1f5c608c60e57fbafaf241c765eebd8d7",
+      "bytes": 646948
+    },
+    "dist/memory-artifact-provenance-CIqdlC3S.mjs": {
+      "sha256": "7be374b50ee4baad7b4e3a7dad90c87ceceb234cf5dfcf94645f6e97acdabd72",
+      "bytes": 137
+    },
+    "dist/memory-artifact-provenance-xe6hB2eX.mjs": {
+      "sha256": "697f88c07d5098558b08944be33891e98ae76c74362295ea259d7e3b5dd871c2",
+      "bytes": 6188
+    },
+    "dist/file-lock-d9oOoCd1.mjs": {
+      "sha256": "2eb605df4a0285d692058a6f308ae600105f8d3bc227a00d9c6d8bcfd10fb551",
+      "bytes": 7153
+    },
+    "dist/file-lock-Dy2pRi6D.mjs": {
+      "sha256": "1cb85c317b39b30ad13cc72b40f11e5b192db9d02f4e90b4c69b867a0e426b87",
+      "bytes": 186
+    },
+    "dist/file-lock-juKp4eEn.mjs": {
+      "sha256": "3c0d3acb52869cabaac068e0f4ad22f0396a5f99e62b0f6c70778ddd0054b796",
+      "bytes": 46
+    },
+    "dist/file-lock-manager-D-LVVqdD.mjs": {
+      "sha256": "a368ea0952a85870af4aad1ea1b9f4c44e018402d51ec9cc6ee9ff7a50a2a95b",
+      "bytes": 360
+    }
+  },
+  "worktreeCleanAfter": true
+}

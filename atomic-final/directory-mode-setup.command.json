@@ -1,0 +1,18 @@
+{
+  "sourceHead": "18ea9065fdd8c1b300a9bce1952769a998b0a016",
+  "command": [
+    "<PROOF_HOME>/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "--import",
+    "./scripts/tsx.mjs",
+    "<PROOF_HOME>/.local/share/openclaw-159826-proof/proof/gateway-runtime.mjs"
+  ],
+  "startedAt": "2026-10-23T03:50:02.679248+00:00",
+  "fixture": {
+    "sourceHead": "2975dedca83e94d3530fdb339077bfe040d1b560",
+    "priorArtifacts": 17,
+    "sha256": "e7768248c80333c5e73f5d441bba7cc69108fb7f6b6e0f72500c039af8863107",
+    "copy": "Quiescent prior synthetic Gateway state copied to this isolated host; old files and provenance unchanged."
+  },
+  "exitCode": 1,
+  "finishedAt": "2026-10-23T03:50:08.023235+00:00"
+}

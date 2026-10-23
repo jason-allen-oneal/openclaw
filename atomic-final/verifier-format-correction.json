@@ -1,0 +1,8 @@
+{
+  "sourceHead": "18ea9065fdd8c1b300a9bce1952769a998b0a016",
+  "initialVerifierResult": "AssertionError: 2026-10-23-0354-2.md",
+  "classification": "Proof verifier expectation defect, not a runtime failure",
+  "reason": "The first independent verifier expected two trailing newline characters. The complete document emitted by the final handler ends with one, as specified by its entryParts.join implementation.",
+  "correction": "Require the exact complete synthetic document with one trailing newline. No runtime rerun, modified artifact, relaxed regex, or discarded content assertion.",
+  "finalVerifier": "independent-verification.json"
+}

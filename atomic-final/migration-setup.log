@@ -1,0 +1,49 @@
+[gateway] startup phase: entry.run-main-import starting total=156.5ms
+[gateway] startup phase: entry.run-main-import 62.5ms total=219.0ms start=156.5ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=771.5ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 441.7ms total=1213.2ms start=771.5ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=1241.8ms
+[gateway] startup phase: cli.main.gateway-run-imports 5.0ms total=1246.8ms start=1241.8ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=1260.8ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 12.6ms total=1273.5ms start=1260.8ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=1273.6ms
+[gateway] startup phase: cli.command.config-ready starting total=1275.8ms
+[gateway] startup phase: cli.command.config-guard-import starting total=1276.1ms
+[gateway] startup phase: cli.command.config-guard-import 27.0ms total=1303.1ms start=1276.1ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=1379.0ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner 4.1ms total=1383.1ms start=1379.0ms
+[gateway] startup phase: cli.bootstrap.admission.core-config starting total=1383.2ms
+[gateway] startup phase: cli.bootstrap.admission.core-config 3.0ms total=1386.2ms start=1383.2ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=1386.3ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=2401.9ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery 0.7ms total=2402.6ms start=2401.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=2402.9ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=2403.0ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 59.1ms total=2462.1ms start=2402.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=2462.3ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion starting total=3431.4ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion 38.3ms total=3469.7ms start=3431.4ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config 1066.8ms total=3469.7ms start=2403.0ms registrySnapshotMs=635.0792049999995 manifestRegistryMs=28.500516999999945 ownerMapsMs=7.646333000000141 totalMs=674.0163200000002 indexPluginCount=174 manifestPluginCount=174
+[state/agent-admission] Agent main has not completed startup inspection and preparation. Inspection and writable admission continue after the Gateway listener binds.
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 1022.8ms total=3485.1ms start=2462.3ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=0
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import starting total=3485.2ms
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import 449.9ms total=3935.1ms start=3485.2ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets starting total=3935.2ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets 2.5ms total=3937.6ms start=3935.2ms agentCount=1 registeredDatabaseCount=1
+[gateway] startup phase: cli.bootstrap.admission.session-readiness starting total=3937.7ms
+[gateway] startup phase: cli.bootstrap.admission.session-readiness 0.4ms total=3938.2ms start=3937.7ms targetCount=0
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import starting total=3938.3ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import 4.6ms total=3942.9ms start=3938.3ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness starting total=3942.9ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness 1.3ms total=3944.2ms start=3942.9ms agentCount=1
+[gateway] startup phase: cli.bootstrap.admission.config-recovery starting total=3944.5ms
+[gateway] startup phase: cli.bootstrap.admission.config-recovery 9.3ms total=3953.8ms start=3944.5ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot 2609.9ms total=3996.2ms start=1386.3ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard starting total=3996.3ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard 0.6ms total=3996.9ms start=3996.3ms
+Client credential migration is incomplete or stale; run openclaw doctor --fix before using this client.
+[gateway] failed to park the managed LaunchAgent: Native Gateway service membership could not be verified. From an interactive external shell not started by the service, run openclaw gateway stop && openclaw update --yes && openclaw gateway start. If the update fails, follow its recovery guidance before starting the Gateway. No service teardown was attempted. With native helper support (systemd-run on Linux), use openclaw gateway call update.run --params '{}' for a managed handoff.
+[gateway] requires state migration. Stop the service with openclaw gateway stop (or its service owner), then run openclaw doctor --fix, then start it again with openclaw gateway start.
+Gateway failed to start: Client credential migration is incomplete or stale; run openclaw doctor --fix before using this client. | gateway.maintenance_required. Stop the service with openclaw gateway stop (or its service owner), then run openclaw doctor --fix, then start it again with openclaw gateway start.
+[gateway] startup phase: cli.command.config-ready 5248.7ms total=6524.6ms start=1275.8ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap 5251.1ms total=6524.7ms start=1273.6ms failed

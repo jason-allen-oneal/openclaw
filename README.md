@@ -1,48 +1,36 @@
-# Session-memory capture evidence — #159826
+# Session-memory capture evidence — #159826 / #181081
 
-Candidate: `2975dedca83e94d3530fdb339077bfe040d1b560`. Baseline: `a8ead196291935d24c44a4f40b67397d88c70256`.
-
-## Observed behavior
+Final source: `18ea9065fdd8c1b300a9bce1952769a998b0a016`. This run exercises the maintainer's exclusive **atomic** publication refinement through the shipped Gateway, using a new build of the exact clean head.
 
 | Boundary | Observed result |
 | --- | --- |
-| Baseline shipped CLI / Gateway / WebSocket | Six distinct `chat.inject` markers, six concurrent `sessions.reset` calls and six save-success logs retained only **five** files. Two saves name the same path; `CAPTURE-baseline-2-ONLY` was lost. |
-| Exact-head candidate reopens baseline state | Existing six sessions load; all five surviving baseline artifacts remain byte-identical. Six new concurrent reset captures are retained exactly once with matching hashes/session provenance: **11 files** total. |
-| Exact-head Gateway restart | Six further concurrent captures succeed: **17 files** total. All prior 11 files remain byte-identical, each retained marker occurs once, and all provenance hashes/session identities match. Both Gateway exits are 0. |
-| Interrupted publication and recovery | Baseline-built lock/provenance owners commit provenance without a file, then the process is SIGKILLed. Exact-head built handler reclaims the dead lock, reuses the absent filename and keeps conservative untrusted classification; **6/6 captures** survive. A fresh process adds six more: **12/12**, with earlier hashes and provenance unchanged. |
-| Regression | New real-filesystem/SQLite regression fails on baseline (1 of 6 retained); relevant candidate suites pass **19/19**. |
+| Reopen retained synthetic state | All **17** artifacts from the prior Gateway proof remain present with matching hashes and session provenance. |
+| Six concurrent real `sessions.reset` requests | **23** complete files: six new files, one per departing session, each with the exact expected synthetic content and matching session ID/key/hash provenance. All prior 17 files and provenance remain unchanged. |
+| Stop and restart the same built Gateway, then six more concurrent resets | **29** complete files. All 23 prior files/provenance remain unchanged; the second six captures again have distinct filenames and exact session/content bindings. Both Gateway exits are 0. |
+| Independent verification | **12/12** new captures occupy distinct complete files; session IDs/keys match the recorded `sessions.create` responses, file timestamps fall within the corresponding reset request window, content hashes match SQLite provenance, and database `quick_check` returns `ok`. |
 
-The fixed Gateway cannot recover the baseline's already-overwritten capture. The successful candidate assertions concern retaining all new captures and preserving the five surviving baseline artifacts.
+## Final-head records
 
-## Shipped entry-point records
+- [Gateway request/response and persisted-state receipt](atomic-final/gateway-receipt.json)
+- [Independent complete-file/session binding verification](atomic-final/independent-verification.json)
+- [First Gateway output](atomic-final/gateway-first.log), [restart output](atomic-final/gateway-restart.log), [driver output](atomic-final/gateway-output.log), [command exit](atomic-final/gateway-command.json)
+- [All 29 synthetic memory files](atomic-final/memory/)
+- [Exact-head build exit and production artifact hashes](atomic-final/build-receipt.json), [build output](atomic-final/build.log)
+- [Unchanged Gateway driver](atomic-final/gateway-runtime.mjs), [run wrapper](atomic-final/run-final-18ea.py), [independent verifier](atomic-final/verify-final-18ea.py), [build wrapper](atomic-final/build-final-18ea.py)
+- [Current-head CI snapshot](atomic-final/ci-checks.json), [raw/published artifact hashes](atomic-final/artifact-manifest.json)
 
-- [Baseline request/response and persisted-state receipt](gateway-baseline-receipt.json), [baseline Gateway output](gateway-baseline.log)
-- [Exact-head request/response, before/after and restart receipt](gateway-exact-receipt.json)
-- [Exact command exit](gateway-exact-command.json), [runtime console](gateway-runtime-output.log)
-- [Upgraded Gateway log](gateway-upgraded.log), [restarted Gateway log](gateway-restart.log)
-- [Portable Gateway driver](gateway-runtime.mjs)
-- [Built entrypoint/production-owner hashes](runtime-identity.json), [build command/exit](build-command.json), [build output](build.log)
+The shipped entry points are `node openclaw.mjs gateway run` and real loopback-WebSocket `node openclaw.mjs gateway call`. The unchanged driver creates sessions, injects distinct synthetic messages, and issues six resets concurrently. Its only source import claims an isolated test port. The separate verifier strengthens the original driver verdict with explicit file-count, distinct-file, complete-content, and source-session bindings. Its initial expected body included an extra trailing newline; the [recorded verifier correction](atomic-final/verifier-format-correction.json) requires the exact complete document with the canonical single trailing newline and passes against the unchanged runtime artifacts. No production code, timeout, lock, or filesystem operation is replaced or shortened.
 
-Execution uses `node openclaw.mjs gateway run` and real loopback-WebSocket `node openclaw.mjs gateway call` requests. The driver runs with `PROOF_BUILD_ROOT`, `PROOF_SOURCE_ROOT`, `PROOF_ARTIFACT_ROOT`, `PROOF_SOURCE_HEAD`, `PROOF_LABEL`, `PROOF_RESTART=1` and `PROOF_RETAIN_EXISTING=1`; invoke it using `node --import ./scripts/tsx.mjs <driver>` from the candidate checkout. The baseline used the earlier driver before the retained-state options were added; its reset sequence and shipped boundary are unchanged. The source import only claims an isolated test port; hooks, transcript writes, session resets, database and filesystem operations use the built product.
+The exact-head `qaRuntime` build uses Node 24.22.1. Dependencies were initially copied into this isolated checkout from the already frozen archive-proof install after verifying the package manifests and lockfile were byte-identical. The first build stopped before product execution because the root-only copy lacked workspace canvas dependency links; that [setup failure](atomic-final/initial-build-setup.receipt.json) and [log](atomic-final/initial-build-setup.log) are retained. The checkout's supported `pnpm install --frozen-lockfile` [completed in two seconds](atomic-final/install.log), materializing its own workspace links before the successful build. No dependency resolution or source change was made.
 
-## Interrupted-state records
+A preliminary shared clone could not read an old object in the donor's shallow Git history; it failed before build or runtime. The successful build used a fresh shallow clone of the public PR branch and verified the exact head. No donor checkout or dependency install was modified.
 
-- [Process exits and retained-bytes/provenance comparison](interrupted-receipt.json)
-- [Injected interrupted state](interrupted-state.json)
-- [Recovered artifacts](interrupted-recovered.json), [restarted artifacts](interrupted-restarted.json)
-- [Recovery output](interrupted-recovered.log), [restart output](interrupted-restarted.log)
-- [Portable fault driver](built-interruption.mjs)
+The old Gateway processes had exited before the prior synthetic fixture was copied to this isolated host. Python's safe tar extractor discarded directory modes, so the first startup correctly rejected the copied client directory. The runner restores the original directory modes (including private 0700 client custody) after safe extraction. The next startup correctly required credential migration for the relocated fixture; the supported [Doctor fix](atomic-final/doctor-receipt.json) prepares that synthetic state before the successful run. Both [directory-mode](atomic-final/directory-mode-setup.command.json) and [migration](atomic-final/migration-setup.receipt.json) setup failures are retained, and no session reset ran in either failed admission attempt. No product guard was disabled.
 
-This supplementary fault is explicitly injected through real built lock/provenance owners, followed by direct built-hook execution with synthetic captured excerpts. It is not claimed as an observed live Gateway crash. The primary end-to-end proof above uses shipped Gateway commands.
+The driver rewrites task-local configuration for its new workspace/port. The independent verifier compares all original 17 artifact hashes and complete provenance records against the [pre-transfer receipt](atomic-final/prior-input-receipt.json), then checks preservation after both runs. Private home paths and configured model identity are redacted only in published copies; raw evidence remains local. Synthetic content and executable loopback constants are preserved.
 
-## Checks, scope and limits
+## Prior failure and supplementary controls
 
-[Regression RED](test-red.log), [focused GREEN](test-green.log), [exit/timing summary](focused-checks.json), [committed source hashes](candidate-source.json), [artifact checksums](SHA256SUMS).
+[Prior-head proof](prior-head-proof.md) preserves the baseline observation: six real concurrent resets produced only five files while logging six successful saves. It also retains the earlier interrupted-publication/recovery control and focused regression results. Those runs remain explicitly bound to their original source heads; the final-head Gateway run above supersedes the old live-proof gap for atomic publication.
 
-Focused command: `node scripts/run-vitest.mjs src/hooks/bundled/session-memory/handler-auto-reset.test.ts src/hooks/bundled/session-memory/handler.test.ts src/hooks/bundled/session-memory/handler-admission.test.ts --maxWorkers=1`. Three files / 19 tests; reported Vitest duration 24.91s, wrapper wall 109.73s including compiled workers. Formatting, scoped type-aware lint (`config/tsconfig/oxlint.core.json`) and core typecheck (`tsconfig.core.json`) passed. Source bytes were verified identical before commit; the exact committed head was then built and exercised above. Broad CI remains on the PR.
-
-There is no model/provider or external channel invocation, no embedding publication, and no network-filesystem/multi-Gateway claim. Synthetic conversation text and real session/filesystem/SQLite owners are used throughout. Public copies replace private checkout/home/artifact roots and host names and strip ANSI coloring; executable loopback constants and synthetic IDs remain. Portable driver copies are provided for reproduction, not falsely presented as separately rerun copies.
-
-The implementation reuses the existing file-lock owner around allocation, provenance reservation and exclusive creation. Transcript capture and optional slug generation stay outside that lock. The sequential filename allocator and existing provenance recovery behavior remain authoritative. No schema, provenance format, configuration, retention policy, or durable filename registry is added; old rows do **not** permanently reserve absent files. The retained-state and absent-file-reuse observations verify that no-migration case instead of adopting the unresolved durable reservation proposed in closed #144146.
-
-Simplification: no new manager, schema or reservation registry. Production +23/-10, regression +69, docs +2/-1; every hunk protects the single capture-retention invariant. The added regression independently checks markers, content hashes, session identities and trusted/untrusted classification.
+This proof does not invoke a model/provider or an external channel, nor claim network-filesystem or multi-Gateway coverage. It exercises the changed capture owner through actual Gateway session reset, transcript, filesystem, SQLite provenance, and restart boundaries.
