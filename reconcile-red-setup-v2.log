@@ -1,0 +1,20 @@
+$ /runtime/node-v24.22.1/bin/node scripts/test-projects.mts src/config/sessions/session-transcript-reconcile-pool.test.ts --maxWorkers=1 -t joins transcript lease settlement before closing an agent \(task-timeout\)
+[test] starting test/vitest/vitest.runtime-config.config.ts
+[openclaw] Staging pinned Bun fork openclaw-v1.4.4-20261019-ef37c31de3-webkit-a2976f02e6 (one-time download)…
+ui/config/control-ui-solid.ts (3:18) [UNRESOLVED_IMPORT] Could not resolve '@solidjs/vite-plugin' in ui/config/control-ui-solid.ts
+   ╭─[ ui/config/control-ui-solid.ts:3:19 ]
+   │
+ 3 │ import solid from "@solidjs/vite-plugin";
+   │                   ───────────┬──────────  
+   │                              ╰──────────── Module not found, treating it as an external dependency
+───╯
+
+failed to load config from /openclaw-baseline/test/vitest/vitest.runtime-config.config.ts
+
+⎯⎯⎯⎯⎯⎯⎯ Startup Error ⎯⎯⎯⎯⎯⎯⎯⎯
+error: Cannot find module '@solidjs/vite-plugin' from '/openclaw-baseline/node_modules/.vite-temp/vitest.runtime-config.config.ts.timestamp-1792716754296-d2daf09456053.mjs'
+
+
+
+[test] failed 1 Vitest shard in 8.43s
+[test] FAILED (exit 1)

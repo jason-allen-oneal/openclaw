@@ -1,0 +1,64 @@
+{
+  "purpose": "Run the unchanged final reconciliation task-timeout regression against the retained baseline.",
+  "baselineHead": "a8ead196291935d24c44a4f40b67397d88c70256",
+  "candidateTestHead": "699ff2529067bea705e86005baf0c418906fbf03",
+  "testPath": "src/config/sessions/session-transcript-reconcile-pool.test.ts",
+  "testSha256": "1475002b85131f36966af5d6b8b2c3664b63698f5c5f8cae80ca5d928c35fccd",
+  "startedAt": "2026-10-23T00:47:42.646519+00:00",
+  "setupCommands": [
+    [
+      "git",
+      "clone",
+      "--shared",
+      "--no-checkout",
+      "/openclaw-candidate",
+      "/openclaw-baseline"
+    ],
+    [
+      "git",
+      "fetch",
+      "--depth=1",
+      "https://github.com/openclaw/openclaw.git",
+      "a8ead196291935d24c44a4f40b67397d88c70256"
+    ],
+    [
+      "git",
+      "checkout",
+      "--detach",
+      "a8ead196291935d24c44a4f40b67397d88c70256"
+    ],
+    [
+      "cp",
+      "-a",
+      "--reflink=auto",
+      "/openclaw-candidate/node_modules",
+      "/openclaw-baseline/node_modules"
+    ]
+  ],
+  "expectedFailure": "Expected terminate to be called once after advancing 180000 ms; baseline has no task deadline.",
+  "candidateTree": "d82010aed49c3e5f291948a28bc5017edce615f4",
+  "testGitBlob": "9f9768735e4ee931503a5f0a76f6e1e1808e7cc7",
+  "baselineTree": "9b2f76b50e0a7c6f512930154ddd7ba084a39426",
+  "dependencyAndRunnerDiff": "",
+  "sourceStatus": " M src/config/sessions/session-transcript-reconcile-pool.test.ts\n",
+  "baselineProductionSha256": {
+    "src/config/sessions/session-transcript-reconcile-pool.ts": "0180ab12ac47b1cd513d6dd94520f188421019f7769bd2302069787d0d9d01bf",
+    "src/config/sessions/session-transcript-reconcile.ts": "ad1021bd59cb152329ed30570aa0c6e5b826913c50505ff8842cbfc75baf5420",
+    "packages/worker-runtime/src/worker-task-pool-core.ts": "b995014d7f4f4f085fa0ea7e42af16b1aa57a3d885e4e118f433fa702edf8c85"
+  },
+  "command": [
+    "/runtime/node-v24.22.1/bin/node",
+    "scripts/test-projects.mts",
+    "src/config/sessions/session-transcript-reconcile-pool.test.ts",
+    "--maxWorkers=1",
+    "-t",
+    "joins transcript lease settlement before closing an agent \\(task-timeout\\)"
+  ],
+  "nodeVersion": "v24.22.1",
+  "testStartedAt": "2026-10-23T00:52:25.086001+00:00",
+  "testExitCode": 1,
+  "testDurationSeconds": 9.27518619922921,
+  "sourceStatusAfter": " M src/config/sessions/session-transcript-reconcile-pool.test.ts\n",
+  "testLogSha256": "5fc5b280547567a5d5fdb3d102de5f7aebcb090420ebcbfe7575235dfadf1d78",
+  "finishedAt": "2026-10-23T00:52:35.575025+00:00"
+}

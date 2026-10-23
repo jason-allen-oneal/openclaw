@@ -1,0 +1,70 @@
+[test] starting test/vitest/vitest.runtime-config.config.ts
+
+ RUN  v5.0.3 /openclaw
+
+[vitest-workers] local cache hit after 9914ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 08342f3f75e6 in 10090ms (16834 inputs, 21900 outputs)
+ × |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out one-shot archive before releasing its FIFO and staging files 2872ms
+   → Archive operation has no settlement deadline
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ × |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out scoped archive before releasing its FIFO and staging files 1779ms
+   → Archive operation has no settlement deadline
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reads fresh pending archives without waiting for reclamation or writer admission
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses one archive worker across deletion generations and joins it at database close
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > publishes archive metadata off the main thread even inside a native deletion scope
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins a failed publisher and recovers its committed archive after result recording fails
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=false)
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=true)
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires queued archive work without waiting on the blocked global FIFO
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive done before database close and refuses later scope work
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive published before database close and refuses later scope work
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued file publication when its agent closes
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued prepare publication when its agent closes
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued record publication when its state closes
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical path owner
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical agent owner
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before file without publishing to its successor
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before record without publishing to its successor
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: false)
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: true)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out one-shot archive before releasing its FIFO and staging files
+ FAIL  |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out scoped archive before releasing its FIFO and staging files
+Error: Archive operation has no settlement deadline
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+    222|         expect(next).not.toHaveBeenCalled();
+    223|         if (!expire) {
+    224|           throw new Error("Archive operation has no settlement deadlin…
+       |                 ^
+    225|         }
+    226|         expire();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 18 skipped (20)
+   Start at  23:25:47
+   Duration  27.32s (transform 66%, tests 17%, import 14%, worker 3%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 33.19s
+[test] FAILED (exit 1)

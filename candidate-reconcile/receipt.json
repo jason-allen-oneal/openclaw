@@ -1,0 +1,24 @@
+{
+  "sourceHead": "699ff2529067bea705e86005baf0c418906fbf03",
+  "command": [
+    "/node-runtime/node-v24.22.1-linux-x64/bin/node",
+    "/proof-task/candidate/openclaw.mjs",
+    "gateway",
+    "--port",
+    "19681",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "startedAt": "2026-10-23T00:51:04.193494+00:00",
+  "instrumentationSha256": {
+    "observe-workers-v2.mjs": "402876b6bf7524380d73d4137aefc3fc60ae3d6eecdce20e9d36a84c41e88625",
+    "stall-fsync.c": "a7ef913ac0b5c92b53d132c932aa561718d6c1e5b98091a01a5bf3cfe2942b9a",
+    "stall-pread-v2.c": "90f502674718f1561c178b2476bc87a73d640678e492079ef8d2a6b6e7e8afc5",
+    "run-reconcile-v2.mjs": "5838f5af068436e4a5c665be12759fd001292179689eccedf0d3b4a502e5ec53"
+  },
+  "readySeconds": 21.15112912701443,
+  "driverExitCode": 0,
+  "gatewayExitCode": 0,
+  "finishedAt": "2026-10-23T00:54:34.548641+00:00"
+}

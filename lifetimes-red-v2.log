@@ -1,0 +1,211 @@
+[test] starting test/vitest/vitest.runtime-config.config.ts
+
+ RUN  v5.0.3 /openclaw
+
+[vitest-workers] local cache miss after 6212ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest] still running with no output for 60000ms.
+[vitest-workers] prepared fe4498bc2cf4 in 73947ms (16834 inputs, 21900 outputs)
+ × |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out one-shot archive before releasing its FIFO and staging files 4672ms
+   → Maximum call stack size exceeded.
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-session.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ × |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out scoped archive before releasing its FIFO and staging files 1731ms
+   → Maximum call stack size exceeded.
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reads fresh pending archives without waiting for reclamation or writer admission
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses one archive worker across deletion generations and joins it at database close
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > publishes archive metadata off the main thread even inside a native deletion scope
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins a failed publisher and recovers its committed archive after result recording fails
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=false)
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > reuses idle workers across scopes (exited=true)
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires queued archive work without waiting on the blocked global FIFO
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive done before database close and refuses later scope work
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > joins scoped archive published before database close and refuses later scope work
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued file publication when its agent closes
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued prepare publication when its agent closes
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > cancels queued record publication when its state closes
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical path owner
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a prepared archive reply with a different physical agent owner
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before file without publishing to its successor
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > refuses a physical database replacement before record without publishing to its successor
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: false)
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > does not create cold empty publication state (database exists: true)
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > closes a queued admission without dispatching it after shutdown
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > reconciles a dirty projection while the parent retains serving Gateway ownership
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through complete before retiring its lifecycle
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through native-exit before retiring its lifecycle
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (complete)
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (native-exit)
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (pool-timeout)
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ × |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout) 5568ms
+   → Reconciliation task has no settlement deadline
+ ↓ |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > revokes scheduled reconciliation before its first disk admission
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-accessor.sqlite-archive-admission.test.ts: retiring openclaw.agentDatabaseLifecycle
+
+ × |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > bounds outstanding archive claims until their FIFO slots physically settle 7ms
+   → expected undefined to match object { code: 'overloaded' }
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > drops a revoked before-enqueue request while preserving surviving FIFO order
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > drops a revoked queued request while preserving surviving FIFO order
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > joins admitted work that fulfills even when its request is revoked
+ ↓ |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > joins admitted work that rejects even when its request is revoked
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |runtime-config| src/config/sessions/session-accessor.sqlite-archive-admission.test.ts > bounds outstanding archive claims until their FIFO slots physically settle
+AssertionError: expected undefined to match object { code: 'overloaded' }
+
+- Expected:
+{
+  "code": "overloaded",
+}
+
++ Received:
+undefined
+
+ ❯ src/config/sessions/session-accessor.sqlite-archive-admission.test.ts:<redacted len=5>
+     26|   try {
+     27|     await nextTurn();
+     28|     expect(overflowError).toMatchObject({ code: "overloaded" });
+       |                           ^
+     29|     expect(overflow).not.toHaveBeenCalled();
+     30|     controller.abort(new Error("request retired"));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out one-shot archive before releasing its FIFO and staging files
+RangeError: Maximum call stack size exceeded.
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+    181|             return create(filename, options);
+    182|           }
+    183|           archive = create(new URL("./session-accessor.sqlite-archive-…
+       |                     ^
+    184|             ...options,
+    185|             workerData: {
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |runtime-config| src/config/sessions/session-accessor.sqlite-archive-session.test.ts > SQLite transcript archive sessions > retires a timed-out scoped archive before releasing its FIFO and staging files
+RangeError: Maximum call stack size exceeded.
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+    181|             return create(filename, options);
+    182|           }
+    183|           archive = create(new URL("./session-accessor.sqlite-archive-…
+       |                     ^
+    184|             ...options,
+    185|             workerData: {
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+ ❯ src/config/sessions/session-accessor.sqlite-archive-session.test.ts:<redacted len=6>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |runtime-config| src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout)
+Error: Reconciliation task has no settlement deadline
+ ❯ src/config/sessions/session-transcript-reconcile-pool.test.ts:<redacted len=6>
+    446|         expect(terminate).not.toHaveBeenCalled();
+    447|         if (!expire) {
+    448|           throw new Error("Reconciliation task has no settlement deadl…
+       |                 ^
+    449|         }
+    450|         expire();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  4 failed | 30 skipped (34)
+   Start at  23:23:25
+   Duration  106.68s (transform 80%, tests 11%, import 8%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 112.32s
+[test] FAILED (exit 1)

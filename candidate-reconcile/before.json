@@ -1,0 +1,50 @@
+{
+  "events": [
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "seq": 0,
+      "json": "{\"type\":\"session\",\"version\":4,\"id\":\"e3d97860-11e7-4402-9ed3-234cd3e08487\",\"timestamp\":\"2026-10-23T00:47:02.175Z\",\"cwd\":\"/proof-task/proof/candidate-archive/workspace\"}"
+    },
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "seq": 1,
+      "json": "{\"type\":\"message\",\"id\":\"a38071d5-4ca6-47fd-96f7-a9ff2ce8d1c8\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:47:02.197Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792716422197,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+    }
+  ],
+  "index": [
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "indexed_seq": 1,
+      "leaf_event_id": "a38071d5-4ca6-47fd-96f7-a9ff2ce8d1c8",
+      "needs_rebuild": 1,
+      "active_event_count": 1,
+      "active_message_count": 1,
+      "updated_at": 1792716422197
+    }
+  ],
+  "leases": [
+    {
+      "lease_id": "9d98b06a-03ea-4080-82f0-0c0759e8e0f6",
+      "agent_id": "main",
+      "path": "/proof-task/proof/candidate-archive/state/agents/main/agent/openclaw-agent.sqlite",
+      "owner_pid": 546743,
+      "owner_start_time": 220347533,
+      "opened_at": 1792716682430,
+      "provenance": "process-v1:c8f86ba2de213463d114b3366be1983bbb6028952e51d935db614a14fd9eaaf7"
+    },
+    {
+      "lease_id": "ed223de2-8814-4a54-9e8b-c1933bc5109e",
+      "agent_id": "main",
+      "path": "/proof-task/proof/candidate-archive/state/agents/main/agent/openclaw-agent.sqlite",
+      "owner_pid": 546743,
+      "owner_start_time": 220347533,
+      "opened_at": 0,
+      "provenance": "process-v1:c8f86ba2de213463d114b3366be1983bbb6028952e51d935db614a14fd9eaaf7"
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ]
+}

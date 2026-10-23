@@ -1,0 +1,12 @@
+{
+  "purpose": "Run the unchanged final reconciliation task-timeout regression against the retained baseline.",
+  "baselineHead": "a8ead196291935d24c44a4f40b67397d88c70256",
+  "candidateTestHead": "699ff2529067bea705e86005baf0c418906fbf03",
+  "testPath": "src/config/sessions/session-transcript-reconcile-pool.test.ts",
+  "testSha256": "1475002b85131f36966af5d6b8b2c3664b63698f5c5f8cae80ca5d928c35fccd",
+  "startedAt": "2026-10-23T00:47:15.550490+00:00",
+  "setupCommands": [],
+  "expectedFailure": "Expected terminate to be called once after advancing 180000 ms; baseline has no task deadline.",
+  "setupOrExecutionError": "Command '['git', '-C', '/openclaw-candidate', 'rev-parse', 'a8ead196291935d24c44a4f40b67397d88c70256^{tree}']' returned non-zero exit status 128.",
+  "finishedAt": "2026-10-23T00:47:15.682407+00:00"
+}

@@ -1,0 +1,110 @@
+$ /runtime/node-v24.22.1/bin/node scripts/test-projects.mts src/config/sessions/session-transcript-reconcile-pool.test.ts --maxWorkers=1 -t joins transcript lease settlement before closing an agent \(task-timeout\)
+[test] starting test/vitest/vitest.runtime-config.config.ts
+[openclaw] Staging pinned Bun fork openclaw-v1.4.4-20261019-ef37c31de3-webkit-a2976f02e6 (one-time download)…
+
+ RUN  v5.0.3 /openclaw-baseline
+
+[vitest-workers] local cache miss after 4001ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest] still running with no output for 60000ms.
+[vitest-workers] prepared 9249eec3c7f4 in 66948ms (16834 inputs, 21900 outputs)
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > closes a queued admission without dispatching it after shutdown
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > reconciles a dirty projection while the parent retains serving Gateway ownership
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through complete before retiring its lifecycle
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > drains active and queued reconciliation through native-exit before retiring its lifecycle
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (complete)
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (native-exit)
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (pool-timeout)
+stderr | unknown test
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/config/sessions/session-transcript-reconcile-pool.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ×  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout) 2468ms
+   → expected "terminate" to be called once, but got 0 times
+ ↓  runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > revokes scheduled reconciliation before its first disk admission
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL   runtime-config  src/config/sessions/session-transcript-reconcile-pool.test.ts > joins transcript lease settlement before closing an agent (task-timeout)
+AssertionError: expected "terminate" to be called once, but got 0 times
+ ❯ src/config/sessions/session-transcript-reconcile-pool.test.ts:<redacted len=6>
+    439|         expect(terminate).not.toHaveBeenCalled();
+    440|         await vi.advanceTimersByTimeAsync(180_000);
+    441|         expect(terminate).toHaveBeenCalledOnce();
+       |                           ^
+    442|         vi.useRealTimers();
+    443|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  00:55:34
+   Duration  89.37s (transform 93%, tests 3%, import 3%, worker 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 97.92s
+[test] FAILED (exit 1)

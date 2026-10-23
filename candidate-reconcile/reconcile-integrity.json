@@ -1,0 +1,33 @@
+{
+  "sourceHead": "699ff2529067bea705e86005baf0c418906fbf03",
+  "leaseId": "ed223de2-8814-4a54-9e8b-c1933bc5109e",
+  "sourceRowsUnchanged": true,
+  "leaseRetainedUntilExit": true,
+  "cleanupAfterPhysicalExit": true,
+  "historyRecovered": true,
+  "dirtyProjectionRebuilt": true,
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ],
+  "native": [
+    {
+      "event": "sqlite-pread-enter",
+      "pid": 546743,
+      "tid": 547092,
+      "fd": 162,
+      "path": "/proof-task/proof/candidate-archive/state/agents/main/agent/openclaw-agent.sqlite",
+      "monotonic_ns": 2203499322216096
+    },
+    {
+      "event": "sqlite-pread-release",
+      "pid": 546743,
+      "tid": 547092,
+      "monotonic_ns": 2203684360570765
+    }
+  ],
+  "physicalExitTime": 1792716873247,
+  "cleanupStartTime": 1792716873249,
+  "terminationRequestedMsAfterNativeObservation": 178840
+}

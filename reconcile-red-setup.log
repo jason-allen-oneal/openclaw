@@ -1,0 +1,28 @@
+Cloning into '/openclaw-baseline'...
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+$ git clone --shared --no-checkout /openclaw-candidate /openclaw-baseline
+From https://github.com/openclaw/openclaw
+ * branch                a8ead196291935d24c44a4f40b67397d88c70256 -> FETCH_HEAD
+$ git fetch --depth=1 https://github.com/openclaw/openclaw.git a8ead196291935d24c44a4f40b67397d88c70256
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  699ff2529 fix(sessions): explain archive overload and timeout recovery
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> 699ff2529
+
+HEAD is now at a8ead1962 fix: keep Details View all responsive during Outputs refresh (#179729)
+$ git checkout --detach a8ead196291935d24c44a4f40b67397d88c70256
+$ cp -a --reflink=auto /openclaw-candidate/node_modules /openclaw-baseline/node_modules
