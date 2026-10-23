@@ -672,6 +672,16 @@ export async function runGatewayLoop(params: {
     }
 
     const shutdownOperation = (async () => {
+      if (
+        action === "restart" &&
+        restartIntent?.requireFreshProcess &&
+        acceptedRequest.restartReason === "gateway.native-worker-unsettled"
+      ) {
+        // Native teardown may never finish. Persist this accepted restart before
+        // watchdogs can kill the process and skip its ordinary boot completion.
+        completeBoot(loopCompletion.formatRestartCompletion(acceptedRequest, false));
+        await bootCompletion;
+      }
       if (process.platform === "linux" || process.platform === "darwin") {
         if (budget.nativeStopBudget && !getManagedUpdateOwner()) {
           armForceExitTimer(budget.timeoutMs);

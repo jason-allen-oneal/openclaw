@@ -178,3 +178,51 @@ it("keeps the process hard-exit watchdog armed while native-worker close is unse
     expect(start).toHaveBeenCalledOnce();
   }, true);
 });
+
+it("records accepted native recovery before arming a forced-exit watchdog", async () => {
+  process.env.OPENCLAW_SYSTEMD_UNIT = "openclaw-fixture.service";
+  const recording = createLifecycleGate();
+  const closing = createLifecycleGate();
+  const completeBoot = vi.fn(() => recording.wait());
+  f.peekGatewayRestartReason.mockReturnValue("gateway.native-worker-unsettled");
+  f.consumeGatewayRestartIntent.mockReturnValueOnce({
+    force: true,
+    waitMs: 0,
+    requireFreshProcess: true,
+  });
+  f.restartGatewayProcessWithFreshPid.mockReturnValue({ mode: "supervised" });
+  await f.withRunningGateway(
+    async ({ captureSignal, close, loopPromise }) => {
+      close.mockImplementationOnce(() => closing.wait());
+      const watchdogsBefore = f.armShutdownHardExitWatchdog.mock.calls.length;
+      try {
+        captureSignal("SIGUSR2")();
+        // The native close may never settle. Boot history must finish before either
+        // watchdog can kill this process without running later completion callbacks.
+        const first = await Promise.race([
+          recording.entered.then(() => "recording"),
+          closing.entered.then(() => "closing"),
+        ]);
+        expect(first).toBe("recording");
+        expect(completeBoot).toHaveBeenCalledExactlyOnceWith({
+          outcome: "planned_restart",
+          reason: "restart (SIGUSR2: gateway.native-worker-unsettled)",
+        });
+        expect(f.armShutdownHardExitWatchdog).toHaveBeenCalledTimes(watchdogsBefore);
+        expect(close).not.toHaveBeenCalled();
+        recording.release();
+        await closing.entered;
+        expect(f.armShutdownHardExitWatchdog.mock.calls.length).toBeGreaterThan(watchdogsBefore);
+      } finally {
+        recording.release();
+        closing.release();
+        if (!close.mock.calls.length) {
+          captureSignal("SIGINT")();
+        }
+        await loopPromise;
+      }
+    },
+    true,
+    { completeBoot },
+  );
+});
