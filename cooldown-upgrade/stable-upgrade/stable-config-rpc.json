@@ -1,0 +1,478 @@
+{
+  "path": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/config.json",
+  "includedPaths": [],
+  "includeProvenance": [],
+  "agentRosterIncludeOwned": false,
+  "bindingsIncludeOwned": false,
+  "exists": true,
+  "raw": "{\n  \"gateway\": {\n    \"port\": 19685,\n    \"mode\": \"local\",\n    \"bind\": \"loopback\",\n    \"auth\": {\n      \"mode\": \"token\",\n      \"token\": \"__OPENCLAW_REDACTED__\"\n    },\n    \"controlUi\": {\n      \"enabled\": false\n    }\n  },\n  \"agents\": {\n    \"defaults\": {\n      \"workspace\": \"/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace\",\n      \"timeoutSeconds\": 97\n    },\n    \"entries\": {\n      \"main\": {}\n    }\n  },\n  \"messages\": {\n    \"responsePrefix\": \"stable-upgrade-preserved\"\n  },\n  \"plugins\": {\n    \"allow\": []\n  },\n  \"cron\": {\n    \"enabled\": false\n  },\n  \"logging\": {\n    \"level\": \"info\",\n    \"file\": \"/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log\"\n  }\n}\n",
+  "parsed": {
+    "gateway": {
+      "port": 19685,
+      "mode": "local",
+      "bind": "loopback",
+      "auth": {
+        "mode": "token",
+        "token": "__OPENCLAW_REDACTED__"
+      },
+      "controlUi": {
+        "enabled": false
+      }
+    },
+    "agents": {
+      "defaults": {
+        "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+        "timeoutSeconds": 97
+      },
+      "entries": {
+        "main": {}
+      }
+    },
+    "messages": {
+      "responsePrefix": "stable-upgrade-preserved"
+    },
+    "plugins": {
+      "allow": []
+    },
+    "cron": {
+      "enabled": false
+    },
+    "logging": {
+      "level": "info",
+      "file": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log"
+    }
+  },
+  "sourceConfig": {
+    "gateway": {
+      "port": 19685,
+      "mode": "local",
+      "bind": "loopback",
+      "auth": {
+        "mode": "token",
+        "token": "__OPENCLAW_REDACTED__"
+      },
+      "controlUi": {
+        "enabled": false
+      }
+    },
+    "agents": {
+      "defaults": {
+        "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+        "timeoutSeconds": 97
+      },
+      "entries": {
+        "main": {}
+      }
+    },
+    "messages": {
+      "responsePrefix": "stable-upgrade-preserved"
+    },
+    "plugins": {
+      "allow": []
+    },
+    "cron": {
+      "enabled": false
+    },
+    "logging": {
+      "level": "info",
+      "file": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log"
+    }
+  },
+  "resolved": {
+    "gateway": {
+      "port": 19685,
+      "mode": "local",
+      "bind": "loopback",
+      "auth": {
+        "mode": "token",
+        "token": "__OPENCLAW_REDACTED__"
+      },
+      "controlUi": {
+        "enabled": false
+      }
+    },
+    "agents": {
+      "defaults": {
+        "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+        "timeoutSeconds": 97
+      },
+      "entries": {
+        "main": {}
+      }
+    },
+    "messages": {
+      "responsePrefix": "stable-upgrade-preserved"
+    },
+    "plugins": {
+      "allow": []
+    },
+    "cron": {
+      "enabled": false
+    },
+    "logging": {
+      "level": "info",
+      "file": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log"
+    }
+  },
+  "valid": true,
+  "runtimeConfig": {
+    "logging": {
+      "level": "info",
+      "file": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log"
+    },
+    "agents": {
+      "defaults": {
+        "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+        "timeoutSeconds": 97,
+        "maxConcurrent": 32,
+        "subagents": {
+          "maxConcurrent": 8,
+          "archiveAfterMinutes": 60
+        },
+        "compaction": {
+          "mode": "safeguard"
+        }
+      },
+      "entries": {
+        "main": {}
+      }
+    },
+    "messages": {
+      "responsePrefix": "stable-upgrade-preserved",
+      "ackReactionScope": "group-mentions"
+    },
+    "commands": {
+      "native": "auto",
+      "nativeSkills": "auto",
+      "restart": true
+    },
+    "cron": {
+      "enabled": false
+    },
+    "gateway": {
+      "port": 19685,
+      "mode": "local",
+      "bind": "loopback",
+      "controlUi": {
+        "enabled": false
+      },
+      "auth": {
+        "mode": "token",
+        "token": "__OPENCLAW_REDACTED__"
+      }
+    },
+    "plugins": {
+      "allow": [],
+      "entries": {
+        "alibaba": {
+          "config": {}
+        },
+        "anthropic": {
+          "config": {}
+        },
+        "azure-speech": {
+          "config": {}
+        },
+        "browser": {
+          "config": {}
+        },
+        "canvas": {
+          "config": {}
+        },
+        "clawrouter": {
+          "config": {}
+        },
+        "copilot-proxy": {
+          "config": {}
+        },
+        "cua-computer": {
+          "config": {}
+        },
+        "deepgram": {
+          "config": {}
+        },
+        "device-pair": {
+          "config": {}
+        },
+        "document-extract": {
+          "config": {}
+        },
+        "elevenlabs": {
+          "config": {}
+        },
+        "fal": {
+          "config": {}
+        },
+        "file-transfer": {
+          "config": {}
+        },
+        "geolocation": {
+          "config": {}
+        },
+        "github": {
+          "config": {}
+        },
+        "github-copilot": {
+          "config": {}
+        },
+        "google": {
+          "config": {}
+        },
+        "huggingface": {
+          "config": {}
+        },
+        "kie": {
+          "config": {}
+        },
+        "linux-node": {
+          "config": {}
+        },
+        "litellm": {
+          "config": {}
+        },
+        "lmstudio": {
+          "config": {}
+        },
+        "memory-core": {
+          "config": {}
+        },
+        "microsoft": {
+          "config": {}
+        },
+        "microsoft-foundry": {
+          "config": {}
+        },
+        "minimax": {
+          "config": {}
+        },
+        "nvidia": {
+          "config": {}
+        },
+        "ollama": {
+          "config": {}
+        },
+        "openai": {
+          "config": {
+            "personality": "friendly"
+          }
+        },
+        "opencode-go": {
+          "config": {}
+        },
+        "openrouter": {
+          "config": {}
+        },
+        "runway": {
+          "config": {}
+        },
+        "senseaudio": {
+          "config": {}
+        },
+        "sglang": {
+          "config": {}
+        },
+        "talk-voice": {
+          "config": {}
+        },
+        "together": {
+          "config": {}
+        },
+        "tts-local-cli": {
+          "config": {}
+        },
+        "vllm": {
+          "config": {}
+        },
+        "web-readability": {
+          "config": {}
+        },
+        "xai": {
+          "config": {}
+        }
+      }
+    }
+  },
+  "config": {
+    "logging": {
+      "level": "info",
+      "file": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log"
+    },
+    "agents": {
+      "defaults": {
+        "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+        "timeoutSeconds": 97,
+        "maxConcurrent": 32,
+        "subagents": {
+          "maxConcurrent": 8,
+          "archiveAfterMinutes": 60
+        },
+        "compaction": {
+          "mode": "safeguard"
+        }
+      },
+      "entries": {
+        "main": {}
+      }
+    },
+    "messages": {
+      "responsePrefix": "stable-upgrade-preserved",
+      "ackReactionScope": "group-mentions"
+    },
+    "commands": {
+      "native": "auto",
+      "nativeSkills": "auto",
+      "restart": true
+    },
+    "cron": {
+      "enabled": false
+    },
+    "gateway": {
+      "port": 19685,
+      "mode": "local",
+      "bind": "loopback",
+      "controlUi": {
+        "enabled": false
+      },
+      "auth": {
+        "mode": "token",
+        "token": "__OPENCLAW_REDACTED__"
+      }
+    },
+    "plugins": {
+      "allow": [],
+      "entries": {
+        "alibaba": {
+          "config": {}
+        },
+        "anthropic": {
+          "config": {}
+        },
+        "azure-speech": {
+          "config": {}
+        },
+        "browser": {
+          "config": {}
+        },
+        "canvas": {
+          "config": {}
+        },
+        "clawrouter": {
+          "config": {}
+        },
+        "copilot-proxy": {
+          "config": {}
+        },
+        "cua-computer": {
+          "config": {}
+        },
+        "deepgram": {
+          "config": {}
+        },
+        "device-pair": {
+          "config": {}
+        },
+        "document-extract": {
+          "config": {}
+        },
+        "elevenlabs": {
+          "config": {}
+        },
+        "fal": {
+          "config": {}
+        },
+        "file-transfer": {
+          "config": {}
+        },
+        "geolocation": {
+          "config": {}
+        },
+        "github": {
+          "config": {}
+        },
+        "github-copilot": {
+          "config": {}
+        },
+        "google": {
+          "config": {}
+        },
+        "huggingface": {
+          "config": {}
+        },
+        "kie": {
+          "config": {}
+        },
+        "linux-node": {
+          "config": {}
+        },
+        "litellm": {
+          "config": {}
+        },
+        "lmstudio": {
+          "config": {}
+        },
+        "memory-core": {
+          "config": {}
+        },
+        "microsoft": {
+          "config": {}
+        },
+        "microsoft-foundry": {
+          "config": {}
+        },
+        "minimax": {
+          "config": {}
+        },
+        "nvidia": {
+          "config": {}
+        },
+        "ollama": {
+          "config": {}
+        },
+        "openai": {
+          "config": {
+            "personality": "friendly"
+          }
+        },
+        "opencode-go": {
+          "config": {}
+        },
+        "openrouter": {
+          "config": {}
+        },
+        "runway": {
+          "config": {}
+        },
+        "senseaudio": {
+          "config": {}
+        },
+        "sglang": {
+          "config": {}
+        },
+        "talk-voice": {
+          "config": {}
+        },
+        "together": {
+          "config": {}
+        },
+        "tts-local-cli": {
+          "config": {}
+        },
+        "vllm": {
+          "config": {}
+        },
+        "web-readability": {
+          "config": {}
+        },
+        "xai": {
+          "config": {}
+        }
+      }
+    }
+  },
+  "hash": "hmac-sha256:v1:bq3pJfKHQF1PkbRwcnf1x5k9AxYJxAx2KUWZuazVdYU",
+  "issues": [],
+  "warnings": [],
+  "legacyIssues": [],
+  "configRevisionHash": "hmac-sha256:v1:obZs4KWXH3-hxSoNTGynmvg7rNuBfF8RNQ_kwzJ2eeM",
+  "appliedConfigHash": "hmac-sha256:v1:obZs4KWXH3-hxSoNTGynmvg7rNuBfF8RNQ_kwzJ2eeM"
+}

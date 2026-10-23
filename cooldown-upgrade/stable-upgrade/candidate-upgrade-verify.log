@@ -1,0 +1,30 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [Object: null prototype] {
+- {
+    current_session_id: '6f1d1720-a04d-46fa-a548-3ff97413ada3',
+    session_key: 'agent:main:reconcile-retained'
+  }
+
+    at file:///home/proof/.local/share/openclaw-176080-proof/proof/verify-stable-upgrade.mjs:19:42
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Object: null prototype] {
+    session_key: 'agent:main:reconcile-retained',
+    current_session_id: '6f1d1720-a04d-46fa-a548-3ff97413ada3'
+  },
+  expected: {
+    session_key: 'agent:main:reconcile-retained',
+    current_session_id: '6f1d1720-a04d-46fa-a548-3ff97413ada3'
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

@@ -1,0 +1,65 @@
+{
+  "gateway": {
+    "port": 19685,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "SYNTHETIC_UPGRADE_TOKEN"
+    },
+    "controlUi": {
+      "enabled": false
+    }
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+      "timeoutSeconds": 97
+    },
+    "entries": {
+      "main": {}
+    }
+  },
+  "messages": {
+    "responsePrefix": "stable-upgrade-preserved",
+    "queue": {
+      "allowCollaborativeSteering": false
+    }
+  },
+  "plugins": {
+    "allow": []
+  },
+  "cron": {
+    "enabled": false
+  },
+  "logging": {
+    "level": "info",
+    "file": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log"
+  },
+  "wizard": {
+    "lastRunAt": "2026-10-23T03:24:30.099Z",
+    "lastRunVersion": "2026.10.6",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "skills": {
+    "entries": {
+      "openai-whisper-api": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      }
+    }
+  },
+  "meta": {
+    "migrations": {
+      "modelPolicyAllowlist": true,
+      "utilityModelSeparation": true
+    },
+    "lastTouchedVersion": "2026.10.6"
+  }
+}

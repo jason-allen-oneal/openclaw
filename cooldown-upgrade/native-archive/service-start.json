@@ -1,0 +1,23 @@
+{
+  "sourceHead": "989b30680025e029885e77e6aeefb3c1cc7626a5",
+  "command": [
+    "/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+    "gateway",
+    "--port",
+    "19683",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "unit": "openclaw-176080-proof-archive-cooldown-green-v1.service",
+  "startedAt": "2026-10-23T03:22:35.849593+00:00",
+  "instrumentationSha256": {
+    "observe-workers-v3.mjs": "e1d04f6de9371213a4a7723bd2d8cce21e97e8f38d9c3abf828e6e3c393526e1",
+    "stall-fsync.c": "a7ef913ac0b5c92b53d132c932aa561718d6c1e5b98091a01a5bf3cfe2942b9a",
+    "stall-pread-v2.c": "90f502674718f1561c178b2476bc87a73d640678e492079ef8d2a6b6e7e8afc5",
+    "run-archive-cooldown-v2.mjs": "b5249cccb4acb46e672449384d8c9e6171c61ec54d0484c42ddaf4402eac1446"
+  },
+  "runtimeEnabledState": "enabled-runtime",
+  "initialService": "MainPID=629111\nNRestarts=0\nExecStart={ path=/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node ; argv[]=/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured ; ignore_errors=no ; start_time=[Thu 2026-10-22 23:22:36 EDT] ; stop_time=[n/a] ; pid=629111 ; code=(null) ; status=0/0 }\nActiveState=active\nSubState=running\nFragmentPath=/run/user/1000/systemd/user/openclaw-176080-proof-archive-cooldown-green-v1.service\n"
+}

@@ -1,0 +1,43 @@
+{
+  "nodes": [
+    {
+      "session_key": "agent:main:archive-stall-first",
+      "current_session_id": "e7bf748b-975c-4aed-bff9-ce8ae973794e"
+    },
+    {
+      "session_key": "agent:main:reconcile-retained",
+      "current_session_id": "7006b026-1633-4f21-bf61-e36b4e908a21"
+    }
+  ],
+  "events": [
+    {
+      "session_id": "7006b026-1633-4f21-bf61-e36b4e908a21",
+      "seq": 0,
+      "event_utf8_bytes": 218,
+      "json": "{\"type\":\"session\",\"version\":4,\"id\":\"7006b026-1633-4f21-bf61-e36b4e908a21\",\"timestamp\":\"2026-10-23T03:07:20.793Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-red-v1/workspace\"}"
+    },
+    {
+      "session_id": "7006b026-1633-4f21-bf61-e36b4e908a21",
+      "seq": 1,
+      "event_utf8_bytes": 612,
+      "json": "{\"type\":\"message\",\"id\":\"248b832e-acff-4ee4-80c9-64f6445a6695\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:07:20.838Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792724840838,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+    },
+    {
+      "session_id": "e7bf748b-975c-4aed-bff9-ce8ae973794e",
+      "seq": 0,
+      "event_utf8_bytes": 218,
+      "json": "{\"type\":\"session\",\"version\":4,\"id\":\"e7bf748b-975c-4aed-bff9-ce8ae973794e\",\"timestamp\":\"2026-10-23T03:07:18.580Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-red-v1/workspace\"}"
+    },
+    {
+      "session_id": "e7bf748b-975c-4aed-bff9-ce8ae973794e",
+      "seq": 1,
+      "event_utf8_bytes": 614,
+      "json": "{\"type\":\"message\",\"id\":\"fc95d1e8-2574-4d9a-8b37-1ed191b6cdee\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:07:18.658Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-first\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-first\"}],\"timestamp\":1792724838658,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ]
+}

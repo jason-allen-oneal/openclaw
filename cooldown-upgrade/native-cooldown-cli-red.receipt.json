@@ -1,0 +1,20 @@
+{
+  "baseHead": "6874da40102f59bd4ac30a2a04f5b210a09accce",
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts",
+    "--maxWorkers=1",
+    "-t",
+    "records accepted native recovery"
+  ],
+  "exitCode": 1,
+  "test": "records accepted native recovery before arming a forced-exit watchdog",
+  "expected": "recording",
+  "actual": "closing",
+  "testSeconds": 7.43,
+  "wrapperSeconds": 36.08,
+  "result": "Expected regression failure: native close begins before accepted-restart history recording.",
+  "rawOutputSource": "Codex tool result session12912; no separate raw log capture.",
+  "priorSetupAttempt": "A discarded real-state fixture returned no boot ID under CLI mocks and timed out. It was not a product verdict; the final test uses the existing callback boundary. Actual persistence and forced-death successor proof belong to the shipped native fixture."
+}

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "scripts/run-oxlint.mjs",
+    "src/cli/gateway-cli/run-loop.ts",
+    "src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts"
+  ],
+  "exitCode": 1,
+  "classification": "Unneeded extension-package declaration preparation timed out before lint ran.",
+  "error": "plugin-sdk boundary dts timed out after 300000ms",
+  "resolution": "Use the repository core lint shard tsconfig config/tsconfig/oxlint.core.json, which resolves core source and does not require extension package declarations.",
+  "evidence": "scripts/run-oxlint-shards.mts:73; scripts/run-oxlint.mts:56 and432-449",
+  "rawOutputSource": "Codex tool result session78932"
+}

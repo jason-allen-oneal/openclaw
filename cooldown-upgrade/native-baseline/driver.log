@@ -1,0 +1,15 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: successor automatically restarted again within the five-minute native recovery cooldown
+    at file:///home/proof/.local/share/openclaw-176080-proof/proof/run-archive-cooldown.mjs:141:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

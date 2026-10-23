@@ -1,0 +1,47 @@
+{
+  "sourceHead": "ca6b3dff7d9473f03f49e89b9eca39bdf7bd8a9b",
+  "archives": [
+    {
+      "name": "c391dc9d-7813-4d96-b540-af7b19ad636a.jsonl.deleted.2026-10-23T03-11-03.540Z.696f994b5da74f98b619584f2be7c8cd.zst",
+      "compressedBytes": 450,
+      "sha256": "c5afa844c59d527148a2986fee91b9d4878468efd4fde03c0b46fc5282da8758",
+      "plainBytes": 832,
+      "plainSha256": "4d6472ddada6b449e5b98b9fc21380d6fabad1d314376ee1f81d3afaf49d2f2a",
+      "sessionId": "c391dc9d-7813-4d96-b540-af7b19ad636a",
+      "exactCanonicalRows": 2
+    },
+    {
+      "name": "e7bf748b-975c-4aed-bff9-ce8ae973794e.jsonl.deleted.2026-10-23T03-11-03.735Z.f97b964d7322431699210e6f63cf4ed1.zst",
+      "compressedBytes": 450,
+      "sha256": "1521554ed6a5e6ebe41a561ef32ba7bb17dba10d1a7f2ecf7a50231d08f6ceba",
+      "plainBytes": 834,
+      "plainSha256": "41e6cd40e92cffab217b6d047ec663349d005ab71dbe851afd238851f3fe7031",
+      "sessionId": "e7bf748b-975c-4aed-bff9-ce8ae973794e",
+      "exactCanonicalRows": 2
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ],
+  "stagingRemoved": false,
+  "orphanedStagePreserved": true,
+  "failedSourcePreserved": true,
+  "retrySucceeded": true,
+  "retainedHistoryRead": true,
+  "terminationRequestedMsAfterNativeObservation": 179388,
+  "oldPid": 619868,
+  "newPid": 622296,
+  "oldProcessDeathObservedAt": 1792725038710,
+  "native": [
+    {
+      "event": "fsync-enter",
+      "pid": 619868,
+      "tid": 620362,
+      "fd": 201,
+      "monotonic_ns": 2211652943552173,
+      "path": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-red-v1/state/agents/main/sessions/e7bf748b-975c-4aed-bff9-ce8ae973794e.jsonl.deleted.2026-10-23T03-07-21.783Z.f97b964d7322431699210e6f63cf4ed1.e0a14717-ad5f-4f74-970f-713b72644ab6.jsonl-stage"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "sourceHead": "ca6b3dff7d9473f03f49e89b9eca39bdf7bd8a9b",
+  "command": [
+    "/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+    "gateway",
+    "--port",
+    "19683",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "unit": "openclaw-176080-proof-archive-cooldown-red-v1.service",
+  "startedAt": "2026-10-23T03:06:57.827535+00:00",
+  "instrumentationSha256": {
+    "observe-workers-v3.mjs": "e1d04f6de9371213a4a7723bd2d8cce21e97e8f38d9c3abf828e6e3c393526e1",
+    "stall-fsync.c": "a7ef913ac0b5c92b53d132c932aa561718d6c1e5b98091a01a5bf3cfe2942b9a",
+    "stall-pread-v2.c": "90f502674718f1561c178b2476bc87a73d640678e492079ef8d2a6b6e7e8afc5",
+    "run-archive-cooldown.mjs": "897929a7e92ea5509e8f88a496526bb8698513ad232b1025b2d98583e2e6de60"
+  },
+  "runtimeEnabledState": "enabled-runtime",
+  "initialService": "MainPID=619868\nNRestarts=0\nExecStart={ path=/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node ; argv[]=/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured ; ignore_errors=no ; start_time=[Thu 2026-10-22 23:06:58 EDT] ; stop_time=[n/a] ; pid=619868 ; code=(null) ; status=0/0 }\nActiveState=active\nSubState=running\nFragmentPath=/run/user/1000/systemd/user/openclaw-176080-proof-archive-cooldown-red-v1.service\n",
+  "readySeconds": 13.786426912993193,
+  "serviceStatusExitCode": 0,
+  "driverExitCode": 1,
+  "finalService": "MainPID=0\nNRestarts=1\nExecStart={ path=/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node ; argv[]=/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs gateway --port 19683 --bind loopback --allow-unconfigured ; ignore_errors=no ; start_time=[Thu 2026-10-22 23:10:43 EDT] ; stop_time=[Thu 2026-10-22 23:14:23 EDT] ; pid=622296 ; code=killed ; status=9/KILL }\nActiveState=activating\nSubState=auto-restart\nFragmentPath=/run/user/1000/systemd/user/openclaw-176080-proof-archive-cooldown-red-v1.service\n",
+  "releaseExistedBeforeCleanup": false,
+  "stopExitCode": 0,
+  "stoppedService": "MainPID=0\nNRestarts=1\nActiveState=inactive\nSubState=dead\n",
+  "unlinkExitCode": 0,
+  "finishedAt": "2026-10-23T03:14:24.311384+00:00"
+}

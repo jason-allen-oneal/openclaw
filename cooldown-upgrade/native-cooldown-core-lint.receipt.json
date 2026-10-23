@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "scripts/run-oxlint.mjs",
+    "--tsconfig",
+    "config/tsconfig/oxlint.core.json",
+    "src/cli/gateway-cli/run-loop.ts",
+    "src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts"
+  ],
+  "startedAt": "2026-10-23T03:20:31.955312+00:00",
+  "finishedAt": "2026-10-23T03:21:39.536368+00:00",
+  "seconds": 67.58109314899957,
+  "exitCode": 0,
+  "sourceHead": "989b30680025e029885e77e6aeefb3c1cc7626a5"
+}

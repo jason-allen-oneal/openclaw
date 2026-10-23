@@ -1,0 +1,36 @@
+{
+  "gateway": {
+    "port": 19685,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "SYNTHETIC_UPGRADE_TOKEN"
+    },
+    "controlUi": {
+      "enabled": false
+    }
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+      "timeoutSeconds": 97
+    },
+    "entries": {
+      "main": {}
+    }
+  },
+  "messages": {
+    "responsePrefix": "stable-upgrade-preserved"
+  },
+  "plugins": {
+    "allow": []
+  },
+  "cron": {
+    "enabled": false
+  },
+  "logging": {
+    "level": "info",
+    "file": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/gateway-internal.log"
+  }
+}

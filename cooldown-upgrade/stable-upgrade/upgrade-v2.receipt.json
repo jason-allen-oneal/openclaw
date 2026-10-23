@@ -1,0 +1,63 @@
+{
+  "sourceHead": "989b30680025e029885e77e6aeefb3c1cc7626a5",
+  "stableBuildInfo": {
+    "version": "2026.10.6",
+    "commit": "fe06181dc5ecc01cf8904abbfc26925925efefbc",
+    "builtAt": "2026-10-22T08:54:27.830Z",
+    "buildId": "2026.10.6-release-fe06181dc5ec-2026-10-22T08-54-27.830Z"
+  },
+  "startedAt": "2026-10-23T03:26:01.020643+00:00",
+  "backup": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/stable-backup-v1",
+  "phases": [
+    {
+      "phase": "candidate-upgrade-v2",
+      "command": [
+        "/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+        "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+        "gateway",
+        "--port",
+        "19685",
+        "--bind",
+        "loopback",
+        "--allow-unconfigured"
+      ],
+      "pid": 632162,
+      "readySeconds": 19.432812478858978,
+      "verifyExitCode": 0,
+      "exitCode": 0
+    },
+    {
+      "phase": "candidate-restart-v2",
+      "command": [
+        "/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+        "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+        "gateway",
+        "--port",
+        "19685",
+        "--bind",
+        "loopback",
+        "--allow-unconfigured"
+      ],
+      "pid": 632612,
+      "readySeconds": 22.309730464126915,
+      "verifyExitCode": 0,
+      "exitCode": 0
+    }
+  ],
+  "doctor": {
+    "command": [
+      "/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+      "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+      "doctor",
+      "--fix",
+      "--non-interactive"
+    ],
+    "exitCode": 0,
+    "seconds": 114.73896901402622
+  },
+  "priorAttempt": "upgrade.receipt.json",
+  "fixtureCorrection": "Normalize SQLite null-prototype rows to serialized JSON data before byte/field comparisons; preserve prior failed assertion and successful Doctor run.",
+  "pass": true,
+  "finishedAt": "2026-10-23T03:26:48.454455+00:00",
+  "configSha256": "4a53e8516bcbaa0af6356fd630e30da75971749d3ecf5642d70f57ef006e1a13"
+}

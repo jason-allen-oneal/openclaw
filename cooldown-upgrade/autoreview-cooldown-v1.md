@@ -1,0 +1,3 @@
+autoreview scoped-clean: no accepted/actionable findings in the selected Git scope and priority
+overall: patch is correct (0.85)
+The delta records the accepted native-worker planned restart and awaits boot completion before arming shutdown watchdogs or starting teardown. The supplied boot owner consumes activeBootId, preventing later completion callbacks from overwriting the native recovery reason. The focused test checks persistence-before-watchdog and persistence-before-close ordering. No actionable P0–P2 defect is evident. Confidence is limited by omitted surrounding run-loop implementation and unavailable final test and forced-death proof results; no project code was executed.

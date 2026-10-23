@@ -1,0 +1,92 @@
+{
+  "events": [
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "seq": 0,
+      "json": "{\"type\":\"session\",\"version\":4,\"id\":\"e3d97860-11e7-4402-9ed3-234cd3e08487\",\"timestamp\":\"2026-10-23T00:47:02.175Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/proof/candidate-archive/workspace\"}"
+    },
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "seq": 1,
+      "json": "{\"type\":\"message\",\"id\":\"a38071d5-4ca6-47fd-96f7-a9ff2ce8d1c8\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:47:02.197Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792716422197,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+    }
+  ],
+  "index": [
+    {
+      "session_id": "e3d97860-11e7-4402-9ed3-234cd3e08487",
+      "indexed_seq": 1,
+      "leaf_event_id": "a38071d5-4ca6-47fd-96f7-a9ff2ce8d1c8",
+      "needs_rebuild": 1,
+      "active_event_count": 1,
+      "active_message_count": 1,
+      "updated_at": 1792716874108
+    }
+  ],
+  "leases": [
+    {
+      "lease_id": "7de4e8bf-758b-4894-b28b-bbfe547dcbd6",
+      "agent_id": "main",
+      "path": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/state/agents/main/agent/openclaw-agent.sqlite",
+      "owner_pid": 629566,
+      "owner_start_time": 221258170,
+      "opened_at": 0,
+      "provenance": "process-v1:4ebc987600175d513e5f75d2a504a3f086329976c1ad70066aefa2c2379b4833"
+    },
+    {
+      "lease_id": "ce36b8e3-3d0a-45d2-94fd-746269dc7cd4",
+      "agent_id": "main",
+      "path": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/state/agents/main/agent/openclaw-agent.sqlite",
+      "owner_pid": 629566,
+      "owner_start_time": 221258170,
+      "opened_at": 1792725793702,
+      "provenance": "process-v1:4ebc987600175d513e5f75d2a504a3f086329976c1ad70066aefa2c2379b4833"
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ],
+  "time": 1792725981115,
+  "workerEvents": [
+    {
+      "time": 1792725798103,
+      "event": "worker-created",
+      "pid": 629566,
+      "threadId": 22,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-transcript-reconcile.worker.js"
+    },
+    {
+      "time": 1792725798104,
+      "event": "worker-dispatch",
+      "threadId": 22,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-transcript-reconcile.worker.js",
+      "input": {
+        "mode": "disk",
+        "sessionIds": [
+          "e3d97860-11e7-4402-9ed3-234cd3e08487"
+        ],
+        "leaseId": "7de4e8bf-758b-4894-b28b-bbfe547dcbd6",
+        "agentId": "main",
+        "path": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/state/agents/main/agent/openclaw-agent.sqlite",
+        "stateDir": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/state",
+        "externallySupervised": false
+      }
+    },
+    {
+      "time": 1792725978102,
+      "event": "worker-terminate-request",
+      "pid": 629566,
+      "threadId": 22,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-transcript-reconcile.worker.js"
+    },
+    {
+      "time": 1792725978102,
+      "event": "worker-terminate-returned",
+      "pid": 629566,
+      "threadId": 22,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-transcript-reconcile.worker.js"
+    }
+  ],
+  "nativeThreadExists": true
+}

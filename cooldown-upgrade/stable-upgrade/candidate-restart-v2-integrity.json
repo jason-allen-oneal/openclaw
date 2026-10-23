@@ -1,0 +1,27 @@
+{
+  "pass": true,
+  "phase": "candidate-restart-v2",
+  "sourceHead": "989b30680025e029885e77e6aeefb3c1cc7626a5",
+  "stableVersion": "2026.10.6",
+  "settings": {
+    "workspace": "/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace",
+    "timeoutSeconds": 97,
+    "responsePrefix": "stable-upgrade-preserved",
+    "pluginsAllow": [],
+    "gatewayMode": "local",
+    "gatewayPort": 19685,
+    "gatewayBind": "loopback",
+    "controlUiEnabled": false,
+    "cronEnabled": false
+  },
+  "authenticatedRpc": true,
+  "priorSessionsPreserved": 2,
+  "priorCanonicalRowsByteIdentical": 4,
+  "retainedSessions": 3,
+  "canonicalRows": 6,
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ]
+}

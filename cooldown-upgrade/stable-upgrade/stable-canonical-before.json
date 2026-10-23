@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {
+      "session_key": "agent:main:reconcile-retained",
+      "current_session_id": "6f1d1720-a04d-46fa-a548-3ff97413ada3"
+    },
+    {
+      "session_key": "agent:main:stable-upgrade-settings",
+      "current_session_id": "20a35678-a825-4af8-bbba-638e1c9a8b07"
+    }
+  ],
+  "events": [
+    {
+      "session_id": "20a35678-a825-4af8-bbba-638e1c9a8b07",
+      "seq": 0,
+      "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"20a35678-a825-4af8-bbba-638e1c9a8b07\",\"timestamp\":\"2026-10-23T03:15:32.897Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace\"}",
+      "zstdHex": "",
+      "event_utf8_bytes": 204
+    },
+    {
+      "session_id": "20a35678-a825-4af8-bbba-638e1c9a8b07",
+      "seq": 1,
+      "event_json": "{\"type\":\"message\",\"id\":\"bd263fc9-c456-4d13-aecd-3b417c5c910b\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:15:32.916Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic stable 2026.10.6 transcript survives upgrade\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic stable 2026.10.6 transcript survives upgrade\"}],\"timestamp\":1792725332916,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+      "zstdHex": "",
+      "event_utf8_bytes": 612
+    },
+    {
+      "session_id": "6f1d1720-a04d-46fa-a548-3ff97413ada3",
+      "seq": 0,
+      "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"6f1d1720-a04d-46fa-a548-3ff97413ada3\",\"timestamp\":\"2026-10-23T03:15:30.344Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/stable-upgrade/fixture-v1/workspace\"}",
+      "zstdHex": "",
+      "event_utf8_bytes": 204
+    },
+    {
+      "session_id": "6f1d1720-a04d-46fa-a548-3ff97413ada3",
+      "seq": 1,
+      "event_json": "{\"type\":\"message\",\"id\":\"36f7b689-124e-44e6-b33d-08cc33597c2e\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:15:30.441Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792725330441,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+      "zstdHex": "",
+      "event_utf8_bytes": 612
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ]
+}

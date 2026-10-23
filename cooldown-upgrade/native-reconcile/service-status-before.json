@@ -1,0 +1,209 @@
+{
+  "cli": {
+    "version": "2026.10.6",
+    "entrypoint": "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs"
+  },
+  "logFile": "/tmp/openclaw/openclaw-2026-10-22.log",
+  "service": {
+    "label": "systemd user",
+    "systemdInstallation": {
+      "kind": "user",
+      "user": {
+        "scope": "user",
+        "unitName": "openclaw-176080-proof-reconcile-final-v4.service",
+        "unitPath": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/home/.config/systemd/user/openclaw-176080-proof-reconcile-final-v4.service"
+      }
+    },
+    "loaded": true,
+    "loadState": {
+      "status": "loaded"
+    },
+    "loadedText": "enabled",
+    "notLoadedText": "disabled",
+    "targetRole": "diagnostic-only",
+    "command": {
+      "programArguments": [
+        "/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+        "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+        "gateway",
+        "--port",
+        "19684",
+        "--bind",
+        "loopback",
+        "--allow-unconfigured"
+      ],
+      "workingDirectory": "/home/proof/.local/share/openclaw-176080-proof/candidate",
+      "environment": {
+        "OPENCLAW_STATE_DIR": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/state",
+        "OPENCLAW_CONFIG_PATH": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/config.json"
+      },
+      "environmentValueSources": {
+        "PATH": "inline",
+        "HOME": "inline",
+        "LANG": "inline",
+        "XDG_RUNTIME_DIR": "inline",
+        "DBUS_SESSION_BUS_ADDRESS": "inline",
+        "OPENCLAW_SYSTEMD_UNIT": "inline",
+        "OPENCLAW_STATE_DIR": "inline",
+        "OPENCLAW_CONFIG_PATH": "inline",
+        "OPENCLAW_SKIP_CHANNELS": "inline",
+        "OPENCLAW_SKIP_PROVIDERS": "inline",
+        "OPENCLAW_SKIP_GMAIL_WATCHER": "inline",
+        "OPENCLAW_SKIP_CRON": "inline",
+        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER": "inline",
+        "OPENCLAW_SKIP_CANVAS_HOST": "inline",
+        "OPENCLAW_PROOF_FSYNC_ROOT": "inline",
+        "OPENCLAW_PROOF_PREAD_ROOT": "inline",
+        "OPENCLAW_PROOF_WORKER_TRACE": "inline",
+        "LD_PRELOAD": "inline",
+        "NODE_OPTIONS": "inline"
+      },
+      "sourcePath": "/run/user/1000/systemd/user/openclaw-176080-proof-reconcile-final-v4.service"
+    },
+    "layout": {
+      "execStart": "/home/proof/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs gateway --port 19684 --bind loopback --allow-unconfigured",
+      "sourcePath": "/run/user/1000/systemd/user/openclaw-176080-proof-reconcile-final-v4.service",
+      "sourcePathReal": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/home/.config/systemd/user/openclaw-176080-proof-reconcile-final-v4.service",
+      "sourceScope": "user",
+      "entrypoint": "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+      "entrypointReal": "/home/proof/.local/share/openclaw-176080-proof/candidate/openclaw.mjs",
+      "packageRoot": "/home/proof/.local/share/openclaw-176080-proof/candidate",
+      "packageRootReal": "/home/proof/.local/share/openclaw-176080-proof/candidate",
+      "packageVersion": "2026.10.6",
+      "entrypointSourceCheckout": true
+    },
+    "runtime": {
+      "status": "running",
+      "state": "active",
+      "subState": "running",
+      "pid": 629566,
+      "lastExitStatus": 0,
+      "lastExitReason": "0",
+      "systemd": {
+        "scope": "user",
+        "transport": {
+          "kind": "session-bus",
+          "address": "unix:path=/run/user/1000/bus",
+          "runtimeDir": "/run/user/1000"
+        },
+        "unit": "openclaw-176080-proof-reconcile-final-v4.service",
+        "controlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/openclaw-176080-proof-reconcile-final-v4.service",
+        "killMode": "control-group",
+        "tasksCurrent": 61,
+        "memoryCurrent": 2106552320,
+        "result": "success",
+        "nRestarts": 1,
+        "startLimitBurst": 5
+      }
+    },
+    "configAudit": {
+      "ok": false,
+      "issues": [
+        {
+          "code": "gateway-path-missing-dirs",
+          "message": "Gateway service PATH missing required dirs: /usr/local/bin",
+          "level": "recommended"
+        },
+        {
+          "code": "systemd-after-network-online",
+          "message": "Missing systemd After=network-online.target",
+          "detail": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/home/.config/systemd/user/openclaw-176080-proof-reconcile-final-v4.service",
+          "level": "recommended"
+        },
+        {
+          "code": "systemd-wants-network-online",
+          "message": "Missing systemd Wants=network-online.target",
+          "detail": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/home/.config/systemd/user/openclaw-176080-proof-reconcile-final-v4.service",
+          "level": "recommended"
+        },
+        {
+          "code": "systemd-kill-mode-control-group",
+          "message": "KillMode=mixed is required to drain active turns before final service child cleanup; inspect unit and drop-in overrides.",
+          "detail": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/home/.config/systemd/user/openclaw-176080-proof-reconcile-final-v4.service: control-group",
+          "level": "recommended"
+        }
+      ],
+      "runtimeNote": "Runtime pin migration pending; run openclaw doctor.",
+      "definitionDriftError": "Systemd definition inspection skipped: the selected service is outside the managed user-unit path."
+    },
+    "gatewayHeap": {
+      "maxOldSpaceSizeMiB": 8192,
+      "availableMemoryMiB": 31989,
+      "memorySource": "physical",
+      "floorMiB": 2048,
+      "capMiB": 8192,
+      "headroomCapMiB": 23991,
+      "nodeOptions": "",
+      "execArgv": []
+    }
+  },
+  "config": {
+    "cli": {
+      "path": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/config.json",
+      "exists": true,
+      "valid": true,
+      "controlUi": {
+        "enabled": false
+      }
+    },
+    "daemon": {
+      "path": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/config.json",
+      "exists": true,
+      "valid": true,
+      "controlUi": {
+        "enabled": false
+      }
+    }
+  },
+  "gateway": {
+    "bindMode": "loopback",
+    "bindHost": "127.0.0.1",
+    "port": 19684,
+    "portSource": "env/config",
+    "probeUrl": "ws://127.0.0.1:19684",
+    "probeNote": "Loopback-only gateway; only local clients can connect.",
+    "version": "2026.10.6"
+  },
+  "hostDesktop": {
+    "enabled": false,
+    "state": "disabled",
+    "port": 5900
+  },
+  "port": {
+    "port": 19684,
+    "status": "busy",
+    "listeners": [
+      {
+        "pid": 629566,
+        "command": "openclaw-gatewa",
+        "address": "127.0.0.1:19684",
+        "user": "jason",
+        "commandLine": "openclaw-gateway",
+        "ppid": 992
+      }
+    ],
+    "hints": []
+  },
+  "rpc": {
+    "ok": true,
+    "kind": "connect",
+    "capability": "connected_no_operator_scope",
+    "auth": {
+      "role": "operator",
+      "scopes": [],
+      "capability": "connected_no_operator_scope"
+    },
+    "server": {
+      "version": "2026.10.6",
+      "buildId": "2026.10.6-989b30680025-2026-10-23T03-18-20.240Z",
+      "connId": "0a8d314b-6046-40c9-b926-7a2a6522d860"
+    },
+    "version": "2026.10.6",
+    "url": "ws://127.0.0.1:19684"
+  },
+  "extraServices": [],
+  "pluginVersionDrift": {
+    "gatewayVersion": "2026.10.6",
+    "drifts": []
+  }
+}

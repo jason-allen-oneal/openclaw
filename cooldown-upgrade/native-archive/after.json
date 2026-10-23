@@ -1,0 +1,27 @@
+{
+  "nodes": [
+    {
+      "session_key": "agent:main:reconcile-retained",
+      "current_session_id": "6c29b25c-9865-4d3b-bf9f-239da8a1f8a5"
+    }
+  ],
+  "events": [
+    {
+      "session_id": "6c29b25c-9865-4d3b-bf9f-239da8a1f8a5",
+      "seq": 0,
+      "event_utf8_bytes": 220,
+      "json": "{\"type\":\"session\",\"version\":4,\"id\":\"6c29b25c-9865-4d3b-bf9f-239da8a1f8a5\",\"timestamp\":\"2026-10-23T03:23:04.750Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-green-v1/workspace\"}"
+    },
+    {
+      "session_id": "6c29b25c-9865-4d3b-bf9f-239da8a1f8a5",
+      "seq": 1,
+      "event_utf8_bytes": 612,
+      "json": "{\"type\":\"message\",\"id\":\"fd5a76dc-2d0f-465d-bb67-5c60db708f56\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:23:04.793Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792725784793,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+    }
+  ],
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ]
+}

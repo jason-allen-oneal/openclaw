@@ -1,0 +1,20 @@
+{
+  "observedAt": "2026-10-23T02:57:57.999477+00:00",
+  "head": "f7fc36d9144901b9f371253c85bf230bd0315b2d",
+  "admission": {
+    "value": 128,
+    "precedent": "Existing DEFAULT_WORKER_PENDING_TASKS; reconcile already inherits; archive enforcement new",
+    "source": "https://github.com/openclaw/openclaw/blob/936b57750cf99dbef410e224412a99a91f0d3f46/docs/plugins/sdk-overview/infrastructure.md#L253"
+  },
+  "retirement": {
+    "milliseconds": 180000,
+    "precedent": "Merged model-context reader budget #173369; archive/reconcile enforcement new",
+    "source": "https://github.com/openclaw/openclaw/blob/936b57750cf99dbef410e224412a99a91f0d3f46/src/config/sessions/session-transcript-read-worker-runtime.ts#L147"
+  },
+  "grace": {
+    "milliseconds": 5000,
+    "precedent": "Existing reconcile close grace; ordinary-operation process recovery is new"
+  },
+  "ownerAcceptanceFound": false,
+  "reporterRecoveryProposal": "https://github.com/openclaw/openclaw/issues/176080#issuecomment-6252946841"
+}

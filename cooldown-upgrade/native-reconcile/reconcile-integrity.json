@@ -1,0 +1,30 @@
+{
+  "sourceHead": "989b30680025e029885e77e6aeefb3c1cc7626a5",
+  "leaseId": "7de4e8bf-758b-4894-b28b-bbfe547dcbd6",
+  "sourceRowsUnchanged": true,
+  "leaseRetainedUntilExit": true,
+  "cleanupAfterPhysicalExit": true,
+  "historyRecovered": true,
+  "dirtyProjectionRebuilt": true,
+  "quickCheck": [
+    {
+      "quick_check": "ok"
+    }
+  ],
+  "native": [
+    {
+      "event": "sqlite-pread-enter",
+      "pid": 629566,
+      "tid": 630464,
+      "fd": 167,
+      "path": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-reconcile-final-v4/state/agents/main/agent/openclaw-agent.sqlite",
+      "monotonic_ns": 2212610407775107
+    }
+  ],
+  "oldPid": 629566,
+  "newPid": 632844,
+  "oldProcessDeathObservedAt": 1792725995633,
+  "faultReleased": false,
+  "terminationRequestedMsAfterDispatch": 179998,
+  "observerStartedMsAfterDispatch": 5228
+}

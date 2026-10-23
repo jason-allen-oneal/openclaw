@@ -1,0 +1,105 @@
+{
+  "time": 1792725969216,
+  "firstSettled": false,
+  "nextSettled": false,
+  "workerEvents": [
+    {
+      "time": 1792725785428,
+      "event": "worker-created",
+      "pid": 629111,
+      "threadId": 24,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js"
+    },
+    {
+      "time": 1792725785429,
+      "event": "worker-dispatch",
+      "threadId": 24,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js",
+      "type": "archive-operation"
+    },
+    {
+      "time": 1792725786182,
+      "event": "worker-temporary-file",
+      "threadId": 24,
+      "type": "archive-temporary-file",
+      "filePath": "/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-green-v1/state/agents/main/sessions/dee83222-990f-475a-b0f9-71f224a53517.jsonl.deleted.2026-10-23T03-23-06.181Z.f9689ff55c01425398ded22d699d2d31.36edf9e9-5c95-4281-9f3c-8459db37445e.jsonl-stage",
+      "retained": true
+    },
+    {
+      "time": 1792725965430,
+      "event": "worker-terminate-request",
+      "pid": 629111,
+      "threadId": 24,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js"
+    },
+    {
+      "time": 1792725965431,
+      "event": "worker-terminate-returned",
+      "pid": 629111,
+      "threadId": 24,
+      "url": "file:///home/proof/.local/share/openclaw-176080-proof/candidate/dist/config/sessions/session-accessor.sqlite-archive.worker.js"
+    }
+  ],
+  "nativeThreadExists": true,
+  "stageExists": true,
+  "stageSha256": "0648d15d06a22167c9f14bb2fcb8d0bf50ee038d6f8c94a531a504c5721446fd",
+  "snapshot": {
+    "nodes": [
+      {
+        "session_key": "agent:main:archive-stall-first",
+        "current_session_id": "dee83222-990f-475a-b0f9-71f224a53517"
+      },
+      {
+        "session_key": "agent:main:archive-stall-next",
+        "current_session_id": "c86fea13-82db-466e-b384-46b75e2b2378"
+      },
+      {
+        "session_key": "agent:main:reconcile-retained",
+        "current_session_id": "6c29b25c-9865-4d3b-bf9f-239da8a1f8a5"
+      }
+    ],
+    "events": [
+      {
+        "session_id": "6c29b25c-9865-4d3b-bf9f-239da8a1f8a5",
+        "seq": 0,
+        "event_utf8_bytes": 220,
+        "json": "{\"type\":\"session\",\"version\":4,\"id\":\"6c29b25c-9865-4d3b-bf9f-239da8a1f8a5\",\"timestamp\":\"2026-10-23T03:23:04.750Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-green-v1/workspace\"}"
+      },
+      {
+        "session_id": "6c29b25c-9865-4d3b-bf9f-239da8a1f8a5",
+        "seq": 1,
+        "event_utf8_bytes": 612,
+        "json": "{\"type\":\"message\",\"id\":\"fd5a76dc-2d0f-465d-bb67-5c60db708f56\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:23:04.793Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:reconcile-retained\"}],\"timestamp\":1792725784793,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+      },
+      {
+        "session_id": "c86fea13-82db-466e-b384-46b75e2b2378",
+        "seq": 0,
+        "event_utf8_bytes": 220,
+        "json": "{\"type\":\"session\",\"version\":4,\"id\":\"c86fea13-82db-466e-b384-46b75e2b2378\",\"timestamp\":\"2026-10-23T03:23:04.589Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-green-v1/workspace\"}"
+      },
+      {
+        "session_id": "c86fea13-82db-466e-b384-46b75e2b2378",
+        "seq": 1,
+        "event_utf8_bytes": 612,
+        "json": "{\"type\":\"message\",\"id\":\"0c8a3ab3-830f-405f-aa27-b5e26cac8f5e\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:23:04.624Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-next\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-next\"}],\"timestamp\":1792725784624,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+      },
+      {
+        "session_id": "dee83222-990f-475a-b0f9-71f224a53517",
+        "seq": 0,
+        "event_utf8_bytes": 220,
+        "json": "{\"type\":\"session\",\"version\":4,\"id\":\"dee83222-990f-475a-b0f9-71f224a53517\",\"timestamp\":\"2026-10-23T03:23:01.292Z\",\"cwd\":\"/home/proof/.local/share/openclaw-176080-proof/proof/permanent-archive-cooldown-green-v1/workspace\"}"
+      },
+      {
+        "session_id": "dee83222-990f-475a-b0f9-71f224a53517",
+        "seq": 1,
+        "event_utf8_bytes": 614,
+        "json": "{\"type\":\"message\",\"id\":\"2c259c68-b1b5-4abc-b093-85af35c05e80\",\"parentId\":null,\"timestamp\":\"2026-10-23T03:23:01.451Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-first\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"synthetic retained proof agent:main:archive-stall-first\"}],\"timestamp\":1792725781451,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}"
+      }
+    ],
+    "quickCheck": [
+      {
+        "quick_check": "ok"
+      }
+    ]
+  }
+}

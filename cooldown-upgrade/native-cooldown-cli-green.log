@@ -1,0 +1,83 @@
+[test] starting test/vitest/vitest.cli.config.ts
+
+ RUN  v5.0.3 /home/proof-local/.local/share/openclaw-fix-work/176080
+
+[vitest-workers] local cache miss after 13522ms
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest] still running with no output for 90000ms.
+[vitest-workers] prepared 24f880b341ba in 114004ms (16796 inputs, 21906 outputs)
+[vitest] still running with no output for 120000ms.
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > closes admission and drains active work before handing runtime recovery to the supervisor 11950ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > finishes cleanup instead of restarting in-process when a fresh-process handoff fails 22ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > exits instead of restarting in-process when a native-worker handoff is disabled 20ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > exits instead of restarting in-process when a native-worker handoff is failed 32ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > keeps the process hard-exit watchdog armed while native-worker close is unsettled 59ms
+ ✓ |cli| src/cli/gateway-cli/run-loop.runtime-unavailable.test.ts > records accepted native recovery before arming a forced-exit watchdog 39ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  23:14:11
+   Duration  137.80s (transform 89%, tests 9%, worker 1%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 151.66s
