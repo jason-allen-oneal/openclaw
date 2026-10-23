@@ -1,0 +1,617 @@
+[
+  {
+    "phase": "settled-idle",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {},
+    "chatCounts": {
+      "chat.metadata": 0,
+      "models.list": 0
+    },
+    "settingsModelsListCount": 0,
+    "chatRequests": [],
+    "observations": []
+  },
+  {
+    "phase": "usage-only",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {},
+    "chatCounts": {
+      "chat.metadata": 0,
+      "models.list": 0
+    },
+    "settingsModelsListCount": 0,
+    "chatRequests": [],
+    "observations": []
+  },
+  {
+    "phase": "other-agent",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "models.list": 6,
+      "models.authStatus": 3
+    },
+    "chatCounts": {
+      "chat.metadata": 0,
+      "models.list": 0
+    },
+    "settingsModelsListCount": 6,
+    "chatRequests": [],
+    "observations": []
+  },
+  {
+    "phase": "catalog-change",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "models.list": 3,
+      "chat.metadata": 1,
+      "models.authStatus": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 2,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716124084,
+        "phase": "catalog-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "a0888981-64c1-4ffe-85b4-3d909d989720",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716124214,
+        "phase": "catalog-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "f1bd9959-0d86-463d-b999-8cf8da2a333c",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": []
+  },
+  {
+    "phase": "auth-change",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "models.list": 3,
+      "chat.metadata": 1,
+      "models.authStatus": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 2,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716125970,
+        "phase": "auth-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "8f229b14-8ca6-40c5-b329-fe03e03e771b",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716126068,
+        "phase": "auth-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "3007f141-7f13-45c7-8f28-f73bdb20c8d2",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": []
+  },
+  {
+    "phase": "commands-change",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "chat.metadata": 1,
+      "models.list": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 0,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716127873,
+        "phase": "commands-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "5de1a88c-4a0c-4446-996f-79bf23752579",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716127952,
+        "phase": "commands-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "1ff53d5a-1670-41d7-a230-2618a377b0bb",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": []
+  },
+  {
+    "phase": "selection-change",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "models.list": 3,
+      "chat.metadata": 1,
+      "models.authStatus": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 2,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716129838,
+        "phase": "selection-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "7bcc68e6-9247-4bef-a6f1-7596ed3828d2",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716129936,
+        "phase": "selection-change",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "e7e695de-cc69-4a85-ad56-e5322cd5ffe1",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": []
+  },
+  {
+    "phase": "legacy-event",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "models.list": 3,
+      "chat.metadata": 1,
+      "models.authStatus": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 2,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716131750,
+        "phase": "legacy-event",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "34ff1092-e7e1-4312-a264-a088fc6a4270",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716131841,
+        "phase": "legacy-event",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "ee03cb43-aaa9-4d8e-bf63-4c8c9fa37a13",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": []
+  },
+  {
+    "phase": "refresh-warning",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "chat.metadata": 1,
+      "models.list": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 0,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716133625,
+        "phase": "refresh-warning",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "de32a1fe-07b8-4ab3-a1d8-2a750a44b80f",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716133719,
+        "phase": "refresh-warning",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "1e4b9a7e-9b54-4a2b-bf5c-a40103258e74",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": [
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+        "timestampMs": 1792716133380
+      }
+    ]
+  },
+  {
+    "phase": "status-recovery",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "chat.metadata": 1,
+      "models.list": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 0,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716136331,
+        "phase": "status-recovery",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "73a2c06b-b482-4270-828b-f57de3f31101",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716136395,
+        "phase": "status-recovery",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "741e42af-07a8-4442-b8c7-804e6ca60673",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": [
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": null,
+        "timestampMs": 1792716135971
+      }
+    ]
+  },
+  {
+    "phase": "warning-before-manual-retry",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "chat.metadata": 1,
+      "models.list": 1,
+      "sessions.list": 1,
+      "health": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 0,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716139181,
+        "phase": "warning-before-manual-retry",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "7cb32ebc-6e6c-464e-a7fe-1062e5920ee3",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716139248,
+        "phase": "warning-before-manual-retry",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "ce497b03-3206-4e92-815f-795c2cfe61fc",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": [
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+        "timestampMs": 1792716138937
+      }
+    ]
+  },
+  {
+    "phase": "manual-retry",
+    "connections": [
+      {
+        "id": "29db011e-d04c-47b0-bf84-ac437a304413",
+        "role": "node",
+        "ready": true
+      },
+      {
+        "id": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "role": "operator",
+        "ready": true
+      }
+    ],
+    "counts": {
+      "chat.metadata": 1,
+      "models.list": 1,
+      "sessions.list": 1
+    },
+    "chatCounts": {
+      "chat.metadata": 1,
+      "models.list": 1
+    },
+    "settingsModelsListCount": 0,
+    "chatRequests": [
+      {
+        "timestampMs": 1792716141270,
+        "phase": "manual-retry",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "0bba2d7e-4c44-42ce-ace7-8aa7639f33fa",
+        "method": "chat.metadata",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session"
+        }
+      },
+      {
+        "timestampMs": 1792716141375,
+        "phase": "manual-retry",
+        "direction": "request",
+        "connection": "c330f9ec-08ab-4cc8-bc7d-24c9c822cf4d",
+        "id": "f4865494-d50f-4262-8990-7d0abdf0afa6",
+        "method": "models.list",
+        "params": {
+          "agentId": "main",
+          "sessionKey": "agent:main:synthetic-native-session",
+          "view": "configured",
+          "includeDetails": true
+        }
+      }
+    ],
+    "observations": [
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": null,
+        "timestampMs": 1792716108590
+      },
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+        "timestampMs": 1792716133380
+      },
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": null,
+        "timestampMs": 1792716135971
+      },
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+        "timestampMs": 1792716138937
+      },
+      {
+        "activityResumed": true,
+        "catalogRows": 2,
+        "refreshWarning": null,
+        "timestampMs": 1792716141061
+      }
+    ]
+  }
+]

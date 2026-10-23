@@ -1,0 +1,28 @@
+{
+  "command": [
+    "adb",
+    "-s",
+    "task-emulator",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "class",
+    "ai.openclaw.app.CatalogRefreshProofTest",
+    "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "head": "5fb773cb7daba27233488e8384471273d52fbb78",
+  "startedAt": "2026-10-23T00:41:32.294266+00:00",
+  "scenarioArguments": [
+    "--model-count",
+    "2"
+  ],
+  "driverExitCode": 0,
+  "instrumentationExitCode": 0,
+  "instrumentationPassed": true,
+  "completedAt": "2026-10-23T00:42:24.728329+00:00",
+  "passed": true,
+  "evidenceScope": "Native Android app and WebSocket transport; synthetic metadata notifications and refreshFailed fault; two configured model rows"
+}
