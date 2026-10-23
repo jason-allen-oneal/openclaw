@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "scripts/test-projects.mts",
+    "--maxWorkers=1",
+    "src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts",
+    "src/auto-reply/reply/dispatch-from-config.transcript.tool-authored.test.ts",
+    "src/auto-reply/reply/dispatch-from-config.pending-final.test.ts",
+    "src/auto-reply/reply/pending-final-delivery.test.ts"
+  ],
+  "sourceHead": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+  "mode": "consumers",
+  "startedAt": "2026-10-23T01:03:05.158498+00:00",
+  "exitCode": 0,
+  "completedAt": "2026-10-23T01:04:25.993409+00:00"
+}

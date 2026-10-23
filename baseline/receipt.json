@@ -1,0 +1,379 @@
+{
+  "sourceHead": "2975dedca83e94d3530fdb339077bfe040d1b560",
+  "buildRoot": "/home/rev/.local/share/openclaw-fix-work/159826",
+  "calls": [
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T00:24:28.141Z",
+      "finishedAt": "2026-10-23T00:24:34.176Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792715073630,\n  \"durationMs\": 2074,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {},\n  \"channelOrder\": [],\n  \"channelLabels\": {},\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/rev/.local/share/openclaw-fix-work/134498-proof/gateway-baseline-final/state/agents/main/sessions/sessions.json\",\n        \"count\": 0,\n        \"recent\": []\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/rev/.local/share/openclaw-fix-work/134498-proof/gateway-baseline-final/state/agents/main/sessions/sessions.json\",\n    \"count\": 0,\n    \"recent\": []\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 3019,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1013.9290120000005,\n    \"delayP99Ms\": 73.3,\n    \"delayMaxMs\": 73.3,\n    \"utilization\": 0.169,\n    \"cpuCoreRatio\": 1.408,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.112,\n      \"hostUtilization\": 0.999,\n      \"hostCpuCount\": 8,\n      \"workerCoreRatio\": 0.938,\n      \"otherThreadsCoreRatio\": 0.358\n    }\n  },\n  \"modelRuntime\": {\n    \"degraded\": false,\n    \"pendingAgents\": []\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/usr/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-control",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T00:24:34.179Z",
+      "finishedAt": "2026-10-23T00:24:47.684Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-control\",\n  \"sessionId\": \"a897fd4d-c310-4374-b5c8-bd6bde757580\",\n  \"entry\": {\n    \"sessionId\": \"a897fd4d-c310-4374-b5c8-bd6bde757580\",\n    \"lifecycleRevision\": \"5322fb66-ce7e-4e76-988e-f12fdc38958e\",\n    \"updatedAt\": 1792715086050,\n    \"sessionRoot\": \"/home/rev/.local/share/openclaw-fix-work/134498-proof/gateway-baseline-final/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792715086054,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "agentId": "main",
+        "message": "seed-control"
+      },
+      "startedAt": "2026-10-23T00:24:47.684Z",
+      "finishedAt": "2026-10-23T00:24:53.061Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"d11855b1-d85c-4fde-a7ae-4be632ea5ecc\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "messageId": "receipt-control",
+        "text": "ACCEPTED-REPLY-control-ONLY",
+        "receiver": "http://127.0.0.1:10025/reply"
+      },
+      "startedAt": "2026-10-23T00:24:53.061Z",
+      "finishedAt": "2026-10-23T00:24:57.207Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 1,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-reset",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T00:24:57.214Z",
+      "finishedAt": "2026-10-23T00:25:00.786Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-reset\",\n  \"sessionId\": \"d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044\",\n  \"entry\": {\n    \"sessionId\": \"d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044\",\n    \"lifecycleRevision\": \"1fcb7ac6-2247-43de-9608-87c349d834e7\",\n    \"updatedAt\": 1792715100580,\n    \"sessionRoot\": \"/home/rev/.local/share/openclaw-fix-work/134498-proof/gateway-baseline-final/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792715100580,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-reset",
+        "agentId": "main",
+        "message": "seed-reset"
+      },
+      "startedAt": "2026-10-23T00:25:00.786Z",
+      "finishedAt": "2026-10-23T00:25:04.450Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"13f9eb20-5319-4486-babc-4bf3956fc3e7\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-reset",
+        "messageId": "receipt-reset",
+        "text": "ACCEPTED-REPLY-reset-ONLY",
+        "receiver": "http://127.0.0.1:10025/reply"
+      },
+      "startedAt": "2026-10-23T00:25:04.450Z",
+      "finishedAt": "2026-10-23T00:25:12.456Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 1,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.reset",
+      "params": {
+        "key": "agent:main:delivery-reset-reset",
+        "agentId": "main",
+        "reason": "reset"
+      },
+      "startedAt": "2026-10-23T00:25:08.014Z",
+      "error": "Error: Command failed: /usr/bin/node openclaw.mjs gateway call sessions.reset --params {\"key\":\"agent:main:delivery-reset-reset\",\"agentId\":\"main\",\"reason\":\"reset\"} --port 10024 --timeout 120000 --json\n",
+      "stdout": "{\n  \"ok\": false,\n  \"error\": {\n    \"type\": \"gateway_request_error\",\n    \"code\": \"UNAVAILABLE\",\n    \"message\": \"SqliteSessionMutationConflictError: SQLite session state changed while preparing reset\",\n    \"retryable\": false\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "requests": [
+    {
+      "text": "ACCEPTED-REPLY-control-ONLY",
+      "acceptedAt": "2026-10-23T00:24:56.838Z",
+      "receiptAt": "2026-10-23T00:24:56.841Z"
+    },
+    {
+      "text": "ACCEPTED-REPLY-reset-ONLY",
+      "acceptedAt": "2026-10-23T00:25:08.007Z",
+      "receiptAt": "2026-10-23T00:25:12.074Z"
+    }
+  ],
+  "stages": [
+    {
+      "label": "control",
+      "reset": false,
+      "text": "ACCEPTED-REPLY-control-ONLY",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 1,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": true
+            }
+          }
+        },
+        {
+          "status": "fulfilled"
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"46bc6191-9211-4056-836d-2dd1d7bbe828\",\"parentId\":\"ea2095c1-f03e-4fcb-91ab-48686e1e6b62\",\"timestamp\":\"2026-10-23T00:24:57.001Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792715096859,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"a897fd4d-c310-4374-b5c8-bd6bde757580\",\"timestamp\":\"2026-10-23T00:24:47.301Z\",\"cwd\":\"/home/rev/.local/share/openclaw-fix-work/134498-proof/gateway-baseline-final/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"d11855b1-d85c-4fde-a7ae-4be632ea5ecc\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:24:50.718Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792715090718,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"ea2095c1-f03e-4fcb-91ab-48686e1e6b62\",\"parentId\":\"d11855b1-d85c-4fde-a7ae-4be632ea5ecc\",\"timestamp\":\"2026-10-23T00:24:56.954Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792715096864,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"46bc6191-9211-4056-836d-2dd1d7bbe828\",\"parentId\":\"ea2095c1-f03e-4fcb-91ab-48686e1e6b62\",\"timestamp\":\"2026-10-23T00:24:57.001Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792715096859,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "label": "reset",
+      "resetAdmission": {
+        "0": "{\"subsystem\":\"sessions/lifecycle\"}",
+        "1": {
+          "pid": 232667,
+          "threadId": 0,
+          "isMainThread": true,
+          "diagnosticEpoch": "ddea0d35f0613169",
+          "omittedObservations": 0,
+          "operationId": 9,
+          "operation": "mutation",
+          "mutationKind": "reset",
+          "sessionScopeHash": "9748ba0a37a9c5ceb45b93d8a6a6fcd38833c2e959cc038834593f89208b096a",
+          "identityCount": 2,
+          "operationTraceId": "e15767dd1ddfd965f741f3fe759f34d1",
+          "operationSpanId": "a6c5a5ed38b7b967",
+          "queueKind": "lifecycle",
+          "identityHash": "9748ba0a37a9c5ceb45b93d8a6a6fcd38833c2e959cc038834593f89208b096a",
+          "waitMs": 1000,
+          "holderObserved": true,
+          "holderOperationId": 8,
+          "holderOperation": "lifecycle",
+          "holderSessionScopeHash": "9748ba0a37a9c5ceb45b93d8a6a6fcd38833c2e959cc038834593f89208b096a",
+          "holderPhase": "run",
+          "holderTraceId": "8b61c52f13932d20cc59d78de45688cd",
+          "holderSpanId": "58d9e23b1ff8870e",
+          "holderElapsedMs": 4063,
+          "holderSignalAborted": true
+        },
+        "2": "session lifecycle queue waiting",
+        "_meta": {
+          "runtime": "node",
+          "runtimeVersion": "24.22.1",
+          "hostname": "rev",
+          "date": "2026-10-23T00:25:12.044Z",
+          "logLevelId": 4,
+          "logLevelName": "WARN",
+          "name": "{\"subsystem\":\"sessions/lifecycle\"}",
+          "parentNames": [
+            "openclaw"
+          ]
+        },
+        "time": "2026-10-23T00:25:12.044+00:00",
+        "hostname": "rev",
+        "message": "session lifecycle queue waiting",
+        "traceId": "e15767dd1ddfd965f741f3fe759f34d1",
+        "spanId": "a6c5a5ed38b7b967",
+        "traceFlags": "01"
+      }
+    },
+    {
+      "label": "reset",
+      "reset": true,
+      "text": "ACCEPTED-REPLY-reset-ONLY",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 1,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": true
+            }
+          }
+        },
+        {
+          "status": "rejected",
+          "reason": {
+            "code": 1,
+            "killed": false,
+            "signal": null,
+            "cmd": "/usr/bin/node openclaw.mjs gateway call sessions.reset --params {\"key\":\"agent:main:delivery-reset-reset\",\"agentId\":\"main\",\"reason\":\"reset\"} --port 10024 --timeout 120000 --json",
+            "stdout": "{\n  \"ok\": false,\n  \"error\": {\n    \"type\": \"gateway_request_error\",\n    \"code\": \"UNAVAILABLE\",\n    \"message\": \"SqliteSessionMutationConflictError: SQLite session state changed while preparing reset\",\n    \"retryable\": false\n  }\n}\n",
+            "stderr": ""
+          }
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"7144b9cb-b5c7-4a5f-a14b-73b9d4a7e1c2\",\"parentId\":\"c2c02df5-fcb3-46ef-b437-d7874d22c32e\",\"timestamp\":\"2026-10-23T00:25:12.227Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-reset-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792715112077,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"a897fd4d-c310-4374-b5c8-bd6bde757580\",\"timestamp\":\"2026-10-23T00:24:47.301Z\",\"cwd\":\"/home/rev/.local/share/openclaw-fix-work/134498-proof/gateway-baseline-final/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"d11855b1-d85c-4fde-a7ae-4be632ea5ecc\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:24:50.718Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792715090718,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"ea2095c1-f03e-4fcb-91ab-48686e1e6b62\",\"parentId\":\"d11855b1-d85c-4fde-a7ae-4be632ea5ecc\",\"timestamp\":\"2026-10-23T00:24:56.954Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792715096864,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "a897fd4d-c310-4374-b5c8-bd6bde757580",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"46bc6191-9211-4056-836d-2dd1d7bbe828\",\"parentId\":\"ea2095c1-f03e-4fcb-91ab-48686e1e6b62\",\"timestamp\":\"2026-10-23T00:24:57.001Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792715096859,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044\",\"timestamp\":\"2026-10-23T00:25:00.602Z\",\"cwd\":\"/home/rev/.local/share/openclaw-fix-work/134498-proof/gateway-baseline-final/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"13f9eb20-5319-4486-babc-4bf3956fc3e7\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:25:04.151Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792715104151,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"c2c02df5-fcb3-46ef-b437-d7874d22c32e\",\"parentId\":\"13f9eb20-5319-4486-babc-4bf3956fc3e7\",\"timestamp\":\"2026-10-23T00:25:12.205Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792715112106,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "d6dc67c2-5c4c-4bc4-afad-d24dd0ca0044",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"7144b9cb-b5c7-4a5f-a14b-73b9d4a7e1c2\",\"parentId\":\"c2c02df5-fcb3-46ef-b437-d7874d22c32e\",\"timestamp\":\"2026-10-23T00:25:12.227Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-reset-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792715112077,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "passed": false
+    }
+  ],
+  "passed": false,
+  "error": "AssertionError [ERR_ASSERTION]: dispatch and reset RPC both complete",
+  "finalExit": {
+    "code": 0,
+    "signal": null
+  }
+}

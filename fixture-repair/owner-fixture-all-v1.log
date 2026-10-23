@@ -1,0 +1,86 @@
+[test] starting test/vitest/vitest.auto-reply.config.ts
+
+ RUN  v5.0.3 /home/jason/.local/share/openclaw-134498-proof/candidate
+
+[vitest-workers] local cache hit after 7353ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 39ea85a62fa6 in 7473ms (16834 inputs, 21900 outputs)
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > retains resolver and delivery ownership through queued follow-up 2052ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > retains resolver and delivery ownership through expired finalization 666ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > allows final delivery to await a visible successor after producer handoff 629ms
+ × |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > releases a source claim after terminal fencing settles its owner 15035ms
+   → Test timed out in 15000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > renews finalization only for delivered content, not transport callbacks 778ms
+ × |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > suppresses superseded output and awaits the successor delivery receipt 15017ms
+   → Test timed out in 15000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > holds owned resolver work until it settles 739ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > holds queued deletion resolver work until it settles 705ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > holds queued cancellation resolver work until it settles 674ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after transport failure through retained callbacks 389ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after subsequent block through retained callbacks 337ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after aborted progress through retained callbacks 348ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after cancelled block and tool-only reply through retained callbacks 354ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > runs queued cleanup after rejected delivery and cleanup and preserves the first failure 407ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > runs queued cleanup after rejected cleanup and preserves the first failure 387ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > clears the reply lane but defers follow-up admission until final delivery settles 326ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.pluginStateObservationCache
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sessionGroupCatalog
+
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > clears the reply lane but defers follow-up admission until block receipt callback settles 330ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > releases a source claim after terminal fencing settles its owner
+Error: Test timed out in 15000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts:331:3
+    329|   });
+    330|
+    331|   it("releases a source claim after terminal fencing settles its owner…\n       |   ^\n    332|     const sessionKey =<redacted len=1>"agent:main:fenced-source-claim";
+    333|     const sourceSettled = vi.fn();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > suppresses superseded output and awaits the successor delivery receipt
+Error: Test timed out in 15000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts:408:3
+    406|   });
+    407|
+    408|   it("suppresses superseded output and awaits the successor delivery r…
+       |   ^
+    409|     const oldResolver = createGate();
+    410|     const transport = createGate();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 15 passed (17)
+   Start at  20:52:50
+   Duration  61.73s (tests 66%, transform 26%, import 6%, worker 1%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 67.01s
+[test] FAILED (exit 1)

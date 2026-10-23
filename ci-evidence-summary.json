@@ -1,0 +1,27 @@
+{
+  "head": "8c111e323573937fe211a085b814a28e635d57e6",
+  "ciRun": "https://github.com/openclaw/openclaw/actions/runs/39877510359",
+  "source": "successful CI run logs downloaded with gh run view --log",
+  "capturedAt": "2026-10-23T00:38:46.092296+00:00",
+  "regression": {
+    "tests": 2,
+    "fileSeconds": 8.03,
+    "testMilliseconds": [
+      2529,
+      806
+    ],
+    "exitCode": 0
+  },
+  "dispatcher": {
+    "tests": 3,
+    "fileSeconds": 27.65,
+    "newTestMilliseconds": 16,
+    "exitCode": 0
+  },
+  "uncoveredConsumers": [
+    "dispatch-from-config.owner-settlement.test.ts",
+    "dispatch-from-config.transcript.tool-authored.test.ts",
+    "dispatch-from-config.pending-final.test.ts",
+    "pending-final-delivery.test.ts"
+  ]
+}

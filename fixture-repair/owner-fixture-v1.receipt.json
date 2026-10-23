@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "scripts/test-projects.mts",
+    "--maxWorkers=1",
+    "src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts",
+    "--testTimeout=15000",
+    "-t",
+    "retains resolver|allows final delivery"
+  ],
+  "startedAt": "2026-10-23T00:50:29.237458+00:00",
+  "exitCode": 0,
+  "completedAt": "2026-10-23T00:52:17.967621+00:00"
+}

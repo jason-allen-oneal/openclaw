@@ -1,0 +1,54 @@
+[test] starting test/vitest/vitest.auto-reply.config.ts
+
+ RUN  v5.0.3 /home/jason/.local/share/openclaw-134498-proof/candidate
+
+[vitest-workers] local cache hit after 7508ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared d90853e9a62e in 7620ms (16834 inputs, 21900 outputs)
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > retains resolver and delivery ownership through queued follow-up 1993ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > retains resolver and delivery ownership through expired finalization 653ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > allows final delivery to await a visible successor after producer handoff 616ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > releases a source claim after terminal fencing settles its owner 3247ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > renews finalization only for delivered content, not transport callbacks 666ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > suppresses superseded output and awaits the successor delivery receipt 600ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > holds owned resolver work until it settles 611ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > holds queued deletion resolver work until it settles 687ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > holds queued cancellation resolver work until it settles 670ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after transport failure through retained callbacks 338ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after subsequent block through retained callbacks 343ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after aborted progress through retained callbacks 332ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > dispatchReplyFromConfig settles queued presentation after cancelled block and tool-only reply through retained callbacks 343ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > runs queued cleanup after rejected delivery and cleanup and preserves the first failure 338ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > runs queued cleanup after rejected cleanup and preserves the first failure 331ms
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > clears the reply lane but defers follow-up admission until final delivery settles 331ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.pluginStateObservationCache
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts: retiring openclaw.sessionGroupCatalog
+
+ ✓ |auto-reply| src/auto-reply/reply/dispatch-from-config.owner-settlement.test.ts > dispatchReplyFromConfig owner settlement > delivery settlement > clears the reply lane but defers follow-up admission until block receipt callback settles 334ms
+
+ Test Files  1 passed (1)
+      Tests  17 passed (17)
+   Start at  20:57:12
+   Duration  34.79s (transform 47%, tests 39%, import 11%, worker 2%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 40.36s

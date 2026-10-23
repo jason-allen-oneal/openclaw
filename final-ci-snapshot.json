@@ -1,0 +1,1249 @@
+{
+  "headRefOid": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+  "isDraft": false,
+  "mergeStateStatus": "UNKNOWN",
+  "mergeable": "UNKNOWN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:52Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320650/job/120179119067",
+      "name": "scope",
+      "startedAt": "2026-10-23T00:58:52Z",
+      "status": "COMPLETED",
+      "workflowName": "Node Runtime Conformance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:52Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320616/job/120179118982",
+      "name": "scope",
+      "startedAt": "2026-10-23T00:58:52Z",
+      "status": "COMPLETED",
+      "workflowName": "Plugin Init Scaffold Validation"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:07Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313093/job/120179093304",
+      "name": "auto-response",
+      "startedAt": "2026-10-23T00:58:49Z",
+      "status": "COMPLETED",
+      "workflowName": "Auto response"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179120578",
+      "name": "preflight",
+      "startedAt": "2026-10-23T00:58:58Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:01Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313110/job/120179093353",
+      "name": "dispatch",
+      "startedAt": "2026-10-23T00:58:49Z",
+      "status": "COMPLETED",
+      "workflowName": "ClawSweeper Dispatch"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:58Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320532/job/120179116518",
+      "name": "scope",
+      "startedAt": "2026-10-23T00:58:54Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179117230",
+      "name": "Select Critical Quality shards",
+      "startedAt": "2026-10-23T00:58:54Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:39Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313105/job/120179093197",
+      "name": "label",
+      "startedAt": "2026-10-23T00:58:49Z",
+      "status": "COMPLETED",
+      "workflowName": "Labeler"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:25Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320636/job/120179117127",
+      "name": "Scan changed paths (precise)",
+      "startedAt": "2026-10-23T00:58:54Z",
+      "status": "COMPLETED",
+      "workflowName": "OpenGrep \u2014 PR Diff"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:11Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313082/job/120179092783",
+      "name": "PR context and evidence",
+      "startedAt": "2026-10-23T00:58:49Z",
+      "status": "COMPLETED",
+      "workflowName": "PR context and evidence"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:03Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313128/job/120179092805",
+      "name": "resolve",
+      "startedAt": "2026-10-23T00:58:49Z",
+      "status": "COMPLETED",
+      "workflowName": "Security Review"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:58Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320628/job/120179117080",
+      "name": "actionlint",
+      "startedAt": "2026-10-23T00:58:54Z",
+      "status": "COMPLETED",
+      "workflowName": "Workflow Sanity"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:59Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320562/job/120179117062",
+      "name": "Detect iOS scan scope",
+      "startedAt": "2026-10-23T00:58:53Z",
+      "status": "COMPLETED",
+      "workflowName": "iOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:01Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320645/job/120179117364",
+      "name": "Detect macOS scan scope",
+      "startedAt": "2026-10-23T00:58:54Z",
+      "status": "COMPLETED",
+      "workflowName": "macOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:52Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179119036",
+      "name": "Critical Quality (ui-control-plane)",
+      "startedAt": "2026-10-23T00:58:52Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:47Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313105/job/120179095011",
+      "name": "backfill-pr-labels",
+      "startedAt": "2026-10-23T00:58:47Z",
+      "status": "COMPLETED",
+      "workflowName": "Labeler"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:52Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320628/job/120179118491",
+      "name": "generated-doc-baselines",
+      "startedAt": "2026-10-23T00:58:52Z",
+      "status": "COMPLETED",
+      "workflowName": "Workflow Sanity"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:59Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320562/job/120179461463",
+      "name": "Scan iOS dead code",
+      "startedAt": "2026-10-23T01:00:00Z",
+      "status": "COMPLETED",
+      "workflowName": "iOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:01Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320645/job/120179470942",
+      "name": "Build macOS Periphery reports",
+      "startedAt": "2026-10-23T01:00:01Z",
+      "status": "COMPLETED",
+      "workflowName": "macOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:26Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179522054",
+      "name": "security-fast",
+      "startedAt": "2026-10-23T01:00:12Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:16Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320532/job/120179455853",
+      "name": "Security High (core-auth-secrets)",
+      "startedAt": "2026-10-23T01:00:01Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:09Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320650/job/120179117133",
+      "name": "TypeScript contracts",
+      "startedAt": "2026-10-23T00:58:54Z",
+      "status": "COMPLETED",
+      "workflowName": "Node Runtime Conformance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:40Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320616/job/120179117394",
+      "name": "Validate provider scaffold",
+      "startedAt": "2026-10-23T00:58:54Z",
+      "status": "COMPLETED",
+      "workflowName": "Plugin Init Scaffold Validation"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:31Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313128/job/120179175456",
+      "name": "review (181105, a7f5cc2f35fb2e0254207492149d52d3923c0cbc)",
+      "startedAt": "2026-10-23T00:59:05Z",
+      "status": "COMPLETED",
+      "workflowName": "Security Review"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320532/job/120179455927",
+      "name": "Security High (channel-runtime-boundary)",
+      "startedAt": "2026-10-23T01:00:00Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:43Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320532/job/120179455926",
+      "name": "Security High (network-ssrf-boundary)",
+      "startedAt": "2026-10-23T01:00:01Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:48Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320532/job/120179455924",
+      "name": "Security High (mcp-process-tool-boundary)",
+      "startedAt": "2026-10-23T01:00:00Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:04:02Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320532/job/120179455882",
+      "name": "Security High (process-exec-boundary)",
+      "startedAt": "2026-10-23T01:00:01Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:35Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320532/job/120179455939",
+      "name": "Security High (plugin-trust-boundary)",
+      "startedAt": "2026-10-23T01:00:00Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524046",
+      "name": "build-artifacts",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:52Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179118621",
+      "name": "Critical Quality (web-media-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:52Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:47Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313105/job/120179094871",
+      "name": "label-issues",
+      "startedAt": "2026-10-23T00:58:47Z",
+      "status": "COMPLETED",
+      "workflowName": "Labeler"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:59:31Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881313128/job/120179316132",
+      "name": "reconcile-backlog",
+      "startedAt": "2026-10-23T00:59:31Z",
+      "status": "COMPLETED",
+      "workflowName": "Security Review"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:01Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320645/job/120179471155",
+      "name": "Scan shared kit from iOS",
+      "startedAt": "2026-10-23T01:00:01Z",
+      "status": "COMPLETED",
+      "workflowName": "macOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:06Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320650/job/120179117525",
+      "name": "Rust workspace",
+      "startedAt": "2026-10-23T00:58:53Z",
+      "status": "COMPLETED",
+      "workflowName": "Node Runtime Conformance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524001",
+      "name": "control-ui-performance",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141217",
+      "name": "Critical Quality (core-auth-secrets)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:01Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320645/job/120179472316",
+      "name": "Scan macOS dead code",
+      "startedAt": "2026-10-23T01:00:02Z",
+      "status": "COMPLETED",
+      "workflowName": "macOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523843",
+      "name": "native-i18n",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141477",
+      "name": "Critical Quality (config-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:01Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320645/job/120179472491",
+      "name": "Scan shared kit from macOS",
+      "startedAt": "2026-10-23T01:00:02Z",
+      "status": "COMPLETED",
+      "workflowName": "macOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523973",
+      "name": "needs.preflight.outputs.compatibility_target == 'true' && 'checks-ui' || format('checks-ui ({0}/{1})', matrix.shard, needs.preflight.outputs.ui_test_shard_count)",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141334",
+      "name": "Critical Quality (gateway-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:01Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320645/job/120179472012",
+      "name": "Intersect shared OpenClawKit dead code",
+      "startedAt": "2026-10-23T01:00:01Z",
+      "status": "COMPLETED",
+      "workflowName": "macOS Periphery Dead Code"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141074",
+      "name": "Critical Quality (channel-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:04:48Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179522734",
+      "name": "checks-ui-e2e (1/2)",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:04:04Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179522569",
+      "name": "checks-ui-e2e (2/2)",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524688",
+      "name": "matrix.shard_count == 1 && 'checks-ui-e2e-real-gateway' || format('checks-ui-e2e-real-gateway ({0}/{1})', matrix.shard, matrix.shard_count)",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141746",
+      "name": "Critical Quality (network-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524423",
+      "name": "control-ui-i18n",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179139609",
+      "name": "Critical Quality (agent-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:58Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141275",
+      "name": "Critical Quality (mcp-process-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:06:04Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179522051",
+      "name": "checks-fast-baseline-ratchets",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141368",
+      "name": "Critical Quality (memory-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:19Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179522687",
+      "name": "checks-fast-bundled-protocol",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179525222",
+      "name": "QA Smoke CI (${{ matrix.name }})",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141645",
+      "name": "Critical Quality (session-diagnostics-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524381",
+      "name": "matrix.checkName",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141181",
+      "name": "Critical Quality (plugin-sdk-reply-runtime)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524272",
+      "name": "matrix.checkName",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141404",
+      "name": "Critical Quality (provider-runtime-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524362",
+      "name": "checks-node-compat-node24",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179141392",
+      "name": "Critical Quality (plugin-boundary)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T00:58:56Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320632/job/120179140965",
+      "name": "Critical Quality (plugin-sdk-package-contract)",
+      "startedAt": "2026-10-23T00:58:57Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL Critical Quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:18Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523217",
+      "name": "checks-node-compact-small-7",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:06:40Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523440",
+      "name": "checks-node-changed-1",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:05:28Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523198",
+      "name": "checks-node-changed-2",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:58Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523346",
+      "name": "checks-node-changed-3",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:59Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523258",
+      "name": "checks-node-changed-4",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:04:02Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523238",
+      "name": "checks-node-changed-5",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:06Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523517",
+      "name": "checks-node-compact-small-8",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:31Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523375",
+      "name": "checks-node-compact-small-1",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:18Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523547",
+      "name": "checks-node-changed-compact-large-29",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:06Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523450",
+      "name": "checks-node-changed-compact-large-38",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:20Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523602",
+      "name": "checks-node-changed-6",
+      "startedAt": "2026-10-23T01:00:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:57Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523472",
+      "name": "checks-node-changed-boundary",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:12Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179522609",
+      "name": "check-plan",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:54Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523102",
+      "name": "check-additional-boundaries",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:32Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523033",
+      "name": "check-prompt-snapshots",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:59Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523091",
+      "name": "check-source-contracts",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:35Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523251",
+      "name": "check-additional-extension-package-boundary",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:15Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523087",
+      "name": "check-guards",
+      "startedAt": "2026-10-23T01:00:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:01Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523118",
+      "name": "check-guards-architecture",
+      "startedAt": "2026-10-23T01:00:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179525829",
+      "name": "needs.preflight.outputs.shared_sdk_declarations == 'true' && 'check-additional-extension-package-boundary' || 'shared-sdk-declarations'",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524983",
+      "name": "PostgreSQL conformance (${{ matrix.shard }})",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524393",
+      "name": "check-docs",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524474",
+      "name": "skills-python",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524951",
+      "name": "matrix.check_name || 'checks-windows'",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179525041",
+      "name": "matrix.check_name || 'macos-node'",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179523986",
+      "name": "macos-swift (${{ matrix.phase }})",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524148",
+      "name": "ios-build (${{ matrix.phase }})",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524639",
+      "name": "ios-release-e2e",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524292",
+      "name": "ios-screenshots",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524507",
+      "name": "android-release-e2e",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179525045",
+      "name": "matrix.check_name || 'android'",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524746",
+      "name": "android-screenshots",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524799",
+      "name": "android-access-native",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179524727",
+      "name": "docker-seed-e2e",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:11Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179525382",
+      "name": "macos-swift (${{ matrix.phase }})",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:10Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179525311",
+      "name": "published-driver-update",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:01Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876640",
+      "name": "check-npm-lock",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:49Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876603",
+      "name": "check-bundled-channel-config-metadata",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:28Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876781",
+      "name": "check-prod-types",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:04:24Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876599",
+      "name": "check-lint",
+      "startedAt": "2026-10-23T01:01:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:15Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876601",
+      "name": "check-test-types",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:04:50Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876709",
+      "name": "check-lint-core-1",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:59Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876643",
+      "name": "check-lint-core-2",
+      "startedAt": "2026-10-23T01:01:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:05Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876696",
+      "name": "check-lint-core-3",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:18Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876667",
+      "name": "check-lint-core-4",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876790",
+      "name": "check-lint-core-5",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:04Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876702",
+      "name": "check-test-types-core-1",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:47Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876714",
+      "name": "check-test-types-core-2",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:03:37Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876712",
+      "name": "check-test-types-core-3",
+      "startedAt": "2026-10-23T01:01:19Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:54Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876649",
+      "name": "check-test-types-core-4",
+      "startedAt": "2026-10-23T01:01:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:02:52Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179876642",
+      "name": "check-test-types-core-5",
+      "startedAt": "2026-10-23T01:01:18Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:12Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179878027",
+      "name": "check-lint-extensions-${{ matrix.stripe }}",
+      "startedAt": "2026-10-23T01:01:12Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:11Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120179525545",
+      "name": "ios-screenshot-evidence",
+      "startedAt": "2026-10-23T01:00:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:06:47Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120181641491",
+      "name": "pr-failure-report",
+      "startedAt": "2026-10-23T01:06:42Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:06:54Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120181681780",
+      "name": "openclaw/ci-gate",
+      "startedAt": "2026-10-23T01:06:49Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:06:54Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/openclaw/openclaw/actions/runs/39881320624/job/120181721182",
+      "name": "Seal full release child evidence",
+      "startedAt": "2026-10-23T01:06:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:01:06Z",
+      "conclusion": "NEUTRAL",
+      "detailsUrl": "https://github.com/openclaw/openclaw/runs/120179823600",
+      "name": "CodeQL",
+      "startedAt": "2026-10-23T01:01:02Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-23T01:00:18Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/openclaw/openclaw/runs/120179545595",
+      "name": "Opengrep OSS",
+      "startedAt": "2026-10-23T01:00:14Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    },
+    {
+      "__typename": "StatusContext",
+      "context": "openclaw/ci-gate",
+      "startedAt": "2026-10-23T01:07:41Z",
+      "state": "SUCCESS",
+      "targetUrl": "https://github.com/openclaw/openclaw/actions/runs/39882140313"
+    },
+    {
+      "__typename": "StatusContext",
+      "context": "openclaw/dependency-review",
+      "startedAt": "2026-10-23T01:07:33Z",
+      "state": "SUCCESS",
+      "targetUrl": "https://github.com/openclaw/openclaw/actions/runs/39882140313"
+    },
+    {
+      "__typename": "StatusContext",
+      "context": "openclaw/security-sensitive-review",
+      "startedAt": "2026-10-23T01:07:37Z",
+      "state": "SUCCESS",
+      "targetUrl": "https://github.com/openclaw/openclaw/actions/runs/39882140313"
+    }
+  ]
+}

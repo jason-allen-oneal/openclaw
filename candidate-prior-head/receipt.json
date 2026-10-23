@@ -1,0 +1,1161 @@
+{
+  "sourceHead": "8c111e323573937fe211a085b814a28e635d57e6",
+  "buildRoot": "/home/jason/.local/share/openclaw-134498-proof/candidate",
+  "calls": [
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T00:40:54.370Z",
+      "finishedAt": "2026-10-23T00:40:57.423Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792716057325,\n  \"durationMs\": 793,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {},\n  \"channelOrder\": [],\n  \"channelLabels\": {},\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/state/agents/main/sessions/sessions.json\",\n        \"count\": 0,\n        \"recent\": []\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/state/agents/main/sessions/sessions.json\",\n    \"count\": 0,\n    \"recent\": []\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 5630,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1001.8849070000015,\n    \"delayP99Ms\": 124.4,\n    \"delayMaxMs\": 124.4,\n    \"utilization\": 0.274,\n    \"cpuCoreRatio\": 3.396,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.259,\n      \"hostUtilization\": 0.554,\n      \"hostCpuCount\": 8,\n      \"workerCoreRatio\": 2.197,\n      \"otherThreadsCoreRatio\": 0.94\n    }\n  },\n  \"modelRuntime\": {\n    \"degraded\": false,\n    \"pendingAgents\": []\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-control",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T00:40:57.423Z",
+      "finishedAt": "2026-10-23T00:41:02.911Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-control\",\n  \"sessionId\": \"53dab0b1-75db-471d-a681-dea521d69e13\",\n  \"entry\": {\n    \"sessionId\": \"53dab0b1-75db-471d-a681-dea521d69e13\",\n    \"lifecycleRevision\": \"c308aba4-70dd-45b9-8071-7d95b3b40560\",\n    \"updatedAt\": 1792716062184,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716062185,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "agentId": "main",
+        "message": "seed-control"
+      },
+      "startedAt": "2026-10-23T00:41:02.911Z",
+      "finishedAt": "2026-10-23T00:41:05.334Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"e75c497d-c9ff-4850-81a7-8846ac680edd\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "messageId": "receipt-control",
+        "text": "ACCEPTED-REPLY-control-ONLY",
+        "receiver": "http://127.0.0.1:1025/reply"
+      },
+      "startedAt": "2026-10-23T00:41:05.334Z",
+      "finishedAt": "2026-10-23T00:41:07.036Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 1,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-reset",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T00:41:07.040Z",
+      "finishedAt": "2026-10-23T00:41:08.550Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-reset\",\n  \"sessionId\": \"971ec588-023f-45dc-b226-f030930b5a9f\",\n  \"entry\": {\n    \"sessionId\": \"971ec588-023f-45dc-b226-f030930b5a9f\",\n    \"lifecycleRevision\": \"de66ef40-a0e1-4f39-9aaf-e66cbccc9197\",\n    \"updatedAt\": 1792716068463,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716068463,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-reset",
+        "agentId": "main",
+        "message": "seed-reset"
+      },
+      "startedAt": "2026-10-23T00:41:08.550Z",
+      "finishedAt": "2026-10-23T00:41:10.033Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"e404a1eb-beca-4fd5-b6b6-4ecd23fa2516\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-reset",
+        "messageId": "receipt-reset",
+        "text": "ACCEPTED-REPLY-reset-ONLY",
+        "receiver": "http://127.0.0.1:1025/reply"
+      },
+      "startedAt": "2026-10-23T00:41:10.033Z",
+      "finishedAt": "2026-10-23T00:41:14.180Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 1,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.reset",
+      "params": {
+        "key": "agent:main:delivery-reset-reset",
+        "agentId": "main",
+        "reason": "reset"
+      },
+      "startedAt": "2026-10-23T00:41:11.500Z",
+      "finishedAt": "2026-10-23T00:41:14.228Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-reset\",\n  \"entry\": {\n    \"sessionId\": \"971ec588-023f-45dc-b226-f030930b5a9f\",\n    \"lifecycleRevision\": \"46dd6517-98b1-474e-98e5-53affe6020bc\",\n    \"updatedAt\": 1792716074109,\n    \"sessionStartedAt\": 1792716074109,\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"modelOverrideSource\": \"default\",\n    \"compactionCount\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"spawnDepth\": 0,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\",\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716068463,\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"totalTokensVersion\": 1,\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  },\n  \"resolved\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-reset",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T00:41:14.231Z",
+      "finishedAt": "2026-10-23T00:41:15.884Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-reset-reset\",\n  \"sessionId\": \"971ec588-023f-45dc-b226-f030930b5a9f\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Reset\"\n        }\n      ],\n      \"timestamp\": 1792716074114,\n      \"__openclaw\": {\n        \"kind\": \"reset\",\n        \"id\": \"ae072ec2-ee70-44b7-ae42-5681417f237a\",\n        \"transcriptPosition\": {\n          \"source\": \"wT2Tdz_BVWVEX-PIyJ9iTjoEKlG2fRGSdGeXh5nLFZ4\",\n          \"rawSeq\": 4\n        },\n        \"seq\": 1\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 1,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJjZDNhY2U1MWQyMDg0ZTY2YTdlMTA2NzhjM2RmZjBmZSIsImxhc3RTZXEiOjQsInNlc3Npb25JZCI6Ijk3MWVjNTg4LTAyM2YtNDVkYy1iMjI2LWYwMzA5MzBiNWE5ZiIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"codex\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-reset-reset\",\n    \"sessionModelRevision\": \"7HiUp6vveSc47xqyF_EWYAe4dbjvWBIJCUGQMJHaqt4\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716068463,\n    \"kind\": \"direct\",\n    \"classification\": \"custom\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"updatedAt\": 1792716074109,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"971ec588-023f-45dc-b226-f030930b5a9f\",\n    \"lifecycleRevision\": \"46dd6517-98b1-474e-98e5-53affe6020bc\",\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"codex\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"snapshotAt\": 1792716075801,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"activitySummary\": {\n      \"state\": \"stale\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"ae072ec2-ee70-44b7-ae42-5681417f237a\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T00:41:29.725Z",
+      "finishedAt": "2026-10-23T00:41:32.548Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792716092441,\n  \"durationMs\": 558,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {},\n  \"channelOrder\": [],\n  \"channelLabels\": {},\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/state/agents/main/agent/openclaw-agent.sqlite\",\n        \"count\": 2,\n        \"recent\": [\n          {\n            \"key\": \"agent:main:delivery-reset-reset\",\n            \"updatedAt\": 1792716074109,\n            \"age\": 18332\n          },\n          {\n            \"key\": \"agent:main:delivery-reset-control\",\n            \"updatedAt\": 1792716066957,\n            \"age\": 25484\n          }\n        ]\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/state/agents/main/agent/openclaw-agent.sqlite\",\n    \"count\": 2,\n    \"recent\": [\n      {\n        \"key\": \"agent:main:delivery-reset-reset\",\n        \"updatedAt\": 1792716074109,\n        \"age\": 18332\n      },\n      {\n        \"key\": \"agent:main:delivery-reset-control\",\n        \"updatedAt\": 1792716066957,\n        \"age\": 25484\n      }\n    ]\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 1001,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1001.4849679999988,\n    \"delayP99Ms\": 128.3,\n    \"delayMaxMs\": 128.3,\n    \"utilization\": 0.349,\n    \"cpuCoreRatio\": 3.956,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.337,\n      \"hostUtilization\": 0.715,\n      \"hostCpuCount\": 8,\n      \"workerCoreRatio\": 2.804,\n      \"otherThreadsCoreRatio\": 0.815\n    }\n  },\n  \"modelRuntime\": {\n    \"degraded\": false,\n    \"pendingAgents\": []\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T00:41:32.548Z",
+      "finishedAt": "2026-10-23T00:41:34.258Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-reset-control\",\n  \"sessionId\": \"53dab0b1-75db-471d-a681-dea521d69e13\",\n  \"messages\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"seed-control\"\n        }\n      ],\n      \"timestamp\": 1792716064375,\n      \"stopReason\": \"stop\",\n      \"usage\": {\n        \"input\": 0,\n        \"output\": 0,\n        \"totalTokens\": 0,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        }\n      },\n      \"api\": \"openai-responses\",\n      \"provider\": \"openclaw\",\n      \"model\": \"gateway-injected\",\n      \"__openclaw\": {\n        \"id\": \"e75c497d-c9ff-4850-81a7-8846ac680edd\",\n        \"recordTimestampMs\": 1792716064375,\n        \"transcriptPosition\": {\n          \"source\": \"Dwwcq10BmmZbxmWaB9ZSDohLgr0yPhM89poUetZEHj8\",\n          \"rawSeq\": 1\n        },\n        \"seq\": 1\n      }\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"/proof-reply\"\n        }\n      ],\n      \"timestamp\": 1792716066922,\n      \"idempotencyKey\": \"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]\",\n      \"__openclaw\": {\n        \"id\": \"821215a0-2453-4e92-80a1-06acbf57ec77\",\n        \"idempotencyKey\": \"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]\",\n        \"recordTimestampMs\": 1792716066942,\n        \"transcriptPosition\": {\n          \"source\": \"Dwwcq10BmmZbxmWaB9ZSDohLgr0yPhM89poUetZEHj8\",\n          \"rawSeq\": 2\n        },\n        \"seq\": 2\n      }\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"ACCEPTED-REPLY-control-ONLY\"\n        }\n      ],\n      \"api\": \"openclaw-transcript\",\n      \"provider\": \"openclaw\",\n      \"model\": \"command\",\n      \"usage\": {\n        \"input\": 0,\n        \"output\": 0,\n        \"totalTokens\": 0,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        }\n      },\n      \"stopReason\": \"stop\",\n      \"timestamp\": 1792716066921,\n      \"idempotencyKey\": \"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\",\n      \"__openclaw\": {\n        \"id\": \"cd0729b2-22e8-4a13-9e44-37051b30236f\",\n        \"idempotencyKey\": \"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\",\n        \"recordTimestampMs\": 1792716066950,\n        \"transcriptPosition\": {\n          \"source\": \"Dwwcq10BmmZbxmWaB9ZSDohLgr0yPhM89poUetZEHj8\",\n          \"rawSeq\": 3\n        },\n        \"seq\": 3\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 3,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJhZDI0NTMwZDI4NTA0Njg5ODVkMzNjMGRlNDhhYjQzNSIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6IjUzZGFiMGIxLTc1ZGItNDcxZC1hNjgxLWRlYTUyMWQ2OWUxMyIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"codex\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-reset-control\",\n    \"sessionModelRevision\": \"xwayfkZ1bxBoMc33bhm_TAdjaHPIvf_rg2guORWx3Kg\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716062185,\n    \"kind\": \"direct\",\n    \"classification\": \"custom\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"updatedAt\": 1792716066957,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"53dab0b1-75db-471d-a681-dea521d69e13\",\n    \"lifecycleRevision\": \"c308aba4-70dd-45b9-8071-7d95b3b40560\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"codex\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"snapshotAt\": 1792716094174,\n    \"totalTokensFresh\": false,\n    \"activitySummary\": {\n      \"state\": \"stale\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"cd0729b2-22e8-4a13-9e44-37051b30236f\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-after-restart",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T00:41:34.261Z",
+      "finishedAt": "2026-10-23T00:41:36.443Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-after-restart\",\n  \"sessionId\": \"de63ea13-421c-4315-b983-1787a0035cc6\",\n  \"entry\": {\n    \"sessionId\": \"de63ea13-421c-4315-b983-1787a0035cc6\",\n    \"lifecycleRevision\": \"33d6817b-7451-4ae1-8974-60adb9394853\",\n    \"updatedAt\": 1792716095855,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716095856,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "agentId": "main",
+        "message": "seed-after-restart"
+      },
+      "startedAt": "2026-10-23T00:41:36.443Z",
+      "finishedAt": "2026-10-23T00:41:38.731Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"198c03c9-270f-439f-a3e0-c080d521629f\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "messageId": "receipt-after-restart",
+        "text": "ACCEPTED-REPLY-after-restart-ONLY",
+        "receiver": "http://127.0.0.1:1025/reply"
+      },
+      "startedAt": "2026-10-23T00:41:38.731Z",
+      "finishedAt": "2026-10-23T00:41:43.013Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 1,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.reset",
+      "params": {
+        "key": "agent:main:delivery-reset-after-restart",
+        "agentId": "main",
+        "reason": "reset"
+      },
+      "startedAt": "2026-10-23T00:41:40.325Z",
+      "finishedAt": "2026-10-23T00:41:43.059Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-after-restart\",\n  \"entry\": {\n    \"sessionId\": \"de63ea13-421c-4315-b983-1787a0035cc6\",\n    \"lifecycleRevision\": \"f2368064-d6cd-4590-8f8e-e5c041e592f9\",\n    \"updatedAt\": 1792716102939,\n    \"sessionStartedAt\": 1792716102939,\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"modelOverrideSource\": \"default\",\n    \"compactionCount\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"spawnDepth\": 0,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\",\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716095856,\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"totalTokensVersion\": 1,\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  },\n  \"resolved\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T00:41:43.062Z",
+      "finishedAt": "2026-10-23T00:41:44.585Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-reset-after-restart\",\n  \"sessionId\": \"de63ea13-421c-4315-b983-1787a0035cc6\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Reset\"\n        }\n      ],\n      \"timestamp\": 1792716102944,\n      \"__openclaw\": {\n        \"kind\": \"reset\",\n        \"id\": \"bd0f64b4-b4a5-421a-a4e2-4355c56173a8\",\n        \"transcriptPosition\": {\n          \"source\": \"huTXf8aFfddsGm2wt1Z8Tyse1bXTYy95DuIwZFG3Yq8\",\n          \"rawSeq\": 4\n        },\n        \"seq\": 1\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 1,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiI3OGFmYjVmNGM2OTc0NmRlYjBhYWViYzVlYzIxOTYyNiIsImxhc3RTZXEiOjQsInNlc3Npb25JZCI6ImRlNjNlYTEzLTQyMWMtNDMxNS1iOTgzLTE3ODdhMDAzNWNjNiIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"codex\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-reset-after-restart\",\n    \"sessionModelRevision\": \"pLTUXynE-8tj0Hb86tpCW6yG5OCCTWRP3Wy8_mXWtJU\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792716095856,\n    \"kind\": \"direct\",\n    \"classification\": \"custom\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"updatedAt\": 1792716102939,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"de63ea13-421c-4315-b983-1787a0035cc6\",\n    \"lifecycleRevision\": \"f2368064-d6cd-4590-8f8e-e5c041e592f9\",\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"openai\",\n    \"model\": \"gpt-6-astra\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"codex\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"snapshotAt\": 1792716104509,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"activitySummary\": {\n      \"state\": \"stale\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"bd0f64b4-b4a5-421a-a4e2-4355c56173a8\"\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "requests": [
+    {
+      "text": "ACCEPTED-REPLY-control-ONLY",
+      "acceptedAt": "2026-10-23T00:41:06.915Z",
+      "receiptAt": "2026-10-23T00:41:06.917Z"
+    },
+    {
+      "text": "ACCEPTED-REPLY-reset-ONLY",
+      "acceptedAt": "2026-10-23T00:41:11.500Z",
+      "receiptAt": "2026-10-23T00:41:14.010Z"
+    },
+    {
+      "text": "ACCEPTED-REPLY-after-restart-ONLY",
+      "acceptedAt": "2026-10-23T00:41:40.324Z",
+      "receiptAt": "2026-10-23T00:41:42.836Z"
+    }
+  ],
+  "stages": [
+    {
+      "label": "control",
+      "reset": false,
+      "text": "ACCEPTED-REPLY-control-ONLY",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 1,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": true
+            }
+          }
+        },
+        {
+          "status": "fulfilled"
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"cd0729b2-22e8-4a13-9e44-37051b30236f\",\"parentId\":\"821215a0-2453-4e92-80a1-06acbf57ec77\",\"timestamp\":\"2026-10-23T00:41:06.950Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716066921,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"53dab0b1-75db-471d-a681-dea521d69e13\",\"timestamp\":\"2026-10-23T00:41:02.783Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e75c497d-c9ff-4850-81a7-8846ac680edd\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:41:04.375Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792716064375,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"821215a0-2453-4e92-80a1-06acbf57ec77\",\"parentId\":\"e75c497d-c9ff-4850-81a7-8846ac680edd\",\"timestamp\":\"2026-10-23T00:41:06.942Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792716066922,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"cd0729b2-22e8-4a13-9e44-37051b30236f\",\"parentId\":\"821215a0-2453-4e92-80a1-06acbf57ec77\",\"timestamp\":\"2026-10-23T00:41:06.950Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716066921,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "label": "reset",
+      "resetAdmission": {
+        "0": "{\"subsystem\":\"sessions/lifecycle\"}",
+        "1": {
+          "pid": 539225,
+          "threadId": 0,
+          "isMainThread": true,
+          "diagnosticEpoch": "d8fc1a580331225a",
+          "omittedObservations": 0,
+          "operationId": 9,
+          "operation": "mutation",
+          "mutationKind": "reset",
+          "sessionScopeHash": "419fe4670162881de04706b1a9b54b8eee274139ec3624e566b272351514c9a3",
+          "identityCount": 2,
+          "operationTraceId": "30900d1c1b4f3c8023f5136b3309c2d3",
+          "operationSpanId": "34894e23607b00a4",
+          "queueKind": "lifecycle",
+          "identityHash": "419fe4670162881de04706b1a9b54b8eee274139ec3624e566b272351514c9a3",
+          "waitMs": 1001,
+          "holderObserved": true,
+          "holderOperationId": 8,
+          "holderOperation": "lifecycle",
+          "holderSessionScopeHash": "55e28e295388ff8e21d44948a66adf7fd6123ae9d42bfeacbdff2dde19379877",
+          "holderPhase": "run",
+          "holderTraceId": "9e7c99afc94c2e73b5d6a05ae5dba708",
+          "holderSpanId": "f35017e37dc51396",
+          "holderElapsedMs": 2496,
+          "holderSignalAborted": true
+        },
+        "2": "session lifecycle queue waiting",
+        "_meta": {
+          "runtime": "node",
+          "runtimeVersion": "24.22.1",
+          "hostname": "ai2",
+          "date": "2026-10-23T00:41:13.987Z",
+          "logLevelId": 4,
+          "logLevelName": "WARN",
+          "name": "{\"subsystem\":\"sessions/lifecycle\"}",
+          "parentNames": [
+            "openclaw"
+          ]
+        },
+        "time": "2026-10-23T00:41:13.987+00:00",
+        "hostname": "ai2",
+        "message": "session lifecycle queue waiting",
+        "traceId": "30900d1c1b4f3c8023f5136b3309c2d3",
+        "spanId": "34894e23607b00a4",
+        "traceFlags": "01"
+      }
+    },
+    {
+      "label": "reset",
+      "reset": true,
+      "text": "ACCEPTED-REPLY-reset-ONLY",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 1,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": true
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "ok": true,
+            "key": "agent:main:delivery-reset-reset",
+            "entry": {
+              "sessionId": "971ec588-023f-45dc-b226-f030930b5a9f",
+              "lifecycleRevision": "46dd6517-98b1-474e-98e5-53affe6020bc",
+              "updatedAt": 1792716074109,
+              "sessionStartedAt": 1792716074109,
+              "systemSent": false,
+              "abortedLastRun": false,
+              "modelOverrideSource": "default",
+              "compactionCount": 0,
+              "parentSessionKey": "agent:main:main",
+              "spawnDepth": 0,
+              "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace",
+              "createdVia": "operator",
+              "createdAt": 1792716068463,
+              "delivery": {
+                "kind": "none"
+              },
+              "inputTokens": 0,
+              "outputTokens": 0,
+              "totalTokens": 0,
+              "totalTokensFresh": true,
+              "totalTokensVersion": 1,
+              "modelProvider": "openai",
+              "model": "gpt-6-astra"
+            },
+            "resolved": {
+              "modelProvider": "openai",
+              "model": "gpt-6-astra"
+            }
+          }
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"4bb8cd54-443f-400a-b0fa-4d7c63cb9c3b\",\"parentId\":\"bedd5289-f59d-4b67-b13e-91d192a5798d\",\"timestamp\":\"2026-10-23T00:41:14.043Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-reset-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716074012,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"53dab0b1-75db-471d-a681-dea521d69e13\",\"timestamp\":\"2026-10-23T00:41:02.783Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e75c497d-c9ff-4850-81a7-8846ac680edd\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:41:04.375Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792716064375,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"821215a0-2453-4e92-80a1-06acbf57ec77\",\"parentId\":\"e75c497d-c9ff-4850-81a7-8846ac680edd\",\"timestamp\":\"2026-10-23T00:41:06.942Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792716066922,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"cd0729b2-22e8-4a13-9e44-37051b30236f\",\"parentId\":\"821215a0-2453-4e92-80a1-06acbf57ec77\",\"timestamp\":\"2026-10-23T00:41:06.950Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716066921,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"971ec588-023f-45dc-b226-f030930b5a9f\",\"timestamp\":\"2026-10-23T00:41:08.469Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e404a1eb-beca-4fd5-b6b6-4ecd23fa2516\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:41:09.941Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792716069941,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"bedd5289-f59d-4b67-b13e-91d192a5798d\",\"parentId\":\"e404a1eb-beca-4fd5-b6b6-4ecd23fa2516\",\"timestamp\":\"2026-10-23T00:41:14.036Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792716074014,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"4bb8cd54-443f-400a-b0fa-4d7c63cb9c3b\",\"parentId\":\"bedd5289-f59d-4b67-b13e-91d192a5798d\",\"timestamp\":\"2026-10-23T00:41:14.043Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-reset-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716074012,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 4,
+          "event_json": "{\"type\":\"reset\",\"id\":\"ae072ec2-ee70-44b7-ae42-5681417f237a\",\"parentId\":\"4bb8cd54-443f-400a-b0fa-4d7c63cb9c3b\",\"timestamp\":\"2026-10-23T00:41:14.114Z\",\"reason\":\"reset\"}",
+          "navigation_type": "reset",
+          "message_role": null
+        }
+      ],
+      "passed": true,
+      "historyAfterReset": {
+        "sessionKey": "agent:main:delivery-reset-reset",
+        "sessionId": "971ec588-023f-45dc-b226-f030930b5a9f",
+        "messages": [
+          {
+            "role": "system",
+            "content": [
+              {
+                "type": "text",
+                "text": "Reset"
+              }
+            ],
+            "timestamp": 1792716074114,
+            "__openclaw": {
+              "kind": "reset",
+              "id": "ae072ec2-ee70-44b7-ae42-5681417f237a",
+              "transcriptPosition": {
+                "source": "wT2Tdz_BVWVEX-PIyJ9iTjoEKlG2fRGSdGeXh5nLFZ4",
+                "rawSeq": 4
+              },
+              "seq": 1
+            }
+          }
+        ],
+        "hasMore": false,
+        "totalMessages": 1,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJjZDNhY2U1MWQyMDg0ZTY2YTdlMTA2NzhjM2RmZjBmZSIsImxhc3RTZXEiOjQsInNlc3Npb25JZCI6Ijk3MWVjNTg4LTAyM2YtNDVkYy1iMjI2LWYwMzA5MzBiNWE5ZiIsInZlcnNpb24iOjF9",
+        "defaults": {
+          "modelProvider": "openai",
+          "model": "gpt-6-astra",
+          "contextTokens": null,
+          "agentRuntime": {
+            "id": "codex",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-reset-reset",
+          "sessionModelRevision": "7HiUp6vveSc47xqyF_EWYAe4dbjvWBIJCUGQMJHaqt4",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792716068463,
+          "kind": "direct",
+          "classification": "custom",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "updatedAt": 1792716074109,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": false,
+          "sessionId": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "lifecycleRevision": "46dd6517-98b1-474e-98e5-53affe6020bc",
+          "systemSent": false,
+          "abortedLastRun": false,
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "openai",
+          "model": "gpt-6-astra",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "codex",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "snapshotAt": 1792716075801,
+          "totalTokens": 0,
+          "totalTokensFresh": true,
+          "activitySummary": {
+            "state": "stale",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": "ae072ec2-ee70-44b7-ae42-5681417f237a"
+        }
+      }
+    },
+    {
+      "label": "after-restart",
+      "resetAdmission": {
+        "0": "{\"subsystem\":\"sessions/lifecycle\"}",
+        "1": {
+          "pid": 540016,
+          "threadId": 0,
+          "isMainThread": true,
+          "diagnosticEpoch": "b6a906aa15fedb68",
+          "omittedObservations": 0,
+          "operationId": 5,
+          "operation": "mutation",
+          "mutationKind": "reset",
+          "sessionScopeHash": "796ec4210e71732aebfdce936671f535835eaea38486648f2ef449d9597a208f",
+          "identityCount": 2,
+          "operationTraceId": "a44311ed4389ce315465fa1cdc90039c",
+          "operationSpanId": "63d5ff7127bcd678",
+          "queueKind": "lifecycle",
+          "identityHash": "796ec4210e71732aebfdce936671f535835eaea38486648f2ef449d9597a208f",
+          "waitMs": 1001,
+          "holderObserved": true,
+          "holderOperationId": 4,
+          "holderOperation": "lifecycle",
+          "holderSessionScopeHash": "796ec4210e71732aebfdce936671f535835eaea38486648f2ef449d9597a208f",
+          "holderPhase": "run",
+          "holderTraceId": "df83a2d57e99ee22b21456d0f7ae4d07",
+          "holderSpanId": "22a01681498ce281",
+          "holderElapsedMs": 2513,
+          "holderSignalAborted": true
+        },
+        "2": "session lifecycle queue waiting",
+        "_meta": {
+          "runtime": "node",
+          "runtimeVersion": "24.22.1",
+          "hostname": "ai2",
+          "date": "2026-10-23T00:41:42.785Z",
+          "logLevelId": 4,
+          "logLevelName": "WARN",
+          "name": "{\"subsystem\":\"sessions/lifecycle\"}",
+          "parentNames": [
+            "openclaw"
+          ]
+        },
+        "time": "2026-10-23T00:41:42.785+00:00",
+        "hostname": "ai2",
+        "message": "session lifecycle queue waiting",
+        "traceId": "a44311ed4389ce315465fa1cdc90039c",
+        "spanId": "63d5ff7127bcd678",
+        "traceFlags": "01"
+      }
+    },
+    {
+      "label": "after-restart",
+      "reset": true,
+      "text": "ACCEPTED-REPLY-after-restart-ONLY",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 1,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": true
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "ok": true,
+            "key": "agent:main:delivery-reset-after-restart",
+            "entry": {
+              "sessionId": "de63ea13-421c-4315-b983-1787a0035cc6",
+              "lifecycleRevision": "f2368064-d6cd-4590-8f8e-e5c041e592f9",
+              "updatedAt": 1792716102939,
+              "sessionStartedAt": 1792716102939,
+              "systemSent": false,
+              "abortedLastRun": false,
+              "modelOverrideSource": "default",
+              "compactionCount": 0,
+              "parentSessionKey": "agent:main:main",
+              "spawnDepth": 0,
+              "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace",
+              "createdVia": "operator",
+              "createdAt": 1792716095856,
+              "delivery": {
+                "kind": "none"
+              },
+              "inputTokens": 0,
+              "outputTokens": 0,
+              "totalTokens": 0,
+              "totalTokensFresh": true,
+              "totalTokensVersion": 1,
+              "modelProvider": "openai",
+              "model": "gpt-6-astra"
+            },
+            "resolved": {
+              "modelProvider": "openai",
+              "model": "gpt-6-astra"
+            }
+          }
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "de63ea13-421c-4315-b983-1787a0035cc6",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"2bbb490c-418a-4620-8a46-840556b8f82f\",\"parentId\":\"b436feaa-a69f-4bce-9431-c0da7f53ca79\",\"timestamp\":\"2026-10-23T00:41:42.898Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-after-restart-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716102854,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-after-restart\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-after-restart\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"53dab0b1-75db-471d-a681-dea521d69e13\",\"timestamp\":\"2026-10-23T00:41:02.783Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e75c497d-c9ff-4850-81a7-8846ac680edd\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:41:04.375Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792716064375,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"821215a0-2453-4e92-80a1-06acbf57ec77\",\"parentId\":\"e75c497d-c9ff-4850-81a7-8846ac680edd\",\"timestamp\":\"2026-10-23T00:41:06.942Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792716066922,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "53dab0b1-75db-471d-a681-dea521d69e13",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"cd0729b2-22e8-4a13-9e44-37051b30236f\",\"parentId\":\"821215a0-2453-4e92-80a1-06acbf57ec77\",\"timestamp\":\"2026-10-23T00:41:06.950Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716066921,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-control\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"971ec588-023f-45dc-b226-f030930b5a9f\",\"timestamp\":\"2026-10-23T00:41:08.469Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e404a1eb-beca-4fd5-b6b6-4ecd23fa2516\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:41:09.941Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792716069941,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"bedd5289-f59d-4b67-b13e-91d192a5798d\",\"parentId\":\"e404a1eb-beca-4fd5-b6b6-4ecd23fa2516\",\"timestamp\":\"2026-10-23T00:41:14.036Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792716074014,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"4bb8cd54-443f-400a-b0fa-4d7c63cb9c3b\",\"parentId\":\"bedd5289-f59d-4b67-b13e-91d192a5798d\",\"timestamp\":\"2026-10-23T00:41:14.043Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-reset-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716074012,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-reset\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "971ec588-023f-45dc-b226-f030930b5a9f",
+          "seq": 4,
+          "event_json": "{\"type\":\"reset\",\"id\":\"ae072ec2-ee70-44b7-ae42-5681417f237a\",\"parentId\":\"4bb8cd54-443f-400a-b0fa-4d7c63cb9c3b\",\"timestamp\":\"2026-10-23T00:41:14.114Z\",\"reason\":\"reset\"}",
+          "navigation_type": "reset",
+          "message_role": null
+        },
+        {
+          "session_id": "de63ea13-421c-4315-b983-1787a0035cc6",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"de63ea13-421c-4315-b983-1787a0035cc6\",\"timestamp\":\"2026-10-23T00:41:36.327Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-candidate/workspace\"}",
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "de63ea13-421c-4315-b983-1787a0035cc6",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"198c03c9-270f-439f-a3e0-c080d521629f\",\"parentId\":null,\"timestamp\":\"2026-10-23T00:41:37.819Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"timestamp\":1792716097819,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "de63ea13-421c-4315-b983-1787a0035cc6",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"b436feaa-a69f-4bce-9431-c0da7f53ca79\",\"parentId\":\"198c03c9-270f-439f-a3e0-c080d521629f\",\"timestamp\":\"2026-10-23T00:41:42.889Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"/proof-reply\"}],\"timestamp\":1792716102859,\"idempotencyKey\":\"command-input:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-after-restart\\\"]\"}}",
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "de63ea13-421c-4315-b983-1787a0035cc6",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"2bbb490c-418a-4620-8a46-840556b8f82f\",\"parentId\":\"b436feaa-a69f-4bce-9431-c0da7f53ca79\",\"timestamp\":\"2026-10-23T00:41:42.898Z\",\"message\":{\"role\":\"assistant\",\"openclawDelivery\":{\"mediaUrls\":[]},\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-after-restart-ONLY\"}],\"api\":\"openclaw-transcript\",\"provider\":\"openclaw\",\"model\":\"command\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"stopReason\":\"stop\",\"timestamp\":1792716102854,\"idempotencyKey\":\"command-reply:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-after-restart\\\"]:channel-final:[\\\"webchat\\\",\\\"\\\",\\\"proof-user\\\",\\\"receipt-after-restart\\\"]:0\"}}",
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "de63ea13-421c-4315-b983-1787a0035cc6",
+          "seq": 4,
+          "event_json": "{\"type\":\"reset\",\"id\":\"bd0f64b4-b4a5-421a-a4e2-4355c56173a8\",\"parentId\":\"2bbb490c-418a-4620-8a46-840556b8f82f\",\"timestamp\":\"2026-10-23T00:41:42.944Z\",\"reason\":\"reset\"}",
+          "navigation_type": "reset",
+          "message_role": null
+        }
+      ],
+      "passed": true,
+      "historyAfterReset": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "sessionId": "de63ea13-421c-4315-b983-1787a0035cc6",
+        "messages": [
+          {
+            "role": "system",
+            "content": [
+              {
+                "type": "text",
+                "text": "Reset"
+              }
+            ],
+            "timestamp": 1792716102944,
+            "__openclaw": {
+              "kind": "reset",
+              "id": "bd0f64b4-b4a5-421a-a4e2-4355c56173a8",
+              "transcriptPosition": {
+                "source": "huTXf8aFfddsGm2wt1Z8Tyse1bXTYy95DuIwZFG3Yq8",
+                "rawSeq": 4
+              },
+              "seq": 1
+            }
+          }
+        ],
+        "hasMore": false,
+        "totalMessages": 1,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiI3OGFmYjVmNGM2OTc0NmRlYjBhYWViYzVlYzIxOTYyNiIsImxhc3RTZXEiOjQsInNlc3Npb25JZCI6ImRlNjNlYTEzLTQyMWMtNDMxNS1iOTgzLTE3ODdhMDAzNWNjNiIsInZlcnNpb24iOjF9",
+        "defaults": {
+          "modelProvider": "openai",
+          "model": "gpt-6-astra",
+          "contextTokens": null,
+          "agentRuntime": {
+            "id": "codex",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-reset-after-restart",
+          "sessionModelRevision": "pLTUXynE-8tj0Hb86tpCW6yG5OCCTWRP3Wy8_mXWtJU",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792716095856,
+          "kind": "direct",
+          "classification": "custom",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "updatedAt": 1792716102939,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": false,
+          "sessionId": "de63ea13-421c-4315-b983-1787a0035cc6",
+          "lifecycleRevision": "f2368064-d6cd-4590-8f8e-e5c041e592f9",
+          "systemSent": false,
+          "abortedLastRun": false,
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "openai",
+          "model": "gpt-6-astra",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "codex",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "snapshotAt": 1792716104509,
+          "totalTokens": 0,
+          "totalTokensFresh": true,
+          "activitySummary": {
+            "state": "stale",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": "bd0f64b4-b4a5-421a-a4e2-4355c56173a8"
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "firstExit": {
+    "code": 0,
+    "signal": null
+  },
+  "controlHistory": {
+    "sessionKey": "agent:main:delivery-reset-control",
+    "sessionId": "53dab0b1-75db-471d-a681-dea521d69e13",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "seed-control"
+          }
+        ],
+        "timestamp": 1792716064375,
+        "stopReason": "stop",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "totalTokens": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "api": "openai-responses",
+        "provider": "openclaw",
+        "model": "gateway-injected",
+        "__openclaw": {
+          "id": "e75c497d-c9ff-4850-81a7-8846ac680edd",
+          "recordTimestampMs": 1792716064375,
+          "transcriptPosition": {
+            "source": "Dwwcq10BmmZbxmWaB9ZSDohLgr0yPhM89poUetZEHj8",
+            "rawSeq": 1
+          },
+          "seq": 1
+        }
+      },
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "/proof-reply"
+          }
+        ],
+        "timestamp": 1792716066922,
+        "idempotencyKey": "command-input:[\"webchat\",\"\",\"proof-user\",\"receipt-control\"]",
+        "__openclaw": {
+          "id": "821215a0-2453-4e92-80a1-06acbf57ec77",
+          "idempotencyKey": "command-input:[\"webchat\",\"\",\"proof-user\",\"receipt-control\"]",
+          "recordTimestampMs": 1792716066942,
+          "transcriptPosition": {
+            "source": "Dwwcq10BmmZbxmWaB9ZSDohLgr0yPhM89poUetZEHj8",
+            "rawSeq": 2
+          },
+          "seq": 2
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "ACCEPTED-REPLY-control-ONLY"
+          }
+        ],
+        "api": "openclaw-transcript",
+        "provider": "openclaw",
+        "model": "command",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "totalTokens": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1792716066921,
+        "idempotencyKey": "command-reply:[\"webchat\",\"\",\"proof-user\",\"receipt-control\"]:channel-final:[\"webchat\",\"\",\"proof-user\",\"receipt-control\"]:0",
+        "__openclaw": {
+          "id": "cd0729b2-22e8-4a13-9e44-37051b30236f",
+          "idempotencyKey": "command-reply:[\"webchat\",\"\",\"proof-user\",\"receipt-control\"]:channel-final:[\"webchat\",\"\",\"proof-user\",\"receipt-control\"]:0",
+          "recordTimestampMs": 1792716066950,
+          "transcriptPosition": {
+            "source": "Dwwcq10BmmZbxmWaB9ZSDohLgr0yPhM89poUetZEHj8",
+            "rawSeq": 3
+          },
+          "seq": 3
+        }
+      }
+    ],
+    "hasMore": false,
+    "totalMessages": 3,
+    "pendingInputs": {
+      "items": [],
+      "total": 0,
+      "queuedCount": 0
+    },
+    "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJhZDI0NTMwZDI4NTA0Njg5ODVkMzNjMGRlNDhhYjQzNSIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6IjUzZGFiMGIxLTc1ZGItNDcxZC1hNjgxLWRlYTUyMWQ2OWUxMyIsInZlcnNpb24iOjF9",
+    "defaults": {
+      "modelProvider": "openai",
+      "model": "gpt-6-astra",
+      "contextTokens": null,
+      "agentRuntime": {
+        "id": "codex",
+        "cloudPlacementSupported": false,
+        "devicePlacementSupported": false,
+        "source": "implicit"
+      },
+      "communication": {
+        "send": "always",
+        "receive": "always"
+      },
+      "modelSelectionTarget": "session"
+    },
+    "sessionInfo": {
+      "key": "agent:main:delivery-reset-control",
+      "sessionModelRevision": "xwayfkZ1bxBoMc33bhm_TAdjaHPIvf_rg2guORWx3Kg",
+      "visibility": "shared",
+      "effectiveCommunication": {
+        "send": "always",
+        "receive": "always"
+      },
+      "permissionModePending": false,
+      "spawnDepth": 0,
+      "createdVia": "operator",
+      "createdAt": 1792716062185,
+      "kind": "direct",
+      "classification": "custom",
+      "agentId": "main",
+      "isMain": false,
+      "isDock": false,
+      "isBackground": false,
+      "updatedAt": 1792716066957,
+      "archived": false,
+      "pinned": false,
+      "sidebarRoot": false,
+      "unread": false,
+      "sessionId": "53dab0b1-75db-471d-a681-dea521d69e13",
+      "lifecycleRevision": "c308aba4-70dd-45b9-8071-7d95b3b40560",
+      "effectiveFastMode": false,
+      "effectiveFastModeSource": "default",
+      "fastAutoOnSeconds": 60,
+      "parentSessionKey": "agent:main:main",
+      "effectiveResponseUsage": "off",
+      "effectiveQueueMode": "steer",
+      "modelProvider": "openai",
+      "model": "gpt-6-astra",
+      "modelOverrideSource": null,
+      "runtimeSelectionLocked": false,
+      "agentRuntime": {
+        "id": "codex",
+        "cloudPlacementSupported": false,
+        "devicePlacementSupported": false,
+        "source": "implicit"
+      },
+      "snapshotAt": 1792716094174,
+      "totalTokensFresh": false,
+      "activitySummary": {
+        "state": "stale",
+        "canEnsure": true
+      },
+      "hasBoard": false,
+      "titlePending": false,
+      "childOwnerSessionKeys": [
+        "agent:main:main"
+      ],
+      "sharingRole": "owner",
+      "sendDisabledReason": null,
+      "hasActiveRun": false,
+      "activeRunIds": [],
+      "activeLeafEntryId": "cd0729b2-22e8-4a13-9e44-37051b30236f"
+    }
+  },
+  "restartExit": {
+    "code": 0,
+    "signal": null
+  }
+}
