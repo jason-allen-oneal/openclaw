@@ -1,0 +1,250 @@
+{
+  "sourceHead": "a8ead196291935d24c44a4f40b67397d88c70256",
+  "build": "/openclaw",
+  "startedAt": "2026-10-23T00:07:16.243Z",
+  "nativeHookDeadlineMs": 9000,
+  "observationAfterKillMs": 20000,
+  "modelTransport": "synthetic loopback Responses fixture adapted from maintained native-hook-pressure QA",
+  "entrypoint": "node openclaw.mjs gateway run",
+  "events": [],
+  "env": {
+    "PATH": "[redacted host PATH]",
+    "HOME": "/proof/run/home",
+    "LANG": "C.UTF-8",
+    "SHELL": "/bin/sh",
+    "OPENCLAW_HOME": "/proof/run/home",
+    "OPENCLAW_STATE_DIR": "/proof/run/state",
+    "OPENCLAW_CONFIG_PATH": "/proof/run/config.json",
+    "OPENCLAW_OAUTH_DIR": "/proof/run/state/credentials",
+    "CODEX_HOME": "/proof/run/codex-home",
+    "OPENCLAW_PROFILE": "crash-proof-171405",
+    "XDG_CONFIG_HOME": "/proof/run/xdg-config",
+    "XDG_DATA_HOME": "/proof/run/xdg-data",
+    "XDG_CACHE_HOME": "/proof/run/xdg-cache",
+    "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER": "1",
+    "OPENCLAW_SKIP_CANVAS_HOST": "1",
+    "OPENCLAW_SKIP_CHANNELS": "1",
+    "OPENCLAW_SKIP_CRON": "1",
+    "OPENCLAW_SKIP_GMAIL_WATCHER": "1",
+    "OPENCLAW_SKIP_STARTUP_MODEL_PREWARM": "1",
+    "OPENCLAW_NO_RESPAWN": "1",
+    "TZ": "UTC"
+  },
+  "configSha256": "1907a26f0f67a231be38b85f01fd81374319cc01aebafe150eb1441f1b5598df",
+  "port": 42997,
+  "launchPid": 171413,
+  "before": [
+    {
+      "pid": 171413,
+      "comm": "openclaw-gatewa",
+      "state": "S",
+      "ppid": 171405,
+      "pgrp": 171413,
+      "sid": 171413,
+      "startTicks": 410839,
+      "rssKb": 1815908,
+      "argv": [
+        "openclaw-gateway"
+      ]
+    },
+    {
+      "pid": 174165,
+      "comm": "MainThread",
+      "state": "S",
+      "ppid": 171413,
+      "pgrp": 174165,
+      "sid": 174165,
+      "startTicks": 414547,
+      "rssKb": 53056,
+      "argv": [
+        "/usr/bin/node",
+        "/openclaw/node_modules/.pnpm/@openai+codex@0.162.1/node_modules/@openai/codex/bin/codex.js",
+        "-c",
+        "openai_base_url=http://127.0.0.1:41131/v1",
+        "-c",
+        "model_catalog_json=/proof/run/catalog.json",
+        "-c",
+        "sandbox_workspace_write.exclude_tmpdir_env_var=true",
+        "-c",
+        "sandbox_workspace_write.exclude_slash_tmp=true",
+        "-c",
+        "cli_auth_credentials_store=\"ephemeral\"",
+        "-c",
+        "thread_unload_delay_secs=0",
+        "app-server",
+        "--listen",
+        "stdio://"
+      ]
+    },
+    {
+      "pid": 174177,
+      "comm": "codex",
+      "state": "S",
+      "ppid": 174165,
+      "pgrp": 174165,
+      "sid": 174165,
+      "startTicks": 414561,
+      "rssKb": 351808,
+      "argv": [
+        "/openclaw/node_modules/.pnpm/@openai+codex@0.162.1-linux-x64/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/bin/codex",
+        "-c",
+        "openai_base_url=http://127.0.0.1:41131/v1",
+        "-c",
+        "model_catalog_json=/proof/run/catalog.json",
+        "-c",
+        "sandbox_workspace_write.exclude_tmpdir_env_var=true",
+        "-c",
+        "sandbox_workspace_write.exclude_slash_tmp=true",
+        "-c",
+        "cli_auth_credentials_store=\"ephemeral\"",
+        "-c",
+        "thread_unload_delay_secs=0",
+        "app-server",
+        "--listen",
+        "stdio://"
+      ],
+      "version": "codex-cli 0.162.1"
+    },
+    {
+      "pid": 175570,
+      "comm": "openclaw-hooks",
+      "state": "S",
+      "ppid": 174177,
+      "pgrp": 175570,
+      "sid": 175570,
+      "startTicks": 415689,
+      "rssKb": 112792,
+      "argv": [
+        "openclaw-hooks"
+      ]
+    },
+    {
+      "pid": 173387,
+      "comm": "MainThread",
+      "state": "S",
+      "ppid": 171413,
+      "pgrp": 173387,
+      "sid": 173387,
+      "startTicks": 413957,
+      "rssKb": 53052,
+      "argv": [
+        "/usr/bin/node",
+        "/openclaw/node_modules/.pnpm/@openai+codex@0.162.1/node_modules/@openai/codex/bin/codex.js",
+        "-c",
+        "openai_base_url=http://127.0.0.1:41131/v1",
+        "-c",
+        "model_catalog_json=/proof/run/catalog.json",
+        "-c",
+        "sandbox_workspace_write.exclude_tmpdir_env_var=true",
+        "-c",
+        "sandbox_workspace_write.exclude_slash_tmp=true",
+        "-c",
+        "cli_auth_credentials_store=\"ephemeral\"",
+        "-c",
+        "thread_unload_delay_secs=0",
+        "app-server",
+        "--listen",
+        "stdio://"
+      ]
+    },
+    {
+      "pid": 173415,
+      "comm": "codex",
+      "state": "S",
+      "ppid": 173387,
+      "pgrp": 173387,
+      "sid": 173387,
+      "startTicks": 413984,
+      "rssKb": 283532,
+      "argv": [
+        "/openclaw/node_modules/.pnpm/@openai+codex@0.162.1-linux-x64/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/bin/codex",
+        "-c",
+        "openai_base_url=http://127.0.0.1:41131/v1",
+        "-c",
+        "model_catalog_json=/proof/run/catalog.json",
+        "-c",
+        "sandbox_workspace_write.exclude_tmpdir_env_var=true",
+        "-c",
+        "sandbox_workspace_write.exclude_slash_tmp=true",
+        "-c",
+        "cli_auth_credentials_store=\"ephemeral\"",
+        "-c",
+        "thread_unload_delay_secs=0",
+        "app-server",
+        "--listen",
+        "stdio://"
+      ],
+      "version": "codex-cli 0.162.1"
+    },
+    {
+      "pid": 172109,
+      "comm": "MainThread",
+      "state": "S",
+      "ppid": 171413,
+      "pgrp": 171413,
+      "sid": 171413,
+      "startTicks": 411718,
+      "rssKb": 93072,
+      "argv": [
+        "/usr/bin/node",
+        "/openclaw/dist/infra/sqlite-readonly-location.worker.js",
+        "--openclaw-sqlite-readonly-child",
+        "session"
+      ]
+    },
+    {
+      "pid": 171620,
+      "comm": "MainThread",
+      "state": "S",
+      "ppid": 171413,
+      "pgrp": 171620,
+      "sid": 171620,
+      "startTicks": 411489,
+      "rssKb": 108012,
+      "argv": [
+        "/usr/bin/node",
+        "/openclaw/dist/process/spawn-broker/worker.js"
+      ]
+    },
+    {
+      "pid": 173414,
+      "comm": "MainThread",
+      "state": "S",
+      "ppid": 171620,
+      "pgrp": 171620,
+      "sid": 171620,
+      "startTicks": 413980,
+      "rssKb": 87788,
+      "argv": [
+        "/usr/bin/node",
+        "/openclaw/dist/infra/sqlite-readonly-location.worker.js",
+        "--openclaw-sqlite-readonly-child",
+        "session"
+      ]
+    }
+  ],
+  "policies": [
+    {
+      "time": 1792714085748,
+      "pid": 171413,
+      "toolName": "exec"
+    }
+  ],
+  "killedAt": 1792714085805,
+  "killedPid": 171413,
+  "final": [],
+  "liveSurvivors": [],
+  "zombies": [],
+  "relayLastLiveMs": {
+    "175570:415689": 199
+  },
+  "appServerLastLiveMs": {
+    "174177:414561": 280,
+    "173415:413984": 199
+  },
+  "boundaryReached": true,
+  "passed": true,
+  "observationEndedAt": "2026-10-23T00:08:26.054Z",
+  "cleanupSignals": [],
+  "finishedAt": "2026-10-23T00:08:27.571Z"
+}

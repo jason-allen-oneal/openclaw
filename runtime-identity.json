@@ -1,0 +1,88 @@
+{
+  "buildInfo": {
+    "version": "2026.10.5",
+    "commit": "a8ead196291935d24c44a4f40b67397d88c70256",
+    "builtAt": "2026-10-22T02:50:42.120Z",
+    "buildId": "2026.10.5-a8ead1962919-2026-10-22T02-50-42.120Z"
+  },
+  "sourceCheckoutHeadAtObservation": "02d3792bd82664b85249ed353f41c833feae97d3",
+  "explanation": "dist remained the original baseline while source archive-candidate changes were committed; no candidate rebuild had occurred",
+  "node": "v24.22.1",
+  "os": "Linux-7.1.5+kali-amd64-x86_64-with-glibc2.43",
+  "nativeVersion": "codex-cli0.162.1 verified via /proc/<pid>/exe before kill",
+  "nativeTag": "rust-v0.162.1",
+  "nativeCommit": "092d3acd6bec3e3a14bdc7e7a2810ab628ab759d",
+  "artifacts": [
+    {
+      "path": "openclaw.mjs",
+      "bytes": 24301,
+      "sha256": "2e42a44b3bf441ba8b7fed85ccdd3efa54d8962bb0607cd00d88e86f67ab0e51"
+    },
+    {
+      "path": "dist/build-info.json",
+      "bytes": 190,
+      "sha256": "f7c05d382825ec344780c6216556f6e8ba6da030d45efad5abb7dd146070af94"
+    },
+    {
+      "path": "dist/index.js",
+      "bytes": 7608,
+      "sha256": "25b21884b4d373d5150f593bba637e4f972850890d411f4308f786a13e1d9c78"
+    },
+    {
+      "path": "dist/native-hook-relay/entry.js",
+      "bytes": 22133,
+      "sha256": "72304264cfd3626b4933ef387665237857b751d47d6012006465ddc90e2ce2c8"
+    },
+    {
+      "path": "dist/extensions/codex/harness.js",
+      "bytes": 17701,
+      "sha256": "25131363bdba7228f547e932728c3876233254a835904144c5058e18ff731566"
+    },
+    {
+      "path": "dist/extensions/codex/.setup/native-hook-relay-jTJJ95zF.mjs",
+      "bytes": 29623,
+      "sha256": "0ec5f9d1d493e3eb8ce39b2fe27d61f3d4ff9378ac3667cdf789814cbc679147"
+    },
+    {
+      "path": "extensions/codex/node_modules/@openai/codex/bin/codex.js",
+      "bytes": 8790,
+      "sha256": "61b0194f3bb6534439c8d26a3ed57d0805f84b884588b761795323eeb92fcf70"
+    },
+    {
+      "path": "node_modules/.pnpm/@openai+codex@0.162.1-linux-x64/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/bin/codex",
+      "bytes": 294415048,
+      "sha256": "628e35487d888a28f0427fc37501da529dd3d81fcbad7a2c3421c1e8670d92e1"
+    }
+  ],
+  "processSummary": [
+    {
+      "pid": 174177,
+      "role": "codex",
+      "beforeRssKb": 351808,
+      "beforePpid": 174165,
+      "lastLiveAfterKillMs": 280,
+      "firstAbsentAfterKillMs": 307,
+      "zombieSamples": 0
+    },
+    {
+      "pid": 175570,
+      "role": "openclaw-hooks",
+      "beforeRssKb": 112792,
+      "beforePpid": 174177,
+      "lastLiveAfterKillMs": 199,
+      "firstAbsentAfterKillMs": 226,
+      "zombieSamples": 0
+    },
+    {
+      "pid": 173415,
+      "role": "codex",
+      "beforeRssKb": 283532,
+      "beforePpid": 173387,
+      "lastLiveAfterKillMs": 199,
+      "firstAbsentAfterKillMs": 253,
+      "zombieSamples": 1
+    }
+  ],
+  "processSnapshotCount": 145,
+  "lastObservationAfterKillMs": 19990
+}

@@ -1,0 +1,161 @@
+{
+  "gateway": {
+    "mode": "local",
+    "port": 42997,
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "synthetic-whole-gateway-proof"
+    },
+    "controlUi": {
+      "enabled": false
+    }
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "/proof/run/workspace",
+      "model": {
+        "primary": "openai/gpt-5.6-luna"
+      },
+      "utilityModel": "fixture/fixture-utility",
+      "models": {
+        "openai/gpt-5.6-luna": {
+          "agentRuntime": {
+            "id": "codex"
+          }
+        },
+        "fixture/fixture-utility": {
+          "agentRuntime": {
+            "id": "openclaw"
+          }
+        }
+      },
+      "modelPolicy": {
+        "allow": [
+          "openai/gpt-5.6-luna",
+          "fixture/fixture-utility"
+        ]
+      },
+      "skipBootstrap": true
+    },
+    "entries": {
+      "main": {}
+    }
+  },
+  "tools": {
+    "profile": "coding"
+  },
+  "models": {
+    "mode": "replace",
+    "providers": {
+      "openai": {
+        "api": "openai-responses",
+        "baseUrl": "https://api.openai.com/v1",
+        "apiKey": "synthetic-proof-key",
+        "models": [
+          {
+            "id": "gpt-5.6-luna",
+            "name": "gpt-5.6-luna",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 128000,
+            "maxTokens": 4096
+          }
+        ]
+      },
+      "fixture": {
+        "api": "openai-responses",
+        "baseUrl": "http://127.0.0.1:41131/v1",
+        "apiKey": "synthetic-proof-key",
+        "request": {
+          "allowPrivateNetwork": true
+        },
+        "models": [
+          {
+            "id": "fixture-utility",
+            "name": "fixture-utility",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 128000,
+            "maxTokens": 4096
+          }
+        ]
+      }
+    }
+  },
+  "plugins": {
+    "allow": [
+      "codex",
+      "openai",
+      "crash-proof"
+    ],
+    "slots": {
+      "memory": "none"
+    },
+    "load": {
+      "paths": [
+        "/proof/run/plugin"
+      ]
+    },
+    "entries": {
+      "openai": {
+        "enabled": true
+      },
+      "codex": {
+        "enabled": true,
+        "config": {
+          "sessionCatalog": {
+            "enabled": false
+          },
+          "appServer": {
+            "sandbox": "workspace-write",
+            "loopDetectionPreToolUseRelay": false,
+            "args": [
+              "app-server",
+              "-c",
+              "openai_base_url=http://127.0.0.1:41131/v1",
+              "-c",
+              "model_catalog_json=/proof/run/catalog.json",
+              "-c",
+              "sandbox_workspace_write.exclude_tmpdir_env_var=true",
+              "-c",
+              "sandbox_workspace_write.exclude_slash_tmp=true",
+              "--listen",
+              "stdio://"
+            ]
+          }
+        }
+      },
+      "crash-proof": {
+        "enabled": true
+      }
+    }
+  },
+  "discovery": {
+    "mdns": {
+      "mode": "off"
+    }
+  },
+  "cron": {
+    "enabled": false
+  },
+  "logging": {
+    "file": "/proof/run/gateway-runtime.log"
+  }
+}
