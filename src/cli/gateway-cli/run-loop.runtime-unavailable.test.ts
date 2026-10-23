@@ -15,6 +15,11 @@ import {
 
 // mock-isolation: Runtime recovery must inspect fixture service state, never the host service.
 vi.mock("../../daemon/service-state.js", () => ({ readGatewayServiceState: vi.fn() }));
+// mock-isolation: The fixture's systemd capability is independent of the host native addon.
+vi.mock("@openclaw/proc-safe/systemd", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@openclaw/proc-safe/systemd")>()),
+  isSupported: () => true,
+}));
 
 const originalExecPath = process.execPath;
 const serviceNodeExecPath = resolveTestNodeExecPath();
