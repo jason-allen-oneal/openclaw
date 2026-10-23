@@ -15,6 +15,45 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class ChatControllerCatalogTest {
   @Test
+  fun metadataEventsRefreshOnlyTheSelectedAgentsChangedCatalogOrCommands() =
+    runTest {
+      val (controller, requests) =
+        chatControllerTestSetup {
+          respond("chat.metadata", """{"commands":[]}""")
+          respond("models.list", """{"models":[{"id":"chat","name":"Chat","provider":"fixture"}]}""")
+        }
+      controller.load("agent:main:work")
+      advanceUntilIdle()
+      assertEquals(listOf("chat"), controller.modelCatalog.value.map { it.id })
+      requests.clear()
+
+      for (payload in listOf(
+        """{"agentId":"main","modelCatalogChanged":false,"authChanged":false,"commandsChanged":false}""",
+        """{"agentId":"other","modelCatalogChanged":true,"authChanged":true}""",
+      )) {
+        controller.handleGatewayEvent("chat.metadata.changed", payload)
+        advanceUntilIdle()
+      }
+      assertFalse(requests.any { it.first == "chat.metadata" || it.first == "models.list" })
+      assertEquals(listOf("chat"), controller.modelCatalog.value.map { it.id })
+
+      for (payload in listOf(
+        """{"agentId":" MAIN ","modelCatalogChanged":true,"commandsChanged":false}""",
+        """{"agentId":"main","modelCatalogChanged":false,"authChanged":true,"commandsChanged":false}""",
+        """{"agentId":"main","modelCatalogChanged":false,"commandsChanged":true}""",
+        """{"agentId":"main","modelCatalogChanged":false,"modelCatalogStatusChanged":true,"commandsChanged":false}""",
+        """{"modelSelectionChanged":true,"modelCatalogChanged":false,"commandsChanged":false}""",
+        "{}",
+      )) {
+        requests.clear()
+        controller.handleGatewayEvent("chat.metadata.changed", payload)
+        advanceUntilIdle()
+        assertEquals(payload, 1, requests.count { it.first == "chat.metadata" })
+        assertEquals(payload, 1, requests.count { it.first == "models.list" })
+      }
+    }
+
+  @Test
   fun olderGatewayKeepsCommandsAndExplainsMissingCatalogCapability() =
     runTest {
       val (controller, requests) =

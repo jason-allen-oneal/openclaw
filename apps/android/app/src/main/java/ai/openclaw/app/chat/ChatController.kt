@@ -3651,7 +3651,26 @@ class ChatController internal constructor(
       }
 
       "chat.metadata.changed" -> {
-        refreshCommands()
+        val change = payloadJson?.let { runCatching { json.parseToJsonElement(it).asObjectOrNull() }.getOrNull() }
+        val changedAgentId = change.nonBlankString("agentId")
+        val selectedAgentId = resolveAgentIdForSessionKey(_sessionKey.value)
+        val affectsSelectedAgent = changedAgentId == null || selectedAgentId == null || changedAgentId.equals(selectedAgentId, ignoreCase = true)
+        // Usage publications leave commands and model choices unchanged. Missing
+        // flags retain the full refresh used by older Gateways.
+        if (
+          change?.get("modelSelectionChanged").asBooleanOrNull() == true ||
+          (
+            affectsSelectedAgent &&
+              (
+                change?.get("modelCatalogChanged").asBooleanOrNull() != false ||
+                  change?.get("commandsChanged").asBooleanOrNull() != false ||
+                  change?.get("authChanged").asBooleanOrNull() == true ||
+                  change?.get("modelCatalogStatusChanged").asBooleanOrNull() == true
+              )
+          )
+        ) {
+          refreshCommands()
+        }
       }
 
       "config.changed" -> {
