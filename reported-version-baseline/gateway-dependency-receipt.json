@@ -1,0 +1,18 @@
+{
+  "command": [
+    "<NODE24_RUNTIME>/bin/npm",
+    "install",
+    "--prefix",
+    "<GATEWAY_TASK_DIR>/runtime",
+    "--omit=dev",
+    "--no-audit",
+    "--no-fund",
+    "--save-exact",
+    "<GATEWAY_TASK_DIR>/openclaw-2026.9.6.tgz"
+  ],
+  "exitCode": 0,
+  "elapsedSeconds": 51.31022660899907,
+  "nodeVersion": "v24.22.1",
+  "npmVersion": "11.19.1",
+  "packageLockSha256": "162999eb776322eba1c3b9a9c3de343e04b6b677824d56583c9892485e411c38"
+}

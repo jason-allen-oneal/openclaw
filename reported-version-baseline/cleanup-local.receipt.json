@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-23T03:24:28.208466+00:00",
+  "results": [
+    {
+      "operation": [
+        "shell",
+        "am",
+        "force-stop",
+        "ai.openclaw.app.debug"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "operation": [
+        "reverse",
+        "--remove",
+        "tcp:19992"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "operation": [
+        "emu",
+        "kill"
+      ],
+      "exitCode": 0,
+      "stdout": "OK: killing emulator, bye bye\nOK\n",
+      "stderr": ""
+    },
+    {
+      "owner": "proxy",
+      "pid": 2680812,
+      "signaled": "SIGTERM"
+    },
+    {
+      "owner": "tunnel",
+      "pid": 2595549,
+      "signaled": "SIGTERM"
+    }
+  ]
+}

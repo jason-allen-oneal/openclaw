@@ -1,0 +1,52 @@
+{
+  "gatewayPid": 620593,
+  "providerPid": 616688,
+  "ports": [
+    19990,
+    19991
+  ],
+  "ready": {
+    "ready": true,
+    "failing": [],
+    "uptimeMs": 14355,
+    "eventLoop": {
+      "degraded": true,
+      "degradedSinceMs": 9646,
+      "reasons": [
+        "event_loop_delay",
+        "event_loop_utilization",
+        "cpu"
+      ],
+      "intervalMs": 3575.3735589999997,
+      "delayP99Ms": 3575.6,
+      "delayMaxMs": 3575.6,
+      "utilization": 1,
+      "cpuCoreRatio": 1.033,
+      "cpuBreakdown": {
+        "mainThreadCoreRatio": 0.999,
+        "hostUtilization": 0.144,
+        "hostCpuCount": 8,
+        "workerCoreRatio": 0,
+        "otherThreadsCoreRatio": 0.034
+      }
+    }
+  },
+  "readySeconds": 35.975042677950114,
+  "build": {
+    "version": "2026.9.6",
+    "commit": "eb377ac59e6c9fd6c7705028034812becf00271b",
+    "builtAt": "2026-09-23T16:33:12.144Z",
+    "buildId": "2026.9.6-release-eb377ac59e6c-2026-09-23T16-33-12.144Z"
+  },
+  "configSha256": "be2d9d10682ba77953427be24923ed45802820408abffb41122d422a93d6c3d5",
+  "command": [
+    "<NODE24_RUNTIME>/bin/node",
+    "<GATEWAY_TASK_DIR>/runtime/node_modules/openclaw/openclaw.mjs",
+    "gateway",
+    "--port",
+    "19990",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ]
+}

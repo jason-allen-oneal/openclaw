@@ -1,0 +1,38 @@
+{
+  "rawSha256": {
+    "reported-baseline/source.receipt.json": "4e58ca7ffcfb3e62071bc23d7ef59e8166bae723b3d7ba83d39e7aa99c1448bc",
+    "reported-baseline/build.receipt.json": "359c662eefc0923a96c8fddfed3dec3d1dcd3aef7bce6c061f6968bd4ea02dd8",
+    "reported-baseline/diagnostic-observation.patch": "775b861424cef8ba8a811b9074f68c09a1d8b5199ec7a6db2cc3ecf12ca94e9b",
+    "reported-baseline/diagnostic-observation.receipt.json": "ad335430c78ce01fa43c986033149e0bfed62e74b398b27de4b9f6e67a644950",
+    "reported-baseline/native.receipt.json": "685f9e4f01df2f1db5f6a8e6a51fe08f6b2d3adc34bbeea2a31aa9d21dbbd5e0",
+    "reported-baseline/native-instrumentation.log": "49c0063e0b4694612df2b49000debc8dc575018c2816a28b5361a31cf5d3f00e",
+    "reported-baseline/native-observations.json": "e65ee4ae21c140fd2195092cb8dd56b219268f526ec1982a9b0f4c47b55d70bf",
+    "reported-baseline/native-wire.jsonl": "29e2e5ed406c87987d69f812adb86cbaa3644db0e46ed3330a84c77470520a38",
+    "reported-baseline/gateway-memory.jsonl": "47eee86fee03c4137a52815aab9dc91ddc8602e84564b15d2b2f2f269051c8ad",
+    "reported-baseline/cleanup-local.receipt.json": "6ae9dcabe641c6efb15788b9e8211fee911e816a5de739f8cfd90053575a3404",
+    "reported-baseline/native-ui.png": "3958f79df6d9b7c65835b343cbbcfd6b04e63fd3fc876119c529859f60933e90",
+    "reported-baseline/instrumentation/CatalogRefreshProofTest.kt": "87a21b77c407d748e6aaf1da55cec6c43bad5649fdc14328560183a8a208cd42",
+    "reported-baseline/proxy.mjs": "c795d36ae996d4f3377bae203758f489c8a53b599db9fd040127d5872e176582",
+    "reported-baseline/observe-native.py": "4f3c3c480f47944b8c5699a77d065dfd0f92938860270db616860fe86c2135e3",
+    "reported-baseline/install-and-observe.py": "26efc38a389c66b555fe8251fffd1a4e4c659fd91287c35e0c050c6e12a1bc83",
+    "reported-baseline/build.py": "16717fa6360c59489052646a5fc5355eb69732462c465ed24195a411c6c76581",
+    "reported-baseline/diagnostic.init.gradle": "4d0e55d30428d5fb55b87eb39c544bd0337ef3b481f99d2bd5a537eff0484bcb",
+    "reported-gateway-runtime/artifact-receipt.json": "01b67b9e048ba231a222a957be7039c0f68fb9ae3447f6cbc6f81a8eabf3821f",
+    "reported-gateway-runtime/dependency-receipt.json": "17c451599e30f1b5bf74e252b1a43d9c718c6cf5ac75c7fcb4801ecfe4dcfaad",
+    "reported-gateway-runtime/startup-receipt.json": "605a1fa775a9f17a35b98ee68f043d70cf03d25e38d69bb02a0df6db4c2ba632",
+    "reported-gateway-runtime/ready-final.json": "1cb6e57a5d2d2b60b5cd13b785cee4d86ca7a585b1b9f22524cf334422cd79fc",
+    "reported-baseline/catalog-payloads.private.jsonl": "6ec922722f5d934b39711cf80f83b200c6235329911ccc564bdda9d4c081b132",
+    "reported-baseline/native-logcat.private.log": "c30da4bb1f2bcc28f657be6e3a583ba55149edd757ddb43205fb67fa9c3f6a3c",
+    "reported-baseline/provider.mjs": "af90373bc87a3c9c05dbb8f9a536568c5d048f2f591946bfd2581073934492c9",
+    "reported-baseline/cleanup-remote.receipt.json": "00a39ab4934ee18dc0c1b1fb3b31a55c8b4e3b7d023dc0af6188b0f0a59d097a",
+    "reported-gateway-config.private.json": "be2d9d10682ba77953427be24923ed45802820408abffb41122d422a93d6c3d5"
+  },
+  "transformations": [
+    "Local task/SDK/JDK/runtime paths replaced with named placeholders",
+    "Synthetic node-session identifier normalized consistently",
+    "Full catalog model rows retained; unrelated accountSelection projections and chat.metadata payloads excluded",
+    "Only Issue179075Diagnostic logcat lines retained; no setup code, configuration credentials, auth-status payloads, or broad logcat published",
+    "Gateway config review copy substitutes fresh-token and synthetic-key placeholders; task model definitions are unchanged"
+  ],
+  "screenshots": "Original unedited screenshot inspected: synthetic Overview screen with no credentials or private account identifiers"
+}

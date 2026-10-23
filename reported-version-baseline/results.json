@@ -1,0 +1,104 @@
+{
+  "classification": "bounded negative reproduction; no candidate differential",
+  "appSource": "dbac7730a12c90e95143f23e556199ab642e639e",
+  "gatewaySource": "eb377ac59e6c9fd6c7705028034812becf00271b",
+  "gatewayVersion": "2026.9.6",
+  "observationSeconds": 120.0629360490002,
+  "rpcCounts": {
+    "models.list": 3,
+    "chat.metadata": 2,
+    "models.authStatus": 1
+  },
+  "metadataChangeEvents": 0,
+  "injectedEvents": 0,
+  "failedRpcReplies": 0,
+  "catalogAndMetadataResponses": [
+    {
+      "timestampMs": 1792725662806,
+      "direction": "response",
+      "connection": "2be3352c-1724-4ea2-9bd1-c42111e5243c",
+      "role": "operator",
+      "id": "c773ae3c-05ef-4591-a8db-57c0d4b55316",
+      "method": "models.list",
+      "elapsedMs": 5626,
+      "payloadBytes": 365301,
+      "ok": true,
+      "modelCount": 732,
+      "refreshFailed": false,
+      "availability": {
+        "unavailable": 3,
+        "available": 729
+      }
+    },
+    {
+      "timestampMs": 1792725670641,
+      "direction": "response",
+      "connection": "2be3352c-1724-4ea2-9bd1-c42111e5243c",
+      "role": "operator",
+      "id": "3a2fe2ce-cf1c-43ff-92db-4279d1eb850a",
+      "method": "models.list",
+      "elapsedMs": 13400,
+      "payloadBytes": 377508,
+      "ok": true,
+      "modelCount": 732,
+      "refreshFailed": false,
+      "availability": {
+        "indeterminate": 3,
+        "available": 729
+      }
+    },
+    {
+      "timestampMs": 1792725678744,
+      "direction": "response",
+      "connection": "2be3352c-1724-4ea2-9bd1-c42111e5243c",
+      "role": "operator",
+      "id": "6ad13c5f-ecbb-47e2-b960-c4638af1669d",
+      "method": "chat.metadata",
+      "elapsedMs": 21308,
+      "payloadBytes": 366853,
+      "ok": true
+    },
+    {
+      "timestampMs": 1792725681502,
+      "direction": "response",
+      "connection": "2be3352c-1724-4ea2-9bd1-c42111e5243c",
+      "role": "operator",
+      "id": "bf7779e9-42ea-41db-b153-682c8eb6ed0d",
+      "method": "chat.metadata",
+      "elapsedMs": 1548,
+      "payloadBytes": 366853,
+      "ok": true
+    },
+    {
+      "timestampMs": 1792725687376,
+      "direction": "response",
+      "connection": "2be3352c-1724-4ea2-9bd1-c42111e5243c",
+      "role": "operator",
+      "id": "924d3149-0220-44d3-8b93-1d580812cd43",
+      "method": "models.list",
+      "elapsedMs": 4997,
+      "payloadBytes": 387105,
+      "ok": true,
+      "modelCount": 732,
+      "refreshFailed": false,
+      "availability": {
+        "indeterminate": 3,
+        "available": 729
+      }
+    }
+  ],
+  "warningCauseObserved": "GatewayRequestOutcomeUnknown: request timeout; first chat.metadata response took21308ms, longer than15000ms app deadline",
+  "warningClearedNaturally": true,
+  "nativeAcceptedModels": 732,
+  "gatewayRssKiB": {
+    "min": 650728,
+    "max": 996984,
+    "samples": 81
+  },
+  "missingOriginalConditions": [
+    "No sustained fast-response ~2Hz refresh loop",
+    "No natural metadata event producer or55/min background catalog rebuild",
+    "No reporter device/Tailscale route or private catalog payload"
+  ],
+  "scopeNote": "Default configured view matched729available plus3missing-auth. Provider-config and session-scoped views returned3indeterminate."
+}
