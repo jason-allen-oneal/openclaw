@@ -1,0 +1,15 @@
+{
+  "id": "delivery-reset-proof",
+  "name": "Isolated delivery/reset proof",
+  "configSchema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "cliBackends": [
+    "delivery-cli"
+  ]
+}

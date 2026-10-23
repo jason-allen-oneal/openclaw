@@ -1,0 +1,1552 @@
+{
+  "model": "ollama/qwen3:0.6b",
+  "providerBaseUrl": "http://127.0.0.1:21498",
+  "producer": "default agent reply resolver; no injected replyResolver",
+  "sourceHead": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+  "buildRoot": "/home/jason/.local/share/openclaw-134498-proof/candidate",
+  "calls": [
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T01:42:21.884Z",
+      "finishedAt": "2026-10-23T01:42:24.562Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792719744475,\n  \"durationMs\": 743,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\",\n      \"ollama\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {\n    \"delivery-proof\": {\n      \"accountId\": \"default\",\n      \"configured\": true,\n      \"running\": false,\n      \"lastError\": null,\n      \"enabled\": true,\n      \"healthState\": \"not-running\",\n      \"accounts\": {\n        \"default\": {\n          \"accountId\": \"default\",\n          \"configured\": true,\n          \"running\": false,\n          \"lastError\": null,\n          \"enabled\": true,\n          \"healthState\": \"not-running\"\n        }\n      }\n    }\n  },\n  \"channelOrder\": [\n    \"delivery-proof\"\n  ],\n  \"channelLabels\": {\n    \"delivery-proof\": \"Isolated proof transport\"\n  },\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/state/agents/main/sessions/sessions.json\",\n        \"count\": 0,\n        \"recent\": []\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/state/agents/main/sessions/sessions.json\",\n    \"count\": 0,\n    \"recent\": []\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 4481,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1001.6147300000011,\n    \"delayP99Ms\": 339,\n    \"delayMaxMs\": 339,\n    \"utilization\": 0.774,\n    \"cpuCoreRatio\": 3.835,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.76,\n      \"hostUtilization\": 0.699,\n      \"hostCpuCount\": 8,\n      \"workerCoreRatio\": 2.041,\n      \"otherThreadsCoreRatio\": 1.034\n    }\n  },\n  \"modelRuntime\": {\n    \"degraded\": false,\n    \"pendingAgents\": []\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-control",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:42:24.563Z",
+      "finishedAt": "2026-10-23T01:42:29.954Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-control\",\n  \"sessionId\": \"eb7e050c-4977-475a-ac7f-971b2920d2f3\",\n  \"entry\": {\n    \"sessionId\": \"eb7e050c-4977-475a-ac7f-971b2920d2f3\",\n    \"lifecycleRevision\": \"3fcf3518-e89e-46c7-9a8e-f9547a75f23e\",\n    \"updatedAt\": 1792719749269,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719749270,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "agentId": "main",
+        "message": "seed-control"
+      },
+      "startedAt": "2026-10-23T01:42:29.954Z",
+      "finishedAt": "2026-10-23T01:42:32.391Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"b1f8362d-65f0-4d32-a371-f40474608e1c\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "messageId": "receipt-control",
+        "text": "ACCEPTED-REPLY-control-ONLY",
+        "receiver": "http://127.0.0.1:65001/reply"
+      },
+      "startedAt": "2026-10-23T01:42:32.391Z",
+      "finishedAt": "2026-10-23T01:42:52.605Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-rebind",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:42:52.607Z",
+      "finishedAt": "2026-10-23T01:42:54.092Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-rebind\",\n  \"sessionId\": \"f317d6c5-a157-441f-9f5c-d7794dfa5913\",\n  \"entry\": {\n    \"sessionId\": \"f317d6c5-a157-441f-9f5c-d7794dfa5913\",\n    \"lifecycleRevision\": \"e2817602-8ac8-4b57-9d5b-c719210e2ddc\",\n    \"updatedAt\": 1792719774006,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719774006,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-rebind",
+        "agentId": "main",
+        "message": "seed-rebind"
+      },
+      "startedAt": "2026-10-23T01:42:54.092Z",
+      "finishedAt": "2026-10-23T01:42:55.566Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"570e4fa3-0f41-4b05-bdf3-14555a74f848\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.delete",
+      "params": {
+        "key": "agent:main:delivery-reset-rebind",
+        "agentId": "main",
+        "deleteTranscript": false
+      },
+      "startedAt": "2026-10-23T01:43:01.059Z",
+      "error": "Error: Command failed: /home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node openclaw.mjs gateway call sessions.delete --params {\"key\":\"agent:main:delivery-reset-rebind\",\"agentId\":\"main\",\"deleteTranscript\":false} --port 65000 --timeout 120000 --json\n",
+      "stdout": "{\n  \"ok\": false,\n  \"error\": {\n    \"type\": \"gateway_request_error\",\n    \"code\": \"UNAVAILABLE\",\n    \"message\": \"Session agent:main:delivery-reset-rebind could not safely stop before deletion: Session work is still active after the lifecycle drain for agent:main:delivery-reset-rebind. Wait for active work to end, then retry; session storage has been preserved. Retry after active work or worker recovery finishes.\",\n    \"retryable\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-rebind",
+        "messageId": "receipt-rebind",
+        "text": "ACCEPTED-REPLY-rebind-ONLY",
+        "receiver": "http://127.0.0.1:65001/reply"
+      },
+      "startedAt": "2026-10-23T01:42:55.566Z",
+      "finishedAt": "2026-10-23T01:43:17.847Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.delete",
+      "params": {
+        "key": "agent:main:delivery-reset-rebind",
+        "agentId": "main",
+        "deleteTranscript": false
+      },
+      "startedAt": "2026-10-23T01:43:17.850Z",
+      "finishedAt": "2026-10-23T01:43:20.112Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-rebind\",\n  \"deleted\": true,\n  \"archived\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-rebind",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:43:20.112Z",
+      "finishedAt": "2026-10-23T01:43:21.644Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-rebind\",\n  \"sessionId\": \"bd39b6e4-0064-4792-aa3c-8a6cde8eeac6\",\n  \"entry\": {\n    \"sessionId\": \"bd39b6e4-0064-4792-aa3c-8a6cde8eeac6\",\n    \"lifecycleRevision\": \"87df67f2-d4bd-4743-b2a7-ec7dfb2356b4\",\n    \"updatedAt\": 1792719801562,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719801562,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-rebind",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:43:21.644Z",
+      "finishedAt": "2026-10-23T01:43:23.124Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-reset-rebind\",\n  \"sessionId\": \"bd39b6e4-0064-4792-aa3c-8a6cde8eeac6\",\n  \"messages\": [],\n  \"hasMore\": false,\n  \"totalMessages\": 0,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"defaults\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\",\n    \"contextTokens\": 16384,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-reset-rebind\",\n    \"sessionModelRevision\": \"bnXvKies9HrviEVRoVq11A6nRhIRPngoo5jobGC1lDA\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719801562,\n    \"kind\": \"direct\",\n    \"classification\": \"custom\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"updatedAt\": 1792719801562,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"bd39b6e4-0064-4792-aa3c-8a6cde8eeac6\",\n    \"lifecycleRevision\": \"87df67f2-d4bd-4743-b2a7-ec7dfb2356b4\",\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"openclaw\",\n      \"cloudPlacementSupported\": true,\n      \"cloudPlacementExecutionMode\": \"worker-turn\",\n      \"devicePlacement\": {\n        \"requiredNodeCommands\": [],\n        \"consumesWorkerSlot\": true\n      },\n      \"devicePlacementSupported\": true,\n      \"source\": \"implicit\"\n    },\n    \"contextTokens\": 16384,\n    \"snapshotAt\": 1792719803049,\n    \"totalTokensFresh\": false,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": null\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T01:43:38.149Z",
+      "finishedAt": "2026-10-23T01:43:41.085Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792719821005,\n  \"durationMs\": 620,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\",\n      \"ollama\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {\n    \"delivery-proof\": {\n      \"accountId\": \"default\",\n      \"configured\": true,\n      \"running\": false,\n      \"lastError\": null,\n      \"enabled\": true,\n      \"healthState\": \"not-running\",\n      \"accounts\": {\n        \"default\": {\n          \"accountId\": \"default\",\n          \"configured\": true,\n          \"running\": false,\n          \"lastError\": null,\n          \"enabled\": true,\n          \"healthState\": \"not-running\"\n        }\n      }\n    }\n  },\n  \"channelOrder\": [\n    \"delivery-proof\"\n  ],\n  \"channelLabels\": {\n    \"delivery-proof\": \"Isolated proof transport\"\n  },\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/state/agents/main/agent/openclaw-agent.sqlite\",\n        \"count\": 2,\n        \"recent\": [\n          {\n            \"key\": \"agent:main:delivery-reset-rebind\",\n            \"updatedAt\": 1792719801562,\n            \"age\": 19443\n          },\n          {\n            \"key\": \"agent:main:delivery-reset-control\",\n            \"updatedAt\": 1792719772495,\n            \"age\": 48510\n          }\n        ]\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/state/agents/main/agent/openclaw-agent.sqlite\",\n    \"count\": 2,\n    \"recent\": [\n      {\n        \"key\": \"agent:main:delivery-reset-rebind\",\n        \"updatedAt\": 1792719801562,\n        \"age\": 19443\n      },\n      {\n        \"key\": \"agent:main:delivery-reset-control\",\n        \"updatedAt\": 1792719772495,\n        \"age\": 48510\n      }\n    ]\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 1002,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1001.5485100000005,\n    \"delayP99Ms\": 108.2,\n    \"delayMaxMs\": 108.2,\n    \"utilization\": 0.222,\n    \"cpuCoreRatio\": 3.911,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.209,\n      \"hostUtilization\": 0.567,\n      \"hostCpuCount\": 8\n    }\n  },\n  \"modelRuntime\": {\n    \"degraded\": false,\n    \"pendingAgents\": []\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-control",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:43:41.085Z",
+      "finishedAt": "2026-10-23T01:43:43.016Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-reset-control\",\n  \"sessionId\": \"eb7e050c-4977-475a-ac7f-971b2920d2f3\",\n  \"messages\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"seed-control\"\n        }\n      ],\n      \"timestamp\": 1792719751482,\n      \"stopReason\": \"stop\",\n      \"usage\": {\n        \"input\": 0,\n        \"output\": 0,\n        \"totalTokens\": 0,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        }\n      },\n      \"api\": \"openai-responses\",\n      \"provider\": \"openclaw\",\n      \"model\": \"gateway-injected\",\n      \"__openclaw\": {\n        \"id\": \"b1f8362d-65f0-4d32-a371-f40474608e1c\",\n        \"recordTimestampMs\": 1792719751482,\n        \"transcriptPosition\": {\n          \"source\": \"mcZGxeLPVno9P7oa89mJ03QTp6wdwVaFcvaGUkMuQwI\",\n          \"rawSeq\": 1\n        },\n        \"seq\": 1\n      }\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY\",\n      \"timestamp\": 1792719754114,\n      \"idempotencyKey\": \"e0618580-640f-47a2-aaab-4f447cb5b396:user\",\n      \"__openclaw\": {\n        \"senderIsOwner\": false,\n        \"transport\": {\n          \"channel\": \"delivery-proof\",\n          \"conversationRef\": \"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\n          \"messageId\": \"receipt-control\"\n        },\n        \"id\": \"6c3e9da0-ccf3-4842-8961-67d0f01406ae\",\n        \"idempotencyKey\": \"e0618580-640f-47a2-aaab-4f447cb5b396:user\",\n        \"recordTimestampMs\": 1792719755689,\n        \"transcriptPosition\": {\n          \"source\": \"mcZGxeLPVno9P7oa89mJ03QTp6wdwVaFcvaGUkMuQwI\",\n          \"rawSeq\": 2\n        },\n        \"seq\": 2\n      }\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"ACCEPTED-REPLY-control-ONLY\"\n        }\n      ],\n      \"stopReason\": \"stop\",\n      \"api\": \"ollama\",\n      \"provider\": \"ollama\",\n      \"model\": \"qwen3:0.6b\",\n      \"usage\": {\n        \"input\": 2897,\n        \"output\": 9,\n        \"totalTokens\": 2906,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"usageReport\": {\n          \"state\": \"available\"\n        },\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        },\n        \"contextUsage\": {\n          \"state\": \"available\",\n          \"promptTokens\": 2897,\n          \"totalTokens\": 2906\n        }\n      },\n      \"timestamp\": 1792719772028,\n      \"diagnostics\": [\n        {\n          \"type\": \"provider_timing\",\n          \"timestamp\": 1792719772028,\n          \"details\": {\n            \"processingMs\": 14477.922\n          }\n        }\n      ],\n      \"__openclaw\": {\n        \"runId\": \"3e28d80f-a931-4b2d-b78c-22856ee9b691\",\n        \"id\": \"3d249986-d50a-4cf1-a911-5ed8098edfb1\",\n        \"recordTimestampMs\": 1792719772076,\n        \"transcriptPosition\": {\n          \"source\": \"mcZGxeLPVno9P7oa89mJ03QTp6wdwVaFcvaGUkMuQwI\",\n          \"rawSeq\": 7\n        },\n        \"seq\": 3\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 3,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiI0OWEwYzFhODg5NzU0NDZlODc3ZWJiZTk4YjVmNDc3NyIsImxhc3RTZXEiOjcsInNlc3Npb25JZCI6ImViN2UwNTBjLTQ5NzctNDc1YS1hYzdmLTk3MWIyOTIwZDJmMyIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\",\n    \"contextTokens\": 16384,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-reset-control\",\n    \"sessionModelRevision\": \"ORZQFYX2gCIL3rnDhlZc8s-Un-8IuuiIrIIkB3vWMyA\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719749270,\n    \"kind\": \"direct\",\n    \"classification\": \"direct\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"channel\": \"delivery-proof\",\n    \"chatType\": \"direct\",\n    \"origin\": {\n      \"provider\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:65001/reply\"\n    },\n    \"updatedAt\": 1792719772495,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": true,\n    \"lastInteractionAt\": 1792719753960,\n    \"sessionId\": \"eb7e050c-4977-475a-ac7f-971b2920d2f3\",\n    \"lifecycleRevision\": \"3fcf3518-e89e-46c7-9a8e-f9547a75f23e\",\n    \"systemSent\": true,\n    \"abortedLastRun\": false,\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"inputTokens\": 2897,\n    \"outputTokens\": 9,\n    \"usageReport\": {\n      \"state\": \"available\"\n    },\n    \"lastRunId\": \"3e28d80f-a931-4b2d-b78c-22856ee9b691\",\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"openclaw\",\n      \"cloudPlacementSupported\": true,\n      \"cloudPlacementExecutionMode\": \"worker-turn\",\n      \"devicePlacement\": {\n        \"requiredNodeCommands\": [],\n        \"consumesWorkerSlot\": true\n      },\n      \"devicePlacementSupported\": true,\n      \"source\": \"implicit\"\n    },\n    \"contextTokens\": 16384,\n    \"contextBudgetStatus\": {\n      \"schemaVersion\": 1,\n      \"source\": \"pre-prompt-estimate\",\n      \"updatedAt\": 1792719756560,\n      \"provider\": \"ollama\",\n      \"model\": \"qwen3:0.6b\",\n      \"route\": \"fits\",\n      \"shouldCompact\": false,\n      \"estimatedPromptTokens\": 3980,\n      \"contextTokenBudget\": 16384,\n      \"promptBudgetBeforeReserve\": 12288,\n      \"reserveTokens\": 4096,\n      \"effectiveReserveTokens\": 4096,\n      \"remainingPromptBudgetTokens\": 8308,\n      \"overflowTokens\": 0,\n      \"toolResultReducibleChars\": 0,\n      \"messageCount\": 0,\n      \"unwindowedMessageCount\": 0,\n      \"sessionId\": \"eb7e050c-4977-475a-ac7f-971b2920d2f3\"\n    },\n    \"deliveryContext\": {\n      \"channel\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:65001/reply\"\n    },\n    \"lastChannel\": \"delivery-proof\",\n    \"lastTo\": \"http://127.0.0.1:65001/reply\",\n    \"snapshotAt\": 1792719822938,\n    \"status\": \"done\",\n    \"suppressErrorNotice\": false,\n    \"startedAt\": 1792719756570,\n    \"endedAt\": 1792719772240,\n    \"runtimeMs\": 15670,\n    \"totalTokens\": 2897,\n    \"totalTokensFresh\": true,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"3d249986-d50a-4cf1-a911-5ed8098edfb1\"\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-after-restart",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:43:43.020Z",
+      "finishedAt": "2026-10-23T01:43:45.227Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-after-restart\",\n  \"sessionId\": \"b74e48bf-cd34-46eb-8515-3b8d26a9df32\",\n  \"entry\": {\n    \"sessionId\": \"b74e48bf-cd34-46eb-8515-3b8d26a9df32\",\n    \"lifecycleRevision\": \"9f5b43dc-6620-4c3c-85f3-8c36e6c27c6b\",\n    \"updatedAt\": 1792719824631,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719824632,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "agentId": "main",
+        "message": "seed-after-restart"
+      },
+      "startedAt": "2026-10-23T01:43:45.227Z",
+      "finishedAt": "2026-10-23T01:43:47.517Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"dbec0472-f2c3-4322-af94-2d498e39d53c\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.delete",
+      "params": {
+        "key": "agent:main:delivery-reset-after-restart",
+        "agentId": "main",
+        "deleteTranscript": false
+      },
+      "startedAt": "2026-10-23T01:43:55.952Z",
+      "error": "Error: Command failed: /home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node openclaw.mjs gateway call sessions.delete --params {\"key\":\"agent:main:delivery-reset-after-restart\",\"agentId\":\"main\",\"deleteTranscript\":false} --port 65000 --timeout 120000 --json\n",
+      "stdout": "{\n  \"ok\": false,\n  \"error\": {\n    \"type\": \"gateway_request_error\",\n    \"code\": \"UNAVAILABLE\",\n    \"message\": \"Session agent:main:delivery-reset-after-restart could not safely stop before deletion: Session work is still active after the lifecycle drain for agent:main:delivery-reset-after-restart. Wait for active work to end, then retry; session storage has been preserved. Retry after active work or worker recovery finishes.\",\n    \"retryable\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "messageId": "receipt-after-restart",
+        "text": "ACCEPTED-REPLY-after-restart-ONLY",
+        "receiver": "http://127.0.0.1:65001/reply"
+      },
+      "startedAt": "2026-10-23T01:43:47.518Z",
+      "finishedAt": "2026-10-23T01:44:12.682Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.delete",
+      "params": {
+        "key": "agent:main:delivery-reset-after-restart",
+        "agentId": "main",
+        "deleteTranscript": false
+      },
+      "startedAt": "2026-10-23T01:44:12.684Z",
+      "finishedAt": "2026-10-23T01:44:14.924Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-after-restart\",\n  \"deleted\": true,\n  \"archived\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-reset-after-restart",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:44:14.924Z",
+      "finishedAt": "2026-10-23T01:44:16.442Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-reset-after-restart\",\n  \"sessionId\": \"3aafb314-ddfb-44c8-9d5a-51877e199214\",\n  \"entry\": {\n    \"sessionId\": \"3aafb314-ddfb-44c8-9d5a-51877e199214\",\n    \"lifecycleRevision\": \"cbbbf529-d583-4989-afd3-55935ecbb16b\",\n    \"updatedAt\": 1792719856357,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719856357,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:44:16.442Z",
+      "finishedAt": "2026-10-23T01:44:17.929Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-reset-after-restart\",\n  \"sessionId\": \"3aafb314-ddfb-44c8-9d5a-51877e199214\",\n  \"messages\": [],\n  \"hasMore\": false,\n  \"totalMessages\": 0,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"defaults\": {\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\",\n    \"contextTokens\": 16384,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-reset-after-restart\",\n    \"sessionModelRevision\": \"qFOK_1BA1wEVdGoutGmlvQNc0AZPblPWIu4oVC2Gh7M\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792719856357,\n    \"kind\": \"direct\",\n    \"classification\": \"custom\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"updatedAt\": 1792719856357,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"3aafb314-ddfb-44c8-9d5a-51877e199214\",\n    \"lifecycleRevision\": \"cbbbf529-d583-4989-afd3-55935ecbb16b\",\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"ollama\",\n    \"model\": \"qwen3:0.6b\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"openclaw\",\n      \"cloudPlacementSupported\": true,\n      \"cloudPlacementExecutionMode\": \"worker-turn\",\n      \"devicePlacement\": {\n        \"requiredNodeCommands\": [],\n        \"consumesWorkerSlot\": true\n      },\n      \"devicePlacementSupported\": true,\n      \"source\": \"implicit\"\n    },\n    \"contextTokens\": 16384,\n    \"snapshotAt\": 1792719857859,\n    \"totalTokensFresh\": false,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": null\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "requests": [
+    {
+      "text": "ACCEPTED-REPLY-control-ONLY",
+      "acceptedAt": "2026-10-23T01:42:52.434Z",
+      "receiptAt": "2026-10-23T01:42:52.440Z"
+    },
+    {
+      "text": "ACCEPTED-REPLY-rebind-ONLY",
+      "acceptedAt": "2026-10-23T01:43:01.055Z",
+      "receiptAt": "2026-10-23T01:43:17.632Z"
+    },
+    {
+      "text": "ACCEPTED-REPLY-after-restart-ONLY",
+      "acceptedAt": "2026-10-23T01:43:55.948Z",
+      "receiptAt": "2026-10-23T01:44:12.491Z"
+    }
+  ],
+  "stages": [
+    {
+      "label": "control",
+      "acceptedRowsBeforeMutation": [
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"3d249986-d50a-4cf1-a911-5ed8098edfb1\",\"parentId\":\"7bad76f2-2ea3-46e2-8c0d-598c67bbf7d5\",\"timestamp\":\"2026-10-23T01:42:52.076Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2897,\"output\":9,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2906,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2897,\"totalTokens\":2906}},\"timestamp\":1792719772028,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719772028,\"details\":{\"processingMs\":14477.922}}],\"__openclaw\":{\"runId\":\"3e28d80f-a931-4b2d-b78c-22856ee9b691\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 821,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ]
+    },
+    {
+      "label": "control",
+      "deleteRecreate": false,
+      "text": "ACCEPTED-REPLY-control-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-reset-control",
+        "sessionId": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+        "entry": {
+          "sessionId": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "lifecycleRevision": "3fcf3518-e89e-46c7-9a8e-f9547a75f23e",
+          "updatedAt": 1792719749269,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792719749270,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b"
+        }
+      },
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled"
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"3d249986-d50a-4cf1-a911-5ed8098edfb1\",\"parentId\":\"7bad76f2-2ea3-46e2-8c0d-598c67bbf7d5\",\"timestamp\":\"2026-10-23T01:42:52.076Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2897,\"output\":9,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2906,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2897,\"totalTokens\":2906}},\"timestamp\":1792719772028,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719772028,\"details\":{\"processingMs\":14477.922}}],\"__openclaw\":{\"runId\":\"3e28d80f-a931-4b2d-b78c-22856ee9b691\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 821,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"eb7e050c-4977-475a-ac7f-971b2920d2f3\",\"timestamp\":\"2026-10-23T01:42:29.818Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"b1f8362d-65f0-4d32-a371-f40474608e1c\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:42:31.482Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792719751482,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"6c3e9da0-ccf3-4842-8961-67d0f01406ae\",\"parentId\":\"b1f8362d-65f0-4d32-a371-f40474608e1c\",\"timestamp\":\"2026-10-23T01:42:35.689Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY\",\"timestamp\":1792719754114,\"idempotencyKey\":\"e0618580-640f-47a2-aaab-4f447cb5b396:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-reset-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"},\"modelPromptProjection\":{\"version\":1,\"text\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 813,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 3,
+          "event_json": "{\"type\":\"thinking_level_change\",\"thinkingLevel\":\"off\",\"id\":\"7e6d1431-e374-4da7-bea3-3170813b3bf0\",\"parentId\":\"6c3e9da0-ccf3-4842-8961-67d0f01406ae\",\"timestamp\":\"2026-10-23T01:42:36.458Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 187,
+          "navigation_type": null,
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 4,
+          "event_json": "{\"type\":\"custom\",\"customType\":\"model-snapshot\",\"data\":{\"timestamp\":1792719756515,\"provider\":\"ollama\",\"modelApi\":\"ollama\",\"modelId\":\"qwen3:0.6b\"},\"timestamp\":\"2026-10-23T01:42:36.517Z\",\"id\":\"73e5527d-3c0e-48ad-8801-567a1e471bde\",\"parentId\":\"7e6d1431-e374-4da7-bea3-3170813b3bf0\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 278,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 5,
+          "event_json": "{\"type\":\"custom_message\",\"customType\":\"openclaw.runtime-context\",\"content\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-control\\\"}\\n```\\n\\n## Interrupted inputs\\nnone in the latest retained-input page\\n\\n## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\",\"display\":false,\"details\":{\"source\":\"openclaw-runtime-context\",\"runtimeContextCarrier\":true,\"fragments\":[{\"kind\":\"conversation-data\",\"text\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-control\\\"}\\n```\"},{\"kind\":\"conversation-data\",\"text\":\"## Interrupted inputs\\nnone in the latest retained-input page\"},{\"kind\":\"conversation-data\",\"text\":\"## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\"}]},\"id\":\"d071fddc-6f7e-4047-975c-74444a948a8f\",\"parentId\":\"73e5527d-3c0e-48ad-8801-567a1e471bde\",\"timestamp\":\"2026-10-23T01:42:36.552Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 955,
+          "navigation_type": "custom_message",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 6,
+          "event_json": null,
+          "event_zstd_hex": "28B52FFD64FC0ADD2A003A55A40E2AE090C6396C3BE0CAEE3411ACC9B71636253F5B36EF9F492B2720CF388F8181217F14D9C469C20C33CCBCEC00D300D000F07DA35EF65B37A5A88F22CE50B415784B39F8244D18A7FE3A7D8FF08CDF6DCA8D9FA0A80BE10DC28937A41AF64FDF9A16580EC51192CBD6B21EE486D4C204B55292D972D63A7DEB8282B3E46A1E916D1E68F23413C9A3DA3C3C8C41D1C33AB048D34024107540B6C11E1089A361CFF3448FC83A401E9A8804D270481E22C97256057183120DC25E4B6BF3398B455411B6E4692DABA2B5F996954DA36551383C441C0FC7C1349806D33C1C02043854F7F44C988603794BB15814CBA250A7ADC145416139AB5A05DB13C675E12C6D656B594D39182986DB96956428DAA0B7149C5896832D27B49CB554D5EB222BE57284AFE24E8B4BA9126724D8B415DA0CDCD046D17EA7EEC709D8BE387BE3ABB8192024994578C97F3B512E79EAAF8C70661F5CE48C2D1F3F6E86B8F2DBDBA4C76C36E8F1176D65DAEB98C2054BA552A92CA652B9701680004C058917B75B2929EA5A2A8B6910B6941EC7968C973B2E0523B5968AC578517016DBC8D362E35A56437BE181CE92717B9D46A5D6B218D98FA7F7A41EBF21A51C84EE608C2E595B8ECEB69B1DBC943B25C80EA16E27489E3DFD5B9B5184D1197F9DCAEFD49F9A29DFC74283B0DF9A425FA26E835E31DDD8F41D711F37DFDD74AC4119389CE5A6E3C76E2D2BAEB4FD7819CB7DCE36C227F1251FC3D3F63CC2B7361B9C19706669D2E38ACA6A6DBEA51239A89EAE0B67B5C3FE4618EDF3E643F4E3042A9BCF76DF27AC0EFB8FA786EF556B3AE57C6B4CF94A3AA5A7ED71A7864F0FE597B7DD1C2913C413E58B94EBF4B57CAC92BE29C41AB65DF2A5C713D4EAEE4C929BF40EFCF1F779CBE91E9C89CB227CCB9D161B4F4D18A557DAF292C09966C7ED8F022F9B979691A34F50EB231FC30BAFAAA6DC321E7CD743EC837F7CB9FD96BDA5963D7ED3B81902951539A843E441239148A4614092E681D1441A11C636D184013116399A065BCE6211FD56C29AE8799A09E4F02061B006E4C078EC24C280E83E188F68D2307D9AE52CC66B59131C8D093381388F88E3684C401E8C86833179341ECB5994D396EBB8D752A9A874F5DC81816022C21F8E9593ED066ECAD3C419C9E584D0DD365F0FD190BC25746F7DD386FD4ADD65E49D26AE976FC637CBDD079B6EB451E24CC4C4112139EC4B0367AAE6C68F520AED63E0E1906850B71687B3A696DE2E70DBBC9655698C5AC57E3B41BA7FF01202F69BDFCD0E7E690F7E6A9670A6DBD46899DCF91EA1833392211FC10780B1A871114208192423C188C88CA430E92042628C52681E12A84541E61034CAC8D4CC985528D7DF9536108881AB96866EB992AC2EFF89C535C897FA3501C08EC824D629AC17251DC02F9AB4A520AC7B1AD29C49B0F3C651E1DABDA91133D72E78EE005582E916939030EA293A2F8457636AA29E327E0B637F89AE306406867301B05A1F935E3E811DA0473D830424707C91995818A6ED4FD4D5F5A24DCEC84B066F6E972F3230EF951550D86E63A422AD5F96923F73E093ED831E3FEDC03C28E29A5DA06F5B966CADE5D45637ABB499F442324203B151361CFD44A823AB9A5770AA5D96E3702D591CA38202A2D6B014F20794131037061BF0FF0ADF5120C5618502A954B6B7AA80E750BB05E2D65935F9412605C240DB7DEF20608D1BDA155E530D17A077B7414ACC8F80E8D52329DA027D2073B48CA46C6F8A40B94AB2F1A79D6EF3D509BB4612D98BD28873517E21EB4E0242990D9015474DEB80E50BB16885BF24B1C9DE97A5C9C89C4EFB18C68A4B3487501DD1C47D7F989D2C1C44EE29197C6BC57FCE0A98CE8C23B18A3C254E62DA1EC22F9EA4E5A8111E03757B55390ADF3085EC0A135255598E127BA3A725ACA8",
+          "event_utf8_bytes": 3068,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"3d249986-d50a-4cf1-a911-5ed8098edfb1\",\"parentId\":\"7bad76f2-2ea3-46e2-8c0d-598c67bbf7d5\",\"timestamp\":\"2026-10-23T01:42:52.076Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2897,\"output\":9,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2906,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2897,\"totalTokens\":2906}},\"timestamp\":1792719772028,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719772028,\"details\":{\"processingMs\":14477.922}}],\"__openclaw\":{\"runId\":\"3e28d80f-a931-4b2d-b78c-22856ee9b691\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 821,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "label": "rebind",
+      "acceptedRowsBeforeMutation": [
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"fbd2bf36-24f0-4683-84f5-d3c9cc109cfb\",\"parentId\":\"305016de-8c8b-4586-b35c-1bb1e2e6bb26\",\"timestamp\":\"2026-10-23T01:43:00.949Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-rebind-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2900,\"output\":10,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2910,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2900,\"totalTokens\":2910}},\"timestamp\":1792719780937,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719780937,\"details\":{\"processingMs\":2856.896}}],\"__openclaw\":{\"runId\":\"57693a51-14f7-4a21-9111-977f0dca1d96\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 820,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ]
+    },
+    {
+      "label": "rebind"
+    },
+    {
+      "label": "rebind",
+      "deleteRecreate": true,
+      "text": "ACCEPTED-REPLY-rebind-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-reset-rebind",
+        "sessionId": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+        "entry": {
+          "sessionId": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "lifecycleRevision": "e2817602-8ac8-4b57-9d5b-c719210e2ddc",
+          "updatedAt": 1792719774006,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792719774006,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b"
+        }
+      },
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "rejected",
+          "reason": {
+            "code": 1,
+            "killed": false,
+            "signal": null,
+            "cmd": "/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node openclaw.mjs gateway call sessions.delete --params {\"key\":\"agent:main:delivery-reset-rebind\",\"agentId\":\"main\",\"deleteTranscript\":false} --port 65000 --timeout 120000 --json",
+            "stdout": "{\n  \"ok\": false,\n  \"error\": {\n    \"type\": \"gateway_request_error\",\n    \"code\": \"UNAVAILABLE\",\n    \"message\": \"Session agent:main:delivery-reset-rebind could not safely stop before deletion: Session work is still active after the lifecycle drain for agent:main:delivery-reset-rebind. Wait for active work to end, then retry; session storage has been preserved. Retry after active work or worker recovery finishes.\",\n    \"retryable\": true\n  }\n}\n",
+            "stderr": ""
+          }
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"fbd2bf36-24f0-4683-84f5-d3c9cc109cfb\",\"parentId\":\"305016de-8c8b-4586-b35c-1bb1e2e6bb26\",\"timestamp\":\"2026-10-23T01:43:00.949Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-rebind-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2900,\"output\":10,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2910,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2900,\"totalTokens\":2910}},\"timestamp\":1792719780937,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719780937,\"details\":{\"processingMs\":2856.896}}],\"__openclaw\":{\"runId\":\"57693a51-14f7-4a21-9111-977f0dca1d96\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 820,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"eb7e050c-4977-475a-ac7f-971b2920d2f3\",\"timestamp\":\"2026-10-23T01:42:29.818Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"b1f8362d-65f0-4d32-a371-f40474608e1c\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:42:31.482Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792719751482,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"6c3e9da0-ccf3-4842-8961-67d0f01406ae\",\"parentId\":\"b1f8362d-65f0-4d32-a371-f40474608e1c\",\"timestamp\":\"2026-10-23T01:42:35.689Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY\",\"timestamp\":1792719754114,\"idempotencyKey\":\"e0618580-640f-47a2-aaab-4f447cb5b396:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-reset-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"},\"modelPromptProjection\":{\"version\":1,\"text\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 813,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 3,
+          "event_json": "{\"type\":\"thinking_level_change\",\"thinkingLevel\":\"off\",\"id\":\"7e6d1431-e374-4da7-bea3-3170813b3bf0\",\"parentId\":\"6c3e9da0-ccf3-4842-8961-67d0f01406ae\",\"timestamp\":\"2026-10-23T01:42:36.458Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 187,
+          "navigation_type": null,
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 4,
+          "event_json": "{\"type\":\"custom\",\"customType\":\"model-snapshot\",\"data\":{\"timestamp\":1792719756515,\"provider\":\"ollama\",\"modelApi\":\"ollama\",\"modelId\":\"qwen3:0.6b\"},\"timestamp\":\"2026-10-23T01:42:36.517Z\",\"id\":\"73e5527d-3c0e-48ad-8801-567a1e471bde\",\"parentId\":\"7e6d1431-e374-4da7-bea3-3170813b3bf0\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 278,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 5,
+          "event_json": "{\"type\":\"custom_message\",\"customType\":\"openclaw.runtime-context\",\"content\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-control\\\"}\\n```\\n\\n## Interrupted inputs\\nnone in the latest retained-input page\\n\\n## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\",\"display\":false,\"details\":{\"source\":\"openclaw-runtime-context\",\"runtimeContextCarrier\":true,\"fragments\":[{\"kind\":\"conversation-data\",\"text\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-control\\\"}\\n```\"},{\"kind\":\"conversation-data\",\"text\":\"## Interrupted inputs\\nnone in the latest retained-input page\"},{\"kind\":\"conversation-data\",\"text\":\"## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\"}]},\"id\":\"d071fddc-6f7e-4047-975c-74444a948a8f\",\"parentId\":\"73e5527d-3c0e-48ad-8801-567a1e471bde\",\"timestamp\":\"2026-10-23T01:42:36.552Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 955,
+          "navigation_type": "custom_message",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 6,
+          "event_json": null,
+          "event_zstd_hex": "28B52FFD64FC0ADD2A003A55A40E2AE090C6396C3BE0CAEE3411ACC9B71636253F5B36EF9F492B2720CF388F8181217F14D9C469C20C33CCBCEC00D300D000F07DA35EF65B37A5A88F22CE50B415784B39F8244D18A7FE3A7D8FF08CDF6DCA8D9FA0A80BE10DC28937A41AF64FDF9A16580EC51192CBD6B21EE486D4C204B55292D972D63A7DEB8282B3E46A1E916D1E68F23413C9A3DA3C3C8C41D1C33AB048D34024107540B6C11E1089A361CFF3448FC83A401E9A8804D270481E22C97256057183120DC25E4B6BF3398B455411B6E4692DABA2B5F996954DA36551383C441C0FC7C1349806D33C1C02043854F7F44C988603794BB15814CBA250A7ADC145416139AB5A05DB13C675E12C6D656B594D39182986DB96956428DAA0B7149C5896832D27B49CB554D5EB222BE57284AFE24E8B4BA9126724D8B415DA0CDCD046D17EA7EEC709D8BE387BE3ABB8192024994578C97F3B512E79EAAF8C70661F5CE48C2D1F3F6E86B8F2DBDBA4C76C36E8F1176D65DAEB98C2054BA552A92CA652B9701680004C058917B75B2929EA5A2A8B6910B6941EC7968C973B2E0523B5968AC578517016DBC8D362E35A56437BE181CE92717B9D46A5D6B218D98FA7F7A41EBF21A51C84EE608C2E595B8ECEB69B1DBC943B25C80EA16E27489E3DFD5B9B5184D1197F9DCAEFD49F9A29DFC74283B0DF9A425FA26E835E31DDD8F41D711F37DFDD74AC4119389CE5A6E3C76E2D2BAEB4FD7819CB7DCE36C227F1251FC3D3F63CC2B7361B9C19706669D2E38ACA6A6DBEA51239A89EAE0B67B5C3FE4618EDF3E643F4E3042A9BCF76DF27AC0EFB8FA786EF556B3AE57C6B4CF94A3AA5A7ED71A7864F0FE597B7DD1C2913C413E58B94EBF4B57CAC92BE29C41AB65DF2A5C713D4EAEE4C929BF40EFCF1F779CBE91E9C89CB227CCB9D161B4F4D18A557DAF292C09966C7ED8F022F9B979691A34F50EB231FC30BAFAAA6DC321E7CD743EC837F7CB9FD96BDA5963D7ED3B81902951539A843E441239148A4614092E681D1441A11C636D184013116399A065BCE6211FD56C29AE8799A09E4F02061B006E4C078EC24C280E83E188F68D2307D9AE52CC66B59131C8D093381388F88E3684C401E8C86833179341ECB5994D396EBB8D752A9A874F5DC81816022C21F8E9593ED066ECAD3C419C9E584D0DD365F0FD190BC25746F7DD386FD4ADD65E49D26AE976FC637CBDD079B6EB451E24CC4C4112139EC4B0367AAE6C68F520AED63E0E1906850B71687B3A696DE2E70DBBC9655698C5AC57E3B41BA7FF01202F69BDFCD0E7E690F7E6A9670A6DBD46899DCF91EA1833392211FC10780B1A871114208192423C188C88CA430E92042628C52681E12A84541E61034CAC8D4CC985528D7DF9536108881AB96866EB992AC2EFF89C535C897FA3501C08EC824D629AC17251DC02F9AB4A520AC7B1AD29C49B0F3C651E1DABDA91133D72E78EE005582E916939030EA293A2F8457636AA29E327E0B637F89AE306406867301B05A1F935E3E811DA0473D830424707C91995818A6ED4FD4D5F5A24DCEC84B066F6E972F3230EF951550D86E63A422AD5F96923F73E093ED831E3FEDC03C28E29A5DA06F5B966CADE5D45637ABB499F442324203B151361CFD44A823AB9A5770AA5D96E3702D591CA38202A2D6B014F20794131037061BF0FF0ADF5120C5618502A954B6B7AA80E750BB05E2D65935F9412605C240DB7DEF20608D1BDA155E530D17A077B7414ACC8F80E8D52329DA027D2073B48CA46C6F8A40B94AB2F1A79D6EF3D509BB4612D98BD28873517E21EB4E0242990D9015474DEB80E50BB16885BF24B1C9DE97A5C9C89C4EFB18C68A4B3487501DD1C47D7F989D2C1C44EE29197C6BC57FCE0A98CE8C23B18A3C254E62DA1EC22F9EA4E5A8111E03757B55390ADF3085EC0A135255598E127BA3A725ACA8",
+          "event_utf8_bytes": 3068,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"3d249986-d50a-4cf1-a911-5ed8098edfb1\",\"parentId\":\"7bad76f2-2ea3-46e2-8c0d-598c67bbf7d5\",\"timestamp\":\"2026-10-23T01:42:52.076Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2897,\"output\":9,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2906,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2897,\"totalTokens\":2906}},\"timestamp\":1792719772028,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719772028,\"details\":{\"processingMs\":14477.922}}],\"__openclaw\":{\"runId\":\"3e28d80f-a931-4b2d-b78c-22856ee9b691\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 821,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"f317d6c5-a157-441f-9f5c-d7794dfa5913\",\"timestamp\":\"2026-10-23T01:42:54.011Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"570e4fa3-0f41-4b05-bdf3-14555a74f848\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:42:55.478Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"timestamp\":1792719775478,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 526,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"f68f257e-c463-45e8-948a-ea60d9ea2fcf\",\"parentId\":\"570e4fa3-0f41-4b05-bdf3-14555a74f848\",\"timestamp\":\"2026-10-23T01:42:57.191Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-rebind-ONLY\",\"timestamp\":1792719777127,\"idempotencyKey\":\"563f9e6f-ec39-40da-9022-86e8b0584788:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-rebind\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-reset-rebind\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"},\"modelPromptProjection\":{\"version\":1,\"text\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-rebind-ONLY\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 809,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 3,
+          "event_json": "{\"type\":\"thinking_level_change\",\"thinkingLevel\":\"off\",\"id\":\"6274924d-b097-4662-9448-425f5479294b\",\"parentId\":\"f68f257e-c463-45e8-948a-ea60d9ea2fcf\",\"timestamp\":\"2026-10-23T01:42:57.449Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 187,
+          "navigation_type": null,
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 4,
+          "event_json": "{\"type\":\"custom\",\"customType\":\"model-snapshot\",\"data\":{\"timestamp\":1792719777470,\"provider\":\"ollama\",\"modelApi\":\"ollama\",\"modelId\":\"qwen3:0.6b\"},\"timestamp\":\"2026-10-23T01:42:57.471Z\",\"id\":\"090fc0a6-32cb-4338-a789-a15918b7902d\",\"parentId\":\"6274924d-b097-4662-9448-425f5479294b\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 278,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 5,
+          "event_json": "{\"type\":\"custom_message\",\"customType\":\"openclaw.runtime-context\",\"content\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-rebind\\\"}\\n```\\n\\n## Interrupted inputs\\nnone in the latest retained-input page\\n\\n## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\",\"display\":false,\"details\":{\"source\":\"openclaw-runtime-context\",\"runtimeContextCarrier\":true,\"fragments\":[{\"kind\":\"conversation-data\",\"text\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-rebind\\\"}\\n```\"},{\"kind\":\"conversation-data\",\"text\":\"## Interrupted inputs\\nnone in the latest retained-input page\"},{\"kind\":\"conversation-data\",\"text\":\"## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\"}]},\"id\":\"6106e14a-3059-411d-92fb-701d709cd26e\",\"parentId\":\"090fc0a6-32cb-4338-a789-a15918b7902d\",\"timestamp\":\"2026-10-23T01:42:57.484Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 953,
+          "navigation_type": "custom_message",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 6,
+          "event_json": null,
+          "event_zstd_hex": "28B52FFD64FC0ADD2A003A55A40E2AE08ED60D6C58319BCB412200C8669AAD04EC00F4E547CA8F2FB6B951D297FEDF9F03379D26CC30C3CC0BE800D500D400F0694756F9AFDDA422EBF4A08B845B81D79603ADA80963F5DA8E9F46A8CCF5DB941DB5922237046D1046E84B6CD1FA585BE3020B591E25D96C957DD05F620B95F46C49670B6D3B7E7B41015AB910C7D190487A4490C7133143221163D214E906E680401A4F839B4633CC693C0D84455134398E6E6844208EA7C1344F647A16DA4BF206211A84BF4A6BF341CB1EAE085F7AB5CA4EB4369FD2B2F1A4AC4443C4D13850B3300BB3409C468000C8FAAFA2C7C2408DD7128A955056821DB7065782C2427BB582FE09E35E40CBCF6C957DCBC168315CBFBCE422E126BDB66084B20EBE9CD242DBD6F57B112D657B847AC59E142A2543E842C1C6CF5257F84B3D4DAD5DFD3F4FC0FAC5F91DF58A5D0125E92C4295AEAF2B894AAF5E5B46D0A51F54E48C2F9F6BEC8AD852FBBB51CFD96CD27355F899F1B7630C172893C964B2CB6472012D80004B058817FB9F2D2AF22A935D1A842FA9E7F125F3F68F6DC168AD32B1CC9702B4ACA34F8A8EABEC4B7D2182D0CAD8DF8E235BABEC22FF79A53FADE7FA125B0E4AEA609C54B2D63E29EB7F7750A5EC4941A60EECBA92A4B2C7AAADCD29C249996B3B96DAD56BF52ED18E2C34085F5B634995C8DD24BD18776CAC1FB123379FBAE9DC821934D0BAE9FCB95B656353FDCF9BB9EC485947F82857E98AE1718B34426D6D36D065802E4AA39E4F4CB6B5F994C9E4E07ABC17D03685AF1DE1D491BEABC33F4FC0F25D59F7D3092F85AFCFAB874FAFD678CAA9ADB9449BE2493D6E1ABB7AF858A154E5F5BF47492579255145CA76FC5E3E678AB5B1E416DD54BA52CF2BE9D92954496FD43BA0CFB5237D39DD035D62B308F5654F8A8E6A4D1829BDF8A54A02BABC3B6FFA2450E5BBF232FAA495F41CC9E7F0825ED75BAE190F3E6575E807F5B9CAFED7ECB5D5ECB9368E5D1193ED87C3A40803610D036144931361B0A67130220FD360B0A3E907D33C165AF6F0AF1F4E143DDAE9268A1A86F43422C6A3E17130A206A981D1ECD1300FD3586899AFB2131ACCB3401EC871400D13D170184CC378388CB3D05A8E5FB6F35F653231F92BD20606828808EA342D27EB0CDED8AB085D1E95134AEAFA5D591D98475F42A7CFDAF8E1EBC54E65F4AE229455BE19F55D763FD8B8A78E10BA3C3C9A8747E1AB34A0CBF5DE3C628BA58E0C38CD63C16E9506DAEAA9D70B5CBFAFB217C7C857FCD795C4AD0FAA7480AFEFFAEF0EAAD21ED4EA5D822EDF264FCD64CFA7113AD04532A44E500380B1A871114208192423C188C88CA430E92042628C52681E12A84541E61034CAC8D4CC985528D7DF9536108881AB96866EB992AC2EFF89C535C897FA3501C08EC824D629AC17251DC02F9AB4A520AC7B1AD29C49B0F3C651E1DABDA91133D72E78EE005582E916939030EA293A2F8457636AA29E327E0B637F89AE306406867301B05A1F935E3E811DA0473D830424707C91995818A6ED4FD4D5F5A24DCEC84B066F6E972F3230EF951550D86E63A422AD5F96923F73E093ED831E3FEDC03C28E29A5DA06F5B966CADE5D45637ABB499F442324203B151361CFD44A823AB9A5770AA5D96E3702D591CA38202A2D6B014F20794131037061BF0FF0ADF5120C5618502A954B6B7AA80E750BB05E2D65935F9412605C240DB7DEF20608D1BDA155E530D17A077B7414ACC8F80E8D52329DA027D2073B48CA46C6F8A40B94AB2F1A79D6EF3D509BB4612D98BD28873517E21EB4E0242990D9015474DEB80E50BB16885BF24B1C9DE97A5C9C89C4EFB18C68A4B3487501DD1C47D7F989D2C1C44EE29197C6BC57FCE0A98CE8C23B18A3C254E62DA1EC22F9EA4E5A8111E03757B55390ADF3085EC0A135255598E127BA37EFE322D",
+          "event_utf8_bytes": 3068,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"fbd2bf36-24f0-4683-84f5-d3c9cc109cfb\",\"parentId\":\"305016de-8c8b-4586-b35c-1bb1e2e6bb26\",\"timestamp\":\"2026-10-23T01:43:00.949Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-rebind-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2900,\"output\":10,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2910,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2900,\"totalTokens\":2910}},\"timestamp\":1792719780937,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719780937,\"details\":{\"processingMs\":2856.896}}],\"__openclaw\":{\"runId\":\"57693a51-14f7-4a21-9111-977f0dca1d96\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 820,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "passed": true,
+      "deletionRefusal": {
+        "type": "gateway_request_error",
+        "code": "UNAVAILABLE",
+        "message": "Session agent:main:delivery-reset-rebind could not safely stop before deletion: Session work is still active after the lifecycle drain for agent:main:delivery-reset-rebind. Wait for active work to end, then retry; session storage has been preserved. Retry after active work or worker recovery finishes.",
+        "retryable": true
+      },
+      "retryDelete": {
+        "ok": true,
+        "key": "agent:main:delivery-reset-rebind",
+        "deleted": true,
+        "archived": []
+      },
+      "recreated": {
+        "ok": true,
+        "key": "agent:main:delivery-reset-rebind",
+        "sessionId": "bd39b6e4-0064-4792-aa3c-8a6cde8eeac6",
+        "entry": {
+          "sessionId": "bd39b6e4-0064-4792-aa3c-8a6cde8eeac6",
+          "lifecycleRevision": "87df67f2-d4bd-4743-b2a7-ec7dfb2356b4",
+          "updatedAt": 1792719801562,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792719801562,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b"
+        }
+      },
+      "historyAfterReset": {
+        "sessionKey": "agent:main:delivery-reset-rebind",
+        "sessionId": "bd39b6e4-0064-4792-aa3c-8a6cde8eeac6",
+        "messages": [],
+        "hasMore": false,
+        "totalMessages": 0,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "defaults": {
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b",
+          "contextTokens": 16384,
+          "agentRuntime": {
+            "id": "auto",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "thinkingDefault": "off",
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-reset-rebind",
+          "sessionModelRevision": "bnXvKies9HrviEVRoVq11A6nRhIRPngoo5jobGC1lDA",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792719801562,
+          "kind": "direct",
+          "classification": "custom",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "updatedAt": 1792719801562,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": false,
+          "sessionId": "bd39b6e4-0064-4792-aa3c-8a6cde8eeac6",
+          "lifecycleRevision": "87df67f2-d4bd-4743-b2a7-ec7dfb2356b4",
+          "thinkingDefault": "off",
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "openclaw",
+            "cloudPlacementSupported": true,
+            "cloudPlacementExecutionMode": "worker-turn",
+            "devicePlacement": {
+              "requiredNodeCommands": [],
+              "consumesWorkerSlot": true
+            },
+            "devicePlacementSupported": true,
+            "source": "implicit"
+          },
+          "contextTokens": 16384,
+          "snapshotAt": 1792719803049,
+          "totalTokensFresh": false,
+          "activitySummary": {
+            "state": "unavailable",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": null
+        },
+        "thinkingLevel": "off"
+      }
+    },
+    {
+      "label": "after-restart",
+      "acceptedRowsBeforeMutation": [
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"123c3d3c-ccec-4349-9af4-f78f69d6ed0c\",\"parentId\":\"87eecbe2-569a-49e8-b90c-32e8488b8db9\",\"timestamp\":\"2026-10-23T01:43:55.671Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-after-restart-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2903,\"output\":11,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2914,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2903,\"totalTokens\":2914}},\"timestamp\":1792719835625,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719835625,\"details\":{\"processingMs\":3214.303}}],\"__openclaw\":{\"runId\":\"d6cced9b-39df-405a-bdbc-e3739a6f3e1d\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 827,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ]
+    },
+    {
+      "label": "after-restart"
+    },
+    {
+      "label": "after-restart",
+      "deleteRecreate": true,
+      "text": "ACCEPTED-REPLY-after-restart-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-reset-after-restart",
+        "sessionId": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+        "entry": {
+          "sessionId": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "lifecycleRevision": "9f5b43dc-6620-4c3c-85f3-8c36e6c27c6b",
+          "updatedAt": 1792719824631,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792719824632,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b"
+        }
+      },
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "rejected",
+          "reason": {
+            "code": 1,
+            "killed": false,
+            "signal": null,
+            "cmd": "/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node openclaw.mjs gateway call sessions.delete --params {\"key\":\"agent:main:delivery-reset-after-restart\",\"agentId\":\"main\",\"deleteTranscript\":false} --port 65000 --timeout 120000 --json",
+            "stdout": "{\n  \"ok\": false,\n  \"error\": {\n    \"type\": \"gateway_request_error\",\n    \"code\": \"UNAVAILABLE\",\n    \"message\": \"Session agent:main:delivery-reset-after-restart could not safely stop before deletion: Session work is still active after the lifecycle drain for agent:main:delivery-reset-after-restart. Wait for active work to end, then retry; session storage has been preserved. Retry after active work or worker recovery finishes.\",\n    \"retryable\": true\n  }\n}\n",
+            "stderr": ""
+          }
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"123c3d3c-ccec-4349-9af4-f78f69d6ed0c\",\"parentId\":\"87eecbe2-569a-49e8-b90c-32e8488b8db9\",\"timestamp\":\"2026-10-23T01:43:55.671Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-after-restart-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2903,\"output\":11,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2914,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2903,\"totalTokens\":2914}},\"timestamp\":1792719835625,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719835625,\"details\":{\"processingMs\":3214.303}}],\"__openclaw\":{\"runId\":\"d6cced9b-39df-405a-bdbc-e3739a6f3e1d\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 827,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b74e48bf-cd34-46eb-8515-3b8d26a9df32\",\"timestamp\":\"2026-10-23T01:43:45.111Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"dbec0472-f2c3-4322-af94-2d498e39d53c\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:43:46.623Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"timestamp\":1792719826623,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 540,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"827848d7-90b0-417f-8288-30b1af8fd59f\",\"parentId\":\"dbec0472-f2c3-4322-af94-2d498e39d53c\",\"timestamp\":\"2026-10-23T01:43:50.798Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-after-restart-ONLY\",\"timestamp\":1792719829287,\"idempotencyKey\":\"bf22e3a3-cf16-4eda-98d5-301ccc0478b7:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-after-restart\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-reset-after-restart\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"},\"modelPromptProjection\":{\"version\":1,\"text\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-after-restart-ONLY\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 837,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 3,
+          "event_json": "{\"type\":\"thinking_level_change\",\"thinkingLevel\":\"off\",\"id\":\"c174eda7-08f6-4e11-8119-bd3b122b6dd1\",\"parentId\":\"827848d7-90b0-417f-8288-30b1af8fd59f\",\"timestamp\":\"2026-10-23T01:43:51.409Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 187,
+          "navigation_type": null,
+          "message_role": null
+        },
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 4,
+          "event_json": "{\"type\":\"custom\",\"customType\":\"model-snapshot\",\"data\":{\"timestamp\":1792719831466,\"provider\":\"ollama\",\"modelApi\":\"ollama\",\"modelId\":\"qwen3:0.6b\"},\"timestamp\":\"2026-10-23T01:43:51.468Z\",\"id\":\"5fc23970-c4e8-42d0-ade0-069475bb3d73\",\"parentId\":\"c174eda7-08f6-4e11-8119-bd3b122b6dd1\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 278,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 5,
+          "event_json": "{\"type\":\"custom_message\",\"customType\":\"openclaw.runtime-context\",\"content\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-after-restart\\\"}\\n```\\n\\n## Interrupted inputs\\nnone in the latest retained-input page\\n\\n## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\",\"display\":false,\"details\":{\"source\":\"openclaw-runtime-context\",\"runtimeContextCarrier\":true,\"fragments\":[{\"kind\":\"conversation-data\",\"text\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-after-restart\\\"}\\n```\"},{\"kind\":\"conversation-data\",\"text\":\"## Interrupted inputs\\nnone in the latest retained-input page\"},{\"kind\":\"conversation-data\",\"text\":\"## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\"}]},\"id\":\"8018fd38-cb24-4d03-8c75-8b08d95509ee\",\"parentId\":\"5fc23970-c4e8-42d0-ade0-069475bb3d73\",\"timestamp\":\"2026-10-23T01:43:51.505Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 967,
+          "navigation_type": "custom_message",
+          "message_role": null
+        },
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 6,
+          "event_json": null,
+          "event_zstd_hex": "28B52FFD64FC0AD52A00EA54980E2BF08EC6390C6CC15AB8DC44504BDA5EB6D524D0A2C2382070B510F7E7B1D08F8884D495FB6DC033F00C8410EC00D300D000F02BF5B3E13E6B927AE9E10C455D01B8958353931525D5DFA7F032BEF1DB5973E5A948EA42B88B31E21DA9C51EEA9DD302ECA95846731B5B188CDC915AA0A2D66A72630FDBA7905D5078D8649247642550D400491A1A485532815A8BA4C93A2D2291401A883A20DB680F48E390340882A447641DC8441269200D4733911AF6B02B6217215C8CCD16E72CF8B0F670C9D89329B6B009E72CB8EC742A2D4CC299441C8FC7C1349806237938040878AA6E0A6A601A0F042E8582492C4C429F3A17990405F6B06B156C5B51B28B87696B630BEBEA455931DEF6BC26435117C1AD62C4C25EEC6945EC615B5DCD2E027359C65F722D8ACFA91067A6E8B435DA0AEE682569BF5437E4046DA1B47AE52FB915319ADC64FCE4C3A5289F4CF5774638B3302ED3923D215F6E85DCF9ED7513E466B908F2176D6DDAFB9AC6054BA552A930A652B9781880004C050828B75BAB492A5B2A8C7131F69C20CB9E8D975B6E1565C59609D6985178585BC916C54AB6B08EF602141F36E5F63E955AB18531B321536FAB82FC8EB47A31FA8B52FA6C6E597ADB6E7EF173AE35C576077D4B45F30DEAEF9C25C928BDF1F7E9FC527DAA99F2852CB818FBCE69F445EABAE857D3954EDF31CF827FD6630B65E078D8B31E437E6C6172A76DC8DB782EF4B632C2893FF918A03AE832DE39ABC19901671637419EA830E72CB8542407175476F130F7D85F19A585DE7C87869C4067F3DB2EBC15AFC73E64AA23FCE59C5AD3BA734CF94E6A4D50DDE5521DA13ECE2F70BB5952A88829CA9739F729EC095927BDD3882DD67DF227C854D4FAFE5093DD040F1CF2177A4FEB3D3823B7C9F89E6B51AC7C654539FDD29E9F04CE343F768794F8D9BCF4942C9D8A5AA109395EF87575F5960123BCDE61613CE4CF6DB80D6EB50DF29DCAADD81915B63B6934CDA4390DC8613492C861401A2DC2883CA088E1409AE4381A0F0D77023507729C88B30F08236A4C2086B3930843270D0DE3B150B42B71D8C31AB3854D709A8671340F24F2381A119007A3E160343C1A0FF6B0EA69CF7DDC6CA94C54FA82EE30104444F8C3B1D36A9B819D321571A6F9B462F4B7CDD73B349AF78CEFAD77DAB17FE9FB94BC54C4F5135AF2CD731746A72BAD8438F3D0E078681EFBD3C099ABD931A495460B1978381A0B7D6C713C8CEA09EE82B7CD6C61974AA9976CB854A47B183F1D62BFF9DDFCE21707E3A9660967DA592A6D9B6BC1CBE8E0CC64CC4BF172A180B2A8A11142081192916044449314241D2042628852971E12085641E6102425323512B30AE5FA1B95309536522015EF238D375C6BD9425E198B96C96FF86B62C08EB5496C530046941900AD6865A5E4EB7E5FD28C246A7813A620EE3E862396E02E2ABAA3AB86E9DD929004D40177CA085543D5D49D9AF8FDC34E55F4CA700C9C73B1B5FA12335ABE940EC2839F1922091E6034138541477F3EB5A05ED88435795B8A37E9E43D4C7C77AB09196BEED4548275B4A5C460CE2DB22D879EA89D420CDA5C7B29CE6DAFBDAD359CDA8AB50AE34A2F3811AA0AE263B380CF49D95155C182D3F1328FC3B1648C189D82C8AD9130A40E281F10377811B0F2EAF5D1237DB1C685BCCAA653F58E399C5B4FD87AAF86BBC8C415C6B53DF80E816BD0A87D96B4E97091F1AE00E9127F64A0AE7C48C1176817083D96A7EE2DA7082317516FBCB7B35BBACAB86BD7932D2AD53037F2035D27872194D718594514611D4EBE0BEB63D88144B46C01D92946B2EC24633B56FA43BB86D2428377EFCA6CB8E1A0678F87C10156C8CF7233D279C0487970E62B9C84B43DCC2F2648A6A69878BCC9ED95EA2852C314B1EB959042657192D87B066A8F9778",
+          "event_utf8_bytes": 3068,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "b74e48bf-cd34-46eb-8515-3b8d26a9df32",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"123c3d3c-ccec-4349-9af4-f78f69d6ed0c\",\"parentId\":\"87eecbe2-569a-49e8-b90c-32e8488b8db9\",\"timestamp\":\"2026-10-23T01:43:55.671Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-after-restart-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2903,\"output\":11,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2914,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2903,\"totalTokens\":2914}},\"timestamp\":1792719835625,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719835625,\"details\":{\"processingMs\":3214.303}}],\"__openclaw\":{\"runId\":\"d6cced9b-39df-405a-bdbc-e3739a6f3e1d\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 827,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "bd39b6e4-0064-4792-aa3c-8a6cde8eeac6",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"bd39b6e4-0064-4792-aa3c-8a6cde8eeac6\",\"timestamp\":\"2026-10-23T01:43:21.567Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"eb7e050c-4977-475a-ac7f-971b2920d2f3\",\"timestamp\":\"2026-10-23T01:42:29.818Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"b1f8362d-65f0-4d32-a371-f40474608e1c\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:42:31.482Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792719751482,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"6c3e9da0-ccf3-4842-8961-67d0f01406ae\",\"parentId\":\"b1f8362d-65f0-4d32-a371-f40474608e1c\",\"timestamp\":\"2026-10-23T01:42:35.689Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY\",\"timestamp\":1792719754114,\"idempotencyKey\":\"e0618580-640f-47a2-aaab-4f447cb5b396:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-reset-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"},\"modelPromptProjection\":{\"version\":1,\"text\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 813,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 3,
+          "event_json": "{\"type\":\"thinking_level_change\",\"thinkingLevel\":\"off\",\"id\":\"7e6d1431-e374-4da7-bea3-3170813b3bf0\",\"parentId\":\"6c3e9da0-ccf3-4842-8961-67d0f01406ae\",\"timestamp\":\"2026-10-23T01:42:36.458Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 187,
+          "navigation_type": null,
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 4,
+          "event_json": "{\"type\":\"custom\",\"customType\":\"model-snapshot\",\"data\":{\"timestamp\":1792719756515,\"provider\":\"ollama\",\"modelApi\":\"ollama\",\"modelId\":\"qwen3:0.6b\"},\"timestamp\":\"2026-10-23T01:42:36.517Z\",\"id\":\"73e5527d-3c0e-48ad-8801-567a1e471bde\",\"parentId\":\"7e6d1431-e374-4da7-bea3-3170813b3bf0\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 278,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 5,
+          "event_json": "{\"type\":\"custom_message\",\"customType\":\"openclaw.runtime-context\",\"content\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-control\\\"}\\n```\\n\\n## Interrupted inputs\\nnone in the latest retained-input page\\n\\n## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\",\"display\":false,\"details\":{\"source\":\"openclaw-runtime-context\",\"runtimeContextCarrier\":true,\"fragments\":[{\"kind\":\"conversation-data\",\"text\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-control\\\"}\\n```\"},{\"kind\":\"conversation-data\",\"text\":\"## Interrupted inputs\\nnone in the latest retained-input page\"},{\"kind\":\"conversation-data\",\"text\":\"## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\"}]},\"id\":\"d071fddc-6f7e-4047-975c-74444a948a8f\",\"parentId\":\"73e5527d-3c0e-48ad-8801-567a1e471bde\",\"timestamp\":\"2026-10-23T01:42:36.552Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 955,
+          "navigation_type": "custom_message",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 6,
+          "event_json": null,
+          "event_zstd_hex": "28B52FFD64FC0ADD2A003A55A40E2AE090C6396C3BE0CAEE3411ACC9B71636253F5B36EF9F492B2720CF388F8181217F14D9C469C20C33CCBCEC00D300D000F07DA35EF65B37A5A88F22CE50B415784B39F8244D18A7FE3A7D8FF08CDF6DCA8D9FA0A80BE10DC28937A41AF64FDF9A16580EC51192CBD6B21EE486D4C204B55292D972D63A7DEB8282B3E46A1E916D1E68F23413C9A3DA3C3C8C41D1C33AB048D34024107540B6C11E1089A361CFF3448FC83A401E9A8804D270481E22C97256057183120DC25E4B6BF3398B455411B6E4692DABA2B5F996954DA36551383C441C0FC7C1349806D33C1C02043854F7F44C988603794BB15814CBA250A7ADC145416139AB5A05DB13C675E12C6D656B594D39182986DB96956428DAA0B7149C5896832D27B49CB554D5EB222BE57284AFE24E8B4BA9126724D8B415DA0CDCD046D17EA7EEC709D8BE387BE3ABB8192024994578C97F3B512E79EAAF8C70661F5CE48C2D1F3F6E86B8F2DBDBA4C76C36E8F1176D65DAEB98C2054BA552A92CA652B9701680004C058917B75B2929EA5A2A8B6910B6941EC7968C973B2E0523B5968AC578517016DBC8D362E35A56437BE181CE92717B9D46A5D6B218D98FA7F7A41EBF21A51C84EE608C2E595B8ECEB69B1DBC943B25C80EA16E27489E3DFD5B9B5184D1197F9DCAEFD49F9A29DFC74283B0DF9A425FA26E835E31DDD8F41D711F37DFDD74AC4119389CE5A6E3C76E2D2BAEB4FD7819CB7DCE36C227F1251FC3D3F63CC2B7361B9C19706669D2E38ACA6A6DBEA51239A89EAE0B67B5C3FE4618EDF3E643F4E3042A9BCF76DF27AC0EFB8FA786EF556B3AE57C6B4CF94A3AA5A7ED71A7864F0FE597B7DD1C2913C413E58B94EBF4B57CAC92BE29C41AB65DF2A5C713D4EAEE4C929BF40EFCF1F779CBE91E9C89CB227CCB9D161B4F4D18A557DAF292C09966C7ED8F022F9B979691A34F50EB231FC30BAFAAA6DC321E7CD743EC837F7CB9FD96BDA5963D7ED3B81902951539A843E441239148A4614092E681D1441A11C636D184013116399A065BCE6211FD56C29AE8799A09E4F02061B006E4C078EC24C280E83E188F68D2307D9AE52CC66B59131C8D093381388F88E3684C401E8C86833179341ECB5994D396EBB8D752A9A874F5DC81816022C21F8E9593ED066ECAD3C419C9E584D0DD365F0FD190BC25746F7DD386FD4ADD65E49D26AE976FC637CBDD079B6EB451E24CC4C4112139EC4B0367AAE6C68F520AED63E0E1906850B71687B3A696DE2E70DBBC9655698C5AC57E3B41BA7FF01202F69BDFCD0E7E690F7E6A9670A6DBD46899DCF91EA1833392211FC10780B1A871114208192423C188C88CA430E92042628C52681E12A84541E61034CAC8D4CC985528D7DF9536108881AB96866EB992AC2EFF89C535C897FA3501C08EC824D629AC17251DC02F9AB4A520AC7B1AD29C49B0F3C651E1DABDA91133D72E78EE005582E916939030EA293A2F8457636AA29E327E0B637F89AE306406867301B05A1F935E3E811DA0473D830424707C91995818A6ED4FD4D5F5A24DCEC84B066F6E972F3230EF951550D86E63A422AD5F96923F73E093ED831E3FEDC03C28E29A5DA06F5B966CADE5D45637ABB499F442324203B151361CFD44A823AB9A5770AA5D96E3702D591CA38202A2D6B014F20794131037061BF0FF0ADF5120C5618502A954B6B7AA80E750BB05E2D65935F9412605C240DB7DEF20608D1BDA155E530D17A077B7414ACC8F80E8D52329DA027D2073B48CA46C6F8A40B94AB2F1A79D6EF3D509BB4612D98BD28873517E21EB4E0242990D9015474DEB80E50BB16885BF24B1C9DE97A5C9C89C4EFB18C68A4B3487501DD1C47D7F989D2C1C44EE29197C6BC57FCE0A98CE8C23B18A3C254E62DA1EC22F9EA4E5A8111E03757B55390ADF3085EC0A135255598E127BA3A725ACA8",
+          "event_utf8_bytes": 3068,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"3d249986-d50a-4cf1-a911-5ed8098edfb1\",\"parentId\":\"7bad76f2-2ea3-46e2-8c0d-598c67bbf7d5\",\"timestamp\":\"2026-10-23T01:42:52.076Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2897,\"output\":9,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2906,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2897,\"totalTokens\":2906}},\"timestamp\":1792719772028,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719772028,\"details\":{\"processingMs\":14477.922}}],\"__openclaw\":{\"runId\":\"3e28d80f-a931-4b2d-b78c-22856ee9b691\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 821,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"f317d6c5-a157-441f-9f5c-d7794dfa5913\",\"timestamp\":\"2026-10-23T01:42:54.011Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"570e4fa3-0f41-4b05-bdf3-14555a74f848\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:42:55.478Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"timestamp\":1792719775478,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 526,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"f68f257e-c463-45e8-948a-ea60d9ea2fcf\",\"parentId\":\"570e4fa3-0f41-4b05-bdf3-14555a74f848\",\"timestamp\":\"2026-10-23T01:42:57.191Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-rebind-ONLY\",\"timestamp\":1792719777127,\"idempotencyKey\":\"563f9e6f-ec39-40da-9022-86e8b0584788:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-rebind\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-reset-rebind\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"},\"modelPromptProjection\":{\"version\":1,\"text\":\"Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-rebind-ONLY\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 809,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 3,
+          "event_json": "{\"type\":\"thinking_level_change\",\"thinkingLevel\":\"off\",\"id\":\"6274924d-b097-4662-9448-425f5479294b\",\"parentId\":\"f68f257e-c463-45e8-948a-ea60d9ea2fcf\",\"timestamp\":\"2026-10-23T01:42:57.449Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 187,
+          "navigation_type": null,
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 4,
+          "event_json": "{\"type\":\"custom\",\"customType\":\"model-snapshot\",\"data\":{\"timestamp\":1792719777470,\"provider\":\"ollama\",\"modelApi\":\"ollama\",\"modelId\":\"qwen3:0.6b\"},\"timestamp\":\"2026-10-23T01:42:57.471Z\",\"id\":\"090fc0a6-32cb-4338-a789-a15918b7902d\",\"parentId\":\"6274924d-b097-4662-9448-425f5479294b\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 278,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 5,
+          "event_json": "{\"type\":\"custom_message\",\"customType\":\"openclaw.runtime-context\",\"content\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-rebind\\\"}\\n```\\n\\n## Interrupted inputs\\nnone in the latest retained-input page\\n\\n## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\",\"display\":false,\"details\":{\"source\":\"openclaw-runtime-context\",\"runtimeContextCarrier\":true,\"fragments\":[{\"kind\":\"conversation-data\",\"text\":\"Conversation info: ⟦openclaw:ctx⟧\\n```json\\n{\\\"chat_id\\\":\\\"http://127.0.0.1:65001/reply\\\",\\\"message_id\\\":\\\"receipt-rebind\\\"}\\n```\"},{\"kind\":\"conversation-data\",\"text\":\"## Interrupted inputs\\nnone in the latest retained-input page\"},{\"kind\":\"conversation-data\",\"text\":\"## Temporal Context\\nCurrent date: 2026-10-23\\nTime zone: UTC\"}]},\"id\":\"6106e14a-3059-411d-92fb-701d709cd26e\",\"parentId\":\"090fc0a6-32cb-4338-a789-a15918b7902d\",\"timestamp\":\"2026-10-23T01:42:57.484Z\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 953,
+          "navigation_type": "custom_message",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 6,
+          "event_json": null,
+          "event_zstd_hex": "28B52FFD64FC0ADD2A003A55A40E2AE08ED60D6C58319BCB412200C8669AAD04EC00F4E547CA8F2FB6B951D297FEDF9F03379D26CC30C3CC0BE800D500D400F0694756F9AFDDA422EBF4A08B845B81D79603ADA80963F5DA8E9F46A8CCF5DB941DB5922237046D1046E84B6CD1FA585BE3020B591E25D96C957DD05F620B95F46C49670B6D3B7E7B41015AB910C7D190487A4490C7133143221163D214E906E680401A4F839B4633CC693C0D84455134398E6E6844208EA7C1344F647A16DA4BF206211A84BF4A6BF341CB1EAE085F7AB5CA4EB4369FD2B2F1A4AC4443C4D13850B3300BB3409C468000C8FAAFA2C7C2408DD7128A955056821DB7065782C2427BB582FE09E35E40CBCF6C957DCBC168315CBFBCE422E126BDB66084B20EBE9CD242DBD6F57B112D657B847AC59E142A2543E842C1C6CF5257F84B3D4DAD5DFD3F4FC0FAC5F91DF58A5D0125E92C4295AEAF2B894AAF5E5B46D0A51F54E48C2F9F6BEC8AD852FBBB51CFD96CD27355F899F1B7630C172893C964B2CB6472012D80004B058817FB9F2D2AF22A935D1A842FA9E7F125F3F68F6DC168AD32B1CC9702B4ACA34F8A8EABEC4B7D2182D0CAD8DF8E235BABEC22FF79A53FADE7FA125B0E4AEA609C54B2D63E29EB7F7750A5EC4941A60EECBA92A4B2C7AAADCD29C249996B3B96DAD56BF52ED18E2C34085F5B634995C8DD24BD18776CAC1FB123379FBAE9DC821934D0BAE9FCB95B656353FDCF9BB9EC485947F82857E98AE1718B34426D6D36D065802E4AA39E4F4CB6B5F994C9E4E07ABC17D03685AF1DE1D491BEABC33F4FC0F25D59F7D3092F85AFCFAB874FAFD678CAA9ADB9449BE2493D6E1ABB7AF858A154E5F5BF47492579255145CA76FC5E3E678AB5B1E416DD54BA52CF2BE9D92954496FD43BA0CFB5237D39DD035D62B308F5654F8A8E6A4D1829BDF8A54A02BABC3B6FFA2450E5BBF232FAA495F41CC9E7F0825ED75BAE190F3E6575E807F5B9CAFED7ECB5D5ECB9368E5D1193ED87C3A40803610D036144931361B0A67130220FD360B0A3E907D33C165AF6F0AF1F4E143DDAE9268A1A86F43422C6A3E17130A206A981D1ECD1300FD3586899AFB2131ACCB3401EC871400D13D170184CC378388CB3D05A8E5FB6F35F653231F92BD20606828808EA342D27EB0CDED8AB085D1E95134AEAFA5D591D98475F42A7CFDAF8E1EBC54E65F4AE229455BE19F55D763FD8B8A78E10BA3C3C9A8747E1AB34A0CBF5DE3C628BA58E0C38CD63C16E9506DAEAA9D70B5CBFAFB217C7C857FCD795C4AD0FAA7480AFEFFAEF0EAAD21ED4EA5D822EDF264FCD64CFA7113AD04532A44E500380B1A871114208192423C188C88CA430E92042628C52681E12A84541E61034CAC8D4CC985528D7DF9536108881AB96866EB992AC2EFF89C535C897FA3501C08EC824D629AC17251DC02F9AB4A520AC7B1AD29C49B0F3C651E1DABDA91133D72E78EE005582E916939030EA293A2F8457636AA29E327E0B637F89AE306406867301B05A1F935E3E811DA0473D830424707C91995818A6ED4FD4D5F5A24DCEC84B066F6E972F3230EF951550D86E63A422AD5F96923F73E093ED831E3FEDC03C28E29A5DA06F5B966CADE5D45637ABB499F442324203B151361CFD44A823AB9A5770AA5D96E3702D591CA38202A2D6B014F20794131037061BF0FF0ADF5120C5618502A954B6B7AA80E750BB05E2D65935F9412605C240DB7DEF20608D1BDA155E530D17A077B7414ACC8F80E8D52329DA027D2073B48CA46C6F8A40B94AB2F1A79D6EF3D509BB4612D98BD28873517E21EB4E0242990D9015474DEB80E50BB16885BF24B1C9DE97A5C9C89C4EFB18C68A4B3487501DD1C47D7F989D2C1C44EE29197C6BC57FCE0A98CE8C23B18A3C254E62DA1EC22F9EA4E5A8111E03757B55390ADF3085EC0A135255598E127BA37EFE322D",
+          "event_utf8_bytes": 3068,
+          "navigation_type": "custom",
+          "message_role": null
+        },
+        {
+          "session_id": "f317d6c5-a157-441f-9f5c-d7794dfa5913",
+          "seq": 7,
+          "event_json": "{\"type\":\"message\",\"id\":\"fbd2bf36-24f0-4683-84f5-d3c9cc109cfb\",\"parentId\":\"305016de-8c8b-4586-b35c-1bb1e2e6bb26\",\"timestamp\":\"2026-10-23T01:43:00.949Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"ACCEPTED-REPLY-rebind-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"ollama\",\"provider\":\"ollama\",\"model\":\"qwen3:0.6b\",\"usage\":{\"input\":2900,\"output\":10,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":2910,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0},\"cacheTelemetry\":{\"state\":\"unavailable\"},\"usageReport\":{\"state\":\"available\"},\"contextUsage\":{\"state\":\"available\",\"promptTokens\":2900,\"totalTokens\":2910}},\"timestamp\":1792719780937,\"diagnostics\":[{\"type\":\"provider_timing\",\"timestamp\":1792719780937,\"details\":{\"processingMs\":2856.896}}],\"__openclaw\":{\"runId\":\"57693a51-14f7-4a21-9111-977f0dca1d96\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 820,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "passed": true,
+      "deletionRefusal": {
+        "type": "gateway_request_error",
+        "code": "UNAVAILABLE",
+        "message": "Session agent:main:delivery-reset-after-restart could not safely stop before deletion: Session work is still active after the lifecycle drain for agent:main:delivery-reset-after-restart. Wait for active work to end, then retry; session storage has been preserved. Retry after active work or worker recovery finishes.",
+        "retryable": true
+      },
+      "retryDelete": {
+        "ok": true,
+        "key": "agent:main:delivery-reset-after-restart",
+        "deleted": true,
+        "archived": []
+      },
+      "recreated": {
+        "ok": true,
+        "key": "agent:main:delivery-reset-after-restart",
+        "sessionId": "3aafb314-ddfb-44c8-9d5a-51877e199214",
+        "entry": {
+          "sessionId": "3aafb314-ddfb-44c8-9d5a-51877e199214",
+          "lifecycleRevision": "cbbbf529-d583-4989-afd3-55935ecbb16b",
+          "updatedAt": 1792719856357,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-origin-rebind-candidate-v2/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792719856357,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b"
+        }
+      },
+      "historyAfterReset": {
+        "sessionKey": "agent:main:delivery-reset-after-restart",
+        "sessionId": "3aafb314-ddfb-44c8-9d5a-51877e199214",
+        "messages": [],
+        "hasMore": false,
+        "totalMessages": 0,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "defaults": {
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b",
+          "contextTokens": 16384,
+          "agentRuntime": {
+            "id": "auto",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "thinkingDefault": "off",
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-reset-after-restart",
+          "sessionModelRevision": "qFOK_1BA1wEVdGoutGmlvQNc0AZPblPWIu4oVC2Gh7M",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792719856357,
+          "kind": "direct",
+          "classification": "custom",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "updatedAt": 1792719856357,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": false,
+          "sessionId": "3aafb314-ddfb-44c8-9d5a-51877e199214",
+          "lifecycleRevision": "cbbbf529-d583-4989-afd3-55935ecbb16b",
+          "thinkingDefault": "off",
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "ollama",
+          "model": "qwen3:0.6b",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "openclaw",
+            "cloudPlacementSupported": true,
+            "cloudPlacementExecutionMode": "worker-turn",
+            "devicePlacement": {
+              "requiredNodeCommands": [],
+              "consumesWorkerSlot": true
+            },
+            "devicePlacementSupported": true,
+            "source": "implicit"
+          },
+          "contextTokens": 16384,
+          "snapshotAt": 1792719857859,
+          "totalTokensFresh": false,
+          "activitySummary": {
+            "state": "unavailable",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": null
+        },
+        "thinkingLevel": "off"
+      }
+    }
+  ],
+  "passed": true,
+  "firstExit": {
+    "code": 0,
+    "signal": null
+  },
+  "controlHistory": {
+    "sessionKey": "agent:main:delivery-reset-control",
+    "sessionId": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "seed-control"
+          }
+        ],
+        "timestamp": 1792719751482,
+        "stopReason": "stop",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "totalTokens": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "api": "openai-responses",
+        "provider": "openclaw",
+        "model": "gateway-injected",
+        "__openclaw": {
+          "id": "b1f8362d-65f0-4d32-a371-f40474608e1c",
+          "recordTimestampMs": 1792719751482,
+          "transcriptPosition": {
+            "source": "mcZGxeLPVno9P7oa89mJ03QTp6wdwVaFcvaGUkMuQwI",
+            "rawSeq": 1
+          },
+          "seq": 1
+        }
+      },
+      {
+        "role": "user",
+        "content": "Reply with exactly this text, without explanation or tools: ACCEPTED-REPLY-control-ONLY",
+        "timestamp": 1792719754114,
+        "idempotencyKey": "e0618580-640f-47a2-aaab-4f447cb5b396:user",
+        "__openclaw": {
+          "senderIsOwner": false,
+          "transport": {
+            "channel": "delivery-proof",
+            "conversationRef": "conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee",
+            "messageId": "receipt-control"
+          },
+          "id": "6c3e9da0-ccf3-4842-8961-67d0f01406ae",
+          "idempotencyKey": "e0618580-640f-47a2-aaab-4f447cb5b396:user",
+          "recordTimestampMs": 1792719755689,
+          "transcriptPosition": {
+            "source": "mcZGxeLPVno9P7oa89mJ03QTp6wdwVaFcvaGUkMuQwI",
+            "rawSeq": 2
+          },
+          "seq": 2
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "ACCEPTED-REPLY-control-ONLY"
+          }
+        ],
+        "stopReason": "stop",
+        "api": "ollama",
+        "provider": "ollama",
+        "model": "qwen3:0.6b",
+        "usage": {
+          "input": 2897,
+          "output": 9,
+          "totalTokens": 2906,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "usageReport": {
+            "state": "available"
+          },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          },
+          "contextUsage": {
+            "state": "available",
+            "promptTokens": 2897,
+            "totalTokens": 2906
+          }
+        },
+        "timestamp": 1792719772028,
+        "diagnostics": [
+          {
+            "type": "provider_timing",
+            "timestamp": 1792719772028,
+            "details": {
+              "processingMs": 14477.922
+            }
+          }
+        ],
+        "__openclaw": {
+          "runId": "3e28d80f-a931-4b2d-b78c-22856ee9b691",
+          "id": "3d249986-d50a-4cf1-a911-5ed8098edfb1",
+          "recordTimestampMs": 1792719772076,
+          "transcriptPosition": {
+            "source": "mcZGxeLPVno9P7oa89mJ03QTp6wdwVaFcvaGUkMuQwI",
+            "rawSeq": 7
+          },
+          "seq": 3
+        }
+      }
+    ],
+    "hasMore": false,
+    "totalMessages": 3,
+    "pendingInputs": {
+      "items": [],
+      "total": 0,
+      "queuedCount": 0
+    },
+    "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiI0OWEwYzFhODg5NzU0NDZlODc3ZWJiZTk4YjVmNDc3NyIsImxhc3RTZXEiOjcsInNlc3Npb25JZCI6ImViN2UwNTBjLTQ5NzctNDc1YS1hYzdmLTk3MWIyOTIwZDJmMyIsInZlcnNpb24iOjF9",
+    "defaults": {
+      "modelProvider": "ollama",
+      "model": "qwen3:0.6b",
+      "contextTokens": 16384,
+      "agentRuntime": {
+        "id": "auto",
+        "cloudPlacementSupported": false,
+        "devicePlacementSupported": false,
+        "source": "implicit"
+      },
+      "thinkingDefault": "off",
+      "communication": {
+        "send": "always",
+        "receive": "always"
+      },
+      "modelSelectionTarget": "session"
+    },
+    "sessionInfo": {
+      "key": "agent:main:delivery-reset-control",
+      "sessionModelRevision": "ORZQFYX2gCIL3rnDhlZc8s-Un-8IuuiIrIIkB3vWMyA",
+      "visibility": "shared",
+      "effectiveCommunication": {
+        "send": "always",
+        "receive": "always"
+      },
+      "permissionModePending": false,
+      "spawnDepth": 0,
+      "createdVia": "operator",
+      "createdAt": 1792719749270,
+      "kind": "direct",
+      "classification": "direct",
+      "agentId": "main",
+      "isMain": false,
+      "isDock": false,
+      "isBackground": false,
+      "channel": "delivery-proof",
+      "chatType": "direct",
+      "origin": {
+        "provider": "delivery-proof",
+        "to": "http://127.0.0.1:65001/reply"
+      },
+      "updatedAt": 1792719772495,
+      "archived": false,
+      "pinned": false,
+      "sidebarRoot": false,
+      "unread": true,
+      "lastInteractionAt": 1792719753960,
+      "sessionId": "eb7e050c-4977-475a-ac7f-971b2920d2f3",
+      "lifecycleRevision": "3fcf3518-e89e-46c7-9a8e-f9547a75f23e",
+      "systemSent": true,
+      "abortedLastRun": false,
+      "thinkingDefault": "off",
+      "effectiveFastMode": false,
+      "effectiveFastModeSource": "default",
+      "fastAutoOnSeconds": 60,
+      "inputTokens": 2897,
+      "outputTokens": 9,
+      "usageReport": {
+        "state": "available"
+      },
+      "lastRunId": "3e28d80f-a931-4b2d-b78c-22856ee9b691",
+      "parentSessionKey": "agent:main:main",
+      "effectiveResponseUsage": "off",
+      "effectiveQueueMode": "steer",
+      "modelProvider": "ollama",
+      "model": "qwen3:0.6b",
+      "modelOverrideSource": null,
+      "runtimeSelectionLocked": false,
+      "agentRuntime": {
+        "id": "openclaw",
+        "cloudPlacementSupported": true,
+        "cloudPlacementExecutionMode": "worker-turn",
+        "devicePlacement": {
+          "requiredNodeCommands": [],
+          "consumesWorkerSlot": true
+        },
+        "devicePlacementSupported": true,
+        "source": "implicit"
+      },
+      "contextTokens": 16384,
+      "contextBudgetStatus": {
+        "schemaVersion": 1,
+        "source": "pre-prompt-estimate",
+        "updatedAt": 1792719756560,
+        "provider": "ollama",
+        "model": "qwen3:0.6b",
+        "route": "fits",
+        "shouldCompact": false,
+        "estimatedPromptTokens": 3980,
+        "contextTokenBudget": 16384,
+        "promptBudgetBeforeReserve": 12288,
+        "reserveTokens": 4096,
+        "effectiveReserveTokens": 4096,
+        "remainingPromptBudgetTokens": 8308,
+        "overflowTokens": 0,
+        "toolResultReducibleChars": 0,
+        "messageCount": 0,
+        "unwindowedMessageCount": 0,
+        "sessionId": "eb7e050c-4977-475a-ac7f-971b2920d2f3"
+      },
+      "deliveryContext": {
+        "channel": "delivery-proof",
+        "to": "http://127.0.0.1:65001/reply"
+      },
+      "lastChannel": "delivery-proof",
+      "lastTo": "http://127.0.0.1:65001/reply",
+      "snapshotAt": 1792719822938,
+      "status": "done",
+      "suppressErrorNotice": false,
+      "startedAt": 1792719756570,
+      "endedAt": 1792719772240,
+      "runtimeMs": 15670,
+      "totalTokens": 2897,
+      "totalTokensFresh": true,
+      "activitySummary": {
+        "state": "unavailable",
+        "canEnsure": true
+      },
+      "hasBoard": false,
+      "titlePending": false,
+      "childOwnerSessionKeys": [
+        "agent:main:main"
+      ],
+      "sharingRole": "owner",
+      "sendDisabledReason": null,
+      "hasActiveRun": false,
+      "activeRunIds": [],
+      "activeLeafEntryId": "3d249986-d50a-4cf1-a911-5ed8098edfb1"
+    },
+    "thinkingLevel": "off"
+  },
+  "restartExit": {
+    "code": 0,
+    "signal": null
+  }
+}

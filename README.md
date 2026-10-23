@@ -5,7 +5,7 @@ Final candidate: `a7f5cc2f35fb2e0254207492149d52d3923c0cbc`
 Baseline executable: `2975dedca83e94d3530fdb339077bfe040d1b560`  
 Task base: `a8ead196291935d24c44a4f40b67397d88c70256`
 
-The shipped baseline Gateway fails canonical reset while an accepted command reply is being recorded. The exact final candidate completes the same flow and preserves transcript bytes across a graceful retained-state restart. A separate real-agent/local-model lane passes delivery, reset, and restart on the same final executable. This proves the bounded canonical-reset repair; the original #134498 arbitrary replacement/crash custody and durable-destination problem remains unresolved.
+The shipped baseline Gateway fails canonical reset while an accepted command reply is being recorded. The exact final candidate completes the same flow and preserves transcript bytes across a graceful retained-state restart. A separate real-agent/local-model lane passes delivery, reset, and restart on the same final executable. Additional exact-head executions now cover the reported CLI-backed pre-finalization reset and physical session replacement, accepted-originating-channel delivery during physical replacement, and an abrupt process kill after CLI reply acceptance while the HTTP receipt is withheld. The evidence below distinguishes existing durable-before-send behavior from the reset-ordering behavior this patch changes.
 
 ## Observed results
 
@@ -27,6 +27,30 @@ The shipped baseline Gateway fails canonical reset while an accepted command rep
 Final build: **148.01 seconds**, exit 0 ([receipt](final-build-command-receipt.json)). Final deterministic runtime: **63.89 seconds**, exit 0. Final real-model runtime: **97.11 seconds**, exit 0. Both final lanes record exactly the same executable/build/owner hashes and final commit in `dist/build-info.json`.
 
 The baseline and deterministic final driver SHA256 are identical: `9b02eed637551d2798f2ef5f8dde20394ff7001bb1f5ba00cd40c099e2e91ede`. The separate model driver SHA256 is `2c977fe85e164747522cc393aa5b1616a875d5d55d1e33bfa33302e941e5dfe5`.
+
+## Reported CLI, physical replacement and abrupt-crash coverage
+
+All new lanes use the same unchanged final source/build identity `a7f5cc2f35fb2e0254207492149d52d3923c0cbc`. No production source, persistence fences, cleanup owners or delivery authorization is replaced by the fixtures.
+
+| Boundary | Actual execution and result | Receipt |
+|---|---|---|
+| CLI before finalization + reset | Registered public CLI backend starts a real Node subprocess that calls existing Ollama qwen3:0.6b, then holds stdout. `sessions.reset` cancels old work before release: no stale external reply and no missing delivered record. | [CLI originating-channel receipt](candidate-cli-origin-crash/receipt.json) |
+| CLI before finalization + physical replacement | `sessions.delete(deleteTranscript:false)` followed by `sessions.create` changes the physical session ID. Old CLI output does not escape into the new context. The driver asserts the IDs differ. | [CLI originating-channel receipt](candidate-cli-origin-crash/receipt.json) |
+| Reply accepted + physical replacement | Actual model reply already has one canonical assistant row while the receiver holds HTTP200. Deletion returns retryable UNAVAILABLE after its existing15s drain, preserving storage. After delivery settles, deletion/recreation succeeds with a different session ID; old bytes remain durable and new history excludes the reply. Repeated after restart. | [Accepted-origin replacement receipt](candidate-origin-rebind/receipt.json) |
+| CLI reply accepted + abrupt process death | Read-only SQLite confirms one canonical assistant row before HTTP acknowledgment. Kill actual Gateway578586 with SIGKILL; release withheld HTTP only after physical exit. Gateway579228 starts from retained state, reads the accepted reply through `chat.history`, preserves all canonical event JSON/compressed bytes and passes SQLite quick_check. A new real CLI reply then delivers/persists successfully. | [CLI crash receipt](candidate-cli-origin-crash/receipt.json), [process log](candidate-cli-origin-crash/gateway-after-sigkill.log) |
+
+The originating-channel plugin uses public `registerChannel` and `dispatchReplyWithBufferedBlockDispatcher`, sets `OriginatingChannel`, and deliberately throws if the direct dispatcher transport is used. Its `sendText` makes real loopback HTTP requests through the existing delivery lifecycle. The CLI plugin uses public `registerCliBackend`; it does not inject a replyResolver or transcript writer. The model backend performs actual inference, and all canonical assertions select assistant rows rather than matching the inbound prompt.
+
+The reporter's invariant is that no externally visible reply lacks a durable canonical record. In these exact reported paths, the CLI/model owner records before send; reset/rebind cancels unfinished CLI work; deletion protects physically active delivery through existing bounded refusal. This patch repairs the remaining reproduced reset/settlement conflict. It adds no historical-append authority, durable outbox or arbitrary raw-database rebinding support. It does not claim coverage of every possible disk failure, OOM, external-channel acknowledgment contract or queue recovery policy.
+
+The final combined CLI/origin/crash execution took117.26s, exit0. Earlier [direct CLI](candidate-cli/receipt.json) and [originating CLI](candidate-cli-origin/receipt.json) runs are retained. The first accepted-rebind fixture failed because Node's execFile error string omitted the structured RPC refusal on stdout; its [receipt](origin-rebind-fixture-v1/receipt.json) and exact original driver are retained. The corrected driver asserts UNAVAILABLE, retryable:true and the storage-preserving refusal, then proves actual replacement. This was a fixture assertion correction, not a product repair or waived result.
+
+Reproduce with the matching public plugins and existing local model endpoint:
+
+```sh
+python3 proof/remote-delivery-cli-origin-crash.py runtime
+python3 proof/remote-delivery-origin-rebind-v2.py runtime
+```
 
 ## Production boundary exercised
 
@@ -71,5 +95,5 @@ Final-head [CI 39881320624](https://github.com/openclaw/openclaw/actions/runs/39
 
 - Initial local plugin activation was absent and returned unknown method; corrected in the external plugin. Interrupted early builds/startups had no terminal verdict. An early observer followed package symlinks recursively and hit ELOOP; corrected to read only canonical agent SQLite before the retained baseline run.
 - First remote build failed before compiling because workspace dependency links were omitted during transfer. Matching workspace dependency directories were copied and the subsequent build passed. [Failed setup receipt](build-setup-missing-workspace.receipt.json) is retained, not product evidence.
-- No real Discord/external channel, OOM, arbitrary session replacement, or crash-recovery custody/destination claim. Both baseline and final deterministic overlap contain the accepted reply; the reproduced difference is canonical reset failure versus success.
+- No real Discord/external channel, OOM, raw-database rebinding or generalized new outbox/durable-destination policy is claimed. Supported physical replacement and actual abrupt Gateway death are proved in the additional matrix. Both baseline and final deterministic reset overlap contain the accepted reply; the reproduced production difference remains canonical reset failure versus success.
 - All users/messages/state are synthetic. Raw logs and receipts are published; SQLite databases and production state/credentials are not. The SHA256 manifest covers retained public files.

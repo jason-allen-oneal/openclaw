@@ -1,0 +1,2 @@
+{"event":"ready","label":"first","pid":573372}
+{"event":"result","passed":false,"error":"AssertionError [ERR_ASSERTION]: The input did not match the regular expression /could not safely stop before deletion|Session work is still active/. Input:\n\n'Error: Command failed: /home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node openclaw.mjs gateway call sessions.delete --params {\"key\":\"agent:main:delivery-reset-rebind\",\"agentId\":\"main\",\"deleteTranscript\":false} --port 62000 --timeout 120000 --json\\n'\n"}

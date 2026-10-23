@@ -1,0 +1,2893 @@
+{
+  "model": "delivery-cli/proof (actual Ollama qwen3:0.6b subprocess adapter)",
+  "providerBaseUrl": "http://127.0.0.1:21498",
+  "producer": "default agent + real CLI + originating-channel route via registered loopback adapter; direct dispatcher deliberately throws",
+  "sourceHead": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+  "buildRoot": "/home/jason/.local/share/openclaw-134498-proof/candidate",
+  "calls": [
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T01:48:17.924Z",
+      "finishedAt": "2026-10-23T01:48:20.542Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792720100440,\n  \"durationMs\": 743,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {\n    \"delivery-proof\": {\n      \"accountId\": \"default\",\n      \"configured\": true,\n      \"running\": false,\n      \"lastError\": null,\n      \"enabled\": true,\n      \"healthState\": \"not-running\",\n      \"accounts\": {\n        \"default\": {\n          \"accountId\": \"default\",\n          \"configured\": true,\n          \"running\": false,\n          \"lastError\": null,\n          \"enabled\": true,\n          \"healthState\": \"not-running\"\n        }\n      }\n    }\n  },\n  \"channelOrder\": [\n    \"delivery-proof\"\n  ],\n  \"channelLabels\": {\n    \"delivery-proof\": \"Isolated proof transport\"\n  },\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/state/agents/main/sessions/sessions.json\",\n        \"count\": 0,\n        \"recent\": []\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/state/agents/main/sessions/sessions.json\",\n    \"count\": 0,\n    \"recent\": []\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 4481,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1024.1693059999998,\n    \"delayP99Ms\": 115.1,\n    \"delayMaxMs\": 115.1,\n    \"utilization\": 0.192,\n    \"cpuCoreRatio\": 2.79,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.193,\n      \"hostUtilization\": 0.558,\n      \"hostCpuCount\": 8,\n      \"workerCoreRatio\": 1.885,\n      \"otherThreadsCoreRatio\": 0.712\n    }\n  },\n  \"modelRuntime\": {\n    \"degraded\": false,\n    \"pendingAgents\": []\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-cli-control",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:48:20.543Z",
+      "finishedAt": "2026-10-23T01:48:25.861Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-control\",\n  \"sessionId\": \"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\n  \"entry\": {\n    \"sessionId\": \"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\n    \"lifecycleRevision\": \"c515a957-e1ae-497d-9f38-4f294a850ca0\",\n    \"updatedAt\": 1792720105176,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720105178,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-control",
+        "agentId": "main",
+        "message": "seed-control"
+      },
+      "startedAt": "2026-10-23T01:48:25.861Z",
+      "finishedAt": "2026-10-23T01:48:28.269Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-control",
+        "messageId": "receipt-control",
+        "text": "CLI-REPLY-control-ONLY",
+        "receiver": "http://127.0.0.1:23025/reply"
+      },
+      "startedAt": "2026-10-23T01:48:28.269Z",
+      "finishedAt": "2026-10-23T01:48:36.185Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-cli-reset",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:48:36.189Z",
+      "finishedAt": "2026-10-23T01:48:37.688Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-reset\",\n  \"sessionId\": \"381d5d85-44a6-4d89-a86c-da3865404a72\",\n  \"entry\": {\n    \"sessionId\": \"381d5d85-44a6-4d89-a86c-da3865404a72\",\n    \"lifecycleRevision\": \"bec65f40-8eef-416f-b4d4-d59bcb0d41c6\",\n    \"updatedAt\": 1792720117596,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720117596,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-reset",
+        "agentId": "main",
+        "message": "seed-reset"
+      },
+      "startedAt": "2026-10-23T01:48:37.688Z",
+      "finishedAt": "2026-10-23T01:48:39.166Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-reset",
+        "messageId": "receipt-reset",
+        "text": "CLI-REPLY-reset-ONLY",
+        "receiver": "http://127.0.0.1:23025/reply"
+      },
+      "startedAt": "2026-10-23T01:48:39.166Z",
+      "finishedAt": "2026-10-23T01:48:43.620Z",
+      "stdout": "{\n  \"queuedFinal\": false,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 0\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.reset",
+      "params": {
+        "key": "agent:main:delivery-cli-reset",
+        "agentId": "main",
+        "reason": "reset"
+      },
+      "startedAt": "2026-10-23T01:48:42.015Z",
+      "finishedAt": "2026-10-23T01:48:43.754Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-reset\",\n  \"entry\": {\n    \"sessionId\": \"381d5d85-44a6-4d89-a86c-da3865404a72\",\n    \"lifecycleRevision\": \"ba78f761-0f8a-4367-bb40-3c87c3ea1a21\",\n    \"updatedAt\": 1792720123644,\n    \"sessionStartedAt\": 1792720123644,\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"modelOverrideSource\": \"default\",\n    \"chatType\": \"direct\",\n    \"compactionCount\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"spawnDepth\": 0,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720117596,\n    \"delivery\": {\n      \"kind\": \"external\",\n      \"route\": {\n        \"channel\": \"delivery-proof\",\n        \"target\": {\n          \"to\": \"http://127.0.0.1:23025/reply\"\n        }\n      },\n      \"context\": {\n        \"channel\": \"delivery-proof\",\n        \"to\": \"http://127.0.0.1:23025/reply\"\n      },\n      \"origin\": {\n        \"provider\": \"delivery-proof\",\n        \"to\": \"http://127.0.0.1:23025/reply\"\n      }\n    },\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"totalTokensVersion\": 1,\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  },\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-reset",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:48:43.799Z",
+      "finishedAt": "2026-10-23T01:48:45.398Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-cli-reset\",\n  \"sessionId\": \"381d5d85-44a6-4d89-a86c-da3865404a72\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Reset\"\n        }\n      ],\n      \"timestamp\": 1792720123649,\n      \"__openclaw\": {\n        \"kind\": \"reset\",\n        \"id\": \"faead14e-85a0-47b0-b7a0-e50d80cf83f3\",\n        \"transcriptPosition\": {\n          \"source\": \"olivADwlGVcYL1eC7CbXrMP2gQc8FJa2j-fiMufk-vc\",\n          \"rawSeq\": 3\n        },\n        \"seq\": 1\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 1,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJiNzgwMmFkMTJlNDE0M2VhODFjNjY2MDliMDkxNWM5MSIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6IjM4MWQ1ZDg1LTQ0YTYtNGQ4OS1hODZjLWRhMzg2NTQwNGE3MiIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-cli-reset\",\n    \"sessionModelRevision\": \"FxMo52VFny1pj965D3-G4CsWTmdpdKT5NRTf5o5ZOek\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720117596,\n    \"kind\": \"direct\",\n    \"classification\": \"direct\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"channel\": \"delivery-proof\",\n    \"chatType\": \"direct\",\n    \"origin\": {\n      \"provider\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"updatedAt\": 1792720123644,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"381d5d85-44a6-4d89-a86c-da3865404a72\",\n    \"lifecycleRevision\": \"ba78f761-0f8a-4367-bb40-3c87c3ea1a21\",\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"delivery-cli\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"deliveryContext\": {\n      \"channel\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"lastChannel\": \"delivery-proof\",\n    \"lastTo\": \"http://127.0.0.1:23025/reply\",\n    \"snapshotAt\": 1792720125311,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"faead14e-85a0-47b0-b7a0-e50d80cf83f3\"\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-cli-rebind",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:48:45.399Z",
+      "finishedAt": "2026-10-23T01:48:46.888Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-rebind\",\n  \"sessionId\": \"55c301fc-0ead-4738-be3c-8f490b02d27b\",\n  \"entry\": {\n    \"sessionId\": \"55c301fc-0ead-4738-be3c-8f490b02d27b\",\n    \"lifecycleRevision\": \"556926ac-0eda-4502-8c0f-6be54ad314ef\",\n    \"updatedAt\": 1792720126800,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720126800,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-rebind",
+        "agentId": "main",
+        "message": "seed-rebind"
+      },
+      "startedAt": "2026-10-23T01:48:46.889Z",
+      "finishedAt": "2026-10-23T01:48:48.418Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"1e0ff01d-06be-4142-be54-8b702d2cbacc\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-rebind",
+        "messageId": "receipt-rebind",
+        "text": "CLI-REPLY-rebind-ONLY",
+        "receiver": "http://127.0.0.1:23025/reply"
+      },
+      "startedAt": "2026-10-23T01:48:48.418Z",
+      "finishedAt": "2026-10-23T01:48:52.813Z",
+      "stdout": "{\n  \"queuedFinal\": false,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 0\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.delete",
+      "params": {
+        "key": "agent:main:delivery-cli-rebind",
+        "agentId": "main",
+        "deleteTranscript": false
+      },
+      "startedAt": "2026-10-23T01:48:51.291Z",
+      "finishedAt": "2026-10-23T01:48:53.555Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-rebind\",\n  \"deleted\": true,\n  \"archived\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-cli-rebind",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:48:53.581Z",
+      "finishedAt": "2026-10-23T01:48:55.106Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-rebind\",\n  \"sessionId\": \"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\n  \"entry\": {\n    \"sessionId\": \"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\n    \"lifecycleRevision\": \"3adc7160-d1f2-4ce1-a586-fd43559d1f9a\",\n    \"updatedAt\": 1792720135022,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720135022,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-rebind",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:48:55.106Z",
+      "finishedAt": "2026-10-23T01:48:56.610Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-cli-rebind\",\n  \"sessionId\": \"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\n  \"messages\": [],\n  \"hasMore\": false,\n  \"totalMessages\": 0,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"defaults\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-cli-rebind\",\n    \"sessionModelRevision\": \"xR60Ug3oC5hIfCCOPP3RXyJCse_qP6rbK57IEiVUPVo\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720135022,\n    \"kind\": \"direct\",\n    \"classification\": \"custom\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"updatedAt\": 1792720135022,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\n    \"lifecycleRevision\": \"3adc7160-d1f2-4ce1-a586-fd43559d1f9a\",\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"delivery-cli\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"snapshotAt\": 1792720136540,\n    \"totalTokensFresh\": false,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": null\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T01:49:10.674Z",
+      "finishedAt": "2026-10-23T01:49:13.564Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792720153449,\n  \"durationMs\": 578,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {\n    \"delivery-proof\": {\n      \"accountId\": \"default\",\n      \"configured\": true,\n      \"running\": false,\n      \"lastError\": null,\n      \"enabled\": true,\n      \"healthState\": \"not-running\",\n      \"accounts\": {\n        \"default\": {\n          \"accountId\": \"default\",\n          \"configured\": true,\n          \"running\": false,\n          \"lastError\": null,\n          \"enabled\": true,\n          \"healthState\": \"not-running\"\n        }\n      }\n    }\n  },\n  \"channelOrder\": [\n    \"delivery-proof\"\n  ],\n  \"channelLabels\": {\n    \"delivery-proof\": \"Isolated proof transport\"\n  },\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/state/agents/main/agent/openclaw-agent.sqlite\",\n        \"count\": 3,\n        \"recent\": [\n          {\n            \"key\": \"agent:main:delivery-cli-rebind\",\n            \"updatedAt\": 1792720135022,\n            \"age\": 18427\n          },\n          {\n            \"key\": \"agent:main:delivery-cli-reset\",\n            \"updatedAt\": 1792720123644,\n            \"age\": 29805\n          },\n          {\n            \"key\": \"agent:main:delivery-cli-control\",\n            \"updatedAt\": 1792720116102,\n            \"age\": 37347\n          }\n        ]\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/state/agents/main/agent/openclaw-agent.sqlite\",\n    \"count\": 3,\n    \"recent\": [\n      {\n        \"key\": \"agent:main:delivery-cli-rebind\",\n        \"updatedAt\": 1792720135022,\n        \"age\": 18427\n      },\n      {\n        \"key\": \"agent:main:delivery-cli-reset\",\n        \"updatedAt\": 1792720123644,\n        \"age\": 29805\n      },\n      {\n        \"key\": \"agent:main:delivery-cli-control\",\n        \"updatedAt\": 1792720116102,\n        \"age\": 37347\n      }\n    ]\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 3008,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1001.2002350000002,\n    \"delayP99Ms\": 109.8,\n    \"delayMaxMs\": 109.8,\n    \"utilization\": 0.311,\n    \"cpuCoreRatio\": 3.602,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.298,\n      \"hostUtilization\": 0.546,\n      \"hostCpuCount\": 8\n    }\n  },\n  \"modelRuntime\": {\n    \"degraded\": false,\n    \"pendingAgents\": []\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-control",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:49:13.564Z",
+      "finishedAt": "2026-10-23T01:49:15.412Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-cli-control\",\n  \"sessionId\": \"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\n  \"messages\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"seed-control\"\n        }\n      ],\n      \"timestamp\": 1792720107317,\n      \"stopReason\": \"stop\",\n      \"usage\": {\n        \"input\": 0,\n        \"output\": 0,\n        \"totalTokens\": 0,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        }\n      },\n      \"api\": \"openai-responses\",\n      \"provider\": \"openclaw\",\n      \"model\": \"gateway-injected\",\n      \"__openclaw\": {\n        \"id\": \"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\n        \"recordTimestampMs\": 1792720107317,\n        \"transcriptPosition\": {\n          \"source\": \"CZDqH7-E_z8u-JFTjbl2EYB_gk5j8daDOtF4Pkfq0uw\",\n          \"rawSeq\": 1\n        },\n        \"seq\": 1\n      }\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\n      \"timestamp\": 1792720109962,\n      \"idempotencyKey\": \"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\n      \"__openclaw\": {\n        \"senderIsOwner\": false,\n        \"transport\": {\n          \"channel\": \"delivery-proof\",\n          \"conversationRef\": \"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\n          \"messageId\": \"receipt-control\"\n        },\n        \"id\": \"8889a820-7534-499f-8953-6947ba3baf75\",\n        \"idempotencyKey\": \"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\n        \"recordTimestampMs\": 1792720110330,\n        \"transcriptPosition\": {\n          \"source\": \"CZDqH7-E_z8u-JFTjbl2EYB_gk5j8daDOtF4Pkfq0uw\",\n          \"rawSeq\": 2\n        },\n        \"seq\": 2\n      }\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"CLI-REPLY-control-ONLY\"\n        }\n      ],\n      \"stopReason\": \"stop\",\n      \"api\": \"cli\",\n      \"provider\": \"delivery-cli\",\n      \"model\": \"proof\",\n      \"usage\": {\n        \"input\": 0,\n        \"output\": 0,\n        \"totalTokens\": 0,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        }\n      },\n      \"timestamp\": 1792720115758,\n      \"idempotencyKey\": \"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\n      \"__openclaw\": {\n        \"runId\": \"2941b319-e106-4729-8bfe-7d2202482e61\",\n        \"id\": \"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\n        \"idempotencyKey\": \"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\n        \"recordTimestampMs\": 1792720115775,\n        \"transcriptPosition\": {\n          \"source\": \"CZDqH7-E_z8u-JFTjbl2EYB_gk5j8daDOtF4Pkfq0uw\",\n          \"rawSeq\": 3\n        },\n        \"seq\": 3\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 3,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJmOWJhYjliZDEyYWE0Y2U0OWYzMGE0NTIyMWYwYjc3NyIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6ImI3YmZiMjk3LWI4ZjUtNDc2My1iMzJkLWRhNjIwZTk1NmMyZCIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-cli-control\",\n    \"sessionModelRevision\": \"D8RuaJnJqaRR4e8SuCZQ6zASUo1iY038syUjW83Gwjo\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720105178,\n    \"kind\": \"direct\",\n    \"classification\": \"direct\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"channel\": \"delivery-proof\",\n    \"chatType\": \"direct\",\n    \"origin\": {\n      \"provider\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"updatedAt\": 1792720116102,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": true,\n    \"lastInteractionAt\": 1792720109832,\n    \"sessionId\": \"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\n    \"lifecycleRevision\": \"c515a957-e1ae-497d-9f38-4f294a850ca0\",\n    \"systemSent\": true,\n    \"abortedLastRun\": false,\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"lastRunId\": \"2941b319-e106-4729-8bfe-7d2202482e61\",\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"delivery-cli\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"deliveryContext\": {\n      \"channel\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"lastChannel\": \"delivery-proof\",\n    \"lastTo\": \"http://127.0.0.1:23025/reply\",\n    \"snapshotAt\": 1792720155336,\n    \"status\": \"done\",\n    \"suppressErrorNotice\": false,\n    \"startedAt\": 1792720110559,\n    \"endedAt\": 1792720115912,\n    \"runtimeMs\": 5353,\n    \"totalTokensFresh\": false,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\"\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-cli-after-restart",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:49:15.416Z",
+      "finishedAt": "2026-10-23T01:49:17.640Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-after-restart\",\n  \"sessionId\": \"e4a84b03-52ab-47d5-9d66-424572388294\",\n  \"entry\": {\n    \"sessionId\": \"e4a84b03-52ab-47d5-9d66-424572388294\",\n    \"lifecycleRevision\": \"769f9400-0b96-49ac-937a-1b12a23e91bb\",\n    \"updatedAt\": 1792720157053,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720157054,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-after-restart",
+        "agentId": "main",
+        "message": "seed-after-restart"
+      },
+      "startedAt": "2026-10-23T01:49:17.640Z",
+      "finishedAt": "2026-10-23T01:49:19.954Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"998674f7-5144-4cd6-a696-533660f88a04\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-after-restart",
+        "messageId": "receipt-after-restart",
+        "text": "CLI-REPLY-after-restart-ONLY",
+        "receiver": "http://127.0.0.1:23025/reply"
+      },
+      "startedAt": "2026-10-23T01:49:19.954Z",
+      "finishedAt": "2026-10-23T01:49:25.266Z",
+      "stdout": "{\n  \"queuedFinal\": false,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 0\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.reset",
+      "params": {
+        "key": "agent:main:delivery-cli-after-restart",
+        "agentId": "main",
+        "reason": "reset"
+      },
+      "startedAt": "2026-10-23T01:49:23.728Z",
+      "finishedAt": "2026-10-23T01:49:25.405Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-after-restart\",\n  \"entry\": {\n    \"sessionId\": \"e4a84b03-52ab-47d5-9d66-424572388294\",\n    \"lifecycleRevision\": \"3a70640c-d320-4a77-9dec-99dbd23966f1\",\n    \"updatedAt\": 1792720165288,\n    \"sessionStartedAt\": 1792720165288,\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"modelOverrideSource\": \"default\",\n    \"chatType\": \"direct\",\n    \"compactionCount\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"spawnDepth\": 0,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720157054,\n    \"delivery\": {\n      \"kind\": \"external\",\n      \"route\": {\n        \"channel\": \"delivery-proof\",\n        \"target\": {\n          \"to\": \"http://127.0.0.1:23025/reply\"\n        }\n      },\n      \"context\": {\n        \"channel\": \"delivery-proof\",\n        \"to\": \"http://127.0.0.1:23025/reply\"\n      },\n      \"origin\": {\n        \"provider\": \"delivery-proof\",\n        \"to\": \"http://127.0.0.1:23025/reply\"\n      }\n    },\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"totalTokensVersion\": 1,\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  },\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-after-restart",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:49:25.410Z",
+      "finishedAt": "2026-10-23T01:49:26.887Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-cli-after-restart\",\n  \"sessionId\": \"e4a84b03-52ab-47d5-9d66-424572388294\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Reset\"\n        }\n      ],\n      \"timestamp\": 1792720165294,\n      \"__openclaw\": {\n        \"kind\": \"reset\",\n        \"id\": \"1b961e63-b2b1-4397-9f73-bbdd1d912417\",\n        \"transcriptPosition\": {\n          \"source\": \"oFPA4zhBtJkcQdf82antkc5lkp1GlwhFyucTq68Do40\",\n          \"rawSeq\": 3\n        },\n        \"seq\": 1\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 1,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJlMGY0MzM0MzE5YjA0NDE4YTY5NjljZGNlOGY3M2I2ZCIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6ImU0YTg0YjAzLTUyYWItNDdkNS05ZDY2LTQyNDU3MjM4ODI5NCIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-cli-after-restart\",\n    \"sessionModelRevision\": \"C2edxpEAHan7xPtF8GFMRHXAfhkI7papYyT2kdPrMDc\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720157054,\n    \"kind\": \"direct\",\n    \"classification\": \"direct\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"channel\": \"delivery-proof\",\n    \"chatType\": \"direct\",\n    \"origin\": {\n      \"provider\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"updatedAt\": 1792720165288,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": false,\n    \"sessionId\": \"e4a84b03-52ab-47d5-9d66-424572388294\",\n    \"lifecycleRevision\": \"3a70640c-d320-4a77-9dec-99dbd23966f1\",\n    \"systemSent\": false,\n    \"abortedLastRun\": false,\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"inputTokens\": 0,\n    \"outputTokens\": 0,\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"delivery-cli\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"deliveryContext\": {\n      \"channel\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"lastChannel\": \"delivery-proof\",\n    \"lastTo\": \"http://127.0.0.1:23025/reply\",\n    \"snapshotAt\": 1792720166815,\n    \"totalTokens\": 0,\n    \"totalTokensFresh\": true,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"1b961e63-b2b1-4397-9f73-bbdd1d912417\"\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-cli-accepted-before-crash",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:49:26.888Z",
+      "finishedAt": "2026-10-23T01:49:28.375Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-accepted-before-crash\",\n  \"sessionId\": \"bcb2dbb9-63f2-441b-af2d-d7c14250de3b\",\n  \"entry\": {\n    \"sessionId\": \"bcb2dbb9-63f2-441b-af2d-d7c14250de3b\",\n    \"lifecycleRevision\": \"f11f8857-9ba6-44c2-84fd-0aeace0d3645\",\n    \"updatedAt\": 1792720168283,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720168284,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-accepted-before-crash",
+        "agentId": "main",
+        "message": "seed-accepted-before-crash"
+      },
+      "startedAt": "2026-10-23T01:49:28.375Z",
+      "finishedAt": "2026-10-23T01:49:29.901Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"a79bdfc4-7579-473e-8199-932bc10f3c33\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-accepted-before-crash",
+        "messageId": "receipt-accepted-before-crash",
+        "text": "CLI-REPLY-accepted-before-crash-ONLY",
+        "receiver": "http://127.0.0.1:23025/reply"
+      },
+      "startedAt": "2026-10-23T01:49:29.902Z",
+      "error": "Error: Command failed: /home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node openclaw.mjs gateway call delivery-reset-proof.dispatch --params {\"sessionKey\":\"agent:main:delivery-cli-accepted-before-crash\",\"messageId\":\"receipt-accepted-before-crash\",\"text\":\"CLI-REPLY-accepted-before-crash-ONLY\",\"receiver\":\"http://127.0.0.1:23025/reply\"} --port 23024 --timeout 120000 --json\n",
+      "stdout": "{\n  \"ok\": false,\n  \"error\": {\n    \"type\": \"gateway_transport_error\",\n    \"kind\": \"closed\",\n    \"message\": \"gateway closed (1006 abnormal closure (no close frame)): no close reason\",\n    \"code\": 1006,\n    \"reason\": \"no close reason\"\n  },\n  \"gateway\": {\n    \"url\": \"ws://127.0.0.1:23024\",\n    \"urlSource\": \"local loopback\",\n    \"bindDetail\": \"Bind: loopback\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "health",
+      "params": {},
+      "startedAt": "2026-10-23T01:49:48.779Z",
+      "finishedAt": "2026-10-23T01:49:51.231Z",
+      "stdout": "{\n  \"ok\": true,\n  \"ts\": 1792720191133,\n  \"durationMs\": 11,\n  \"plugins\": {\n    \"loaded\": [\n      \"delivery-reset-proof\"\n    ],\n    \"errors\": [],\n    \"unavailable\": []\n  },\n  \"configReload\": {\n    \"hotReloadStatus\": \"active\"\n  },\n  \"channels\": {\n    \"delivery-proof\": {\n      \"accountId\": \"default\",\n      \"configured\": true,\n      \"running\": false,\n      \"lastError\": null,\n      \"enabled\": true,\n      \"healthState\": \"not-running\",\n      \"accounts\": {\n        \"default\": {\n          \"accountId\": \"default\",\n          \"configured\": true,\n          \"running\": false,\n          \"lastError\": null,\n          \"enabled\": true,\n          \"healthState\": \"not-running\"\n        }\n      }\n    }\n  },\n  \"channelOrder\": [\n    \"delivery-proof\"\n  ],\n  \"channelLabels\": {\n    \"delivery-proof\": \"Isolated proof transport\"\n  },\n  \"heartbeatSeconds\": 0,\n  \"agents\": [\n    {\n      \"agentId\": \"main\",\n      \"isDefault\": false,\n      \"heartbeat\": {\n        \"enabled\": false,\n        \"every\": \"disabled\",\n        \"everyMs\": null,\n        \"prompt\": \"\",\n        \"target\": \"none\",\n        \"ackMaxChars\": 300\n      },\n      \"sessions\": {\n        \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/state/agents/main/agent/openclaw-agent.sqlite\",\n        \"count\": 5,\n        \"recent\": [\n          {\n            \"key\": \"agent:main:delivery-cli-accepted-before-crash\",\n            \"updatedAt\": 1792720173040,\n            \"age\": 18093\n          },\n          {\n            \"key\": \"agent:main:delivery-cli-after-restart\",\n            \"updatedAt\": 1792720165288,\n            \"age\": 25845\n          },\n          {\n            \"key\": \"agent:main:delivery-cli-rebind\",\n            \"updatedAt\": 1792720135022,\n            \"age\": 56111\n          },\n          {\n            \"key\": \"agent:main:delivery-cli-reset\",\n            \"updatedAt\": 1792720123644,\n            \"age\": 67489\n          },\n          {\n            \"key\": \"agent:main:delivery-cli-control\",\n            \"updatedAt\": 1792720116102,\n            \"age\": 75031\n          }\n        ]\n      }\n    }\n  ],\n  \"sessions\": {\n    \"path\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/state/agents/main/agent/openclaw-agent.sqlite\",\n    \"count\": 5,\n    \"recent\": [\n      {\n        \"key\": \"agent:main:delivery-cli-accepted-before-crash\",\n        \"updatedAt\": 1792720173040,\n        \"age\": 18093\n      },\n      {\n        \"key\": \"agent:main:delivery-cli-after-restart\",\n        \"updatedAt\": 1792720165288,\n        \"age\": 25845\n      },\n      {\n        \"key\": \"agent:main:delivery-cli-rebind\",\n        \"updatedAt\": 1792720135022,\n        \"age\": 56111\n      },\n      {\n        \"key\": \"agent:main:delivery-cli-reset\",\n        \"updatedAt\": 1792720123644,\n        \"age\": 67489\n      },\n      {\n        \"key\": \"agent:main:delivery-cli-control\",\n        \"updatedAt\": 1792720116102,\n        \"age\": 75031\n      }\n    ]\n  },\n  \"eventLoop\": {\n    \"degraded\": true,\n    \"degradedSinceMs\": 5655,\n    \"reasons\": [\n      \"cpu\"\n    ],\n    \"intervalMs\": 1001.3249720000003,\n    \"delayP99Ms\": 157.9,\n    \"delayMaxMs\": 157.9,\n    \"utilization\": 0.208,\n    \"cpuCoreRatio\": 5.981,\n    \"cpuBreakdown\": {\n      \"mainThreadCoreRatio\": 0.184,\n      \"hostUtilization\": 0.903,\n      \"hostCpuCount\": 8,\n      \"workerCoreRatio\": 4.699,\n      \"otherThreadsCoreRatio\": 1.098\n    }\n  },\n  \"childRuntime\": {\n    \"execPath\": \"/home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node\",\n    \"available\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-accepted-before-crash",
+        "agentId": "main",
+        "limit": 100
+      },
+      "startedAt": "2026-10-23T01:49:51.231Z",
+      "finishedAt": "2026-10-23T01:49:53.091Z",
+      "stdout": "{\n  \"sessionKey\": \"agent:main:delivery-cli-accepted-before-crash\",\n  \"sessionId\": \"bcb2dbb9-63f2-441b-af2d-d7c14250de3b\",\n  \"messages\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"seed-accepted-before-crash\"\n        }\n      ],\n      \"timestamp\": 1792720169781,\n      \"stopReason\": \"stop\",\n      \"usage\": {\n        \"input\": 0,\n        \"output\": 0,\n        \"totalTokens\": 0,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        }\n      },\n      \"api\": \"openai-responses\",\n      \"provider\": \"openclaw\",\n      \"model\": \"gateway-injected\",\n      \"__openclaw\": {\n        \"id\": \"a79bdfc4-7579-473e-8199-932bc10f3c33\",\n        \"recordTimestampMs\": 1792720169781,\n        \"transcriptPosition\": {\n          \"source\": \"qucHwG8DbSkH7glOT4Wyh8uJ0eJ-rZi7sDqE-qtmQvo\",\n          \"rawSeq\": 1\n        },\n        \"seq\": 1\n      }\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Reply with exactly this text, without explanation or tools: CLI-REPLY-accepted-before-crash-ONLY\",\n      \"timestamp\": 1792720171447,\n      \"idempotencyKey\": \"77d6c0b2-1600-4f31-b650-9db7de239387:user\",\n      \"__openclaw\": {\n        \"senderIsOwner\": false,\n        \"transport\": {\n          \"channel\": \"delivery-proof\",\n          \"conversationRef\": \"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\n          \"messageId\": \"receipt-accepted-before-crash\"\n        },\n        \"id\": \"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\n        \"idempotencyKey\": \"77d6c0b2-1600-4f31-b650-9db7de239387:user\",\n        \"recordTimestampMs\": 1792720171484,\n        \"transcriptPosition\": {\n          \"source\": \"qucHwG8DbSkH7glOT4Wyh8uJ0eJ-rZi7sDqE-qtmQvo\",\n          \"rawSeq\": 2\n        },\n        \"seq\": 2\n      }\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"CLI-REPLY-accepted-before-crash-ONLY\"\n        }\n      ],\n      \"stopReason\": \"stop\",\n      \"api\": \"cli\",\n      \"provider\": \"delivery-cli\",\n      \"model\": \"proof\",\n      \"usage\": {\n        \"input\": 0,\n        \"output\": 0,\n        \"totalTokens\": 0,\n        \"cacheRead\": 0,\n        \"cacheWrite\": 0,\n        \"cost\": {\n          \"input\": 0,\n          \"output\": 0,\n          \"cacheRead\": 0,\n          \"cacheWrite\": 0,\n          \"total\": 0\n        }\n      },\n      \"timestamp\": 1792720172983,\n      \"idempotencyKey\": \"cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87\",\n      \"__openclaw\": {\n        \"runId\": \"a81df428-96cf-4aab-ab55-a73e83d34e87\",\n        \"id\": \"e6b895c9-0886-427d-a655-4d42dfa7f47d\",\n        \"idempotencyKey\": \"cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87\",\n        \"recordTimestampMs\": 1792720172996,\n        \"transcriptPosition\": {\n          \"source\": \"qucHwG8DbSkH7glOT4Wyh8uJ0eJ-rZi7sDqE-qtmQvo\",\n          \"rawSeq\": 3\n        },\n        \"seq\": 3\n      }\n    }\n  ],\n  \"hasMore\": false,\n  \"totalMessages\": 3,\n  \"pendingInputs\": {\n    \"items\": [],\n    \"total\": 0,\n    \"queuedCount\": 0\n  },\n  \"deltaCursor\": \"eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiI0ODljMDY5NTFjYTc0MWZmOTNiODY2N2Y3NTQ5ZDUzNyIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6ImJjYjJkYmI5LTYzZjItNDQxYi1hZjJkLWQ3YzE0MjUwZGUzYiIsInZlcnNpb24iOjF9\",\n  \"defaults\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"contextTokens\": null,\n    \"agentRuntime\": {\n      \"id\": \"auto\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"thinkingDefault\": \"off\",\n    \"communication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"modelSelectionTarget\": \"session\"\n  },\n  \"sessionInfo\": {\n    \"key\": \"agent:main:delivery-cli-accepted-before-crash\",\n    \"sessionModelRevision\": \"6hUq3J7-8YpXk6r_ZYGcucUmBlpcaaJHPVm9tBCzoow\",\n    \"visibility\": \"shared\",\n    \"effectiveCommunication\": {\n      \"send\": \"always\",\n      \"receive\": \"always\"\n    },\n    \"permissionModePending\": false,\n    \"spawnDepth\": 0,\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720168284,\n    \"kind\": \"direct\",\n    \"classification\": \"direct\",\n    \"agentId\": \"main\",\n    \"isMain\": false,\n    \"isDock\": false,\n    \"isBackground\": false,\n    \"channel\": \"delivery-proof\",\n    \"chatType\": \"direct\",\n    \"origin\": {\n      \"provider\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"updatedAt\": 1792720190776,\n    \"archived\": false,\n    \"pinned\": false,\n    \"sidebarRoot\": false,\n    \"unread\": true,\n    \"lastInteractionAt\": 1792720171386,\n    \"sessionId\": \"bcb2dbb9-63f2-441b-af2d-d7c14250de3b\",\n    \"lifecycleRevision\": \"f11f8857-9ba6-44c2-84fd-0aeace0d3645\",\n    \"systemSent\": true,\n    \"abortedLastRun\": true,\n    \"thinkingDefault\": \"off\",\n    \"effectiveFastMode\": false,\n    \"effectiveFastModeSource\": \"default\",\n    \"fastAutoOnSeconds\": 60,\n    \"lastRunId\": \"a81df428-96cf-4aab-ab55-a73e83d34e87\",\n    \"parentSessionKey\": \"agent:main:main\",\n    \"effectiveResponseUsage\": \"off\",\n    \"effectiveQueueMode\": \"steer\",\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\",\n    \"modelOverrideSource\": null,\n    \"runtimeSelectionLocked\": false,\n    \"agentRuntime\": {\n      \"id\": \"delivery-cli\",\n      \"cloudPlacementSupported\": false,\n      \"devicePlacementSupported\": false,\n      \"source\": \"implicit\"\n    },\n    \"deliveryContext\": {\n      \"channel\": \"delivery-proof\",\n      \"to\": \"http://127.0.0.1:23025/reply\"\n    },\n    \"lastChannel\": \"delivery-proof\",\n    \"lastTo\": \"http://127.0.0.1:23025/reply\",\n    \"snapshotAt\": 1792720193011,\n    \"status\": \"done\",\n    \"suppressErrorNotice\": false,\n    \"startedAt\": 1792720171499,\n    \"endedAt\": 1792720173032,\n    \"runtimeMs\": 1533,\n    \"totalTokensFresh\": false,\n    \"activitySummary\": {\n      \"state\": \"unavailable\",\n      \"canEnsure\": true\n    },\n    \"hasBoard\": false,\n    \"titlePending\": false,\n    \"childOwnerSessionKeys\": [\n      \"agent:main:main\"\n    ],\n    \"sharingRole\": \"owner\",\n    \"sendDisabledReason\": null,\n    \"hasActiveRun\": false,\n    \"activeRunIds\": [],\n    \"activeLeafEntryId\": \"e6b895c9-0886-427d-a655-4d42dfa7f47d\"\n  },\n  \"thinkingLevel\": \"off\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "sessions.create",
+      "params": {
+        "key": "agent:main:delivery-cli-progress-after-crash",
+        "agentId": "main"
+      },
+      "startedAt": "2026-10-23T01:49:53.095Z",
+      "finishedAt": "2026-10-23T01:49:54.847Z",
+      "stdout": "{\n  \"ok\": true,\n  \"key\": \"agent:main:delivery-cli-progress-after-crash\",\n  \"sessionId\": \"7d5fc45b-8f09-4f79-9140-9d7992211d00\",\n  \"entry\": {\n    \"sessionId\": \"7d5fc45b-8f09-4f79-9140-9d7992211d00\",\n    \"lifecycleRevision\": \"7fb6ec6b-e244-45f2-9cd7-c1f277661c13\",\n    \"updatedAt\": 1792720194725,\n    \"sessionRoot\": \"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\",\n    \"delivery\": {\n      \"kind\": \"none\"\n    },\n    \"createdVia\": \"operator\",\n    \"createdAt\": 1792720194726,\n    \"spawnDepth\": 0,\n    \"modelOverrideSource\": \"default\",\n    \"parentSessionKey\": \"agent:main:main\"\n  },\n  \"runStarted\": false,\n  \"publicRead\": false,\n  \"resolved\": {\n    \"modelProvider\": \"delivery-cli\",\n    \"model\": \"proof\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "chat.inject",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-progress-after-crash",
+        "agentId": "main",
+        "message": "seed-progress-after-crash"
+      },
+      "startedAt": "2026-10-23T01:49:54.847Z",
+      "finishedAt": "2026-10-23T01:49:57.165Z",
+      "stdout": "{\n  \"ok\": true,\n  \"messageId\": \"81a86c16-8f79-47c4-b40a-a9cce911702b\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "method": "delivery-reset-proof.dispatch",
+      "params": {
+        "sessionKey": "agent:main:delivery-cli-progress-after-crash",
+        "messageId": "receipt-progress-after-crash",
+        "text": "CLI-REPLY-progress-after-crash-ONLY",
+        "receiver": "http://127.0.0.1:23025/reply"
+      },
+      "startedAt": "2026-10-23T01:49:57.165Z",
+      "finishedAt": "2026-10-23T01:50:01.548Z",
+      "stdout": "{\n  \"queuedFinal\": true,\n  \"counts\": {\n    \"tool\": 0,\n    \"block\": 0,\n    \"final\": 1\n  },\n  \"settledReceipt\": {\n    \"counts\": {\n      \"tool\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"block\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      },\n      \"final\": {\n        \"delivered\": 0,\n        \"deliveredNotVisible\": 0,\n        \"cancelled\": 0,\n        \"failedBeforeSend\": 0,\n        \"failedAfterSend\": 0\n      }\n    },\n    \"anyVisibleDelivered\": false\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "requests": [
+    {
+      "text": "CLI-REPLY-control-ONLY",
+      "acceptedAt": "2026-10-23T01:48:36.041Z"
+    },
+    {
+      "text": "CLI-REPLY-accepted-before-crash-ONLY",
+      "acceptedAt": "2026-10-23T01:49:33.155Z"
+    },
+    {
+      "text": "CLI-REPLY-progress-after-crash-ONLY",
+      "acceptedAt": "2026-10-23T01:50:01.401Z"
+    }
+  ],
+  "cliRuns": [
+    {
+      "marker": "CLI-REPLY-control-ONLY",
+      "pid": 578151,
+      "promptBytes": 785,
+      "model": "qwen3:0.6b",
+      "output": "CLI-REPLY-control-ONLY",
+      "promptEvalCount": 32,
+      "evalCount": 8,
+      "readyAt": "2026-10-23T01:48:35.745Z",
+      "releaseAt": "2026-10-23T01:48:35.745Z"
+    },
+    {
+      "marker": "CLI-REPLY-reset-ONLY",
+      "pid": 578291,
+      "promptBytes": 781,
+      "model": "qwen3:0.6b",
+      "output": "CLI-REPLY-reset-ONLY",
+      "promptEvalCount": 32,
+      "evalCount": 8,
+      "readyAt": "2026-10-23T01:48:42.014Z",
+      "releaseAt": "2026-10-23T01:48:43.795Z"
+    },
+    {
+      "marker": "CLI-REPLY-rebind-ONLY",
+      "pid": 578485,
+      "promptBytes": 783,
+      "model": "qwen3:0.6b",
+      "output": "CLI-REPLY-rebind-ONLY",
+      "promptEvalCount": 33,
+      "evalCount": 9,
+      "readyAt": "2026-10-23T01:48:51.291Z",
+      "releaseAt": "2026-10-23T01:48:53.578Z"
+    },
+    {
+      "marker": "CLI-REPLY-after-restart-ONLY",
+      "pid": 579049,
+      "promptBytes": 797,
+      "model": "qwen3:0.6b",
+      "output": "CLI-REPLY-after-restart-ONLY",
+      "promptEvalCount": 34,
+      "evalCount": 10,
+      "readyAt": "2026-10-23T01:49:23.726Z",
+      "releaseAt": "2026-10-23T01:49:25.407Z"
+    },
+    {
+      "marker": "CLI-REPLY-accepted-before-crash-ONLY",
+      "pid": 579200,
+      "promptBytes": 813,
+      "model": "qwen3:0.6b",
+      "output": "CLI-REPLY-accepted-before-crash-ONLY",
+      "promptEvalCount": 36,
+      "evalCount": 12,
+      "readyAt": "2026-10-23T01:49:32.972Z",
+      "releaseAt": "2026-10-23T01:49:32.972Z"
+    },
+    {
+      "marker": "CLI-REPLY-progress-after-crash-ONLY",
+      "pid": 579704,
+      "promptBytes": 811,
+      "model": "qwen3:0.6b",
+      "output": "CLI-REPLY-progress-after-crash-ONLY",
+      "promptEvalCount": 35,
+      "evalCount": 11,
+      "readyAt": "2026-10-23T01:50:01.200Z",
+      "releaseAt": "2026-10-23T01:50:01.200Z"
+    }
+  ],
+  "stages": [
+    {
+      "label": "control",
+      "text": "CLI-REPLY-control-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-control",
+        "sessionId": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+        "entry": {
+          "sessionId": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "lifecycleRevision": "c515a957-e1ae-497d-9f38-4f294a850ca0",
+          "updatedAt": 1792720105176,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792720105178,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "passed": true,
+      "cliReady": {
+        "marker": "CLI-REPLY-control-ONLY",
+        "pid": 578151,
+        "promptBytes": 785,
+        "model": "qwen3:0.6b",
+        "output": "CLI-REPLY-control-ONLY",
+        "promptEvalCount": 32,
+        "evalCount": 8,
+        "readyAt": "2026-10-23T01:48:35.745Z",
+        "releaseAt": "2026-10-23T01:48:35.745Z"
+      },
+      "cliReleaseAt": "2026-10-23T01:48:35.745Z",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\"timestamp\":\"2026-10-23T01:48:25.723Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:27.317Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792720107317,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"parentId\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"timestamp\":\"2026-10-23T01:48:30.330Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\"timestamp\":1792720109962,\"idempotencyKey\":\"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 671,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "physicalReplies": [
+        {
+          "text": "CLI-REPLY-control-ONLY",
+          "acceptedAt": "2026-10-23T01:48:36.041Z"
+        }
+      ]
+    },
+    {
+      "label": "reset",
+      "mutation": "reset",
+      "text": "CLI-REPLY-reset-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-reset",
+        "sessionId": "381d5d85-44a6-4d89-a86c-da3865404a72",
+        "entry": {
+          "sessionId": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "lifecycleRevision": "bec65f40-8eef-416f-b4d4-d59bcb0d41c6",
+          "updatedAt": 1792720117596,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792720117596,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "passed": true,
+      "cliReady": {
+        "marker": "CLI-REPLY-reset-ONLY",
+        "pid": 578291,
+        "promptBytes": 781,
+        "model": "qwen3:0.6b",
+        "output": "CLI-REPLY-reset-ONLY",
+        "promptEvalCount": 32,
+        "evalCount": 8,
+        "readyAt": "2026-10-23T01:48:42.014Z",
+        "releaseAt": "2026-10-23T01:48:43.795Z"
+      },
+      "mutationRequestedAt": "2026-10-23T01:48:42.015Z",
+      "mutationResult": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-reset",
+        "entry": {
+          "sessionId": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "lifecycleRevision": "ba78f761-0f8a-4367-bb40-3c87c3ea1a21",
+          "updatedAt": 1792720123644,
+          "sessionStartedAt": 1792720123644,
+          "systemSent": false,
+          "abortedLastRun": false,
+          "modelOverrideSource": "default",
+          "chatType": "direct",
+          "compactionCount": 0,
+          "parentSessionKey": "agent:main:main",
+          "spawnDepth": 0,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "createdVia": "operator",
+          "createdAt": 1792720117596,
+          "delivery": {
+            "kind": "external",
+            "route": {
+              "channel": "delivery-proof",
+              "target": {
+                "to": "http://127.0.0.1:23025/reply"
+              }
+            },
+            "context": {
+              "channel": "delivery-proof",
+              "to": "http://127.0.0.1:23025/reply"
+            },
+            "origin": {
+              "provider": "delivery-proof",
+              "to": "http://127.0.0.1:23025/reply"
+            }
+          },
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "totalTokens": 0,
+          "totalTokensFresh": true,
+          "totalTokensVersion": 1,
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        },
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "mutationSettledBeforeCliRelease": true,
+      "cliReleaseAt": "2026-10-23T01:48:43.795Z",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": false,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 0
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "ok": true,
+            "key": "agent:main:delivery-cli-reset",
+            "entry": {
+              "sessionId": "381d5d85-44a6-4d89-a86c-da3865404a72",
+              "lifecycleRevision": "ba78f761-0f8a-4367-bb40-3c87c3ea1a21",
+              "updatedAt": 1792720123644,
+              "sessionStartedAt": 1792720123644,
+              "systemSent": false,
+              "abortedLastRun": false,
+              "modelOverrideSource": "default",
+              "chatType": "direct",
+              "compactionCount": 0,
+              "parentSessionKey": "agent:main:main",
+              "spawnDepth": 0,
+              "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+              "createdVia": "operator",
+              "createdAt": 1792720117596,
+              "delivery": {
+                "kind": "external",
+                "route": {
+                  "channel": "delivery-proof",
+                  "target": {
+                    "to": "http://127.0.0.1:23025/reply"
+                  }
+                },
+                "context": {
+                  "channel": "delivery-proof",
+                  "to": "http://127.0.0.1:23025/reply"
+                },
+                "origin": {
+                  "provider": "delivery-proof",
+                  "to": "http://127.0.0.1:23025/reply"
+                }
+              },
+              "inputTokens": 0,
+              "outputTokens": 0,
+              "totalTokens": 0,
+              "totalTokensFresh": true,
+              "totalTokensVersion": 1,
+              "modelProvider": "delivery-cli",
+              "model": "proof"
+            },
+            "resolved": {
+              "modelProvider": "delivery-cli",
+              "model": "proof"
+            }
+          }
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"381d5d85-44a6-4d89-a86c-da3865404a72\",\"timestamp\":\"2026-10-23T01:48:37.603Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:39.080Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792720119080,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 524,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"parentId\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"timestamp\":\"2026-10-23T01:48:40.672Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-reset-ONLY\",\"timestamp\":1792720120639,\"idempotencyKey\":\"dd162a63-585e-4c1a-a179-a90bafc6040e:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-reset\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-reset\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 665,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"faead14e-85a0-47b0-b7a0-e50d80cf83f3\",\"parentId\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"timestamp\":\"2026-10-23T01:48:43.649Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\"timestamp\":\"2026-10-23T01:48:25.723Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:27.317Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792720107317,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"parentId\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"timestamp\":\"2026-10-23T01:48:30.330Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\"timestamp\":1792720109962,\"idempotencyKey\":\"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 671,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "replies": [],
+      "physicalReplies": [],
+      "historyAfterMutation": {
+        "sessionKey": "agent:main:delivery-cli-reset",
+        "sessionId": "381d5d85-44a6-4d89-a86c-da3865404a72",
+        "messages": [
+          {
+            "role": "system",
+            "content": [
+              {
+                "type": "text",
+                "text": "Reset"
+              }
+            ],
+            "timestamp": 1792720123649,
+            "__openclaw": {
+              "kind": "reset",
+              "id": "faead14e-85a0-47b0-b7a0-e50d80cf83f3",
+              "transcriptPosition": {
+                "source": "olivADwlGVcYL1eC7CbXrMP2gQc8FJa2j-fiMufk-vc",
+                "rawSeq": 3
+              },
+              "seq": 1
+            }
+          }
+        ],
+        "hasMore": false,
+        "totalMessages": 1,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJiNzgwMmFkMTJlNDE0M2VhODFjNjY2MDliMDkxNWM5MSIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6IjM4MWQ1ZDg1LTQ0YTYtNGQ4OS1hODZjLWRhMzg2NTQwNGE3MiIsInZlcnNpb24iOjF9",
+        "defaults": {
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "contextTokens": null,
+          "agentRuntime": {
+            "id": "auto",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "thinkingDefault": "off",
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-cli-reset",
+          "sessionModelRevision": "FxMo52VFny1pj965D3-G4CsWTmdpdKT5NRTf5o5ZOek",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792720117596,
+          "kind": "direct",
+          "classification": "direct",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "channel": "delivery-proof",
+          "chatType": "direct",
+          "origin": {
+            "provider": "delivery-proof",
+            "to": "http://127.0.0.1:23025/reply"
+          },
+          "updatedAt": 1792720123644,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": false,
+          "sessionId": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "lifecycleRevision": "ba78f761-0f8a-4367-bb40-3c87c3ea1a21",
+          "systemSent": false,
+          "abortedLastRun": false,
+          "thinkingDefault": "off",
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "delivery-cli",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "deliveryContext": {
+            "channel": "delivery-proof",
+            "to": "http://127.0.0.1:23025/reply"
+          },
+          "lastChannel": "delivery-proof",
+          "lastTo": "http://127.0.0.1:23025/reply",
+          "snapshotAt": 1792720125311,
+          "totalTokens": 0,
+          "totalTokensFresh": true,
+          "activitySummary": {
+            "state": "unavailable",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": "faead14e-85a0-47b0-b7a0-e50d80cf83f3"
+        },
+        "thinkingLevel": "off"
+      }
+    },
+    {
+      "label": "rebind",
+      "mutation": "delete",
+      "text": "CLI-REPLY-rebind-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-rebind",
+        "sessionId": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+        "entry": {
+          "sessionId": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "lifecycleRevision": "556926ac-0eda-4502-8c0f-6be54ad314ef",
+          "updatedAt": 1792720126800,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792720126800,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "passed": true,
+      "cliReady": {
+        "marker": "CLI-REPLY-rebind-ONLY",
+        "pid": 578485,
+        "promptBytes": 783,
+        "model": "qwen3:0.6b",
+        "output": "CLI-REPLY-rebind-ONLY",
+        "promptEvalCount": 33,
+        "evalCount": 9,
+        "readyAt": "2026-10-23T01:48:51.291Z",
+        "releaseAt": "2026-10-23T01:48:53.578Z"
+      },
+      "mutationRequestedAt": "2026-10-23T01:48:51.291Z",
+      "mutationResult": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-rebind",
+        "deleted": true,
+        "archived": []
+      },
+      "mutationSettledBeforeCliRelease": true,
+      "cliReleaseAt": "2026-10-23T01:48:53.578Z",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": false,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 0
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "ok": true,
+            "key": "agent:main:delivery-cli-rebind",
+            "deleted": true,
+            "archived": []
+          }
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"381d5d85-44a6-4d89-a86c-da3865404a72\",\"timestamp\":\"2026-10-23T01:48:37.603Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:39.080Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792720119080,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 524,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"parentId\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"timestamp\":\"2026-10-23T01:48:40.672Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-reset-ONLY\",\"timestamp\":1792720120639,\"idempotencyKey\":\"dd162a63-585e-4c1a-a179-a90bafc6040e:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-reset\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-reset\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 665,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"faead14e-85a0-47b0-b7a0-e50d80cf83f3\",\"parentId\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"timestamp\":\"2026-10-23T01:48:43.649Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"55c301fc-0ead-4738-be3c-8f490b02d27b\",\"timestamp\":\"2026-10-23T01:48:46.806Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:48.325Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"timestamp\":1792720128325,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 526,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"04a343a9-93e9-4e72-b88d-6191e954ebb9\",\"parentId\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"timestamp\":\"2026-10-23T01:48:49.916Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-rebind-ONLY\",\"timestamp\":1792720129885,\"idempotencyKey\":\"6933a4ae-7511-4437-b0f3-9a8c495e7886:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-rebind\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-rebind\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 668,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\"timestamp\":\"2026-10-23T01:48:25.723Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:27.317Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792720107317,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"parentId\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"timestamp\":\"2026-10-23T01:48:30.330Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\"timestamp\":1792720109962,\"idempotencyKey\":\"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 671,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "replies": [],
+      "physicalReplies": [],
+      "recreated": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-rebind",
+        "sessionId": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+        "entry": {
+          "sessionId": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+          "lifecycleRevision": "3adc7160-d1f2-4ce1-a586-fd43559d1f9a",
+          "updatedAt": 1792720135022,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792720135022,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "historyAfterMutation": {
+        "sessionKey": "agent:main:delivery-cli-rebind",
+        "sessionId": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+        "messages": [],
+        "hasMore": false,
+        "totalMessages": 0,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "defaults": {
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "contextTokens": null,
+          "agentRuntime": {
+            "id": "auto",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "thinkingDefault": "off",
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-cli-rebind",
+          "sessionModelRevision": "xR60Ug3oC5hIfCCOPP3RXyJCse_qP6rbK57IEiVUPVo",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792720135022,
+          "kind": "direct",
+          "classification": "custom",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "updatedAt": 1792720135022,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": false,
+          "sessionId": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+          "lifecycleRevision": "3adc7160-d1f2-4ce1-a586-fd43559d1f9a",
+          "thinkingDefault": "off",
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "delivery-cli",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "snapshotAt": 1792720136540,
+          "totalTokensFresh": false,
+          "activitySummary": {
+            "state": "unavailable",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": null
+        },
+        "thinkingLevel": "off"
+      }
+    },
+    {
+      "label": "after-restart",
+      "mutation": "reset",
+      "text": "CLI-REPLY-after-restart-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-after-restart",
+        "sessionId": "e4a84b03-52ab-47d5-9d66-424572388294",
+        "entry": {
+          "sessionId": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "lifecycleRevision": "769f9400-0b96-49ac-937a-1b12a23e91bb",
+          "updatedAt": 1792720157053,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792720157054,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "passed": true,
+      "cliReady": {
+        "marker": "CLI-REPLY-after-restart-ONLY",
+        "pid": 579049,
+        "promptBytes": 797,
+        "model": "qwen3:0.6b",
+        "output": "CLI-REPLY-after-restart-ONLY",
+        "promptEvalCount": 34,
+        "evalCount": 10,
+        "readyAt": "2026-10-23T01:49:23.726Z",
+        "releaseAt": "2026-10-23T01:49:25.407Z"
+      },
+      "mutationRequestedAt": "2026-10-23T01:49:23.728Z",
+      "mutationResult": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-after-restart",
+        "entry": {
+          "sessionId": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "lifecycleRevision": "3a70640c-d320-4a77-9dec-99dbd23966f1",
+          "updatedAt": 1792720165288,
+          "sessionStartedAt": 1792720165288,
+          "systemSent": false,
+          "abortedLastRun": false,
+          "modelOverrideSource": "default",
+          "chatType": "direct",
+          "compactionCount": 0,
+          "parentSessionKey": "agent:main:main",
+          "spawnDepth": 0,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "createdVia": "operator",
+          "createdAt": 1792720157054,
+          "delivery": {
+            "kind": "external",
+            "route": {
+              "channel": "delivery-proof",
+              "target": {
+                "to": "http://127.0.0.1:23025/reply"
+              }
+            },
+            "context": {
+              "channel": "delivery-proof",
+              "to": "http://127.0.0.1:23025/reply"
+            },
+            "origin": {
+              "provider": "delivery-proof",
+              "to": "http://127.0.0.1:23025/reply"
+            }
+          },
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "totalTokens": 0,
+          "totalTokensFresh": true,
+          "totalTokensVersion": 1,
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        },
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "mutationSettledBeforeCliRelease": true,
+      "cliReleaseAt": "2026-10-23T01:49:25.407Z",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": false,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 0
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "ok": true,
+            "key": "agent:main:delivery-cli-after-restart",
+            "entry": {
+              "sessionId": "e4a84b03-52ab-47d5-9d66-424572388294",
+              "lifecycleRevision": "3a70640c-d320-4a77-9dec-99dbd23966f1",
+              "updatedAt": 1792720165288,
+              "sessionStartedAt": 1792720165288,
+              "systemSent": false,
+              "abortedLastRun": false,
+              "modelOverrideSource": "default",
+              "chatType": "direct",
+              "compactionCount": 0,
+              "parentSessionKey": "agent:main:main",
+              "spawnDepth": 0,
+              "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+              "createdVia": "operator",
+              "createdAt": 1792720157054,
+              "delivery": {
+                "kind": "external",
+                "route": {
+                  "channel": "delivery-proof",
+                  "target": {
+                    "to": "http://127.0.0.1:23025/reply"
+                  }
+                },
+                "context": {
+                  "channel": "delivery-proof",
+                  "to": "http://127.0.0.1:23025/reply"
+                },
+                "origin": {
+                  "provider": "delivery-proof",
+                  "to": "http://127.0.0.1:23025/reply"
+                }
+              },
+              "inputTokens": 0,
+              "outputTokens": 0,
+              "totalTokens": 0,
+              "totalTokensFresh": true,
+              "totalTokensVersion": 1,
+              "modelProvider": "delivery-cli",
+              "model": "proof"
+            },
+            "resolved": {
+              "modelProvider": "delivery-cli",
+              "model": "proof"
+            }
+          }
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"381d5d85-44a6-4d89-a86c-da3865404a72\",\"timestamp\":\"2026-10-23T01:48:37.603Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:39.080Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792720119080,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 524,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"parentId\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"timestamp\":\"2026-10-23T01:48:40.672Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-reset-ONLY\",\"timestamp\":1792720120639,\"idempotencyKey\":\"dd162a63-585e-4c1a-a179-a90bafc6040e:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-reset\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-reset\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 665,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"faead14e-85a0-47b0-b7a0-e50d80cf83f3\",\"parentId\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"timestamp\":\"2026-10-23T01:48:43.649Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"55c301fc-0ead-4738-be3c-8f490b02d27b\",\"timestamp\":\"2026-10-23T01:48:46.806Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:48.325Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"timestamp\":1792720128325,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 526,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"04a343a9-93e9-4e72-b88d-6191e954ebb9\",\"parentId\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"timestamp\":\"2026-10-23T01:48:49.916Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-rebind-ONLY\",\"timestamp\":1792720129885,\"idempotencyKey\":\"6933a4ae-7511-4437-b0f3-9a8c495e7886:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-rebind\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-rebind\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 668,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\"timestamp\":\"2026-10-23T01:48:55.028Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\"timestamp\":\"2026-10-23T01:48:25.723Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:27.317Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792720107317,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"parentId\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"timestamp\":\"2026-10-23T01:48:30.330Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\"timestamp\":1792720109962,\"idempotencyKey\":\"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 671,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"e4a84b03-52ab-47d5-9d66-424572388294\",\"timestamp\":\"2026-10-23T01:49:17.526Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:19.047Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"timestamp\":1792720159047,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 540,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"parentId\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"timestamp\":\"2026-10-23T01:49:22.055Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-after-restart-ONLY\",\"timestamp\":1792720161678,\"idempotencyKey\":\"e0a3d26f-45f9-4816-b95c-53b88ed47d26:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-after-restart\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-after-restart\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 689,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"1b961e63-b2b1-4397-9f73-bbdd1d912417\",\"parentId\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"timestamp\":\"2026-10-23T01:49:25.294Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        }
+      ],
+      "replies": [],
+      "physicalReplies": [],
+      "historyAfterMutation": {
+        "sessionKey": "agent:main:delivery-cli-after-restart",
+        "sessionId": "e4a84b03-52ab-47d5-9d66-424572388294",
+        "messages": [
+          {
+            "role": "system",
+            "content": [
+              {
+                "type": "text",
+                "text": "Reset"
+              }
+            ],
+            "timestamp": 1792720165294,
+            "__openclaw": {
+              "kind": "reset",
+              "id": "1b961e63-b2b1-4397-9f73-bbdd1d912417",
+              "transcriptPosition": {
+                "source": "oFPA4zhBtJkcQdf82antkc5lkp1GlwhFyucTq68Do40",
+                "rawSeq": 3
+              },
+              "seq": 1
+            }
+          }
+        ],
+        "hasMore": false,
+        "totalMessages": 1,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJlMGY0MzM0MzE5YjA0NDE4YTY5NjljZGNlOGY3M2I2ZCIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6ImU0YTg0YjAzLTUyYWItNDdkNS05ZDY2LTQyNDU3MjM4ODI5NCIsInZlcnNpb24iOjF9",
+        "defaults": {
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "contextTokens": null,
+          "agentRuntime": {
+            "id": "auto",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "thinkingDefault": "off",
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-cli-after-restart",
+          "sessionModelRevision": "C2edxpEAHan7xPtF8GFMRHXAfhkI7papYyT2kdPrMDc",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792720157054,
+          "kind": "direct",
+          "classification": "direct",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "channel": "delivery-proof",
+          "chatType": "direct",
+          "origin": {
+            "provider": "delivery-proof",
+            "to": "http://127.0.0.1:23025/reply"
+          },
+          "updatedAt": 1792720165288,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": false,
+          "sessionId": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "lifecycleRevision": "3a70640c-d320-4a77-9dec-99dbd23966f1",
+          "systemSent": false,
+          "abortedLastRun": false,
+          "thinkingDefault": "off",
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "delivery-cli",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "deliveryContext": {
+            "channel": "delivery-proof",
+            "to": "http://127.0.0.1:23025/reply"
+          },
+          "lastChannel": "delivery-proof",
+          "lastTo": "http://127.0.0.1:23025/reply",
+          "snapshotAt": 1792720166815,
+          "totalTokens": 0,
+          "totalTokensFresh": true,
+          "activitySummary": {
+            "state": "unavailable",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": "1b961e63-b2b1-4397-9f73-bbdd1d912417"
+        },
+        "thinkingLevel": "off"
+      }
+    },
+    {
+      "label": "accepted-before-crash",
+      "text": "CLI-REPLY-accepted-before-crash-ONLY",
+      "sessionKey": "agent:main:delivery-cli-accepted-before-crash",
+      "passed": true,
+      "cliReady": {
+        "marker": "CLI-REPLY-accepted-before-crash-ONLY",
+        "pid": 579200,
+        "promptBytes": 813,
+        "model": "qwen3:0.6b",
+        "output": "CLI-REPLY-accepted-before-crash-ONLY",
+        "promptEvalCount": 36,
+        "evalCount": 12,
+        "readyAt": "2026-10-23T01:49:32.972Z",
+        "releaseAt": "2026-10-23T01:49:32.972Z"
+      },
+      "rowsBeforeCrash": [
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"381d5d85-44a6-4d89-a86c-da3865404a72\",\"timestamp\":\"2026-10-23T01:48:37.603Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:39.080Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792720119080,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 524,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"parentId\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"timestamp\":\"2026-10-23T01:48:40.672Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-reset-ONLY\",\"timestamp\":1792720120639,\"idempotencyKey\":\"dd162a63-585e-4c1a-a179-a90bafc6040e:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-reset\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-reset\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 665,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"faead14e-85a0-47b0-b7a0-e50d80cf83f3\",\"parentId\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"timestamp\":\"2026-10-23T01:48:43.649Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"55c301fc-0ead-4738-be3c-8f490b02d27b\",\"timestamp\":\"2026-10-23T01:48:46.806Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:48.325Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"timestamp\":1792720128325,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 526,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"04a343a9-93e9-4e72-b88d-6191e954ebb9\",\"parentId\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"timestamp\":\"2026-10-23T01:48:49.916Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-rebind-ONLY\",\"timestamp\":1792720129885,\"idempotencyKey\":\"6933a4ae-7511-4437-b0f3-9a8c495e7886:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-rebind\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-rebind\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 668,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\"timestamp\":\"2026-10-23T01:48:55.028Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\"timestamp\":\"2026-10-23T01:48:25.723Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:27.317Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792720107317,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"parentId\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"timestamp\":\"2026-10-23T01:48:30.330Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\"timestamp\":1792720109962,\"idempotencyKey\":\"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 671,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"bcb2dbb9-63f2-441b-af2d-d7c14250de3b\",\"timestamp\":\"2026-10-23T01:49:28.288Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"a79bdfc4-7579-473e-8199-932bc10f3c33\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:29.781Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-accepted-before-crash\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-accepted-before-crash\"}],\"timestamp\":1792720169781,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 556,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\"parentId\":\"a79bdfc4-7579-473e-8199-932bc10f3c33\",\"timestamp\":\"2026-10-23T01:49:31.484Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-accepted-before-crash-ONLY\",\"timestamp\":1792720171447,\"idempotencyKey\":\"77d6c0b2-1600-4f31-b650-9db7de239387:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-accepted-before-crash\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-accepted-before-crash\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 713,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"e6b895c9-0886-427d-a655-4d42dfa7f47d\",\"parentId\":\"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\"timestamp\":\"2026-10-23T01:49:32.996Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-accepted-before-crash-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720172983,\"idempotencyKey\":\"cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87\",\"__openclaw\":{\"runId\":\"a81df428-96cf-4aab-ab55-a73e83d34e87\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 633,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"e4a84b03-52ab-47d5-9d66-424572388294\",\"timestamp\":\"2026-10-23T01:49:17.526Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:19.047Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"timestamp\":1792720159047,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 540,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"parentId\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"timestamp\":\"2026-10-23T01:49:22.055Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-after-restart-ONLY\",\"timestamp\":1792720161678,\"idempotencyKey\":\"e0a3d26f-45f9-4816-b95c-53b88ed47d26:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-after-restart\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-after-restart\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 689,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"1b961e63-b2b1-4397-9f73-bbdd1d912417\",\"parentId\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"timestamp\":\"2026-10-23T01:49:25.294Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        }
+      ],
+      "replyBeforeCrash": [
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"e6b895c9-0886-427d-a655-4d42dfa7f47d\",\"parentId\":\"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\"timestamp\":\"2026-10-23T01:49:32.996Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-accepted-before-crash-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720172983,\"idempotencyKey\":\"cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87\",\"__openclaw\":{\"runId\":\"a81df428-96cf-4aab-ab55-a73e83d34e87\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 633,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "oldPid": 578586,
+      "killRequestedAt": "2026-10-23T01:49:33.158Z",
+      "gatewayExit": {
+        "code": null,
+        "signal": "SIGKILL"
+      },
+      "physicalExitObservedAt": "2026-10-23T01:49:33.304Z",
+      "dispatchOutcome": {
+        "status": "rejected",
+        "reason": "Error: Command failed: /home/jason/.local/share/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node openclaw.mjs gateway call delivery-reset-proof.dispatch --params {\"sessionKey\":\"agent:main:delivery-cli-accepted-before-crash\",\"messageId\":\"receipt-accepted-before-crash\",\"text\":\"CLI-REPLY-accepted-before-crash-ONLY\",\"receiver\":\"http://127.0.0.1:23025/reply\"} --port 23024 --timeout 120000 --json\n"
+      },
+      "newPid": 579228,
+      "historyAfterCrash": {
+        "sessionKey": "agent:main:delivery-cli-accepted-before-crash",
+        "sessionId": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+        "messages": [
+          {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "seed-accepted-before-crash"
+              }
+            ],
+            "timestamp": 1792720169781,
+            "stopReason": "stop",
+            "usage": {
+              "input": 0,
+              "output": 0,
+              "totalTokens": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "cost": {
+                "input": 0,
+                "output": 0,
+                "cacheRead": 0,
+                "cacheWrite": 0,
+                "total": 0
+              }
+            },
+            "api": "openai-responses",
+            "provider": "openclaw",
+            "model": "gateway-injected",
+            "__openclaw": {
+              "id": "a79bdfc4-7579-473e-8199-932bc10f3c33",
+              "recordTimestampMs": 1792720169781,
+              "transcriptPosition": {
+                "source": "qucHwG8DbSkH7glOT4Wyh8uJ0eJ-rZi7sDqE-qtmQvo",
+                "rawSeq": 1
+              },
+              "seq": 1
+            }
+          },
+          {
+            "role": "user",
+            "content": "Reply with exactly this text, without explanation or tools: CLI-REPLY-accepted-before-crash-ONLY",
+            "timestamp": 1792720171447,
+            "idempotencyKey": "77d6c0b2-1600-4f31-b650-9db7de239387:user",
+            "__openclaw": {
+              "senderIsOwner": false,
+              "transport": {
+                "channel": "delivery-proof",
+                "conversationRef": "conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee",
+                "messageId": "receipt-accepted-before-crash"
+              },
+              "id": "a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9",
+              "idempotencyKey": "77d6c0b2-1600-4f31-b650-9db7de239387:user",
+              "recordTimestampMs": 1792720171484,
+              "transcriptPosition": {
+                "source": "qucHwG8DbSkH7glOT4Wyh8uJ0eJ-rZi7sDqE-qtmQvo",
+                "rawSeq": 2
+              },
+              "seq": 2
+            }
+          },
+          {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "CLI-REPLY-accepted-before-crash-ONLY"
+              }
+            ],
+            "stopReason": "stop",
+            "api": "cli",
+            "provider": "delivery-cli",
+            "model": "proof",
+            "usage": {
+              "input": 0,
+              "output": 0,
+              "totalTokens": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "cost": {
+                "input": 0,
+                "output": 0,
+                "cacheRead": 0,
+                "cacheWrite": 0,
+                "total": 0
+              }
+            },
+            "timestamp": 1792720172983,
+            "idempotencyKey": "cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87",
+            "__openclaw": {
+              "runId": "a81df428-96cf-4aab-ab55-a73e83d34e87",
+              "id": "e6b895c9-0886-427d-a655-4d42dfa7f47d",
+              "idempotencyKey": "cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87",
+              "recordTimestampMs": 1792720172996,
+              "transcriptPosition": {
+                "source": "qucHwG8DbSkH7glOT4Wyh8uJ0eJ-rZi7sDqE-qtmQvo",
+                "rawSeq": 3
+              },
+              "seq": 3
+            }
+          }
+        ],
+        "hasMore": false,
+        "totalMessages": 3,
+        "pendingInputs": {
+          "items": [],
+          "total": 0,
+          "queuedCount": 0
+        },
+        "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiI0ODljMDY5NTFjYTc0MWZmOTNiODY2N2Y3NTQ5ZDUzNyIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6ImJjYjJkYmI5LTYzZjItNDQxYi1hZjJkLWQ3YzE0MjUwZGUzYiIsInZlcnNpb24iOjF9",
+        "defaults": {
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "contextTokens": null,
+          "agentRuntime": {
+            "id": "auto",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "thinkingDefault": "off",
+          "communication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "modelSelectionTarget": "session"
+        },
+        "sessionInfo": {
+          "key": "agent:main:delivery-cli-accepted-before-crash",
+          "sessionModelRevision": "6hUq3J7-8YpXk6r_ZYGcucUmBlpcaaJHPVm9tBCzoow",
+          "visibility": "shared",
+          "effectiveCommunication": {
+            "send": "always",
+            "receive": "always"
+          },
+          "permissionModePending": false,
+          "spawnDepth": 0,
+          "createdVia": "operator",
+          "createdAt": 1792720168284,
+          "kind": "direct",
+          "classification": "direct",
+          "agentId": "main",
+          "isMain": false,
+          "isDock": false,
+          "isBackground": false,
+          "channel": "delivery-proof",
+          "chatType": "direct",
+          "origin": {
+            "provider": "delivery-proof",
+            "to": "http://127.0.0.1:23025/reply"
+          },
+          "updatedAt": 1792720190776,
+          "archived": false,
+          "pinned": false,
+          "sidebarRoot": false,
+          "unread": true,
+          "lastInteractionAt": 1792720171386,
+          "sessionId": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "lifecycleRevision": "f11f8857-9ba6-44c2-84fd-0aeace0d3645",
+          "systemSent": true,
+          "abortedLastRun": true,
+          "thinkingDefault": "off",
+          "effectiveFastMode": false,
+          "effectiveFastModeSource": "default",
+          "fastAutoOnSeconds": 60,
+          "lastRunId": "a81df428-96cf-4aab-ab55-a73e83d34e87",
+          "parentSessionKey": "agent:main:main",
+          "effectiveResponseUsage": "off",
+          "effectiveQueueMode": "steer",
+          "modelProvider": "delivery-cli",
+          "model": "proof",
+          "modelOverrideSource": null,
+          "runtimeSelectionLocked": false,
+          "agentRuntime": {
+            "id": "delivery-cli",
+            "cloudPlacementSupported": false,
+            "devicePlacementSupported": false,
+            "source": "implicit"
+          },
+          "deliveryContext": {
+            "channel": "delivery-proof",
+            "to": "http://127.0.0.1:23025/reply"
+          },
+          "lastChannel": "delivery-proof",
+          "lastTo": "http://127.0.0.1:23025/reply",
+          "snapshotAt": 1792720193011,
+          "status": "done",
+          "suppressErrorNotice": false,
+          "startedAt": 1792720171499,
+          "endedAt": 1792720173032,
+          "runtimeMs": 1533,
+          "totalTokensFresh": false,
+          "activitySummary": {
+            "state": "unavailable",
+            "canEnsure": true
+          },
+          "hasBoard": false,
+          "titlePending": false,
+          "childOwnerSessionKeys": [
+            "agent:main:main"
+          ],
+          "sharingRole": "owner",
+          "sendDisabledReason": null,
+          "hasActiveRun": false,
+          "activeRunIds": [],
+          "activeLeafEntryId": "e6b895c9-0886-427d-a655-4d42dfa7f47d"
+        },
+        "thinkingLevel": "off"
+      },
+      "rowsAfterCrash": [
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"381d5d85-44a6-4d89-a86c-da3865404a72\",\"timestamp\":\"2026-10-23T01:48:37.603Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:39.080Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792720119080,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 524,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"parentId\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"timestamp\":\"2026-10-23T01:48:40.672Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-reset-ONLY\",\"timestamp\":1792720120639,\"idempotencyKey\":\"dd162a63-585e-4c1a-a179-a90bafc6040e:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-reset\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-reset\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 665,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"faead14e-85a0-47b0-b7a0-e50d80cf83f3\",\"parentId\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"timestamp\":\"2026-10-23T01:48:43.649Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"55c301fc-0ead-4738-be3c-8f490b02d27b\",\"timestamp\":\"2026-10-23T01:48:46.806Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:48.325Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"timestamp\":1792720128325,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 526,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"04a343a9-93e9-4e72-b88d-6191e954ebb9\",\"parentId\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"timestamp\":\"2026-10-23T01:48:49.916Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-rebind-ONLY\",\"timestamp\":1792720129885,\"idempotencyKey\":\"6933a4ae-7511-4437-b0f3-9a8c495e7886:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-rebind\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-rebind\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 668,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\"timestamp\":\"2026-10-23T01:48:55.028Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\"timestamp\":\"2026-10-23T01:48:25.723Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:27.317Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792720107317,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"parentId\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"timestamp\":\"2026-10-23T01:48:30.330Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\"timestamp\":1792720109962,\"idempotencyKey\":\"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 671,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"bcb2dbb9-63f2-441b-af2d-d7c14250de3b\",\"timestamp\":\"2026-10-23T01:49:28.288Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"a79bdfc4-7579-473e-8199-932bc10f3c33\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:29.781Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-accepted-before-crash\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-accepted-before-crash\"}],\"timestamp\":1792720169781,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 556,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\"parentId\":\"a79bdfc4-7579-473e-8199-932bc10f3c33\",\"timestamp\":\"2026-10-23T01:49:31.484Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-accepted-before-crash-ONLY\",\"timestamp\":1792720171447,\"idempotencyKey\":\"77d6c0b2-1600-4f31-b650-9db7de239387:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-accepted-before-crash\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-accepted-before-crash\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 713,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"e6b895c9-0886-427d-a655-4d42dfa7f47d\",\"parentId\":\"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\"timestamp\":\"2026-10-23T01:49:32.996Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-accepted-before-crash-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720172983,\"idempotencyKey\":\"cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87\",\"__openclaw\":{\"runId\":\"a81df428-96cf-4aab-ab55-a73e83d34e87\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 633,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"e4a84b03-52ab-47d5-9d66-424572388294\",\"timestamp\":\"2026-10-23T01:49:17.526Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:19.047Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"timestamp\":1792720159047,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 540,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"parentId\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"timestamp\":\"2026-10-23T01:49:22.055Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-after-restart-ONLY\",\"timestamp\":1792720161678,\"idempotencyKey\":\"e0a3d26f-45f9-4816-b95c-53b88ed47d26:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-after-restart\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-after-restart\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 689,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"1b961e63-b2b1-4397-9f73-bbdd1d912417\",\"parentId\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"timestamp\":\"2026-10-23T01:49:25.294Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        }
+      ]
+    },
+    {
+      "label": "progress-after-crash",
+      "text": "CLI-REPLY-progress-after-crash-ONLY",
+      "created": {
+        "ok": true,
+        "key": "agent:main:delivery-cli-progress-after-crash",
+        "sessionId": "7d5fc45b-8f09-4f79-9140-9d7992211d00",
+        "entry": {
+          "sessionId": "7d5fc45b-8f09-4f79-9140-9d7992211d00",
+          "lifecycleRevision": "7fb6ec6b-e244-45f2-9cd7-c1f277661c13",
+          "updatedAt": 1792720194725,
+          "sessionRoot": "/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace",
+          "delivery": {
+            "kind": "none"
+          },
+          "createdVia": "operator",
+          "createdAt": 1792720194726,
+          "spawnDepth": 0,
+          "modelOverrideSource": "default",
+          "parentSessionKey": "agent:main:main"
+        },
+        "runStarted": false,
+        "publicRead": false,
+        "resolved": {
+          "modelProvider": "delivery-cli",
+          "model": "proof"
+        }
+      },
+      "passed": true,
+      "cliReady": {
+        "marker": "CLI-REPLY-progress-after-crash-ONLY",
+        "pid": 579704,
+        "promptBytes": 811,
+        "model": "qwen3:0.6b",
+        "output": "CLI-REPLY-progress-after-crash-ONLY",
+        "promptEvalCount": 35,
+        "evalCount": 11,
+        "readyAt": "2026-10-23T01:50:01.200Z",
+        "releaseAt": "2026-10-23T01:50:01.200Z"
+      },
+      "cliReleaseAt": "2026-10-23T01:50:01.200Z",
+      "outcomes": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "queuedFinal": true,
+            "counts": {
+              "tool": 0,
+              "block": 0,
+              "final": 1
+            },
+            "settledReceipt": {
+              "counts": {
+                "tool": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "block": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                },
+                "final": {
+                  "delivered": 0,
+                  "deliveredNotVisible": 0,
+                  "cancelled": 0,
+                  "failedBeforeSend": 0,
+                  "failedAfterSend": 0
+                }
+              },
+              "anyVisibleDelivered": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled"
+        }
+      ],
+      "rows": [
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"381d5d85-44a6-4d89-a86c-da3865404a72\",\"timestamp\":\"2026-10-23T01:48:37.603Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:39.080Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-reset\"}],\"timestamp\":1792720119080,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 524,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"parentId\":\"e3a266ce-8a2b-45a3-ab84-0f65a6646cf3\",\"timestamp\":\"2026-10-23T01:48:40.672Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-reset-ONLY\",\"timestamp\":1792720120639,\"idempotencyKey\":\"dd162a63-585e-4c1a-a179-a90bafc6040e:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-reset\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-reset\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 665,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "381d5d85-44a6-4d89-a86c-da3865404a72",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"faead14e-85a0-47b0-b7a0-e50d80cf83f3\",\"parentId\":\"302bbd09-b28a-4ec5-a10d-aa541f62fca2\",\"timestamp\":\"2026-10-23T01:48:43.649Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"55c301fc-0ead-4738-be3c-8f490b02d27b\",\"timestamp\":\"2026-10-23T01:48:46.806Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:48.325Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-rebind\"}],\"timestamp\":1792720128325,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 526,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "55c301fc-0ead-4738-be3c-8f490b02d27b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"04a343a9-93e9-4e72-b88d-6191e954ebb9\",\"parentId\":\"1e0ff01d-06be-4142-be54-8b702d2cbacc\",\"timestamp\":\"2026-10-23T01:48:49.916Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-rebind-ONLY\",\"timestamp\":1792720129885,\"idempotencyKey\":\"6933a4ae-7511-4437-b0f3-9a8c495e7886:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-rebind\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-rebind\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 668,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "7d5fc45b-8f09-4f79-9140-9d7992211d00",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"7d5fc45b-8f09-4f79-9140-9d7992211d00\",\"timestamp\":\"2026-10-23T01:49:54.739Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "7d5fc45b-8f09-4f79-9140-9d7992211d00",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"81a86c16-8f79-47c4-b40a-a9cce911702b\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:56.254Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-progress-after-crash\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-progress-after-crash\"}],\"timestamp\":1792720196254,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 554,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "7d5fc45b-8f09-4f79-9140-9d7992211d00",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"06e2591f-179c-4276-9d65-8c6c15ebd4c9\",\"parentId\":\"81a86c16-8f79-47c4-b40a-a9cce911702b\",\"timestamp\":\"2026-10-23T01:49:59.475Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-progress-after-crash-ONLY\",\"timestamp\":1792720199005,\"idempotencyKey\":\"4600f091-02cf-4e1c-a8cc-ef0eff1850c5:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-progress-after-crash\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-progress-after-crash\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 710,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "7d5fc45b-8f09-4f79-9140-9d7992211d00",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"3d1d1671-04ba-4816-91ce-9444283c75de\",\"parentId\":\"06e2591f-179c-4276-9d65-8c6c15ebd4c9\",\"timestamp\":\"2026-10-23T01:50:01.226Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-progress-after-crash-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720201211,\"idempotencyKey\":\"cli-assistant:82bd44a2-d3aa-41e3-8fa7-fe1dc4714207\",\"__openclaw\":{\"runId\":\"82bd44a2-d3aa-41e3-8fa7-fe1dc4714207\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 632,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b6cc83f8-adc1-484b-a6e4-9dad4157ec4f",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b6cc83f8-adc1-484b-a6e4-9dad4157ec4f\",\"timestamp\":\"2026-10-23T01:48:55.028Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"b7bfb297-b8f5-4763-b32d-da620e956c2d\",\"timestamp\":\"2026-10-23T01:48:25.723Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:48:27.317Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-control\"}],\"timestamp\":1792720107317,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 528,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"parentId\":\"8d3ad67c-5299-49ec-b661-d73ac9e0ae06\",\"timestamp\":\"2026-10-23T01:48:30.330Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY\",\"timestamp\":1792720109962,\"idempotencyKey\":\"a99a2542-a535-44a8-bf32-14b65bbeb94a:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-control\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-control\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 671,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"b16a70c3-4938-46b3-8ecd-a8ab79eebbc8\",\"parentId\":\"8889a820-7534-499f-8953-6947ba3baf75\",\"timestamp\":\"2026-10-23T01:48:35.775Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-control-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720115758,\"idempotencyKey\":\"cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61\",\"__openclaw\":{\"runId\":\"2941b319-e106-4729-8bfe-7d2202482e61\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 619,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"bcb2dbb9-63f2-441b-af2d-d7c14250de3b\",\"timestamp\":\"2026-10-23T01:49:28.288Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"a79bdfc4-7579-473e-8199-932bc10f3c33\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:29.781Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-accepted-before-crash\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-accepted-before-crash\"}],\"timestamp\":1792720169781,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 556,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\"parentId\":\"a79bdfc4-7579-473e-8199-932bc10f3c33\",\"timestamp\":\"2026-10-23T01:49:31.484Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-accepted-before-crash-ONLY\",\"timestamp\":1792720171447,\"idempotencyKey\":\"77d6c0b2-1600-4f31-b650-9db7de239387:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-accepted-before-crash\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-accepted-before-crash\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 713,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "bcb2dbb9-63f2-441b-af2d-d7c14250de3b",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"e6b895c9-0886-427d-a655-4d42dfa7f47d\",\"parentId\":\"a7f4cd80-6bcb-4b26-a9bb-650a65fa15b9\",\"timestamp\":\"2026-10-23T01:49:32.996Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-accepted-before-crash-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720172983,\"idempotencyKey\":\"cli-assistant:a81df428-96cf-4aab-ab55-a73e83d34e87\",\"__openclaw\":{\"runId\":\"a81df428-96cf-4aab-ab55-a73e83d34e87\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 633,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 0,
+          "event_json": "{\"type\":\"session\",\"version\":4,\"id\":\"e4a84b03-52ab-47d5-9d66-424572388294\",\"timestamp\":\"2026-10-23T01:49:17.526Z\",\"cwd\":\"/home/jason/.local/share/openclaw-134498-proof/proof/gateway-cli-origin-crash-candidate/workspace\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 219,
+          "navigation_type": "session",
+          "message_role": null
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 1,
+          "event_json": "{\"type\":\"message\",\"id\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"parentId\":null,\"timestamp\":\"2026-10-23T01:49:19.047Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"openclawDisplayContent\":[{\"type\":\"text\",\"text\":\"seed-after-restart\"}],\"timestamp\":1792720159047,\"stopReason\":\"stop\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"api\":\"openai-responses\",\"provider\":\"openclaw\",\"model\":\"gateway-injected\"}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 540,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 2,
+          "event_json": "{\"type\":\"message\",\"id\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"parentId\":\"998674f7-5144-4cd6-a696-533660f88a04\",\"timestamp\":\"2026-10-23T01:49:22.055Z\",\"message\":{\"role\":\"user\",\"content\":\"Reply with exactly this text, without explanation or tools: CLI-REPLY-after-restart-ONLY\",\"timestamp\":1792720161678,\"idempotencyKey\":\"e0a3d26f-45f9-4816-b95c-53b88ed47d26:user\",\"__openclaw\":{\"senderIsOwner\":false,\"transport\":{\"channel\":\"delivery-proof\",\"conversationRef\":\"conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee\",\"messageId\":\"receipt-after-restart\"},\"requesterOrigin\":{\"sessionKey\":\"agent:main:delivery-cli-after-restart\",\"messageProvider\":\"delivery-proof\",\"chatType\":\"direct\",\"senderId\":\"proof-user\"}}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 689,
+          "navigation_type": "message",
+          "message_role": "user"
+        },
+        {
+          "session_id": "e4a84b03-52ab-47d5-9d66-424572388294",
+          "seq": 3,
+          "event_json": "{\"type\":\"reset\",\"id\":\"1b961e63-b2b1-4397-9f73-bbdd1d912417\",\"parentId\":\"e9b7bd65-6258-402a-b9f2-bf5ced645007\",\"timestamp\":\"2026-10-23T01:49:25.294Z\",\"reason\":\"reset\"}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 166,
+          "navigation_type": "reset",
+          "message_role": null
+        }
+      ],
+      "replies": [
+        {
+          "session_id": "7d5fc45b-8f09-4f79-9140-9d7992211d00",
+          "seq": 3,
+          "event_json": "{\"type\":\"message\",\"id\":\"3d1d1671-04ba-4816-91ce-9444283c75de\",\"parentId\":\"06e2591f-179c-4276-9d65-8c6c15ebd4c9\",\"timestamp\":\"2026-10-23T01:50:01.226Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"CLI-REPLY-progress-after-crash-ONLY\"}],\"stopReason\":\"stop\",\"api\":\"cli\",\"provider\":\"delivery-cli\",\"model\":\"proof\",\"usage\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"totalTokens\":0,\"cost\":{\"input\":0,\"output\":0,\"cacheRead\":0,\"cacheWrite\":0,\"total\":0}},\"timestamp\":1792720201211,\"idempotencyKey\":\"cli-assistant:82bd44a2-d3aa-41e3-8fa7-fe1dc4714207\",\"__openclaw\":{\"runId\":\"82bd44a2-d3aa-41e3-8fa7-fe1dc4714207\"}}}",
+          "event_zstd_hex": "",
+          "event_utf8_bytes": 632,
+          "navigation_type": "message",
+          "message_role": "assistant"
+        }
+      ],
+      "physicalReplies": [
+        {
+          "text": "CLI-REPLY-progress-after-crash-ONLY",
+          "acceptedAt": "2026-10-23T01:50:01.401Z"
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "firstExit": {
+    "code": 0,
+    "signal": null
+  },
+  "controlHistory": {
+    "sessionKey": "agent:main:delivery-cli-control",
+    "sessionId": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+    "messages": [
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "seed-control"
+          }
+        ],
+        "timestamp": 1792720107317,
+        "stopReason": "stop",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "totalTokens": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "api": "openai-responses",
+        "provider": "openclaw",
+        "model": "gateway-injected",
+        "__openclaw": {
+          "id": "8d3ad67c-5299-49ec-b661-d73ac9e0ae06",
+          "recordTimestampMs": 1792720107317,
+          "transcriptPosition": {
+            "source": "CZDqH7-E_z8u-JFTjbl2EYB_gk5j8daDOtF4Pkfq0uw",
+            "rawSeq": 1
+          },
+          "seq": 1
+        }
+      },
+      {
+        "role": "user",
+        "content": "Reply with exactly this text, without explanation or tools: CLI-REPLY-control-ONLY",
+        "timestamp": 1792720109962,
+        "idempotencyKey": "a99a2542-a535-44a8-bf32-14b65bbeb94a:user",
+        "__openclaw": {
+          "senderIsOwner": false,
+          "transport": {
+            "channel": "delivery-proof",
+            "conversationRef": "conv_6e9b8c4da1c9d8093cd3e9ef6bf3e7ee",
+            "messageId": "receipt-control"
+          },
+          "id": "8889a820-7534-499f-8953-6947ba3baf75",
+          "idempotencyKey": "a99a2542-a535-44a8-bf32-14b65bbeb94a:user",
+          "recordTimestampMs": 1792720110330,
+          "transcriptPosition": {
+            "source": "CZDqH7-E_z8u-JFTjbl2EYB_gk5j8daDOtF4Pkfq0uw",
+            "rawSeq": 2
+          },
+          "seq": 2
+        }
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "CLI-REPLY-control-ONLY"
+          }
+        ],
+        "stopReason": "stop",
+        "api": "cli",
+        "provider": "delivery-cli",
+        "model": "proof",
+        "usage": {
+          "input": 0,
+          "output": 0,
+          "totalTokens": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "timestamp": 1792720115758,
+        "idempotencyKey": "cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61",
+        "__openclaw": {
+          "runId": "2941b319-e106-4729-8bfe-7d2202482e61",
+          "id": "b16a70c3-4938-46b3-8ecd-a8ab79eebbc8",
+          "idempotencyKey": "cli-assistant:2941b319-e106-4729-8bfe-7d2202482e61",
+          "recordTimestampMs": 1792720115775,
+          "transcriptPosition": {
+            "source": "CZDqH7-E_z8u-JFTjbl2EYB_gk5j8daDOtF4Pkfq0uw",
+            "rawSeq": 3
+          },
+          "seq": 3
+        }
+      }
+    ],
+    "hasMore": false,
+    "totalMessages": 3,
+    "pendingInputs": {
+      "items": [],
+      "total": 0,
+      "queuedCount": 0
+    },
+    "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiJmOWJhYjliZDEyYWE0Y2U0OWYzMGE0NTIyMWYwYjc3NyIsImxhc3RTZXEiOjMsInNlc3Npb25JZCI6ImI3YmZiMjk3LWI4ZjUtNDc2My1iMzJkLWRhNjIwZTk1NmMyZCIsInZlcnNpb24iOjF9",
+    "defaults": {
+      "modelProvider": "delivery-cli",
+      "model": "proof",
+      "contextTokens": null,
+      "agentRuntime": {
+        "id": "auto",
+        "cloudPlacementSupported": false,
+        "devicePlacementSupported": false,
+        "source": "implicit"
+      },
+      "thinkingDefault": "off",
+      "communication": {
+        "send": "always",
+        "receive": "always"
+      },
+      "modelSelectionTarget": "session"
+    },
+    "sessionInfo": {
+      "key": "agent:main:delivery-cli-control",
+      "sessionModelRevision": "D8RuaJnJqaRR4e8SuCZQ6zASUo1iY038syUjW83Gwjo",
+      "visibility": "shared",
+      "effectiveCommunication": {
+        "send": "always",
+        "receive": "always"
+      },
+      "permissionModePending": false,
+      "spawnDepth": 0,
+      "createdVia": "operator",
+      "createdAt": 1792720105178,
+      "kind": "direct",
+      "classification": "direct",
+      "agentId": "main",
+      "isMain": false,
+      "isDock": false,
+      "isBackground": false,
+      "channel": "delivery-proof",
+      "chatType": "direct",
+      "origin": {
+        "provider": "delivery-proof",
+        "to": "http://127.0.0.1:23025/reply"
+      },
+      "updatedAt": 1792720116102,
+      "archived": false,
+      "pinned": false,
+      "sidebarRoot": false,
+      "unread": true,
+      "lastInteractionAt": 1792720109832,
+      "sessionId": "b7bfb297-b8f5-4763-b32d-da620e956c2d",
+      "lifecycleRevision": "c515a957-e1ae-497d-9f38-4f294a850ca0",
+      "systemSent": true,
+      "abortedLastRun": false,
+      "thinkingDefault": "off",
+      "effectiveFastMode": false,
+      "effectiveFastModeSource": "default",
+      "fastAutoOnSeconds": 60,
+      "lastRunId": "2941b319-e106-4729-8bfe-7d2202482e61",
+      "parentSessionKey": "agent:main:main",
+      "effectiveResponseUsage": "off",
+      "effectiveQueueMode": "steer",
+      "modelProvider": "delivery-cli",
+      "model": "proof",
+      "modelOverrideSource": null,
+      "runtimeSelectionLocked": false,
+      "agentRuntime": {
+        "id": "delivery-cli",
+        "cloudPlacementSupported": false,
+        "devicePlacementSupported": false,
+        "source": "implicit"
+      },
+      "deliveryContext": {
+        "channel": "delivery-proof",
+        "to": "http://127.0.0.1:23025/reply"
+      },
+      "lastChannel": "delivery-proof",
+      "lastTo": "http://127.0.0.1:23025/reply",
+      "snapshotAt": 1792720155336,
+      "status": "done",
+      "suppressErrorNotice": false,
+      "startedAt": 1792720110559,
+      "endedAt": 1792720115912,
+      "runtimeMs": 5353,
+      "totalTokensFresh": false,
+      "activitySummary": {
+        "state": "unavailable",
+        "canEnsure": true
+      },
+      "hasBoard": false,
+      "titlePending": false,
+      "childOwnerSessionKeys": [
+        "agent:main:main"
+      ],
+      "sharingRole": "owner",
+      "sendDisabledReason": null,
+      "hasActiveRun": false,
+      "activeRunIds": [],
+      "activeLeafEntryId": "b16a70c3-4938-46b3-8ecd-a8ab79eebbc8"
+    },
+    "thinkingLevel": "off"
+  },
+  "restartExit": {
+    "code": 0,
+    "signal": null
+  }
+}
