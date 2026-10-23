@@ -35,7 +35,7 @@ describe("loaded hook import freshness", () => {
     setLoggerOverride({ level: "silent", consoleLevel: "error" });
     loggingState.rawConsole = { log: vi.fn(), info: vi.fn(), warn: vi.fn(), error: vi.fn() };
     workspaceDir = tempDirs.make("openclaw-hook-import-freshness-");
-    pinConfigDir({ OPENCLAW_STATE_DIR: path.join(workspaceDir, "unused-managed") });
+    pinConfigDir({ OPENCLAW_STATE_DIR: path.join(workspaceDir, "unused-state") });
     vi.stubEnv("OPENCLAW_BUNDLED_HOOKS_DIR", path.join(workspaceDir, "unused-bundled"));
     const hookDir = path.join(workspaceDir, "hooks", "reload-hook");
     handlerPath = path.join(hookDir, "handler.js");
