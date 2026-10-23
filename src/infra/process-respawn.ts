@@ -1,5 +1,6 @@
 // Respawns the gateway process when no supervisor handles restart.
 import { spawn, type ChildProcess } from "node:child_process";
+import { isSupported as isSystemdSupported } from "@openclaw/proc-safe/systemd";
 import { resolveOpenClawCliInvocation } from "../../cli-invocation.mjs";
 import { scheduleDetachedLaunchdRestartHandoff } from "../daemon/launchd-restart-handoff.js";
 import { isNodeRuntime } from "../daemon/runtime-binary.js";
@@ -111,6 +112,14 @@ export function registerGatewayRuntimeRecovery(params: {
   isCurrent: () => boolean;
 }): () => void {
   const { decision } = params;
+  // Native target detection can request a Node report, which waits for every worker.
+  // Prepare the service capability before server workers can become stuck in native I/O.
+  const serviceCapabilityReady =
+    params.ownsProcessLifecycle &&
+    decision.mode === "supervised" &&
+    decision.supervisor === "systemd"
+      ? isSystemdSupported()
+      : true;
   // Read while the original executable still works. Once it fails, only resident facts are usable.
   const previousShutdown =
     params.ownsProcessLifecycle && decision.mode === "supervised"
@@ -133,6 +142,9 @@ export function registerGatewayRuntimeRecovery(params: {
       decision.supervisor === "external"
     ) {
       return reportRecoveryOnly("no verified native service restart target.");
+    }
+    if (!serviceCapabilityReady) {
+      return reportRecoveryOnly("native systemd inspection was unavailable at Gateway startup.");
     }
     const prior = await history;
     if ("error" in prior) {

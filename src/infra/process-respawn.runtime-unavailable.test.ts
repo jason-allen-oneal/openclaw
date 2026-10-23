@@ -5,6 +5,7 @@ import { createDeferredCore } from "../shared/deferred.js";
 import { captureEnv } from "../test-utils/env.js";
 
 const io = vi.hoisted(() => ({
+  systemdSupported: vi.fn<typeof import("@openclaw/proc-safe/systemd").isSupported>(),
   probe: vi.fn<typeof import("node:child_process").spawnSync>(),
   history: vi.fn<typeof import("./gateway-boot-lifecycle.js").readGatewayLastShutdownAsync>(),
   service: vi.fn<typeof import("../daemon/service-state.js").readGatewayServiceState>(),
@@ -16,6 +17,8 @@ const io = vi.hoisted(() => ({
   warn: vi.fn(),
 }));
 
+// mock-isolation: Observe capability preparation without loading the host's native helper.
+vi.mock("@openclaw/proc-safe/systemd", () => ({ isSupported: io.systemdSupported }));
 vi.mock("node:child_process", async (importOriginal) => ({
   ...(await importOriginal<typeof import("node:child_process")>()),
   spawnSync: io.probe,
@@ -89,6 +92,7 @@ beforeEach(async () => {
   Reflect.deleteProperty(globalThis, Symbol.for("openclaw.gatewayNativeWorkerRecovery"));
   Reflect.deleteProperty(globalThis, Symbol.for("openclaw.gatewayWorkAdmissionState"));
   vi.clearAllMocks();
+  io.systemdSupported.mockReturnValue(true);
   process.env.OPENCLAW_STATE_DIR = "/fixture/runtime-recovery-state";
   process.env.NODE_OPTIONS = "--trace-warnings";
   finished = createDeferredCore();
@@ -161,6 +165,9 @@ it.each(["systemd", "launchd"] as const)(
   "requests one graceful restart after %s Node proves viable",
   async (supervisor) => {
     register({ mode: "supervised", supervisor });
+    if (supervisor === "launchd") {
+      expect(io.systemdSupported).not.toHaveBeenCalled();
+    }
     // The history reader must run before the first broken-runtime classification.
     await Promise.resolve();
     expect(io.history).toHaveBeenCalledOnce();
@@ -213,6 +220,7 @@ it.each([
   ["embedded lifecycle", systemd, false],
 ] as const)("keeps %s report-only", async (_name, decision, owns) => {
   await recover(decision, owns);
+  expect(io.systemdSupported).not.toHaveBeenCalled();
   expectReported(/no verified native service/, true, true);
 });
 
@@ -285,6 +293,35 @@ it("coalesces unsettled native workers into one forced fresh-process request", a
   expect(runtime.readChildRuntimeViability().available).toBe(true);
 });
 
+it("prepares native systemd inspection before a worker can require recovery", async () => {
+  register();
+  expect(io.systemdSupported).toHaveBeenCalledOnce();
+  expect(io.service).not.toHaveBeenCalled();
+  io.systemdSupported.mockImplementation(() => {
+    throw new Error("late native initialization would wait for the unsettled worker");
+  });
+  await expect(
+    recovery.requestGatewayNativeWorkerRecovery({ isCurrent: () => true }),
+  ).resolves.toMatchObject({ status: "restart-requested" });
+  expect(io.systemdSupported).toHaveBeenCalledOnce();
+  expect(io.service).toHaveBeenCalledOnce();
+});
+
+it("keeps recovery report-only when native systemd inspection was unavailable at startup", async () => {
+  io.systemdSupported.mockReturnValueOnce(false);
+  register();
+  await expect(
+    recovery.requestGatewayNativeWorkerRecovery({ isCurrent: () => true }),
+  ).resolves.toMatchObject({
+    status: "report-only",
+    reason: expect.stringContaining("native systemd inspection was unavailable at Gateway startup"),
+  });
+  expect(io.systemdSupported).toHaveBeenCalledOnce();
+  expect(io.service).not.toHaveBeenCalled();
+  expect(io.probe).not.toHaveBeenCalled();
+  expect(io.restart).not.toHaveBeenCalled();
+});
+
 it("does not restart for a native worker that settles during service verification", async () => {
   let unsettled = true;
   io.service.mockImplementationOnce(async () => {
@@ -327,6 +364,7 @@ it.each([
   ["embedded lifecycle", systemd, false],
 ] as const)("refuses automatic native-worker recovery for %s", async (_name, decision, owns) => {
   register(decision, owns);
+  expect(io.systemdSupported).not.toHaveBeenCalled();
   await expect(
     recovery.requestGatewayNativeWorkerRecovery({ isCurrent: () => true }),
   ).resolves.toMatchObject({
