@@ -184,7 +184,7 @@ class ArchiveSession {
     const dispatched = new Promise<SqliteArchiveSessionResponse>((resolve, reject) => {
       const deadline = setTimeout(() => {
         connection.failure ??= new WorkerTaskError(
-          "SQLite transcript archive worker timed out",
+          "Session archiving took longer than 3 minutes. Wait for it to stop, then retry; if it remains stuck, restart the Gateway.",
           "timeout",
         );
         createSubsystemLogger("session-sqlite").warn(connection.failure.message);

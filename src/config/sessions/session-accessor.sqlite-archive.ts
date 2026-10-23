@@ -196,7 +196,10 @@ function spawnSqliteTranscriptArchiveWorkerOperation<Result>(
     let results: Result[] | undefined;
     let workerError: Error | undefined;
     const deadline = setTimeout(() => {
-      workerError ??= new WorkerTaskError("SQLite transcript archive worker timed out", "timeout");
+      workerError ??= new WorkerTaskError(
+        "Session archiving took longer than 3 minutes. Wait for it to stop, then retry; if it remains stuck, restart the Gateway.",
+        "timeout",
+      );
       createSubsystemLogger("session-sqlite").warn(workerError.message);
       // Termination is a request, not proof that a blocked native operation stopped.
       void worker.terminate().catch(() => {});
@@ -253,7 +256,10 @@ export function runExclusiveSqliteTranscriptArchiveWorker<T>(
   }
   if (sqliteTranscriptArchiveWorkerQueue.pending >= DEFAULT_WORKER_PENDING_TASKS) {
     return Promise.reject(
-      new WorkerTaskError("SQLite transcript archive queue is full", "overloaded"),
+      new WorkerTaskError(
+        "Session archiving is busy. Wait for pending archive operations to finish, then retry.",
+        "overloaded",
+      ),
     );
   }
   sqliteTranscriptArchiveWorkerQueue.pending++;
