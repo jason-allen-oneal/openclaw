@@ -12,6 +12,7 @@ import {
 } from "../../../test/helpers/promise.js";
 import { useSqliteWorkerFault } from "../../../test/helpers/sqlite-worker-fault.js";
 import { requireNodeSqlite } from "../../infra/node-sqlite.js";
+import * as processRespawn from "../../infra/process-respawn.js";
 import * as workerCpu from "../../infra/worker-cpu.js";
 import { runInDetachedAsyncContext } from "../../shared/detached-async-context.js";
 import {
@@ -162,7 +163,7 @@ describe("SQLite transcript archive sessions", () => {
   }
 
   it.each(["one-shot", "scoped"] as const)(
-    "retires a timed-out %s archive before releasing its FIFO and staging files",
+    "retains a timed-out %s archive until native exit and requests recovery when retirement stalls",
     async (mode) => {
       const { sessionId, scope, event, database } = await prepareSession(`timeout-${mode}`);
       const plan = planSessionStateDeleteIfUnreferenced({
@@ -202,12 +203,21 @@ describe("SQLite transcript archive sessions", () => {
         });
       const run = () => archiveWorker.materializeSessionStateDeletePlans([plan]);
       let expire: (() => void) | undefined;
+      let retireGrace: (() => void) | undefined;
+      using recovery = vi
+        .spyOn(processRespawn, "requestGatewayNativeWorkerRecovery")
+        .mockResolvedValue({
+          status: "report-only",
+          reason: "Synthetic test has no Gateway process lifecycle.",
+        });
       const schedule = globalThis.setTimeout;
       using deadline = vi
         .spyOn(globalThis, "setTimeout")
         .mockImplementation((callback, delay, ...args) => {
           if (delay === 180_000) {
             expire = () => callback(...args);
+          } else if (delay === 5_000) {
+            retireGrace = () => callback(...args);
           }
           return schedule(callback, delay, ...args);
         });
@@ -228,7 +238,9 @@ describe("SQLite transcript archive sessions", () => {
           throw new Error("expected an archive worker");
         }
         const native = archive;
-        using terminate = vi.spyOn(native, "terminate");
+        const nativeTerminate = native.terminate.bind(native);
+        const retirement = createDeferred<number>();
+        using terminate = vi.spyOn(native, "terminate").mockReturnValue(retirement.promise);
         const next = vi.fn(async () => {
           expect(native.threadId).toBe(-1);
         });
@@ -240,9 +252,26 @@ describe("SQLite transcript archive sessions", () => {
         }
         expire();
         expect(terminate).toHaveBeenCalledOnce();
+        expect(recovery).not.toHaveBeenCalled();
+        expect(native.threadId).toBeGreaterThan(0);
+        expect(next).not.toHaveBeenCalled();
+        expect(
+          fs.readdirSync(path.dirname(storePath)).some((entry) => entry.includes("stage")),
+        ).toBe(true);
+        if (!retireGrace) {
+          throw new Error("Archive retirement has no recovery grace");
+        }
+        retireGrace();
+        await vi.dynamicImportSettled();
+        expect(recovery).toHaveBeenCalledOnce();
+        const request = recovery.mock.calls[0]![0];
+        expect(request.isCurrent()).toBe(true);
+        expect(next).not.toHaveBeenCalled();
+        retirement.resolve(await nativeTerminate());
         await expect(active).rejects.toMatchObject({ code: "timeout" });
         await following;
         expect(native.threadId).toBe(-1);
+        expect(request.isCurrent()).toBe(false);
         expect(
           fs.readdirSync(path.dirname(storePath)).filter((entry) => entry.includes("stage")),
         ).toEqual([]);
@@ -251,6 +280,9 @@ describe("SQLite transcript archive sessions", () => {
         deadline.mockRestore();
         Atomics.store(gate, 1, 1);
         Atomics.notify(gate, 1);
+        if (archive && archive.threadId !== -1) {
+          await archive.terminate();
+        }
         await Promise.allSettled([outcome, following]);
       }
       createWorker.mockRestore();

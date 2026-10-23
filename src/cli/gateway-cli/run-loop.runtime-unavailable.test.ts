@@ -54,9 +54,10 @@ it("closes admission and drains active work before handing runtime recovery to t
     try {
       diagnose();
       await vi.dynamicImportSettled();
-      expect(f.requestGatewayRestartWithSignalAdmission).toHaveBeenCalledExactlyOnceWith(
-        "gateway.runtime-unavailable",
-      );
+      expect(
+        f.requestGatewayRestartWithSignalAdmission,
+        JSON.stringify(f.gatewayLog.warn.mock.calls),
+      ).toHaveBeenCalledExactlyOnceWith("gateway.runtime-unavailable");
       await drain.entered;
       expect(gatewayWorkAdmissionActual.isGatewayWorkAdmissionClosed()).toBe(true);
       expectUncalled(close, f.restartGatewayProcessWithFreshPid);
@@ -98,4 +99,77 @@ it("finishes cleanup instead of restarting in-process when a fresh-process hando
       expect.stringContaining("cannot recover in-process"),
     );
   });
+});
+
+it.each(["disabled", "failed"] as const)(
+  "exits instead of restarting in-process when a native-worker handoff is %s",
+  async (mode) => {
+    f.restartGatewayProcessWithFreshPid.mockReturnValue({ mode });
+    f.consumeGatewayRestartIntent.mockReturnValueOnce({
+      force: true,
+      waitMs: 0,
+      requireFreshProcess: true,
+    });
+    await f.withRunningGateway(async ({ captureSignal, close, start, exited }) => {
+      expect(readChildRuntimeViability().available).toBe(true);
+      captureSignal("SIGUSR2")();
+      await expect(exited).resolves.toBe(1);
+      expect(close).toHaveBeenCalledOnce();
+      expect(start).toHaveBeenCalledOnce();
+      expect(f.acquireGatewayLock).toHaveBeenCalledOnce();
+      expect(f.gatewayLog.error).toHaveBeenCalledWith(
+        expect.stringContaining("unsettled native worker cannot recover in-process"),
+      );
+    });
+  },
+);
+
+it("keeps the process hard-exit watchdog armed while native-worker close is unsettled", async () => {
+  process.env.OPENCLAW_SYSTEMD_UNIT = "openclaw-fixture.service";
+  vi.mocked(readGatewayServiceState).mockResolvedValue({
+    installed: true,
+    loadState: { status: "loaded" },
+    running: true,
+    env: {},
+    command: { programArguments: [serviceNodeExecPath, "/fixture/openclaw.mjs", "gateway", "run"] },
+  });
+  f.restartGatewayProcessWithFreshPid.mockReturnValue({ mode: "supervised" });
+  const closing = createLifecycleGate();
+  // A pending operator intent cannot downgrade the process owner's recovery requirement.
+  f.consumeGatewayRestartIntentPayload.mockResolvedValueOnce({ waitMs: 60_000 });
+  await f.withRunningGateway(async ({ captureSignal, close, start, exited, loopPromise }) => {
+    close.mockImplementationOnce(() => closing.wait());
+    f.requestGatewayRestartWithSignalAdmission.mockImplementation((reason, intent) => {
+      f.peekGatewayRestartReason.mockReturnValue(reason);
+      f.consumeGatewayRestartIntent.mockReturnValueOnce(intent ?? null);
+      captureSignal("SIGUSR2")();
+      return { status: "emitted" };
+    });
+    try {
+      // Let the shared lifecycle fixture install its partial restart mocks before
+      // loading this owner, whose imports also reach the restart module.
+      const { requestGatewayNativeWorkerRecovery } = await import("../../infra/process-respawn.js");
+      const recovery = await requestGatewayNativeWorkerRecovery({ isCurrent: () => true });
+      expect(recovery.status, recovery.reason).toBe("restart-requested");
+      await closing.entered;
+      expect(gatewayWorkAdmissionActual.isGatewayWorkAdmissionClosed()).toBe(true);
+      expect(start).toHaveBeenCalledOnce();
+      expect(f.restartGatewayProcessWithFreshPid).not.toHaveBeenCalled();
+      const watchdog = f.armShutdownHardExitWatchdog.mock.calls.at(-1)?.[0];
+      expect(watchdog?.delayMs).toBeLessThanOrEqual(12_000);
+      expect(watchdog?.delayMs).toBeGreaterThan(2_000);
+      // The startup-budget watchdog is replaced by the forced-restart budget.
+      expect(f.cancelShutdownHardExitWatchdog).toHaveBeenCalledTimes(
+        f.armShutdownHardExitWatchdog.mock.calls.length - 1,
+      );
+    } finally {
+      closing.release();
+      if (!close.mock.calls.length) {
+        captureSignal("SIGINT")();
+      }
+      await loopPromise;
+    }
+    await expect(exited).resolves.toBe(0);
+    expect(start).toHaveBeenCalledOnce();
+  }, true);
 });

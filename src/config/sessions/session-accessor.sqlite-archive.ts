@@ -36,6 +36,7 @@ import type {
 import {
   joinSqliteArchiveWorkerCleanup,
   trackSqliteArchiveWorkerCleanup,
+  watchSqliteWorkerSettlement,
   SQLITE_ARCHIVE_TASK_TIMEOUT_MS,
 } from "./session-accessor.sqlite-archive-worker-lifetime.js";
 import type { SqliteSessionReclamationDiagnostics } from "./session-accessor.sqlite-contract.js";
@@ -202,6 +203,11 @@ function spawnSqliteTranscriptArchiveWorkerOperation<Result>(
       );
       createSubsystemLogger("session-sqlite").warn(workerError.message);
       // Termination is a request, not proof that a blocked native operation stopped.
+      watchSqliteWorkerSettlement(
+        new Promise<void>((done) => {
+          worker.once("exit", () => done());
+        }),
+      );
       void worker.terminate().catch(() => {});
     }, SQLITE_ARCHIVE_TASK_TIMEOUT_MS);
     worker.on("message", (message: { results: Result[]; type: string }) => {

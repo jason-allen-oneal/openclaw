@@ -1,7 +1,34 @@
 import fs from "node:fs/promises";
 import type { Worker } from "node:worker_threads";
+import { toStringifiedError } from "@openclaw/normalization-core/error-coercion";
+import { createSubsystemLogger } from "../../logging/subsystem.js";
 
 export const SQLITE_ARCHIVE_TASK_TIMEOUT_MS = 180_000;
+export const SQLITE_WORKER_RETIREMENT_GRACE_MS = 5_000;
+
+/** A deadline never releases native custody; only the process lifecycle may recover a stuck join. */
+export function watchSqliteWorkerSettlement(settlement: Promise<unknown>, taskTimeoutMs = 0): void {
+  let pending = true;
+  const deadline = setTimeout(() => {
+    void import("../../infra/process-respawn.js")
+      .then(({ requestGatewayNativeWorkerRecovery }) =>
+        requestGatewayNativeWorkerRecovery({ isCurrent: () => pending }),
+      )
+      .then(
+        (result) => createSubsystemLogger("session-sqlite").warn(result.reason),
+        (error: unknown) =>
+          createSubsystemLogger("session-sqlite").error(
+            `Native SQLite worker recovery failed: ${toStringifiedError(error).message}. Restart the Gateway before retrying.`,
+          ),
+      );
+  }, taskTimeoutMs + SQLITE_WORKER_RETIREMENT_GRACE_MS);
+  deadline.unref();
+  const settled = () => {
+    pending = false;
+    clearTimeout(deadline);
+  };
+  void settlement.then(settled, settled);
+}
 
 const cleanups = new WeakMap<Worker, Promise<void>>();
 

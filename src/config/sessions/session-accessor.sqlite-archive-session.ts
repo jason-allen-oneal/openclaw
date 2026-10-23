@@ -23,6 +23,7 @@ import type {
 import {
   joinSqliteArchiveWorkerCleanup,
   SQLITE_ARCHIVE_TASK_TIMEOUT_MS,
+  watchSqliteWorkerSettlement,
 } from "./session-accessor.sqlite-archive-worker-lifetime.js";
 
 type ArchiveConnection = {
@@ -189,6 +190,7 @@ class ArchiveSession {
         );
         createSubsystemLogger("session-sqlite").warn(connection.failure.message);
         // Keep the FIFO and database resources until the native worker actually exits.
+        watchSqliteWorkerSettlement(connection.exited);
         void connection.worker.terminate().catch(() => {});
       }, SQLITE_ARCHIVE_TASK_TIMEOUT_MS);
       const cleanup = () => {
