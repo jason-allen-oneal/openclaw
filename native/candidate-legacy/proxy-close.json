@@ -1,0 +1,70 @@
+{
+  "phase": "idle-agent-turn",
+  "openConnections": [],
+  "closed": [
+    {
+      "connection": "fffc6976-5f05-45eb-ac34-6ea1f6c91be3",
+      "role": "node",
+      "code": 1006,
+      "reason": "",
+      "unresolved": [
+        {
+          "id": "498b5218-ff6c-4d52-8cd7-fbe1d4ef3365",
+          "method": "node.event",
+          "startedAt": 1792802165275,
+          "phase": "idle-agent-turn"
+        }
+      ]
+    },
+    {
+      "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+      "role": "operator",
+      "code": 1006,
+      "reason": "",
+      "unresolved": [
+        {
+          "id": "8583457d-32d3-4c60-bdac-5c654c5df410",
+          "method": "health",
+          "startedAt": 1792802158413,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "7ffb031b-48a9-44a1-826b-0b6739b9d685",
+          "method": "models.list",
+          "startedAt": 1792802164934,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "7ef97093-1c1f-4c43-9aaa-d6eb3987d31e",
+          "method": "models.list",
+          "startedAt": 1792802165649,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "fbd78318-6595-48fe-872e-4988911e0863",
+          "method": "models.list",
+          "startedAt": 1792802167328,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "b3bcfd63-a160-4698-ba50-4debe2897e8f",
+          "method": "models.list",
+          "startedAt": 1792802167328,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "fb03f8c8-9a18-4409-9308-e80fcc63e2a5",
+          "method": "models.list",
+          "startedAt": 1792802168258,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "c816457b-bd25-462e-ade9-b15bfc855ed2",
+          "method": "sessions.observer.visibility",
+          "startedAt": 1792802168901,
+          "phase": "idle-agent-turn"
+        }
+      ]
+    }
+  ]
+}

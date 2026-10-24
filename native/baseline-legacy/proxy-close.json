@@ -1,0 +1,51 @@
+{
+  "phase": "idle-agent-turn",
+  "openConnections": [],
+  "closed": [
+    {
+      "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+      "role": "operator",
+      "code": 1006,
+      "reason": "",
+      "unresolved": [
+        {
+          "id": "37dbcf19-aecc-4baa-ad7b-fb67f9672d08",
+          "method": "health",
+          "startedAt": 1792800801229,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "10c68dff-2cb7-4117-954c-963efa782822",
+          "method": "models.list",
+          "startedAt": 1792800806907,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "b50dcae7-ac06-4f82-9d98-e18f58ab64df",
+          "method": "models.list",
+          "startedAt": 1792800806909,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "172195ea-ae38-448b-b24f-26aca0f80a78",
+          "method": "chat.metadata",
+          "startedAt": 1792800806909,
+          "phase": "idle-agent-turn"
+        },
+        {
+          "id": "7466a7bc-0d8b-47ef-b419-86bc03358752",
+          "method": "sessions.observer.visibility",
+          "startedAt": 1792800808962,
+          "phase": "idle-agent-turn"
+        }
+      ]
+    },
+    {
+      "connection": "563ed33c-d1f3-41e1-8868-483b043549d9",
+      "role": "node",
+      "code": 1006,
+      "reason": "",
+      "unresolved": []
+    }
+  ]
+}

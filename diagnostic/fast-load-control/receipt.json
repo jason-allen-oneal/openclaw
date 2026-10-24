@@ -1,0 +1,55 @@
+{
+  "name": "fast-load-control",
+  "command": [
+    "<NODE_RUNTIME>/bin/node",
+    "<LEGACY_GATEWAY_PACKAGE>/openclaw.mjs",
+    "gateway",
+    "--port",
+    "20096",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "start": 1792798838.3780155,
+  "configSha256": "0ff47752ed7193d3dd33011066eb7c6f9a22ed5b436360eb0a01b605e70ad18f",
+  "status": "captured",
+  "pid": 1115369,
+  "readyAt": 1792798856.821458,
+  "ready": {
+    "ready": true,
+    "failing": [],
+    "uptimeMs": 4157,
+    "eventLoop": {
+      "degraded": true,
+      "degradedSinceMs": 2278,
+      "reasons": [
+        "event_loop_utilization",
+        "cpu"
+      ],
+      "intervalMs": 1152.9900639999978,
+      "delayP99Ms": 432.3,
+      "delayMaxMs": 432.3,
+      "utilization": 1,
+      "cpuCoreRatio": 1.218,
+      "cpuBreakdown": {
+        "mainThreadCoreRatio": 0.999,
+        "hostUtilization": 0.154,
+        "hostCpuCount": 8,
+        "workerCoreRatio": 0,
+        "otherThreadsCoreRatio": 0.219
+      }
+    }
+  },
+  "observerCommand": [
+    "<NODE_RUNTIME>/bin/node",
+    "<REMOTE_PROOF_ROOT>/normal-ttl-feedback/observe.mjs",
+    "<REMOTE_PROOF_ROOT>/normal-ttl-feedback/fast-load-control",
+    "<LEGACY_GATEWAY_PACKAGE>"
+  ],
+  "observerExit": 0,
+  "observerElapsed": 55.799294751137495,
+  "gatewayExit": 0,
+  "processGone": true,
+  "finishedAt": 1792798913.4876184,
+  "elapsed": 75.10960388183594
+}

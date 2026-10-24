@@ -1,0 +1,57 @@
+{
+  "reconciledAt": "2026-10-24T00:46:09.819194+00:00",
+  "reason": "Original wrapper absent; terminal native capture exists. Reconcile orphan task-owned helpers without rerunning capture.",
+  "nativeReceiptPresent": true,
+  "cleanup": [
+    {
+      "label": "capture",
+      "pid": 1425261,
+      "observedCommand": null,
+      "alreadyGone": true,
+      "processGone": true,
+      "originalExitCode": "unavailable"
+    },
+    {
+      "label": "proxy",
+      "pid": 1425243,
+      "observedCommand": [
+        "node",
+        "<PROOF_ROOT>/native-natural/candidate-current-native/driver-snapshot/proxy.mjs",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-current-native",
+        "--config",
+        "<PROOF_ROOT>/native-natural/candidate-current-native/config.private.json",
+        "--package",
+        "<ANDROID_CHECKOUT>",
+        "--protocol",
+        "4"
+      ],
+      "alreadyGone": false,
+      "processGone": true,
+      "originalExitCode": "unavailable"
+    },
+    {
+      "label": "tunnel",
+      "pid": 1425226,
+      "observedCommand": [
+        "ssh",
+        "-N",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:19990:127.0.0.1:20094",
+        "GATEWAY_HOST"
+      ],
+      "alreadyGone": false,
+      "processGone": true,
+      "originalExitCode": "unavailable"
+    }
+  ],
+  "reverseRemovalExitCode": 0,
+  "ports": {
+    "19990": "free",
+    "19992": "free"
+  }
+}

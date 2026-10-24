@@ -1,0 +1,17 @@
+{
+  "note": "These inputs produced the retained baseline APK. The current candidate instrumentation copied into driver-snapshot is unused by that baseline APK, not its build input.",
+  "files": [
+    {
+      "source": "<PROOF_ROOT>/reported-baseline/instrumentation/CatalogRefreshProofTest.kt",
+      "sha256": "87a21b77c407d748e6aaf1da55cec6c43bad5649fdc14328560183a8a208cd42"
+    },
+    {
+      "source": "<PROOF_ROOT>/reported-baseline/diagnostic.init.gradle",
+      "sha256": "4d0e55d30428d5fb55b87eb39c544bd0337ef3b481f99d2bd5a537eff0484bcb"
+    },
+    {
+      "source": "<PROOF_ROOT>/reported-baseline/diagnostic-observation.patch",
+      "sha256": "775b861424cef8ba8a811b9074f68c09a1d8b5199ec7a6db2cc3ecf12ca94e9b"
+    }
+  ]
+}

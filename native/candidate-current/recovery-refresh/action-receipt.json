@@ -1,0 +1,30 @@
+{
+  "action": "provider-refresh",
+  "phase": "recovery-refresh",
+  "provider": "api-01",
+  "startedAtMs": 1792802422433,
+  "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+  "configSha256": "2602797e14e1ab6594b110dd125677b62391b2da7381f68837cc1c6c88496e7e",
+  "eventsInjected": false,
+  "paidInference": false,
+  "calls": [
+    {
+      "id": "1",
+      "method": "models.list",
+      "startedAtMs": 1792802422495,
+      "finishedAtMs": 1792802424413,
+      "elapsedMs": 1918,
+      "ok": true,
+      "modelCount": 12
+    }
+  ],
+  "result": {
+    "refreshFailed": false,
+    "modelCount": 12,
+    "selectedProviderRowCount": 12
+  },
+  "requestCompleted": true,
+  "finishedAtMs": 1792802424413,
+  "elapsedMs": 1980,
+  "pendingMethods": []
+}

@@ -1,0 +1,73 @@
+{
+  "action": "turn",
+  "phase": "idle-agent-turn",
+  "startedAtMs": 1792802106314,
+  "sessionKey": "agent:main:native-natural-546d3da9-6957-4ef6-94bb-601b8aea5304",
+  "idempotencyKey": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+  "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+  "configSha256": "3414741fe76be7cd0acc3165fb26c8a4bdda8769d49dbbe0687387f37e032f49",
+  "eventsInjected": false,
+  "paidInference": false,
+  "calls": [
+    {
+      "id": "1",
+      "method": "sessions.create",
+      "startedAtMs": 1792802112838,
+      "finishedAtMs": 1792802116962,
+      "elapsedMs": 4124,
+      "ok": true
+    },
+    {
+      "id": "2",
+      "method": "chat.send",
+      "startedAtMs": 1792802116962,
+      "finishedAtMs": 1792802119472,
+      "elapsedMs": 2510,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "3",
+      "method": "agent.wait",
+      "startedAtMs": 1792802119472,
+      "timeout": true
+    },
+    {
+      "id": "4",
+      "method": "chat.abort",
+      "startedAtMs": 1792802154475,
+      "finishedAtMs": 1792802159251,
+      "elapsedMs": 4776,
+      "ok": true
+    },
+    {
+      "id": "5",
+      "method": "agent.wait",
+      "startedAtMs": 1792802159252,
+      "finishedAtMs": 1792802165262,
+      "elapsedMs": 6010,
+      "ok": true,
+      "status": "error"
+    }
+  ],
+  "runId": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+  "sendStatus": "started",
+  "error": "agent.wait timeout; do not blindly retry",
+  "passed": false,
+  "abortResult": {
+    "ok": true,
+    "aborted": true,
+    "runIds": [
+      "af72359c-69d1-4793-9908-2df2a56bbb6a"
+    ]
+  },
+  "abortSettlement": {
+    "runId": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+    "status": "error",
+    "endedAt": 1792802159207,
+    "stopReason": "rpc"
+  },
+  "finishedAtMs": 1792802165263,
+  "elapsedMs": 58949,
+  "pendingMethods": []
+}

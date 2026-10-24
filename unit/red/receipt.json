@@ -1,0 +1,24 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    ":app:testPlayDebugUnitTest",
+    "--tests",
+    "ai.openclaw.app.chat.ChatControllerCatalogTest.healthObservationsDoNotSupersedeInFlightCatalogSuccess",
+    "--tests",
+    "ai.openclaw.app.chat.ChatControllerCatalogTest.catalogStatusSettlementPreservesInFlightSuccessAndCoalescesCatchUp",
+    "--tests",
+    "ai.openclaw.app.chat.ChatControllerCatalogTest.cleanCatalogResponseAbsorbsStatusSettlementWithoutAnotherRead",
+    "--tests",
+    "ai.openclaw.app.NodeRuntimeAgentSelectionTest.catalogStatusRecoveryClearsProviderWarningWithoutChangingRows"
+  ],
+  "head": "5fb773cb7daba27233488e8384471273d52fbb78",
+  "dirtyTrackedPaths": [
+    "apps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt",
+    "apps/android/app/src/test/java/ai/openclaw/app/chat/ChatControllerCatalogTest.kt"
+  ],
+  "exitCode": 1,
+  "durationSeconds": 103.17851305007935,
+  "completedAt": "2026-10-23T23:49:53.302004+00:00"
+}

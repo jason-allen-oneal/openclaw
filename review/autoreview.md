@@ -1,0 +1,3 @@
+autoreview scoped-clean: no accepted/actionable findings in the selected Git scope and priority
+overall: patch is correct (0.87)
+No actionable P0-P2 defects were identified in the supplied change. The refresh logic preserves same-scope in-flight reads for health/status observations, fences genuine invalidations and scope transitions, coalesces bounded status catch-up, propagates cancellation, retains accepted catalog rows on failures, and clears catalog-specific warnings only after accepted recovery. The supplied focused tests cover the principal lifecycle, sequencing, selection, and warning-recovery regressions.

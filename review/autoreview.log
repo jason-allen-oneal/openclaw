@@ -1,0 +1,31 @@
+preparation: target selection
+autoreview target: local
+branch: fix/issue-179075
+engine: codex
+model: gpt-5.6-sol
+fallback_model: gpt-5.6-terra
+thinking: medium
+codex_speed: service_tier="ultrafast"
+tools: on
+web_search: on
+ref: a8ead196291935d24c44a4f40b67397d88c70256
+preparation: evidence selection
+preparation: initial source snapshot
+preparation: bundle/evidence preparation
+bundle: 31571 bytes; review passes: 1
+review plan: 1 passes; 144948 total prompt bytes
+preparation: pre-review verification
+preparation: evidence verification
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "/tmp" (codex_home: AbsolutePathBuf("<REVIEW_TEMP>"))
+codex thread: 01a16b3c-1595-7c40-bccf-7629744379d6
+codex turn started
+codex activity: 3 hidden tool/status events
+{"findings":[],"overall_correctness":"patch is correct","overall_explanation":"I am reviewing the staged production changes against the supplied concurrency and lifecycle evidence, focusing on refresh coalescing, fencing, cancellation, and warning recovery.","overall_confidence":0.1,"review_completion":"incomplete"}
+codex activity: 2 hidden tool/status events
+{"findings":[],"overall_correctness":"patch is correct","overall_explanation":"No actionable P0-P2 defects were identified in the supplied change. The refresh logic preserves same-scope in-flight reads for health/status observations, fences genuine invalidations and scope transitions, coalesces bounded status catch-up, propagates cancellation, retains accepted catalog rows on failures, and clears catalog-specific warnings only after accepted recovery. The supplied focused tests cover the principal lifecycle, sequencing, selection, and warning-recovery regressions.","overall_confidence":0.87,"review_completion":"complete"}
+codex usage: input_tokens=87275 cached_input_tokens=43136 output_tokens=2454 reasoning_output_tokens=2185
+review usage: {"attempts": 1, "complete": true, "partial_attempts": 0, "reported_attempts": 1, "tokens": {"cached_input_tokens": 43136, "input_tokens": 87275, "output_tokens": 2454, "reasoning_output_tokens": 2185}, "unknown_attempts": 0}
+preparation: final source verification
+autoreview scoped-clean: no accepted/actionable findings in the selected Git scope and priority
+overall: patch is correct (0.87)
+No actionable P0-P2 defects were identified in the supplied change. The refresh logic preserves same-scope in-flight reads for health/status observations, fences genuine invalidations and scope transitions, coalesces bounded status catch-up, propagates cancellation, retains accepted catalog rows on failures, and clears catalog-specific warnings only after accepted recovery. The supplied focused tests cover the principal lifecycle, sequencing, selection, and warning-recovery regressions.

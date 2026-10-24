@@ -1,0 +1,20 @@
+--- a/apps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt
++++ b/apps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt
+@@ -4781,6 +4781,7 @@
+           val catalog = parseGatewayModelCatalog(catalogResult)
+           _modelCatalog.value = catalog.models
+           val refreshFailed = catalog.refreshFailed
++          Log.i("Issue179075Diagnostic", "catalog accepted rows=${catalog.models.size} refreshFailed=$refreshFailed requestSequence=$requestSequence")
+           chatMetadataLoaded = true
+           _sessions.value.firstOrNull { it.key == _sessionKey.value }?.let(::publishSelectedSessionSettings)
+           if (requestSelection != null && isCurrentSessionAction(requestSelection)) {
+@@ -4794,7 +4795,8 @@
+           }
+         }
+       }
+-    }.onFailure {
++    }.onFailure { error ->
++      Log.w("Issue179075Diagnostic", "metadata fetch failed requestSequence=$requestSequence", error)
+       synchronized(gatewayScopeApplyLock) {
+         if (
+           isCurrent() &&

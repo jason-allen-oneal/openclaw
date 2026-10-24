@@ -1,0 +1,53 @@
+{
+  "name": "current-normal-load",
+  "command": [
+    "<NODE_RUNTIME>/bin/node",
+    "<CURRENT_GATEWAY_PACKAGE>/openclaw.mjs",
+    "gateway",
+    "--port",
+    "20094",
+    "--bind",
+    "loopback",
+    "--allow-unconfigured"
+  ],
+  "start": 1792799119.7328186,
+  "configSha256": "97078fc18c958a3c1a2a7e5179e41be32ded1f83d74e5b8c1e8be776195bc333",
+  "status": "captured",
+  "pid": 1117605,
+  "readyAt": 1792799135.3105319,
+  "ready": {
+    "ready": true,
+    "coreReady": true,
+    "failing": [],
+    "uptimeMs": 5117,
+    "eventLoop": {
+      "degraded": true,
+      "degradedSinceMs": 4102,
+      "reasons": [
+        "cpu"
+      ],
+      "intervalMs": 1586.8956259999995,
+      "delayP99Ms": 820,
+      "delayMaxMs": 820,
+      "utilization": 0.801,
+      "cpuCoreRatio": 1.706,
+      "cpuBreakdown": {
+        "mainThreadCoreRatio": 0.666,
+        "hostUtilization": 0.213,
+        "hostCpuCount": 8
+      }
+    }
+  },
+  "observerCommand": [
+    "<NODE_RUNTIME>/bin/node",
+    "<REMOTE_PROOF_ROOT>/normal-ttl-feedback/observe.mjs",
+    "<REMOTE_PROOF_ROOT>/normal-ttl-feedback/current-normal-load",
+    "<CURRENT_GATEWAY_PACKAGE>"
+  ],
+  "observerExit": 0,
+  "observerElapsed": 63.85681811720133,
+  "gatewayExit": 0,
+  "processGone": true,
+  "finishedAt": 1792799199.58237,
+  "elapsed": 79.84955167770386
+}

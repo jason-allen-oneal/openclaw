@@ -1,0 +1,26 @@
+{
+  "findings": [],
+  "overall_correctness": "patch is correct",
+  "overall_explanation": "No actionable P0-P2 defects were identified in the supplied change. The refresh logic preserves same-scope in-flight reads for health/status observations, fences genuine invalidations and scope transitions, coalesces bounded status catch-up, propagates cancellation, retains accepted catalog rows on failures, and clears catalog-specific warnings only after accepted recovery. The supplied focused tests cover the principal lifecycle, sequencing, selection, and warning-recovery regressions.",
+  "overall_confidence": 0.87,
+  "provider_report": {
+    "findings": [],
+    "overall_correctness": "patch is correct",
+    "overall_explanation": "No actionable P0-P2 defects were identified in the supplied change. The refresh logic preserves same-scope in-flight reads for health/status observations, fences genuine invalidations and scope transitions, coalesces bounded status catch-up, propagates cancellation, retains accepted catalog rows on failures, and clears catalog-specific warnings only after accepted recovery. The supplied focused tests cover the principal lifecycle, sequencing, selection, and warning-recovery regressions.",
+    "overall_confidence": 0.87
+  },
+  "usage": {
+    "attempts": 1,
+    "reported_attempts": 1,
+    "unknown_attempts": 0,
+    "partial_attempts": 0,
+    "complete": true,
+    "tokens": {
+      "input_tokens": 87275,
+      "cached_input_tokens": 43136,
+      "output_tokens": 2454,
+      "reasoning_output_tokens": 2185
+    }
+  },
+  "review_status": "scoped-clean"
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.chat.ChatControllerModelSelectionTest" tests="58" skipped="0" failures="0" errors="0" timestamp="2026-10-23T23:54:53.577Z" hostname="BUILD_HOST" time="2.32">
+  <properties/>
+  <testcase name="olderMetadataSuccessCannotClearNewerFailure" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.049"/>
+  <testcase name="twoFailedQueuedThinkingPatchesWithoutSessionRowRestoreConfirmedLevel" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.035"/>
+  <testcase name="successfulModelResponseDoesNotOverwriteANewerSessionSnapshot" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.078"/>
+  <testcase name="explicitRefreshRetriesFailedMetadataBeforeClearingItsNotice" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.048"/>
+  <testcase name="immediateSendWaitsForModelCapabilitiesAfterANewerMessageSnapshot" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.108"/>
+  <testcase name="catalogScopeAlwaysFollowsSessionWhileCommandsKeepNegotiatedScope" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.09"/>
+  <testcase name="publishedSessionCatalogRevealsHiddenFavoriteAsSelectableChoice" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.036"/>
+  <testcase name="cancelledQueuedModelSelectionDoesNotRetireItsRunningPredecessor" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.027"/>
+  <testcase name="immediateSendWaitsForPendingModelSelection" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.059"/>
+  <testcase name="oldSessionMetadataFailureAndCurrentRecoveryPreserveSettingsError" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.032"/>
+  <testcase name="staleGatewayModelFailureDoesNotReplaceCurrentError" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.03"/>
+  <testcase name="modelPatchPreservesAcceptedOptionsWhenResolutionOmitsThem" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.029"/>
+  <testcase name="newerMetadataPublicationFencesOlderResponseAndFailure" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.143"/>
+  <testcase name="modelPatchUpdatesAcceptedOptionsWhenResolutionOmitsLevel" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.029"/>
+  <testcase name="failedLatestThinkingPatchRestoresOlderAcceptedOptionsWithoutSessionRow" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.02"/>
+  <testcase name="metadataPublicationCannotCrossDisconnectOrSessionRoundTrip" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.076"/>
+  <testcase name="metadataChangeRetainsSessionProfileAvailabilityUntilAcceptedRefreshWithoutReloadingChat" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.033"/>
+  <testcase name="cancelledQueuedModelSelectionDoesNotLetLaterSelectionsOvertakeItsPredecessor" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.028"/>
+  <testcase name="successfulThinkingResponseDoesNotOverwriteANewerSessionSnapshot" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.024"/>
+  <testcase name="staleHistoryDoesNotOverwriteAcceptedModelSelection" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.042"/>
+  <testcase name="staleGatewayThinkingFailureDoesNotReplaceCurrentError" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.02"/>
+  <testcase name="sessionMetadataMutationsRevalidateWithoutResettingChat" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.11"/>
+  <testcase name="failedEmptyCatalogShowsErrorUntilExplicitRefresh" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.019"/>
+  <testcase name="olderThinkingCompletionDoesNotReplaceNewerQueuedIntent" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.043"/>
+  <testcase name="metadataFailureAndRecoveryPreservePendingModelPatch" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.027"/>
+  <testcase name="queuedModelSelectionRechecksNativeLockAtTransportEnqueue" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.025"/>
+  <testcase name="immediateSendStopsWhenPendingModelSelectionFails" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.017"/>
+  <testcase name="sequenceGapRevalidatesLoadedMetadataWithoutResettingChat" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.031"/>
+  <testcase name="metadataRecoveryPreservesNewerSettingsError" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.028"/>
+  <testcase name="failedThinkingPatchPreservesGatewayOptionsWithoutSessionRow" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.017"/>
+  <testcase name="failedThinkingPatchUsesRefreshedAuthoritativeLevel" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.018"/>
+  <testcase name="repeatedThinkingValueStillUsesLatestRequestIdentity" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.019"/>
+  <testcase name="failedThinkingResponseDoesNotRollBackANewerSessionSnapshot" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.02"/>
+  <testcase name="historyHydratesSelectedModelAndAgentScopedCatalog" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.056"/>
+  <testcase name="failedSelectionDoesNotRecordRecentOrUpdateSelectedModel" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.017"/>
+  <testcase name="failedModelReconciliationPreservesWriteAcceptanceAndBlocksSendUntilRefresh" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.053"/>
+  <testcase name="sessionsRefreshRetriesWhenThinkingPatchOverlapsResponse" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.02"/>
+  <testcase name="unsupportedReasoningSendsOffWithoutChangingStoredLevelAndRestoresAfterFlip" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.058"/>
+  <testcase name="successfulSelectionRecordsRecentAndUpdatesSelectedModel" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.019"/>
+  <testcase name="sessionsRefreshDoesNotWaitForSettingsOnPreviousGateway" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.019"/>
+  <testcase name="thinkingRollbackStateIsScopedToGatewayConnection" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.027"/>
+  <testcase name="successfulDefaultSelectionDoesNotRecordRecent" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.017"/>
+  <testcase name="deletionRetiresActiveAndQueuedModelSelectionsBeforeTheirAcknowledgements" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.04"/>
+  <testcase name="successfulSelectionAppliesGatewayThinkingLevelsAndEffectiveLevel" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.019"/>
+  <testcase name="existingSessionPreservesEffectiveLevelOmittedFromAdvertisedOptions" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.042"/>
+  <testcase name="queuedMutationDoesNotCrossGatewayConnection" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.018"/>
+  <testcase name="acceptedMetadataRecoveryUnblocksPermanentAuthSendGate" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.039"/>
+  <testcase name="advertisedThinkingLevelsOverrideCatalogReasoningFlagForSend" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.041"/>
+  <testcase name="idleSessionSettingsInvalidationWaitsForExactHistoryOutsideVisibleWindow" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.048"/>
+  <testcase name="failedThinkingPatchRollsBackToModelAcceptedLevelWithoutSessionRow" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.026"/>
+  <testcase name="thinkingResponseUsesTheObservationAtActualTransportEnqueue" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.04"/>
+  <testcase name="nativeModelLockSurvivesHistoryAndPartialSettingsWithoutLockingThinking" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.046"/>
+  <testcase name="modelReconciliationReadsExactSessionWhenItFallsOutsideVisibleWindow" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.07"/>
+  <testcase name="thinkingPatchAndSendFollowPendingModelOnSharedSettingsLane" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.05"/>
+  <testcase name="modelPatchRetainsSavedThinkingButRetiresPreviousModelOptions" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.024"/>
+  <testcase name="validEmptyModelCatalogNeedsNoRetry" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.034"/>
+  <testcase name="metadataCancellationIsNotARequestTimeoutOrRejection" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.038"/>
+  <testcase name="settingsPatchUsesCapturedGatewayConnectionScope" classname="ai.openclaw.app.chat.ChatControllerModelSelectionTest" time="0.018"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

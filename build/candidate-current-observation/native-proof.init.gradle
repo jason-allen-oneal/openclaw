@@ -1,0 +1,5 @@
+allprojects {
+  plugins.withId("com.android.application") {
+    android.sourceSets.getByName("androidTest").kotlin.directories.add("<PROOF_ROOT>/native-instrumentation")
+  }
+}

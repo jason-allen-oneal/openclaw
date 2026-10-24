@@ -1,0 +1,85 @@
+{
+  "startedAtMs": 1792802360215,
+  "eventsInjected": false,
+  "steps": [
+    {
+      "observed": "healthy 732-row chat and provider catalogs",
+      "atMs": 1792802360216,
+      "state": {
+        "activityResumed": true,
+        "catalogRows": 732,
+        "refreshWarning": null,
+        "providerModelCatalogRows": 732,
+        "providerModelCatalogErrorText": null,
+        "providerModelCatalogRefreshing": false,
+        "timestampMs": 1792802336085
+      }
+    },
+    {
+      "phase": "idle-agent-turn",
+      "atMs": 1792802404991
+    },
+    {
+      "action": "idle-turn",
+      "exitCode": 0
+    },
+    {
+      "phase": "warning-establishment",
+      "atMs": 1792802409530
+    },
+    {
+      "action": "warning-refresh",
+      "exitCode": 0
+    },
+    {
+      "observed": "real warning retained with 732 rows in both owners",
+      "atMs": 1792802415879,
+      "state": {
+        "activityResumed": true,
+        "catalogRows": 732,
+        "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+        "providerModelCatalogRows": 732,
+        "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+        "providerModelCatalogRefreshing": false,
+        "timestampMs": 1792802414730
+      }
+    },
+    {
+      "phase": "warning-observation",
+      "atMs": 1792802415881
+    },
+    {
+      "phase": "warning-agent-turn",
+      "atMs": 1792802420888
+    },
+    {
+      "action": "warning-turn",
+      "exitCode": 0
+    },
+    {
+      "phase": "recovery-establishment",
+      "atMs": 1792802421914
+    },
+    {
+      "action": "recovery-refresh",
+      "exitCode": 0
+    },
+    {
+      "observed": "both warnings cleared with 732 rows",
+      "atMs": 1792802427005,
+      "state": {
+        "activityResumed": true,
+        "catalogRows": 732,
+        "refreshWarning": null,
+        "providerModelCatalogRows": 732,
+        "providerModelCatalogErrorText": null,
+        "providerModelCatalogRefreshing": false,
+        "timestampMs": 1792802426029
+      }
+    },
+    {
+      "phase": "recovered-idle",
+      "atMs": 1792802427008
+    }
+  ]
+}

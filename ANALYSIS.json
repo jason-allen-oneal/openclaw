@@ -1,0 +1,3150 @@
+{
+  "note": "Derived read-only from included records. Responses are grouped by request-origin phase and may arrive after phase end. Native observation records are changed-state samples, not continuous assertions. Point resource probes are not continuous availability or peak-memory guarantees. No aggregate product-pass result is synthesized.",
+  "native": {
+    "baseline-legacy": {
+      "nativeStartMs": 1792800694677,
+      "operatorCloseMs": 1792800809346,
+      "connectedWindowSeconds": 114.669,
+      "phases": {
+        "native-setup": {
+          "startMs": 1792800694677,
+          "endMs": 1792800733187,
+          "seconds": 38.51,
+          "requestsByMethod": {
+            "connect": 2,
+            "node.event": 2,
+            "users.self": 2,
+            "sessions.describe": 1,
+            "sessions.subscribe": 1,
+            "node.list": 2,
+            "sessions.patch": 1,
+            "sessions.observer.visibility": 1,
+            "device.pair.list": 2,
+            "question.list": 1,
+            "progressCard.get": 1,
+            "config.get": 1,
+            "chat.history": 2,
+            "chat.metadata": 11,
+            "sessions.branches.list": 2,
+            "users.prefs.get": 1,
+            "models.list": 29,
+            "sessions.list": 4,
+            "agents.list": 1,
+            "cron.status": 1,
+            "channels.status": 1,
+            "exec.approval.list": 2,
+            "models.authStatus": 10,
+            "cron.list": 1,
+            "plugin.approval.list": 2,
+            "voicewake.get": 1,
+            "health": 2,
+            "openclaw.approval.list": 2
+          },
+          "eventsByType": {
+            "connect.challenge": 2,
+            "presence": 1,
+            "sessions.changed": 1,
+            "chat.metadata.changed": 10,
+            "tick": 2
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792800703475,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 3,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800707014,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 5,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800710475,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 6,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800713905,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 7,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800717185,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 8,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800720554,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 9,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800723824,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 10,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800726527,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 11,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800729800,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 12,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800733071,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 13,
+              "payload": {}
+            }
+          ],
+          "catalogRequestsPerSecond": 0.7530511555440146,
+          "owners": {
+            "general-inventory": {
+              "requests": 10,
+              "responses": 10,
+              "responsesBeforePhaseEnd": 10,
+              "responsesBeforeDisconnect": 10,
+              "ok": 10,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 2496,
+                "median": 3079.0,
+                "max": 3393
+              }
+            },
+            "provider-settings": {
+              "requests": 10,
+              "responses": 10,
+              "responsesBeforePhaseEnd": 10,
+              "responsesBeforeDisconnect": 10,
+              "ok": 10,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 1418,
+                "median": 1786.5,
+                "max": 2686
+              }
+            },
+            "chat-configured": {
+              "requests": 9,
+              "responses": 9,
+              "responsesBeforePhaseEnd": 8,
+              "responsesBeforeDisconnect": 9,
+              "ok": 9,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 3946,
+                "median": 4900,
+                "max": 5514
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 16,
+            "rssMiBFirst": 749.0078125,
+            "rssMiBLast": 1341.86328125,
+            "rssMiBSampledMax": 1435.21484375,
+            "hwmMiBMax": 1435.21484375,
+            "readinessSamples": 3,
+            "readyResponses": 1,
+            "readinessHttpStatuses": {
+              "200": 1
+            },
+            "readinessErrors": 2,
+            "readinessElapsedMs": {
+              "min": 223,
+              "max": 3003
+            }
+          },
+          "lastObservationBeforePhase": null,
+          "changedObservationsDuringPhase": [
+            {
+              "activityResumed": true,
+              "catalogRows": 0,
+              "refreshWarning": null,
+              "timestampMs": 1792800701335
+            }
+          ]
+        },
+        "natural-idle": {
+          "startMs": 1792800733187,
+          "endMs": 1792800796060,
+          "seconds": 62.873,
+          "requestsByMethod": {
+            "models.list": 51,
+            "chat.metadata": 26,
+            "talk.catalog": 2,
+            "sessions.list": 1,
+            "models.authStatus": 23,
+            "health": 2,
+            "question.list": 1,
+            "progressCard.get": 1,
+            "node.event": 1
+          },
+          "eventsByType": {
+            "chat.metadata.changed": 23,
+            "tick": 4,
+            "health": 2,
+            "node.hostStats": 1
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792800736176,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 14,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800739404,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 16,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800741987,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 17,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800744464,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 18,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800747924,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 19,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800751309,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 21,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800753854,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 22,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800755894,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 23,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800758635,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 24,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800761065,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 25,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800763635,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 26,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800767464,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 27,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800769855,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 29,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800771524,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 31,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800773884,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 32,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800776235,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 33,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800778604,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 34,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800781795,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 35,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800783433,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 36,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800785843,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 37,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800788274,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 38,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800790746,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 39,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800794234,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 40,
+              "payload": {}
+            }
+          ],
+          "catalogRequestsPerSecond": 0.8111590030696801,
+          "owners": {
+            "general-inventory": {
+              "requests": 24,
+              "responses": 24,
+              "responsesBeforePhaseEnd": 23,
+              "responsesBeforeDisconnect": 24,
+              "ok": 24,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 2277,
+                "median": 4698.0,
+                "max": 5736
+              }
+            },
+            "provider-settings": {
+              "requests": 24,
+              "responses": 24,
+              "responsesBeforePhaseEnd": 23,
+              "responsesBeforeDisconnect": 24,
+              "ok": 24,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 1455,
+                "median": 4032.5,
+                "max": 5251
+              }
+            },
+            "chat-configured": {
+              "requests": 3,
+              "responses": 3,
+              "responsesBeforePhaseEnd": 3,
+              "responsesBeforeDisconnect": 3,
+              "ok": 3,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 3383,
+                "median": 4135,
+                "max": 4398
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 24,
+            "rssMiBFirst": 1342.28515625,
+            "rssMiBLast": 1949.8046875,
+            "rssMiBSampledMax": 2034.01171875,
+            "hwmMiBMax": 2034.01171875,
+            "readinessSamples": 5,
+            "readyResponses": 0,
+            "readinessHttpStatuses": {},
+            "readinessErrors": 5,
+            "readinessElapsedMs": {
+              "min": 3001,
+              "max": 3003
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 0,
+            "refreshWarning": null,
+            "timestampMs": 1792800701335
+          },
+          "changedObservationsDuringPhase": []
+        },
+        "idle-agent-turn": {
+          "startMs": 1792800796060,
+          "endMs": 1792800809346,
+          "seconds": 13.286,
+          "requestsByMethod": {
+            "models.list": 12,
+            "chat.metadata": 4,
+            "models.authStatus": 4,
+            "health": 1,
+            "sessions.observer.visibility": 1
+          },
+          "eventsByType": {
+            "chat.metadata.changed": 4,
+            "tick": 2
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792800797004,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 41,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800801154,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 43,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800803434,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 44,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792800806803,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 45,
+              "payload": {}
+            }
+          ],
+          "catalogRequestsPerSecond": 0.9032063826584374,
+          "owners": {
+            "general-inventory": {
+              "requests": 4,
+              "responses": 4,
+              "responsesBeforePhaseEnd": 3,
+              "responsesBeforeDisconnect": 3,
+              "ok": 4,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 2175,
+                "median": 3342.0,
+                "max": 5459
+              }
+            },
+            "provider-settings": {
+              "requests": 4,
+              "responses": 3,
+              "responsesBeforePhaseEnd": 3,
+              "responsesBeforeDisconnect": 3,
+              "ok": 3,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 2548,
+                "median": 2643,
+                "max": 3874
+              }
+            },
+            "chat-configured": {
+              "requests": 4,
+              "responses": 4,
+              "responsesBeforePhaseEnd": 4,
+              "responsesBeforeDisconnect": 4,
+              "ok": 4,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 4435,
+                "median": 4495.0,
+                "max": 4585
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 6,
+            "rssMiBFirst": 2041.62109375,
+            "rssMiBLast": 1959.09375,
+            "rssMiBSampledMax": 2042.890625,
+            "hwmMiBMax": 2083.98828125,
+            "readinessSamples": 1,
+            "readyResponses": 0,
+            "readinessHttpStatuses": {},
+            "readinessErrors": 1,
+            "readinessElapsedMs": {
+              "min": 3002,
+              "max": 3002
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 0,
+            "refreshWarning": null,
+            "timestampMs": 1792800701335
+          },
+          "changedObservationsDuringPhase": []
+        }
+      },
+      "nativeObservations": [
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "refreshWarning": null,
+          "timestampMs": 1792800701335
+        }
+      ],
+      "catalogResponseSummary": {
+        "responses": 91,
+        "ok": 91,
+        "refreshFailed": 0,
+        "modelCounts": [
+          732
+        ],
+        "modelIdentitySha256": [
+          "7145fd9af1ae3a8d3f01fe8c762c0f3034dc9ac0c5acb64f2129d08be9dfd462"
+        ],
+        "availabilityShapes": [
+          "{\"available\": 732}"
+        ]
+      },
+      "connectedWindowResources": {
+        "samples": 46,
+        "rssMiBFirst": 749.0078125,
+        "rssMiBLast": 1959.09375,
+        "rssMiBSampledMax": 2042.890625,
+        "hwmMiBMax": 2083.98828125,
+        "readinessSamples": 9,
+        "readyResponses": 1,
+        "readinessHttpStatuses": {
+          "200": 1
+        },
+        "readinessErrors": 8,
+        "readinessElapsedMs": {
+          "min": 223,
+          "max": 3003
+        }
+      },
+      "wholeRecordedRunResources": {
+        "samples": 332,
+        "rssMiBFirst": 63.703125,
+        "rssMiBLast": 923.6328125,
+        "rssMiBSampledMax": 2147.48828125,
+        "hwmMiBMax": 2247.6796875,
+        "readinessSamples": 67,
+        "readyResponses": 57,
+        "readinessHttpStatuses": {
+          "200": 57
+        },
+        "readinessErrors": 10,
+        "readinessElapsedMs": {
+          "min": 0,
+          "max": 3003
+        }
+      },
+      "agentActions": {
+        "idle-turn": {
+          "action": "turn",
+          "phase": "idle-agent-turn",
+          "startedAtMs": 1792800796171,
+          "sessionKey": "agent:main:native-natural-41763d52-c5fc-45df-9c33-eaae20d919a3",
+          "idempotencyKey": "5f003e6d-9a37-470e-9c9b-c0f8c9c97c62",
+          "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+          "configSha256": "3f7234b9286abc161f7ca9a6862afb75d7e4ca7ad01663d97bf1b9aca6a038db",
+          "eventsInjected": false,
+          "paidInference": false,
+          "calls": [
+            {
+              "id": "1",
+              "method": "sessions.create",
+              "startedAtMs": 1792800806766,
+              "finishedAtMs": 1792800811304,
+              "elapsedMs": 4538,
+              "ok": true
+            },
+            {
+              "id": "2",
+              "method": "chat.send",
+              "startedAtMs": 1792800811304,
+              "finishedAtMs": 1792800811833,
+              "elapsedMs": 529,
+              "ok": true,
+              "status": "started"
+            },
+            {
+              "id": "3",
+              "method": "agent.wait",
+              "startedAtMs": 1792800811841,
+              "finishedAtMs": 1792800815264,
+              "elapsedMs": 3423,
+              "ok": true,
+              "status": "ok"
+            },
+            {
+              "id": "4",
+              "method": "chat.history",
+              "startedAtMs": 1792800815264,
+              "finishedAtMs": 1792800815314,
+              "elapsedMs": 50,
+              "ok": true
+            }
+          ],
+          "runId": "5f003e6d-9a37-470e-9c9b-c0f8c9c97c62",
+          "sendStatus": "started",
+          "terminalStatus": "ok",
+          "persistedReplyVerified": true,
+          "historyMessageCount": 2,
+          "passed": true,
+          "finishedAtMs": 1792800815314,
+          "elapsedMs": 19143,
+          "pendingMethods": [],
+          "completedWhileNativeConnected": false
+        }
+      },
+      "agentAction": {
+        "action": "turn",
+        "phase": "idle-agent-turn",
+        "startedAtMs": 1792800796171,
+        "sessionKey": "agent:main:native-natural-41763d52-c5fc-45df-9c33-eaae20d919a3",
+        "idempotencyKey": "5f003e6d-9a37-470e-9c9b-c0f8c9c97c62",
+        "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+        "configSha256": "3f7234b9286abc161f7ca9a6862afb75d7e4ca7ad01663d97bf1b9aca6a038db",
+        "eventsInjected": false,
+        "paidInference": false,
+        "calls": [
+          {
+            "id": "1",
+            "method": "sessions.create",
+            "startedAtMs": 1792800806766,
+            "finishedAtMs": 1792800811304,
+            "elapsedMs": 4538,
+            "ok": true
+          },
+          {
+            "id": "2",
+            "method": "chat.send",
+            "startedAtMs": 1792800811304,
+            "finishedAtMs": 1792800811833,
+            "elapsedMs": 529,
+            "ok": true,
+            "status": "started"
+          },
+          {
+            "id": "3",
+            "method": "agent.wait",
+            "startedAtMs": 1792800811841,
+            "finishedAtMs": 1792800815264,
+            "elapsedMs": 3423,
+            "ok": true,
+            "status": "ok"
+          },
+          {
+            "id": "4",
+            "method": "chat.history",
+            "startedAtMs": 1792800815264,
+            "finishedAtMs": 1792800815314,
+            "elapsedMs": 50,
+            "ok": true
+          }
+        ],
+        "runId": "5f003e6d-9a37-470e-9c9b-c0f8c9c97c62",
+        "sendStatus": "started",
+        "terminalStatus": "ok",
+        "persistedReplyVerified": true,
+        "historyMessageCount": 2,
+        "passed": true,
+        "finishedAtMs": 1792800815314,
+        "elapsedMs": 19143,
+        "pendingMethods": [],
+        "completedWhileNativeConnected": false
+      },
+      "inference": {
+        "backend": "Synthetic deterministic loopback OpenAI-compatible fixture; not an external model service.",
+        "records": [
+          {
+            "timestampMs": 1792800815078,
+            "sequence": 1,
+            "completed": true,
+            "model": "model-0",
+            "stream": true,
+            "requestBytes": 29801,
+            "elapsedMs": 2
+          }
+        ],
+        "completedWhileNativeConnected": 0
+      }
+    },
+    "candidate-legacy": {
+      "nativeStartMs": 1792802036888,
+      "operatorCloseMs": 1792802169361,
+      "connectedWindowSeconds": 132.473,
+      "phases": {
+        "native-setup": {
+          "startMs": 1792802036888,
+          "endMs": 1792802061239,
+          "seconds": 24.351,
+          "requestsByMethod": {
+            "connect": 2,
+            "node.event": 2,
+            "sessions.describe": 1,
+            "users.self": 2,
+            "sessions.subscribe": 1,
+            "node.list": 2,
+            "sessions.patch": 1,
+            "sessions.observer.visibility": 1,
+            "device.pair.list": 2,
+            "question.list": 1,
+            "progressCard.get": 1,
+            "config.get": 1,
+            "chat.history": 1,
+            "chat.metadata": 9,
+            "sessions.branches.list": 1,
+            "users.prefs.get": 1,
+            "agents.list": 1,
+            "models.list": 19,
+            "cron.status": 1,
+            "channels.status": 1,
+            "exec.approval.list": 2,
+            "sessions.list": 3,
+            "health": 1,
+            "cron.list": 1,
+            "plugin.approval.list": 2,
+            "models.authStatus": 7,
+            "voicewake.get": 1,
+            "openclaw.approval.list": 2
+          },
+          "eventsByType": {
+            "connect.challenge": 2,
+            "health": 1,
+            "presence": 1,
+            "sessions.changed": 1,
+            "chat.metadata.changed": 8
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792802043683,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 3,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802045851,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 4,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802047605,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 5,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802050112,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 6,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802052744,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 7,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802055312,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 8,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802057732,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 9,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802059482,
+              "phase": "native-setup",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 10,
+              "payload": {}
+            }
+          ],
+          "catalogRequestsPerSecond": 0.7802554309884605,
+          "owners": {
+            "general-inventory": {
+              "requests": 9,
+              "responses": 9,
+              "responsesBeforePhaseEnd": 6,
+              "responsesBeforeDisconnect": 9,
+              "ok": 9,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 2033,
+                "median": 4758,
+                "max": 7046
+              }
+            },
+            "provider-settings": {
+              "requests": 9,
+              "responses": 9,
+              "responsesBeforePhaseEnd": 7,
+              "responsesBeforeDisconnect": 9,
+              "ok": 9,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 3345,
+                "median": 4068,
+                "max": 5057
+              }
+            },
+            "chat-configured": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 4206,
+                "median": 4206,
+                "max": 4206
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 10,
+            "rssMiBFirst": 772.80859375,
+            "rssMiBLast": 1222.46875,
+            "rssMiBSampledMax": 1240.44921875,
+            "hwmMiBMax": 1257.97265625,
+            "readinessSamples": 2,
+            "readyResponses": 1,
+            "readinessHttpStatuses": {
+              "200": 1
+            },
+            "readinessErrors": 1,
+            "readinessElapsedMs": {
+              "min": 2794,
+              "max": 3003
+            }
+          },
+          "lastObservationBeforePhase": null,
+          "changedObservationsDuringPhase": [
+            {
+              "activityResumed": true,
+              "catalogRows": 0,
+              "refreshWarning": null,
+              "timestampMs": 1792802040907
+            }
+          ]
+        },
+        "natural-idle": {
+          "startMs": 1792802061239,
+          "endMs": 1792802106251,
+          "seconds": 45.012,
+          "requestsByMethod": {
+            "models.authStatus": 17,
+            "talk.catalog": 2,
+            "sessions.list": 1,
+            "chat.metadata": 18,
+            "models.list": 34,
+            "health": 2,
+            "node.event": 1
+          },
+          "eventsByType": {
+            "chat.metadata.changed": 17,
+            "tick": 4
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792802062712,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 11,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802065132,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 13,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802068552,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 14,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802070162,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 15,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802072722,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 16,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802077287,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 17,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802078862,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 18,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802081192,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 19,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802084342,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 20,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802086732,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 21,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802089332,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 22,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802093422,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 23,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802095184,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 25,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802097652,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 26,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802100102,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 27,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802102572,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 28,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802104993,
+              "phase": "natural-idle",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 29,
+              "payload": {}
+            }
+          ],
+          "catalogRequestsPerSecond": 0.7553541277881454,
+          "owners": {
+            "general-inventory": {
+              "requests": 17,
+              "responses": 17,
+              "responsesBeforePhaseEnd": 15,
+              "responsesBeforeDisconnect": 17,
+              "ok": 17,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 3172,
+                "median": 5470,
+                "max": 8659
+              }
+            },
+            "provider-settings": {
+              "requests": 17,
+              "responses": 17,
+              "responsesBeforePhaseEnd": 15,
+              "responsesBeforeDisconnect": 17,
+              "ok": 17,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 3501,
+                "median": 5572,
+                "max": 9362
+              }
+            },
+            "chat-configured": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            }
+          },
+          "resourceSamples": {
+            "samples": 18,
+            "rssMiBFirst": 1251.28515625,
+            "rssMiBLast": 1764.10546875,
+            "rssMiBSampledMax": 1764.10546875,
+            "hwmMiBMax": 1768.08203125,
+            "readinessSamples": 3,
+            "readyResponses": 0,
+            "readinessHttpStatuses": {},
+            "readinessErrors": 3,
+            "readinessElapsedMs": {
+              "min": 3002,
+              "max": 3003
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 0,
+            "refreshWarning": null,
+            "timestampMs": 1792802040907
+          },
+          "changedObservationsDuringPhase": []
+        },
+        "idle-agent-turn": {
+          "startMs": 1792802106251,
+          "endMs": 1792802169361,
+          "seconds": 63.11,
+          "requestsByMethod": {
+            "models.authStatus": 23,
+            "models.list": 55,
+            "chat.metadata": 22,
+            "question.list": 2,
+            "health": 2,
+            "node.event": 1,
+            "sessions.observer.visibility": 1
+          },
+          "eventsByType": {
+            "health": 4,
+            "chat.metadata.changed": 22,
+            "sessions.changed": 4,
+            "node.hostStats": 1,
+            "tick": 4,
+            "chat": 1,
+            "agent": 1
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792802108262,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 31,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802109912,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 32,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802112363,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 33,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802114872,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 34,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802117672,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 35,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802120182,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 36,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802122632,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 41,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802125942,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 43,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802127642,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 44,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802130032,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 45,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802132392,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 46,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802135832,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 47,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802139142,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 48,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802142303,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 49,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802145522,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 50,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802148662,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 51,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802151802,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 52,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802155242,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 53,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802158445,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 55,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802160683,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 59,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802164833,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 61,
+              "payload": {}
+            },
+            {
+              "timestampMs": 1792802167262,
+              "phase": "idle-agent-turn",
+              "direction": "gateway-event",
+              "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 62,
+              "payload": {}
+            }
+          ],
+          "catalogRequestsPerSecond": 0.8714942164474727,
+          "owners": {
+            "general-inventory": {
+              "requests": 22,
+              "responses": 21,
+              "responsesBeforePhaseEnd": 20,
+              "responsesBeforeDisconnect": 20,
+              "ok": 21,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 2197,
+                "median": 4051,
+                "max": 5740
+              }
+            },
+            "provider-settings": {
+              "requests": 22,
+              "responses": 21,
+              "responsesBeforePhaseEnd": 21,
+              "responsesBeforeDisconnect": 21,
+              "ok": 21,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 1630,
+                "median": 3284,
+                "max": 4978
+              }
+            },
+            "chat-configured": {
+              "requests": 11,
+              "responses": 10,
+              "responsesBeforePhaseEnd": 9,
+              "responsesBeforeDisconnect": 9,
+              "ok": 10,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 4148,
+                "median": 5089.5,
+                "max": 5344
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 24,
+            "rssMiBFirst": 1784.99609375,
+            "rssMiBLast": 1715.265625,
+            "rssMiBSampledMax": 2003.8828125,
+            "hwmMiBMax": 2015.80078125,
+            "readinessSamples": 5,
+            "readyResponses": 0,
+            "readinessHttpStatuses": {},
+            "readinessErrors": 5,
+            "readinessElapsedMs": {
+              "min": 3002,
+              "max": 3003
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 0,
+            "refreshWarning": null,
+            "timestampMs": 1792802040907
+          },
+          "changedObservationsDuringPhase": []
+        }
+      },
+      "nativeObservations": [
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "refreshWarning": null,
+          "timestampMs": 1792802040907
+        }
+      ],
+      "catalogResponseSummary": {
+        "responses": 105,
+        "ok": 105,
+        "refreshFailed": 0,
+        "modelCounts": [
+          732
+        ],
+        "modelIdentitySha256": [
+          "7145fd9af1ae3a8d3f01fe8c762c0f3034dc9ac0c5acb64f2129d08be9dfd462"
+        ],
+        "availabilityShapes": [
+          "{\"available\": 732}"
+        ]
+      },
+      "connectedWindowResources": {
+        "samples": 52,
+        "rssMiBFirst": 772.80859375,
+        "rssMiBLast": 1715.265625,
+        "rssMiBSampledMax": 2003.8828125,
+        "hwmMiBMax": 2015.80078125,
+        "readinessSamples": 10,
+        "readyResponses": 1,
+        "readinessHttpStatuses": {
+          "200": 1
+        },
+        "readinessErrors": 9,
+        "readinessElapsedMs": {
+          "min": 2794,
+          "max": 3003
+        }
+      },
+      "wholeRecordedRunResources": {
+        "samples": 105,
+        "rssMiBFirst": 58.546875,
+        "rssMiBLast": 1942.078125,
+        "rssMiBSampledMax": 2003.8828125,
+        "hwmMiBMax": 2015.80078125,
+        "readinessSamples": 21,
+        "readyResponses": 10,
+        "readinessHttpStatuses": {
+          "200": 10
+        },
+        "readinessErrors": 11,
+        "readinessElapsedMs": {
+          "min": 0,
+          "max": 3003
+        }
+      },
+      "agentActions": {
+        "idle-turn": {
+          "action": "turn",
+          "phase": "idle-agent-turn",
+          "startedAtMs": 1792802106314,
+          "sessionKey": "agent:main:native-natural-546d3da9-6957-4ef6-94bb-601b8aea5304",
+          "idempotencyKey": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+          "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+          "configSha256": "3414741fe76be7cd0acc3165fb26c8a4bdda8769d49dbbe0687387f37e032f49",
+          "eventsInjected": false,
+          "paidInference": false,
+          "calls": [
+            {
+              "id": "1",
+              "method": "sessions.create",
+              "startedAtMs": 1792802112838,
+              "finishedAtMs": 1792802116962,
+              "elapsedMs": 4124,
+              "ok": true
+            },
+            {
+              "id": "2",
+              "method": "chat.send",
+              "startedAtMs": 1792802116962,
+              "finishedAtMs": 1792802119472,
+              "elapsedMs": 2510,
+              "ok": true,
+              "status": "started"
+            },
+            {
+              "id": "3",
+              "method": "agent.wait",
+              "startedAtMs": 1792802119472,
+              "timeout": true
+            },
+            {
+              "id": "4",
+              "method": "chat.abort",
+              "startedAtMs": 1792802154475,
+              "finishedAtMs": 1792802159251,
+              "elapsedMs": 4776,
+              "ok": true
+            },
+            {
+              "id": "5",
+              "method": "agent.wait",
+              "startedAtMs": 1792802159252,
+              "finishedAtMs": 1792802165262,
+              "elapsedMs": 6010,
+              "ok": true,
+              "status": "error"
+            }
+          ],
+          "runId": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+          "sendStatus": "started",
+          "error": "agent.wait timeout; do not blindly retry",
+          "passed": false,
+          "abortResult": {
+            "ok": true,
+            "aborted": true,
+            "runIds": [
+              "af72359c-69d1-4793-9908-2df2a56bbb6a"
+            ]
+          },
+          "abortSettlement": {
+            "runId": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+            "status": "error",
+            "endedAt": 1792802159207,
+            "stopReason": "rpc"
+          },
+          "finishedAtMs": 1792802165263,
+          "elapsedMs": 58949,
+          "pendingMethods": [],
+          "completedWhileNativeConnected": true
+        }
+      },
+      "agentAction": {
+        "action": "turn",
+        "phase": "idle-agent-turn",
+        "startedAtMs": 1792802106314,
+        "sessionKey": "agent:main:native-natural-546d3da9-6957-4ef6-94bb-601b8aea5304",
+        "idempotencyKey": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+        "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+        "configSha256": "3414741fe76be7cd0acc3165fb26c8a4bdda8769d49dbbe0687387f37e032f49",
+        "eventsInjected": false,
+        "paidInference": false,
+        "calls": [
+          {
+            "id": "1",
+            "method": "sessions.create",
+            "startedAtMs": 1792802112838,
+            "finishedAtMs": 1792802116962,
+            "elapsedMs": 4124,
+            "ok": true
+          },
+          {
+            "id": "2",
+            "method": "chat.send",
+            "startedAtMs": 1792802116962,
+            "finishedAtMs": 1792802119472,
+            "elapsedMs": 2510,
+            "ok": true,
+            "status": "started"
+          },
+          {
+            "id": "3",
+            "method": "agent.wait",
+            "startedAtMs": 1792802119472,
+            "timeout": true
+          },
+          {
+            "id": "4",
+            "method": "chat.abort",
+            "startedAtMs": 1792802154475,
+            "finishedAtMs": 1792802159251,
+            "elapsedMs": 4776,
+            "ok": true
+          },
+          {
+            "id": "5",
+            "method": "agent.wait",
+            "startedAtMs": 1792802159252,
+            "finishedAtMs": 1792802165262,
+            "elapsedMs": 6010,
+            "ok": true,
+            "status": "error"
+          }
+        ],
+        "runId": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+        "sendStatus": "started",
+        "error": "agent.wait timeout; do not blindly retry",
+        "passed": false,
+        "abortResult": {
+          "ok": true,
+          "aborted": true,
+          "runIds": [
+            "af72359c-69d1-4793-9908-2df2a56bbb6a"
+          ]
+        },
+        "abortSettlement": {
+          "runId": "af72359c-69d1-4793-9908-2df2a56bbb6a",
+          "status": "error",
+          "endedAt": 1792802159207,
+          "stopReason": "rpc"
+        },
+        "finishedAtMs": 1792802165263,
+        "elapsedMs": 58949,
+        "pendingMethods": [],
+        "completedWhileNativeConnected": true
+      },
+      "inference": {
+        "backend": "Synthetic deterministic loopback OpenAI-compatible fixture; not an external model service.",
+        "records": [],
+        "completedWhileNativeConnected": 0
+      }
+    },
+    "candidate-current": {
+      "nativeStartMs": 1792802332445,
+      "operatorCloseMs": 1792802479128,
+      "connectedWindowSeconds": 146.683,
+      "phases": {
+        "native-setup": {
+          "startMs": 1792802332445,
+          "endMs": 1792802359968,
+          "seconds": 27.523,
+          "requestsByMethod": {
+            "connect": 2,
+            "node.event": 2,
+            "sessions.describe": 1,
+            "sessions.subscribe": 1,
+            "users.self": 2,
+            "node.list": 2,
+            "sessions.patch": 1,
+            "sessions.observer.visibility": 1,
+            "device.pair.list": 2,
+            "config.get": 1,
+            "progressCard.get": 1,
+            "question.list": 1,
+            "chat.metadata": 1,
+            "chat.history": 1,
+            "users.prefs.get": 1,
+            "voicewake.get": 1,
+            "models.list": 3,
+            "exec.approval.list": 2,
+            "agents.list": 1,
+            "channels.status": 1,
+            "sessions.list": 4,
+            "cron.status": 1,
+            "plugin.approval.list": 2,
+            "models.authStatus": 1,
+            "cron.list": 1,
+            "openclaw.approval.list": 2,
+            "session.reactions.list": 1,
+            "sessions.branches.list": 1,
+            "health": 1
+          },
+          "eventsByType": {
+            "connect.challenge": 2,
+            "voicewake.changed": 1,
+            "presence": 1,
+            "voicewake.routing.changed": 1,
+            "sessions.changed": 1,
+            "tick": 2
+          },
+          "metadataEvents": [],
+          "catalogRequestsPerSecond": 0.10899974566726012,
+          "owners": {
+            "general-inventory": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 1266,
+                "median": 1266,
+                "max": 1266
+              }
+            },
+            "provider-settings": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 874,
+                "median": 874,
+                "max": 874
+              }
+            },
+            "chat-configured": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 497,
+                "median": 497,
+                "max": 497
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 14,
+            "rssMiBFirst": 1450.93359375,
+            "rssMiBLast": 1639.484375,
+            "rssMiBSampledMax": 1642.21484375,
+            "hwmMiBMax": 1979.19921875,
+            "readinessSamples": 3,
+            "readyResponses": 3,
+            "readinessHttpStatuses": {
+              "200": 3
+            },
+            "readinessErrors": 0,
+            "readinessElapsedMs": {
+              "min": 1,
+              "max": 4
+            }
+          },
+          "lastObservationBeforePhase": null,
+          "changedObservationsDuringPhase": [
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": null,
+              "providerModelCatalogRows": 0,
+              "providerModelCatalogErrorText": null,
+              "providerModelCatalogRefreshing": true,
+              "timestampMs": 1792802335366
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": null,
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": null,
+              "providerModelCatalogRefreshing": true,
+              "timestampMs": 1792802335568
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": null,
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": null,
+              "providerModelCatalogRefreshing": false,
+              "timestampMs": 1792802336085
+            }
+          ]
+        },
+        "natural-idle": {
+          "startMs": 1792802359968,
+          "endMs": 1792802404986,
+          "seconds": 45.018,
+          "requestsByMethod": {
+            "talk.catalog": 3,
+            "chat.metadata": 1,
+            "sessions.list": 2,
+            "models.list": 1,
+            "health": 2,
+            "node.event": 1
+          },
+          "eventsByType": {
+            "tick": 4,
+            "node.hostStats": 1
+          },
+          "metadataEvents": [],
+          "catalogRequestsPerSecond": 0.022213336887467235,
+          "owners": {
+            "general-inventory": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "provider-settings": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "chat-configured": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 57,
+                "median": 57,
+                "max": 57
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 22,
+            "rssMiBFirst": 1642.8125,
+            "rssMiBLast": 1567.4453125,
+            "rssMiBSampledMax": 1643.08984375,
+            "hwmMiBMax": 1979.19921875,
+            "readinessSamples": 4,
+            "readyResponses": 4,
+            "readinessHttpStatuses": {
+              "200": 4
+            },
+            "readinessErrors": 0,
+            "readinessElapsedMs": {
+              "min": 3,
+              "max": 4
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 732,
+            "refreshWarning": null,
+            "providerModelCatalogRows": 732,
+            "providerModelCatalogErrorText": null,
+            "providerModelCatalogRefreshing": false,
+            "timestampMs": 1792802336085
+          },
+          "changedObservationsDuringPhase": []
+        },
+        "idle-agent-turn": {
+          "startMs": 1792802404986,
+          "endMs": 1792802409528,
+          "seconds": 4.542,
+          "requestsByMethod": {},
+          "eventsByType": {
+            "sessions.changed": 9,
+            "session.message": 3,
+            "chat": 6,
+            "agent": 10
+          },
+          "metadataEvents": [],
+          "catalogRequestsPerSecond": 0.0,
+          "owners": {
+            "general-inventory": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "provider-settings": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "chat-configured": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            }
+          },
+          "resourceSamples": {
+            "samples": 3,
+            "rssMiBFirst": 1568.73046875,
+            "rssMiBLast": 1782.14453125,
+            "rssMiBSampledMax": 1782.14453125,
+            "hwmMiBMax": 1979.19921875,
+            "readinessSamples": 1,
+            "readyResponses": 1,
+            "readinessHttpStatuses": {
+              "200": 1
+            },
+            "readinessErrors": 0,
+            "readinessElapsedMs": {
+              "min": 2,
+              "max": 2
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 732,
+            "refreshWarning": null,
+            "providerModelCatalogRows": 732,
+            "providerModelCatalogErrorText": null,
+            "providerModelCatalogRefreshing": false,
+            "timestampMs": 1792802336085
+          },
+          "changedObservationsDuringPhase": []
+        },
+        "warning-establishment": {
+          "startMs": 1792802409528,
+          "endMs": 1792802415880,
+          "seconds": 6.352,
+          "requestsByMethod": {
+            "models.list": 3,
+            "chat.metadata": 1,
+            "models.authStatus": 1,
+            "sessions.list": 1
+          },
+          "eventsByType": {
+            "chat.metadata.changed": 1
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792802412623,
+              "phase": "warning-establishment",
+              "direction": "gateway-event",
+              "connection": "4183bd0b-c443-4df2-a8d9-dad55300a9b2",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 35,
+              "payload": {
+                "modelCatalogChanged": true,
+                "authChanged": true,
+                "commandsChanged": false
+              }
+            }
+          ],
+          "catalogRequestsPerSecond": 0.4722921914357682,
+          "owners": {
+            "general-inventory": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 1,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 1079,
+                "median": 1079,
+                "max": 1079
+              }
+            },
+            "provider-settings": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 1,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 1437,
+                "median": 1437,
+                "max": 1437
+              }
+            },
+            "chat-configured": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 1,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 476,
+                "median": 476,
+                "max": 476
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 3,
+            "rssMiBFirst": 1914.08203125,
+            "rssMiBLast": 1983.13671875,
+            "rssMiBSampledMax": 1983.13671875,
+            "hwmMiBMax": 1983.13671875,
+            "readinessSamples": 0,
+            "readyResponses": 0,
+            "readinessHttpStatuses": {},
+            "readinessErrors": 0,
+            "readinessElapsedMs": null
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 732,
+            "refreshWarning": null,
+            "providerModelCatalogRows": 732,
+            "providerModelCatalogErrorText": null,
+            "providerModelCatalogRefreshing": false,
+            "timestampMs": 1792802336085
+          },
+          "changedObservationsDuringPhase": [
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": null,
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": null,
+              "providerModelCatalogRefreshing": true,
+              "timestampMs": 1792802412057
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": null,
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+              "providerModelCatalogRefreshing": true,
+              "timestampMs": 1792802413696
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": null,
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+              "providerModelCatalogRefreshing": false,
+              "timestampMs": 1792802414101
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+              "providerModelCatalogRefreshing": false,
+              "timestampMs": 1792802414730
+            }
+          ]
+        },
+        "warning-observation": {
+          "startMs": 1792802415880,
+          "endMs": 1792802420887,
+          "seconds": 5.007,
+          "requestsByMethod": {},
+          "eventsByType": {},
+          "metadataEvents": [],
+          "catalogRequestsPerSecond": 0.0,
+          "owners": {
+            "general-inventory": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "provider-settings": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "chat-configured": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            }
+          },
+          "resourceSamples": {
+            "samples": 2,
+            "rssMiBFirst": 1983.24609375,
+            "rssMiBLast": 1983.24609375,
+            "rssMiBSampledMax": 1983.24609375,
+            "hwmMiBMax": 1983.24609375,
+            "readinessSamples": 1,
+            "readyResponses": 1,
+            "readinessHttpStatuses": {
+              "200": 1
+            },
+            "readinessErrors": 0,
+            "readinessElapsedMs": {
+              "min": 4,
+              "max": 4
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 732,
+            "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+            "providerModelCatalogRows": 732,
+            "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+            "providerModelCatalogRefreshing": false,
+            "timestampMs": 1792802414730
+          },
+          "changedObservationsDuringPhase": []
+        },
+        "warning-agent-turn": {
+          "startMs": 1792802420887,
+          "endMs": 1792802421912,
+          "seconds": 1.025,
+          "requestsByMethod": {},
+          "eventsByType": {
+            "sessions.changed": 9,
+            "session.message": 3,
+            "chat": 6,
+            "agent": 10
+          },
+          "metadataEvents": [],
+          "catalogRequestsPerSecond": 0.0,
+          "owners": {
+            "general-inventory": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "provider-settings": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "chat-configured": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            }
+          },
+          "resourceSamples": {
+            "samples": 1,
+            "rssMiBFirst": 1987.79296875,
+            "rssMiBLast": 1987.79296875,
+            "rssMiBSampledMax": 1987.79296875,
+            "hwmMiBMax": 1987.79296875,
+            "readinessSamples": 0,
+            "readyResponses": 0,
+            "readinessHttpStatuses": {},
+            "readinessErrors": 0,
+            "readinessElapsedMs": null
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 732,
+            "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+            "providerModelCatalogRows": 732,
+            "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+            "providerModelCatalogRefreshing": false,
+            "timestampMs": 1792802414730
+          },
+          "changedObservationsDuringPhase": []
+        },
+        "recovery-establishment": {
+          "startMs": 1792802421912,
+          "endMs": 1792802427007,
+          "seconds": 5.095,
+          "requestsByMethod": {
+            "models.list": 3,
+            "chat.metadata": 1,
+            "models.authStatus": 1,
+            "sessions.list": 1
+          },
+          "eventsByType": {
+            "chat.metadata.changed": 1
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792802424123,
+              "phase": "recovery-establishment",
+              "direction": "gateway-event",
+              "connection": "4183bd0b-c443-4df2-a8d9-dad55300a9b2",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 64,
+              "payload": {
+                "modelCatalogChanged": true,
+                "authChanged": true,
+                "commandsChanged": false
+              }
+            }
+          ],
+          "catalogRequestsPerSecond": 0.5888125613346419,
+          "owners": {
+            "general-inventory": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 888,
+                "median": 888,
+                "max": 888
+              }
+            },
+            "provider-settings": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 1238,
+                "median": 1238,
+                "max": 1238
+              }
+            },
+            "chat-configured": {
+              "requests": 1,
+              "responses": 1,
+              "responsesBeforePhaseEnd": 1,
+              "responsesBeforeDisconnect": 1,
+              "ok": 1,
+              "refreshFailed": 0,
+              "modelCounts": [
+                732
+              ],
+              "latencyMs": {
+                "min": 460,
+                "median": 460,
+                "max": 460
+              }
+            }
+          },
+          "resourceSamples": {
+            "samples": 2,
+            "rssMiBFirst": 2006.10546875,
+            "rssMiBLast": 2002.48828125,
+            "rssMiBSampledMax": 2006.10546875,
+            "hwmMiBMax": 2045.38671875,
+            "readinessSamples": 0,
+            "readyResponses": 0,
+            "readinessHttpStatuses": {},
+            "readinessErrors": 0,
+            "readinessElapsedMs": null
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 732,
+            "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+            "providerModelCatalogRows": 732,
+            "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+            "providerModelCatalogRefreshing": false,
+            "timestampMs": 1792802414730
+          },
+          "changedObservationsDuringPhase": [
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+              "providerModelCatalogRefreshing": true,
+              "timestampMs": 1792802423598
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": null,
+              "providerModelCatalogRefreshing": true,
+              "timestampMs": 1792802424912
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": null,
+              "providerModelCatalogRefreshing": false,
+              "timestampMs": 1792802425417
+            },
+            {
+              "activityResumed": true,
+              "catalogRows": 732,
+              "refreshWarning": null,
+              "providerModelCatalogRows": 732,
+              "providerModelCatalogErrorText": null,
+              "providerModelCatalogRefreshing": false,
+              "timestampMs": 1792802426029
+            }
+          ]
+        },
+        "recovered-idle": {
+          "startMs": 1792802427007,
+          "endMs": 1792802479128,
+          "seconds": 52.121,
+          "requestsByMethod": {
+            "health": 2,
+            "node.event": 1,
+            "sessions.observer.visibility": 1
+          },
+          "eventsByType": {
+            "tick": 4,
+            "chat.metadata.changed": 1,
+            "node.hostStats": 1
+          },
+          "metadataEvents": [
+            {
+              "timestampMs": 1792802452343,
+              "phase": "recovered-idle",
+              "direction": "gateway-event",
+              "connection": "4183bd0b-c443-4df2-a8d9-dad55300a9b2",
+              "role": "operator",
+              "event": "chat.metadata.changed",
+              "seq": 66,
+              "payload": {
+                "agentId": "main",
+                "usageUpdatedAt": 1792802451829,
+                "modelCatalogChanged": false,
+                "authChanged": false,
+                "commandsChanged": false
+              }
+            }
+          ],
+          "catalogRequestsPerSecond": 0.0,
+          "owners": {
+            "general-inventory": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "provider-settings": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            },
+            "chat-configured": {
+              "requests": 0,
+              "responses": 0,
+              "responsesBeforePhaseEnd": 0,
+              "responsesBeforeDisconnect": 0,
+              "ok": 0,
+              "refreshFailed": 0,
+              "modelCounts": [],
+              "latencyMs": null
+            }
+          },
+          "resourceSamples": {
+            "samples": 26,
+            "rssMiBFirst": 2013.63671875,
+            "rssMiBLast": 1986.5078125,
+            "rssMiBSampledMax": 2017.421875,
+            "hwmMiBMax": 2045.38671875,
+            "readinessSamples": 6,
+            "readyResponses": 6,
+            "readinessHttpStatuses": {
+              "200": 6
+            },
+            "readinessErrors": 0,
+            "readinessElapsedMs": {
+              "min": 2,
+              "max": 3
+            }
+          },
+          "lastObservationBeforePhase": {
+            "activityResumed": true,
+            "catalogRows": 732,
+            "refreshWarning": null,
+            "providerModelCatalogRows": 732,
+            "providerModelCatalogErrorText": null,
+            "providerModelCatalogRefreshing": false,
+            "timestampMs": 1792802426029
+          },
+          "changedObservationsDuringPhase": []
+        }
+      },
+      "nativeObservations": [
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792802335366
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792802335568
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792802336085
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792802412057
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792802413696
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792802414101
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792802414730
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792802423598
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792802424912
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792802425417
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792802426029
+        }
+      ],
+      "catalogResponseSummary": {
+        "responses": 10,
+        "ok": 10,
+        "refreshFailed": 3,
+        "modelCounts": [
+          732
+        ],
+        "modelIdentitySha256": [
+          "7145fd9af1ae3a8d3f01fe8c762c0f3034dc9ac0c5acb64f2129d08be9dfd462"
+        ],
+        "availabilityShapes": [
+          "{\"available\": 732}"
+        ]
+      },
+      "connectedWindowResources": {
+        "samples": 73,
+        "rssMiBFirst": 1450.93359375,
+        "rssMiBLast": 1986.5078125,
+        "rssMiBSampledMax": 2017.421875,
+        "hwmMiBMax": 2045.38671875,
+        "readinessSamples": 15,
+        "readyResponses": 15,
+        "readinessHttpStatuses": {
+          "200": 15
+        },
+        "readinessErrors": 0,
+        "readinessElapsedMs": {
+          "min": 1,
+          "max": 4
+        }
+      },
+      "wholeRecordedRunResources": {
+        "samples": 282,
+        "rssMiBFirst": 56.09765625,
+        "rssMiBLast": 1414.8984375,
+        "rssMiBSampledMax": 2017.421875,
+        "hwmMiBMax": 2045.38671875,
+        "readinessSamples": 57,
+        "readyResponses": 55,
+        "readinessHttpStatuses": {
+          "200": 55
+        },
+        "readinessErrors": 2,
+        "readinessElapsedMs": {
+          "min": 0,
+          "max": 18
+        }
+      },
+      "agentActions": {
+        "idle-turn": {
+          "action": "turn",
+          "phase": "idle-turn",
+          "startedAtMs": 1792802405084,
+          "sessionKey": "agent:main:native-natural-68cfdcc6-787f-4f30-987c-f80b17e710b1",
+          "idempotencyKey": "65a44bab-d4e7-4d57-ae8b-5d6df8891f96",
+          "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+          "configSha256": "2602797e14e1ab6594b110dd125677b62391b2da7381f68837cc1c6c88496e7e",
+          "eventsInjected": false,
+          "paidInference": false,
+          "calls": [
+            {
+              "id": "1",
+              "method": "sessions.create",
+              "startedAtMs": 1792802405173,
+              "finishedAtMs": 1792802405463,
+              "elapsedMs": 290,
+              "ok": true
+            },
+            {
+              "id": "2",
+              "method": "chat.send",
+              "startedAtMs": 1792802405464,
+              "finishedAtMs": 1792802406165,
+              "elapsedMs": 701,
+              "ok": true,
+              "status": "started"
+            },
+            {
+              "id": "3",
+              "method": "agent.wait",
+              "startedAtMs": 1792802406166,
+              "finishedAtMs": 1792802409343,
+              "elapsedMs": 3177,
+              "ok": true,
+              "status": "ok"
+            },
+            {
+              "id": "4",
+              "method": "chat.history",
+              "startedAtMs": 1792802409343,
+              "finishedAtMs": 1792802409415,
+              "elapsedMs": 72,
+              "ok": true
+            }
+          ],
+          "runId": "65a44bab-d4e7-4d57-ae8b-5d6df8891f96",
+          "sendStatus": "started",
+          "terminalStatus": "ok",
+          "persistedReplyVerified": true,
+          "historyMessageCount": 2,
+          "passed": true,
+          "finishedAtMs": 1792802409416,
+          "elapsedMs": 4332,
+          "pendingMethods": [],
+          "completedWhileNativeConnected": true
+        },
+        "recovery-refresh": {
+          "action": "provider-refresh",
+          "phase": "recovery-refresh",
+          "provider": "api-01",
+          "startedAtMs": 1792802422433,
+          "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+          "configSha256": "2602797e14e1ab6594b110dd125677b62391b2da7381f68837cc1c6c88496e7e",
+          "eventsInjected": false,
+          "paidInference": false,
+          "calls": [
+            {
+              "id": "1",
+              "method": "models.list",
+              "startedAtMs": 1792802422495,
+              "finishedAtMs": 1792802424413,
+              "elapsedMs": 1918,
+              "ok": true,
+              "modelCount": 12
+            }
+          ],
+          "result": {
+            "refreshFailed": false,
+            "modelCount": 12,
+            "selectedProviderRowCount": 12
+          },
+          "requestCompleted": true,
+          "finishedAtMs": 1792802424413,
+          "elapsedMs": 1980,
+          "pendingMethods": [],
+          "completedWhileNativeConnected": true
+        },
+        "warning-refresh": {
+          "action": "provider-refresh",
+          "phase": "warning-refresh",
+          "provider": "api-01",
+          "startedAtMs": 1792802410017,
+          "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+          "configSha256": "2602797e14e1ab6594b110dd125677b62391b2da7381f68837cc1c6c88496e7e",
+          "eventsInjected": false,
+          "paidInference": false,
+          "calls": [
+            {
+              "id": "1",
+              "method": "models.list",
+              "startedAtMs": 1792802410084,
+              "finishedAtMs": 1792802412963,
+              "elapsedMs": 2879,
+              "ok": true,
+              "refreshFailed": true,
+              "modelCount": 12
+            }
+          ],
+          "result": {
+            "refreshFailed": true,
+            "modelCount": 12,
+            "selectedProviderRowCount": 12
+          },
+          "requestCompleted": true,
+          "finishedAtMs": 1792802412963,
+          "elapsedMs": 2946,
+          "pendingMethods": [],
+          "completedWhileNativeConnected": true
+        },
+        "warning-turn": {
+          "action": "turn",
+          "phase": "warning-turn",
+          "startedAtMs": 1792802420948,
+          "sessionKey": "agent:main:native-natural-89d632f5-f3f6-4be9-a0c7-e48d56df0e20",
+          "idempotencyKey": "cf246d51-a0da-4f36-8af4-2c2d57c54c75",
+          "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+          "configSha256": "2602797e14e1ab6594b110dd125677b62391b2da7381f68837cc1c6c88496e7e",
+          "eventsInjected": false,
+          "paidInference": false,
+          "calls": [
+            {
+              "id": "1",
+              "method": "sessions.create",
+              "startedAtMs": 1792802421004,
+              "finishedAtMs": 1792802421143,
+              "elapsedMs": 139,
+              "ok": true
+            },
+            {
+              "id": "2",
+              "method": "chat.send",
+              "startedAtMs": 1792802421144,
+              "finishedAtMs": 1792802421206,
+              "elapsedMs": 62,
+              "ok": true,
+              "status": "started"
+            },
+            {
+              "id": "3",
+              "method": "agent.wait",
+              "startedAtMs": 1792802421210,
+              "finishedAtMs": 1792802421814,
+              "elapsedMs": 604,
+              "ok": true,
+              "status": "ok"
+            },
+            {
+              "id": "4",
+              "method": "chat.history",
+              "startedAtMs": 1792802421816,
+              "finishedAtMs": 1792802421847,
+              "elapsedMs": 31,
+              "ok": true
+            }
+          ],
+          "runId": "cf246d51-a0da-4f36-8af4-2c2d57c54c75",
+          "sendStatus": "started",
+          "terminalStatus": "ok",
+          "persistedReplyVerified": true,
+          "historyMessageCount": 2,
+          "passed": true,
+          "finishedAtMs": 1792802421848,
+          "elapsedMs": 900,
+          "pendingMethods": [],
+          "completedWhileNativeConnected": true
+        }
+      },
+      "agentAction": {
+        "action": "turn",
+        "phase": "idle-turn",
+        "startedAtMs": 1792802405084,
+        "sessionKey": "agent:main:native-natural-68cfdcc6-787f-4f30-987c-f80b17e710b1",
+        "idempotencyKey": "65a44bab-d4e7-4d57-ae8b-5d6df8891f96",
+        "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+        "configSha256": "2602797e14e1ab6594b110dd125677b62391b2da7381f68837cc1c6c88496e7e",
+        "eventsInjected": false,
+        "paidInference": false,
+        "calls": [
+          {
+            "id": "1",
+            "method": "sessions.create",
+            "startedAtMs": 1792802405173,
+            "finishedAtMs": 1792802405463,
+            "elapsedMs": 290,
+            "ok": true
+          },
+          {
+            "id": "2",
+            "method": "chat.send",
+            "startedAtMs": 1792802405464,
+            "finishedAtMs": 1792802406165,
+            "elapsedMs": 701,
+            "ok": true,
+            "status": "started"
+          },
+          {
+            "id": "3",
+            "method": "agent.wait",
+            "startedAtMs": 1792802406166,
+            "finishedAtMs": 1792802409343,
+            "elapsedMs": 3177,
+            "ok": true,
+            "status": "ok"
+          },
+          {
+            "id": "4",
+            "method": "chat.history",
+            "startedAtMs": 1792802409343,
+            "finishedAtMs": 1792802409415,
+            "elapsedMs": 72,
+            "ok": true
+          }
+        ],
+        "runId": "65a44bab-d4e7-4d57-ae8b-5d6df8891f96",
+        "sendStatus": "started",
+        "terminalStatus": "ok",
+        "persistedReplyVerified": true,
+        "historyMessageCount": 2,
+        "passed": true,
+        "finishedAtMs": 1792802409416,
+        "elapsedMs": 4332,
+        "pendingMethods": [],
+        "completedWhileNativeConnected": true
+      },
+      "inference": {
+        "backend": "Synthetic deterministic loopback OpenAI-compatible fixture; not an external model service.",
+        "records": [
+          {
+            "timestampMs": 1792802409077,
+            "sequence": 1,
+            "completed": true,
+            "model": "model-0",
+            "stream": true,
+            "requestBytes": 33504,
+            "elapsedMs": 3
+          },
+          {
+            "timestampMs": 1792802421702,
+            "sequence": 2,
+            "completed": true,
+            "model": "model-0",
+            "stream": true,
+            "requestBytes": 33504,
+            "elapsedMs": 0
+          }
+        ],
+        "completedWhileNativeConnected": 2
+      },
+      "exerciseReceipt": {
+        "hasTerminalPassField": false,
+        "hasTerminalFinishedField": false,
+        "note": "Do not infer wrapper success from completed steps; native/action receipts and raw observations are separate evidence."
+      }
+    }
+  },
+  "unit": {
+    "red": [
+      {
+        "name": "ai.openclaw.app.chat.ChatControllerCatalogTest",
+        "tests": "3",
+        "failures": "3",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ai.openclaw.app.NodeRuntimeAgentSelectionTest",
+        "tests": "1",
+        "failures": "1",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ],
+    "green": [
+      {
+        "name": "ai.openclaw.app.chat.ChatControllerCatalogTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ai.openclaw.app.chat.ChatControllerCommandControlsTest",
+        "tests": "38",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ai.openclaw.app.chat.ChatControllerModelSelectionTest",
+        "tests": "58",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "ai.openclaw.app.NodeRuntimeAgentSelectionTest",
+        "tests": "41",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  }
+}

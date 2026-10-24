@@ -1,0 +1,202 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:generateGatewayProtocol UP-TO-DATE
+> Task :app:generateNativeI18n UP-TO-DATE
+> Task :app:generateMermaidAssets UP-TO-DATE
+> Task :app:validateThirdPartyLicenseAssets
+> Task :app:preBuild
+> Task :app:prePlayDebugBuild
+> Task :app:generatePlayDebugBuildConfig
+> Task :app:extractPlayDebugSupportedLocales UP-TO-DATE
+> Task :app:mapPlayDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:preBuild UP-TO-DATE
+> Task :wear-shared:preDebugBuild UP-TO-DATE
+> Task :wear-shared:extractDebugSupportedLocales UP-TO-DATE
+> Task :app:generatePlayDebugLocaleConfig UP-TO-DATE
+> Task :app:generatePlayDebugResources UP-TO-DATE
+> Task :app:packagePlayDebugResources UP-TO-DATE
+> Task :wear-shared:processDebugNavigationResources UP-TO-DATE
+> Task :app:processPlayDebugNavigationResources UP-TO-DATE
+> Task :app:parsePlayDebugLocalResources UP-TO-DATE
+> Task :app:generatePlayDebugRFile UP-TO-DATE
+> Task :wear-shared:generateDebugResources UP-TO-DATE
+> Task :wear-shared:packageDebugResources UP-TO-DATE
+> Task :wear-shared:parseDebugLocalResources UP-TO-DATE
+> Task :wear-shared:generateDebugRFile UP-TO-DATE
+> Task :wear-shared:compileDebugKotlin UP-TO-DATE
+> Task :wear-shared:javaPreCompileDebug UP-TO-DATE
+> Task :wear-shared:compileDebugJavaWithJavac NO-SOURCE
+> Task :wear-shared:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:kspPlayDebugKotlin
+> Task :app:compilePlayDebugKotlin
+> Task :app:javaPreCompilePlayDebug UP-TO-DATE
+> Task :app:compilePlayDebugJavaWithJavac
+> Task :wear-shared:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkPlayDebugAarMetadata UP-TO-DATE
+> Task :app:compilePlayDebugNavigationResources UP-TO-DATE
+> Task :app:mergePlayDebugResources UP-TO-DATE
+> Task :app:createPlayDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksPlayDebug UP-TO-DATE
+> Task :wear-shared:extractDeepLinksDebug UP-TO-DATE
+> Task :wear-shared:processDebugManifest UP-TO-DATE
+> Task :app:processPlayDebugMainManifest UP-TO-DATE
+> Task :app:processPlayDebugManifest UP-TO-DATE
+> Task :app:processPlayDebugManifestForPackage UP-TO-DATE
+> Task :wear-shared:mapDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:compileDebugLibraryResources UP-TO-DATE
+> Task :app:processPlayDebugResources UP-TO-DATE
+> Task :app:bundlePlayDebugClassesToRuntimeJar
+> Task :app:bundlePlayDebugClassesToCompileJar
+> Task :app:kspPlayDebugUnitTestKotlin
+> Task :app:prePlayDebugUnitTestBuild
+> Task :app:compilePlayDebugUnitTestKotlin
+> Task :app:javaPreCompilePlayDebugUnitTest UP-TO-DATE
+> Task :app:compilePlayDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:extractCloudflareSodiumTest UP-TO-DATE
+> Task :app:generatePlayDebugAssets UP-TO-DATE
+> Task :wear-shared:generateDebugAssets UP-TO-DATE
+> Task :wear-shared:mergeDebugAssets UP-TO-DATE
+> Task :app:mergePlayDebugAssets UP-TO-DATE
+> Task :app:packagePlayDebugUnitTestForUnitTest UP-TO-DATE
+> Task :app:mergePlayDebugUnitTestManifest UP-TO-DATE
+> Task :app:processPlayDebugUnitTestManifest UP-TO-DATE
+> Task :app:generatePlayDebugUnitTestConfig UP-TO-DATE
+> Task :app:processPlayDebugJavaRes UP-TO-DATE
+> Task :app:processPlayDebugUnitTestJavaRes UP-TO-DATE
+> Task :wear-shared:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :wear-shared:processDebugJavaRes UP-TO-DATE
+
+> Task :app:testPlayDebugUnitTest
+
+NodeRuntimeAgentSelectionTest > catalogStatusRecoveryClearsProviderWarningWithoutChangingRows FAILED
+    java.lang.AssertionError: Successful status recovery must clear the retained provider warning expected:<null> but was:<Could not load provider model config.>
+        at org.junit.Assert.fail(Assert.java:89)
+        at org.junit.Assert.failNotEquals(Assert.java:835)
+        at org.junit.Assert.assertEquals(Assert.java:120)
+        at ai.openclaw.app.NodeRuntimeAgentSelectionTest$catalogStatusRecoveryClearsProviderWarningWithoutChangingRows$1.invokeSuspend(NodeRuntimeAgentSelectionTest.kt:167)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+        at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+        at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+        at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+        at ai.openclaw.app.NodeRuntimeAgentSelectionTest.catalogStatusRecoveryClearsProviderWarningWithoutChangingRows(NodeRuntimeAgentSelectionTest.kt:126)
+
+ChatControllerCatalogTest > healthObservationsDoNotSupersedeInFlightCatalogSuccess FAILED
+    java.lang.AssertionError: Health observations cannot retire a successful same-scope read expected:<[current]> but was:<[]>
+        at org.junit.Assert.fail(Assert.java:89)
+        at org.junit.Assert.failNotEquals(Assert.java:835)
+        at org.junit.Assert.assertEquals(Assert.java:120)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$healthObservationsDoNotSupersedeInFlightCatalogSuccess$1.invokeSuspend(ChatControllerCatalogTest.kt:42)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$healthObservationsDoNotSupersedeInFlightCatalogSuccess$1.invoke(ChatControllerCatalogTest.kt)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$healthObservationsDoNotSupersedeInFlightCatalogSuccess$1.invoke(ChatControllerCatalogTest.kt)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+        at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+        at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+        at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+        at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+        at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:159)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:1)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest.healthObservationsDoNotSupersedeInFlightCatalogSuccess(ChatControllerCatalogTest.kt:21)
+
+ChatControllerCatalogTest > catalogStatusSettlementPreservesInFlightSuccessAndCoalescesCatchUp FAILED
+    java.lang.AssertionError: Status-only settlement cannot starve unchanged model choices expected:<[current]> but was:<[]>
+        at org.junit.Assert.fail(Assert.java:89)
+        at org.junit.Assert.failNotEquals(Assert.java:835)
+        at org.junit.Assert.assertEquals(Assert.java:120)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$catalogStatusSettlementPreservesInFlightSuccessAndCoalescesCatchUp$1.invokeSuspend(ChatControllerCatalogTest.kt:77)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$catalogStatusSettlementPreservesInFlightSuccessAndCoalescesCatchUp$1.invoke(ChatControllerCatalogTest.kt)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$catalogStatusSettlementPreservesInFlightSuccessAndCoalescesCatchUp$1.invoke(ChatControllerCatalogTest.kt)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+        at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+        at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+        at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+        at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+        at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:159)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:1)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest.catalogStatusSettlementPreservesInFlightSuccessAndCoalescesCatchUp(ChatControllerCatalogTest.kt:53)
+
+ChatControllerCatalogTest > cleanCatalogResponseAbsorbsStatusSettlementWithoutAnotherRead FAILED
+    java.lang.AssertionError: A settled catalog must not renew itself on its own status publication expected:<1> but was:<5>
+        at org.junit.Assert.fail(Assert.java:89)
+        at org.junit.Assert.failNotEquals(Assert.java:835)
+        at org.junit.Assert.assertEquals(Assert.java:120)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$cleanCatalogResponseAbsorbsStatusSettlementWithoutAnotherRead$1.invokeSuspend(ChatControllerCatalogTest.kt:119)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$cleanCatalogResponseAbsorbsStatusSettlementWithoutAnotherRead$1.invoke(ChatControllerCatalogTest.kt)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest$cleanCatalogResponseAbsorbsStatusSettlementWithoutAnotherRead$1.invoke(ChatControllerCatalogTest.kt)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+        at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+        at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+        at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+        at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+        at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:159)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:1)
+        at ai.openclaw.app.chat.ChatControllerCatalogTest.cleanCatalogResponseAbsorbsStatusSettlementWithoutAnotherRead(ChatControllerCatalogTest.kt:91)
+
+4 tests completed, 4 failed
+
+> Task :app:testPlayDebugUnitTest FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:testPlayDebugUnitTest'.
+> There were failing tests. See the report at: file://<ANDROID_CHECKOUT>/apps/android/app/build/reports/tests/testPlayDebugUnitTest/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 1m 42s
+57 actionable tasks: 10 executed, 47 up-to-date

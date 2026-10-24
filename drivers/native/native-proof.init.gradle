@@ -1,0 +1,5 @@
+allprojects {
+  plugins.withId("com.android.application") {
+    android.sourceSets.getByName("androidTest").kotlin.directories.add(System.getenv("PROOF_INSTRUMENTATION_DIR") ?: { throw new GradleException("PROOF_INSTRUMENTATION_DIR must name the observation-only source directory") }())
+  }
+}

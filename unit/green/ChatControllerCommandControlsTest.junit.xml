@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.chat.ChatControllerCommandControlsTest" tests="38" skipped="0" failures="0" errors="0" timestamp="2026-10-23T23:54:51.620Z" hostname="BUILD_HOST" time="1.956">
+  <properties/>
+  <testcase name="archivedSessionListAndOpenUnreadSessionUsePatchContracts" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.031"/>
+  <testcase name="startNewChatCancellationKeepsSelectedHydrationAlive" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.077"/>
+  <testcase name="manualSessionRenamePersistsExplicitLabel" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.024"/>
+  <testcase name="startNewChatWithoutLoadedParentCreatesFirstSession" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.06"/>
+  <testcase name="sessionColorCanBeSetAndClearedWithoutOtherChanges" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.033"/>
+  <testcase name="sessionMutationsSendGatewayContractsAndRefresh" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.039"/>
+  <testcase name="startNewChatInWorktreeIncludesWorktreeFlag" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.071"/>
+  <testcase name="sessionEventsApplyExplicitMetadataClears" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.024"/>
+  <testcase name="startNewChatSelectsCreatedSessionAfterConcurrentSameSessionHistoryLoad" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.128"/>
+  <testcase name="openSessionReacknowledgesUnreadOncePerEpisode" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.036"/>
+  <testcase name="startNewChatRejectsDuplicateCreateWhileFirstRequestIsPending" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.06"/>
+  <testcase name="renameSessionGroupDoesNotCrossGatewayAfterAcceptedListResponse" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.04"/>
+  <testcase name="archiveWithoutObservedIdentityDoesNotDispatch" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.031"/>
+  <testcase name="dissolveSessionGroupClearsCategoriesBestEffort" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.035"/>
+  <testcase name="newChatOwnsProgressWhilePreviousSessionListFinishes" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.06"/>
+  <testcase name="newSessionCreatesRootSessionFromLockedParentForSelectedAgent" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.11"/>
+  <testcase name="commandListScopesToActiveAgentAndRefreshesAfterAgentSwitch" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.045"/>
+  <testcase name="bareNewSlashCommandUsesGatewayChatCommandPath" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.105"/>
+  <testcase name="lockedParentRejectsGenericForkAndWorktreeChats" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.057"/>
+  <testcase name="renameSessionGroupPatchesEveryMemberIncludingArchivedOnlyOnes" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.03"/>
+  <testcase name="startNewChatLateFailurePreservesNewerSessionHistoryLoad" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.037"/>
+  <testcase name="failedReadAcknowledgementUnlatchesForRetry" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.036"/>
+  <testcase name="startNewChatCancellationClearsCreationAfterRefreshFinishesBeforeAdmission" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.073"/>
+  <testcase name="archiveUsesObservedIdentityAndArchiveDeadline" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.034"/>
+  <testcase name="startNewChatScopesCreateToActiveAgentSession" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.046"/>
+  <testcase name="parseChatCommandsKeepsTextAliasesAndArgumentFlag" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.012"/>
+  <testcase name="healthEventRefreshesCommandsAfterReconnect" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.04"/>
+  <testcase name="archivingOrDeletingTheOpenSessionFallsBackToMain" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.056"/>
+  <testcase name="startNewChatRejectsWhileRunPending" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.047"/>
+  <testcase name="startNewChatRetriesWithoutParentLifecycleAgainstOlderGateway" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.049"/>
+  <testcase name="parentActionsRecheckLockBeforeTransportEnqueue" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.064"/>
+  <testcase name="startNewChatPropagatesCancellationAndAllowsAnotherCreate" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.028"/>
+  <testcase name="manualUnreadOnOpenSessionSurvivesRunUpdatesUntilReactivation" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.048"/>
+  <testcase name="startNewChatIgnoresStaleCreateResponseAfterOwnershipChanges" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.162"/>
+  <testcase name="startNewChatCreatesUnnamedWriteScopedSessionAndReloadsHistory" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.038"/>
+  <testcase name="explicitMarkReadUsesLegacyCompatiblePayloadOnCurrentGateway" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.025"/>
+  <testcase name="forkSessionReturnsCreatedKeyAndRefreshesActiveSessions" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.027"/>
+  <testcase name="delayedCommandListFromPreviousGatewayCannotReplaceCurrentCommands" classname="ai.openclaw.app.chat.ChatControllerCommandControlsTest" time="0.017"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

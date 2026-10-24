@@ -1,0 +1,56 @@
+{
+  "action": "turn",
+  "phase": "idle-agent-turn",
+  "startedAtMs": 1792800796171,
+  "sessionKey": "agent:main:native-natural-41763d52-c5fc-45df-9c33-eaae20d919a3",
+  "idempotencyKey": "5f003e6d-9a37-470e-9c9b-c0f8c9c97c62",
+  "driverSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+  "configSha256": "3f7234b9286abc161f7ca9a6862afb75d7e4ca7ad01663d97bf1b9aca6a038db",
+  "eventsInjected": false,
+  "paidInference": false,
+  "calls": [
+    {
+      "id": "1",
+      "method": "sessions.create",
+      "startedAtMs": 1792800806766,
+      "finishedAtMs": 1792800811304,
+      "elapsedMs": 4538,
+      "ok": true
+    },
+    {
+      "id": "2",
+      "method": "chat.send",
+      "startedAtMs": 1792800811304,
+      "finishedAtMs": 1792800811833,
+      "elapsedMs": 529,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "3",
+      "method": "agent.wait",
+      "startedAtMs": 1792800811841,
+      "finishedAtMs": 1792800815264,
+      "elapsedMs": 3423,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "4",
+      "method": "chat.history",
+      "startedAtMs": 1792800815264,
+      "finishedAtMs": 1792800815314,
+      "elapsedMs": 50,
+      "ok": true
+    }
+  ],
+  "runId": "5f003e6d-9a37-470e-9c9b-c0f8c9c97c62",
+  "sendStatus": "started",
+  "terminalStatus": "ok",
+  "persistedReplyVerified": true,
+  "historyMessageCount": 2,
+  "passed": true,
+  "finishedAtMs": 1792800815314,
+  "elapsedMs": 19143,
+  "pendingMethods": []
+}

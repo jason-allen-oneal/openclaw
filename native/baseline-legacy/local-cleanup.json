@@ -1,0 +1,25 @@
+{
+  "cleanup": [
+    {
+      "label": "capture",
+      "pid": 1323515,
+      "processGone": true,
+      "exitCode": "unavailable: original parent exited143"
+    },
+    {
+      "label": "proxy",
+      "pid": 1323357,
+      "processGone": true,
+      "exitCode": "unavailable: original parent exited143"
+    },
+    {
+      "label": "tunnel",
+      "pid": 1323311,
+      "processGone": true,
+      "exitCode": "unavailable: original parent exited143"
+    }
+  ],
+  "nativeCaptureReceipt": "native.receipt.json",
+  "outerExit": 143,
+  "cause": "Exec parent terminated; native bounded child completed independently. Exact remaining proxy/tunnel commands checked and stopped."
+}

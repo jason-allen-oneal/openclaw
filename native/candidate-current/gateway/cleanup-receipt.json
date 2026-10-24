@@ -1,0 +1,136 @@
+{
+  "case": "<REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274",
+  "startedAt": 1792802206.620864,
+  "deadlineAt": 1792802926.620864,
+  "hardLifetimeSeconds": 720,
+  "activeWindowSeconds": 690,
+  "cleanupReserveSeconds": 30,
+  "status": "finished",
+  "noSyntheticFollowups": true,
+  "paidInference": false,
+  "warningInitiallyArmed": false,
+  "owner": {
+    "pid": 1139467,
+    "startTicks": "228901766",
+    "command": "python3 <REMOTE_PROOF_ROOT>/native-natural/keepalive-gateway.py --name candidate-current-ef99274 --package <CURRENT_GATEWAY_PACKAGE>"
+  },
+  "inference": {
+    "pid": 1139468,
+    "startTicks": "228901812",
+    "command": "<NODE_RUNTIME>/bin/node <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274/driver-snapshot/inference-server.mjs --out <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274 --seconds 720"
+  },
+  "gateway": {
+    "pid": 1139469,
+    "startTicks": "228901812",
+    "command": "<NODE_RUNTIME>/bin/node <CURRENT_GATEWAY_PACKAGE>/openclaw.mjs gateway --port 20094 --bind loopback --allow-unconfigured"
+  },
+  "sampler": {
+    "pid": 1139470,
+    "startTicks": "228901812",
+    "command": "/usr/bin/python3 <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274/driver-snapshot/sample-process.py --pid 1139469 --start-ticks 228901812 --seconds 720 --ready-url http://127.0.0.1:20094/readyz"
+  },
+  "ready": {
+    "ready": true,
+    "coreReady": true,
+    "failing": [],
+    "uptimeMs": 4812,
+    "eventLoop": {
+      "degraded": true,
+      "degradedSinceMs": 3797,
+      "reasons": [
+        "cpu"
+      ],
+      "intervalMs": 1520.9383240000006,
+      "delayP99Ms": 763.4,
+      "delayMaxMs": 763.4,
+      "utilization": 0.803,
+      "cpuCoreRatio": 1.832,
+      "cpuBreakdown": {
+        "mainThreadCoreRatio": 0.671,
+        "hostUtilization": 0.235,
+        "hostCpuCount": 8
+      }
+    }
+  },
+  "readyAt": 1792802221.8081155,
+  "seed": {
+    "startedAtMs": 1792802221884,
+    "pid": 1139619,
+    "requests": [
+      {
+        "method": "models.list",
+        "params": {
+          "refresh": true
+        },
+        "sentAtMs": 1792802221940
+      }
+    ],
+    "metadataEvents": 2,
+    "syntheticEvents": false,
+    "followupRequests": 0,
+    "response": {
+      "ok": true,
+      "receivedAtMs": 1792802227534,
+      "modelCount": 732
+    },
+    "finishedAtMs": 1792802235521,
+    "ok": true,
+    "publicationAtMs": 1792802235520,
+    "provider": {
+      "successfulProviders": 64,
+      "liveCalls": 0,
+      "lastReturn": 1792802234165,
+      "errors": 0,
+      "recordCount": 384
+    },
+    "seedClientExiting": true
+  },
+  "seedExit": 0,
+  "seedClientGone": true,
+  "configPath": "<REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274/config.json",
+  "stopReason": "parent-stop",
+  "cleanup": [
+    {
+      "label": "seed",
+      "pid": 1139619,
+      "startTicks": "228903294",
+      "command": "<NODE_RUNTIME>/bin/node <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274/driver-snapshot/seed-only.mjs <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274 <CURRENT_GATEWAY_PACKAGE>",
+      "alreadyExited": true,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "sampler",
+      "pid": 1139470,
+      "startTicks": "228901812",
+      "command": "/usr/bin/python3 <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274/driver-snapshot/sample-process.py --pid 1139469 --start-ticks 228901812 --seconds 720 --ready-url http://127.0.0.1:20094/readyz",
+      "alreadyExited": false,
+      "exitCode": -15,
+      "processGone": true
+    },
+    {
+      "label": "gateway",
+      "pid": 1139469,
+      "startTicks": "228901812",
+      "command": "<NODE_RUNTIME>/bin/node <CURRENT_GATEWAY_PACKAGE>/openclaw.mjs gateway --port 20094 --bind loopback --allow-unconfigured",
+      "alreadyExited": false,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "inference",
+      "pid": 1139468,
+      "startTicks": "228901812",
+      "command": "<NODE_RUNTIME>/bin/node <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274/driver-snapshot/inference-server.mjs --out <REMOTE_PROOF_ROOT>/native-natural/candidate-current-ef99274 --seconds 720",
+      "alreadyExited": false,
+      "exitCode": 0,
+      "processGone": true
+    }
+  ],
+  "ports": {
+    "20094": "free",
+    "20095": "free"
+  },
+  "finishedAt": 1792802770.8053005,
+  "elapsedSeconds": 564.1844372749329
+}

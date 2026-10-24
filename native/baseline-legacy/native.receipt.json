@@ -1,0 +1,214 @@
+{
+  "command": [
+    "<ANDROID_SDK>/platform-tools/adb",
+    "-s",
+    "emulator-5584",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "class",
+    "ai.openclaw.app.CatalogRefreshProofTest",
+    "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "sourceCommit": "dbac7730a12c90e95143f23e556199ab642e639e",
+  "apkIdentity": "<PROOF_ROOT>/native-natural/baseline-idle-ready/driver-snapshot/baseline-apk-identity.json",
+  "eventsInjected": false,
+  "startedAt": "2026-10-24T00:11:14.350683+00:00",
+  "durationRequested": 105,
+  "ownedProcessIds": {
+    "instrumentation": 1323761,
+    "logcat": 1323760
+  },
+  "readyAtMs": 1792800702486,
+  "observationSeconds": 105.16167558300367,
+  "instrumentationExitCode": 0,
+  "proxyAtStop": {
+    "phase": "idle-agent-turn",
+    "openConnections": [],
+    "closed": [
+      {
+        "connection": "6dfb509d-5527-4ddb-98aa-a47aa3deefc1",
+        "role": "operator",
+        "code": 1006,
+        "reason": "",
+        "unresolved": [
+          {
+            "id": "37dbcf19-aecc-4baa-ad7b-fb67f9672d08",
+            "method": "health",
+            "startedAt": 1792800801229,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "10c68dff-2cb7-4117-954c-963efa782822",
+            "method": "models.list",
+            "startedAt": 1792800806907,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "b50dcae7-ac06-4f82-9d98-e18f58ab64df",
+            "method": "models.list",
+            "startedAt": 1792800806909,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "172195ea-ae38-448b-b24f-26aca0f80a78",
+            "method": "chat.metadata",
+            "startedAt": 1792800806909,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "7466a7bc-0d8b-47ef-b419-86bc03358752",
+            "method": "sessions.observer.visibility",
+            "startedAt": 1792800808962,
+            "phase": "idle-agent-turn"
+          }
+        ]
+      },
+      {
+        "connection": "563ed33c-d1f3-41e1-8868-483b043549d9",
+        "role": "node",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      }
+    ]
+  },
+  "cleanup": [
+    {
+      "command": [
+        "shell",
+        "run-as",
+        "ai.openclaw.app.debug",
+        "touch",
+        "files/catalog-proof/finish"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "owner": "instrumentation-adb",
+      "pid": 1323761,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug.test",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "logcat-adb",
+      "pid": 1323760,
+      "exitCode": -15,
+      "processGone": true
+    }
+  ],
+  "parentStillOwns": [
+    "Gateway",
+    "proxy",
+    "SSH tunnel",
+    "emulator",
+    "Gateway memory sampler"
+  ],
+  "instrumentationPassed": true,
+  "captureComplete": true,
+  "totalSeconds": 135.34841240198875,
+  "finishedAtMs": 1792800809699,
+  "requestCountsByPhase": {
+    "idle-agent-turn": {
+      "models.list": 12,
+      "chat.metadata": 4,
+      "models.authStatus": 4,
+      "health": 1,
+      "sessions.observer.visibility": 1
+    },
+    "native-setup": {
+      "connect": 2,
+      "node.event": 2,
+      "users.self": 2,
+      "sessions.describe": 1,
+      "sessions.subscribe": 1,
+      "node.list": 2,
+      "sessions.patch": 1,
+      "sessions.observer.visibility": 1,
+      "device.pair.list": 2,
+      "question.list": 1,
+      "progressCard.get": 1,
+      "config.get": 1,
+      "chat.history": 2,
+      "chat.metadata": 11,
+      "sessions.branches.list": 2,
+      "users.prefs.get": 1,
+      "models.list": 29,
+      "sessions.list": 4,
+      "agents.list": 1,
+      "cron.status": 1,
+      "channels.status": 1,
+      "exec.approval.list": 2,
+      "models.authStatus": 10,
+      "cron.list": 1,
+      "plugin.approval.list": 2,
+      "voicewake.get": 1,
+      "health": 2,
+      "openclaw.approval.list": 2
+    },
+    "natural-idle": {
+      "models.list": 51,
+      "chat.metadata": 26,
+      "talk.catalog": 2,
+      "sessions.list": 1,
+      "models.authStatus": 23,
+      "health": 2,
+      "question.list": 1,
+      "progressCard.get": 1,
+      "node.event": 1
+    }
+  },
+  "warningResponseCount": 0
+}

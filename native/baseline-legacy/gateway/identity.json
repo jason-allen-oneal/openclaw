@@ -1,0 +1,49 @@
+{
+  "build": {
+    "version": "2026.9.6",
+    "commit": "eb377ac59e6c9fd6c7705028034812becf00271b",
+    "builtAt": "2026-09-23T16:33:12.144Z",
+    "buildId": "2026.9.6-release-eb377ac59e6c-2026-09-23T16-33-12.144Z"
+  },
+  "entrySha256": "4dd36d2ed0cb154456c4a09a951a2e8f2508a5dd6ff2fe0688d4e1c8f773fcb5",
+  "node": "<NODE_RUNTIME>/bin/node",
+  "nodeSha256": "e32e2d16081cf644f88392934288086e7662529d0d43277c34f7aad2207cfafb",
+  "configSha256": "3f7234b9286abc161f7ca9a6862afb75d7e4ca7ad01663d97bf1b9aca6a038db",
+  "driverSha256": {
+    "keepalive-gateway.py": "2e9f1d59eca770cfb2026b3e6389b871f27198c8467b13d47f0542fe0855037a",
+    "seed-only.mjs": "4225d604f6dfd49e1f13da62de24502e230c998d954b03773dec12e3a7d9be19",
+    "provider.cjs": "6164d754e2d2d20dec3ca873739eb159b11806257b1629a2bb74793bc277f58c",
+    "inference-server.mjs": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+    "sample-process.py": "4ba407887a7101671c926920629fdcac4035effb0d56b3464842735b52f08696",
+    "gateway-action.mjs": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+    "native-config-overlay.json": "34cb9a64f9186bdfdf89c06252e03141e1cadad5dc8406fceb5ceb310460b4d3",
+    "config.json": "3f7234b9286abc161f7ca9a6862afb75d7e4ca7ad01663d97bf1b9aca6a038db",
+    "case.json": "a3b6969a7e385ced5c75e7cd9b86c8050bde6d60278e3524d2799b4d014b916a",
+    "plugin--provider.cjs": "d46a01e69c650de06a977ee6d8f319f1d20b46c6be53b05ade975e6c2bc5a088",
+    "plugin--index.cjs": "e1967bf3efd5fc090b5bb57cb35757b53a9638bef1850c590cadc6aa9726e917",
+    "plugin--openclaw.plugin.json": "3308540d4dd494bef89b985c7f597118863c707eca99bb6a90885be1cba78852",
+    "plugin--package.json": "f8463bc43af099d1d6174df2a99e1bb67ec62705e9a5f6accabeb31d11067cba"
+  },
+  "approvedNativeOverlay": {
+    "models": {
+      "providers": {
+        "api-00": {
+          "request": {
+            "allowPrivateNetwork": true
+          }
+        }
+      }
+    },
+    "agents": {
+      "entries": {
+        "main": {
+          "tools": {
+            "deny": [
+              "*"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

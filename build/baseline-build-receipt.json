@@ -1,0 +1,32 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx6g -Dfile.encoding=UTF-8 --enable-native-access=ALL-UNNAMED",
+    "-I",
+    "<PROOF_ROOT>/reported-baseline/diagnostic.init.gradle",
+    "-PopenclawBuildCommit=dbac7730a12c90e95143f23e556199ab642e639e",
+    "-PopenclawBuildTimestamp=2026-10-23T03:12:18Z",
+    ":app:assemblePlayDebug",
+    ":app:assemblePlayDebugAndroidTest"
+  ],
+  "sourceCommit": "dbac7730a12c90e95143f23e556199ab642e639e",
+  "observationOnlyOverlay": "<PROOF_ROOT>/reported-baseline/diagnostic-observation.patch",
+  "startedAt": "2026-10-23T03:12:18.005208+00:00",
+  "exitCode": 0,
+  "seconds": 451.72461839100106,
+  "completedAt": "2026-10-23T03:19:49.729858+00:00",
+  "apks": [
+    {
+      "path": "apps/android/app/build/outputs/apk/androidTest/play/debug/app-play-debug-androidTest.apk",
+      "bytes": 1337136,
+      "sha256": "a41480c29ea2f947ed8f21e7d4ab8ef02f24153205a0d82c193726a30d34c2d3"
+    },
+    {
+      "path": "apps/android/app/build/outputs/apk/play/debug/openclaw-2026.8.2-debug-play-debug.apk",
+      "bytes": 139022431,
+      "sha256": "c18e61d8e25d4719afb1033130754d09795621e2d2be6bb98018b5bb31c1ef3b"
+    }
+  ]
+}

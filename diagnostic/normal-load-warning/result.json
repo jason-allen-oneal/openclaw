@@ -1,0 +1,6013 @@
+{
+  "startedAt": 1792799422769,
+  "stoppedAt": 1792799467770,
+  "finishedAt": 1792799532808,
+  "followupBatches": 14,
+  "events": 57,
+  "connected": true,
+  "seedAccepted": true,
+  "settlementObserved": false,
+  "failure": "No five-second settled quiet interval before 65s settlement cap",
+  "provider": {
+    "live": [],
+    "errors": [
+      {
+        "time": 1792799425814,
+        "pid": 1119518,
+        "threadId": 10,
+        "kind": "catalog-error",
+        "call": "1119518:10:66:api-01",
+        "provider": "api-01",
+        "injectedFailure": true,
+        "error": "Synthetic provider catalog unavailable"
+      }
+    ],
+    "completedProviders": 64,
+    "lastTime": 1792799532776,
+    "rows": 725,
+    "expiredProviders": [
+      "api-00",
+      "api-10",
+      "api-11",
+      "api-12",
+      "api-13",
+      "api-14",
+      "api-15",
+      "api-16",
+      "api-17",
+      "api-18",
+      "api-19",
+      "api-02",
+      "api-20",
+      "api-21",
+      "api-22",
+      "api-23",
+      "api-24",
+      "api-25",
+      "api-26",
+      "api-27",
+      "api-28",
+      "api-29",
+      "api-03",
+      "api-30",
+      "api-31",
+      "api-32",
+      "api-33",
+      "api-04",
+      "api-05",
+      "api-54",
+      "api-55",
+      "api-56",
+      "api-57",
+      "api-58",
+      "api-59",
+      "api-06",
+      "api-60",
+      "api-61",
+      "api-62",
+      "api-63",
+      "api-07",
+      "api-08",
+      "api-09"
+    ],
+    "lastReturn": 1792799532776
+  },
+  "warningEvidence": {
+    "armed": {
+      "provider": "api-01",
+      "armedAt": 1792799422769,
+      "selectedProvider": "api-00",
+      "seedCompletedProviders": 64,
+      "expiredProviders": [
+        "api-00",
+        "api-01",
+        "api-10",
+        "api-11",
+        "api-12"
+      ]
+    },
+    "injectedTerminalFailure": true,
+    "successfulWarningResponses": 40,
+    "retainedConfiguredRows": true,
+    "failedMeasuredRpcs": 0
+  },
+  "requests": [
+    {
+      "time": 1792799386133,
+      "kind": "request",
+      "id": "1",
+      "method": "models.list",
+      "params": {
+        "refresh": true
+      },
+      "reason": "one-time-preparation-seed"
+    },
+    {
+      "time": 1792799422770,
+      "kind": "request",
+      "id": "2",
+      "method": "models.list",
+      "params": {},
+      "reason": "single-initial-read"
+    },
+    {
+      "time": 1792799424610,
+      "kind": "request",
+      "id": "3",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799424610,
+      "kind": "request",
+      "id": "4",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799424610,
+      "kind": "request",
+      "id": "5",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799424610,
+      "kind": "request",
+      "id": "6",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799424610,
+      "kind": "request",
+      "id": "7",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799427277,
+      "kind": "request",
+      "id": "8",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799427277,
+      "kind": "request",
+      "id": "9",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799427277,
+      "kind": "request",
+      "id": "10",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799427278,
+      "kind": "request",
+      "id": "11",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799427278,
+      "kind": "request",
+      "id": "12",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799431150,
+      "kind": "request",
+      "id": "13",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799431150,
+      "kind": "request",
+      "id": "14",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799431150,
+      "kind": "request",
+      "id": "15",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799431150,
+      "kind": "request",
+      "id": "16",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799431150,
+      "kind": "request",
+      "id": "17",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799434285,
+      "kind": "request",
+      "id": "18",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799434285,
+      "kind": "request",
+      "id": "19",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799434285,
+      "kind": "request",
+      "id": "20",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799434285,
+      "kind": "request",
+      "id": "21",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799434285,
+      "kind": "request",
+      "id": "22",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799437379,
+      "kind": "request",
+      "id": "23",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799437379,
+      "kind": "request",
+      "id": "24",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799437379,
+      "kind": "request",
+      "id": "25",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799437379,
+      "kind": "request",
+      "id": "26",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799437379,
+      "kind": "request",
+      "id": "27",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799440442,
+      "kind": "request",
+      "id": "28",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799440442,
+      "kind": "request",
+      "id": "29",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799440442,
+      "kind": "request",
+      "id": "30",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799440442,
+      "kind": "request",
+      "id": "31",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799440442,
+      "kind": "request",
+      "id": "32",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799443462,
+      "kind": "request",
+      "id": "33",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799443462,
+      "kind": "request",
+      "id": "34",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799443462,
+      "kind": "request",
+      "id": "35",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799443463,
+      "kind": "request",
+      "id": "36",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799443463,
+      "kind": "request",
+      "id": "37",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799446505,
+      "kind": "request",
+      "id": "38",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799446505,
+      "kind": "request",
+      "id": "39",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799446505,
+      "kind": "request",
+      "id": "40",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799446506,
+      "kind": "request",
+      "id": "41",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799446506,
+      "kind": "request",
+      "id": "42",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799449520,
+      "kind": "request",
+      "id": "43",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799449520,
+      "kind": "request",
+      "id": "44",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799449520,
+      "kind": "request",
+      "id": "45",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799449520,
+      "kind": "request",
+      "id": "46",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799449520,
+      "kind": "request",
+      "id": "47",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799452510,
+      "kind": "request",
+      "id": "48",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799452510,
+      "kind": "request",
+      "id": "49",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799452510,
+      "kind": "request",
+      "id": "50",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799452510,
+      "kind": "request",
+      "id": "51",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799452510,
+      "kind": "request",
+      "id": "52",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799455485,
+      "kind": "request",
+      "id": "53",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799455485,
+      "kind": "request",
+      "id": "54",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799455485,
+      "kind": "request",
+      "id": "55",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799455485,
+      "kind": "request",
+      "id": "56",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799455485,
+      "kind": "request",
+      "id": "57",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799458532,
+      "kind": "request",
+      "id": "58",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799458532,
+      "kind": "request",
+      "id": "59",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799458532,
+      "kind": "request",
+      "id": "60",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799458532,
+      "kind": "request",
+      "id": "61",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799458532,
+      "kind": "request",
+      "id": "62",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799461838,
+      "kind": "request",
+      "id": "63",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799461838,
+      "kind": "request",
+      "id": "64",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799461838,
+      "kind": "request",
+      "id": "65",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799461838,
+      "kind": "request",
+      "id": "66",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799461838,
+      "kind": "request",
+      "id": "67",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799464816,
+      "kind": "request",
+      "id": "68",
+      "method": "models.list",
+      "params": {},
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799464816,
+      "kind": "request",
+      "id": "69",
+      "method": "models.list",
+      "params": {
+        "view": "provider-config",
+        "includeDetails": true
+      },
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799464816,
+      "kind": "request",
+      "id": "70",
+      "method": "models.authStatus",
+      "params": {},
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799464816,
+      "kind": "request",
+      "id": "71",
+      "method": "chat.metadata",
+      "params": {
+        "sessionKey": "agent:main:main"
+      },
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799464816,
+      "kind": "request",
+      "id": "72",
+      "method": "models.list",
+      "params": {
+        "sessionKey": "agent:main:main",
+        "view": "configured"
+      },
+      "reason": "natural-metadata-14"
+    }
+  ],
+  "responses": [
+    {
+      "time": 1792799392078,
+      "kind": "response",
+      "id": "1",
+      "method": "models.list",
+      "elapsedMs": 5944,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "pendingProviders": [
+        "api-00",
+        "api-01",
+        "api-02",
+        "api-03",
+        "api-04",
+        "api-05",
+        "api-06",
+        "api-07",
+        "api-08",
+        "api-09",
+        "api-10",
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20",
+        "api-21",
+        "api-22",
+        "api-23",
+        "api-24",
+        "api-25",
+        "api-26",
+        "api-27",
+        "api-28",
+        "api-29",
+        "api-30",
+        "api-31",
+        "api-32",
+        "api-33",
+        "api-34",
+        "api-35",
+        "api-36",
+        "api-37",
+        "api-38",
+        "api-39",
+        "api-40",
+        "api-41",
+        "api-42",
+        "api-43",
+        "api-44",
+        "api-45",
+        "api-46",
+        "api-47",
+        "api-48",
+        "api-49",
+        "api-50",
+        "api-51",
+        "api-52",
+        "api-53",
+        "api-54",
+        "api-55",
+        "api-56",
+        "api-57",
+        "api-58",
+        "api-59",
+        "api-60",
+        "api-61",
+        "api-62",
+        "api-63"
+      ],
+      "reason": "one-time-preparation-seed"
+    },
+    {
+      "time": 1792799424199,
+      "kind": "response",
+      "id": "2",
+      "method": "models.list",
+      "elapsedMs": 1429,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "single-initial-read"
+    },
+    {
+      "time": 1792799426429,
+      "kind": "response",
+      "id": "4",
+      "method": "models.list",
+      "elapsedMs": 1819,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "pendingProviders": [
+        "api-01",
+        "api-10",
+        "api-11",
+        "api-12"
+      ],
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799426475,
+      "kind": "response",
+      "id": "5",
+      "method": "models.authStatus",
+      "elapsedMs": 1865,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799427275,
+      "kind": "response",
+      "id": "3",
+      "method": "models.list",
+      "elapsedMs": 2665,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "pendingProviders": [
+        "api-01",
+        "api-10",
+        "api-11",
+        "api-12"
+      ],
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799428545,
+      "kind": "response",
+      "id": "7",
+      "method": "models.list",
+      "elapsedMs": 3935,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "reason": "natural-metadata-1"
+    },
+    {
+      "time": 1792799429344,
+      "kind": "response",
+      "id": "10",
+      "method": "models.authStatus",
+      "elapsedMs": 2067,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799429664,
+      "kind": "response",
+      "id": "9",
+      "method": "models.list",
+      "elapsedMs": 2387,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-02",
+        "api-10",
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799430790,
+      "kind": "response",
+      "id": "8",
+      "method": "models.list",
+      "elapsedMs": 3513,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-02",
+        "api-10",
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799431108,
+      "kind": "response",
+      "id": "12",
+      "method": "models.list",
+      "elapsedMs": 3830,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-02",
+        "api-10",
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799432474,
+      "kind": "response",
+      "id": "15",
+      "method": "models.authStatus",
+      "elapsedMs": 1324,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799432817,
+      "kind": "response",
+      "id": "14",
+      "method": "models.list",
+      "elapsedMs": 1667,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-10",
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799433933,
+      "kind": "response",
+      "id": "13",
+      "method": "models.list",
+      "elapsedMs": 2783,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-10",
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799434243,
+      "kind": "response",
+      "id": "17",
+      "method": "models.list",
+      "elapsedMs": 3093,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-10",
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799435537,
+      "kind": "response",
+      "id": "20",
+      "method": "models.authStatus",
+      "elapsedMs": 1252,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799435872,
+      "kind": "response",
+      "id": "19",
+      "method": "models.list",
+      "elapsedMs": 1587,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799437018,
+      "kind": "response",
+      "id": "18",
+      "method": "models.list",
+      "elapsedMs": 2733,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799437337,
+      "kind": "response",
+      "id": "22",
+      "method": "models.list",
+      "elapsedMs": 3052,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-11",
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799438642,
+      "kind": "response",
+      "id": "25",
+      "method": "models.authStatus",
+      "elapsedMs": 1263,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799438990,
+      "kind": "response",
+      "id": "24",
+      "method": "models.list",
+      "elapsedMs": 1611,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799440094,
+      "kind": "response",
+      "id": "23",
+      "method": "models.list",
+      "elapsedMs": 2715,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799440400,
+      "kind": "response",
+      "id": "27",
+      "method": "models.list",
+      "elapsedMs": 3021,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-12",
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799441695,
+      "kind": "response",
+      "id": "30",
+      "method": "models.authStatus",
+      "elapsedMs": 1253,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799442014,
+      "kind": "response",
+      "id": "29",
+      "method": "models.list",
+      "elapsedMs": 1572,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799443102,
+      "kind": "response",
+      "id": "28",
+      "method": "models.list",
+      "elapsedMs": 2661,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799443420,
+      "kind": "response",
+      "id": "32",
+      "method": "models.list",
+      "elapsedMs": 2978,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-13",
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799444724,
+      "kind": "response",
+      "id": "35",
+      "method": "models.authStatus",
+      "elapsedMs": 1262,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799445052,
+      "kind": "response",
+      "id": "34",
+      "method": "models.list",
+      "elapsedMs": 1590,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799446157,
+      "kind": "response",
+      "id": "33",
+      "method": "models.list",
+      "elapsedMs": 2695,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799446460,
+      "kind": "response",
+      "id": "37",
+      "method": "models.list",
+      "elapsedMs": 2997,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-14",
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799447769,
+      "kind": "response",
+      "id": "40",
+      "method": "models.authStatus",
+      "elapsedMs": 1264,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799448094,
+      "kind": "response",
+      "id": "39",
+      "method": "models.list",
+      "elapsedMs": 1589,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799449173,
+      "kind": "response",
+      "id": "38",
+      "method": "models.list",
+      "elapsedMs": 2668,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799449478,
+      "kind": "response",
+      "id": "42",
+      "method": "models.list",
+      "elapsedMs": 2972,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-15",
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799450740,
+      "kind": "response",
+      "id": "45",
+      "method": "models.authStatus",
+      "elapsedMs": 1220,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799451057,
+      "kind": "response",
+      "id": "44",
+      "method": "models.list",
+      "elapsedMs": 1537,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799452155,
+      "kind": "response",
+      "id": "43",
+      "method": "models.list",
+      "elapsedMs": 2635,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799452467,
+      "kind": "response",
+      "id": "47",
+      "method": "models.list",
+      "elapsedMs": 2946,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-16",
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799453730,
+      "kind": "response",
+      "id": "50",
+      "method": "models.authStatus",
+      "elapsedMs": 1220,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799454056,
+      "kind": "response",
+      "id": "49",
+      "method": "models.list",
+      "elapsedMs": 1545,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799455141,
+      "kind": "response",
+      "id": "48",
+      "method": "models.list",
+      "elapsedMs": 2631,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799455447,
+      "kind": "response",
+      "id": "52",
+      "method": "models.list",
+      "elapsedMs": 2937,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-17",
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799456761,
+      "kind": "response",
+      "id": "55",
+      "method": "models.authStatus",
+      "elapsedMs": 1276,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799457095,
+      "kind": "response",
+      "id": "54",
+      "method": "models.list",
+      "elapsedMs": 1610,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799458175,
+      "kind": "response",
+      "id": "53",
+      "method": "models.list",
+      "elapsedMs": 2690,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799458489,
+      "kind": "response",
+      "id": "57",
+      "method": "models.list",
+      "elapsedMs": 3004,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-18",
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799460092,
+      "kind": "response",
+      "id": "60",
+      "method": "models.authStatus",
+      "elapsedMs": 1560,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799460401,
+      "kind": "response",
+      "id": "59",
+      "method": "models.list",
+      "elapsedMs": 1869,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799461497,
+      "kind": "response",
+      "id": "58",
+      "method": "models.list",
+      "elapsedMs": 2965,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799461800,
+      "kind": "response",
+      "id": "62",
+      "method": "models.list",
+      "elapsedMs": 3268,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-19",
+        "api-20"
+      ],
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799463042,
+      "kind": "response",
+      "id": "65",
+      "method": "models.authStatus",
+      "elapsedMs": 1204,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799463392,
+      "kind": "response",
+      "id": "64",
+      "method": "models.list",
+      "elapsedMs": 1554,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-20"
+      ],
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799464474,
+      "kind": "response",
+      "id": "63",
+      "method": "models.list",
+      "elapsedMs": 2636,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-20"
+      ],
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799464777,
+      "kind": "response",
+      "id": "67",
+      "method": "models.list",
+      "elapsedMs": 2938,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-20"
+      ],
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799465995,
+      "kind": "response",
+      "id": "70",
+      "method": "models.authStatus",
+      "elapsedMs": 1179,
+      "ok": true,
+      "providers": [
+        {
+          "provider": "api-00",
+          "status": "static"
+        },
+        {
+          "provider": "api-01",
+          "status": "static"
+        },
+        {
+          "provider": "api-02",
+          "status": "static"
+        },
+        {
+          "provider": "api-03",
+          "status": "static"
+        },
+        {
+          "provider": "api-04",
+          "status": "static"
+        },
+        {
+          "provider": "api-05",
+          "status": "static"
+        },
+        {
+          "provider": "api-06",
+          "status": "static"
+        },
+        {
+          "provider": "api-07",
+          "status": "static"
+        },
+        {
+          "provider": "api-08",
+          "status": "static"
+        },
+        {
+          "provider": "api-09",
+          "status": "static"
+        },
+        {
+          "provider": "api-10",
+          "status": "static"
+        },
+        {
+          "provider": "api-11",
+          "status": "static"
+        },
+        {
+          "provider": "api-12",
+          "status": "static"
+        },
+        {
+          "provider": "api-13",
+          "status": "static"
+        },
+        {
+          "provider": "api-14",
+          "status": "static"
+        },
+        {
+          "provider": "api-15",
+          "status": "static"
+        },
+        {
+          "provider": "api-16",
+          "status": "static"
+        },
+        {
+          "provider": "api-17",
+          "status": "static"
+        },
+        {
+          "provider": "api-18",
+          "status": "static"
+        },
+        {
+          "provider": "api-19",
+          "status": "static"
+        },
+        {
+          "provider": "api-20",
+          "status": "static"
+        },
+        {
+          "provider": "api-21",
+          "status": "static"
+        },
+        {
+          "provider": "api-22",
+          "status": "static"
+        },
+        {
+          "provider": "api-23",
+          "status": "static"
+        },
+        {
+          "provider": "api-24",
+          "status": "static"
+        },
+        {
+          "provider": "api-25",
+          "status": "static"
+        },
+        {
+          "provider": "api-26",
+          "status": "static"
+        },
+        {
+          "provider": "api-27",
+          "status": "static"
+        },
+        {
+          "provider": "api-28",
+          "status": "static"
+        },
+        {
+          "provider": "api-29",
+          "status": "static"
+        },
+        {
+          "provider": "api-30",
+          "status": "static"
+        },
+        {
+          "provider": "api-31",
+          "status": "static"
+        },
+        {
+          "provider": "api-32",
+          "status": "static"
+        },
+        {
+          "provider": "api-33",
+          "status": "static"
+        },
+        {
+          "provider": "api-34",
+          "status": "static"
+        },
+        {
+          "provider": "api-35",
+          "status": "static"
+        },
+        {
+          "provider": "api-36",
+          "status": "static"
+        },
+        {
+          "provider": "api-37",
+          "status": "static"
+        },
+        {
+          "provider": "api-38",
+          "status": "static"
+        },
+        {
+          "provider": "api-39",
+          "status": "static"
+        },
+        {
+          "provider": "api-40",
+          "status": "static"
+        },
+        {
+          "provider": "api-41",
+          "status": "static"
+        },
+        {
+          "provider": "api-42",
+          "status": "static"
+        },
+        {
+          "provider": "api-43",
+          "status": "static"
+        },
+        {
+          "provider": "api-44",
+          "status": "static"
+        },
+        {
+          "provider": "api-45",
+          "status": "static"
+        },
+        {
+          "provider": "api-46",
+          "status": "static"
+        },
+        {
+          "provider": "api-47",
+          "status": "static"
+        },
+        {
+          "provider": "api-48",
+          "status": "static"
+        },
+        {
+          "provider": "api-49",
+          "status": "static"
+        },
+        {
+          "provider": "api-50",
+          "status": "static"
+        },
+        {
+          "provider": "api-51",
+          "status": "static"
+        },
+        {
+          "provider": "api-52",
+          "status": "static"
+        },
+        {
+          "provider": "api-53",
+          "status": "static"
+        },
+        {
+          "provider": "api-54",
+          "status": "static"
+        },
+        {
+          "provider": "api-55",
+          "status": "static"
+        },
+        {
+          "provider": "api-56",
+          "status": "static"
+        },
+        {
+          "provider": "api-57",
+          "status": "static"
+        },
+        {
+          "provider": "api-58",
+          "status": "static"
+        },
+        {
+          "provider": "api-59",
+          "status": "static"
+        },
+        {
+          "provider": "api-60",
+          "status": "static"
+        },
+        {
+          "provider": "api-61",
+          "status": "static"
+        },
+        {
+          "provider": "api-62",
+          "status": "static"
+        },
+        {
+          "provider": "api-63",
+          "status": "static"
+        }
+      ],
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799466316,
+      "kind": "response",
+      "id": "69",
+      "method": "models.list",
+      "elapsedMs": 1500,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-00",
+        "api-02",
+        "api-03",
+        "api-04",
+        "api-05",
+        "api-06",
+        "api-07",
+        "api-08",
+        "api-09",
+        "api-10",
+        "api-21",
+        "api-22",
+        "api-23",
+        "api-24",
+        "api-25",
+        "api-26",
+        "api-27",
+        "api-28",
+        "api-29",
+        "api-30",
+        "api-31",
+        "api-32",
+        "api-33",
+        "api-34",
+        "api-35",
+        "api-36",
+        "api-37",
+        "api-38",
+        "api-39",
+        "api-40",
+        "api-41",
+        "api-42",
+        "api-43",
+        "api-44",
+        "api-45",
+        "api-46",
+        "api-47",
+        "api-48",
+        "api-49",
+        "api-50",
+        "api-51",
+        "api-52",
+        "api-53",
+        "api-54",
+        "api-55",
+        "api-56",
+        "api-57",
+        "api-58",
+        "api-59",
+        "api-60",
+        "api-61",
+        "api-62",
+        "api-63"
+      ],
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799467466,
+      "kind": "response",
+      "id": "68",
+      "method": "models.list",
+      "elapsedMs": 2650,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799467806,
+      "kind": "response",
+      "id": "72",
+      "method": "models.list",
+      "elapsedMs": 2990,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "refreshFailed": true,
+      "pendingProviders": [
+        "api-00",
+        "api-02",
+        "api-03",
+        "api-04",
+        "api-05",
+        "api-06",
+        "api-07",
+        "api-08",
+        "api-09",
+        "api-10",
+        "api-21",
+        "api-22",
+        "api-23",
+        "api-24",
+        "api-25",
+        "api-26",
+        "api-27",
+        "api-28",
+        "api-29",
+        "api-30",
+        "api-31",
+        "api-32",
+        "api-33",
+        "api-34",
+        "api-35",
+        "api-36",
+        "api-37",
+        "api-38",
+        "api-39",
+        "api-40",
+        "api-41",
+        "api-42",
+        "api-43",
+        "api-44",
+        "api-45",
+        "api-46",
+        "api-47",
+        "api-48",
+        "api-49",
+        "api-50",
+        "api-51",
+        "api-52",
+        "api-53",
+        "api-54",
+        "api-55",
+        "api-56",
+        "api-57",
+        "api-58",
+        "api-59",
+        "api-60",
+        "api-61",
+        "api-62",
+        "api-63"
+      ],
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799471738,
+      "kind": "response",
+      "id": "16",
+      "method": "chat.metadata",
+      "elapsedMs": 40588,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-3"
+    },
+    {
+      "time": 1792799471741,
+      "kind": "response",
+      "id": "21",
+      "method": "chat.metadata",
+      "elapsedMs": 37456,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-4"
+    },
+    {
+      "time": 1792799471743,
+      "kind": "response",
+      "id": "26",
+      "method": "chat.metadata",
+      "elapsedMs": 34364,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-5"
+    },
+    {
+      "time": 1792799471745,
+      "kind": "response",
+      "id": "31",
+      "method": "chat.metadata",
+      "elapsedMs": 31303,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-6"
+    },
+    {
+      "time": 1792799471748,
+      "kind": "response",
+      "id": "36",
+      "method": "chat.metadata",
+      "elapsedMs": 28284,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-7"
+    },
+    {
+      "time": 1792799471750,
+      "kind": "response",
+      "id": "41",
+      "method": "chat.metadata",
+      "elapsedMs": 25244,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-8"
+    },
+    {
+      "time": 1792799471752,
+      "kind": "response",
+      "id": "46",
+      "method": "chat.metadata",
+      "elapsedMs": 22232,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-9"
+    },
+    {
+      "time": 1792799471754,
+      "kind": "response",
+      "id": "51",
+      "method": "chat.metadata",
+      "elapsedMs": 19244,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-10"
+    },
+    {
+      "time": 1792799471757,
+      "kind": "response",
+      "id": "56",
+      "method": "chat.metadata",
+      "elapsedMs": 16272,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-11"
+    },
+    {
+      "time": 1792799471759,
+      "kind": "response",
+      "id": "61",
+      "method": "chat.metadata",
+      "elapsedMs": 13227,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-12"
+    },
+    {
+      "time": 1792799471761,
+      "kind": "response",
+      "id": "66",
+      "method": "chat.metadata",
+      "elapsedMs": 9923,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-13"
+    },
+    {
+      "time": 1792799471764,
+      "kind": "response",
+      "id": "71",
+      "method": "chat.metadata",
+      "elapsedMs": 6948,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-14"
+    },
+    {
+      "time": 1792799471766,
+      "kind": "response",
+      "id": "11",
+      "method": "chat.metadata",
+      "elapsedMs": 44488,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-2"
+    },
+    {
+      "time": 1792799471934,
+      "kind": "response",
+      "id": "6",
+      "method": "chat.metadata",
+      "elapsedMs": 47324,
+      "ok": true,
+      "modelCount": 732,
+      "unavailableCount": 0,
+      "reason": "natural-metadata-1"
+    }
+  ],
+  "eventsAfterStop": [
+    {
+      "time": 1792799467842,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 27,
+      "payload": {}
+    },
+    {
+      "time": 1792799472008,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 28,
+      "payload": {}
+    },
+    {
+      "time": 1792799473485,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 29,
+      "payload": {}
+    },
+    {
+      "time": 1792799474912,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 30,
+      "payload": {}
+    },
+    {
+      "time": 1792799476359,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 31,
+      "payload": {}
+    },
+    {
+      "time": 1792799476991,
+      "kind": "event",
+      "event": "tick",
+      "seq": 32
+    },
+    {
+      "time": 1792799477805,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 33,
+      "payload": {}
+    },
+    {
+      "time": 1792799479231,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 34,
+      "payload": {}
+    },
+    {
+      "time": 1792799480756,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 35,
+      "payload": {}
+    },
+    {
+      "time": 1792799482298,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 36,
+      "payload": {}
+    },
+    {
+      "time": 1792799483822,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 37,
+      "payload": {}
+    },
+    {
+      "time": 1792799485409,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 38,
+      "payload": {}
+    },
+    {
+      "time": 1792799486960,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 39,
+      "payload": {}
+    },
+    {
+      "time": 1792799488521,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 40,
+      "payload": {}
+    },
+    {
+      "time": 1792799490030,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 41,
+      "payload": {}
+    },
+    {
+      "time": 1792799491474,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 42,
+      "payload": {}
+    },
+    {
+      "time": 1792799492924,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 43,
+      "payload": {}
+    },
+    {
+      "time": 1792799494451,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 44,
+      "payload": {}
+    },
+    {
+      "time": 1792799495914,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 45,
+      "payload": {}
+    },
+    {
+      "time": 1792799497364,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 46,
+      "payload": {}
+    },
+    {
+      "time": 1792799498867,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 47,
+      "payload": {}
+    },
+    {
+      "time": 1792799500318,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 48,
+      "payload": {}
+    },
+    {
+      "time": 1792799501748,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 49,
+      "payload": {}
+    },
+    {
+      "time": 1792799503165,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 50,
+      "payload": {}
+    },
+    {
+      "time": 1792799504616,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 51,
+      "payload": {}
+    },
+    {
+      "time": 1792799506094,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 52,
+      "payload": {}
+    },
+    {
+      "time": 1792799506992,
+      "kind": "event",
+      "event": "tick",
+      "seq": 53
+    },
+    {
+      "time": 1792799507004,
+      "kind": "event",
+      "event": "health",
+      "seq": 54
+    },
+    {
+      "time": 1792799507683,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 55,
+      "payload": {}
+    },
+    {
+      "time": 1792799509199,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 56,
+      "payload": {}
+    },
+    {
+      "time": 1792799510664,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 57,
+      "payload": {}
+    },
+    {
+      "time": 1792799512186,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 58,
+      "payload": {}
+    },
+    {
+      "time": 1792799513641,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 59,
+      "payload": {}
+    },
+    {
+      "time": 1792799515100,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 60,
+      "payload": {}
+    },
+    {
+      "time": 1792799516596,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 61,
+      "payload": {}
+    },
+    {
+      "time": 1792799518053,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 62,
+      "payload": {}
+    },
+    {
+      "time": 1792799519510,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 63,
+      "payload": {}
+    },
+    {
+      "time": 1792799521017,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 64,
+      "payload": {}
+    },
+    {
+      "time": 1792799522454,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 65,
+      "payload": {}
+    },
+    {
+      "time": 1792799523970,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 66,
+      "payload": {}
+    },
+    {
+      "time": 1792799525551,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 67,
+      "payload": {}
+    },
+    {
+      "time": 1792799527137,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 68,
+      "payload": {}
+    },
+    {
+      "time": 1792799528713,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 69,
+      "payload": {}
+    },
+    {
+      "time": 1792799530289,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 70,
+      "payload": {}
+    },
+    {
+      "time": 1792799531768,
+      "kind": "event",
+      "event": "chat.metadata.changed",
+      "seq": 71,
+      "payload": {}
+    }
+  ],
+  "pending": []
+}

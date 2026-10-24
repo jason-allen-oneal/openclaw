@@ -1,0 +1,233 @@
+{
+  "command": [
+    "<ANDROID_SDK>/platform-tools/adb",
+    "-s",
+    "emulator-5584",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "class",
+    "ai.openclaw.app.CatalogRefreshProofTest",
+    "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "sourceCommit": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "apkIdentity": "<PROOF_ROOT>/native-natural/candidate-legacy-idle/driver-snapshot/candidate-apk-identity.json",
+  "eventsInjected": false,
+  "startedAt": "2026-10-24T00:33:44.250007+00:00",
+  "durationRequested": 125,
+  "ownedProcessIds": {
+    "instrumentation": 1402550,
+    "logcat": 1402549
+  },
+  "readyAtMs": 1792802041828,
+  "observationSeconds": 125.45182997400116,
+  "instrumentationExitCode": 0,
+  "proxyAtStop": {
+    "phase": "idle-agent-turn",
+    "openConnections": [],
+    "closed": [
+      {
+        "connection": "fffc6976-5f05-45eb-ac34-6ea1f6c91be3",
+        "role": "node",
+        "code": 1006,
+        "reason": "",
+        "unresolved": [
+          {
+            "id": "498b5218-ff6c-4d52-8cd7-fbe1d4ef3365",
+            "method": "node.event",
+            "startedAt": 1792802165275,
+            "phase": "idle-agent-turn"
+          }
+        ]
+      },
+      {
+        "connection": "0884e6f0-408a-4795-bb22-59f7000614e7",
+        "role": "operator",
+        "code": 1006,
+        "reason": "",
+        "unresolved": [
+          {
+            "id": "8583457d-32d3-4c60-bdac-5c654c5df410",
+            "method": "health",
+            "startedAt": 1792802158413,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "7ffb031b-48a9-44a1-826b-0b6739b9d685",
+            "method": "models.list",
+            "startedAt": 1792802164934,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "7ef97093-1c1f-4c43-9aaa-d6eb3987d31e",
+            "method": "models.list",
+            "startedAt": 1792802165649,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "fbd78318-6595-48fe-872e-4988911e0863",
+            "method": "models.list",
+            "startedAt": 1792802167328,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "b3bcfd63-a160-4698-ba50-4debe2897e8f",
+            "method": "models.list",
+            "startedAt": 1792802167328,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "fb03f8c8-9a18-4409-9308-e80fcc63e2a5",
+            "method": "models.list",
+            "startedAt": 1792802168258,
+            "phase": "idle-agent-turn"
+          },
+          {
+            "id": "c816457b-bd25-462e-ade9-b15bfc855ed2",
+            "method": "sessions.observer.visibility",
+            "startedAt": 1792802168901,
+            "phase": "idle-agent-turn"
+          }
+        ]
+      }
+    ]
+  },
+  "cleanup": [
+    {
+      "command": [
+        "shell",
+        "run-as",
+        "ai.openclaw.app.debug",
+        "touch",
+        "files/catalog-proof/finish"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "owner": "instrumentation-adb",
+      "pid": 1402550,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug.test",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "logcat-adb",
+      "pid": 1402549,
+      "exitCode": -15,
+      "processGone": true
+    }
+  ],
+  "parentStillOwns": [
+    "Gateway",
+    "proxy",
+    "SSH tunnel",
+    "emulator",
+    "Gateway memory sampler"
+  ],
+  "instrumentationPassed": true,
+  "captureComplete": true,
+  "totalSeconds": 145.5245639719942,
+  "finishedAtMs": 1792802169775,
+  "requestCountsByPhase": {
+    "idle-agent-turn": {
+      "models.authStatus": 23,
+      "models.list": 55,
+      "chat.metadata": 22,
+      "question.list": 2,
+      "health": 2,
+      "node.event": 1,
+      "sessions.observer.visibility": 1
+    },
+    "native-setup": {
+      "connect": 2,
+      "node.event": 2,
+      "sessions.describe": 1,
+      "users.self": 2,
+      "sessions.subscribe": 1,
+      "node.list": 2,
+      "sessions.patch": 1,
+      "sessions.observer.visibility": 1,
+      "device.pair.list": 2,
+      "question.list": 1,
+      "progressCard.get": 1,
+      "config.get": 1,
+      "chat.history": 1,
+      "chat.metadata": 9,
+      "sessions.branches.list": 1,
+      "users.prefs.get": 1,
+      "agents.list": 1,
+      "models.list": 19,
+      "cron.status": 1,
+      "channels.status": 1,
+      "exec.approval.list": 2,
+      "sessions.list": 3,
+      "health": 1,
+      "cron.list": 1,
+      "plugin.approval.list": 2,
+      "models.authStatus": 7,
+      "voicewake.get": 1,
+      "openclaw.approval.list": 2
+    },
+    "natural-idle": {
+      "models.authStatus": 17,
+      "talk.catalog": 2,
+      "sessions.list": 1,
+      "chat.metadata": 18,
+      "models.list": 34,
+      "health": 2,
+      "node.event": 1
+    }
+  },
+  "warningResponseCount": 0
+}

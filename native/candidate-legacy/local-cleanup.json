@@ -1,0 +1,76 @@
+{
+  "startedAt": "2026-10-24T00:33:41.629366+00:00",
+  "remoteCase": "<REMOTE_PROOF_ROOT>/native-natural/candidate-legacy-ef99274",
+  "identity": "<PROOF_ROOT>/native-natural/candidate-apk-identity.json",
+  "owned": [
+    {
+      "label": "tunnel",
+      "pid": 1402286,
+      "command": [
+        "ssh",
+        "-N",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:19990:127.0.0.1:20094",
+        "GATEWAY_HOST"
+      ]
+    },
+    {
+      "label": "proxy",
+      "pid": 1402332,
+      "command": [
+        "node",
+        "<PROOF_ROOT>/native-natural/candidate-legacy-idle/driver-snapshot/proxy.mjs",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-legacy-idle",
+        "--config",
+        "<PROOF_ROOT>/native-natural/candidate-legacy-idle/config.private.json",
+        "--package",
+        "<ANDROID_CHECKOUT>",
+        "--protocol",
+        "4"
+      ]
+    },
+    {
+      "label": "capture",
+      "pid": 1402407,
+      "command": [
+        "python3",
+        "<PROOF_ROOT>/native-natural/candidate-legacy-idle/driver-snapshot/capture-native.py",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-legacy-idle",
+        "--identity",
+        "<PROOF_ROOT>/native-natural/candidate-legacy-idle/driver-snapshot/candidate-apk-identity.json",
+        "--seconds",
+        "125"
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "capture",
+      "pid": 1402407,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "proxy",
+      "pid": 1402332,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "tunnel",
+      "pid": 1402286,
+      "exitCode": 0,
+      "processGone": true
+    }
+  ],
+  "configSha256": "3414741fe76be7cd0acc3165fb26c8a4bdda8769d49dbbe0687387f37e032f49",
+  "captureExit": 0,
+  "reverseRemoved": true,
+  "finishedAt": "2026-10-24T00:36:09.842886+00:00"
+}

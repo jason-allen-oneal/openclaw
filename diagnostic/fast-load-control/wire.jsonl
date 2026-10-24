@@ -1,0 +1,19 @@
+{"time":1792798856928,"kind":"connect-result","ok":true}
+{"time":1792798856928,"kind":"preparation","note":"One unscoped explicit full catalog seed; wait all64 providers and natural publication because RPC may return at foreground5s deadline"}
+{"time":1792798856928,"kind":"request","id":"1","method":"models.list","params":{"refresh":true},"reason":"one-time-preparation-seed"}
+{"time":1792798857569,"kind":"event","event":"health","seq":1}
+{"time":1792798857650,"kind":"event","event":"cron","seq":2}
+{"time":1792798857699,"kind":"event","event":"cron","seq":3}
+{"time":1792798857701,"kind":"event","event":"sessions.changed","seq":4}
+{"time":1792798860293,"kind":"event","event":"update.available","seq":5}
+{"time":1792798860536,"kind":"event","event":"update.available","seq":6}
+{"time":1792798860536,"kind":"event","event":"update.available","seq":7}
+{"time":1792798860537,"kind":"event","event":"update.available","seq":8}
+{"time":1792798861559,"kind":"event","event":"chat.metadata.changed","seq":9,"payload":{}}
+{"time":1792798862442,"kind":"response","id":"1","method":"models.list","elapsedMs":5514,"ok":true,"modelCount":732,"unavailableCount":0,"reason":"one-time-preparation-seed"}
+{"time":1792798862444,"kind":"precondition-passed","provider":{"live":[],"completedProviders":64,"lastTime":1792798860889,"rows":384,"expiredProviders":[],"lastReturn":1792798860889},"publicationTime":1792798861559}
+{"time":1792798862445,"kind":"start","windowMs":45000,"maxFollowupBatches":30,"provider":{"live":[],"completedProviders":64,"lastTime":1792798860889,"rows":384,"expiredProviders":[],"lastReturn":1792798860889},"note":"Immediate first ordinary read after complete dynamic publication; no TTL wait"}
+{"time":1792798862445,"kind":"request","id":"2","method":"models.list","params":{},"reason":"single-initial-read"}
+{"time":1792798863228,"kind":"response","id":"2","method":"models.list","elapsedMs":783,"ok":true,"modelCount":732,"unavailableCount":0,"reason":"single-initial-read"}
+{"time":1792798887535,"kind":"event","event":"tick","seq":10}
+{"time":1792798907446,"kind":"stop-followup","reason":"45-second-cap","followupBatches":0,"events":1}

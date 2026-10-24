@@ -1,0 +1,33 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx6g -Dfile.encoding=UTF-8",
+    "-I",
+    "<PROOF_ROOT>/native-proof.init.gradle",
+    "-PopenclawBuildCommit=ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+    "-PopenclawBuildTimestamp=2026-10-24T00:09:00Z",
+    ":app:assemblePlayDebug",
+    ":app:assemblePlayDebugAndroidTest"
+  ],
+  "head": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "dirtyTrackedPaths": [],
+  "exitCode": 0,
+  "durationSeconds": 29.97752022743225,
+  "completedAt": "2026-10-24T00:15:01.579071+00:00",
+  "apks": [
+    {
+      "path": "apps/android/app/build/outputs/apk/play/debug/openclaw-2026.8.2-debug-play-debug.apk",
+      "sha256": "713ddbdd3ee824e9cd82ab20df3b0b114bdb9fe1810627ba31c70263b6fd22b0",
+      "bytes": 143032744
+    },
+    {
+      "path": "apps/android/app/build/outputs/apk/androidTest/play/debug/app-play-debug-androidTest.apk",
+      "sha256": "1a3631ed5c3b3cfcac8e0db47530449c5b07bdd19031f19fc53fcc4ee2f97ba8",
+      "bytes": 1338565
+    }
+  ],
+  "buildReceipt": "<PROOF_ROOT>/owner-native-apks-ef99274-receipt.receipt.json",
+  "observationOnlyOverlay": "<PROOF_ROOT>/native-proof.init.gradle"
+}

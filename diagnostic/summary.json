@@ -1,0 +1,59 @@
+{
+  "fast-load-control": {
+    "batches": 0,
+    "measuredRequests": 1,
+    "responses": 1,
+    "ok": true,
+    "modelsCounts": [
+      732
+    ],
+    "expiredAtStart": [],
+    "seedCatalogCalls": 64,
+    "laterCatalogCalls": 0,
+    "laterLoads": 0,
+    "eventsAfterStop": 0,
+    "settlementMs": 5013,
+    "maxRpcMs": 783,
+    "pending": []
+  },
+  "normal-load": {
+    "batches": 14,
+    "measuredRequests": 71,
+    "responses": 71,
+    "ok": true,
+    "modelsCounts": [
+      732
+    ],
+    "expiredAtStart": [
+      "api-00",
+      "api-01",
+      "api-10",
+      "api-11",
+      "api-12"
+    ],
+    "seedCatalogCalls": 64,
+    "laterCatalogCalls": 35,
+    "laterLoads": 35,
+    "eventsAfterStop": 21,
+    "settlementMs": 37294,
+    "maxRpcMs": 47117,
+    "pending": []
+  },
+  "current-normal-load": {
+    "batches": 1,
+    "measuredRequests": 6,
+    "responses": 6,
+    "ok": true,
+    "modelsCounts": [
+      732
+    ],
+    "expiredAtStart": [],
+    "seedCatalogCalls": 64,
+    "laterCatalogCalls": 64,
+    "laterLoads": 64,
+    "eventsAfterStop": 0,
+    "settlementMs": 5027,
+    "maxRpcMs": 1869,
+    "pending": []
+  }
+}

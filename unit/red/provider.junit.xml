@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.NodeRuntimeAgentSelectionTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-10-23T23:49:42.029Z" hostname="BUILD_HOST" time="5.179">
+  <properties/>
+  <testcase name="catalogStatusRecoveryClearsProviderWarningWithoutChangingRows" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="4.555">
+    <failure message="java.lang.AssertionError: Successful status recovery must clear the retained provider warning expected:&lt;null&gt; but was:&lt;Could not load provider model config.&gt;" type="java.lang.AssertionError">java.lang.AssertionError: Successful status recovery must clear the retained provider warning expected:&lt;null&gt; but was:&lt;Could not load provider model config.&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at ai.openclaw.app.NodeRuntimeAgentSelectionTest$catalogStatusRecoveryClearsProviderWarningWithoutChangingRows$1.invokeSuspend(NodeRuntimeAgentSelectionTest.kt:167)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+	at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+	at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+	at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+	at ai.openclaw.app.NodeRuntimeAgentSelectionTest.catalogStatusRecoveryClearsProviderWarningWithoutChangingRows(NodeRuntimeAgentSelectionTest.kt:126)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

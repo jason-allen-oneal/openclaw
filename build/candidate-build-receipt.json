@@ -1,0 +1,19 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx6g -Dfile.encoding=UTF-8",
+    "-I",
+    "<PROOF_ROOT>/native-proof.init.gradle",
+    "-PopenclawBuildCommit=ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+    "-PopenclawBuildTimestamp=2026-10-24T00:09:00Z",
+    ":app:assemblePlayDebug",
+    ":app:assemblePlayDebugAndroidTest"
+  ],
+  "head": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "dirtyTrackedPaths": [],
+  "exitCode": 0,
+  "durationSeconds": 29.97752022743225,
+  "completedAt": "2026-10-24T00:15:01.579071+00:00"
+}

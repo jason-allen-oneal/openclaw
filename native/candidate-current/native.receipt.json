@@ -1,0 +1,194 @@
+{
+  "command": [
+    "<ANDROID_SDK>/platform-tools/adb",
+    "-s",
+    "emulator-5584",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "class",
+    "ai.openclaw.app.CatalogRefreshProofTest",
+    "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "sourceCommit": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "apkIdentity": "<PROOF_ROOT>/native-natural/candidate-current-native/driver-snapshot/candidate-provider-apk-identity.json",
+  "eventsInjected": false,
+  "startedAt": "2026-10-24T00:38:43.584846+00:00",
+  "durationRequested": 140,
+  "ownedProcessIds": {
+    "instrumentation": 1425308,
+    "logcat": 1425307
+  },
+  "readyAtMs": 1792802336206,
+  "observationSeconds": 140.35777488499298,
+  "instrumentationExitCode": 0,
+  "proxyAtStop": {
+    "phase": "recovered-idle",
+    "openConnections": [],
+    "closed": [
+      {
+        "connection": "9c48e81b-c23d-4da8-98b1-0feece1fce8d",
+        "role": "node",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      },
+      {
+        "connection": "4183bd0b-c443-4df2-a8d9-dad55300a9b2",
+        "role": "operator",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      }
+    ]
+  },
+  "cleanup": [
+    {
+      "command": [
+        "shell",
+        "run-as",
+        "ai.openclaw.app.debug",
+        "touch",
+        "files/catalog-proof/finish"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "owner": "instrumentation-adb",
+      "pid": 1425308,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug.test",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "logcat-adb",
+      "pid": 1425307,
+      "exitCode": -15,
+      "processGone": true
+    }
+  ],
+  "parentStillOwns": [
+    "Gateway",
+    "proxy",
+    "SSH tunnel",
+    "emulator",
+    "Gateway memory sampler"
+  ],
+  "instrumentationPassed": true,
+  "captureComplete": true,
+  "totalSeconds": 155.7575640540017,
+  "finishedAtMs": 1792802479342,
+  "requestCountsByPhase": {
+    "idle-agent-turn": {},
+    "native-setup": {
+      "connect": 2,
+      "node.event": 2,
+      "sessions.describe": 1,
+      "sessions.subscribe": 1,
+      "users.self": 2,
+      "node.list": 2,
+      "sessions.patch": 1,
+      "sessions.observer.visibility": 1,
+      "device.pair.list": 2,
+      "config.get": 1,
+      "progressCard.get": 1,
+      "question.list": 1,
+      "chat.metadata": 1,
+      "chat.history": 1,
+      "users.prefs.get": 1,
+      "voicewake.get": 1,
+      "models.list": 3,
+      "exec.approval.list": 2,
+      "agents.list": 1,
+      "channels.status": 1,
+      "sessions.list": 4,
+      "cron.status": 1,
+      "plugin.approval.list": 2,
+      "models.authStatus": 1,
+      "cron.list": 1,
+      "openclaw.approval.list": 2,
+      "session.reactions.list": 1,
+      "sessions.branches.list": 1,
+      "health": 1
+    },
+    "natural-idle": {
+      "talk.catalog": 3,
+      "chat.metadata": 1,
+      "sessions.list": 2,
+      "models.list": 1,
+      "health": 2,
+      "node.event": 1
+    },
+    "recovered-idle": {
+      "health": 2,
+      "node.event": 1,
+      "sessions.observer.visibility": 1
+    },
+    "recovery-establishment": {
+      "models.list": 3,
+      "chat.metadata": 1,
+      "models.authStatus": 1,
+      "sessions.list": 1
+    },
+    "warning-agent-turn": {},
+    "warning-establishment": {
+      "models.list": 3,
+      "chat.metadata": 1,
+      "models.authStatus": 1,
+      "sessions.list": 1
+    },
+    "warning-observation": {}
+  },
+  "warningResponseCount": 3
+}

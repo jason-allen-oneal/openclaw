@@ -1,0 +1,132 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:loadKtlintReporters UP-TO-DATE
+> Task :app:runKtlintFormatOverKotlinScripts UP-TO-DATE
+> Task :app:runKtlintFormatOverAndroidTestDebugSourceSet NO-SOURCE
+> Task :app:ktlintAndroidTestDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverAndroidTestPlayDebugSourceSet NO-SOURCE
+> Task :app:ktlintAndroidTestPlayDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverAndroidTestPlaySourceSet NO-SOURCE
+> Task :app:ktlintAndroidTestPlaySourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverAndroidTestReleaseSourceSet NO-SOURCE
+> Task :app:ktlintAndroidTestReleaseSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverAndroidTestSourceSet UP-TO-DATE
+> Task :app:ktlintAndroidTestSourceSetFormat UP-TO-DATE
+> Task :app:runKtlintFormatOverAndroidTestThirdPartyDebugSourceSet NO-SOURCE
+> Task :app:ktlintAndroidTestThirdPartyDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverAndroidTestThirdPartySourceSet NO-SOURCE
+> Task :app:ktlintAndroidTestThirdPartySourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverDebugSourceSet UP-TO-DATE
+> Task :app:ktlintDebugSourceSetFormat UP-TO-DATE
+> Task :app:ktlintKotlinScriptFormat UP-TO-DATE
+> Task :app:runKtlintFormatOverMainSourceSet
+> Task :app:ktlintMainSourceSetFormat
+> Task :app:runKtlintFormatOverPlayDebugSourceSet NO-SOURCE
+> Task :app:ktlintPlayDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverPlayReleaseSourceSet NO-SOURCE
+> Task :app:ktlintPlayReleaseSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverPlaySourceSet UP-TO-DATE
+> Task :app:ktlintPlaySourceSetFormat UP-TO-DATE
+> Task :app:runKtlintFormatOverReleaseSourceSet NO-SOURCE
+> Task :app:ktlintReleaseSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestDebugSourceSet UP-TO-DATE
+> Task :app:ktlintTestDebugSourceSetFormat UP-TO-DATE
+> Task :app:runKtlintFormatOverTestFixturesDebugSourceSet NO-SOURCE
+> Task :app:ktlintTestFixturesDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestFixturesPlaySourceSet NO-SOURCE
+> Task :app:ktlintTestFixturesPlaySourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestFixturesReleaseSourceSet NO-SOURCE
+> Task :app:ktlintTestFixturesReleaseSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestFixturesSourceSet NO-SOURCE
+> Task :app:ktlintTestFixturesSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestFixturesThirdPartySourceSet NO-SOURCE
+> Task :app:ktlintTestFixturesThirdPartySourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestPlayDebugSourceSet NO-SOURCE
+> Task :app:ktlintTestPlayDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestPlaySourceSet NO-SOURCE
+> Task :app:ktlintTestPlaySourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestReleaseSourceSet NO-SOURCE
+> Task :app:ktlintTestReleaseSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestSourceSet
+> Task :app:ktlintTestSourceSetFormat
+> Task :app:runKtlintFormatOverTestThirdPartyDebugSourceSet NO-SOURCE
+> Task :app:ktlintTestThirdPartyDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverTestThirdPartySourceSet UP-TO-DATE
+> Task :app:ktlintTestThirdPartySourceSetFormat UP-TO-DATE
+> Task :app:runKtlintFormatOverThirdPartyDebugSourceSet NO-SOURCE
+> Task :app:ktlintThirdPartyDebugSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverThirdPartyReleaseSourceSet NO-SOURCE
+> Task :app:ktlintThirdPartyReleaseSourceSetFormat SKIPPED
+> Task :app:runKtlintFormatOverThirdPartySourceSet UP-TO-DATE
+> Task :app:ktlintThirdPartySourceSetFormat UP-TO-DATE
+> Task :app:ktlintFormat
+> Task :app:generateGatewayProtocol UP-TO-DATE
+> Task :app:generateNativeI18n
+> Task :app:generateMermaidAssets UP-TO-DATE
+> Task :app:validateThirdPartyLicenseAssets
+> Task :app:preBuild
+> Task :app:prePlayDebugBuild
+> Task :app:generatePlayDebugBuildConfig
+> Task :app:extractPlayDebugSupportedLocales UP-TO-DATE
+> Task :app:mapPlayDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:preBuild UP-TO-DATE
+> Task :wear-shared:preDebugBuild UP-TO-DATE
+> Task :wear-shared:extractDebugSupportedLocales UP-TO-DATE
+> Task :app:generatePlayDebugLocaleConfig UP-TO-DATE
+> Task :app:generatePlayDebugResources UP-TO-DATE
+> Task :app:packagePlayDebugResources UP-TO-DATE
+> Task :wear-shared:processDebugNavigationResources UP-TO-DATE
+> Task :app:processPlayDebugNavigationResources UP-TO-DATE
+> Task :app:parsePlayDebugLocalResources UP-TO-DATE
+> Task :app:generatePlayDebugRFile UP-TO-DATE
+> Task :wear-shared:generateDebugResources UP-TO-DATE
+> Task :wear-shared:packageDebugResources UP-TO-DATE
+> Task :wear-shared:parseDebugLocalResources UP-TO-DATE
+> Task :wear-shared:generateDebugRFile UP-TO-DATE
+> Task :wear-shared:compileDebugKotlin UP-TO-DATE
+> Task :wear-shared:javaPreCompileDebug UP-TO-DATE
+> Task :wear-shared:compileDebugJavaWithJavac NO-SOURCE
+> Task :wear-shared:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:kspPlayDebugKotlin
+> Task :app:compilePlayDebugKotlin
+> Task :app:javaPreCompilePlayDebug UP-TO-DATE
+> Task :app:compilePlayDebugJavaWithJavac
+> Task :wear-shared:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkPlayDebugAarMetadata UP-TO-DATE
+> Task :app:compilePlayDebugNavigationResources UP-TO-DATE
+> Task :app:mergePlayDebugResources UP-TO-DATE
+> Task :app:createPlayDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksPlayDebug UP-TO-DATE
+> Task :wear-shared:extractDeepLinksDebug UP-TO-DATE
+> Task :wear-shared:processDebugManifest UP-TO-DATE
+> Task :app:processPlayDebugMainManifest UP-TO-DATE
+> Task :app:processPlayDebugManifest UP-TO-DATE
+> Task :app:processPlayDebugManifestForPackage UP-TO-DATE
+> Task :wear-shared:mapDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:compileDebugLibraryResources UP-TO-DATE
+> Task :app:processPlayDebugResources UP-TO-DATE
+> Task :app:bundlePlayDebugClassesToRuntimeJar
+> Task :app:bundlePlayDebugClassesToCompileJar
+> Task :app:kspPlayDebugUnitTestKotlin
+> Task :app:prePlayDebugUnitTestBuild
+> Task :app:compilePlayDebugUnitTestKotlin
+> Task :app:javaPreCompilePlayDebugUnitTest UP-TO-DATE
+> Task :app:compilePlayDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:extractCloudflareSodiumTest UP-TO-DATE
+> Task :app:generatePlayDebugAssets UP-TO-DATE
+> Task :wear-shared:generateDebugAssets UP-TO-DATE
+> Task :wear-shared:mergeDebugAssets UP-TO-DATE
+> Task :app:mergePlayDebugAssets UP-TO-DATE
+> Task :app:packagePlayDebugUnitTestForUnitTest UP-TO-DATE
+> Task :app:mergePlayDebugUnitTestManifest UP-TO-DATE
+> Task :app:processPlayDebugUnitTestManifest UP-TO-DATE
+> Task :app:generatePlayDebugUnitTestConfig UP-TO-DATE
+> Task :app:processPlayDebugJavaRes UP-TO-DATE
+> Task :app:processPlayDebugUnitTestJavaRes UP-TO-DATE
+> Task :wear-shared:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :wear-shared:processDebugJavaRes UP-TO-DATE
+> Task :app:testPlayDebugUnitTest
+
+BUILD SUCCESSFUL in 3m 5s
+76 actionable tasks: 15 executed, 61 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html

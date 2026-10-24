@@ -1,0 +1,21 @@
+{"time":1792799611049,"kind":"connect-result","ok":true}
+{"time":1792799611049,"kind":"preparation","note":"One unscoped explicit full catalog seed; wait all64 providers and natural publication because RPC may return at foreground5s deadline"}
+{"time":1792799611049,"kind":"request","id":"1","method":"models.list","params":{"refresh":true},"reason":"one-time-preparation-seed"}
+{"time":1792799612862,"kind":"event","event":"skills.changed","seq":1}
+{"time":1792799612863,"kind":"event","event":"chat.metadata.changed","seq":2,"payload":{"modelCatalogChanged":false,"authChanged":false}}
+{"time":1792799613261,"kind":"event","event":"update.available","seq":3}
+{"time":1792799613939,"kind":"event","event":"sessions.changed","seq":4}
+{"time":1792799616595,"kind":"response","id":"1","method":"models.list","elapsedMs":5546,"ok":true,"modelCount":732,"unavailableCount":0,"reason":"one-time-preparation-seed"}
+{"time":1792799624866,"kind":"event","event":"chat.metadata.changed","seq":5,"payload":{"modelCatalogChanged":true,"authChanged":true,"commandsChanged":false}}
+{"time":1792799624867,"kind":"await-natural-warning-expiry","note":"Current parallel acquisition may publish before any normal TTL expires; no read/event/expiry is injected during this wait"}
+{"time":1792799634269,"kind":"event","event":"chat.metadata.changed","seq":6,"payload":{"modelCatalogChanged":true,"authChanged":true,"commandsChanged":false}}
+{"time":1792799640008,"kind":"event","event":"tick","seq":7}
+{"time":1792799655823,"kind":"precondition-passed","provider":{"live":[],"errors":[],"completedProviders":64,"lastTime":1792799633274,"rows":768,"expiredProviders":["api-00","api-01","api-10","api-11"],"lastReturn":1792799633274},"publicationTime":1792799634269}
+{"time":1792799655825,"kind":"warning-armed","provider":"api-01","armedAt":1792799655825,"selectedProvider":"api-00","seedCompletedProviders":64,"expiredProviders":["api-00","api-01","api-10","api-11"]}
+{"time":1792799655827,"kind":"start","windowMs":45000,"maxFollowupBatches":30,"provider":{"live":[],"errors":[],"completedProviders":64,"lastTime":1792799633274,"rows":768,"expiredProviders":["api-00","api-01","api-10","api-11"],"lastReturn":1792799633274},"note":"Immediate first ordinary read after complete dynamic publication; no TTL wait"}
+{"time":1792799655827,"kind":"request","id":"2","method":"models.list","params":{},"reason":"single-initial-read"}
+{"time":1792799656310,"kind":"response","id":"2","method":"models.list","elapsedMs":483,"ok":true,"modelCount":732,"unavailableCount":0,"reason":"single-initial-read"}
+{"time":1792799670008,"kind":"event","event":"tick","seq":8}
+{"time":1792799700007,"kind":"event","event":"tick","seq":9}
+{"time":1792799700828,"kind":"stop-followup","reason":"45-second-cap","followupBatches":0,"events":3}
+{"time":1792799705853,"kind":"fatal","message":"Warning variant did not prove terminal provider failure plus successful configured 732-row warning response with all measured RPCs successful"}
