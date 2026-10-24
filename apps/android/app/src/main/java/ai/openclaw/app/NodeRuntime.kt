@@ -183,6 +183,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 
+private const val LEGACY_METADATA_REFRESH_INTERVAL_MS = 30_000L
 private const val MAX_PENDING_NOTIFICATION_EVENTS = 128
 private const val NODE_APPROVAL_COMMAND_FRESH_MS = 30_000L
 private const val CRON_RUN_TRACKING_POLL_MS = 2_000L
@@ -1163,6 +1164,10 @@ class NodeRuntime internal constructor(
   private val appearancePreferenceWriteMutexes = appearancePreferenceKeys.associateWith { Mutex() }
   private val _modelCatalog = MutableStateFlow<List<GatewayModelSummary>>(emptyList())
   private val modelCatalogRefreshGuard = LatestGatewayRefreshGuard()
+  private var modelCatalogRefresh: ModelCatalogRefresh? = null
+  private var modelCatalogNeedsStatusRefresh = false
+  private var legacyMetadataRefreshJob: Job? = null
+  private var legacyMetadataRefreshPending = false
   val modelCatalog: StateFlow<List<GatewayModelSummary>> = _modelCatalog.asStateFlow()
   private val _providerModelCatalog = MutableStateFlow<List<GatewayModelSummary>>(emptyList())
   val providerModelCatalog: StateFlow<List<GatewayModelSummary>> = _providerModelCatalog.asStateFlow()
@@ -1172,13 +1177,13 @@ class NodeRuntime internal constructor(
   val providerModelCatalogErrorText: StateFlow<String?> = _providerModelCatalogErrorText.resolveOptionalNativeText()
   private val providerModelCatalogRefreshGuard = LatestGatewayRefreshGuard()
 
-  private class ProviderCatalogRefresh(
+  private class ModelCatalogRefresh(
     val generation: Long,
   ) {
     var statusRequested = false
   }
 
-  private var providerModelCatalogRefresh: ProviderCatalogRefresh? = null
+  private var providerModelCatalogRefresh: ModelCatalogRefresh? = null
   private var providerModelCatalogNeedsStatusRefresh = true
   private val _modelAuthProviders = MutableStateFlow<List<GatewayModelProviderSummary>>(emptyList())
   val modelAuthProviders: StateFlow<List<GatewayModelProviderSummary>> = _modelAuthProviders.asStateFlow()
@@ -1715,7 +1720,10 @@ class NodeRuntime internal constructor(
     // physical lease still prevents requests and response publication.
     appearancePreferenceRefreshGuard.invalidate()
     _gatewayAgents.value = emptyList()
+    resetLegacyMetadataRefresh()
     modelCatalogRefreshGuard.invalidate()
+    modelCatalogRefresh = null
+    modelCatalogNeedsStatusRefresh = false
     _modelCatalog.value = emptyList()
     providerModelCatalogRefreshGuard.invalidate()
     providerModelCatalogRefresh = null
@@ -2315,7 +2323,10 @@ class NodeRuntime internal constructor(
     synchronized(gatewayDataScopeLock) {
       if (_mainSessionKey.value == sessionKey) return@synchronized false
       // Retire reads before publishing an agent change, including a switch back to the same agent.
+      resetLegacyMetadataRefresh()
       modelCatalogRefreshGuard.invalidate()
+      modelCatalogRefresh = null
+      modelCatalogNeedsStatusRefresh = false
       providerModelCatalogRefreshGuard.invalidate()
       providerModelCatalogRefresh = null
       providerModelCatalogNeedsStatusRefresh = true
@@ -5335,6 +5346,46 @@ class NodeRuntime internal constructor(
     }
   }
 
+  private fun resetLegacyMetadataRefresh() =
+    synchronized(gatewayDataScopeLock) {
+      legacyMetadataRefreshPending = false
+      legacyMetadataRefreshJob?.cancel()
+      legacyMetadataRefreshJob = null
+    }
+
+  private fun refreshLegacyMetadata() {
+    synchronized(gatewayDataScopeLock) {
+      if (!operatorConnected || mode == NodeRuntimeMode.ScreenshotFixture) return
+      legacyMetadataRefreshPending = true
+      if (legacyMetadataRefreshJob != null) return
+      lateinit var refresh: Job
+      refresh =
+        scope.launch(start = CoroutineStart.LAZY) {
+          try {
+            while (true) {
+              synchronized(gatewayDataScopeLock) {
+                if (!legacyMetadataRefreshPending) return@launch
+                legacyMetadataRefreshPending = false
+                launch { refreshModelCatalogFromGateway(legacyHint = true) }
+                launch { refreshProviderModelsFromGateway(legacyHint = true) }
+                if (!chat.refreshCommandsFromLegacyHint()) legacyMetadataRefreshPending = true
+              }
+              // Stable 2026.9.6 publishes unflagged hints even for read completion. A fixed
+              // window bounds that feedback without postponing changes until it goes quiet.
+              // Remove this path when supported Gateways all publish semantic change flags.
+              delay(LEGACY_METADATA_REFRESH_INTERVAL_MS)
+            }
+          } finally {
+            synchronized(gatewayDataScopeLock) {
+              if (legacyMetadataRefreshJob === refresh) legacyMetadataRefreshJob = null
+            }
+          }
+        }
+      legacyMetadataRefreshJob = refresh
+      refresh.start()
+    }
+  }
+
   private fun handleGatewayEvent(
     event: String,
     payloadJson: String?,
@@ -5349,6 +5400,17 @@ class NodeRuntime internal constructor(
       val change = if (event == "chat.metadata.changed") parseJsonParamsObject(payloadJson) else null
       val changedAgentId = change.nonBlankString("agentId")
       val affectsSelectedAgent = changedAgentId == null || selectedChatAgentId == null || changedAgentId.equals(selectedChatAgentId, ignoreCase = true)
+      val legacyHint =
+        event == "chat.metadata.changed" &&
+          change?.keys.orEmpty().none {
+            it == "modelCatalogChanged" || it == "modelCatalogStatusChanged" ||
+              it == "authChanged" || it == "commandsChanged" || it == "modelSelectionChanged"
+          }
+      if (legacyHint) {
+        // Filter before coalescing: another agent's hint cannot replace a relevant one.
+        if (affectsSelectedAgent) refreshLegacyMetadata()
+        return
+      }
       // Usage publications do not change catalogs; retain auth and selection invalidation.
       if (
         change.boolean("modelSelectionChanged") ||
@@ -5357,6 +5419,7 @@ class NodeRuntime internal constructor(
         refreshModelCatalog()
         refreshProviderModels()
       } else if (affectsSelectedAgent && change.boolean("modelCatalogStatusChanged")) {
+        launchGatewayRefresh { refreshModelCatalogFromGateway(statusOnly = true) }
         launchGatewayRefresh { refreshProviderModelsFromGateway(statusOnly = true) }
       }
     }
@@ -6437,30 +6500,8 @@ class NodeRuntime internal constructor(
     }
   }
 
-  private suspend fun refreshModelCatalogFromGateway() {
-    val refreshGeneration = modelCatalogRefreshGuard.begin()
-    val gatewayScope = captureGatewayDataScope() ?: return
-    val agentId = selectedChatAgentId
-    if (!operatorConnected) {
-      _modelCatalog.value = emptyList()
-      _modelAuthProviders.value = emptyList()
-      return
-    }
-    try {
-      val params = buildJsonObject { if (agentId != null) put("agentId", JsonPrimitive(agentId)) }
-      val catalog = parseGatewayModelCatalog(requestGatewayObject(gatewayScope, "models.list", params.toString()))
-      modelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
-        _modelCatalog.value = catalog.models
-      }
-    } catch (err: CancellationException) {
-      throw err
-    } catch (err: Throwable) {
-      Log.w("OpenClawRuntime", "Model catalog refresh failed: ${err::class.java.simpleName}")
-    }
-  }
-
-  private suspend fun refreshProviderModelsFromGateway(
-    refresh: Boolean = false,
+  private suspend fun refreshModelCatalogFromGateway(
+    legacyHint: Boolean = false,
     statusOnly: Boolean = false,
   ) {
     val gatewayScope: GatewayDataScope
@@ -6469,6 +6510,64 @@ class NodeRuntime internal constructor(
       synchronized(gatewayDataScopeLock) {
         gatewayScope = captureGatewayDataScope() ?: return
         agentId = selectedChatAgentId
+        if (legacyHint && modelCatalogRefresh != null) {
+          legacyMetadataRefreshPending = true
+          return
+        }
+        if (statusOnly) {
+          modelCatalogRefresh?.let {
+            it.statusRequested = true
+            return
+          }
+          if (!modelCatalogNeedsStatusRefresh) return
+        }
+        if (!operatorConnected) {
+          _modelCatalog.value = emptyList()
+          _modelAuthProviders.value = emptyList()
+          return
+        }
+        ModelCatalogRefresh(modelCatalogRefreshGuard.begin()).also { modelCatalogRefresh = it }
+      }
+    val refreshGeneration = attempt.generation
+    try {
+      val params = buildJsonObject { if (agentId != null) put("agentId", JsonPrimitive(agentId)) }
+      val catalog = parseGatewayModelCatalog(requestGatewayObject(gatewayScope, "models.list", params.toString()))
+      modelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
+        _modelCatalog.value = catalog.models
+        modelCatalogNeedsStatusRefresh = catalog.refreshFailed || catalog.hasPendingProviders
+      }
+    } catch (err: CancellationException) {
+      throw err
+    } catch (err: Throwable) {
+      modelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
+        modelCatalogNeedsStatusRefresh = true
+      }
+      Log.w("OpenClawRuntime", "Model catalog refresh failed: ${err::class.java.simpleName}")
+    } finally {
+      modelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
+        modelCatalogRefresh = null
+        if (attempt.statusRequested && modelCatalogNeedsStatusRefresh) {
+          launchGatewayRefresh { refreshModelCatalogFromGateway(statusOnly = true) }
+        }
+      }
+    }
+  }
+
+  private suspend fun refreshProviderModelsFromGateway(
+    refresh: Boolean = false,
+    statusOnly: Boolean = false,
+    legacyHint: Boolean = false,
+  ) {
+    val gatewayScope: GatewayDataScope
+    val agentId: String?
+    val attempt =
+      synchronized(gatewayDataScopeLock) {
+        gatewayScope = captureGatewayDataScope() ?: return
+        agentId = selectedChatAgentId
+        if (legacyHint && providerModelCatalogRefresh != null) {
+          legacyMetadataRefreshPending = true
+          return
+        }
         if (statusOnly) {
           providerModelCatalogRefresh?.let {
             it.statusRequested = true
@@ -6476,7 +6575,7 @@ class NodeRuntime internal constructor(
           }
           if (!providerModelCatalogNeedsStatusRefresh) return
         }
-        ProviderCatalogRefresh(providerModelCatalogRefreshGuard.begin()).also { providerModelCatalogRefresh = it }
+        ModelCatalogRefresh(providerModelCatalogRefreshGuard.begin()).also { providerModelCatalogRefresh = it }
       }
     val refreshGeneration = attempt.generation
     providerModelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {

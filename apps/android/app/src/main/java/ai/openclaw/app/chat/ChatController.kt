@@ -2363,6 +2363,20 @@ class ChatController internal constructor(
     refreshChatMetadata(ChatMetadataRefreshReason.Invalidation)
   }
 
+  internal fun refreshCommandsFromLegacyHint(): Boolean =
+    synchronized(gatewayScopeApplyLock) {
+      val active = chatMetadataRefresh
+      if (
+        active?.sequence == chatMetadataRequestSequence.get() &&
+        active.cacheScope == currentCacheScope() && active.metadataScope == currentChatMetadataScope()
+      ) {
+        // NodeRuntime retains this hint for its next fixed window; do not retire a valid read.
+        return@synchronized false
+      }
+      refreshCommands()
+      true
+    }
+
   private fun refreshChatMetadata(reason: ChatMetadataRefreshReason): Job? {
     val refresh =
       synchronized(gatewayScopeApplyLock) {
