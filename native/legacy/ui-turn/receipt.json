@@ -1,0 +1,63 @@
+{
+  "label": "legacy-native-recovery",
+  "actualUiInput": true,
+  "rpcCreatedByDriver": false,
+  "startedAtMs": 1792808215278,
+  "sendTaps": 1,
+  "promptSha256": "8bbc65b5e67985845e7f809eb3296e361f4d713e532226a6da2acdd8b08a4a06",
+  "composerCoordinatesFromInspectedScreenshot": [
+    326,
+    1624
+  ],
+  "driverSha256": "a6f30d1023cc6cb1d22338198a40da1d6cc90ffbf1def2c9aadf341d2abc4703",
+  "sentAtMs": 1792808228901,
+  "nativeSend": {
+    "timestampMs": 1792808229102,
+    "phase": "legacy-native-recovery",
+    "direction": "request",
+    "connection": "457fb63c-41d6-499e-a55e-9c20544b8064",
+    "role": "operator",
+    "id": "cc9c2371-47de-4727-9c95-3667eebe00e1",
+    "method": "chat.send",
+    "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+    "messageSha256": "8bbc65b5e67985845e7f809eb3296e361f4d713e532226a6da2acdd8b08a4a06"
+  },
+  "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+  "sendResponse": {
+    "timestampMs": 1792808229293,
+    "phase": "legacy-native-recovery",
+    "direction": "response",
+    "connection": "457fb63c-41d6-499e-a55e-9c20544b8064",
+    "role": "operator",
+    "id": "cc9c2371-47de-4727-9c95-3667eebe00e1",
+    "method": "chat.send",
+    "requestPhase": "legacy-native-recovery",
+    "elapsedMs": 191,
+    "payloadBytes": 67,
+    "ok": true,
+    "runId": "bb2687be-ad12-4d20-8fd9-b61237a0b52f",
+    "status": "started",
+    "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4"
+  },
+  "terminal": {
+    "timestampMs": 1792808232127,
+    "phase": "legacy-native-recovery",
+    "direction": "gateway-event",
+    "connection": "457fb63c-41d6-499e-a55e-9c20544b8064",
+    "role": "operator",
+    "event": "chat",
+    "seq": 28,
+    "runId": "bb2687be-ad12-4d20-8fd9-b61237a0b52f",
+    "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+    "state": "final",
+    "message": {
+      "role": "assistant",
+      "textSha256": "f707fb5a4870944015cdce1da685a9320d09fbb932c3d1d0f89a6eadebd229c5",
+      "fixtureReply": true
+    }
+  },
+  "replyRendered": true,
+  "rootVisuallyVerifiedRenderedMarker": true,
+  "status": "passed",
+  "collectedAtMs": 1792808265033
+}

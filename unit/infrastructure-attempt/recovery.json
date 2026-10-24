@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-24T01:27:00.096536+00:00",
+  "environment": {
+    "JAVA_TOOL_OPTIONS": "-Djava.io.tmpdir=<PROOF_ROOT>/legacy-test-tmp"
+  },
+  "reason": "Host /tmp tmpfs full; relocate this test run only to bounded task-owned disk-backed temp directory. No product source changes or unrelated cleanup.",
+  "previousAttempt": "legacy-owner-green-20261024.receipt.json",
+  "previousDisposition": "Stopped exact owned Gradle test executor after native runtime no-space failure; not a product test verdict.",
+  "cleanedAt": "2026-10-24T01:30:58.254869+00:00",
+  "taskTempRemoved": true,
+  "residualGeneratedBytesRemoved": 349109,
+  "redProductionHashesMatchBase": {
+    "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt": true,
+    "apps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt": true
+  },
+  "hostTmpAvailable": "18 GiB at final observation; no unrelated temp files deleted by this lane"
+}

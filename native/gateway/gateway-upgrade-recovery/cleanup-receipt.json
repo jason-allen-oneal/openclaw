@@ -1,0 +1,144 @@
+{
+  "case": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "phase": "gateway-upgrade-recovery",
+  "status": "finished",
+  "startedAt": 1792808676.94434,
+  "deadlineAt": 1792809396.94434,
+  "activeWindowSeconds": 690,
+  "cleanupReserveSeconds": 30,
+  "owner": {
+    "pid": 1183791,
+    "startTicks": "229548758",
+    "command": "python3 <REMOTE_PROOF_ROOT>/native-natural/resume-upgraded.py --name candidate-retained-ownerfix --phase gateway-upgrade-recovery --previous-phase gateway-upgrade --doctor-receipt <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/doctor-migration/doctor.receipt.json"
+  },
+  "priorCleanupSha256": "cce60153ecfb22558bb4fcd7fea471cabab360b89446376147d3a019a6af7d43",
+  "previousPhase": "gateway-upgrade",
+  "priorPhaseCleanupSha256": {
+    "gateway-upgrade": "303065661a81c2f5f5b6de0be2c941c6f2e64d93c20ce9f7a589db5dca9ee9f3",
+    "legacy-continuation": "070b0e6ee2a6fbddd216112a1b9562d30dee1ff794d559b9f903e558c6206c40",
+    "legacy-recovery": "3bdb796da882f008f574fcb65abc42a5da1c4abd6a2bb6d5a0b9e183a48d6a58"
+  },
+  "retainedDataNotCopied": true,
+  "seedPerformed": false,
+  "setupCodeIssued": false,
+  "recoveryKind": "supported-doctor-migration-after-upgrade-failure",
+  "packageLinkRetargeted": false,
+  "priorUpgradeWasSuccessful": false,
+  "doctorMigrationReceipt": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/doctor-migration/doctor.receipt.json",
+  "doctorMigrationReceiptSha256": "25aded6696a8239756a6007bf1b5adb11d1cf8523eef9403f37b19e7bc50ade3",
+  "doctorMigrationExitCode": 0,
+  "retainedSessionSemanticContinuity": "pending-native-history-readback",
+  "configWrittenByHarness": false,
+  "inferenceHelperRestartedUnchanged": true,
+  "oldPackageTarget": "<CURRENT_GATEWAY_PACKAGE>",
+  "newPackageTarget": "<CURRENT_GATEWAY_PACKAGE>",
+  "oldBuild": {
+    "version": "2026.10.5",
+    "commit": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+    "builtAt": "2026-10-23T00:59:33.148Z",
+    "buildId": "2026.10.5-a7f5cc2f35fb-2026-10-23T00-59-33.148Z"
+  },
+  "newBuild": {
+    "version": "2026.10.5",
+    "commit": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+    "builtAt": "2026-10-23T00:59:33.148Z",
+    "buildId": "2026.10.5-a7f5cc2f35fb-2026-10-23T00-59-33.148Z"
+  },
+  "paidInference": false,
+  "providerLedgerBefore": {
+    "path": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/provider.jsonl",
+    "bytes": 114021,
+    "lines": 774,
+    "sha256": "eb6547330caddadb708ab7302ba3e26246f3458059980fab410383018551c1d3"
+  },
+  "inference": {
+    "pid": 1183792,
+    "startTicks": "229548847",
+    "command": "<NODE_RUNTIME>/bin/node <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/driver-snapshot/inference-server.mjs --out <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery --seconds 720"
+  },
+  "gateway": {
+    "pid": 1183793,
+    "startTicks": "229548847",
+    "command": "<NODE_RUNTIME>/bin/node <CURRENT_GATEWAY_PACKAGE>/openclaw.mjs gateway --port 20094 --bind loopback --allow-unconfigured"
+  },
+  "sampler": {
+    "pid": 1183794,
+    "startTicks": "229548847",
+    "command": "/usr/bin/python3 <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/driver-snapshot/sample-process.py --pid 1183793 --start-ticks 229548847 --seconds 720 --ready-url http://127.0.0.1:20094/readyz"
+  },
+  "readyAt": 1792808697.9715135,
+  "ready": {
+    "ready": true,
+    "coreReady": true,
+    "failing": [],
+    "uptimeMs": 8257,
+    "eventLoop": {
+      "degraded": true,
+      "degradedSinceMs": 7229,
+      "reasons": [
+        "cpu"
+      ],
+      "intervalMs": 1630.3424459999987,
+      "delayP99Ms": 858.3,
+      "delayMaxMs": 858.3,
+      "utilization": 0.548,
+      "cpuCoreRatio": 2.275,
+      "cpuBreakdown": {
+        "mainThreadCoreRatio": 0.462,
+        "hostUtilization": 0.285,
+        "hostCpuCount": 8
+      }
+    }
+  },
+  "providerLedgerAtReady": {
+    "path": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/provider.jsonl",
+    "bytes": 114021,
+    "lines": 774,
+    "sha256": "eb6547330caddadb708ab7302ba3e26246f3458059980fab410383018551c1d3"
+  },
+  "stopReason": "parent-stop",
+  "cleanup": [
+    {
+      "label": "sampler",
+      "pid": 1183794,
+      "startTicks": "229548847",
+      "command": "/usr/bin/python3 <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/driver-snapshot/sample-process.py --pid 1183793 --start-ticks 229548847 --seconds 720 --ready-url http://127.0.0.1:20094/readyz",
+      "alreadyExited": false,
+      "exitCode": -15,
+      "processGone": true
+    },
+    {
+      "label": "gateway",
+      "pid": 1183793,
+      "startTicks": "229548847",
+      "command": "<NODE_RUNTIME>/bin/node <CURRENT_GATEWAY_PACKAGE>/openclaw.mjs gateway --port 20094 --bind loopback --allow-unconfigured",
+      "alreadyExited": false,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "inference",
+      "pid": 1183792,
+      "startTicks": "229548847",
+      "command": "<NODE_RUNTIME>/bin/node <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/driver-snapshot/inference-server.mjs --out <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery --seconds 720",
+      "alreadyExited": false,
+      "exitCode": 0,
+      "processGone": true
+    }
+  ],
+  "ports": {
+    "20094": "free",
+    "20095": "free"
+  },
+  "providerLedgerAfter": {
+    "path": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/provider.jsonl",
+    "bytes": 228512,
+    "lines": 1552,
+    "sha256": "61a37b33dfff03a2f19d70442ea15b88344f922d6b95f765c4344fe75e927db0"
+  },
+  "configSha256After": "b168e69ded7ea67902bec3785ef43a640405c4f6867565237ffbbff37df742c2",
+  "configUnchanged": true,
+  "packageLinkUnchanged": true,
+  "finishedAt": 1792809006.667197,
+  "elapsedSeconds": 329.7228572368622
+}

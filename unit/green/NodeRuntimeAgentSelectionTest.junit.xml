@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.NodeRuntimeAgentSelectionTest" tests="45" skipped="0" failures="0" errors="0" timestamp="2026-10-24T01:38:08.063Z" hostname="BUILD_HOST" time="9.896">
+  <properties/>
+  <testcase name="agentSelectionRetriesOffPageSessionAfterHistoryUnavailable" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="4.348"/>
+  <testcase name="catalogStatusRecoveryClearsProviderWarningWithoutChangingRows" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.148"/>
+  <testcase name="manualSessionSelectionWinsOverLateCatalogContinuation" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.107"/>
+  <testcase name="reselectingSameAgentKeepsRowsAndAcceptsItsPendingRefresh" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.144"/>
+  <testcase name="agentSelectionRestoresNewChatAfterSwitchingAway" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.166"/>
+  <testcase name="agentSelectionRestoresLastExplicitSessionForThatAgent" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.161"/>
+  <testcase name="failedRefreshCannotRestoreRowsWithRejectedAuth" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.091"/>
+  <testcase name="agentSelectionForgetsOffPageArchivedSession" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.204"/>
+  <testcase name="selectingAgentRebindsCanonicalMainSession" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.08"/>
+  <testcase name="newCatalogSessionWinsWhenAgentLookupReturnsAfterCreation" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.116"/>
+  <testcase name="archiveAckCannotAcquireOwnershipOfALaterMatchingSessionIdentity" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.169"/>
+  <testcase name="agentSelectionRestoresNewChatWhileItsInitialHistoryIsPending" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.11"/>
+  <testcase name="currentSessionSelectionWinsAfterCatalogContinuationValidation" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.1"/>
+  <testcase name="currentChatHydrationPreservesSelectionPublishedWhileItWaits" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.098"/>
+  <testcase name="lateAgentListCannotEraseANewerPickerChoice" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.217"/>
+  <testcase name="publicationsRefreshOnlySelectedAgentCatalogsWithoutDiscovery" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.094"/>
+  <testcase name="selectingAgentPublishesItsModelsWithoutAnotherPageRead" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.089"/>
+  <testcase name="browserFocusAvailabilityFollowsOperatorHelloAndDisconnect" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.123"/>
+  <testcase name="archiveAckRetiresInactiveOwnerSelectionWithoutNavigating" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.151"/>
+  <testcase name="defaultModelReadsKeepTheLegacyGatewayContract" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.087"/>
+  <testcase name="archiveAckPreservesLaterExplicitSameKeySelection" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.132"/>
+  <testcase name="retiredPhysicalLeaseCannotForgetRememberedSelection" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.125"/>
+  <testcase name="agentSelectionRestoresNewCatalogChatAfterSwitchingAway" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.101"/>
+  <testcase name="inactiveOwnerArchiveRetiresRememberedSelectionBeforeReturn" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.112"/>
+  <testcase name="generalCatalogStatusRecoversFailedReadWithoutSupersedingRecovery" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.116"/>
+  <testcase name="agentSelectionRetriesOffPageSessionAfterHistoryLacksIdentity" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.125"/>
+  <testcase name="switchingAwayAndBackRetiresPendingModelReads" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.086"/>
+  <testcase name="currentSessionSelectionWinsAfterAgentLookupValidation" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.075"/>
+  <testcase name="removedAgentFallsBackToGatewayDefaultAfterReconnect" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.107"/>
+  <testcase name="legacyHintsPreserveActiveCatalogsAndCatchUpAtBoundedCadence" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.087"/>
+  <testcase name="switchingGatewayRetiresThePreviousAgentChoice" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.092"/>
+  <testcase name="newSessionWinsWhenAgentLookupReturnsBeforeCreation" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.116"/>
+  <testcase name="agentSessionSelectionRestoresRememberedThenFallsBackToNewestNonMain" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.018"/>
+  <testcase name="generalCatalogPendingResponseRetainsOneStatusCatchUp" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.098"/>
+  <testcase name="newCatalogSessionWinsWhenAgentLookupReturnsBeforeCreation" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.107"/>
+  <testcase name="newSessionWinsWhenAgentLookupReturnsAfterCreation" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.094"/>
+  <testcase name="continuousLegacyHintsCannotDelayChangesOrThrottleExplicitRefreshes" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.084"/>
+  <testcase name="successfulArchiveAckRetiresRememberedSelectionWithoutAnArchiveEvent" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.117"/>
+  <testcase name="reconnectKeepsSelectedAgentBeforeTheAgentListReturns" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.082"/>
+  <testcase name="sessionDeletionInvalidatesLateAgentSessionLookup" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.076"/>
+  <testcase name="newerAgentSelectionWinsOverLatePreviousAgentLookup" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.075"/>
+  <testcase name="archiveAckPreservesHistoryObservedSuccessorAfterAgentSwitch" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.1"/>
+  <testcase name="selectedAgentPublishesRefreshFailureAndSuccessfulEmptyResult" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.076"/>
+  <testcase name="explicitSessionSelectionWinsOverLateAgentSessionLookup" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.077"/>
+  <testcase name="pendingCatalogContinuationRetiresLateAgentSessionLookup" classname="ai.openclaw.app.NodeRuntimeAgentSelectionTest" time="0.077"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

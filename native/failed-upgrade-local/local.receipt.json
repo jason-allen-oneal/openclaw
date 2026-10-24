@@ -1,0 +1,40 @@
+{
+  "startedAt": "2026-10-24T02:19:40.029222+00:00",
+  "remoteCase": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "identity": "<PROOF_ROOT>/native-natural/candidate-retained-apk-identity.json",
+  "owned": [
+    {
+      "label": "tunnel",
+      "pid": 1679147,
+      "startTicks": "9845260",
+      "command": [
+        "ssh",
+        "-N",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:19990:127.0.0.1:20094",
+        "GATEWAY_HOST"
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "tunnel",
+      "pid": 1679147,
+      "exitCode": 0,
+      "processGone": true
+    }
+  ],
+  "preserveAppState": true,
+  "previousCase": "candidate-retained-legacy-recovery",
+  "resumeIncomplete": false,
+  "pmClearPerformed": false,
+  "setupCodeRequested": false,
+  "configSha256": "dce9b810da2a3d192805fa33a3e9b43b76d5c29380cd7af9715922c9188bfbb4",
+  "error": "Tunnel readiness failed",
+  "reverseRemovalSkipped": "This invocation did not install a reverse mapping",
+  "finishedAt": "2026-10-24T02:20:02.607972+00:00"
+}

@@ -1,0 +1,86 @@
+{
+  "startedAt": "2026-10-24T02:24:37.439870+00:00",
+  "remoteCase": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "identity": "<PROOF_ROOT>/native-natural/candidate-retained-apk-identity.json",
+  "owned": [
+    {
+      "label": "tunnel",
+      "pid": 1689263,
+      "startTicks": "9875010",
+      "command": [
+        "ssh",
+        "-N",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:19990:127.0.0.1:20094",
+        "GATEWAY_HOST"
+      ]
+    },
+    {
+      "label": "proxy",
+      "pid": 1690137,
+      "startTicks": "9877015",
+      "command": [
+        "node",
+        "<PROOF_ROOT>/native-natural/candidate-retained-upgraded-recovery/driver-snapshot/proxy.mjs",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-upgraded-recovery",
+        "--config",
+        "<PROOF_ROOT>/native-natural/candidate-retained-upgraded-recovery/config.private.json",
+        "--package",
+        "<ANDROID_CHECKOUT>",
+        "--protocol",
+        "4",
+        "--forbid-setup"
+      ]
+    },
+    {
+      "label": "capture",
+      "pid": 1690179,
+      "startTicks": "9877037",
+      "command": [
+        "python3",
+        "<PROOF_ROOT>/native-natural/candidate-retained-upgraded-recovery/driver-snapshot/capture-native.py",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-upgraded-recovery",
+        "--identity",
+        "<PROOF_ROOT>/native-natural/candidate-retained-upgraded-recovery/driver-snapshot/candidate-retained-apk-identity.json",
+        "--seconds",
+        "140"
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "capture",
+      "pid": 1690179,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "proxy",
+      "pid": 1690137,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "tunnel",
+      "pid": 1689263,
+      "exitCode": 0,
+      "processGone": true
+    }
+  ],
+  "preserveAppState": true,
+  "previousCase": "candidate-retained-legacy-recovery",
+  "resumeIncomplete": false,
+  "pmClearPerformed": false,
+  "setupCodeRequested": false,
+  "configSha256": "b168e69ded7ea67902bec3785ef43a640405c4f6867565237ffbbff37df742c2",
+  "retainedAppStateMatchesPrevious": true,
+  "captureExit": 0,
+  "reverseRemoved": true,
+  "finishedAt": "2026-10-24T02:27:25.505191+00:00"
+}

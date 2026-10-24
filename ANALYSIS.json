@@ -1,0 +1,698 @@
+{
+  "unit": {
+    "legacy-red": {
+      "suites": [
+        {
+          "file": "unit/legacy-red/junit.xml",
+          "name": "ai.openclaw.app.NodeRuntimeAgentSelectionTest",
+          "tests": 2,
+          "failures": 2,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "general-status-red": {
+      "suites": [
+        {
+          "file": "unit/general-status-red/junit.xml",
+          "name": "ai.openclaw.app.NodeRuntimeAgentSelectionTest",
+          "tests": 2,
+          "failures": 2,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green": {
+      "suites": [
+        {
+          "file": "unit/green/NodeRuntimeAgentSelectionTest.junit.xml",
+          "name": "ai.openclaw.app.NodeRuntimeAgentSelectionTest",
+          "tests": 45,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "file": "unit/green/chat.ChatControllerCatalogTest.junit.xml",
+          "name": "ai.openclaw.app.chat.ChatControllerCatalogTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "file": "unit/green/chat.ChatControllerCommandControlsTest.junit.xml",
+          "name": "ai.openclaw.app.chat.ChatControllerCommandControlsTest",
+          "tests": 38,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "file": "unit/green/chat.ChatControllerModelSelectionTest.junit.xml",
+          "name": "ai.openclaw.app.chat.ChatControllerModelSelectionTest",
+          "tests": 58,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "tests": 147,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "wireCases": {
+    "prior-attempts/first-setup-failure": {
+      "wireRecords": 122,
+      "requestsByPhase": {
+        "native-setup": {
+          "connect": 2,
+          "node.event": 2,
+          "sessions.describe": 1,
+          "sessions.subscribe": 1,
+          "users.self": 2,
+          "node.list": 2,
+          "sessions.patch": 1,
+          "sessions.observer.visibility": 2,
+          "device.pair.list": 2,
+          "question.list": 2,
+          "progressCard.get": 1,
+          "chat.history": 1,
+          "config.get": 1,
+          "chat.metadata": 1,
+          "sessions.branches.list": 1,
+          "users.prefs.get": 1,
+          "agents.list": 1,
+          "models.list": 4,
+          "cron.status": 1,
+          "exec.approval.list": 2,
+          "channels.status": 1,
+          "sessions.list": 4,
+          "voicewake.get": 1,
+          "health": 2,
+          "plugin.approval.list": 2,
+          "cron.list": 1,
+          "models.authStatus": 1,
+          "openclaw.approval.list": 2
+        }
+      },
+      "chatSendRequests": 0,
+      "catalogReplies": 4,
+      "successfulCatalogReplies": 4,
+      "warningCatalogReplies": 0,
+      "modelCounts": [
+        732
+      ],
+      "modelIdentitySha256s": [
+        "7145fd9af1ae3a8d3f01fe8c762c0f3034dc9ac0c5acb64f2129d08be9dfd462"
+      ],
+      "ownerRequestTimesMs": {
+        "general": [
+          1792806482038,
+          1792806485375
+        ],
+        "provider-settings": [
+          1792806482047
+        ],
+        "chat": [
+          1792806482814
+        ]
+      },
+      "terminalNativeReceiptPresent": true,
+      "nativeCaptureComplete": false
+    },
+    "prior-attempts/interrupted-continuation": {
+      "wireRecords": 108,
+      "requestsByPhase": {
+        "native-setup": {
+          "connect": 2,
+          "node.event": 2,
+          "sessions.describe": 1,
+          "sessions.subscribe": 1,
+          "users.self": 1,
+          "node.list": 2,
+          "sessions.observer.visibility": 1,
+          "progressCard.get": 1,
+          "question.list": 1,
+          "chat.history": 1,
+          "device.pair.list": 1,
+          "config.get": 1,
+          "agents.list": 1,
+          "models.list": 2,
+          "cron.status": 1,
+          "sessions.list": 1,
+          "channels.status": 1,
+          "exec.approval.list": 1,
+          "sessions.branches.list": 1,
+          "users.prefs.get": 1
+        },
+        "legacy-native": {
+          "plugin.approval.list": 2,
+          "cron.list": 1,
+          "device.pair.list": 1,
+          "users.self": 1,
+          "openclaw.approval.list": 2,
+          "voicewake.get": 1,
+          "models.authStatus": 1,
+          "exec.approval.list": 1,
+          "health": 2,
+          "chat.metadata": 2,
+          "models.list": 2,
+          "sessions.list": 5,
+          "talk.catalog": 2
+        }
+      },
+      "chatSendRequests": 0,
+      "catalogReplies": 4,
+      "successfulCatalogReplies": 4,
+      "warningCatalogReplies": 0,
+      "modelCounts": [
+        732
+      ],
+      "modelIdentitySha256s": [
+        "7145fd9af1ae3a8d3f01fe8c762c0f3034dc9ac0c5acb64f2129d08be9dfd462"
+      ],
+      "ownerRequestTimesMs": {
+        "general": [
+          1792807177834
+        ],
+        "provider-settings": [
+          1792807177835
+        ],
+        "chat": [
+          1792807182603,
+          1792807211485
+        ]
+      },
+      "observationStateChanges": [
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 0,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792807177562
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792807179046
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792807180078
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792807180204
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792807182932
+        }
+      ],
+      "lastObservedOwnerRows": {
+        "catalogRows": 732,
+        "generalModelCatalogRows": 732,
+        "providerModelCatalogRows": 732
+      },
+      "terminalNativeReceiptPresent": false,
+      "nativeCaptureComplete": null
+    },
+    "native/legacy": {
+      "wireRecords": 188,
+      "requestsByPhase": {
+        "native-setup": {
+          "connect": 2,
+          "node.event": 2,
+          "sessions.describe": 1,
+          "sessions.subscribe": 1,
+          "users.self": 2,
+          "node.list": 3,
+          "question.list": 1,
+          "sessions.observer.visibility": 1,
+          "progressCard.get": 1,
+          "sessions.list": 4,
+          "agents.list": 1,
+          "models.list": 3,
+          "channels.status": 1,
+          "exec.approval.list": 2,
+          "cron.status": 1,
+          "chat.history": 1,
+          "config.get": 1,
+          "plugin.approval.list": 2,
+          "models.authStatus": 1,
+          "openclaw.approval.list": 2,
+          "sessions.branches.list": 1,
+          "cron.list": 1,
+          "device.pair.list": 1,
+          "users.prefs.get": 1,
+          "voicewake.get": 1,
+          "health": 1,
+          "chat.metadata": 1
+        },
+        "legacy-native-recovery": {
+          "talk.catalog": 2,
+          "chat.metadata": 2,
+          "sessions.list": 3,
+          "models.list": 4,
+          "health": 4,
+          "chat.send": 1,
+          "chat.history": 3,
+          "question.list": 2,
+          "node.event": 2,
+          "models.authStatus": 1,
+          "sessions.observer.visibility": 1
+        }
+      },
+      "chatSendRequests": 1,
+      "catalogReplies": 7,
+      "successfulCatalogReplies": 7,
+      "warningCatalogReplies": 0,
+      "modelCounts": [
+        732
+      ],
+      "modelIdentitySha256s": [
+        "7145fd9af1ae3a8d3f01fe8c762c0f3034dc9ac0c5acb64f2129d08be9dfd462"
+      ],
+      "ownerRequestTimesMs": {
+        "provider-settings": [
+          1792808186248,
+          1792808287006
+        ],
+        "general": [
+          1792808186260,
+          1792808286965
+        ],
+        "chat": [
+          1792808190949,
+          1792808203440,
+          1792808290765
+        ]
+      },
+      "observationStateChanges": [
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 0,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808186175
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 0,
+          "refreshWarning": "not connected",
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808186353
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 0,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808186465
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 0,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808187716
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808188526
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808191969
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808287142
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808289775
+        }
+      ],
+      "lastObservedOwnerRows": {
+        "catalogRows": 732,
+        "generalModelCatalogRows": 732,
+        "providerModelCatalogRows": 732
+      },
+      "terminalNativeReceiptPresent": true,
+      "nativeCaptureComplete": true
+    },
+    "native/upgraded": {
+      "wireRecords": 237,
+      "requestsByPhase": {
+        "native-setup": {
+          "connect": 2,
+          "sessions.describe": 1,
+          "sessions.subscribe": 1,
+          "users.self": 2,
+          "node.list": 3,
+          "node.event": 2,
+          "agents.list": 1,
+          "models.list": 6,
+          "channels.status": 1,
+          "exec.approval.list": 2,
+          "sessions.list": 5,
+          "cron.status": 1,
+          "progressCard.get": 1,
+          "question.list": 1,
+          "chat.history": 1,
+          "sessions.observer.visibility": 1,
+          "plugin.approval.list": 2,
+          "device.pair.list": 1,
+          "openclaw.approval.list": 2,
+          "config.get": 1,
+          "cron.list": 1,
+          "models.authStatus": 2,
+          "session.reactions.list": 1,
+          "sessions.branches.list": 1,
+          "health": 2,
+          "users.prefs.get": 1,
+          "chat.metadata": 2,
+          "voicewake.get": 1
+        },
+        "upgraded-retained-chat": {
+          "talk.catalog": 3,
+          "sessions.list": 5,
+          "chat.metadata": 4,
+          "models.list": 12,
+          "health": 4,
+          "node.event": 2,
+          "chat.send": 1,
+          "chat.history": 4,
+          "models.authStatus": 4,
+          "sessions.observer.visibility": 1
+        }
+      },
+      "chatSendRequests": 1,
+      "catalogReplies": 18,
+      "successfulCatalogReplies": 18,
+      "warningCatalogReplies": 8,
+      "modelCounts": [
+        732
+      ],
+      "modelIdentitySha256s": [
+        "7145fd9af1ae3a8d3f01fe8c762c0f3034dc9ac0c5acb64f2129d08be9dfd462"
+      ],
+      "ownerRequestTimesMs": {
+        "general": [
+          1792808703673,
+          1792808711675,
+          1792808812524,
+          1792808826204,
+          1792808826246,
+          1792808830584
+        ],
+        "provider-settings": [
+          1792808703684,
+          1792808711718,
+          1792808812566,
+          1792808826246,
+          1792808826246,
+          1792808830631
+        ],
+        "chat": [
+          1792808707619,
+          1792808713920,
+          1792808725104,
+          1792808815949,
+          1792808828317,
+          1792808833292
+        ]
+      },
+      "observationStateChanges": [
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 0,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808703738
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 0,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808703873
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 0,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808705216
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808705869
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 0,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808706481
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808708548
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808711779
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808713998
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808812656
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808814977
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808815179
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808817709
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808826306
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808828437
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": "Some models could not be refreshed. Tap Refresh to retry.",
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808830693
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": true,
+          "timestampMs": 1792808832751
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": "Could not refresh models. Tap Refresh to try again.",
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808833360
+        },
+        {
+          "activityResumed": true,
+          "catalogRows": 732,
+          "generalModelCatalogRows": 732,
+          "refreshWarning": null,
+          "providerModelCatalogRows": 732,
+          "providerModelCatalogErrorText": null,
+          "providerModelCatalogRefreshing": false,
+          "timestampMs": 1792808834275
+        }
+      ],
+      "lastObservedOwnerRows": {
+        "catalogRows": 732,
+        "generalModelCatalogRows": 732,
+        "providerModelCatalogRows": 732
+      },
+      "terminalNativeReceiptPresent": true,
+      "nativeCaptureComplete": true
+    }
+  },
+  "limits": [
+    "Summary is descriptive and never infers missing terminal outcomes.",
+    "Request-phase grouping is not a measured time window or a controlled A/B effect size.",
+    "Android/host clocks are not calibrated; no subsecond UI propagation latency is asserted."
+  ]
+}

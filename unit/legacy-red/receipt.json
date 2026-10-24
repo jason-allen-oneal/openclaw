@@ -1,0 +1,19 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    ":app:testPlayDebugUnitTest",
+    "--tests",
+    "ai.openclaw.app.NodeRuntimeAgentSelectionTest.legacyHintsPreserveActiveCatalogsAndCatchUpAtBoundedCadence",
+    "--tests",
+    "ai.openclaw.app.NodeRuntimeAgentSelectionTest.continuousLegacyHintsCannotDelayChangesOrThrottleExplicitRefreshes"
+  ],
+  "head": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "dirtyTrackedPaths": [
+    "apps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt"
+  ],
+  "exitCode": 1,
+  "durationSeconds": 184.55903339385986,
+  "completedAt": "2026-10-24T01:17:29.686432+00:00"
+}

@@ -1,0 +1,54 @@
+{
+  "frozenAt": "2026-10-24T01:30:08.618975+00:00",
+  "base": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "tests": 145,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "suites": [
+    {
+      "name": "ai.openclaw.app.chat.ChatControllerCatalogTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "6.326"
+    },
+    {
+      "name": "ai.openclaw.app.chat.ChatControllerModelSelectionTest",
+      "tests": "58",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.586"
+    },
+    {
+      "name": "ai.openclaw.app.chat.ChatControllerCommandControlsTest",
+      "tests": "38",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.759"
+    },
+    {
+      "name": "ai.openclaw.app.NodeRuntimeAgentSelectionTest",
+      "tests": "43",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "9.052"
+    }
+  ],
+  "sha256": {
+    "apps/android/app/src/main/java/ai/openclaw/app/GatewayModelCatalog.kt": "45383d0825c0cccf9fe8a118d3b693c9a1761ef33fb37c2a913d3007496575ab",
+    "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt": "52569527279e0f69245fae94223d7db57da61229f7507cce1b21357967d2367c",
+    "apps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt": "cf5c5ecd611094703b0f4f30edd9383337cf4090c1dc71eb1463698736c79638",
+    "apps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt": "5f3f3c02e69b774d46cddf4351577bfa95df297455373d3132fdfeedcdb0ceb9",
+    "apps/android/app/src/test/java/ai/openclaw/app/chat/ChatControllerCatalogTest.kt": "1686d5b8845e5992b3c3a36f1737bf3ca3debcc172ae06c31ceecd623a4da281"
+  },
+  "diffNumstat": "86\t9\tapps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt\n14\t0\tapps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt\n221\t0\tapps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt",
+  "greenReceipt": "legacy-owner-green-recovered-20261024.receipt.json",
+  "redReceipt": "legacy-owner-red-20261024.receipt.json",
+  "infrastructureFailurePreserved": "legacy-owner-green-20261024.receipt.json",
+  "scope": "Android client amplification/starvation only; legacy Gateway producer still requires parent retained-state upgrade/native proof."
+}

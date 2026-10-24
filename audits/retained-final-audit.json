@@ -1,0 +1,311 @@
+{
+  "schema": 1,
+  "auditedAt": "2026-10-24T02:33:21.487809+00:00",
+  "auditScope": "Independent read-only evidence audit; only this md/json report written; no source, runtime, tests, review request, or GitHub writes.",
+  "conclusion": "Executed retained-state legacy and upgraded native flows pass within stated bounds. New-head CI/review gate not yet satisfied.",
+  "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "phases": {
+    "legacy": {
+      "nativeCase": "candidate-retained-legacy-recovery",
+      "remotePhase": "legacy-recovery",
+      "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+      "apkArtifacts": [
+        {
+          "package": "ai.openclaw.app.debug",
+          "sha256": "00b9571a73f47c76ad9094efb849fe9158c46914ba078cc4e64b305ef1fa4958",
+          "matchesBuiltArtifact": true
+        },
+        {
+          "package": "ai.openclaw.app.debug.test",
+          "sha256": "f2448087773bb38ddaf8e96700cfb835aef86bb074038aa734dbb0891ffd6168",
+          "matchesBuiltArtifact": true
+        }
+      ],
+      "instrumentationPassed": true,
+      "captureComplete": true,
+      "observationSeconds": 140.27255059499294,
+      "nativeExit": 0,
+      "localCaptureExit": 0,
+      "localHelpersExitedCleanly": true,
+      "noAppClear": true,
+      "noSetupRequested": true,
+      "connectedIntervalMs": [
+        1792808186080,
+        1792808327256
+      ],
+      "catalogRequests": 7,
+      "catalogResponses": 7,
+      "successful732RowResponses": 7,
+      "warningResponses": 0,
+      "metadataEvents": 1,
+      "statusOnlyEvents": 0,
+      "catalogRowsRetainedAfterInitialPopulation": true,
+      "lastCatalogResponseAtMs": 1792808291576,
+      "zeroFurtherCatalogReadsAfterLastResponseSeconds": 35.68,
+      "connectIdentity": [
+        {
+          "role": "operator",
+          "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+          "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091",
+          "authFields": [
+            "token"
+          ]
+        },
+        {
+          "role": "node",
+          "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+          "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091",
+          "authFields": [
+            "token"
+          ]
+        }
+      ],
+      "uiSend": {
+        "sendTaps": 1,
+        "actualUiInputReported": true,
+        "rpcCreatedByDriver": false,
+        "wireSendCount": 1,
+        "sameRunTerminalObserved": true,
+        "requestToFinalMs": 3025,
+        "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+        "promptSha256": "8bbc65b5e67985845e7f809eb3296e361f4d713e532226a6da2acdd8b08a4a06",
+        "terminalAssistantTextSha256": "f707fb5a4870944015cdce1da685a9320d09fbb932c3d1d0f89a6eadebd229c5",
+        "renderedMarkerVisualCheck": "root receipt; legacy screenshot also directly inspected by audit agent"
+      },
+      "readiness": {
+        "interval": "successful operator connect to first client close",
+        "sampleCount": 71,
+        "probeCount": 15,
+        "http200ReadyTrue": 15,
+        "nonReadyOrErrorCount": 0,
+        "eventLoopDegradedProbeCount": 0
+      },
+      "resources": {
+        "process": "isolated Gateway",
+        "nativeIntervalSampledRssKiBMin": 825244,
+        "nativeIntervalSampledRssKiBMax": 1236512,
+        "firstNativeIntervalRssKiB": 901284,
+        "lastNativeIntervalRssKiB": 1069288,
+        "claimLimit": "short observation, not a leak test or matched memory comparison"
+      },
+      "remoteCleanup": {
+        "status": "finished",
+        "gatewayExit": 0,
+        "allRecordedChildrenGone": true,
+        "ports": {
+          "20094": "free",
+          "20095": "free"
+        },
+        "seedPerformed": false,
+        "retainedDataNotCopied": true,
+        "configUnchangedWithinPhase": true
+      }
+    },
+    "upgraded": {
+      "nativeCase": "candidate-retained-upgraded-recovery",
+      "remotePhase": "gateway-upgrade-recovery",
+      "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+      "apkArtifacts": [
+        {
+          "package": "ai.openclaw.app.debug",
+          "sha256": "00b9571a73f47c76ad9094efb849fe9158c46914ba078cc4e64b305ef1fa4958",
+          "matchesBuiltArtifact": true
+        },
+        {
+          "package": "ai.openclaw.app.debug.test",
+          "sha256": "f2448087773bb38ddaf8e96700cfb835aef86bb074038aa734dbb0891ffd6168",
+          "matchesBuiltArtifact": true
+        }
+      ],
+      "instrumentationPassed": true,
+      "captureComplete": true,
+      "observationSeconds": 140.06336213101167,
+      "nativeExit": 0,
+      "localCaptureExit": 0,
+      "localHelpersExitedCleanly": true,
+      "noAppClear": true,
+      "noSetupRequested": true,
+      "connectedIntervalMs": [
+        1792808703502,
+        1792808845129
+      ],
+      "catalogRequests": 18,
+      "catalogResponses": 18,
+      "successful732RowResponses": 18,
+      "warningResponses": 8,
+      "metadataEvents": 6,
+      "statusOnlyEvents": 1,
+      "catalogRowsRetainedAfterInitialPopulation": true,
+      "lastCatalogResponseAtMs": 1792808834007,
+      "zeroFurtherCatalogReadsAfterLastResponseSeconds": 11.122,
+      "connectIdentity": [
+        {
+          "role": "operator",
+          "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+          "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091",
+          "authFields": [
+            "token"
+          ]
+        },
+        {
+          "role": "node",
+          "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+          "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091",
+          "authFields": [
+            "token"
+          ]
+        }
+      ],
+      "uiSend": {
+        "sendTaps": 1,
+        "actualUiInputReported": true,
+        "rpcCreatedByDriver": false,
+        "wireSendCount": 1,
+        "sameRunTerminalObserved": true,
+        "requestToFinalMs": 2831,
+        "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+        "promptSha256": "8d1c5e739cae01c70472cd220ee11bc09cb12f54910d28b64a2c22b8e687405e",
+        "terminalAssistantTextSha256": "f707fb5a4870944015cdce1da685a9320d09fbb932c3d1d0f89a6eadebd229c5",
+        "renderedMarkerVisualCheck": "root receipt; legacy screenshot also directly inspected by audit agent"
+      },
+      "readiness": {
+        "interval": "successful operator connect to first client close",
+        "sampleCount": 70,
+        "probeCount": 14,
+        "http200ReadyTrue": 14,
+        "nonReadyOrErrorCount": 0,
+        "eventLoopDegradedProbeCount": 1
+      },
+      "resources": {
+        "process": "isolated Gateway",
+        "nativeIntervalSampledRssKiBMin": 1707316,
+        "nativeIntervalSampledRssKiBMax": 2178556,
+        "firstNativeIntervalRssKiB": 1998028,
+        "lastNativeIntervalRssKiB": 2178556,
+        "claimLimit": "short observation, not a leak test or matched memory comparison"
+      },
+      "remoteCleanup": {
+        "status": "finished",
+        "gatewayExit": 0,
+        "allRecordedChildrenGone": true,
+        "ports": {
+          "20094": "free",
+          "20095": "free"
+        },
+        "seedPerformed": false,
+        "retainedDataNotCopied": true,
+        "configUnchangedWithinPhase": true
+      },
+      "warningRecovery": {
+        "bothWarningsObserved": true,
+        "bothClearedAtMs": 1792808834275,
+        "zeroFurtherCatalogReadsAfterBothWarningsClearSeconds": 10.854,
+        "nativeRowsRetained732": true,
+        "statusOnlyEventNotIsolated": true,
+        "reason": "Status-only seq41 and semantic catalog/auth seq42 occur in same millisecond; final recovery also has semantic change events."
+      }
+    }
+  },
+  "retainedContinuity": {
+    "sameApkArtifacts": true,
+    "sameSignedDeviceAndPublicKeyHashesForBothRoles": true,
+    "tokenReconnectNoBootstrap": true,
+    "legacyAfterEqualsUpgradeBeforePersistedAppFiles": true,
+    "sameSessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+    "sameSessionIdSha256": "2349421bb16ae4d67d8d0b3ec9a7cdecfaa0ab8b661f14023c5320b72090cf44",
+    "priorTwoHistoryMessagesExactlyRetained": true,
+    "retainedHistoryProvenBeforeNewSend": true,
+    "nativeRetainedHistoryScreenshotInterpretation": "root visually verified; independent audit checks wire hashes and screenshot digest",
+    "sameDirectoryInodesAcrossUpgrade": true,
+    "sameAgentDatabaseInode": true,
+    "databaseByteHashesChangedAsExpectedThroughMigrationAndNewTurn": true
+  },
+  "upgradePath": {
+    "fromGatewayCommit": "eb377ac59e6c9fd6c7705028034812becf00271b",
+    "toGatewayCommit": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+    "gatewayBuildDiffersFromAndroidHead": true,
+    "directUpgradeFailed": true,
+    "directGatewayExit": 78,
+    "directFailureReason": "Schema version23 explicitly required openclaw doctor --fix before session use.",
+    "doctorCommand": [
+      "doctor",
+      "--fix",
+      "--non-interactive",
+      "--no-workspace-suggestions"
+    ],
+    "doctorExit": 0,
+    "doctorReceiptsHashBound": true,
+    "doctorChangedConfig": true,
+    "sameOriginalStateUsedWithoutReseed": true,
+    "successfulUpgradeRequiresDoctorMigration": true
+  },
+  "latestGitHubObservation": {
+    "head": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+    "state": "OPEN",
+    "mergeable": "MERGEABLE",
+    "checkSummary": {
+      "SUCCESS": 18,
+      "SKIPPED": 47,
+      "IN_PROGRESS": 6,
+      "PENDING": 1
+    },
+    "failedChecks": 0,
+    "ciRun": "https://github.com/openclaw/openclaw/actions/runs/40054032083",
+    "semanticReviewHead": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+    "semanticReviewUrl": "https://github.com/openclaw/openclaw/pull/181112#issuecomment-6354430524",
+    "semanticVerdictUpdatedAt": "2026-10-24T01:03:58Z",
+    "semanticOverall": "Gold3/6 historical previous head",
+    "newHeadSemanticAcceptanceObserved": false,
+    "checkedOnceDuringThisAudit": true,
+    "notAContinualMonitor": true
+  },
+  "limitations": [
+    "The successful legacy recovery contains one genuine manual-refresh-induced unflagged metadata event, not sustained legacy churn; first failed-onboarding attempt separately records18 natural hints and four successful732-row responses but is not a completed native UI qualification.",
+    "Bounded sustained-hint and status-only causal contracts are directly covered by committed failing/passing owner regressions,147 tests; native status-only delivery here is confounded by a same-millisecond semantic event.",
+    "Upgraded post-recovery quiet observation is10.854s after both warnings clear (11.122s after last catalog response), not the historical52s window.",
+    "Two actual native UI turns use deterministic local inference, not a live external model. Upgraded UI turn finishes before provider failure is armed; it does not demonstrate sending while warnings are active.",
+    "Gateway RSS samples are short intervals and substantial; they do not prove resolution of the reporter memory/admission symptom or improvement against a matched baseline.",
+    "Direct package-only startup failed and is preserved; success required canonical doctor --fix migration on retained state.",
+    "New-head CI remains pending and last semantic verdict is for prior head; this audit is not Platinum acceptance."
+  ],
+  "inputSha256": {
+    "candidate-retained-legacy-recovery/native-wire.jsonl": "96d2bfa425709dfcdc3f86a9964b38cb935ebcd84ae4274130494d5d9d7e5b3c",
+    "candidate-retained-legacy-recovery/native-observations.json": "f1786073456697676212a4e486092423c1314f0387730e8c946166f62ad78366",
+    "candidate-retained-legacy-recovery/installed-identity.json": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+    "candidate-retained-legacy-recovery/native.receipt.json": "cda9e7fb5fa4ccf019deaf59e8ea21713d1cfaa3f07ca31121f75f3cbdd55eb5",
+    "candidate-retained-legacy-recovery/local.receipt.json": "9fb509693dbc5f5a86f1cd905d9de0294e6a504d97dc9fa9300faebc739737b1",
+    "candidate-retained-legacy-recovery/ui-turn-legacy-native-recovery/receipt.json": "c3024249104315fd75406c608044ee2df96548168a237c20ce4e96727d54399b",
+    "candidate-retained-legacy-recovery/app-storage-before.json": "81da474f5d3997871e2a1eeb1e97232732db362a8ca306011d0f425364e0e71f",
+    "candidate-retained-legacy-recovery/app-storage-after.json": "80b674703a72361eff1d8ebf767c92a5590ee3d4966f18f97a1e1aa9dc40e7fa",
+    "candidate-retained-ownerfix/legacy-recovery/identity.json": "52749139a33f92f833597d00091d5e1a6f05fff7becde822b2274f776bcbc848",
+    "candidate-retained-ownerfix/legacy-recovery/cleanup-receipt.json": "3bdb796da882f008f574fcb65abc42a5da1c4abd6a2bb6d5a0b9e183a48d6a58",
+    "candidate-retained-ownerfix/legacy-recovery/sampler.log": "b755c26917f655a506931cc8cc905d9a52e8d21fb447131f741c0530f98ed54a",
+    "candidate-retained-upgraded-recovery/native-wire.jsonl": "f4350bf1e9ab5926b724778cd426d539768bbf3c419a00d7b404d3c7a96f76b2",
+    "candidate-retained-upgraded-recovery/native-observations.json": "3daab0d6b5d7e3c3d25a2fd6a967506668e8606ec3348589d6a0fc9dabfa29a5",
+    "candidate-retained-upgraded-recovery/installed-identity.json": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+    "candidate-retained-upgraded-recovery/native.receipt.json": "7193b3fd33a1e89fbb5115ace52b7caea74eca6087a543ae0b4038fd4233860d",
+    "candidate-retained-upgraded-recovery/local.receipt.json": "6eb07dcd746db0d0a85802fe734aab4956fe26991e5f20c1f8e99ecfc6832b38",
+    "candidate-retained-upgraded-recovery/ui-turn-upgraded-native-recovery/receipt.json": "c28a741be1b108861cdb99649a85dd73399f3cb135f366ae29f4e8dec3ac9e9c",
+    "candidate-retained-upgraded-recovery/app-storage-before.json": "2a6457c655d2ae9af76bf9ea9dd2fbf285f74751371ae1dcb3a5588492ce1e40",
+    "candidate-retained-upgraded-recovery/app-storage-after.json": "b65f9a95a19f7c8ab5f3d15030198a3e06dd7fa6f4b60a7a3757cb0ee53d3eb8",
+    "candidate-retained-ownerfix/gateway-upgrade-recovery/identity.json": "7802ec1d5e27a3021f82198772e2bb198de49c0290c65d52a2c6aae2e0712f9a",
+    "candidate-retained-ownerfix/gateway-upgrade-recovery/cleanup-receipt.json": "2a6078d7409ecc7e0d98c2814202c0236e04b739fbef5a03c4211278bc508459",
+    "candidate-retained-ownerfix/gateway-upgrade-recovery/sampler.log": "e0582ddef7300264e1cad028214ac0eec9e7368c0cfa81f144e5b852beb0ad4f",
+    "candidate-retained-ownerfix/gateway-upgrade/cleanup-receipt.json": "303065661a81c2f5f5b6de0be2c941c6f2e64d93c20ce9f7a589db5dca9ee9f3",
+    "candidate-retained-ownerfix/gateway-upgrade/identity.json": "9faf9a99c9b740d22e5d696032d757f0c1ca53b103d3e26990e151cde2034a53",
+    "candidate-retained-ownerfix/gateway-upgrade/gateway.log": "a90bdff6b47be60765a6791414dbe0d72ad0911999c8455959e3a73c46330a1d",
+    "candidate-retained-ownerfix/doctor-migration/doctor.receipt.json": "25aded6696a8239756a6007bf1b5adb11d1cf8523eef9403f37b19e7bc50ade3",
+    "candidate-retained-ownerfix/gateway-upgrade/state-before-upgrade.json": "46220eb7d295e6f549a4cf1fe520e1363039e5e2ba9555cb082fe48122c64f99",
+    "candidate-retained-ownerfix/gateway-upgrade-recovery/state-after-shutdown.json": "4b7c2c00d4f471775f1635aead799a33231d43971bc83eaf86b78c467a972131",
+    "candidate-retained-upgraded-recovery/retained-history.receipt.json": "c7005cd31d7d9ead132034ef609ba40c0d16cbd3c8ea0cb9f183b697dc0aaade",
+    "candidate-retained-upgraded-recovery/native-phase-upgraded-retained-chat.png": "6ba6fa6525d1d462f0dbeade5e59357946deaf7d2e76c4fa655f0754d22bd289",
+    "candidate-retained-upgraded-recovery/native-ui.png": "5a6f7d3b891588119b84b0a273e84959291102c61733e25704b0daa832890b08",
+    "candidate-retained-upgraded-recovery/native-ready.png": "ab97afd536e82cec454ac79250c3ae9036cde76ccecb4d5209b02fd11a8dcd90",
+    "candidate-retained-upgraded-recovery/recovered-visible.png": "e33b90c65d4e15d701d47d75d2afa463ec14587e59f79569b2f58c1f072eff3d",
+    "candidate-retained-upgraded-recovery/retained-chat-before-send.png": "c26e6174d610ef46c675b8c12b737a6bd318768910026637df9cccb32fbb7003",
+    "candidate-retained-upgraded-recovery/warning-visible.png": "8d958eebf78bb3b6aa1a17341c746ac42e3d053f0458d6e3f54f2c57d5c4e0bd",
+    "candidate-retained-upgraded-recovery/native-final.png": "a4f10f808d04c28feb97c9876a389d00d3145d6435c2d12336a8fee896c4a5fa",
+    "candidate-retained-upgraded-recovery/warning-refresh/action-receipt.json": "37020588bb676fa8063e74bc2e6f0707e277f121faa4e0184a6686f71b33e158",
+    "candidate-retained-upgraded-recovery/recovery-refresh/action-receipt.json": "5676b5b22728f2fb6639954f44153a78fdccd67d8c50bee11a5f3b3021ee8ddd"
+  }
+}

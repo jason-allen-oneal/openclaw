@@ -1,0 +1,9 @@
+allprojects {
+  plugins.withId("org.jlleitschuh.gradle.ktlint") {
+    ktlint {
+      filter {
+        include("**/chat/ChatController.kt", "**/chat/ChatControllerCatalogTest.kt", "**/GatewayModelCatalog.kt", "**/NodeRuntime.kt", "**/NodeRuntimeAgentSelectionTest.kt")
+      }
+    }
+  }
+}

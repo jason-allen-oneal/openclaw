@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "buildReceipt": "<PROOF_ROOT>/legacy-owner-native-apks-recovered-20261024.receipt.json",
+  "observationOnlyOverlay": "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/native-proof.init.gradle",
+  "apks": [
+    {
+      "role": "app",
+      "path": "<ANDROID_CHECKOUT>/apps/android/app/build/outputs/apk/play/debug/openclaw-2026.8.2-debug-play-debug.apk",
+      "sha256": "00b9571a73f47c76ad9094efb849fe9158c46914ba078cc4e64b305ef1fa4958",
+      "bytes": 143032744
+    },
+    {
+      "role": "instrumentation",
+      "path": "<ANDROID_CHECKOUT>/apps/android/app/build/outputs/apk/androidTest/play/debug/app-play-debug-androidTest.apk",
+      "sha256": "f2448087773bb38ddaf8e96700cfb835aef86bb074038aa734dbb0891ffd6168",
+      "bytes": 1387065
+    }
+  ],
+  "verified": true,
+  "installed": false,
+  "observationOnlySource": "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/CatalogRefreshProofTest.kt",
+  "overlayManifest": "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/manifest.json",
+  "verifiedAt": "2026-10-24T01:47:32.611265+00:00"
+}

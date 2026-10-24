@@ -1,0 +1,121 @@
+Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=<PROOF_ROOT>/tmp
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:generateMermaidAssets UP-TO-DATE
+> Task :app:validateThirdPartyLicenseAssets
+> Task :app:preBuild
+> Task :app:prePlayDebugBuild
+> Task :app:mergePlayDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateGatewayProtocol UP-TO-DATE
+> Task :app:generateNativeI18n UP-TO-DATE
+> Task :app:generatePlayDebugBuildConfig
+> Task :app:extractPlayDebugSupportedLocales UP-TO-DATE
+> Task :app:mapPlayDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:preBuild UP-TO-DATE
+> Task :wear-shared:preDebugBuild UP-TO-DATE
+> Task :wear-shared:extractDebugSupportedLocales UP-TO-DATE
+> Task :app:generatePlayDebugLocaleConfig UP-TO-DATE
+> Task :app:generatePlayDebugResources UP-TO-DATE
+> Task :app:packagePlayDebugResources UP-TO-DATE
+> Task :wear-shared:processDebugNavigationResources UP-TO-DATE
+> Task :app:processPlayDebugNavigationResources UP-TO-DATE
+> Task :app:parsePlayDebugLocalResources UP-TO-DATE
+> Task :app:generatePlayDebugRFile UP-TO-DATE
+> Task :wear-shared:generateDebugResources UP-TO-DATE
+> Task :wear-shared:packageDebugResources UP-TO-DATE
+> Task :wear-shared:parseDebugLocalResources UP-TO-DATE
+> Task :wear-shared:generateDebugRFile UP-TO-DATE
+> Task :wear-shared:compileDebugKotlin UP-TO-DATE
+> Task :wear-shared:javaPreCompileDebug UP-TO-DATE
+> Task :wear-shared:compileDebugJavaWithJavac NO-SOURCE
+> Task :wear-shared:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:kspPlayDebugKotlin
+> Task :app:compilePlayDebugKotlin
+> Task :app:javaPreCompilePlayDebug UP-TO-DATE
+> Task :app:compilePlayDebugJavaWithJavac
+> Task :app:generatePlayDebugAssets UP-TO-DATE
+> Task :wear-shared:generateDebugAssets UP-TO-DATE
+> Task :wear-shared:mergeDebugAssets UP-TO-DATE
+> Task :app:mergePlayDebugAssets UP-TO-DATE
+> Task :app:compressPlayDebugAssets UP-TO-DATE
+> Task :app:generatePlayDebugGlobalSynthetics UP-TO-DATE
+> Task :app:checkPlayDebugDuplicateClasses UP-TO-DATE
+> Task :app:desugarPlayDebugFileDependencies UP-TO-DATE
+> Task :app:mergeExtDexPlayDebug UP-TO-DATE
+> Task :wear-shared:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:mergeLibDexPlayDebug UP-TO-DATE
+> Task :app:processPlayDebugJavaRes UP-TO-DATE
+> Task :wear-shared:processDebugJavaRes UP-TO-DATE
+> Task :app:mergePlayDebugJavaResource UP-TO-DATE
+> Task :wear-shared:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkPlayDebugAarMetadata UP-TO-DATE
+> Task :app:compilePlayDebugNavigationResources UP-TO-DATE
+> Task :app:mergePlayDebugResources UP-TO-DATE
+> Task :app:createPlayDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksPlayDebug UP-TO-DATE
+> Task :wear-shared:extractDeepLinksDebug UP-TO-DATE
+> Task :wear-shared:processDebugManifest UP-TO-DATE
+> Task :app:processPlayDebugMainManifest UP-TO-DATE
+> Task :app:processPlayDebugManifest UP-TO-DATE
+> Task :app:processPlayDebugManifestForPackage UP-TO-DATE
+> Task :wear-shared:mapDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:compileDebugLibraryResources UP-TO-DATE
+> Task :app:processPlayDebugResources UP-TO-DATE
+> Task :app:dexBuilderPlayDebug
+> Task :app:mergeProjectDexPlayDebug
+> Task :app:extractCloudflareSodium UP-TO-DATE
+> Task :app:mergePlayDebugJniLibFolders UP-TO-DATE
+> Task :wear-shared:mergeDebugJniLibFolders UP-TO-DATE
+> Task :wear-shared:mergeDebugNativeLibs NO-SOURCE
+> Task :wear-shared:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :app:mergePlayDebugNativeLibs UP-TO-DATE
+> Task :app:stripPlayDebugDebugSymbols UP-TO-DATE
+> Task :app:validateSigningPlayDebug UP-TO-DATE
+> Task :app:writePlayDebugAppMetadata UP-TO-DATE
+> Task :app:writePlayDebugSigningConfigVersions UP-TO-DATE
+> Task :app:packagePlayDebug
+> Task :app:createPlayDebugApkListingFileRedirect UP-TO-DATE
+> Task :app:assemblePlayDebug
+> Task :app:bundlePlayDebugClassesToCompileJar
+> Task :app:prePlayDebugAndroidTestBuild SKIPPED
+> Task :app:mergePlayDebugAndroidTestManifest UP-TO-DATE
+> Task :app:processPlayDebugAndroidTestManifest UP-TO-DATE
+> Task :app:generatePlayDebugAndroidTestBuildConfig
+> Task :app:generatePlayDebugAndroidTestResources UP-TO-DATE
+> Task :app:packagePlayDebugAndroidTestResources UP-TO-DATE
+> Task :app:processPlayDebugAndroidTestNavigationResources UP-TO-DATE
+> Task :app:parsePlayDebugAndroidTestLocalResources UP-TO-DATE
+> Task :app:generatePlayDebugAndroidTestRFile UP-TO-DATE
+> Task :app:kspPlayDebugAndroidTestKotlin
+> Task :app:compilePlayDebugAndroidTestKotlin
+> Task :app:javaPreCompilePlayDebugAndroidTest UP-TO-DATE
+> Task :app:compilePlayDebugAndroidTestJavaWithJavac
+> Task :app:generatePlayDebugAndroidTestAssets UP-TO-DATE
+> Task :app:mergePlayDebugAndroidTestAssets UP-TO-DATE
+> Task :app:compressPlayDebugAndroidTestAssets UP-TO-DATE
+> Task :app:generatePlayDebugAndroidTestGlobalSynthetics UP-TO-DATE
+> Task :app:checkPlayDebugAndroidTestDuplicateClasses UP-TO-DATE
+> Task :app:desugarPlayDebugAndroidTestFileDependencies UP-TO-DATE
+> Task :app:mergeExtDexPlayDebugAndroidTest UP-TO-DATE
+> Task :app:mergeLibDexPlayDebugAndroidTest UP-TO-DATE
+> Task :app:processPlayDebugAndroidTestJavaRes UP-TO-DATE
+> Task :app:mergePlayDebugAndroidTestJavaResource UP-TO-DATE
+> Task :app:checkPlayDebugAndroidTestAarMetadata UP-TO-DATE
+> Task :app:mapPlayDebugAndroidTestSourceSetPaths UP-TO-DATE
+> Task :app:compilePlayDebugAndroidTestNavigationResources UP-TO-DATE
+> Task :app:mergePlayDebugAndroidTestResources UP-TO-DATE
+> Task :app:processPlayDebugAndroidTestResources UP-TO-DATE
+> Task :app:dexBuilderPlayDebugAndroidTest
+> Task :app:mergeProjectDexPlayDebugAndroidTest
+> Task :app:mergePlayDebugAndroidTestJniLibFolders UP-TO-DATE
+> Task :app:mergePlayDebugAndroidTestNativeLibs NO-SOURCE
+> Task :app:stripPlayDebugAndroidTestDebugSymbols NO-SOURCE
+> Task :app:validateSigningPlayDebugAndroidTest UP-TO-DATE
+> Task :app:writePlayDebugAndroidTestSigningConfigVersions UP-TO-DATE
+> Task :app:packagePlayDebugAndroidTest
+> Task :app:createPlayDebugAndroidTestApkListingFileRedirect UP-TO-DATE
+> Task :app:assemblePlayDebugAndroidTest
+
+BUILD SUCCESSFUL in 2m 17s
+99 actionable tasks: 16 executed, 83 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html

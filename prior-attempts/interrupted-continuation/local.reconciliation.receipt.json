@@ -1,0 +1,101 @@
+{
+  "remoteCase": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "finishedAtMs": 1792808066487,
+  "nativeCaptureComplete": null,
+  "nativeTerminalOutcome": "unknown-interrupted",
+  "wrapperExitCode": null,
+  "originalExitsUnknown": true,
+  "ownedReconciliation": [
+    {
+      "label": "tunnel",
+      "pid": 1628615,
+      "startTicks": "9722669",
+      "command": [
+        "ssh",
+        "-N",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:19990:127.0.0.1:20094",
+        "GATEWAY_HOST"
+      ],
+      "processGone": true,
+      "exitCode": null,
+      "exitStatus": "unknown-after-interruption"
+    },
+    {
+      "label": "proxy",
+      "pid": 1629380,
+      "startTicks": "9724220",
+      "command": [
+        "node",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/driver-snapshot/proxy.mjs",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation",
+        "--config",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/config.private.json",
+        "--package",
+        "<ANDROID_CHECKOUT>",
+        "--protocol",
+        "4",
+        "--forbid-setup"
+      ],
+      "processGone": true,
+      "exitCode": null,
+      "exitStatus": "unknown-after-interruption"
+    },
+    {
+      "label": "capture",
+      "pid": 1629408,
+      "startTicks": "9724255",
+      "command": [
+        "python3",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/driver-snapshot/capture-native.py",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation",
+        "--identity",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/driver-snapshot/candidate-retained-apk-identity.json",
+        "--seconds",
+        "140"
+      ],
+      "processGone": true,
+      "exitCode": null,
+      "exitStatus": "unknown-after-interruption"
+    }
+  ],
+  "ports": {
+    "19990": "free",
+    "19992": "free"
+  },
+  "reverseRemoveExit": 1,
+  "reverseListAfter": "\n",
+  "reverseAbsent": true,
+  "localRunningSha256": "0d417aa7d72f33f220d5a297321daed0bd5e2c5f9eff5ef14d42a5ea274830fa",
+  "nativeWireSha256": "3e2caa85c1fa1e0482c6499df94736f66c7ee64df46c67a182028d60f7ce67f5",
+  "noChatSendObserved": true,
+  "emulatorRecovery": {
+    "sameAvd": true,
+    "dataWipe": false,
+    "appReinstalled": false,
+    "appCleared": false
+  },
+  "nativeRunningSha256": "52f713a30c54af840c7847820a4b90b87553b8b3a90ddb4f9726154457c1f00b",
+  "nativeOwnedReconciliation": [
+    {
+      "label": "instrumentation",
+      "pid": 1629462,
+      "processGone": true,
+      "exitCode": null,
+      "startTicksNotRecorded": true
+    },
+    {
+      "label": "logcat",
+      "pid": 1629461,
+      "processGone": true,
+      "exitCode": null,
+      "startTicksNotRecorded": true
+    }
+  ]
+}

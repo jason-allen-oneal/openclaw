@@ -1,0 +1,1142 @@
+{
+  "productionCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "previousPublishedAndroidCommit": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "priorImmutableEvidence": "https://github.com/jason-allen-oneal/openclaw/tree/371b0c87f87b7a58687ab7bc5988d0cbf609e17e",
+  "greenSourceBinding": [
+    {
+      "path": "apps/android/app/src/main/java/ai/openclaw/app/GatewayModelCatalog.kt",
+      "recordedGreenSha256": "45383d0825c0cccf9fe8a118d3b693c9a1761ef33fb37c2a913d3007496575ab",
+      "committedBlobSha256": "45383d0825c0cccf9fe8a118d3b693c9a1761ef33fb37c2a913d3007496575ab",
+      "matches": true
+    },
+    {
+      "path": "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt",
+      "recordedGreenSha256": "b21b6e671909f1129d3c85e68fe632b285d2e9e41e225611bd3c3ed8051b1358",
+      "committedBlobSha256": "b21b6e671909f1129d3c85e68fe632b285d2e9e41e225611bd3c3ed8051b1358",
+      "matches": true
+    },
+    {
+      "path": "apps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt",
+      "recordedGreenSha256": "cf5c5ecd611094703b0f4f30edd9383337cf4090c1dc71eb1463698736c79638",
+      "committedBlobSha256": "cf5c5ecd611094703b0f4f30edd9383337cf4090c1dc71eb1463698736c79638",
+      "matches": true
+    },
+    {
+      "path": "apps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt",
+      "recordedGreenSha256": "9d473127c9ba2ed8f929aae494af495392ddaae2f22c9c2eaa4c68bb0d4621d0",
+      "committedBlobSha256": "9d473127c9ba2ed8f929aae494af495392ddaae2f22c9c2eaa4c68bb0d4621d0",
+      "matches": true
+    },
+    {
+      "path": "apps/android/app/src/test/java/ai/openclaw/app/chat/ChatControllerCatalogTest.kt",
+      "recordedGreenSha256": "1686d5b8845e5992b3c3a36f1737bf3ca3debcc172ae06c31ceecd623a4da281",
+      "committedBlobSha256": "1686d5b8845e5992b3c3a36f1737bf3ca3debcc172ae06c31ceecd623a4da281",
+      "matches": true
+    }
+  ],
+  "initialRedProductionBinding": [
+    {
+      "path": "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt",
+      "recordedRedSha256": "bb9e3c173bcd365337c0a3d198954459a4edf9b6f111dd74804ade7cb3b37e61",
+      "priorCommittedBlobSha256": "bb9e3c173bcd365337c0a3d198954459a4edf9b6f111dd74804ade7cb3b37e61",
+      "matches": true
+    },
+    {
+      "path": "apps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt",
+      "recordedRedSha256": "d5c477f810fe1cdee161b38a61fce2092ad5f5fb001243d08b4d62b0c3e1b3f8",
+      "priorCommittedBlobSha256": "d5c477f810fe1cdee161b38a61fce2092ad5f5fb001243d08b4d62b0c3e1b3f8",
+      "matches": true
+    }
+  ],
+  "generalStatusRedBinding": "The two new tests failed on the intermediate 145-test candidate; production SHA256s were retained. New RED test source bytes were not separately frozen. Do not label this an exact-commit RED run.",
+  "reviewBinding": "Three-stage review records retained. Initial general-status P2 was fixed and covered by two RED regressions. Later lock inversion claim was withdrawn after exact unchanged callback context. The final status is scoped-clean. Historical review bundle digests were not retained; no cryptographic review-to-commit attestation is claimed.",
+  "buildBinding": "Build receipt identifies clean 7a5e0bd and the exact two APK SHA256s. Installation receipt independently reads back both matching package hashes. Observation overlay hashes are verified separately. APK identity installed=false and overlay compiled=false are pre-execution metadata, superseded only for execution facts by the terminal build/install receipts.",
+  "priorNativeOutcomes": {
+    "firstAttempt": "Terminal onboarding observation failure; no measured native phase or UI send.",
+    "continuation": "UI driver failed on uiautomator exit 137 with zero send taps and no wire chat.send. Native terminal capture/wrapper result is unknown after interruption; cleanup does not manufacture a pass. Partial observations reach 732 rows in all three owners."
+  },
+  "newNativeSelectionProvided": true,
+  "nativeSelectionIsNotAnOverallPass": true,
+  "inferenceLimit": "Real Gateway lifecycle uses synthetic deterministic loopback inference. No external-model inference or exact reporter 3.2 GiB admission condition is established.",
+  "privacy": "Explicit whitelist only. Host paths and fixture session suffix normalized. No private configuration, credentials, pairing values, raw preference/database contents, raw logcat, or signing material. Images require an explicit root visual privacy-review declaration.",
+  "sourceManifest": [
+    {
+      "source": "legacy-committed-candidate.json",
+      "sourceSha256": "cf157840fc965377d4cb46fc55bd3533fd276f6c78c8ab193a4ba158cb7ff0ab",
+      "publicPath": "source/committed-candidate.json",
+      "publicSha256": "cf157840fc965377d4cb46fc55bd3533fd276f6c78c8ab193a4ba158cb7ff0ab",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-final-source-freeze.json",
+      "sourceSha256": "6371637474c2b45a8430a64017fd986355cee8811135b6d147b0484815d65f8b",
+      "publicPath": "source/final-source-freeze.json",
+      "publicSha256": "6371637474c2b45a8430a64017fd986355cee8811135b6d147b0484815d65f8b",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-owner-source-freeze.json",
+      "sourceSha256": "465039a58712341ee7e5ff4c31ab5ccbad462aa433715106d920b69bc6801f95",
+      "publicPath": "source/intermediate-145-test-freeze.json",
+      "publicSha256": "465039a58712341ee7e5ff4c31ab5ccbad462aa433715106d920b69bc6801f95",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-owner-red-inputs.json",
+      "sourceSha256": "4dc66f3c9bf26fdb3ae813d35f473d39504c0237f25d43da09f9d3c3b758f06d",
+      "publicPath": "unit/legacy-red/input-hashes.json",
+      "publicSha256": "4dc66f3c9bf26fdb3ae813d35f473d39504c0237f25d43da09f9d3c3b758f06d",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-general-status-red-provenance.json",
+      "sourceSha256": "765f181df565f171d0b177f79b5c93a0837793e486c66fd27360f89384f63432",
+      "publicPath": "unit/general-status-red/provenance.json",
+      "publicSha256": "765f181df565f171d0b177f79b5c93a0837793e486c66fd27360f89384f63432",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-owner-red-20261024.receipt.json",
+      "sourceSha256": "9bc66882cfb73e23433ae55c44af14fbfab1d9873fd21c5d6516f1392394d7f5",
+      "publicPath": "unit/legacy-red/receipt.json",
+      "publicSha256": "9bc66882cfb73e23433ae55c44af14fbfab1d9873fd21c5d6516f1392394d7f5",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-owner-red-20261024.log",
+      "sourceSha256": "dbac5b2fe90b313276a4a26040b9fe1bf596e8a37e012bbd2b386bb40e78973a",
+      "publicPath": "unit/legacy-red/log",
+      "publicSha256": "216aaf4dda989bcb2f35ff10f2fa1c578fc733ba29db8602ac6e8f42a565fa60",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-owner-red-20261024.junit.xml",
+      "sourceSha256": "19108633a4c3f459387db5126cbf34ad64e715cddd54fbe2fccbfd766ba9374c",
+      "publicPath": "unit/legacy-red/junit.xml",
+      "publicSha256": "6e82c471807ec8199373ba9d5b56a8eddf77589ad4d35f41b09e61e805fabebf",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-general-status-red-20261024.receipt.json",
+      "sourceSha256": "d5c9d7286340f00987caaa01869f560562318304b657405148755263aa031189",
+      "publicPath": "unit/general-status-red/receipt.json",
+      "publicSha256": "d5c9d7286340f00987caaa01869f560562318304b657405148755263aa031189",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-general-status-red-20261024.log",
+      "sourceSha256": "5c4a97f1141d342b5ec70829a2e2f8a3bdef2c51dafdae0314d8f1a47a3978b3",
+      "publicPath": "unit/general-status-red/log",
+      "publicSha256": "bfb79a8c0125abb8b7d489be9b05d976e7396fc2552d20112f6670ee0efb9087",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-general-status-red-20261024.junit.xml",
+      "sourceSha256": "949501d6ec4209a6622673925052a160477d4cbb0ed981fd601d3dc641a9e24d",
+      "publicPath": "unit/general-status-red/junit.xml",
+      "publicSha256": "96901675498e9ea0e6b1b292f2e4c90e7f7c07e4754a25094cf04de5aef46349",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-all-green-final-20261024.receipt.json",
+      "sourceSha256": "454b9dc27c64676a5fb0039fa0c06d8de85596a0c03ad701121d4c74eafeca3d",
+      "publicPath": "unit/green/receipt.json",
+      "publicSha256": "ea2a9898b32b683ea75fc50cf9f4127d11424aa8cc142376d0b6f3ffd94356fc",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-all-green-final-20261024.log",
+      "sourceSha256": "8f6bacdc7f246b8ea5076ad591da8d8937d8a5f93150dc22a9c3a63789c37045",
+      "publicPath": "unit/green/log",
+      "publicSha256": "b980736f6d63481d764095c84a09ad936c209d1d268539e3c6097c661a2859a4",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-final-TEST-ai.openclaw.app.NodeRuntimeAgentSelectionTest.xml",
+      "sourceSha256": "d01a2da0b80813cb98e24bb29ebb00713fe5fe4ba17dcaf35638a9c0fc7678a1",
+      "publicPath": "unit/green/NodeRuntimeAgentSelectionTest.junit.xml",
+      "publicSha256": "78d98d8b934c3585f9c3f1758452d59226877460d23c8306b63d58f62d7ff08f",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-final-TEST-ai.openclaw.app.chat.ChatControllerCatalogTest.xml",
+      "sourceSha256": "6921854c06c7a392a179e66f78955675fc4691675aca45d4ad3820c79594d533",
+      "publicPath": "unit/green/chat.ChatControllerCatalogTest.junit.xml",
+      "publicSha256": "f920e4a13c245faa67ff512a1376937861db875fda21937581a8c58656ae1899",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-final-TEST-ai.openclaw.app.chat.ChatControllerCommandControlsTest.xml",
+      "sourceSha256": "47d384f9e1c7675fa2a7a979e04d67a3c634ea33c03d3c401b2a5ae3f7a1ae51",
+      "publicPath": "unit/green/chat.ChatControllerCommandControlsTest.junit.xml",
+      "publicSha256": "1888230f107acb617f24899e832084fce2f2613fa67a3d2b2646f2f78a656e9e",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-final-TEST-ai.openclaw.app.chat.ChatControllerModelSelectionTest.xml",
+      "sourceSha256": "f4fb0b5bf2015b827b86189022e594c0fc97b442d6f8d52d4a38028c83f452e3",
+      "publicPath": "unit/green/chat.ChatControllerModelSelectionTest.junit.xml",
+      "publicSha256": "346d5aa664e74ab741beb4e7607ccb4f7d9ebf8dbecf73d5060040844224baf9",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "ktlint-owner-scoped.init.gradle",
+      "sourceSha256": "4abac9d637921e0593ea8aa8d0758ae49e218be291431a028ec48bb0d887c87d",
+      "publicPath": "unit/ktlint-owner-scoped.init.gradle",
+      "publicSha256": "4abac9d637921e0593ea8aa8d0758ae49e218be291431a028ec48bb0d887c87d",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-owner-green-20261024.receipt.json",
+      "sourceSha256": "59132a39af398cb737eab0f9b3f2605db5cecd703aa8c0927a349c28d5ada55b",
+      "publicPath": "unit/infrastructure-attempt/receipt.json",
+      "publicSha256": "90a803f7f02b1dfcf8ee9315804be9f324947d7542a2ecec699222203b22b211",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-owner-temp-recovery.json",
+      "sourceSha256": "bd2f1d65e2ca6a6e11477f4992c45c8a221a8c1506957cb5e090a7c40a253f06",
+      "publicPath": "unit/infrastructure-attempt/recovery.json",
+      "publicSha256": "c0952bb6548b153160c6966c0960e6d529f8509399bd81f20489aa1faa31346e",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-autoreview-20261024.md",
+      "sourceSha256": "b85487952e7320ecdc8b68fb56db8e7a8a9d099c027b46777d1a56fcef9b6010",
+      "publicPath": "review/initial-general-status-finding/autoreview.md",
+      "publicSha256": "b85487952e7320ecdc8b68fb56db8e7a8a9d099c027b46777d1a56fcef9b6010",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-20261024.json",
+      "sourceSha256": "d4d5ddce9baef0d1a9b24d01503de8a84d9a79162735160e323fb2ad356c8155",
+      "publicPath": "review/initial-general-status-finding/autoreview.json",
+      "publicSha256": "d4d5ddce9baef0d1a9b24d01503de8a84d9a79162735160e323fb2ad356c8155",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-20261024.receipt.json",
+      "sourceSha256": "38cbf5b9df9107a13c3fd21eacf9f05ca654650973809a8dfacc171c103e0f8b",
+      "publicPath": "review/initial-general-status-finding/autoreview.receipt.json",
+      "publicSha256": "ed84e9767ebba34d231dd8cfe864ca4885283e42d35a0717a64626eb220d722f",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-autoreview-20261024.status.json",
+      "sourceSha256": "55af95b75818a0082e6de8365fed6733b68425f866f478abc99233ace3e14e4d",
+      "publicPath": "review/initial-general-status-finding/autoreview.status.json",
+      "publicSha256": "55af95b75818a0082e6de8365fed6733b68425f866f478abc99233ace3e14e4d",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-20261024.log",
+      "sourceSha256": "9328e4d4a8fb808d7554249aa5ce489553ed76e16178a2fddf1b531171124a8d",
+      "publicPath": "review/initial-general-status-finding/autoreview.log",
+      "publicSha256": "43ec7a50ece4f3a34ee20b25beb9930ba3a78ff5c5dc9fa2fea6da608caed190",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-autoreview-final-20261024.md",
+      "sourceSha256": "4c7465a72d89bd2bd7e3b1c0ed737c0f34b417c66bb35246a90aec340b3061fd",
+      "publicPath": "review/lock-order-finding/autoreview.md",
+      "publicSha256": "4c7465a72d89bd2bd7e3b1c0ed737c0f34b417c66bb35246a90aec340b3061fd",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-final-20261024.json",
+      "sourceSha256": "ec25fe4182adfff8ed4ddfb3c89449e318a62a3a529cb272750f6100f02c84d2",
+      "publicPath": "review/lock-order-finding/autoreview.json",
+      "publicSha256": "ec25fe4182adfff8ed4ddfb3c89449e318a62a3a529cb272750f6100f02c84d2",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-final-20261024.receipt.json",
+      "sourceSha256": "134701d14ac8b36ad7ef2a4b7ca892e2d7b3c0e5734074863989f2eaca3b4065",
+      "publicPath": "review/lock-order-finding/autoreview.receipt.json",
+      "publicSha256": "0763f63e04711bdb5e27aa86932ebf13a1ede9786d23a4421ec0f31049777261",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-autoreview-final-20261024.status.json",
+      "sourceSha256": "e304d24e0bd9d21f6a55a69f1e42ad25e042225b1c2932f99399756d223cc837",
+      "publicPath": "review/lock-order-finding/autoreview.status.json",
+      "publicSha256": "e304d24e0bd9d21f6a55a69f1e42ad25e042225b1c2932f99399756d223cc837",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-final-20261024.log",
+      "sourceSha256": "1854b71f1657290429e5500e83823b4aae74837c2961666092d4daf49e88edd7",
+      "publicPath": "review/lock-order-finding/autoreview.log",
+      "publicSha256": "78d2116df061ecb7382288a43ad835d50b645dee37ae781268882170cc5e4016",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-autoreview-context-local-20261024.md",
+      "sourceSha256": "6685eb3729b0992d7a7d3eb1816d899e7e15df1e06483012cb8550807695fede",
+      "publicPath": "review/final-context-resolution/autoreview.md",
+      "publicSha256": "6685eb3729b0992d7a7d3eb1816d899e7e15df1e06483012cb8550807695fede",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-context-local-20261024.json",
+      "sourceSha256": "57e00eff73bfdb80091fc937546aade6295a0bc1683af903b3fe371b69c03529",
+      "publicPath": "review/final-context-resolution/autoreview.json",
+      "publicSha256": "57e00eff73bfdb80091fc937546aade6295a0bc1683af903b3fe371b69c03529",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-context-local-20261024.receipt.json",
+      "sourceSha256": "c63d522cafee6b9c9d11c9ed7ddf543e50708451d4acdddfd70bf03eeab1acc6",
+      "publicPath": "review/final-context-resolution/autoreview.receipt.json",
+      "publicSha256": "c46d09dcc262445d2c43f7f274872fabe093ed45f3abed9f128f3b9aeaa5a999",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-autoreview-context-local-20261024.status.json",
+      "sourceSha256": "5be618bc49d3e1345d4227d2456ac72224923874b9313448927b281676a52b92",
+      "publicPath": "review/final-context-resolution/autoreview.status.json",
+      "publicSha256": "5be618bc49d3e1345d4227d2456ac72224923874b9313448927b281676a52b92",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-autoreview-context-local-20261024.log",
+      "sourceSha256": "6f77ef523a562b0541d738244e92f0dbd22451ee6118405f4eaa0c59073ba552",
+      "publicPath": "review/final-context-resolution/autoreview.log",
+      "publicSha256": "7b02d1309ce9f36367993683fba7e3bba784e0ea5a7e6e0bd4493870b51a41d8",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-lock-order-context.md",
+      "sourceSha256": "3c794d789d14d90541f06d70ce38eed8d17a610fc81f269d32c3208ff8e545ad",
+      "publicPath": "review/exact-source-callback-context.md",
+      "publicSha256": "3c794d789d14d90541f06d70ce38eed8d17a610fc81f269d32c3208ff8e545ad",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "legacy-owner-native-apks-20261024.receipt.json",
+      "sourceSha256": "ea905ff07fde7f85437fcc776644dec22f61d842bbec2528aebc1f014290113d",
+      "publicPath": "build/first-attempt.receipt.json",
+      "publicSha256": "cd30543d83c1c1b3c2230da9be350d905fdcaf2e11c35265fab8e26e22bed9f3",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-owner-native-apks-20261024.log",
+      "sourceSha256": "3a4aeb066c336619439efb842f16089ec156fa6485e18e025ef6ab23c2f7d44d",
+      "publicPath": "build/first-attempt.log",
+      "publicSha256": "c90e2a49e6b8642c1c23c99ee59007eb195af4f850b3d2cac9753d049ae0640d",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-owner-native-apks-recovered-20261024.receipt.json",
+      "sourceSha256": "8f62a1425d73373d6b98bdffa486a14a7f7fabd3f55c19c232af8e69ad77ffff",
+      "publicPath": "build/candidate.receipt.json",
+      "publicSha256": "ba582beaac3a884eb43a6311116a1c811f03fbe7f4d8e69f17b7b205386d349f",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "legacy-owner-native-apks-recovered-20261024.log",
+      "sourceSha256": "df1783f42f9a89fa9c4ddddccab0bd60d983422364d41d9f5972277f1a8b8f3b",
+      "publicPath": "build/candidate.log",
+      "publicSha256": "dc7ebd610b2c20abd867de1f9adc4e679e7b34bd717fe2f0ca35fe19875765a5",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-apk-identity.json",
+      "sourceSha256": "fdf68142328eea7392051b75832873903d0f1a74e1f59725e8a1156d528750c6",
+      "publicPath": "build/apk-identity.json",
+      "publicSha256": "8f5fb6119bb6466cab09d7eece6d6a18cfbef252be64f24a9f30be654a88ea53",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-install.json",
+      "sourceSha256": "b661b294b7d9f3fbcb59523245e52a7834b6e8bc1fa3cc27d203f215ef5b9035",
+      "publicPath": "build/installed-identity.json",
+      "publicSha256": "b661b294b7d9f3fbcb59523245e52a7834b6e8bc1fa3cc27d203f215ef5b9035",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/retained-legacy-audit.md",
+      "sourceSha256": "7d1991b0b4d0fb116ada82a913d484d29842da50a0aaa9b130d9a95f54f8bc08",
+      "publicPath": "prior-attempts/first-setup-failure/audit.md",
+      "publicSha256": "7d1991b0b4d0fb116ada82a913d484d29842da50a0aaa9b130d9a95f54f8bc08",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-apk-inputs/CatalogRefreshProofTest.kt",
+      "sourceSha256": "24831732fc4b501228dd53ccb4b961c86ea055623ed39b83fe702e0d895e28bf",
+      "publicPath": "build/observation/CatalogRefreshProofTest.kt",
+      "publicSha256": "24831732fc4b501228dd53ccb4b961c86ea055623ed39b83fe702e0d895e28bf",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-apk-inputs/native-proof.init.gradle",
+      "sourceSha256": "b919ca52795dc8d1a793dc4df24dee9b11d0b8333a5cea90e09d0a49d12a4f82",
+      "publicPath": "build/observation/native-proof.init.gradle",
+      "publicSha256": "a6128bc996c977a43c5d8aea4fcc461272905e1922b81ac139292e29314263e9",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-apk-inputs/manifest.json",
+      "sourceSha256": "91354f399a0faaa0e358c7277a96955ee73939b15049538377355771c592eee4",
+      "publicPath": "build/observation/manifest.json",
+      "publicSha256": "33c0daab57d8e55301e3ab50e4f43996b5d4e6d1c40ff47811dadcaa8cf71408",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-native/native.receipt.json",
+      "sourceSha256": "2d33d486ade622d934da4f760f90e418d4e66cefb139d74732775899e61e1a18",
+      "publicPath": "prior-attempts/first-setup-failure/native.receipt.json",
+      "publicSha256": "4c1a040b3918ddf7e408fb2992559aa73a5dafa8de2e2085cce02e7f10318ccf",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-native/local.reconciliation.receipt.json",
+      "sourceSha256": "26f81f3aaefdc77b9461df4ac8069620a18bf5ebcc856aafd74f36ad674b8258",
+      "publicPath": "prior-attempts/first-setup-failure/local.reconciliation.receipt.json",
+      "publicSha256": "6a49feab5df6b60c91fd8f34024f1f34abfcc0dac0e1df34b37204668e888985",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-native/installed-identity.json",
+      "sourceSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "publicPath": "prior-attempts/first-setup-failure/installed-identity.json",
+      "publicSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-native/native-wire.jsonl",
+      "sourceSha256": "1c855b0a87d60e18aa7d1780ead65e4dec3955e9648434c7ddc1df8aba3ac3e1",
+      "publicPath": "prior-attempts/first-setup-failure/native-wire.jsonl",
+      "publicSha256": "31c67fde677abff71039a7f4aa8ad738234343698a1fe87b178b78d47442bf12",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-native/driver-files.json",
+      "sourceSha256": "ff797100a6911e8456558cf8bb42a30b500d442832addacc8430ca6843dd5c6c",
+      "publicPath": "prior-attempts/first-setup-failure/driver-files.json",
+      "publicSha256": "b9654e5e6a899e6f621e327fd87beb9fd03e485e397e66535663afb49feee5d6",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-native/native-instrumentation.log",
+      "sourceSha256": "bdc7e7c915a5e97a93f15602067f468b87cf96959faed7945e788fbfc0a475c5",
+      "publicPath": "prior-attempts/first-setup-failure/native-instrumentation.log",
+      "publicSha256": "bdc7e7c915a5e97a93f15602067f468b87cf96959faed7945e788fbfc0a475c5",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/local.running.json",
+      "sourceSha256": "0d417aa7d72f33f220d5a297321daed0bd5e2c5f9eff5ef14d42a5ea274830fa",
+      "publicPath": "prior-attempts/interrupted-continuation/local.running.json",
+      "publicSha256": "c7f4d8c89004d45b13cc0dffba3e1e12b3fb98de51f6d1fd00885709fa0b3bb3",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/local.reconciliation.receipt.json",
+      "sourceSha256": "0ebec6c490a589e3a18956c1ed23a835e015b54f21ac62998ac4ee70b4cf2bc8",
+      "publicPath": "prior-attempts/interrupted-continuation/local.reconciliation.receipt.json",
+      "publicSha256": "ed45e300cbad872133fa19f8503fa76fd27b3275599299ff8f4a2d17b8780e5b",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/installed-identity.json",
+      "sourceSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "publicPath": "prior-attempts/interrupted-continuation/installed-identity.json",
+      "publicSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/native-wire.jsonl",
+      "sourceSha256": "3e2caa85c1fa1e0482c6499df94736f66c7ee64df46c67a182028d60f7ce67f5",
+      "publicPath": "prior-attempts/interrupted-continuation/native-wire.jsonl",
+      "publicSha256": "84487aeccc4ef72e64b78d3662db21ed936b9e69ce0e5d5bd49dd61ee4b01a38",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/native-observations.json",
+      "sourceSha256": "9e7531bf57376f446e505eca12e455386420253fb8e4e1c3d0d2ebbab65710fb",
+      "publicPath": "prior-attempts/interrupted-continuation/native-observations.json",
+      "publicSha256": "9e7531bf57376f446e505eca12e455386420253fb8e4e1c3d0d2ebbab65710fb",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/native-ready.json",
+      "sourceSha256": "86a38419d73ec2aef31a26de3efc153c681800ca0d46f491620728c374a821a2",
+      "publicPath": "prior-attempts/interrupted-continuation/native-ready.json",
+      "publicSha256": "86a38419d73ec2aef31a26de3efc153c681800ca0d46f491620728c374a821a2",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/driver-files.json",
+      "sourceSha256": "54dc6732d909a7f0d391bb228ad667543a49547f7a13f6d4eb30217ed8f9783e",
+      "publicPath": "prior-attempts/interrupted-continuation/driver-files.json",
+      "publicSha256": "e9d01959f7a6f1b86ea553b5cf70acd6e894c810da0cd4c865fe06bbce9f1883",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-continuation/ui-turn-legacy-native/receipt.json",
+      "sourceSha256": "2f3e34ea17344cc834f5ce5c6bf641c48f2e9a7c86aec36a5314c9ab72324359",
+      "publicPath": "prior-attempts/interrupted-continuation/ui-turn-legacy-native/receipt.json",
+      "publicSha256": "5d384f0693d0e55976fbf5879a206ad1352a45c7911d0ad69db00f633b49f142",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/native.receipt.json",
+      "sourceSha256": "cda9e7fb5fa4ccf019deaf59e8ea21713d1cfaa3f07ca31121f75f3cbdd55eb5",
+      "publicPath": "native/legacy/native.receipt.json",
+      "publicSha256": "156b8cc0818f3e9a0a1265a0ae7690c84e88260ba1f037af09e1c93614aa007f",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/local.receipt.json",
+      "sourceSha256": "9fb509693dbc5f5a86f1cd905d9de0294e6a504d97dc9fa9300faebc739737b1",
+      "publicPath": "native/legacy/local.receipt.json",
+      "publicSha256": "f61d4c2829a7a88479ae7410b4d5ba84b4df3111e8eaf2baa59851178235f9a2",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/installed-identity.json",
+      "sourceSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "publicPath": "native/legacy/installed-identity.json",
+      "publicSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/native-wire.jsonl",
+      "sourceSha256": "96d2bfa425709dfcdc3f86a9964b38cb935ebcd84ae4274130494d5d9d7e5b3c",
+      "publicPath": "native/legacy/native-wire.jsonl",
+      "publicSha256": "a7227f8bf0197304e8977a81fbbc44f36a2719437cccf1a41633facf36cd5362",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/native-observations.json",
+      "sourceSha256": "f1786073456697676212a4e486092423c1314f0387730e8c946166f62ad78366",
+      "publicPath": "native/legacy/native-observations.json",
+      "publicSha256": "f1786073456697676212a4e486092423c1314f0387730e8c946166f62ad78366",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/native-ready.json",
+      "sourceSha256": "ab9d21d82cb986491ec0cd865f6f7425cd886c2a5f3d6bd939b25a1b446dc31d",
+      "publicPath": "native/legacy/native-ready.json",
+      "publicSha256": "ab9d21d82cb986491ec0cd865f6f7425cd886c2a5f3d6bd939b25a1b446dc31d",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/native-instrumentation.log",
+      "sourceSha256": "ad354651318ddc7ab1e3fddf65c36adf6678a04576f42a8d0770d2c22cde990e",
+      "publicPath": "native/legacy/native-instrumentation.log",
+      "publicSha256": "ad354651318ddc7ab1e3fddf65c36adf6678a04576f42a8d0770d2c22cde990e",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/app-storage-before.json",
+      "sourceSha256": "81da474f5d3997871e2a1eeb1e97232732db362a8ca306011d0f425364e0e71f",
+      "publicPath": "native/legacy/app-storage-before.json",
+      "publicSha256": "81da474f5d3997871e2a1eeb1e97232732db362a8ca306011d0f425364e0e71f",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/app-storage-after.json",
+      "sourceSha256": "80b674703a72361eff1d8ebf767c92a5590ee3d4966f18f97a1e1aa9dc40e7fa",
+      "publicPath": "native/legacy/app-storage-after.json",
+      "publicSha256": "80b674703a72361eff1d8ebf767c92a5590ee3d4966f18f97a1e1aa9dc40e7fa",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/driver-files.json",
+      "sourceSha256": "b6e3b33e220101b8da70079476f60afab789e05ead1966b13798a4fa617920f1",
+      "publicPath": "native/legacy/driver-files.json",
+      "publicSha256": "c4779d0ca55e27aacf206b15792bc3a65026d135db5ac1bc4797ffa03cf31d3e",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/proxy-close.json",
+      "sourceSha256": "7a109a7e0e5bde3541cb268d8408df29051c9d80f18d8ac151f185d177cffb8e",
+      "publicPath": "native/legacy/proxy-close.json",
+      "publicSha256": "7a109a7e0e5bde3541cb268d8408df29051c9d80f18d8ac151f185d177cffb8e",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/ui-turn-legacy-native-recovery/receipt.json",
+      "sourceSha256": "c3024249104315fd75406c608044ee2df96548168a237c20ce4e96727d54399b",
+      "publicPath": "native/legacy/ui-turn/receipt.json",
+      "publicSha256": "c3024249104315fd75406c608044ee2df96548168a237c20ce4e96727d54399b",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/ui-turn-legacy-native-recovery/send-intent.json",
+      "sourceSha256": "c9809ca3fa57612c24b7113eaba094ddf86870a56cf3b410d60e184eceb52d12",
+      "publicPath": "native/legacy/ui-turn/send-intent.json",
+      "publicSha256": "c9809ca3fa57612c24b7113eaba094ddf86870a56cf3b410d60e184eceb52d12",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/ui-turn-legacy-native-recovery/reply-observation.png",
+      "sourceSha256": "cd7ea6bfa71d5f9fcd16b379c2747394bf8665eaaa70de4c09786f8638dfcdae",
+      "publicPath": "native/legacy/ui-turn/reply-observation.png",
+      "publicSha256": "cd7ea6bfa71d5f9fcd16b379c2747394bf8665eaaa70de4c09786f8638dfcdae",
+      "transform": "exact image bytes; root explicitly confirmed visual privacy review"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/driver-snapshot/proxy.mjs",
+      "sourceSha256": "322b6d6da6c6e1e090685b6743b18826d16784dcfdedc97b458e29f6bd0e1470",
+      "publicPath": "native/legacy/driver-snapshot/proxy.mjs",
+      "publicSha256": "6b3c0bf90f59cef74f281d5ae775fc3c3712fe7267fd10c82db791352757829a",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/driver-snapshot/capture-native.py",
+      "sourceSha256": "f5c38ce95099abd6b56164bed55e3692272ec08ac8a5b66ef593a73372c4b3aa",
+      "publicPath": "native/legacy/driver-snapshot/capture-native.py",
+      "publicSha256": "43485be8abf6d1165ca9ff86e5d5a7d5b2adf1bb1993f5f6c50406f1a7ed678d",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/driver-snapshot/run-local.py",
+      "sourceSha256": "650f528a15634888d3bab73c9f14aa65d01a88c576baaecaed546f3627d3436e",
+      "publicPath": "native/legacy/driver-snapshot/run-local.py",
+      "publicSha256": "3eb76b6e597ad3e06b2e8a4c2da1616b7c0a7794c2ea3f5eed7b82ab90932f6f",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/driver-snapshot/candidate-retained-apk-identity.json",
+      "sourceSha256": "fdf68142328eea7392051b75832873903d0f1a74e1f59725e8a1156d528750c6",
+      "publicPath": "native/legacy/driver-snapshot/candidate-retained-apk-identity.json",
+      "publicSha256": "8f5fb6119bb6466cab09d7eece6d6a18cfbef252be64f24a9f30be654a88ea53",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/driver-snapshot/CatalogRefreshProofTest.kt",
+      "sourceSha256": "24831732fc4b501228dd53ccb4b961c86ea055623ed39b83fe702e0d895e28bf",
+      "publicPath": "native/legacy/driver-snapshot/CatalogRefreshProofTest.kt",
+      "publicSha256": "24831732fc4b501228dd53ccb4b961c86ea055623ed39b83fe702e0d895e28bf",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/driver-snapshot/native-proof.init.gradle",
+      "sourceSha256": "b919ca52795dc8d1a793dc4df24dee9b11d0b8333a5cea90e09d0a49d12a4f82",
+      "publicPath": "native/legacy/driver-snapshot/native-proof.init.gradle",
+      "publicSha256": "a6128bc996c977a43c5d8aea4fcc461272905e1922b81ac139292e29314263e9",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/native.receipt.json",
+      "sourceSha256": "7193b3fd33a1e89fbb5115ace52b7caea74eca6087a543ae0b4038fd4233860d",
+      "publicPath": "native/upgraded/native.receipt.json",
+      "publicSha256": "e94f2a523f38a91a4afe9a4fb943564cfa56b6f9810a0cf991cb415de4e34ba4",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/local.receipt.json",
+      "sourceSha256": "6eb07dcd746db0d0a85802fe734aab4956fe26991e5f20c1f8e99ecfc6832b38",
+      "publicPath": "native/upgraded/local.receipt.json",
+      "publicSha256": "b5987070d69201104dd343473042a0476b6686f3d2d24c27308276d344655485",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/installed-identity.json",
+      "sourceSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "publicPath": "native/upgraded/installed-identity.json",
+      "publicSha256": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/native-wire.jsonl",
+      "sourceSha256": "f4350bf1e9ab5926b724778cd426d539768bbf3c419a00d7b404d3c7a96f76b2",
+      "publicPath": "native/upgraded/native-wire.jsonl",
+      "publicSha256": "ff3288a907c4a18c56800ad2fcd6237d779ddd89b7b25ef6640496fb4677ba68",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/native-observations.json",
+      "sourceSha256": "3daab0d6b5d7e3c3d25a2fd6a967506668e8606ec3348589d6a0fc9dabfa29a5",
+      "publicPath": "native/upgraded/native-observations.json",
+      "publicSha256": "3daab0d6b5d7e3c3d25a2fd6a967506668e8606ec3348589d6a0fc9dabfa29a5",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/native-ready.json",
+      "sourceSha256": "5c371ad3e8e814b371b37f83af42de928154ac0070c0c05931bf097e1a729171",
+      "publicPath": "native/upgraded/native-ready.json",
+      "publicSha256": "5c371ad3e8e814b371b37f83af42de928154ac0070c0c05931bf097e1a729171",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/native-instrumentation.log",
+      "sourceSha256": "95421ea2053f1f3b01553416fdac7b109a1e18c7df469fd93dc96bf56aa68b0e",
+      "publicPath": "native/upgraded/native-instrumentation.log",
+      "publicSha256": "95421ea2053f1f3b01553416fdac7b109a1e18c7df469fd93dc96bf56aa68b0e",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/app-storage-before.json",
+      "sourceSha256": "2a6457c655d2ae9af76bf9ea9dd2fbf285f74751371ae1dcb3a5588492ce1e40",
+      "publicPath": "native/upgraded/app-storage-before.json",
+      "publicSha256": "2a6457c655d2ae9af76bf9ea9dd2fbf285f74751371ae1dcb3a5588492ce1e40",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/app-storage-after.json",
+      "sourceSha256": "b65f9a95a19f7c8ab5f3d15030198a3e06dd7fa6f4b60a7a3757cb0ee53d3eb8",
+      "publicPath": "native/upgraded/app-storage-after.json",
+      "publicSha256": "b65f9a95a19f7c8ab5f3d15030198a3e06dd7fa6f4b60a7a3757cb0ee53d3eb8",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/driver-files.json",
+      "sourceSha256": "ff87d26d58f705be06e0eb053dc62487f56897f946b8e7fefd0d60462d756b03",
+      "publicPath": "native/upgraded/driver-files.json",
+      "publicSha256": "ada974bc25ee9b6d94f7cd2140f16b8d3a5cdec74d5ebfb65c8989d9581ccd71",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/proxy-close.json",
+      "sourceSha256": "ad18023083b473f9e18f6d9d5895b76a93fe28b3f940ced2a4af8fb85c606586",
+      "publicPath": "native/upgraded/proxy-close.json",
+      "publicSha256": "ad18023083b473f9e18f6d9d5895b76a93fe28b3f940ced2a4af8fb85c606586",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/ui-turn-upgraded-native-recovery/receipt.json",
+      "sourceSha256": "c28a741be1b108861cdb99649a85dd73399f3cb135f366ae29f4e8dec3ac9e9c",
+      "publicPath": "native/upgraded/ui-turn/receipt.json",
+      "publicSha256": "c28a741be1b108861cdb99649a85dd73399f3cb135f366ae29f4e8dec3ac9e9c",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/ui-turn-upgraded-native-recovery/send-intent.json",
+      "sourceSha256": "f4854bd480f3625bb2262eb615d76d0f5b9dceec1e11e93fa49df4dfea294318",
+      "publicPath": "native/upgraded/ui-turn/send-intent.json",
+      "publicSha256": "f4854bd480f3625bb2262eb615d76d0f5b9dceec1e11e93fa49df4dfea294318",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/ui-turn-upgraded-native-recovery/reply-observation.png",
+      "sourceSha256": "8dce338b84e8a053c81e00c2dc37daae17b8892cfbac9d3d8436b6096b563230",
+      "publicPath": "native/upgraded/ui-turn/reply-observation.png",
+      "publicSha256": "8dce338b84e8a053c81e00c2dc37daae17b8892cfbac9d3d8436b6096b563230",
+      "transform": "exact image bytes; root explicitly confirmed visual privacy review"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/driver-snapshot/proxy.mjs",
+      "sourceSha256": "322b6d6da6c6e1e090685b6743b18826d16784dcfdedc97b458e29f6bd0e1470",
+      "publicPath": "native/upgraded/driver-snapshot/proxy.mjs",
+      "publicSha256": "6b3c0bf90f59cef74f281d5ae775fc3c3712fe7267fd10c82db791352757829a",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/driver-snapshot/capture-native.py",
+      "sourceSha256": "f5c38ce95099abd6b56164bed55e3692272ec08ac8a5b66ef593a73372c4b3aa",
+      "publicPath": "native/upgraded/driver-snapshot/capture-native.py",
+      "publicSha256": "43485be8abf6d1165ca9ff86e5d5a7d5b2adf1bb1993f5f6c50406f1a7ed678d",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/driver-snapshot/run-local.py",
+      "sourceSha256": "650f528a15634888d3bab73c9f14aa65d01a88c576baaecaed546f3627d3436e",
+      "publicPath": "native/upgraded/driver-snapshot/run-local.py",
+      "publicSha256": "3eb76b6e597ad3e06b2e8a4c2da1616b7c0a7794c2ea3f5eed7b82ab90932f6f",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/driver-snapshot/candidate-retained-apk-identity.json",
+      "sourceSha256": "fdf68142328eea7392051b75832873903d0f1a74e1f59725e8a1156d528750c6",
+      "publicPath": "native/upgraded/driver-snapshot/candidate-retained-apk-identity.json",
+      "publicSha256": "8f5fb6119bb6466cab09d7eece6d6a18cfbef252be64f24a9f30be654a88ea53",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/driver-snapshot/CatalogRefreshProofTest.kt",
+      "sourceSha256": "24831732fc4b501228dd53ccb4b961c86ea055623ed39b83fe702e0d895e28bf",
+      "publicPath": "native/upgraded/driver-snapshot/CatalogRefreshProofTest.kt",
+      "publicSha256": "24831732fc4b501228dd53ccb4b961c86ea055623ed39b83fe702e0d895e28bf",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/driver-snapshot/native-proof.init.gradle",
+      "sourceSha256": "b919ca52795dc8d1a793dc4df24dee9b11d0b8333a5cea90e09d0a49d12a4f82",
+      "publicPath": "native/upgraded/driver-snapshot/native-proof.init.gradle",
+      "publicSha256": "a6128bc996c977a43c5d8aea4fcc461272905e1922b81ac139292e29314263e9",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/retained-history.receipt.json",
+      "sourceSha256": "c7005cd31d7d9ead132034ef609ba40c0d16cbd3c8ea0cb9f183b697dc0aaade",
+      "publicPath": "native/upgraded/retained-history.receipt.json",
+      "publicSha256": "c7005cd31d7d9ead132034ef609ba40c0d16cbd3c8ea0cb9f183b697dc0aaade",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/retained-chat-before-send.png",
+      "sourceSha256": "c26e6174d610ef46c675b8c12b737a6bd318768910026637df9cccb32fbb7003",
+      "publicPath": "native/upgraded/retained-chat-before-send.png",
+      "publicSha256": "c26e6174d610ef46c675b8c12b737a6bd318768910026637df9cccb32fbb7003",
+      "transform": "exact image bytes; root explicitly confirmed visual privacy review"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/warning-visible.png",
+      "sourceSha256": "8d958eebf78bb3b6aa1a17341c746ac42e3d053f0458d6e3f54f2c57d5c4e0bd",
+      "publicPath": "native/upgraded/warning-visible.png",
+      "publicSha256": "8d958eebf78bb3b6aa1a17341c746ac42e3d053f0458d6e3f54f2c57d5c4e0bd",
+      "transform": "exact image bytes; root explicitly confirmed visual privacy review"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/recovered-visible.png",
+      "sourceSha256": "e33b90c65d4e15d701d47d75d2afa463ec14587e59f79569b2f58c1f072eff3d",
+      "publicPath": "native/upgraded/recovered-visible.png",
+      "publicSha256": "e33b90c65d4e15d701d47d75d2afa463ec14587e59f79569b2f58c1f072eff3d",
+      "transform": "exact image bytes; root explicitly confirmed visual privacy review"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/legacy-provider-refresh/action-intent.json",
+      "sourceSha256": "1dcf8c0819956c9efe123946a0528b934da02719a3eadd372edb31398ed72dcc",
+      "publicPath": "native/legacy/legacy-provider-refresh/action-intent.json",
+      "publicSha256": "1dcf8c0819956c9efe123946a0528b934da02719a3eadd372edb31398ed72dcc",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-legacy-recovery/legacy-provider-refresh/action-receipt.json",
+      "sourceSha256": "09d47a6d3ddb9d1c29fe7659d3d54cd24e3426c148c145ebac34befebc849ae1",
+      "publicPath": "native/legacy/legacy-provider-refresh/action-receipt.json",
+      "publicSha256": "09d47a6d3ddb9d1c29fe7659d3d54cd24e3426c148c145ebac34befebc849ae1",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/warning-refresh/action-intent.json",
+      "sourceSha256": "18b105e54c97f9a42d2c67413457a3affca9a73ea35f83ea0a25e29cd5b735d1",
+      "publicPath": "native/upgraded/warning-refresh/action-intent.json",
+      "publicSha256": "18b105e54c97f9a42d2c67413457a3affca9a73ea35f83ea0a25e29cd5b735d1",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/warning-refresh/action-receipt.json",
+      "sourceSha256": "37020588bb676fa8063e74bc2e6f0707e277f121faa4e0184a6686f71b33e158",
+      "publicPath": "native/upgraded/warning-refresh/action-receipt.json",
+      "publicSha256": "37020588bb676fa8063e74bc2e6f0707e277f121faa4e0184a6686f71b33e158",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/recovery-refresh/action-intent.json",
+      "sourceSha256": "237d7ecd38d3fa068631cba74ae14a127c3128e7bb4c13e7ae26f30d13f9519b",
+      "publicPath": "native/upgraded/recovery-refresh/action-intent.json",
+      "publicSha256": "237d7ecd38d3fa068631cba74ae14a127c3128e7bb4c13e7ae26f30d13f9519b",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-recovery/recovery-refresh/action-receipt.json",
+      "sourceSha256": "5676b5b22728f2fb6639954f44153a78fdccd67d8c50bee11a5f3b3021ee8ddd",
+      "publicPath": "native/upgraded/recovery-refresh/action-receipt.json",
+      "publicSha256": "5676b5b22728f2fb6639954f44153a78fdccd67d8c50bee11a5f3b3021ee8ddd",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/cleanup-receipt.json",
+      "sourceSha256": "3bdb796da882f008f574fcb65abc42a5da1c4abd6a2bb6d5a0b9e183a48d6a58",
+      "publicPath": "native/gateway/legacy-recovery/cleanup-receipt.json",
+      "publicSha256": "b775a4d376c2a48e4151406f2f77b84fa55da9469cbe6fd60256760ac2414549",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/identity.json",
+      "sourceSha256": "52749139a33f92f833597d00091d5e1a6f05fff7becde822b2274f776bcbc848",
+      "publicPath": "native/gateway/legacy-recovery/identity.json",
+      "publicSha256": "e6a8cdae088ed63b35e31d410d448af385ee114eeadcca534195f1a24ae88fa9",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/sampler.log",
+      "sourceSha256": "b755c26917f655a506931cc8cc905d9a52e8d21fb447131f741c0530f98ed54a",
+      "publicPath": "native/gateway/legacy-recovery/sampler.log",
+      "publicSha256": "b755c26917f655a506931cc8cc905d9a52e8d21fb447131f741c0530f98ed54a",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/inference-requests.jsonl",
+      "sourceSha256": "d1f13e87d512072f4e38d70a3ca0c7f69825b14dd3e16d42d9682cdb743730c9",
+      "publicPath": "native/gateway/legacy-recovery/inference-requests.jsonl",
+      "publicSha256": "d1f13e87d512072f4e38d70a3ca0c7f69825b14dd3e16d42d9682cdb743730c9",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/state-after-shutdown.json",
+      "sourceSha256": "4f8d5a5ba2daa771067fddaf6cd50ccb7ee319d2f04fcf4bcc495e8b141f3fc2",
+      "publicPath": "native/gateway/legacy-recovery/state-after-shutdown.json",
+      "publicSha256": "2fa054d7c3610789ec3342abc566ec1db72378622b044443300bc5e5ab40d2f6",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/state-before-continuation.json",
+      "sourceSha256": "5c8d7a551cecd2e2b70e75181794f96cc8e226ce0565a3f43cfca11a45eb79cd",
+      "publicPath": "native/gateway/legacy-recovery/state-before-continuation.json",
+      "publicSha256": "9181ffc1967c2e14545b9917e779d184b9bd79a6f47ea6a6fe0553eca507bf13",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/state-after-startup.json",
+      "sourceSha256": "12ca641dcc87e920f8193c3cc8fcc86ff1ffed33acbf801114e55cef15d0da8e",
+      "publicPath": "native/gateway/legacy-recovery/state-after-startup.json",
+      "publicSha256": "773bdca9cd133f84e937ffcf4598379d205bfd242b780dca314a965d4765d332",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/runtime-ready.json",
+      "sourceSha256": "071d4bdfaf8149670319ae5ce1d91aa2ad64976a62b2b8a285f350ac0215b28f",
+      "publicPath": "native/gateway/legacy-recovery/runtime-ready.json",
+      "publicSha256": "ed63f11a9132db618717e457baffb40db7a338f062789e5d16b75fb9eb9b53a9",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/driver-snapshot/resume-existing.py",
+      "sourceSha256": "63085255fa9d64adfd4d9d6cb6ef6c5dfe953dcc7e4aa132639f1f7e6a167d1a",
+      "publicPath": "native/gateway/legacy-recovery/driver-snapshot/resume-existing.py",
+      "publicSha256": "d620fbb2242b2d2ff33e0dece12952394b3be08add2a7117addbe5cdfaaff265",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/driver-snapshot/inference-server.mjs",
+      "sourceSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicPath": "native/gateway/legacy-recovery/driver-snapshot/inference-server.mjs",
+      "publicSha256": "3e4ed1eacefdf34a811df68f042cec5988bb02708027ba1a4b02f87ab5660d4d",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/legacy-recovery/driver-snapshot/sample-process.py",
+      "sourceSha256": "4ba407887a7101671c926920629fdcac4035effb0d56b3464842735b52f08696",
+      "publicPath": "native/gateway/legacy-recovery/driver-snapshot/sample-process.py",
+      "publicSha256": "4ba407887a7101671c926920629fdcac4035effb0d56b3464842735b52f08696",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/cleanup-receipt.json",
+      "sourceSha256": "303065661a81c2f5f5b6de0be2c941c6f2e64d93c20ce9f7a589db5dca9ee9f3",
+      "publicPath": "native/gateway/gateway-upgrade/cleanup-receipt.json",
+      "publicSha256": "ce12b2d6fe5777d7d795da9bcdbd8553dcaabbcebb2b5481444c05e76292cb58",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/identity.json",
+      "sourceSha256": "9faf9a99c9b740d22e5d696032d757f0c1ca53b103d3e26990e151cde2034a53",
+      "publicPath": "native/gateway/gateway-upgrade/identity.json",
+      "publicSha256": "87a1f88807ac1d4a00890e365d8c8dea9238994df73f295fc52b47876e7eccd6",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/sampler.log",
+      "sourceSha256": "5ed0e414d5061b8394461142ffd2275933b162930c1b553569e04289969415e9",
+      "publicPath": "native/gateway/gateway-upgrade/sampler.log",
+      "publicSha256": "5ed0e414d5061b8394461142ffd2275933b162930c1b553569e04289969415e9",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/inference-requests.jsonl",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publicPath": "native/gateway/gateway-upgrade/inference-requests.jsonl",
+      "publicSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/state-after-shutdown.json",
+      "sourceSha256": "1d62ae8f7e94a7a04033c6fdded7c781470d19c0d7fb3629e25989ff35fb89ec",
+      "publicPath": "native/gateway/gateway-upgrade/state-after-shutdown.json",
+      "publicSha256": "cd1b32386f38b90fb879f2b8c86583d284a29afc9aefa3e0b844f0c56e3501fc",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/state-before-upgrade.json",
+      "sourceSha256": "46220eb7d295e6f549a4cf1fe520e1363039e5e2ba9555cb082fe48122c64f99",
+      "publicPath": "native/gateway/gateway-upgrade/state-before-upgrade.json",
+      "publicSha256": "31d018352de77e65484d7edc3ce00ff1948ba03b1c39dda6c43be465d77a0661",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/gateway.log",
+      "sourceSha256": "a90bdff6b47be60765a6791414dbe0d72ad0911999c8455959e3a73c46330a1d",
+      "publicPath": "native/gateway/gateway-upgrade/gateway.log",
+      "publicSha256": "d2038e31e5929b36d7474531a81305beef6ad1c96c5cc7af51783503577f8377",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/driver-snapshot/upgrade-existing.py",
+      "sourceSha256": "fdb18dcb2f0148a7d0b9c20ee3de0a7a149ed59ea0d2e1f0772e9267bd117101",
+      "publicPath": "native/gateway/gateway-upgrade/driver-snapshot/upgrade-existing.py",
+      "publicSha256": "07a8c3048c1d845cabe6ff6aefa4683a4abd7f87c4b08763aa47793c232a2754",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/driver-snapshot/inference-server.mjs",
+      "sourceSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicPath": "native/gateway/gateway-upgrade/driver-snapshot/inference-server.mjs",
+      "publicSha256": "3e4ed1eacefdf34a811df68f042cec5988bb02708027ba1a4b02f87ab5660d4d",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade/driver-snapshot/sample-process.py",
+      "sourceSha256": "4ba407887a7101671c926920629fdcac4035effb0d56b3464842735b52f08696",
+      "publicPath": "native/gateway/gateway-upgrade/driver-snapshot/sample-process.py",
+      "publicSha256": "4ba407887a7101671c926920629fdcac4035effb0d56b3464842735b52f08696",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/cleanup-receipt.json",
+      "sourceSha256": "2a6078d7409ecc7e0d98c2814202c0236e04b739fbef5a03c4211278bc508459",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/cleanup-receipt.json",
+      "publicSha256": "03563950eb19b8cc29a0c9356ab054fb000dd7dc54bf3d758fc775b3a230d0a1",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/identity.json",
+      "sourceSha256": "7802ec1d5e27a3021f82198772e2bb198de49c0290c65d52a2c6aae2e0712f9a",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/identity.json",
+      "publicSha256": "580e4a5c5eb0347e6876a46c6f10f38ed8bad8e69bd007a79d6dfd31a313c7e2",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/sampler.log",
+      "sourceSha256": "e0582ddef7300264e1cad028214ac0eec9e7368c0cfa81f144e5b852beb0ad4f",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/sampler.log",
+      "publicSha256": "e0582ddef7300264e1cad028214ac0eec9e7368c0cfa81f144e5b852beb0ad4f",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/inference-requests.jsonl",
+      "sourceSha256": "8ea425a77bb917bfc55c6983dee018e2ada6690132e745b211560cbcd2bc9c9f",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/inference-requests.jsonl",
+      "publicSha256": "8ea425a77bb917bfc55c6983dee018e2ada6690132e745b211560cbcd2bc9c9f",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/state-after-shutdown.json",
+      "sourceSha256": "4b7c2c00d4f471775f1635aead799a33231d43971bc83eaf86b78c467a972131",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/state-after-shutdown.json",
+      "publicSha256": "d6dbf36137bca370eca1959f09682bb2cd643867862711406efa228e70e2478a",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/state-before-continuation.json",
+      "sourceSha256": "c16275e95325a72c8accf486185a8eee21e1df4677d7feb1f44fa58a7f2b64db",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/state-before-continuation.json",
+      "publicSha256": "35b84ca1cc994e3598bd5c7fc438d534c64d371b1d7f636ad500113fc5d7e108",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/state-after-startup.json",
+      "sourceSha256": "db64747943e77ab40351f895eb87f8266953086f145da32770ecf35f83a282e8",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/state-after-startup.json",
+      "publicSha256": "bf9232c3c5f100219e8cf12270550c8b2d89ca2b17af014ce1afc9337fe7beca",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/runtime-ready.json",
+      "sourceSha256": "373c52491320a6a2168e56f78b138e169900197465cabb8d3a71aca124ed3895",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/runtime-ready.json",
+      "publicSha256": "161ac96a13950540218b2ff63ae11815774ee844b60b2c7770a481f484977680",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/driver-snapshot/resume-upgraded.py",
+      "sourceSha256": "1f169a3bdc9bb190903fc5468c4945e7213eab71b368b6a30fa94a15ab32408b",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/driver-snapshot/resume-upgraded.py",
+      "publicSha256": "74dbee0f8215718b86f078d6cbc11b993da9d0085e0921e0f13d0506d93252ad",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/driver-snapshot/inference-server.mjs",
+      "sourceSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/driver-snapshot/inference-server.mjs",
+      "publicSha256": "3e4ed1eacefdf34a811df68f042cec5988bb02708027ba1a4b02f87ab5660d4d",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/gateway-upgrade-recovery/driver-snapshot/sample-process.py",
+      "sourceSha256": "4ba407887a7101671c926920629fdcac4035effb0d56b3464842735b52f08696",
+      "publicPath": "native/gateway/gateway-upgrade-recovery/driver-snapshot/sample-process.py",
+      "publicSha256": "4ba407887a7101671c926920629fdcac4035effb0d56b3464842735b52f08696",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/doctor-migration/doctor.receipt.json",
+      "sourceSha256": "25aded6696a8239756a6007bf1b5adb11d1cf8523eef9403f37b19e7bc50ade3",
+      "publicPath": "native/gateway/doctor-migration/doctor.receipt.json",
+      "publicSha256": "e30212912dea64454093b07b7fe01c55110b32d588699315c5c1d9ab35562349",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/doctor-migration/doctor.log",
+      "sourceSha256": "2e94a591b8df99c0c80d284c9870d15f72d8bb6065e4bcb0f3446e5032d7664a",
+      "publicPath": "native/gateway/doctor-migration/doctor.log",
+      "publicSha256": "7de2a35fbd0c5c13b91bc8e7c144fe2769a714017b46801c32b5657bad4eef4b",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-native/local.receipt.json",
+      "sourceSha256": "3933630b9ddfbb340ff54698bc99bae2ff6f597598f331307da8d985441ccd28",
+      "publicPath": "native/failed-upgrade-local/local.receipt.json",
+      "publicSha256": "feb7a90a75131743a4b8ac06ff57d8a8f861a417b6036b40b439b84e67b3dd17",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-upgraded-native/local.running.json",
+      "sourceSha256": "54b910e67660acd4bea3e080b33ab24ae0aff02579e338c415d3860f7a5e96f3",
+      "publicPath": "native/failed-upgrade-local/local.running.json",
+      "publicSha256": "fb25e216f3d9c0cbe68506872aaac7edc440ebf06896ba1ffd64c4d71090bedc",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/candidate-retained-ownerfix/provider-final.jsonl",
+      "sourceSha256": "61a37b33dfff03a2f19d70442ea15b88344f922d6b95f765c4344fe75e927db0",
+      "publicPath": "native/gateway/provider-final.jsonl",
+      "publicSha256": "61a37b33dfff03a2f19d70442ea15b88344f922d6b95f765c4344fe75e927db0",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/observed-ui-turn.py",
+      "sourceSha256": "a6f30d1023cc6cb1d22338198a40da1d6cc90ffbf1def2c9aadf341d2abc4703",
+      "publicPath": "drivers/observed-ui-turn.py",
+      "publicSha256": "cb850a975df37288049728601278e16655f5892d9e8957f7c6aa439d08127eb4",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/gateway-action.mjs",
+      "sourceSha256": "173e312f234bfdc9a104b4bf74f6d58d7d8fa30eef2ec207a1ee499e3993c55e",
+      "publicPath": "drivers/gateway-action.mjs",
+      "publicSha256": "2d2b7cb238a625192746f7ccb8d79ee5b62bb7a6c7e06a7fbbf54eed5dd00383",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/doctor-retained.py",
+      "sourceSha256": "c31e60a1650147f506656a955fee9b66d71b4358adf2c84d247319addb94444b",
+      "publicPath": "drivers/doctor-retained.py",
+      "publicSha256": "128d73d3fcca7c423656ab0afc7aa32e60b89a17442591aaeb7abf1518065093",
+      "transform": "privacy substitutions only"
+    },
+    {
+      "source": "native-natural/retained-final-audit.json",
+      "sourceSha256": "1992f8b3d3bede93dea61be2342f5e9d8a13a9eafb4d434e49c7336b9268f30d",
+      "publicPath": "audits/retained-final-audit.json",
+      "publicSha256": "1992f8b3d3bede93dea61be2342f5e9d8a13a9eafb4d434e49c7336b9268f30d",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/retained-final-audit.md",
+      "sourceSha256": "795a6db75a8e850314c21b4ae6f428057e5ed492cd20f0dae1768fd9c7d5d94b",
+      "publicPath": "audits/retained-final-audit.md",
+      "publicSha256": "795a6db75a8e850314c21b4ae6f428057e5ed492cd20f0dae1768fd9c7d5d94b",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/retained-migration-audit.json",
+      "sourceSha256": "090026ffec2aebd2cad7a9e8c396c60b01d3802dfd9ddbe0d67f2489409d9523",
+      "publicPath": "audits/retained-migration-audit.json",
+      "publicSha256": "090026ffec2aebd2cad7a9e8c396c60b01d3802dfd9ddbe0d67f2489409d9523",
+      "transform": "exact bytes"
+    },
+    {
+      "source": "native-natural/retained-migration-audit.md",
+      "sourceSha256": "20021dfd18e53efd513cc10832c9fd49f4f4967aeb68e4c4901e2d274371e481",
+      "publicPath": "audits/retained-migration-audit.md",
+      "publicSha256": "20021dfd18e53efd513cc10832c9fd49f4f4967aeb68e4c4901e2d274371e481",
+      "transform": "exact bytes"
+    }
+  ]
+}

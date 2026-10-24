@@ -1,0 +1,14 @@
+{
+  "label": "legacy-native",
+  "startedAtMs": 1792807179662,
+  "actualUiInput": true,
+  "rpcCreatedByDriver": false,
+  "sendTaps": 0,
+  "driverSha256": "8427e8d1df521d3f02ca2e3247f683277a8e3a1633fbff10b54cad0f6c0911ec",
+  "phase": {
+    "phase": "legacy-native"
+  },
+  "status": "failed",
+  "error": "Command '['<ANDROID_SDK>/platform-tools/adb', '-s', 'emulator-5584', 'shell', 'uiautomator', 'dump', '/sdcard/openclaw-native-proof.xml']' returned non-zero exit status 137.",
+  "finishedAtMs": 1792807180019
+}

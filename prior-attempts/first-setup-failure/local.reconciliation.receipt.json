@@ -1,0 +1,31 @@
+{
+  "reason": "Wrapper absent following interrupted turn; original wrapper exit unavailable",
+  "originalWrapperExit": null,
+  "nativeCaptureComplete": false,
+  "remoteCase": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "ownedReconciliation": [
+    {
+      "label": "tunnel",
+      "pid": 1605862,
+      "signaled": "SIGTERM",
+      "processGone": true
+    },
+    {
+      "label": "proxy",
+      "pid": 1605871,
+      "signaled": "SIGTERM",
+      "processGone": true
+    },
+    {
+      "label": "capture",
+      "pid": 1605888,
+      "processGone": true
+    }
+  ],
+  "reverseRemoveExit": 0,
+  "ports": {
+    "19990": "free",
+    "19992": "free"
+  },
+  "finishedAtMs": 1792806996724
+}

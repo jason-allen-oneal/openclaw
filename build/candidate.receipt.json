@@ -1,0 +1,40 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx6g -Dfile.encoding=UTF-8",
+    "-I",
+    "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/native-proof.init.gradle",
+    "-PopenclawBuildCommit=7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+    "-PopenclawBuildTimestamp=2026-10-24T01:44:18Z",
+    ":app:assemblePlayDebug",
+    ":app:assemblePlayDebugAndroidTest"
+  ],
+  "head": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "dirtyTrackedPaths": [],
+  "timestamp": "2026-10-24T01:44:18Z",
+  "environment": {
+    "TMPDIR": "<PROOF_ROOT>/tmp",
+    "JAVA_TOOL_OPTIONS": "-Djava.io.tmpdir=<PROOF_ROOT>/tmp"
+  },
+  "pid": 1600548,
+  "exitCode": 0,
+  "durationSeconds": 137.85492277145386,
+  "completedAt": "2026-10-24T01:46:36.168391+00:00",
+  "apks": [
+    {
+      "path": "apps/android/app/build/outputs/apk/play/debug/openclaw-2026.8.2-debug-play-debug.apk",
+      "sha256": "00b9571a73f47c76ad9094efb849fe9158c46914ba078cc4e64b305ef1fa4958",
+      "bytes": 143032744
+    },
+    {
+      "path": "apps/android/app/build/outputs/apk/androidTest/play/debug/app-play-debug-androidTest.apk",
+      "sha256": "f2448087773bb38ddaf8e96700cfb835aef86bb074038aa734dbb0891ffd6168",
+      "bytes": 1387065
+    }
+  ],
+  "observationOnlyOverlay": "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/native-proof.init.gradle",
+  "observationOnlySource": "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/CatalogRefreshProofTest.kt",
+  "overlayManifest": "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/manifest.json"
+}

@@ -1,0 +1,95 @@
+{
+  "case": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "phase": "legacy-recovery",
+  "status": "ready-for-native",
+  "startedAt": 1792808165.7585614,
+  "deadlineAt": 1792808885.7585614,
+  "activeWindowSeconds": 690,
+  "cleanupReserveSeconds": 30,
+  "owner": {
+    "pid": 1179405,
+    "startTicks": "229497645",
+    "command": "python3 <REMOTE_PROOF_ROOT>/native-natural/resume-existing.py --name candidate-retained-ownerfix --phase legacy-recovery --previous-phase legacy-continuation"
+  },
+  "priorCleanupSha256": "cce60153ecfb22558bb4fcd7fea471cabab360b89446376147d3a019a6af7d43",
+  "previousPhase": "legacy-continuation",
+  "priorPhaseCleanupSha256": {
+    "legacy-continuation": "070b0e6ee2a6fbddd216112a1b9562d30dee1ff794d559b9f903e558c6206c40"
+  },
+  "retainedDataNotCopied": true,
+  "seedPerformed": false,
+  "setupCodeIssued": false,
+  "recoveryKind": "incomplete-native-capture-continuation",
+  "packageLinkRetargeted": false,
+  "priorNativeCaptureWasSuccessful": false,
+  "configWrittenByHarness": false,
+  "inferenceHelperRestartedUnchanged": true,
+  "oldPackageTarget": "<LEGACY_GATEWAY_PACKAGE>",
+  "newPackageTarget": "<LEGACY_GATEWAY_PACKAGE>",
+  "oldBuild": {
+    "version": "2026.9.6",
+    "commit": "eb377ac59e6c9fd6c7705028034812becf00271b",
+    "builtAt": "2026-09-23T16:33:12.144Z",
+    "buildId": "2026.9.6-release-eb377ac59e6c-2026-09-23T16-33-12.144Z"
+  },
+  "newBuild": {
+    "version": "2026.9.6",
+    "commit": "eb377ac59e6c9fd6c7705028034812becf00271b",
+    "builtAt": "2026-09-23T16:33:12.144Z",
+    "buildId": "2026.9.6-release-eb377ac59e6c-2026-09-23T16-33-12.144Z"
+  },
+  "paidInference": false,
+  "providerLedgerBefore": {
+    "path": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/provider.jsonl",
+    "bytes": 113144,
+    "lines": 768,
+    "sha256": "6783cf5991744aca3e08766153bc96ba1deaa3d10ac27c761df8e4584e046152"
+  },
+  "inference": {
+    "pid": 1179406,
+    "startTicks": "229497725",
+    "command": "<NODE_RUNTIME>/bin/node <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/legacy-recovery/driver-snapshot/inference-server.mjs --out <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/legacy-recovery --seconds 720"
+  },
+  "gateway": {
+    "pid": 1179407,
+    "startTicks": "229497725",
+    "command": "<NODE_RUNTIME>/bin/node <LEGACY_GATEWAY_PACKAGE>/openclaw.mjs gateway --port 20094 --bind loopback --allow-unconfigured"
+  },
+  "sampler": {
+    "pid": 1179408,
+    "startTicks": "229497725",
+    "command": "/usr/bin/python3 <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/legacy-recovery/driver-snapshot/sample-process.py --pid 1179407 --start-ticks 229497725 --seconds 720 --ready-url http://127.0.0.1:20094/readyz"
+  },
+  "readyAt": 1792808180.9745648,
+  "ready": {
+    "ready": true,
+    "failing": [],
+    "uptimeMs": 5050,
+    "eventLoop": {
+      "degraded": true,
+      "degradedSinceMs": 3269,
+      "reasons": [
+        "event_loop_utilization",
+        "cpu"
+      ],
+      "intervalMs": 1176.1791789999988,
+      "delayP99Ms": 421,
+      "delayMaxMs": 421,
+      "utilization": 1,
+      "cpuCoreRatio": 1.284,
+      "cpuBreakdown": {
+        "mainThreadCoreRatio": 0.996,
+        "hostUtilization": 0.215,
+        "hostCpuCount": 8,
+        "workerCoreRatio": 0.012,
+        "otherThreadsCoreRatio": 0.276
+      }
+    }
+  },
+  "providerLedgerAtReady": {
+    "path": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/provider.jsonl",
+    "bytes": 113144,
+    "lines": 768,
+    "sha256": "6783cf5991744aca3e08766153bc96ba1deaa3d10ac27c761df8e4584e046152"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "timestampMs": 1792808745006,
+  "sameSessionKey": true,
+  "retainedUserMessageHashMatches": true,
+  "retainedAssistantMessageHashMatches": true,
+  "rootVisuallyVerifiedPriorUserAndAssistantRendered": true,
+  "screenshot": "retained-chat-before-send.png",
+  "screenshotSha256": "c26e6174d610ef46c675b8c12b737a6bd318768910026637df9cccb32fbb7003",
+  "legacyReceiptSha256": "c3024249104315fd75406c608044ee2df96548168a237c20ce4e96727d54399b",
+  "historyResponses": [
+    {
+      "timestampMs": 1792808706082,
+      "phase": "native-setup",
+      "direction": "response",
+      "connection": "881f467d-0ae7-44ec-bb9b-76ca1b287612",
+      "role": "operator",
+      "id": "987c80c0-1cce-4078-928d-78a9f98da6a5",
+      "method": "chat.history",
+      "requestPhase": "native-setup",
+      "elapsedMs": 2319,
+      "payloadBytes": 4702,
+      "ok": true,
+      "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+      "sessionIdSha256": "2349421bb16ae4d67d8d0b3ec9a7cdecfaa0ab8b661f14023c5320b72090cf44",
+      "messages": [
+        {
+          "role": "user",
+          "textSha256": "8bbc65b5e67985845e7f809eb3296e361f4d713e532226a6da2acdd8b08a4a06",
+          "fixtureReply": false
+        },
+        {
+          "role": "assistant",
+          "textSha256": "f707fb5a4870944015cdce1da685a9320d09fbb932c3d1d0f89a6eadebd229c5",
+          "fixtureReply": true
+        }
+      ]
+    }
+  ]
+}

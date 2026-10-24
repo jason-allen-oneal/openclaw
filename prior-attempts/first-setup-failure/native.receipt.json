@@ -1,0 +1,164 @@
+{
+  "command": [
+    "<ANDROID_SDK>/platform-tools/adb",
+    "-s",
+    "emulator-5584",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "class",
+    "ai.openclaw.app.CatalogRefreshProofTest",
+    "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "apkIdentity": "<PROOF_ROOT>/native-natural/candidate-retained-legacy-native/driver-snapshot/candidate-retained-apk-identity.json",
+  "eventsInjected": false,
+  "startedAt": "2026-10-24T01:47:53.124194+00:00",
+  "durationRequested": 140,
+  "ownedProcessIds": {
+    "instrumentation": 1605920,
+    "logcat": 1605919
+  },
+  "captureError": "Instrumentation exited before native shell became ready",
+  "instrumentationExitCode": 0,
+  "proxyAtStop": {
+    "phase": "native-setup",
+    "openConnections": [],
+    "closed": [
+      {
+        "connection": "669d82f4-22fc-4f64-acfe-acecc7e3bcdf",
+        "role": "node",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      },
+      {
+        "connection": "77170956-0130-4299-8038-f3ae5c0447fb",
+        "role": "operator",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      }
+    ]
+  },
+  "cleanup": [
+    {
+      "command": [
+        "shell",
+        "run-as",
+        "ai.openclaw.app.debug",
+        "touch",
+        "files/catalog-proof/finish"
+      ],
+      "exitCode": 1,
+      "stdout": ""
+    },
+    {
+      "owner": "instrumentation-adb",
+      "pid": 1605920,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug.test",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "logcat-adb",
+      "pid": 1605919,
+      "exitCode": -15,
+      "processGone": true
+    }
+  ],
+  "parentStillOwns": [
+    "Gateway",
+    "proxy",
+    "SSH tunnel",
+    "emulator",
+    "Gateway memory sampler"
+  ],
+  "instrumentationPassed": false,
+  "captureComplete": false,
+  "totalSeconds": 39.22564978300943,
+  "finishedAtMs": 1792806512350,
+  "requestCountsByPhase": {
+    "native-setup": {
+      "connect": 2,
+      "node.event": 2,
+      "sessions.describe": 1,
+      "sessions.subscribe": 1,
+      "users.self": 2,
+      "node.list": 2,
+      "sessions.patch": 1,
+      "sessions.observer.visibility": 2,
+      "device.pair.list": 2,
+      "question.list": 2,
+      "progressCard.get": 1,
+      "chat.history": 1,
+      "config.get": 1,
+      "chat.metadata": 1,
+      "sessions.branches.list": 1,
+      "users.prefs.get": 1,
+      "agents.list": 1,
+      "models.list": 4,
+      "cron.status": 1,
+      "exec.approval.list": 2,
+      "channels.status": 1,
+      "sessions.list": 4,
+      "voicewake.get": 1,
+      "health": 2,
+      "plugin.approval.list": 2,
+      "cron.list": 1,
+      "models.authStatus": 1,
+      "openclaw.approval.list": 2
+    }
+  },
+  "warningResponseCount": 0
+}

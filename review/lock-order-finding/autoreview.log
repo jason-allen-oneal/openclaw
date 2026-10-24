@@ -1,0 +1,34 @@
+preparation: target selection
+autoreview target: local
+branch: fix/issue-179075
+engine: codex
+model: gpt-5.6-sol
+fallback_model: gpt-5.6-terra
+thinking: medium
+codex_speed: service_tier="ultrafast"
+tools: on
+web_search: on
+ref: a8ead196291935d24c44a4f40b67397d88c70256
+preparation: evidence selection
+preparation: initial source snapshot
+preparation: bundle/evidence preparation
+bundle: 52837 bytes; review passes: 1
+review plan: 1 passes; 167041 total prompt bytes
+preparation: pre-review verification
+preparation: evidence verification
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "<PROOF_ROOT>/tmp" (codex_home: AbsolutePathBuf("<PROOF_ROOT><REVIEW_TEMP>"))
+codex thread: 01a16b8f-d3c2-7bc1-bf62-72abd05e1e9b
+codex turn started
+review still running: codex elapsed=60s pid=1592259
+codex activity: 3 hidden tool/status events
+{"findings":[{"title":"[P2] Avoid acquiring the chat lock while holding the runtime scope lock","body":"This call is made while `gatewayDataScopeLock` is held, but `refreshCommandsFromLegacyHint()` acquires `gatewayScopeApplyLock` and, while holding it, calls `currentCacheScope()`. In production that scope is supplied by `NodeRuntime` and requires the runtime gateway-scope state, creating the opposite lock order used here. A concurrent chat refresh can therefore hold the chat lock while waiting for the runtime lock as the legacy-hint handler holds the runtime lock while waiting for the chat lock, permanently stalling metadata/event processing. Determine whether the chat refresh should be started while holding the runtime lock, then invoke it after releasing that lock (or otherwise enforce one lock order).","priority":"P2","confidence":0.88,"category":"bug","code_location":{"file_path":"apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt","line":5371},"source_attribution":null}],"overall_correctness":"patch is incorrect","overall_explanation":"The catalog/status reconciliation logic otherwise appears consistent with the supplied requirements and tests, including same-scope joining, bounded legacy catch-up, status recovery, scope fencing, and reset cancellation. However, the new legacy coordinator introduces a concrete cross-component lock-order inversion that can deadlock metadata handling. Review was completed from the provided patch and dataset; unchanged repository context was unavailable by design.","overall_confidence":0.86,"review_completion":"complete"}
+codex usage: input_tokens=48214 cached_input_tokens=11264 output_tokens=4768 reasoning_output_tokens=4440
+review usage: {"attempts": 1, "complete": true, "partial_attempts": 0, "reported_attempts": 1, "tokens": {"cached_input_tokens": 11264, "input_tokens": 48214, "output_tokens": 4768, "reasoning_output_tokens": 4440}, "unknown_attempts": 0}
+preparation: final source verification
+autoreview findings: 1
+[P2] [P2] Avoid acquiring the chat lock while holding the runtime scope lock
+apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt:5371
+This call is made while `gatewayDataScopeLock` is held, but `refreshCommandsFromLegacyHint()` acquires `gatewayScopeApplyLock` and, while holding it, calls `currentCacheScope()`. In production that scope is supplied by `NodeRuntime` and requires the runtime gateway-scope state, creating the opposite lock order used here. A concurrent chat refresh can therefore hold the chat lock while waiting for the runtime lock as the legacy-hint handler holds the runtime lock while waiting for the chat lock, permanently stalling metadata/event processing. Determine whether the chat refresh should be started while holding the runtime lock, then invoke it after releasing that lock (or otherwise enforce one lock order).
+
+overall: patch is incorrect (0.86)
+The catalog/status reconciliation logic otherwise appears consistent with the supplied requirements and tests, including same-scope joining, bounded legacy catch-up, status recovery, scope fencing, and reset cancellation. However, the new legacy coordinator introduces a concrete cross-component lock-order inversion that can deadlock metadata handling. Review was completed from the provided patch and dataset; unchanged repository context was unavailable by design.

@@ -1,0 +1,52 @@
+{
+  "findings": [
+    {
+      "title": "[P2] Reconcile the general catalog on status-only settlement",
+      "body": "This branch refreshes only the provider-config catalog. The general `_modelCatalog` also comes from `models.list`, but unlike the provider and chat catalogs it neither records `hasPendingProviders` nor receives a follow-up read here. If its initial response is partial while providers are pending, the later `modelCatalogStatusChanged` event leaves its availability/auth rows stale indefinitely until a manual refresh or unrelated invalidation, potentially continuing to hide or disable models after discovery completes.",
+      "priority": "P2",
+      "confidence": 0.96,
+      "category": "bug",
+      "code_location": {
+        "file_path": "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt",
+        "line": 5416
+      },
+      "source_attribution": null
+    }
+  ],
+  "overall_correctness": "patch is incorrect",
+  "overall_explanation": "The legacy-hint cadence, active-read joining, scope resets, and provider/chat status reconciliation are generally covered by the supplied implementation and tests. However, status-only provider settlement is not propagated to NodeRuntime's general model catalog, leaving one of the three catalog owners stale after a pending discovery completes.",
+  "overall_confidence": 0.94,
+  "provider_report": {
+    "findings": [
+      {
+        "title": "[P2] Reconcile the general catalog on status-only settlement",
+        "body": "This branch refreshes only the provider-config catalog. The general `_modelCatalog` also comes from `models.list`, but unlike the provider and chat catalogs it neither records `hasPendingProviders` nor receives a follow-up read here. If its initial response is partial while providers are pending, the later `modelCatalogStatusChanged` event leaves its availability/auth rows stale indefinitely until a manual refresh or unrelated invalidation, potentially continuing to hide or disable models after discovery completes.",
+        "priority": "P2",
+        "confidence": 0.96,
+        "category": "bug",
+        "code_location": {
+          "file_path": "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt",
+          "line": 5416
+        },
+        "source_attribution": null
+      }
+    ],
+    "overall_correctness": "patch is incorrect",
+    "overall_explanation": "The legacy-hint cadence, active-read joining, scope resets, and provider/chat status reconciliation are generally covered by the supplied implementation and tests. However, status-only provider settlement is not propagated to NodeRuntime's general model catalog, leaving one of the three catalog owners stale after a pending discovery completes.",
+    "overall_confidence": 0.94
+  },
+  "usage": {
+    "attempts": 1,
+    "reported_attempts": 1,
+    "unknown_attempts": 0,
+    "partial_attempts": 0,
+    "complete": true,
+    "tokens": {
+      "input_tokens": 46973,
+      "cached_input_tokens": 0,
+      "output_tokens": 3160,
+      "reasoning_output_tokens": 2828
+    }
+  },
+  "review_status": "findings"
+}

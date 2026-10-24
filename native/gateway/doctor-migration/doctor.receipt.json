@@ -1,0 +1,29 @@
+{
+  "case": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "stateDirectory": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/state",
+  "packageTarget": "<CURRENT_GATEWAY_PACKAGE>",
+  "buildCommit": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+  "priorPhase": "gateway-upgrade",
+  "priorCleanupSha256": "303065661a81c2f5f5b6de0be2c941c6f2e64d93c20ce9f7a589db5dca9ee9f3",
+  "command": [
+    "<NODE_RUNTIME>/bin/node",
+    "<CURRENT_GATEWAY_PACKAGE>/openclaw.mjs",
+    "doctor",
+    "--fix",
+    "--non-interactive",
+    "--no-workspace-suggestions"
+  ],
+  "configSha256Before": "dce9b810da2a3d192805fa33a3e9b43b76d5c29380cd7af9715922c9188bfbb4",
+  "startedAt": 1792808527.3142264,
+  "noSeed": true,
+  "noAppChanges": true,
+  "driverSha256": "c31e60a1650147f506656a955fee9b66d71b4358adf2c84d247319addb94444b",
+  "pid": 1182214,
+  "startTicks": "229533845",
+  "exitCode": 0,
+  "processGone": true,
+  "finishedAt": 1792808631.5980346,
+  "configSha256After": "b168e69ded7ea67902bec3785ef43a640405c4f6867565237ffbbff37df742c2",
+  "packageLinkUnchanged": true,
+  "logSha256": "2e94a591b8df99c0c80d284c9870d15f72d8bb6065e4bcb0f3446e5032d7664a"
+}

@@ -1,0 +1,34 @@
+preparation: target selection
+autoreview target: local
+branch: fix/issue-179075
+engine: codex
+model: gpt-5.6-sol
+fallback_model: gpt-5.6-terra
+thinking: medium
+codex_speed: service_tier="ultrafast"
+tools: on
+web_search: on
+ref: a8ead196291935d24c44a4f40b67397d88c70256
+preparation: evidence selection
+preparation: initial source snapshot
+preparation: bundle/evidence preparation
+bundle: 47889 bytes; review passes: 1
+review plan: 1 passes; 161416 total prompt bytes
+preparation: pre-review verification
+preparation: evidence verification
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "<PROOF_ROOT>/tmp" (codex_home: AbsolutePathBuf("<PROOF_ROOT><REVIEW_TEMP>"))
+codex thread: 01a16b87-f3c4-7cf2-8969-7e8854509947
+codex turn started
+codex activity: 3 hidden tool/status events
+{"findings":[],"overall_correctness":"patch is correct","overall_explanation":"I’m inspecting the supplied diff and tests, focusing on the refresh state machines, scope fencing, and cancellation paths described in the review brief.","overall_confidence":0.01,"review_completion":"incomplete"}
+{"findings":[{"title":"[P2] Reconcile the general catalog on status-only settlement","body":"This branch refreshes only the provider-config catalog. The general `_modelCatalog` also comes from `models.list`, but unlike the provider and chat catalogs it neither records `hasPendingProviders` nor receives a follow-up read here. If its initial response is partial while providers are pending, the later `modelCatalogStatusChanged` event leaves its availability/auth rows stale indefinitely until a manual refresh or unrelated invalidation, potentially continuing to hide or disable models after discovery completes.","priority":"P2","confidence":0.96,"category":"bug","code_location":{"file_path":"apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt","line":5416},"source_attribution":null}],"overall_correctness":"patch is incorrect","overall_explanation":"The legacy-hint cadence, active-read joining, scope resets, and provider/chat status reconciliation are generally covered by the supplied implementation and tests. However, status-only provider settlement is not propagated to NodeRuntime's general model catalog, leaving one of the three catalog owners stale after a pending discovery completes.","overall_confidence":0.94,"review_completion":"complete"}
+codex usage: input_tokens=46973 cached_input_tokens=0 output_tokens=3160 reasoning_output_tokens=2828
+review usage: {"attempts": 1, "complete": true, "partial_attempts": 0, "reported_attempts": 1, "tokens": {"cached_input_tokens": 0, "input_tokens": 46973, "output_tokens": 3160, "reasoning_output_tokens": 2828}, "unknown_attempts": 0}
+preparation: final source verification
+autoreview findings: 1
+[P2] [P2] Reconcile the general catalog on status-only settlement
+apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt:5416
+This branch refreshes only the provider-config catalog. The general `_modelCatalog` also comes from `models.list`, but unlike the provider and chat catalogs it neither records `hasPendingProviders` nor receives a follow-up read here. If its initial response is partial while providers are pending, the later `modelCatalogStatusChanged` event leaves its availability/auth rows stale indefinitely until a manual refresh or unrelated invalidation, potentially continuing to hide or disable models after discovery completes.
+
+overall: patch is incorrect (0.94)
+The legacy-hint cadence, active-read joining, scope resets, and provider/chat status reconciliation are generally covered by the supplied implementation and tests. However, status-only provider settlement is not propagated to NodeRuntime's general model catalog, leaving one of the three catalog owners stale after a pending discovery completes.

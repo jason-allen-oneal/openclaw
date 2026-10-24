@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.chat.ChatControllerCatalogTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-24T01:38:17.960Z" hostname="BUILD_HOST" time="3.613">
+  <properties/>
+  <testcase name="healthObservationsDoNotSupersedeInFlightCatalogSuccess" classname="ai.openclaw.app.chat.ChatControllerCatalogTest" time="3.246"/>
+  <testcase name="catalogStatusSettlementPreservesInFlightSuccessAndCoalescesCatchUp" classname="ai.openclaw.app.chat.ChatControllerCatalogTest" time="0.049"/>
+  <testcase name="sessionCatalogOwnsChoicesAndEmptySuccessDoesNotRetry" classname="ai.openclaw.app.chat.ChatControllerCatalogTest" time="0.095"/>
+  <testcase name="cleanCatalogResponseAbsorbsStatusSettlementWithoutAnotherRead" classname="ai.openclaw.app.chat.ChatControllerCatalogTest" time="0.036"/>
+  <testcase name="olderGatewayKeepsCommandsAndExplainsMissingCatalogCapability" classname="ai.openclaw.app.chat.ChatControllerCatalogTest" time="0.062"/>
+  <testcase name="metadataEventsRefreshOnlyTheSelectedAgentsChangedCatalogOrCommands" classname="ai.openclaw.app.chat.ChatControllerCatalogTest" time="0.05"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

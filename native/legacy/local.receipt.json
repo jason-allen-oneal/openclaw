@@ -1,0 +1,112 @@
+{
+  "startedAt": "2026-10-24T02:16:12.108315+00:00",
+  "remoteCase": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "identity": "<PROOF_ROOT>/native-natural/candidate-retained-apk-identity.json",
+  "owned": [
+    {
+      "label": "tunnel",
+      "pid": 1671941,
+      "startTicks": "9824461",
+      "command": [
+        "ssh",
+        "-N",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:19990:127.0.0.1:20094",
+        "GATEWAY_HOST"
+      ]
+    },
+    {
+      "label": "proxy",
+      "pid": 1672191,
+      "startTicks": "9825309",
+      "command": [
+        "node",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-recovery/driver-snapshot/proxy.mjs",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-recovery",
+        "--config",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-recovery/config.private.json",
+        "--package",
+        "<ANDROID_CHECKOUT>",
+        "--protocol",
+        "4",
+        "--forbid-setup"
+      ]
+    },
+    {
+      "label": "capture",
+      "pid": 1672231,
+      "startTicks": "9825333",
+      "command": [
+        "python3",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-recovery/driver-snapshot/capture-native.py",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-recovery",
+        "--identity",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-recovery/driver-snapshot/candidate-retained-apk-identity.json",
+        "--seconds",
+        "140"
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "capture",
+      "pid": 1672231,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "proxy",
+      "pid": 1672191,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "label": "tunnel",
+      "pid": 1671941,
+      "exitCode": 0,
+      "processGone": true
+    }
+  ],
+  "preserveAppState": true,
+  "previousCase": "candidate-retained-legacy-continuation",
+  "resumeIncomplete": true,
+  "pmClearPerformed": false,
+  "setupCodeRequested": false,
+  "priorCaptureComplete": null,
+  "priorCaptureWasSuccessful": null,
+  "priorLocalRunningSha256": "0d417aa7d72f33f220d5a297321daed0bd5e2c5f9eff5ef14d42a5ea274830fa",
+  "priorNativeRunningSha256": "52f713a30c54af840c7847820a4b90b87553b8b3a90ddb4f9726154457c1f00b",
+  "recoveryKind": "incomplete-paired-capture-continuation",
+  "priorNativeOutcome": "unknown-interrupted",
+  "priorReconciliationSha256": "0ebec6c490a589e3a18956c1ed23a835e015b54f21ac62998ac4ee70b4cf2bc8",
+  "priorWireSha256": "3e2caa85c1fa1e0482c6499df94736f66c7ee64df46c67a182028d60f7ce67f5",
+  "priorAppStorageSnapshot": "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/app-storage-before.json",
+  "recoveryInspectionReason": "Gateway restart interrupted capture and emulator exited. Restarted the same AVD without wipe or app launch; installed APK hashes unchanged, no app clear or reinstall. Prior terminal app-state snapshot unavailable; validate retained signed identities on reconnect.",
+  "recoveryInspectionSnapshotSha256": "2696984c91e27c6ead24643484b758ae4627dc3e4efd85b549dde8862b46755a",
+  "pairedIdentityVerificationRequired": true,
+  "configSha256": "dce9b810da2a3d192805fa33a3e9b43b76d5c29380cd7af9715922c9188bfbb4",
+  "retainedAppStateMatchesPrevious": false,
+  "retainedAppStateMatchesRecoveryInspection": true,
+  "captureExit": 0,
+  "retainedPairedIdentityMatchesPrevious": true,
+  "retainedPairedIdentityHashes": [
+    {
+      "role": "node",
+      "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+      "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091"
+    },
+    {
+      "role": "operator",
+      "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+      "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091"
+    }
+  ],
+  "reverseRemoved": true,
+  "finishedAt": "2026-10-24T02:18:47.629197+00:00"
+}

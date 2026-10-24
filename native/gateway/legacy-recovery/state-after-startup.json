@@ -1,0 +1,228 @@
+{
+  "label": "state-after-startup",
+  "timestampMs": 1792808180999,
+  "liveRuntime": true,
+  "note": "Hashes/inodes only; live snapshots are observational, not transactional database backups.",
+  "directories": {
+    "home": {
+      "inode": 26252812,
+      "device": 66306
+    },
+    "state": {
+      "inode": 26252813,
+      "device": 66306
+    },
+    "workspace": {
+      "inode": 26252814,
+      "device": 66306
+    },
+    "plugin": {
+      "inode": 26252811,
+      "device": 66306
+    }
+  },
+  "files": [
+    {
+      "path": "case.json",
+      "bytes": 177,
+      "sha256": "ae0a3ecd8666ed5f9565b59cad6fb71a325f40dba7daa2a5652fe5d2b4457a5a",
+      "inode": 26252817,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "config.json",
+      "bytes": 330072,
+      "sha256": "dce9b810da2a3d192805fa33a3e9b43b76d5c29380cd7af9715922c9188bfbb4",
+      "inode": 26252822,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/index.cjs",
+      "bytes": 135,
+      "sha256": "e1967bf3efd5fc090b5bb57cb35757b53a9638bef1850c590cadc6aa9726e917",
+      "inode": 26252819,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/openclaw.plugin.json",
+      "bytes": 153986,
+      "sha256": "3308540d4dd494bef89b985c7f597118863c707eca99bb6a90885be1cba78852",
+      "inode": 26252821,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/package.json",
+      "bytes": 93,
+      "sha256": "f8463bc43af099d1d6174df2a99e1bb67ec62705e9a5f6accabeb31d11067cba",
+      "inode": 26252820,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/provider.cjs",
+      "bytes": 3259,
+      "sha256": "fb95da33491ac8aa0d2b7302278444aacb40fca9bacc5c4ba802748ca26bf467",
+      "inode": 26252818,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/agents/main/agent/openclaw-agent.sqlite",
+      "bytes": 659456,
+      "sha256": "7f97a119cedf6017b466f13c1ee8782ea6d30e6352e785b2310a7037a448e3d6",
+      "inode": 27563546,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/agents/main/agent/openclaw-agent.sqlite-shm",
+      "bytes": 32768,
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "inode": 27563548,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/agents/main/agent/openclaw-agent.sqlite-wal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27563547,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/config-journal-fingerprint.key",
+      "bytes": 32,
+      "sha256": "7de70573692d7ab5aef84255bce450dfafd5614a577cad64034c5f5f373e8eca",
+      "inode": 26252845,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw-quarantine.sqlite",
+      "bytes": 20480,
+      "sha256": "bb4a4e9c758c2f7f9b05bd30608ef2dc07c2c0e5064c6df3b31d4c845775dda5",
+      "inode": 27944175,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite",
+      "bytes": 4489216,
+      "sha256": "4c34fe9c0ac4f72d21978c79e0ac5322a6fa267fc53799edb2b5cf6f66dbaaee",
+      "inode": 27940406,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite-shm",
+      "bytes": 32768,
+      "sha256": "34237da0fbd2355b60bef28c5cda53862ee919eada3379212594e2fdf24718e4",
+      "inode": 27943495,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite-wal",
+      "bytes": 28872,
+      "sha256": "7b22dc6330636ff1ab4f8da88692d51ad5eb0d328cbb11afad7edb4bdb03f763",
+      "inode": 27941941,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/agent-cli/openclaw",
+      "bytes": 218,
+      "sha256": "9fcc79e03339a3805b9ec730057e619f09fe24a1d6864275a200344e8a8a1433",
+      "inode": 27948652,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/device-identity.881526dd.lock.sqlite",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27943501,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/gateway.9535e654.lock",
+      "bytes": 600,
+      "sha256": "86a0f9b3212d03fe72ed2e664ff2593098ab73c32aca9e015ce77a4ac14a1b27",
+      "inode": 27948651,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/gateway.9535e654.lock.sqlite",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27942375,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/gateway.state.lock",
+      "bytes": 600,
+      "sha256": "4dbb516b749a376090e26fd4a1cb8c390ff5921d049a74c3ae72303f3352764d",
+      "inode": 27948650,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/gateway.state.lock.sqlite",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27942373,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/plugin-captures/8180faf4-73fa-44f7-bc3c-48df17c7840e/captures/openclaw-plugin-build-JvqMrC/package-0/node_modules/plugin/index.cjs",
+      "bytes": 135,
+      "sha256": "e1967bf3efd5fc090b5bb57cb35757b53a9638bef1850c590cadc6aa9726e917",
+      "inode": 27948665,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/plugin-captures/8180faf4-73fa-44f7-bc3c-48df17c7840e/captures/openclaw-plugin-build-JvqMrC/package-0/node_modules/plugin/openclaw.plugin.json",
+      "bytes": 153986,
+      "sha256": "3308540d4dd494bef89b985c7f597118863c707eca99bb6a90885be1cba78852",
+      "inode": 27948666,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/plugin-captures/8180faf4-73fa-44f7-bc3c-48df17c7840e/captures/openclaw-plugin-build-JvqMrC/package-0/node_modules/plugin/package.json",
+      "bytes": 93,
+      "sha256": "f8463bc43af099d1d6174df2a99e1bb67ec62705e9a5f6accabeb31d11067cba",
+      "inode": 27948667,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/plugin-captures/8180faf4-73fa-44f7-bc3c-48df17c7840e/captures/openclaw-plugin-build-JvqMrC/package-0/node_modules/plugin/provider.cjs",
+      "bytes": 3259,
+      "sha256": "fb95da33491ac8aa0d2b7302278444aacb40fca9bacc5c4ba802748ca26bf467",
+      "inode": 27948668,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/plugin-captures/8180faf4-73fa-44f7-bc3c-48df17c7840e/owner.sqlite",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27948659,
+      "device": 66306,
+      "stableDuringHash": true
+    }
+  ],
+  "configSha256": "dce9b810da2a3d192805fa33a3e9b43b76d5c29380cd7af9715922c9188bfbb4",
+  "packageResolutionTarget": "<LEGACY_GATEWAY_PACKAGE>"
+}

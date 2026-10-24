@@ -1,0 +1,19 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    ":app:testPlayDebugUnitTest",
+    "--tests",
+    "ai.openclaw.app.NodeRuntimeAgentSelectionTest.generalCatalogStatusRecoversFailedReadWithoutSupersedingRecovery",
+    "--tests",
+    "ai.openclaw.app.NodeRuntimeAgentSelectionTest.generalCatalogPendingResponseRetainsOneStatusCatchUp"
+  ],
+  "head": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "dirtyTrackedPaths": [
+    "apps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt"
+  ],
+  "exitCode": 1,
+  "durationSeconds": 98.10494112968445,
+  "completedAt": "2026-10-24T01:35:27.502500+00:00"
+}

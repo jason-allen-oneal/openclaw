@@ -1,0 +1,73 @@
+{
+  "startedAt": "2026-10-24T01:59:14.193025+00:00",
+  "remoteCase": "<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix",
+  "identity": "<PROOF_ROOT>/native-natural/candidate-retained-apk-identity.json",
+  "owned": [
+    {
+      "label": "tunnel",
+      "pid": 1628615,
+      "startTicks": "9722669",
+      "command": [
+        "ssh",
+        "-N",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:19990:127.0.0.1:20094",
+        "GATEWAY_HOST"
+      ]
+    },
+    {
+      "label": "proxy",
+      "pid": 1629380,
+      "startTicks": "9724220",
+      "command": [
+        "node",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/driver-snapshot/proxy.mjs",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation",
+        "--config",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/config.private.json",
+        "--package",
+        "<ANDROID_CHECKOUT>",
+        "--protocol",
+        "4",
+        "--forbid-setup"
+      ]
+    },
+    {
+      "label": "capture",
+      "pid": 1629408,
+      "startTicks": "9724255",
+      "command": [
+        "python3",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/driver-snapshot/capture-native.py",
+        "--out",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation",
+        "--identity",
+        "<PROOF_ROOT>/native-natural/candidate-retained-legacy-continuation/driver-snapshot/candidate-retained-apk-identity.json",
+        "--seconds",
+        "140"
+      ]
+    }
+  ],
+  "cleanup": [],
+  "preserveAppState": true,
+  "previousCase": "candidate-retained-legacy-native",
+  "resumeIncomplete": true,
+  "pmClearPerformed": false,
+  "setupCodeRequested": false,
+  "configSha256": "dce9b810da2a3d192805fa33a3e9b43b76d5c29380cd7af9715922c9188bfbb4",
+  "recoveryKind": "incomplete-paired-capture-continuation",
+  "priorCaptureComplete": false,
+  "priorCaptureWasSuccessful": false,
+  "priorNativeReceiptSha256": "2d33d486ade622d934da4f760f90e418d4e66cefb139d74732775899e61e1a18",
+  "priorReconciliationSha256": "26f81f3aaefdc77b9461df4ac8069620a18bf5ebcc856aafd74f36ad674b8258",
+  "retainedAppStateMatchesPrevious": false,
+  "recoveryInspectionReason": "Root launched existing app once to inspect failed-onboarding result; native shell present, no taps. Normal prefs unchanged; encrypted secure prefs changed on launch. Retained signed device identity must be compared through authenticated connect, not inferred from encrypted bytes.",
+  "recoveryInspectionSnapshotSha256": "c821947fa95c0184fd215ba79f562131b1c110b1919f52a6b956c1958b4cfa0b",
+  "retainedAppStateMatchesRecoveryInspection": true,
+  "pairedIdentityVerificationRequired": true
+}

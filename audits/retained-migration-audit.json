@@ -1,0 +1,196 @@
+{
+  "auditVersion": 1,
+  "generatedAt": "2026-10-24T02:34:25.282848+00:00",
+  "status": "verified-retained-migration-and-native-continuity",
+  "scope": "Read-only post-run audit; no runtime starts, reseed, or remote mutation by auditor; no raw credentials, configuration values, or session contents included.",
+  "checks": {
+    "doctorExitZero": true,
+    "doctorLogHashBound": true,
+    "failedUpgradeReceiptBound": true,
+    "doctorReceiptBoundByResumedRuntime": true,
+    "sameInstalledArtifacts": true,
+    "sameAuthenticatedDeviceAndPublicKey": true,
+    "appStorageRetainedAcrossUpgrade": true,
+    "sameSessionKey": true,
+    "sameSessionId": true,
+    "priorExchangePresentBeforeNewSend": true,
+    "sameDirectoryIdentities": true,
+    "allOriginalWorkspaceFilesUnchanged": true,
+    "originalConfigLeafValuesRetained": true,
+    "configHashesMatchDoctorBoundary": true,
+    "noReseedOrSetupInUpgradeReceipts": true,
+    "noAppClearOrSetupInNativeReceipts": true,
+    "nativeCapturesTerminalSuccessful": true,
+    "finalRuntimeStoppedAndPortsFree": true,
+    "screenshotMatchesRetentionReceipt": true
+  },
+  "initialUpgrade": {
+    "outcome": "failed-before-readiness",
+    "gatewayExitCode": 78,
+    "reason": "Schema23 retained agent database required supported Doctor migration",
+    "originalFailurePreserved": true,
+    "subsequentRecoveryDoesNotRewriteFailure": true
+  },
+  "doctor": {
+    "flags": [
+      "doctor",
+      "--fix",
+      "--non-interactive",
+      "--no-workspace-suggestions"
+    ],
+    "buildCommit": "a7f5cc2f35fb2e0254207492149d52d3923c0cbc",
+    "exitCode": 0,
+    "processGone": true,
+    "externalServiceRepairPolicySet": false,
+    "externalServiceRepairPolicyEvidence": "Actual execution environment disclosed by root; optional recommended variable was NOT used.",
+    "serviceChecksLogged": [
+      "Gateway services",
+      "systemd linger",
+      "Gateway daemon"
+    ],
+    "serviceMutationRecordedInLog": false,
+    "serviceMutationsWerePolicyDisabled": null,
+    "serviceEvidenceLimit": "Absence of service mutations in this log is not proof that they were policy-disabled.",
+    "configChanged": true,
+    "configSha256Before": "dce9b810da2a3d192805fa33a3e9b43b76d5c29380cd7af9715922c9188bfbb4",
+    "configSha256After": "b168e69ded7ea67902bec3785ef43a640405c4f6867565237ffbbff37df742c2",
+    "configChangedLeafPaths": [
+      "agents.defaults.modelPolicy.allow",
+      "messages.queue.allowCollaborativeSteering",
+      "meta.lastTouchedVersion",
+      "meta.migrations.modelPolicyAllowlist",
+      "meta.migrations.utilityModelSeparation",
+      "meta.migrations.webhookListeners.feishu",
+      "meta.migrations.webhookListeners.msteams",
+      "meta.migrations.webhookListeners.nextcloud-talk",
+      "meta.migrations.webhookListeners.telegram",
+      "skills.entries.openai-whisper-api.enabled",
+      "skills.entries.sherpa-onnx-tts.enabled",
+      "skills.entries.trello.enabled",
+      "wizard.lastRunAt",
+      "wizard.lastRunCommand",
+      "wizard.lastRunMode",
+      "wizard.lastRunVersion"
+    ],
+    "originalConfigLeafValuesRetained": true,
+    "serviceMutationPolicyStatus": "Not established by the recorded evidence; external override was not set"
+  },
+  "retainedFilesystem": {
+    "sameDirectoryDeviceAndInode": true,
+    "directoryNames": [
+      "home",
+      "state",
+      "workspace",
+      "plugin"
+    ],
+    "workspaceFileCount": 23,
+    "workspaceFilesRetainedByteIdentical": 23,
+    "stateCopiedOrReseededByUpgradeHarness": false,
+    "note": "State bytes legitimately changed through Doctor migration and later chat. Directory identity is supporting evidence; logical session and transcript comparisons establish continuity."
+  },
+  "schemaAndSemanticDatabaseVerification": {
+    "method": "Independent read-only SSH SQLite inspection of stopped fixture and retained pre-migration backups; hashes matched stopped-state inventory",
+    "agentBackupSchema": 23,
+    "currentAgentSchema": 31,
+    "currentSharedStatePrimarySchema": 30,
+    "currentWalBytes": 0,
+    "retainedNodes": 1,
+    "retainedWindows": 1,
+    "baselineTranscriptEvents": 6,
+    "currentTranscriptEvents": 11,
+    "baselineNodesMissingOrRebound": 0,
+    "baselineWindowsMissingOrRekeyed": 0,
+    "baselineEventsMissingOrPayloadChanged": 0,
+    "currentSnapshotRows": 2,
+    "invalidCurrentSessionEntries": 0,
+    "pendingCanonicalValidationRows": 0,
+    "canonicalReadyRows": 1,
+    "completedManifests": 2,
+    "failedManifests": 0,
+    "validatedTargets": 3,
+    "retainedBackupArtifacts": 3,
+    "backupHashesMatchingManifests": 3,
+    "agentDatabaseSha256": "5e48d4ba476727a98df6c8da31f978c814cc42a18967217b7f064a3e34780659",
+    "schema23AgentBackupSha256": "22343b8c54fe8555d1f68e949c951607be1ece1edd84742ac061e5fd4d11a558",
+    "manifestSha256": [
+      "e63f109ff3f8264401f770188d420890feeb1a791bd97db39d5cac420d2408fb",
+      "1375e5a0e1410fb6073b174d38305d87448baf3cd23a981996345c3ca3083039"
+    ]
+  },
+  "android": {
+    "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+    "artifacts": [
+      {
+        "package": "ai.openclaw.app.debug",
+        "sha256": "00b9571a73f47c76ad9094efb849fe9158c46914ba078cc4e64b305ef1fa4958",
+        "matchesBuiltArtifact": true
+      },
+      {
+        "package": "ai.openclaw.app.debug.test",
+        "sha256": "f2448087773bb38ddaf8e96700cfb835aef86bb074038aa734dbb0891ffd6168",
+        "matchesBuiltArtifact": true
+      }
+    ],
+    "authenticatedIdentityHashes": [
+      {
+        "role": "node",
+        "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+        "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091"
+      },
+      {
+        "role": "operator",
+        "deviceIdentitySha256": "c2c95624b09b534468d1fa560d1d0eae81940de94e8a9157770aaf6503e614ac",
+        "devicePublicKeySha256": "bc0e7015c139e880243ab417d0a48d1ea776ed32f688d0400edbfab9f6006091"
+      }
+    ],
+    "appStateBeforeUpgradeMatchesLegacyAfter": true,
+    "appClearPerformed": false,
+    "setupCodeRequested": false
+  },
+  "retainedSession": {
+    "sessionKeySha256": "e29a74e4aafd6f8b16974acdcd66ec77ab3dd4b93863804af322562a6c8074d4",
+    "sessionIdSha256": "2349421bb16ae4d67d8d0b3ec9a7cdecfaa0ab8b661f14023c5320b72090cf44",
+    "priorMessageHashes": [
+      {
+        "role": "user",
+        "textSha256": "8bbc65b5e67985845e7f809eb3296e361f4d713e532226a6da2acdd8b08a4a06"
+      },
+      {
+        "role": "assistant",
+        "textSha256": "f707fb5a4870944015cdce1da685a9320d09fbb932c3d1d0f89a6eadebd229c5"
+      }
+    ],
+    "legacyHistoryTimestampMs": 1792808232206,
+    "upgradedPreSendHistoryTimestampMs": 1792808706082,
+    "upgradedNewSendTimestampMs": 1792808795583,
+    "priorMessagesPresentBeforeNewSend": true,
+    "priorExchangeVisuallyVerifiedByAuditor": true,
+    "evidenceScreenshot": "candidate-retained-upgraded-recovery/retained-chat-before-send.png",
+    "comparisonContainsRawContents": false
+  },
+  "finalRuntime": {
+    "status": "finished",
+    "gatewayExitCode": 0,
+    "ports": {
+      "20094": "free",
+      "20095": "free"
+    },
+    "allOwnedChildrenGone": true
+  },
+  "evidenceSha256": {
+    "candidate-retained-ownerfix/gateway-upgrade/cleanup-receipt.json": "303065661a81c2f5f5b6de0be2c941c6f2e64d93c20ce9f7a589db5dca9ee9f3",
+    "candidate-retained-ownerfix/gateway-upgrade/state-before-upgrade.json": "46220eb7d295e6f549a4cf1fe520e1363039e5e2ba9555cb082fe48122c64f99",
+    "candidate-retained-ownerfix/doctor-migration/doctor.receipt.json": "25aded6696a8239756a6007bf1b5adb11d1cf8523eef9403f37b19e7bc50ade3",
+    "candidate-retained-ownerfix/doctor-migration/doctor.log": "2e94a591b8df99c0c80d284c9870d15f72d8bb6065e4bcb0f3446e5032d7664a",
+    "candidate-retained-ownerfix/gateway-upgrade-recovery/cleanup-receipt.json": "2a6078d7409ecc7e0d98c2814202c0236e04b739fbef5a03c4211278bc508459",
+    "candidate-retained-ownerfix/gateway-upgrade-recovery/state-after-shutdown.json": "4b7c2c00d4f471775f1635aead799a33231d43971bc83eaf86b78c467a972131",
+    "candidate-retained-legacy-recovery/installed-identity.json": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+    "candidate-retained-upgraded-recovery/installed-identity.json": "bb175402229630b45c45e33da317a755ca4bac79af92c189fb58682080dfd9c6",
+    "candidate-retained-legacy-recovery/native-wire.jsonl": "96d2bfa425709dfcdc3f86a9964b38cb935ebcd84ae4274130494d5d9d7e5b3c",
+    "candidate-retained-upgraded-recovery/native-wire.jsonl": "f4350bf1e9ab5926b724778cd426d539768bbf3c419a00d7b404d3c7a96f76b2",
+    "candidate-retained-legacy-recovery/native.receipt.json": "cda9e7fb5fa4ccf019deaf59e8ea21713d1cfaa3f07ca31121f75f3cbdd55eb5",
+    "candidate-retained-upgraded-recovery/native.receipt.json": "7193b3fd33a1e89fbb5115ace52b7caea74eca6087a543ae0b4038fd4233860d",
+    "candidate-retained-upgraded-recovery/retained-history.receipt.json": "c7005cd31d7d9ead132034ef609ba40c0d16cbd3c8ea0cb9f183b697dc0aaade",
+    "candidate-retained-upgraded-recovery/retained-chat-before-send.png": "c26e6174d610ef46c675b8c12b737a6bd318768910026637df9cccb32fbb7003"
+  }
+}

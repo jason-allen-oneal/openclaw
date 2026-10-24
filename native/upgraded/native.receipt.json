@@ -1,0 +1,177 @@
+{
+  "command": [
+    "<ANDROID_SDK>/platform-tools/adb",
+    "-s",
+    "emulator-5584",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "class",
+    "ai.openclaw.app.CatalogRefreshProofTest",
+    "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "apkIdentity": "<PROOF_ROOT>/native-natural/candidate-retained-upgraded-recovery/driver-snapshot/candidate-retained-apk-identity.json",
+  "eventsInjected": false,
+  "startedAt": "2026-10-24T02:24:58.904772+00:00",
+  "durationRequested": 140,
+  "ownedProcessIds": {
+    "instrumentation": 1690219,
+    "logcat": 1690218
+  },
+  "readyAtMs": 1792808703919,
+  "observationSeconds": 140.06336213101167,
+  "instrumentationExitCode": 0,
+  "proxyAtStop": {
+    "phase": "upgraded-retained-chat",
+    "openConnections": [],
+    "closed": [
+      {
+        "connection": "881f467d-0ae7-44ec-bb9b-76ca1b287612",
+        "role": "operator",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      },
+      {
+        "connection": "2652f520-4a9b-4937-b937-c679edba0ba1",
+        "role": "node",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      }
+    ]
+  },
+  "cleanup": [
+    {
+      "command": [
+        "shell",
+        "run-as",
+        "ai.openclaw.app.debug",
+        "touch",
+        "files/catalog-proof/finish"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "owner": "instrumentation-adb",
+      "pid": 1690219,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug.test",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "logcat-adb",
+      "pid": 1690218,
+      "exitCode": -15,
+      "processGone": true
+    }
+  ],
+  "parentStillOwns": [
+    "Gateway",
+    "proxy",
+    "SSH tunnel",
+    "emulator",
+    "Gateway memory sampler"
+  ],
+  "instrumentationPassed": true,
+  "captureComplete": true,
+  "totalSeconds": 146.46484887199767,
+  "finishedAtMs": 1792808845370,
+  "requestCountsByPhase": {
+    "native-setup": {
+      "connect": 2,
+      "sessions.describe": 1,
+      "sessions.subscribe": 1,
+      "users.self": 2,
+      "node.list": 3,
+      "node.event": 2,
+      "agents.list": 1,
+      "models.list": 6,
+      "channels.status": 1,
+      "exec.approval.list": 2,
+      "sessions.list": 5,
+      "cron.status": 1,
+      "progressCard.get": 1,
+      "question.list": 1,
+      "chat.history": 1,
+      "sessions.observer.visibility": 1,
+      "plugin.approval.list": 2,
+      "device.pair.list": 1,
+      "openclaw.approval.list": 2,
+      "config.get": 1,
+      "cron.list": 1,
+      "models.authStatus": 2,
+      "session.reactions.list": 1,
+      "sessions.branches.list": 1,
+      "health": 2,
+      "users.prefs.get": 1,
+      "chat.metadata": 2,
+      "voicewake.get": 1
+    },
+    "upgraded-retained-chat": {
+      "talk.catalog": 3,
+      "sessions.list": 5,
+      "chat.metadata": 4,
+      "models.list": 12,
+      "health": 4,
+      "node.event": 2,
+      "chat.send": 1,
+      "chat.history": 4,
+      "models.authStatus": 4,
+      "sessions.observer.visibility": 1
+    }
+  },
+  "warningResponseCount": 8
+}

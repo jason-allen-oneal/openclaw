@@ -1,0 +1,46 @@
+{
+  "frozenAt": "2026-10-24T01:39:05.972804+00:00",
+  "tests": 147,
+  "failures": 0,
+  "errors": 0,
+  "suites": [
+    {
+      "name": "ai.openclaw.app.NodeRuntimeAgentSelectionTest",
+      "tests": "45",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "ai.openclaw.app.chat.ChatControllerCatalogTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "ai.openclaw.app.chat.ChatControllerCommandControlsTest",
+      "tests": "38",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "ai.openclaw.app.chat.ChatControllerModelSelectionTest",
+      "tests": "58",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "sha256": {
+    "apps/android/app/src/main/java/ai/openclaw/app/GatewayModelCatalog.kt": "45383d0825c0cccf9fe8a118d3b693c9a1761ef33fb37c2a913d3007496575ab",
+    "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt": "b21b6e671909f1129d3c85e68fe632b285d2e9e41e225611bd3c3ed8051b1358",
+    "apps/android/app/src/main/java/ai/openclaw/app/chat/ChatController.kt": "cf5c5ecd611094703b0f4f30edd9383337cf4090c1dc71eb1463698736c79638",
+    "apps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt": "9d473127c9ba2ed8f929aae494af495392ddaae2f22c9c2eaa4c68bb0d4621d0",
+    "apps/android/app/src/test/java/ai/openclaw/app/chat/ChatControllerCatalogTest.kt": "1686d5b8845e5992b3c3a36f1737bf3ca3debcc172ae06c31ceecd623a4da281"
+  },
+  "greenReceipt": "legacy-all-green-final-20261024.receipt.json",
+  "priorReview": "legacy-autoreview-20261024.json",
+  "additionalRedReceipt": "legacy-general-status-red-20261024.receipt.json"
+}

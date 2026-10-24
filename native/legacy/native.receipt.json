@@ -1,0 +1,177 @@
+{
+  "command": [
+    "<ANDROID_SDK>/platform-tools/adb",
+    "-s",
+    "emulator-5584",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "class",
+    "ai.openclaw.app.CatalogRefreshProofTest",
+    "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "sourceCommit": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "apkIdentity": "<PROOF_ROOT>/native-natural/candidate-retained-legacy-recovery/driver-snapshot/candidate-retained-apk-identity.json",
+  "eventsInjected": false,
+  "startedAt": "2026-10-24T02:16:21.808478+00:00",
+  "durationRequested": 140,
+  "ownedProcessIds": {
+    "instrumentation": 1672261,
+    "logcat": 1672260
+  },
+  "readyAtMs": 1792808186142,
+  "observationSeconds": 140.27255059499294,
+  "instrumentationExitCode": 0,
+  "proxyAtStop": {
+    "phase": "legacy-native-recovery",
+    "openConnections": [],
+    "closed": [
+      {
+        "connection": "bc7c48c0-0e22-4edd-aad0-2b861e3ec4c3",
+        "role": "node",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      },
+      {
+        "connection": "457fb63c-41d6-499e-a55e-9c20544b8064",
+        "role": "operator",
+        "code": 1006,
+        "reason": "",
+        "unresolved": []
+      }
+    ]
+  },
+  "cleanup": [
+    {
+      "command": [
+        "shell",
+        "run-as",
+        "ai.openclaw.app.debug",
+        "touch",
+        "files/catalog-proof/finish"
+      ],
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "owner": "instrumentation-adb",
+      "pid": 1672261,
+      "exitCode": 0,
+      "processGone": true
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "task-app",
+      "package": "ai.openclaw.app.debug.test",
+      "forceStop": {
+        "command": [
+          "shell",
+          "am",
+          "force-stop",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 0,
+        "stdout": ""
+      },
+      "remainingPids": "",
+      "probe": {
+        "command": [
+          "shell",
+          "pidof",
+          "ai.openclaw.app.debug.test"
+        ],
+        "exitCode": 1,
+        "stdout": ""
+      }
+    },
+    {
+      "owner": "logcat-adb",
+      "pid": 1672260,
+      "exitCode": -15,
+      "processGone": true
+    }
+  ],
+  "parentStillOwns": [
+    "Gateway",
+    "proxy",
+    "SSH tunnel",
+    "emulator",
+    "Gateway memory sampler"
+  ],
+  "instrumentationPassed": true,
+  "captureComplete": true,
+  "totalSeconds": 145.70864474699192,
+  "finishedAtMs": 1792808327517,
+  "requestCountsByPhase": {
+    "legacy-native-recovery": {
+      "talk.catalog": 2,
+      "chat.metadata": 2,
+      "sessions.list": 3,
+      "models.list": 4,
+      "health": 4,
+      "chat.send": 1,
+      "chat.history": 3,
+      "question.list": 2,
+      "node.event": 2,
+      "models.authStatus": 1,
+      "sessions.observer.visibility": 1
+    },
+    "native-setup": {
+      "connect": 2,
+      "node.event": 2,
+      "sessions.describe": 1,
+      "sessions.subscribe": 1,
+      "users.self": 2,
+      "node.list": 3,
+      "question.list": 1,
+      "sessions.observer.visibility": 1,
+      "progressCard.get": 1,
+      "sessions.list": 4,
+      "agents.list": 1,
+      "models.list": 3,
+      "channels.status": 1,
+      "exec.approval.list": 2,
+      "cron.status": 1,
+      "chat.history": 1,
+      "config.get": 1,
+      "plugin.approval.list": 2,
+      "models.authStatus": 1,
+      "openclaw.approval.list": 2,
+      "sessions.branches.list": 1,
+      "cron.list": 1,
+      "device.pair.list": 1,
+      "users.prefs.get": 1,
+      "voicewake.get": 1,
+      "health": 1,
+      "chat.metadata": 1
+    }
+  },
+  "warningResponseCount": 0
+}

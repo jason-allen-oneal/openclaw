@@ -1,0 +1,25 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx6g -Dfile.encoding=UTF-8",
+    "-I",
+    "<PROOF_ROOT>/native-natural/candidate-retained-apk-inputs/native-proof.init.gradle",
+    "-PopenclawBuildCommit=7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+    "-PopenclawBuildTimestamp=2026-10-24T01:43:55.417582Z",
+    ":app:assemblePlayDebug",
+    ":app:assemblePlayDebugAndroidTest"
+  ],
+  "head": "7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30",
+  "dirtyTrackedPaths": [],
+  "timestamp": "2026-10-24T01:43:55.417582Z",
+  "environment": {
+    "TMPDIR": "<PROOF_ROOT>/tmp",
+    "JAVA_TOOL_OPTIONS": "-Djava.io.tmpdir=<PROOF_ROOT>/tmp"
+  },
+  "pid": 1599799,
+  "exitCode": 1,
+  "durationSeconds": 10.936149835586548,
+  "completedAt": "2026-10-24T01:44:06.353985+00:00"
+}

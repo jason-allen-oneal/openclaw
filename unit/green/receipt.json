@@ -1,0 +1,27 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    "-I",
+    "<PROOF_ROOT>/ktlint-owner-scoped.init.gradle",
+    ":app:ktlintFormat",
+    ":app:testPlayDebugUnitTest",
+    "--tests",
+    "ai.openclaw.app.chat.ChatControllerCatalogTest",
+    "--tests",
+    "ai.openclaw.app.chat.ChatControllerModelSelectionTest",
+    "--tests",
+    "ai.openclaw.app.chat.ChatControllerCommandControlsTest",
+    "--tests",
+    "ai.openclaw.app.NodeRuntimeAgentSelectionTest"
+  ],
+  "head": "ef99274a2dd58ed20164a67d072d05c328a1cfc7",
+  "dirtyTrackedPaths": [
+    "apps/android/app/src/main/java/ai/openclaw/app/NodeRuntime.kt",
+    "apps/android/app/src/test/java/ai/openclaw/app/NodeRuntimeAgentSelectionTest.kt"
+  ],
+  "exitCode": 0,
+  "durationSeconds": 155.86154890060425,
+  "completedAt": "2026-10-24T01:38:26.615058+00:00"
+}

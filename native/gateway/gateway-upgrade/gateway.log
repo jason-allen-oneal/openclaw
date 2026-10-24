@@ -1,0 +1,32 @@
+[gateway] startup phase: entry.run-main-import starting total=175.2ms
+[gateway] startup phase: entry.run-main-import 61.6ms total=236.7ms start=175.2ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=797.9ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 602.7ms total=1400.6ms start=797.9ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=1461.4ms
+[gateway] startup phase: cli.main.gateway-run-imports 4.2ms total=1465.6ms start=1461.4ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=1477.6ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 38.9ms total=1516.5ms start=1477.6ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=1516.6ms
+[gateway] startup phase: cli.command.config-ready starting total=1518.6ms
+[gateway] startup phase: cli.command.config-guard-import starting total=1518.7ms
+[gateway] startup phase: cli.command.config-guard-import 18.8ms total=1537.5ms start=1518.7ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=1625.9ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner 5.3ms total=1631.2ms start=1625.9ms
+[gateway] startup phase: cli.bootstrap.admission.core-config starting total=1631.3ms
+[gateway] startup phase: cli.bootstrap.admission.core-config 40.6ms total=1671.9ms start=1631.3ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=1672.1ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=2739.8ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery 1.0ms total=2740.8ms start=2739.8ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=2741.0ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=2741.1ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 79.0ms total=2820.1ms start=2741.0ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=2820.3ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion starting total=3659.4ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion 41.0ms total=3700.3ms start=3659.4ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config 959.3ms total=3700.4ms start=2741.1ms registrySnapshotMs=458.96972099999994 manifestRegistryMs=28.678262999999788 ownerMapsMs=8.066196999999647 totalMs=497.7227079999998 indexPluginCount=175 manifestPluginCount=175
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 1412.5ms total=4232.7ms start=2820.3ms agentCount=1 schemaProcessCount=1 schemaInspectionCount=1 schemaSnapshotCount=0
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot 2589.5ms total=4261.6ms start=1672.1ms
+Agent main (<REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/state/agents/main/agent/openclaw-agent.sqlite): OpenClaw agent database <REMOTE_PROOF_ROOT>/native-natural/candidate-retained-ownerfix/state/agents/main/agent/openclaw-agent.sqlite uses schema version 23; stop active agents and run openclaw doctor --fix to migrate session identities before using it.
+Sessions remain unavailable. Stop the Gateway, run "openclaw doctor --fix" to inspect and repair this agent database, and restart.
+[gateway] startup phase: cli.command.config-ready 2776.8ms total=4295.3ms start=1518.6ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap 2778.8ms total=4295.4ms start=1516.6ms failed

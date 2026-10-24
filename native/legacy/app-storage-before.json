@@ -1,0 +1,23 @@
+{
+  "label": "before",
+  "timestampMs": 1792808181191,
+  "package": "ai.openclaw.app.debug",
+  "files": [
+    {
+      "path": "shared_prefs/openclaw.node.xml",
+      "exists": true,
+      "sha256": "3b93fbee80869340ff97008dc070f4580a9069b56e6b99d1312c405a06b9cdb5"
+    },
+    {
+      "path": "shared_prefs/openclaw.node.secure.xml",
+      "exists": true,
+      "sha256": "d56d81dd734e595ce2cacf99a52bf5fb6ca8076effbd4decc9bd09471fc43024"
+    },
+    {
+      "path": "files/openclaw/identity/device.json",
+      "exists": false
+    }
+  ],
+  "contentsCollected": false,
+  "note": "Persisted settings/encrypted identity store only; cache, logs and proof outputs excluded. Secure prefs may legitimately change after authenticated reconnect."
+}

@@ -1,0 +1,420 @@
+{
+  "label": "state-before-continuation",
+  "timestampMs": 1792808676999,
+  "liveRuntime": false,
+  "note": "Hashes/inodes only; live snapshots are observational, not transactional database backups.",
+  "directories": {
+    "home": {
+      "inode": 26252812,
+      "device": 66306
+    },
+    "state": {
+      "inode": 26252813,
+      "device": 66306
+    },
+    "workspace": {
+      "inode": 26252814,
+      "device": 66306
+    },
+    "plugin": {
+      "inode": 26252811,
+      "device": 66306
+    }
+  },
+  "files": [
+    {
+      "path": "case.json",
+      "bytes": 177,
+      "sha256": "ae0a3ecd8666ed5f9565b59cad6fb71a325f40dba7daa2a5652fe5d2b4457a5a",
+      "inode": 26252817,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "config.json",
+      "bytes": 351471,
+      "sha256": "b168e69ded7ea67902bec3785ef43a640405c4f6867565237ffbbff37df742c2",
+      "inode": 26252886,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/index.cjs",
+      "bytes": 135,
+      "sha256": "e1967bf3efd5fc090b5bb57cb35757b53a9638bef1850c590cadc6aa9726e917",
+      "inode": 26252819,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/openclaw.plugin.json",
+      "bytes": 153986,
+      "sha256": "3308540d4dd494bef89b985c7f597118863c707eca99bb6a90885be1cba78852",
+      "inode": 26252821,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/package.json",
+      "bytes": 93,
+      "sha256": "f8463bc43af099d1d6174df2a99e1bb67ec62705e9a5f6accabeb31d11067cba",
+      "inode": 26252820,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "plugin/provider.cjs",
+      "bytes": 3259,
+      "sha256": "fb95da33491ac8aa0d2b7302278444aacb40fca9bacc5c4ba802748ca26bf467",
+      "inode": 26252818,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/agents/main/agent/openclaw-agent.sqlite",
+      "bytes": 733184,
+      "sha256": "b60e84e15cf87ac8e20f63d80f7cabf5f9313af1f171ca315687ab24804612d1",
+      "inode": 27563546,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/agents/main/agent/openclaw-agent.sqlite-shm",
+      "bytes": 32768,
+      "sha256": "d7851a7fc1442791ca8b895ded9ec4a9eb30192bc158fef791e8a1975334d2d4",
+      "inode": 27563548,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/agents/main/agent/openclaw-agent.sqlite-wal",
+      "bytes": 32992,
+      "sha256": "c863cf63dc46ec1489e8d96880eedd6a5f193702240f0a33022f86d9bc7fdd5c",
+      "inode": 27563547,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-988879a7-d391-805f-8d47-2eb9649628db.bak",
+      "bytes": 700416,
+      "sha256": "22343b8c54fe8555d1f68e949c951607be1ece1edd84742ac061e5fd4d11a558",
+      "inode": 27950897,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/client/credentials.sqlite",
+      "bytes": 49152,
+      "sha256": "d5735de94646df004df19c94b94020ee03ed1daa33bd1d75de7a4dc76d2e5bbf",
+      "inode": 27950905,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/config-journal-fingerprint.key",
+      "bytes": 32,
+      "sha256": "7de70573692d7ab5aef84255bce450dfafd5614a577cad64034c5f5f373e8eca",
+      "inode": 26252845,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/control/services.sqlite",
+      "bytes": 16384,
+      "sha256": "c8b9fc00070d6d2d73edfb558126997bb8a855909de967a04cbc73527972caec",
+      "inode": 27951702,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/session-sqlite-migration-runs/startup-migration-988879a7-d391-805f-8d47-2eb9649628db.json",
+      "bytes": 5293,
+      "sha256": "e63f109ff3f8264401f770188d420890feeb1a791bd97db39d5cac420d2408fb",
+      "inode": 27950900,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/session-sqlite-migration-runs/startup-migration-a84f8c13-dcbe-4a3d-8fc0-19a76a28c7a0.json",
+      "bytes": 2722,
+      "sha256": "1375e5a0e1410fb6073b174d38305d87448baf3cd23a981996345c3ca3083039",
+      "inode": 27956949,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw-quarantine.sqlite",
+      "bytes": 20480,
+      "sha256": "82a970b97cc9a498e09fc0758dc1d722b1fe0557558037fb9f0877e59dba047b",
+      "inode": 27944175,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite",
+      "bytes": 4923392,
+      "sha256": "4a4d07e278e57a12eaa8224972a6526666a7fb24a03a8c4ab30b8afd8f3d4755",
+      "inode": 27940406,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite-shm",
+      "bytes": 32768,
+      "sha256": "08401a31d7390bcb9348dbb43b6fb3745bf27cc133456667ec441b5bc0c43566",
+      "inode": 27943495,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite-wal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27941941,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite.doctor-cron-1792808620919-c598f16e-048f-42ce-9f2f-189dabe5c798.bak",
+      "bytes": 4759552,
+      "sha256": "1675d6825ee8d2982f4ad0ee9f0761c8c97fa32ea1f03e4d98647f6e8b6a8e19",
+      "inode": 28050013,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite.pre-startup-migration-988879a7-d391-805f-8d47-2eb9649628db.bak",
+      "bytes": 4489216,
+      "sha256": "f2e2f413a30ac0574c6a247f2785024c34d5b6a47bc8c02de54cd051b6f62d99",
+      "inode": 27950901,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/state/openclaw.sqlite.pre-startup-migration-a84f8c13-dcbe-4a3d-8fc0-19a76a28c7a0.scoped.bak",
+      "bytes": 24576,
+      "sha256": "aa55951333619eb96c6caf0fb8869c3573825cc2f1ffcf9ff00dba6ff0c2d128",
+      "inode": 27950899,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/agent-cli/openclaw",
+      "bytes": 218,
+      "sha256": "9fcc79e03339a3805b9ec730057e619f09fe24a1d6864275a200344e8a8a1433",
+      "inode": 27948652,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/device-identity.881526dd.lock.sqlite",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27943501,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/gateway.9535e654.lock.sqlite",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27942375,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "state/tmp/openclaw-1000/gateway.state.lock.sqlite",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inode": 27942373,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/HEAD",
+      "bytes": 23,
+      "sha256": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10",
+      "inode": 27948697,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/config",
+      "bytes": 92,
+      "sha256": "cfe7ba1238c9a78be7535d7c63bcaf5a4d5011d46b07c9b45d3bbf7d6c312dfe",
+      "inode": 27948694,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/description",
+      "bytes": 73,
+      "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      "inode": 27948692,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/applypatch-msg.sample",
+      "bytes": 478,
+      "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+      "inode": 27948677,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/commit-msg.sample",
+      "bytes": 896,
+      "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+      "inode": 27948688,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/fsmonitor-watchman.sample",
+      "bytes": 4726,
+      "sha256": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+      "inode": 27948684,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/post-update.sample",
+      "bytes": 189,
+      "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+      "inode": 27948687,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/pre-applypatch.sample",
+      "bytes": 424,
+      "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+      "inode": 27948690,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/pre-commit.sample",
+      "bytes": 1649,
+      "sha256": "57185b7b9f05239d7ab52db045f5b89eb31348d7b2177eab214f5eb872e1971b",
+      "inode": 27948680,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/pre-merge-commit.sample",
+      "bytes": 416,
+      "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+      "inode": 27948682,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/pre-push.sample",
+      "bytes": 1374,
+      "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+      "inode": 27948689,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/pre-rebase.sample",
+      "bytes": 4898,
+      "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+      "inode": 27948679,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/pre-receive.sample",
+      "bytes": 544,
+      "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+      "inode": 27948686,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/prepare-commit-msg.sample",
+      "bytes": 1492,
+      "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+      "inode": 27948681,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/push-to-checkout.sample",
+      "bytes": 2783,
+      "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+      "inode": 27948678,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/sendemail-validate.sample",
+      "bytes": 2308,
+      "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+      "inode": 27948685,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/hooks/update.sample",
+      "bytes": 3650,
+      "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+      "inode": 27948683,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/.git/info/exclude",
+      "bytes": 240,
+      "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+      "inode": 27948675,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/AGENTS.md",
+      "bytes": 6306,
+      "sha256": "1e17784e422c0e47e44c5214d0b37092f7b378bb2d3746976032be3075203c88",
+      "inode": 27948656,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/BOOTSTRAP.md",
+      "bytes": 7826,
+      "sha256": "c6eb0f06a061f3797a56d8e3810f9c47549da5b2c1c5123774a6bb229446624b",
+      "inode": 27948673,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/IDENTITY.md",
+      "bytes": 1401,
+      "sha256": "59b223766c8dd978162044e333a684c72e22af753d1ba3dc3bff4b2d915c54e2",
+      "inode": 27948671,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/SOUL.md",
+      "bytes": 1570,
+      "sha256": "4f9042f259b076e429d0f01ce39340030f47ea5b7f5befe306296c36baf1f60f",
+      "inode": 27948657,
+      "device": 66306,
+      "stableDuringHash": true
+    },
+    {
+      "path": "workspace/USER.md",
+      "bytes": 1137,
+      "sha256": "46e0d8c937df7b104de97a23c58537292672654194879ca9f76b02075e022555",
+      "inode": 27948672,
+      "device": 66306,
+      "stableDuringHash": true
+    }
+  ],
+  "configSha256": "b168e69ded7ea67902bec3785ef43a640405c4f6867565237ffbbff37df742c2",
+  "packageResolutionTarget": "<CURRENT_GATEWAY_PACKAGE>"
+}
