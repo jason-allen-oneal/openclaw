@@ -1,8 +1,17 @@
-# Android retained-state catalog repair — supplemental evidence
+# Android catalog refresh and warning recovery — evidence
 
 Android candidate: `7a5e0bda258ac938456e42cfcb6b4f2b2fa23a30`, following `ef99274a2dd58ed20164a67d072d05c328a1cfc7`.
 
-**Source-bound repair and retained-state native sequence completed.** Both 140-second native captures passed on the exact candidate APKs. Interrupted attempts remain unknown or failed as recorded, not retroactively passed. This supplement does not republish or replace the [immutable earlier evidence](https://github.com/jason-allen-oneal/openclaw/blob/371b0c87f87b7a58687ab7bc5988d0cbf609e17e/README.md), whose `ef99274` findings and limits remain attached to that older candidate.
+**Source-bound repair and retained-state native sequence completed.** Both 140-second native captures passed on the exact candidate APKs. Interrupted attempts remain unknown or failed as recorded, not retroactively passed. This documentation revision scopes the evidence to the Android catalog defects below. Raw observations, failed attempts, audits, source provenance and their hashes are unchanged. Earlier-candidate results are not attributed to this head. The [earlier candidate evidence](https://github.com/jason-allen-oneal/openclaw/blob/371b0c87f87b7a58687ab7bc5988d0cbf609e17e/README.md) remains available as historical provenance, not additional acceptance criteria for this Android change.
+
+## Acceptance scope
+
+This PR repairs two Android catalog-consumer defects:
+
+- Repeated metadata/health observations can supersede successful same-scope reads before their results reach the UI, leaving model choices empty.
+- Provider-status settlement can leave a refresh warning visible after catalog recovery.
+
+The evidence checks retained model choices, fixed-window legacy-hint progress, warning recovery, and continued immediate invalidation for genuine catalog/authentication/configuration/agent/session/manual changes. Owner regressions isolate the notification and status-only mechanisms; completed native captures check the real app/transport behavior and retained-state compatibility described below. No Gateway implementation change or server-side performance repair is included.
 
 ## Verified work
 
@@ -25,7 +34,7 @@ The [continuation UI driver](prior-attempts/interrupted-continuation/ui-turn-leg
 
 ## Completed exact-candidate native sequence
 
-The [independent native audit](audits/retained-final-audit.md), [migration/continuity audit](audits/retained-migration-audit.md), and terminal records distinguish observation from causation.
+The [independent native audit](audits/retained-final-audit.md), [migration/continuity audit](audits/retained-migration-audit.md), and terminal records distinguish observation from causation. Historical audits retain their original investigation scope and conclusions unchanged; the acceptance scope of this PR is the Android catalog behavior stated above.
 
 | Stage | Actual result | Evidence / boundary |
 | --- | --- | --- |
@@ -43,9 +52,9 @@ All screenshots listed here were visually inspected by the root reviewer and con
 
 ## Scope and limitations
 
-The Android change bounds legacy unflagged metadata-hint follow-ups and keeps same-scope work valid across the three existing catalog owners. It also gives the general catalog pending/failure status catch-up. Existing current-Gateway producer repairs remain upstream dependencies, not changes introduced by this Android patch. The new Android compatibility path prevents unflagged hints from invalidating active same-scope reads and bounds their follow-ups to immediate-first fixed 30-second windows. Real semantic and manual invalidations remain immediate. The retained upgrade verifies the path to the current producer repair; this Android patch does not backport that server repair to 2026.9.6.
+The Android change bounds legacy unflagged metadata-hint follow-ups and keeps same-scope work valid across the three existing catalog owners. It also gives the general catalog pending/failure status catch-up. Existing current-Gateway producer repairs are fixture/dependency context, not changes or acceptance targets of this Android patch. The new Android compatibility path prevents unflagged hints from invalidating active same-scope reads and bounds their follow-ups to immediate-first fixed 30-second windows. Real semantic and manual invalidations remain immediate. The retained upgrade verifies Android catalog and conversation continuity across the supported Gateway transition; it does not attribute upstream server repairs to this Android patch or backport them to 2026.9.6.
 
-All providers/models are synthetic fixture data. Real Gateway lifecycle checks use a **deterministic loopback inference server**, not an external model service. This work does not reproduce the reporter's exact private configuration, approximately 2 Hz cadence, or exact **3.2 GiB admission-closure condition**, and does not prove every incident symptom cured. Native and host clocks are not calibrated; no precise subsecond UI latency is asserted.
+All providers/models are synthetic fixture data. Real Gateway lifecycle checks use a **deterministic loopback inference server**, not an external model service. The completed native captures do not demonstrate sustained 2 Hz metadata traffic; the fixed-window owner regressions provide the causal sustained-hint check. These fixtures do not establish production-scale Gateway memory or database reliability. Native and host clocks are not calibrated; no precise subsecond UI latency is asserted.
 
 ## Provenance and verification
 
