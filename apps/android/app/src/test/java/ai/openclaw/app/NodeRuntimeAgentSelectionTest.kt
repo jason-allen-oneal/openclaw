@@ -122,6 +122,59 @@ class NodeRuntimeAgentSelectionTest {
     }
 
   @Test
+  fun catalogStatusRecoveryClearsProviderWarningWithoutChangingRows() =
+    runBlocking {
+      val runtime = createConnectedRuntime()
+      val originalScope = ReflectionHelpers.getField<CoroutineScope>(runtime, "scope")
+      var failTransport = false
+      var catalogReads = 0
+      try {
+        ReflectionHelpers.setField(runtime, "scope", CoroutineScope(originalScope.coroutineContext + Dispatchers.Unconfined))
+        runtime.gatewayDataRequestOverrideForTests = { _, method, _ ->
+          when (method) {
+            "models.list" -> {
+              catalogReads += 1
+              if (failTransport) error("catalog transport timed out")
+              """{"models":[{"id":"unchanged","name":"Unchanged","provider":"fixture"}]}"""
+            }
+
+            "models.authStatus" -> {
+              """{"providers":[]}"""
+            }
+
+            else -> {
+              error("Unexpected status-recovery request: $method")
+            }
+          }
+        }
+        runtime.refreshProviderModels()
+        assertEquals(listOf("unchanged"), runtime.providerModelCatalog.value.map { it.id })
+        assertEquals(1, catalogReads)
+        failTransport = true
+        runtime.refreshProviderModels(refresh = true)
+        assertFalse("The failed discovery read must remain visible", runtime.providerModelCatalogErrorText.value.isNullOrBlank())
+        assertEquals(2, catalogReads)
+
+        // The server's unchanged discovery can finish after the app-side read failed.
+        failTransport = false
+        ReflectionHelpers.callInstanceMethod<Unit>(
+          runtime,
+          "handleGatewayEvent",
+          ReflectionHelpers.ClassParameter.from(String::class.java, "chat.metadata.changed"),
+          ReflectionHelpers.ClassParameter.from(String::class.java, """{"modelCatalogChanged":false,"modelCatalogStatusChanged":true,"authChanged":false,"commandsChanged":false}"""),
+        )
+
+        assertEquals("Successful status recovery must clear the retained provider warning", null, runtime.providerModelCatalogErrorText.value)
+        assertEquals(listOf("unchanged"), runtime.providerModelCatalog.value.map { it.id })
+        assertEquals("Status recovery needs only its provider-config read", 3, catalogReads)
+        assertFalse(runtime.providerModelCatalogRefreshing.value)
+      } finally {
+        ReflectionHelpers.setField(runtime, "scope", originalScope)
+        closeNodeRuntimeTestFixture(runtime)
+      }
+    }
+
+  @Test
   fun failedRefreshCannotRestoreRowsWithRejectedAuth() =
     runBlocking {
       val runtime = createConnectedRuntime()

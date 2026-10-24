@@ -1171,6 +1171,15 @@ class NodeRuntime internal constructor(
   private val _providerModelCatalogErrorText = MutableStateFlow<NativeText?>(null)
   val providerModelCatalogErrorText: StateFlow<String?> = _providerModelCatalogErrorText.resolveOptionalNativeText()
   private val providerModelCatalogRefreshGuard = LatestGatewayRefreshGuard()
+
+  private class ProviderCatalogRefresh(
+    val generation: Long,
+  ) {
+    var statusRequested = false
+  }
+
+  private var providerModelCatalogRefresh: ProviderCatalogRefresh? = null
+  private var providerModelCatalogNeedsStatusRefresh = true
   private val _modelAuthProviders = MutableStateFlow<List<GatewayModelProviderSummary>>(emptyList())
   val modelAuthProviders: StateFlow<List<GatewayModelProviderSummary>> = _modelAuthProviders.asStateFlow()
   private val _talkSetupReadiness = MutableStateFlow(GatewayTalkSetupReadiness.unverified())
@@ -1709,6 +1718,8 @@ class NodeRuntime internal constructor(
     modelCatalogRefreshGuard.invalidate()
     _modelCatalog.value = emptyList()
     providerModelCatalogRefreshGuard.invalidate()
+    providerModelCatalogRefresh = null
+    providerModelCatalogNeedsStatusRefresh = true
     _providerModelCatalog.value = emptyList()
     _providerModelCatalogRefreshing.value = false
     _providerModelCatalogErrorText.value = null
@@ -2306,6 +2317,8 @@ class NodeRuntime internal constructor(
       // Retire reads before publishing an agent change, including a switch back to the same agent.
       modelCatalogRefreshGuard.invalidate()
       providerModelCatalogRefreshGuard.invalidate()
+      providerModelCatalogRefresh = null
+      providerModelCatalogNeedsStatusRefresh = true
       _modelCatalog.value = emptyList()
       _providerModelCatalog.value = emptyList()
       _modelAuthProviders.value = emptyList()
@@ -5343,6 +5356,8 @@ class NodeRuntime internal constructor(
       ) {
         refreshModelCatalog()
         refreshProviderModels()
+      } else if (affectsSelectedAgent && change.boolean("modelCatalogStatusChanged")) {
+        launchGatewayRefresh { refreshProviderModelsFromGateway(statusOnly = true) }
       }
     }
     if (event == "config.changed" || event == GatewayEvent.UsersPrefsChanged.rawValue) {
@@ -6444,19 +6459,35 @@ class NodeRuntime internal constructor(
     }
   }
 
-  private suspend fun refreshProviderModelsFromGateway(refresh: Boolean = false) {
-    val refreshGeneration = providerModelCatalogRefreshGuard.begin()
-    val gatewayScope = captureGatewayDataScope() ?: return
-    val agentId = selectedChatAgentId
+  private suspend fun refreshProviderModelsFromGateway(
+    refresh: Boolean = false,
+    statusOnly: Boolean = false,
+  ) {
+    val gatewayScope: GatewayDataScope
+    val agentId: String?
+    val attempt =
+      synchronized(gatewayDataScopeLock) {
+        gatewayScope = captureGatewayDataScope() ?: return
+        agentId = selectedChatAgentId
+        if (statusOnly) {
+          providerModelCatalogRefresh?.let {
+            it.statusRequested = true
+            return
+          }
+          if (!providerModelCatalogNeedsStatusRefresh) return
+        }
+        ProviderCatalogRefresh(providerModelCatalogRefreshGuard.begin()).also { providerModelCatalogRefresh = it }
+      }
+    val refreshGeneration = attempt.generation
     providerModelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
       _providerModelCatalogRefreshing.value = true
-      _providerModelCatalogErrorText.value = null
     }
     if (!operatorConnected) {
       providerModelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
         _providerModelCatalog.value = emptyList()
         _modelAuthProviders.value = emptyList()
         _providerModelCatalogRefreshing.value = false
+        providerModelCatalogRefresh = null
       }
       return
     }
@@ -6467,12 +6498,15 @@ class NodeRuntime internal constructor(
         providerModelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
           // The Gateway owns compatible inventory; an empty result can revoke old choices.
           _providerModelCatalog.value = catalog.models
-          if (catalog.refreshFailed) {
-            _providerModelCatalogErrorText.value = nativeText("Some models could not be refreshed. Tap Refresh to retry.")
-          }
+          providerModelCatalogNeedsStatusRefresh = catalog.refreshFailed || catalog.hasPendingProviders
+          _providerModelCatalogErrorText.value =
+            if (catalog.refreshFailed) nativeText("Some models could not be refreshed. Tap Refresh to retry.") else null
         }
+      } catch (err: CancellationException) {
+        throw err
       } catch (err: Throwable) {
         providerModelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
+          providerModelCatalogNeedsStatusRefresh = err !is ProviderModelConfigUnsupported
           _providerModelCatalogErrorText.value =
             if (err is ProviderModelConfigUnsupported) {
               nativeText("Update your Gateway to view provider model config.")
@@ -6502,6 +6536,10 @@ class NodeRuntime internal constructor(
     } finally {
       providerModelCatalogRefreshGuard.publishGatewayRefresh(gatewayScope, refreshGeneration) {
         _providerModelCatalogRefreshing.value = false
+        providerModelCatalogRefresh = null
+        if (attempt.statusRequested && providerModelCatalogNeedsStatusRefresh) {
+          launchGatewayRefresh { refreshProviderModelsFromGateway(statusOnly = true) }
+        }
       }
     }
   }
