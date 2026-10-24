@@ -1,0 +1,304 @@
+{
+  "startedAtMs": 1792852728802,
+  "sourceSha256": "8e5501c51d6c8dfcd18cdf2e53ec4da553dd6a02ea48fb14dd6fbb255475360c",
+  "model": "fixture/model-0",
+  "agentIds": [
+    "main",
+    "agent01"
+  ],
+  "seconds": 90,
+  "syntheticInference": true,
+  "android": false,
+  "injectedEvents": false,
+  "requests": [
+    {
+      "id": "1",
+      "method": "models.list",
+      "params": {
+        "agentId": "main",
+        "view": "configured",
+        "includeDetails": true
+      },
+      "startedAtMs": 1792852728842,
+      "finishedAtMs": 1792852734133,
+      "ok": true,
+      "modelCount": 732
+    },
+    {
+      "id": "2",
+      "method": "sessions.create",
+      "params": {
+        "agentId": "main",
+        "key": "agent:main:admission-805777f6-d0ba-4e5b-b876-66c775adc5e7",
+        "model": "fixture/model-0"
+      },
+      "startedAtMs": 1792852734135,
+      "finishedAtMs": 1792852739371,
+      "ok": true
+    },
+    {
+      "id": "3",
+      "method": "sessions.create",
+      "params": {
+        "agentId": "agent01",
+        "key": "agent:agent01:admission-63007941-3270-4f60-a0f9-708c34dbf1ce",
+        "model": "fixture/model-0"
+      },
+      "startedAtMs": 1792852739371,
+      "finishedAtMs": 1792852741367,
+      "ok": true
+    },
+    {
+      "id": "4",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:main:admission-805777f6-d0ba-4e5b-b876-66c775adc5e7",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "731cac83-0966-4780-853a-fd9b2acbc387"
+      },
+      "startedAtMs": 1792852741369,
+      "finishedAtMs": 1792852741431,
+      "ok": false,
+      "error": {
+        "code": "UNAVAILABLE",
+        "message": "chat.send unavailable during gateway startup",
+        "retryable": true,
+        "retryAfterMs": 500,
+        "details": {
+          "reason": "startup-sidecars",
+          "method": "chat.send"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent01:admission-63007941-3270-4f60-a0f9-708c34dbf1ce",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "a34fcf5e-33e2-4ca4-acfd-8d7d4b010e8b"
+      },
+      "startedAtMs": 1792852741370,
+      "finishedAtMs": 1792852741434,
+      "ok": false,
+      "error": {
+        "code": "UNAVAILABLE",
+        "message": "chat.send unavailable during gateway startup",
+        "retryable": true,
+        "retryAfterMs": 500,
+        "details": {
+          "reason": "startup-sidecars",
+          "method": "chat.send"
+        }
+      }
+    },
+    {
+      "id": "6",
+      "method": "models.list",
+      "params": {
+        "agentId": "main",
+        "view": "configured",
+        "includeDetails": true
+      },
+      "startedAtMs": 1792852788844,
+      "finishedAtMs": 1792852793588,
+      "ok": true,
+      "modelCount": 732
+    },
+    {
+      "id": "7",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:main:admission-805777f6-d0ba-4e5b-b876-66c775adc5e7",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "fb758129-4703-4475-b9fb-2754a8c6f9e0"
+      },
+      "startedAtMs": 1792852793590,
+      "finishedAtMs": 1792852794514,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "8",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent01:admission-63007941-3270-4f60-a0f9-708c34dbf1ce",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "fff3ac8c-10b4-4f51-bce8-7455b345ebf9"
+      },
+      "startedAtMs": 1792852793590,
+      "finishedAtMs": 1792852794453,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "9",
+      "method": "agent.wait",
+      "params": {
+        "runId": "fff3ac8c-10b4-4f51-bce8-7455b345ebf9",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792852794454,
+      "finishedAtMs": 1792852798759,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "10",
+      "method": "agent.wait",
+      "params": {
+        "runId": "fb758129-4703-4475-b9fb-2754a8c6f9e0",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792852794515,
+      "finishedAtMs": 1792852799008,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "11",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:agent01:admission-63007941-3270-4f60-a0f9-708c34dbf1ce"
+      },
+      "startedAtMs": 1792852798760,
+      "finishedAtMs": 1792852798920,
+      "ok": true
+    },
+    {
+      "id": "12",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:admission-805777f6-d0ba-4e5b-b876-66c775adc5e7"
+      },
+      "startedAtMs": 1792852799008,
+      "finishedAtMs": 1792852799045,
+      "ok": true
+    }
+  ],
+  "events": {
+    "connect.challenge": 1,
+    "skills.changed": 1,
+    "chat.metadata.changed": 66,
+    "health": 1,
+    "sessions.changed": 1,
+    "update.available": 1,
+    "tick": 2,
+    "chat": 12,
+    "agent": 20
+  },
+  "turns": [
+    {
+      "phase": "initial",
+      "agentId": "main",
+      "key": "agent:main:admission-805777f6-d0ba-4e5b-b876-66c775adc5e7",
+      "startedAtMs": 1792852741369,
+      "idempotencyKey": "731cac83-0966-4780-853a-fd9b2acbc387",
+      "error": "chat.send unavailable during gateway startup",
+      "finishedAtMs": 1792852741431
+    },
+    {
+      "phase": "initial",
+      "agentId": "agent01",
+      "key": "agent:agent01:admission-63007941-3270-4f60-a0f9-708c34dbf1ce",
+      "startedAtMs": 1792852741370,
+      "idempotencyKey": "a34fcf5e-33e2-4ca4-acfd-8d7d4b010e8b",
+      "error": "chat.send unavailable during gateway startup",
+      "finishedAtMs": 1792852741434
+    },
+    {
+      "phase": "retained-after-discovery-deadline",
+      "agentId": "main",
+      "key": "agent:main:admission-805777f6-d0ba-4e5b-b876-66c775adc5e7",
+      "startedAtMs": 1792852793589,
+      "idempotencyKey": "fb758129-4703-4475-b9fb-2754a8c6f9e0",
+      "runId": "fb758129-4703-4475-b9fb-2754a8c6f9e0",
+      "sendStatus": "started",
+      "final": {
+        "runId": "fb758129-4703-4475-b9fb-2754a8c6f9e0",
+        "status": "ok",
+        "startedAt": 1792852798730,
+        "endedAt": 1792852798948,
+        "terminalReceipt": {
+          "runId": "fb758129-4703-4475-b9fb-2754a8c6f9e0",
+          "sessionId": "3a9c8dab-b57d-4864-a3ab-9b61e7b64fff",
+          "turnId": "fb758129-4703-4475-b9fb-2754a8c6f9e0",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "sourceReplyDelivered": true,
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792852799046
+    },
+    {
+      "phase": "retained-after-discovery-deadline",
+      "agentId": "agent01",
+      "key": "agent:agent01:admission-63007941-3270-4f60-a0f9-708c34dbf1ce",
+      "startedAtMs": 1792852793590,
+      "idempotencyKey": "fff3ac8c-10b4-4f51-bce8-7455b345ebf9",
+      "runId": "fff3ac8c-10b4-4f51-bce8-7455b345ebf9",
+      "sendStatus": "started",
+      "final": {
+        "runId": "fff3ac8c-10b4-4f51-bce8-7455b345ebf9",
+        "status": "ok",
+        "startedAt": 1792852797963,
+        "endedAt": 1792852798523,
+        "terminalReceipt": {
+          "runId": "fff3ac8c-10b4-4f51-bce8-7455b345ebf9",
+          "sessionId": "7e967003-a1ae-41d5-b298-12e994e25f5c",
+          "turnId": "fff3ac8c-10b4-4f51-bce8-7455b345ebf9",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "sourceReplyDelivered": true,
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792852798920
+    }
+  ],
+  "connectedAtMs": 1792852728842,
+  "firstCatalog": {
+    "count": 732
+  },
+  "laterCatalog": {
+    "count": 732
+  },
+  "status": "observed",
+  "finishedAtMs": 1792852818843,
+  "pendingMethods": []
+}

@@ -1,0 +1,393 @@
+{
+  "startedAtMs": 1792851371082,
+  "sourceSha256": "8e5501c51d6c8dfcd18cdf2e53ec4da553dd6a02ea48fb14dd6fbb255475360c",
+  "model": "fixture/model-0",
+  "agentIds": [
+    "main",
+    "agent01"
+  ],
+  "seconds": 90,
+  "syntheticInference": true,
+  "android": false,
+  "injectedEvents": false,
+  "requests": [
+    {
+      "id": "1",
+      "method": "models.list",
+      "params": {
+        "agentId": "main",
+        "view": "configured",
+        "includeDetails": true
+      },
+      "startedAtMs": 1792851371202,
+      "finishedAtMs": 1792851372374,
+      "ok": true,
+      "modelCount": 732
+    },
+    {
+      "id": "2",
+      "method": "sessions.create",
+      "params": {
+        "agentId": "main",
+        "key": "agent:main:admission-2aab13dd-c363-40f7-a97f-ff23ff669581",
+        "model": "fixture/model-0"
+      },
+      "startedAtMs": 1792851372376,
+      "finishedAtMs": 1792851372687,
+      "ok": true
+    },
+    {
+      "id": "3",
+      "method": "sessions.create",
+      "params": {
+        "agentId": "agent01",
+        "key": "agent:agent01:admission-8e92918b-6d76-4c4c-86b9-b68602eeb767",
+        "model": "fixture/model-0"
+      },
+      "startedAtMs": 1792851372689,
+      "finishedAtMs": 1792851372924,
+      "ok": true
+    },
+    {
+      "id": "4",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:main:admission-2aab13dd-c363-40f7-a97f-ff23ff669581",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "9be2588f-ccb4-4ca5-a1dd-0793400cc99e"
+      },
+      "startedAtMs": 1792851372925,
+      "finishedAtMs": 1792851373013,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "5",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent01:admission-8e92918b-6d76-4c4c-86b9-b68602eeb767",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "233be418-0e03-494e-9edd-b208e869efbd"
+      },
+      "startedAtMs": 1792851372926,
+      "finishedAtMs": 1792851373019,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "6",
+      "method": "agent.wait",
+      "params": {
+        "runId": "9be2588f-ccb4-4ca5-a1dd-0793400cc99e",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792851373013,
+      "finishedAtMs": 1792851377110,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "7",
+      "method": "agent.wait",
+      "params": {
+        "runId": "233be418-0e03-494e-9edd-b208e869efbd",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792851373020,
+      "finishedAtMs": 1792851378925,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "8",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:admission-2aab13dd-c363-40f7-a97f-ff23ff669581"
+      },
+      "startedAtMs": 1792851377110,
+      "finishedAtMs": 1792851377336,
+      "ok": true
+    },
+    {
+      "id": "9",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:agent01:admission-8e92918b-6d76-4c4c-86b9-b68602eeb767"
+      },
+      "startedAtMs": 1792851378925,
+      "finishedAtMs": 1792851378962,
+      "ok": true
+    },
+    {
+      "id": "10",
+      "method": "models.list",
+      "params": {
+        "agentId": "main",
+        "view": "configured",
+        "includeDetails": true
+      },
+      "startedAtMs": 1792851431204,
+      "finishedAtMs": 1792851432180,
+      "ok": true,
+      "modelCount": 732,
+      "refreshFailed": true
+    },
+    {
+      "id": "11",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:main:admission-2aab13dd-c363-40f7-a97f-ff23ff669581",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "105236ca-e4f4-45b0-b9ac-61fec8546fbd"
+      },
+      "startedAtMs": 1792851432181,
+      "finishedAtMs": 1792851432215,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "12",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent01:admission-8e92918b-6d76-4c4c-86b9-b68602eeb767",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "aab12ced-6ec2-4206-b826-77bbb744715d"
+      },
+      "startedAtMs": 1792851432182,
+      "finishedAtMs": 1792851432218,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "13",
+      "method": "agent.wait",
+      "params": {
+        "runId": "105236ca-e4f4-45b0-b9ac-61fec8546fbd",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792851432216,
+      "finishedAtMs": 1792851434553,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "14",
+      "method": "agent.wait",
+      "params": {
+        "runId": "aab12ced-6ec2-4206-b826-77bbb744715d",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792851432218,
+      "finishedAtMs": 1792851435223,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "15",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:main:admission-2aab13dd-c363-40f7-a97f-ff23ff669581"
+      },
+      "startedAtMs": 1792851434553,
+      "finishedAtMs": 1792851434660,
+      "ok": true
+    },
+    {
+      "id": "16",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:agent01:admission-8e92918b-6d76-4c4c-86b9-b68602eeb767"
+      },
+      "startedAtMs": 1792851435223,
+      "finishedAtMs": 1792851435259,
+      "ok": true
+    }
+  ],
+  "events": {
+    "connect.challenge": 1,
+    "health": 2,
+    "cron": 9,
+    "sessions.changed": 1,
+    "update.available": 4,
+    "chat.metadata.changed": 62,
+    "chat": 20,
+    "agent": 40,
+    "tick": 3,
+    "skills.changed": 1
+  },
+  "turns": [
+    {
+      "phase": "initial",
+      "agentId": "main",
+      "key": "agent:main:admission-2aab13dd-c363-40f7-a97f-ff23ff669581",
+      "startedAtMs": 1792851372925,
+      "idempotencyKey": "9be2588f-ccb4-4ca5-a1dd-0793400cc99e",
+      "runId": "9be2588f-ccb4-4ca5-a1dd-0793400cc99e",
+      "sendStatus": "started",
+      "final": {
+        "runId": "9be2588f-ccb4-4ca5-a1dd-0793400cc99e",
+        "status": "ok",
+        "endedAt": 1792851377109,
+        "terminalReceipt": {
+          "runId": "9be2588f-ccb4-4ca5-a1dd-0793400cc99e",
+          "sessionId": "a1e07d46-9d8c-4e8e-ab56-2f331111de8d",
+          "turnId": "9be2588f-ccb4-4ca5-a1dd-0793400cc99e",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792851377337
+    },
+    {
+      "phase": "initial",
+      "agentId": "agent01",
+      "key": "agent:agent01:admission-8e92918b-6d76-4c4c-86b9-b68602eeb767",
+      "startedAtMs": 1792851372926,
+      "idempotencyKey": "233be418-0e03-494e-9edd-b208e869efbd",
+      "runId": "233be418-0e03-494e-9edd-b208e869efbd",
+      "sendStatus": "started",
+      "final": {
+        "runId": "233be418-0e03-494e-9edd-b208e869efbd",
+        "status": "ok",
+        "endedAt": 1792851378925,
+        "terminalReceipt": {
+          "runId": "233be418-0e03-494e-9edd-b208e869efbd",
+          "sessionId": "b79f2a59-f237-4cda-a6c6-fe002af40907",
+          "turnId": "233be418-0e03-494e-9edd-b208e869efbd",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792851378962
+    },
+    {
+      "phase": "retained-after-discovery-deadline",
+      "agentId": "main",
+      "key": "agent:main:admission-2aab13dd-c363-40f7-a97f-ff23ff669581",
+      "startedAtMs": 1792851432180,
+      "idempotencyKey": "105236ca-e4f4-45b0-b9ac-61fec8546fbd",
+      "runId": "105236ca-e4f4-45b0-b9ac-61fec8546fbd",
+      "sendStatus": "started",
+      "final": {
+        "runId": "105236ca-e4f4-45b0-b9ac-61fec8546fbd",
+        "status": "ok",
+        "endedAt": 1792851434553,
+        "terminalReceipt": {
+          "runId": "105236ca-e4f4-45b0-b9ac-61fec8546fbd",
+          "sessionId": "a1e07d46-9d8c-4e8e-ab56-2f331111de8d",
+          "turnId": "105236ca-e4f4-45b0-b9ac-61fec8546fbd",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK",
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792851434660
+    },
+    {
+      "phase": "retained-after-discovery-deadline",
+      "agentId": "agent01",
+      "key": "agent:agent01:admission-8e92918b-6d76-4c4c-86b9-b68602eeb767",
+      "startedAtMs": 1792851432182,
+      "idempotencyKey": "aab12ced-6ec2-4206-b826-77bbb744715d",
+      "runId": "aab12ced-6ec2-4206-b826-77bbb744715d",
+      "sendStatus": "started",
+      "final": {
+        "runId": "aab12ced-6ec2-4206-b826-77bbb744715d",
+        "status": "ok",
+        "endedAt": 1792851435223,
+        "terminalReceipt": {
+          "runId": "aab12ced-6ec2-4206-b826-77bbb744715d",
+          "sessionId": "b79f2a59-f237-4cda-a6c6-fe002af40907",
+          "turnId": "aab12ced-6ec2-4206-b826-77bbb744715d",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK",
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792851435259
+    }
+  ],
+  "connectedAtMs": 1792851371202,
+  "firstCatalog": {
+    "count": 732
+  },
+  "laterCatalog": {
+    "count": 732,
+    "refreshFailed": true
+  },
+  "status": "observed",
+  "finishedAtMs": 1792851461203,
+  "pendingMethods": []
+}

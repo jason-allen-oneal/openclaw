@@ -1,0 +1,167 @@
+{
+  "status": "finished",
+  "syntheticProvider": true,
+  "realCredentials": false,
+  "paidInference": false,
+  "productModified": false,
+  "directDatabaseManipulation": false,
+  "parameters": {
+    "name": "current30-validated",
+    "run": true,
+    "package": "/fixture-runtime/openclaw-134498-proof/candidate",
+    "node": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "agents": 30,
+    "native_version": "0.162.1",
+    "config_style": "current",
+    "seconds": 240,
+    "model_delay_ms": 4500,
+    "port": 20096,
+    "max_descendants": 96,
+    "codex_mode": "enabled"
+  },
+  "case": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated",
+  "driverHashes": {
+    "codex-fixture.mjs": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+    "inference-server.mjs": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+    "run.py": "e775f1ac4cfc92dfca3fa515262030f96d11a461dc0efc46efdf113dee46cf62"
+  },
+  "configSha256": "d9462082388239db7196e749cd411ba8c53d251959fd9e92913ac8cd5813e43b",
+  "startedAt": 1792852710.2019272,
+  "hardLifetimeSeconds": 275,
+  "inference": {
+    "pid": 1477277,
+    "ppid": 1477197,
+    "state": "R",
+    "startTicks": "233952133",
+    "rssKb": 536,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated --seconds 300 "
+  },
+  "gateway": {
+    "pid": 1477278,
+    "ppid": 1477197,
+    "state": "R",
+    "startTicks": "233952133",
+    "rssKb": 520,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-134498-proof/candidate/openclaw.mjs gateway --port 20096 --bind loopback --allow-unconfigured "
+  },
+  "readyAt": 1792852728.475891,
+  "configPath": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated/config.json",
+  "port": 20096,
+  "stopReason": "stop-request",
+  "readyObserved": true,
+  "descendantsObserved": [
+    {
+      "pid": 1477277,
+      "ppid": 1477197,
+      "state": "S",
+      "startTicks": "233952133",
+      "rssKb": 67968,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated --seconds 300 "
+    },
+    {
+      "pid": 1477278,
+      "ppid": 1477197,
+      "state": "S",
+      "startTicks": "233952133",
+      "rssKb": 2558344,
+      "threads": 37,
+      "command": "openclaw-gateway                                                                                                                                                                                                        "
+    },
+    {
+      "pid": 1477335,
+      "ppid": 1477278,
+      "state": "S",
+      "startTicks": "233952792",
+      "rssKb": 109888,
+      "threads": 11,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-134498-proof/candidate/dist/process/spawn-broker/worker.js "
+    },
+    {
+      "pid": 1477387,
+      "ppid": 1477278,
+      "state": "S",
+      "startTicks": "233952945",
+      "rssKb": 93768,
+      "threads": 11,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-134498-proof/candidate/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1477476,
+      "ppid": 1477278,
+      "state": "S",
+      "startTicks": "233954040",
+      "rssKb": 52000,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" -c thread_unload_delay_secs=0 app-server "
+    },
+    {
+      "pid": 1477568,
+      "ppid": 1477335,
+      "state": "S",
+      "startTicks": "233954705",
+      "rssKb": 88908,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-134498-proof/candidate/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1477577,
+      "ppid": 1477335,
+      "state": "S",
+      "startTicks": "233954709",
+      "rssKb": 4464,
+      "threads": 1,
+      "command": "git -c maintenance.autoDetach=false -c gc.autoDetach=false -C /fixture-runtime/openclaw-134498-proof/candidate fetch --quiet --no-tags --no-prune --no-prune-tags --no-recurse-submodules -- origin refs/heads/fix/issue-134498 "
+    },
+    {
+      "pid": 1477579,
+      "ppid": 1477577,
+      "state": "S",
+      "startTicks": "233954709",
+      "rssKb": 3864,
+      "threads": 1,
+      "command": "/usr/lib/git-core/git remote-https origin https://github.com/jason-allen-oneal/openclaw.git "
+    },
+    {
+      "pid": 1477580,
+      "ppid": 1477579,
+      "state": "S",
+      "startTicks": "233954709",
+      "rssKb": 20248,
+      "threads": 1,
+      "command": "/usr/lib/git-core/git-remote-https origin https://github.com/jason-allen-oneal/openclaw.git "
+    },
+    {
+      "pid": 1477988,
+      "ppid": 1477278,
+      "state": "S",
+      "startTicks": "233960475",
+      "rssKb": 49932,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" -c thread_unload_delay_secs=0 app-server "
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "inference",
+      "pid": 1477277,
+      "exitCode": 0
+    },
+    {
+      "label": "gateway",
+      "pid": 1477278,
+      "exitCode": 0
+    }
+  ],
+  "survivors": [],
+  "ports": {
+    "20096": "free",
+    "20095": "free"
+  },
+  "portFree": true,
+  "finishedAt": 1792852819.8103483,
+  "elapsedSeconds": 109.60844545811415,
+  "firstFailureObserved": true
+}

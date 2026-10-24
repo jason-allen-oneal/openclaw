@@ -1,0 +1,99 @@
+{
+  "status": "failed",
+  "syntheticProvider": true,
+  "realCredentials": false,
+  "paidInference": false,
+  "productModified": false,
+  "directDatabaseManipulation": false,
+  "parameters": {
+    "name": "current30-control",
+    "run": true,
+    "package": "/fixture-runtime/openclaw-134498-proof/candidate",
+    "node": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "agents": 30,
+    "native_version": "0.162.1",
+    "seconds": 240,
+    "model_delay_ms": 4500,
+    "port": 20096,
+    "max_descendants": 96,
+    "codex_mode": "enabled"
+  },
+  "case": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-control",
+  "driverHashes": {
+    "codex-fixture.mjs": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+    "inference-server.mjs": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+    "run.py": "f45d81e908d560e7f69118a3a30965657d45e59e20d41b34cb2e8265277bc5c1"
+  },
+  "configSha256": "ad6252f6ab0a5ce56733daaa46bb879d37e770eeaa54d47ae340207e40d98923",
+  "startedAt": 1792852469.144464,
+  "hardLifetimeSeconds": 275,
+  "inference": {
+    "pid": 1475445,
+    "ppid": 1475444,
+    "state": "R",
+    "startTicks": "233928028",
+    "rssKb": 536,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-control/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-control --seconds 300 "
+  },
+  "gateway": {
+    "pid": 1475446,
+    "ppid": 1475444,
+    "state": "R",
+    "startTicks": "233928028",
+    "rssKb": 528,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-134498-proof/candidate/openclaw.mjs gateway --port 20096 --bind loopback --allow-unconfigured "
+  },
+  "error": "Gateway exited 78",
+  "descendantsObserved": [
+    {
+      "pid": 1475445,
+      "ppid": 1475444,
+      "state": "S",
+      "startTicks": "233928028",
+      "rssKb": 63640,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-control/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-control --seconds 300 "
+    },
+    {
+      "pid": 1475446,
+      "ppid": 1475444,
+      "state": "R",
+      "startTicks": "233928028",
+      "rssKb": 296172,
+      "threads": 11,
+      "command": "openclaw                                                                                                                                                                                                                "
+    },
+    {
+      "pid": 1475477,
+      "ppid": 1475446,
+      "state": "Z",
+      "startTicks": "233928193",
+      "rssKb": 0,
+      "threads": 1,
+      "command": ""
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "inference",
+      "pid": 1475445,
+      "exitCode": 0
+    },
+    {
+      "label": "gateway",
+      "pid": 1475446,
+      "exitCode": 78
+    }
+  ],
+  "survivors": [],
+  "ports": {
+    "20096": "free",
+    "20095": "free"
+  },
+  "portFree": true,
+  "finishedAt": 1792852472.3487818,
+  "elapsedSeconds": 3.204341674223542,
+  "firstFailureObserved": false
+}

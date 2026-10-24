@@ -1,0 +1,265 @@
+{
+  "legacy-fresh": {
+    "runtimeStatus": "finished",
+    "clientStatus": "observed",
+    "cleanup": [
+      {
+        "label": "inference",
+        "pid": 1465630,
+        "exitCode": 0
+      },
+      {
+        "label": "gateway",
+        "pid": 1465631,
+        "exitCode": 0
+      }
+    ],
+    "survivors": [],
+    "ports": {
+      "20096": "free",
+      "20095": "free"
+    },
+    "firstFailureDetectorMatched": false,
+    "clientObservationSeconds": 90.001,
+    "gatewayPeakRssMiBWholeRuntime": 1691.015625,
+    "treePeakRssMiBWholeRuntime": 3332.03125,
+    "gatewayPeakRssMiBClientWindow": 1691.015625,
+    "treePeakRssMiBClientWindow": 3332.03125,
+    "syntheticCodexChildStarts": 30,
+    "syntheticCodexChildExits": 30,
+    "modelListProtocolRequests": 30,
+    "lateModelListReplies": 30,
+    "catalogResponses": [
+      {
+        "atMs": 1792851372373,
+        "ok": true,
+        "rows": 732,
+        "refreshFailed": null
+      },
+      {
+        "atMs": 1792851432178,
+        "ok": true,
+        "rows": 732,
+        "refreshFailed": true
+      }
+    ],
+    "metadataEvents": 62,
+    "overlapTrigger": null,
+    "turns": [
+      {
+        "phase": "initial",
+        "agentId": "main",
+        "startedAtMs": 1792851372925,
+        "finishedAtMs": 1792851377337,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      },
+      {
+        "phase": "initial",
+        "agentId": "agent01",
+        "startedAtMs": 1792851372926,
+        "finishedAtMs": 1792851378962,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      },
+      {
+        "phase": "retained-after-discovery-deadline",
+        "agentId": "main",
+        "startedAtMs": 1792851432180,
+        "finishedAtMs": 1792851434660,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      },
+      {
+        "phase": "retained-after-discovery-deadline",
+        "agentId": "agent01",
+        "startedAtMs": 1792851432182,
+        "finishedAtMs": 1792851435259,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      }
+    ]
+  },
+  "legacy-retained": {
+    "runtimeStatus": "finished",
+    "clientStatus": "observed",
+    "cleanup": [
+      {
+        "label": "inference",
+        "pid": 1472653,
+        "exitCode": 0
+      },
+      {
+        "label": "gateway",
+        "pid": 1472654,
+        "exitCode": 0
+      }
+    ],
+    "survivors": [],
+    "ports": {
+      "20096": "free",
+      "20095": "free"
+    },
+    "firstFailureDetectorMatched": false,
+    "clientObservationSeconds": 150.001,
+    "gatewayPeakRssMiBWholeRuntime": 1639.38671875,
+    "treePeakRssMiBWholeRuntime": 3305.3984375,
+    "gatewayPeakRssMiBClientWindow": 1639.38671875,
+    "treePeakRssMiBClientWindow": 3305.3984375,
+    "syntheticCodexChildStarts": 30,
+    "syntheticCodexChildExits": 30,
+    "modelListProtocolRequests": 30,
+    "lateModelListReplies": 30,
+    "catalogResponses": [
+      {
+        "atMs": 1792852239384,
+        "ok": true,
+        "rows": 732,
+        "refreshFailed": null
+      },
+      {
+        "atMs": 1792852299229,
+        "ok": true,
+        "rows": 732,
+        "refreshFailed": true
+      }
+    ],
+    "metadataEvents": 62,
+    "overlapTrigger": {
+      "atMs": 1792852273702,
+      "required": 15,
+      "observed": 15,
+      "retainedKeys": [
+        "agent:agent15:retained-admission-seed",
+        "agent:agent16:retained-admission-seed"
+      ]
+    },
+    "turns": [
+      {
+        "phase": "initial",
+        "agentId": "agent15",
+        "startedAtMs": 1792852273702,
+        "finishedAtMs": 1792852278924,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      },
+      {
+        "phase": "initial",
+        "agentId": "agent16",
+        "startedAtMs": 1792852273735,
+        "finishedAtMs": 1792852279151,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      },
+      {
+        "phase": "retained-after-discovery-deadline",
+        "agentId": "agent15",
+        "startedAtMs": 1792852299231,
+        "finishedAtMs": 1792852300229,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      },
+      {
+        "phase": "retained-after-discovery-deadline",
+        "agentId": "agent16",
+        "startedAtMs": 1792852299232,
+        "finishedAtMs": 1792852302233,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      }
+    ]
+  },
+  "current-fresh": {
+    "runtimeStatus": "finished",
+    "clientStatus": "observed",
+    "cleanup": [
+      {
+        "label": "inference",
+        "pid": 1477277,
+        "exitCode": 0
+      },
+      {
+        "label": "gateway",
+        "pid": 1477278,
+        "exitCode": 0
+      }
+    ],
+    "survivors": [],
+    "ports": {
+      "20096": "free",
+      "20095": "free"
+    },
+    "firstFailureDetectorMatched": true,
+    "clientObservationSeconds": 90.001,
+    "gatewayPeakRssMiBWholeRuntime": 2604.6328125,
+    "treePeakRssMiBWholeRuntime": 2866.7265625,
+    "gatewayPeakRssMiBClientWindow": 2604.6328125,
+    "treePeakRssMiBClientWindow": 2866.7265625,
+    "syntheticCodexChildStarts": 2,
+    "syntheticCodexChildExits": 2,
+    "modelListProtocolRequests": 2,
+    "lateModelListReplies": 0,
+    "catalogResponses": [
+      {
+        "atMs": 1792852734131,
+        "ok": true,
+        "rows": 732,
+        "refreshFailed": null
+      },
+      {
+        "atMs": 1792852793586,
+        "ok": true,
+        "rows": 732,
+        "refreshFailed": null
+      }
+    ],
+    "metadataEvents": 66,
+    "overlapTrigger": null,
+    "turns": [
+      {
+        "phase": "initial",
+        "agentId": "main",
+        "startedAtMs": 1792852741369,
+        "finishedAtMs": 1792852741431,
+        "status": null,
+        "error": "chat.send unavailable during gateway startup",
+        "persistedFixtureReply": false
+      },
+      {
+        "phase": "initial",
+        "agentId": "agent01",
+        "startedAtMs": 1792852741370,
+        "finishedAtMs": 1792852741434,
+        "status": null,
+        "error": "chat.send unavailable during gateway startup",
+        "persistedFixtureReply": false
+      },
+      {
+        "phase": "retained-after-discovery-deadline",
+        "agentId": "main",
+        "startedAtMs": 1792852793589,
+        "finishedAtMs": 1792852799046,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      },
+      {
+        "phase": "retained-after-discovery-deadline",
+        "agentId": "agent01",
+        "startedAtMs": 1792852793590,
+        "finishedAtMs": 1792852798920,
+        "status": "ok",
+        "error": null,
+        "persistedFixtureReply": true
+      }
+    ]
+  }
+}

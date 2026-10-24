@@ -1,0 +1,73 @@
+2026-10-24T10:29:43.436-04:00 [gateway] loading configuration…
+2026-10-24T10:29:43.820-04:00 [gateway] resolving authentication…
+2026-10-24T10:29:43.823-04:00 [gateway] starting...
+2026-10-24T10:29:44.196-04:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=Gateway stop policy=330000ms
+2026-10-24T10:29:44.393-04:00 [gateway] spawn broker ready pid=1472841
+2026-10-24T10:29:50.231-04:00 [gateway] starting HTTP server...
+2026-10-24T10:29:59.911-04:00 [gateway] agent model: fixture/model-0 (thinking=off, fast=off)
+2026-10-24T10:29:59.911-04:00 [gateway] http server listening (2 plugins: codex, memory-core; 15.7s)
+2026-10-24T10:29:59.912-04:00 [gateway] log file: /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/gateway-private.log
+2026-10-24T10:29:59.974-04:00 [gateway] starting channels and sidecars...
+2026-10-24T10:30:06.883-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.884-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.885-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.886-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.886-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.887-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.887-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.888-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.889-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.890-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.891-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.892-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.893-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.893-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.894-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.895-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.895-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.896-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.896-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.897-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.897-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.897-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.898-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.899-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.899-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.900-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.900-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.901-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.902-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:06.902-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:30:36.876-04:00 [gateway/channels] skipping channel start (OPENCLAW_SKIP_CHANNELS=1 or OPENCLAW_SKIP_PROVIDERS=1)
+2026-10-24T10:30:36.985-04:00 [gateway] startup outcomes: internal-hooks=skipped (not-configured); internal-startup-hook=skipped (no-handlers-loaded); gateway-start-hooks=scheduled; gmail-watcher=skipped (hooks-disabled); gmail-model=skipped (not-configured)
+2026-10-24T10:30:36.987-04:00 [heartbeat] scheduled heartbeats are disabled because the cron scheduler is disabled; enable cron and restart the gateway
+2026-10-24T10:30:36.988-04:00 [skill-workshop] scheduled skill collection reviews are disabled because the cron scheduler is disabled; enable cron and restart the gateway
+2026-10-24T10:30:36.990-04:00 [heartbeat] started
+2026-10-24T10:30:37.001-04:00 [gateway] ready
+2026-10-24T10:30:39.385-04:00 [ws] ⇄ res ✓ models.list 1058ms conn=d59cc8c8…2700 id=1
+2026-10-24T10:31:13.928-04:00 [ws] ⇄ res ✓ chat.send 189ms runId=bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e conn=d59cc8c8…2700 id=2
+2026-10-24T10:31:14.085-04:00 [ws] ⇄ res ✓ chat.send 128ms runId=e1f49991-9a0b-45e7-89b1-0a3467fe367a conn=d59cc8c8…2700 id=3
+2026-10-24T10:31:14.408-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:31:14.922-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:31:15.708-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:31:16.325-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:31:16.337-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=e1f49991-9a0b-45e7-89b1-0a3467fe367a session=sha256:897cfb0ee212
+2026-10-24T10:31:17.352-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e session=sha256:ca26c14b0f8b
+2026-10-24T10:31:18.672-04:00 [ws] ⇄ res ✓ agent.wait 4715ms conn=d59cc8c8…2700 id=4
+2026-10-24T10:31:18.697-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:31:18.924-04:00 [ws] ⇄ res ✓ chat.history 227ms conn=d59cc8c8…2700 id=6
+2026-10-24T10:31:19.122-04:00 [ws] ⇄ res ✓ agent.wait 5031ms conn=d59cc8c8…2700 id=5
+2026-10-24T10:31:19.295-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:31:39.229-04:00 [ws] ⇄ res ✓ models.list 904ms conn=d59cc8c8…2700 id=8
+2026-10-24T10:31:39.769-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=50deb7b0-9826-4bfc-9300-c7eab0d17aa9 session=sha256:ca26c14b0f8b
+2026-10-24T10:31:40.181-04:00 [ws] ⇄ res ✓ agent.wait 907ms conn=d59cc8c8…2700 id=11
+2026-10-24T10:31:41.099-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=b99c06c3-8562-4787-b5bd-33be7eab40e0 session=sha256:897cfb0ee212
+2026-10-24T10:31:41.141-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:31:42.206-04:00 [ws] ⇄ res ✓ agent.wait 2932ms conn=d59cc8c8…2700 id=12
+2026-10-24T10:31:42.276-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:33:08.479-04:00 [admission] closed: stop (SIGTERM)
+2026-10-24T10:33:08.479-04:00 [gateway] received SIGTERM; shutting down
+2026-10-24T10:33:08.482-04:00 [gateway] shutdown budget at shutdown: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=Gateway stop policy=330000ms
+2026-10-24T10:33:08.500-04:00 [gateway] active-work drain settled; beginning server close
+2026-10-24T10:33:10.669-04:00 [gmail-watcher] gmail watcher stopped
+2026-10-24T10:33:12.083-04:00 [shutdown] completed cleanly in 3580ms

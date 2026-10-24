@@ -1,0 +1,54 @@
+[gateway] startup phase: entry.run-main-import starting total=164.3ms
+[gateway] startup phase: entry.run-main-import 71.1ms total=235.3ms start=164.3ms
+[gateway] startup phase: cli.main.gateway-run-select-environment starting total=798.0ms
+[gateway] startup phase: cli.main.gateway-run-select-environment 542.5ms total=1340.6ms start=798.0ms
+[gateway] startup phase: cli.main.gateway-run-imports starting total=1413.9ms
+[gateway] startup phase: cli.main.gateway-run-imports 4.1ms total=1418.0ms start=1413.9ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap starting total=1430.1ms
+[gateway] startup phase: cli.main.gateway-run-pre-bootstrap 41.6ms total=1471.6ms start=1430.1ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap starting total=1471.7ms
+[gateway] startup phase: cli.command.config-ready starting total=1476.0ms
+[gateway] startup phase: cli.command.config-guard-import starting total=1476.2ms
+[gateway] startup phase: cli.command.config-guard-import 16.5ms total=1492.7ms start=1476.2ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner starting total=1570.5ms
+[gateway] startup phase: cli.bootstrap.admission.live-owner 8.7ms total=1579.2ms start=1570.5ms
+[gateway] startup phase: cli.bootstrap.admission.core-config starting total=1579.3ms
+[gateway] startup phase: cli.bootstrap.admission.core-config 67.0ms total=1646.3ms start=1579.3ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot starting total=1646.5ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery starting total=1647.3ms
+[gateway] startup phase: cli.bootstrap.admission.core-recovery 0.2ms total=1647.5ms start=1647.3ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import starting total=1647.9ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config starting total=1647.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-runtime-import 103.4ms total=1751.3ms start=1647.9ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion starting total=1745.5ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-metadata-completion 6.2ms total=1751.7ms start=1745.5ms
+[gateway] startup phase: cli.bootstrap.admission.plugin-config 589.7ms total=2237.6ms start=1647.9ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness starting total=1751.6ms
+[gateway] startup phase: cli.bootstrap.admission.database-readiness 507.4ms total=2259.0ms start=1751.6ms agentCount=30 schemaProcessCount=0 schemaInspectionCount=0 schemaSnapshotCount=0
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import starting total=2259.2ms
+[gateway] startup phase: cli.bootstrap.admission.session-runtime-import 475.2ms total=2734.3ms start=2259.2ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets starting total=2734.4ms
+[gateway] startup phase: cli.bootstrap.admission.session-targets 18.7ms total=2753.1ms start=2734.4ms agentCount=30 registeredDatabaseCount=0
+[gateway] startup phase: cli.bootstrap.admission.session-readiness starting total=2753.3ms
+[gateway] startup phase: cli.bootstrap.admission.session-readiness 0.7ms total=2753.9ms start=2753.3ms targetCount=30
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import starting total=2754.0ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-runtime-import 5.1ms total=2759.1ms start=2754.0ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness starting total=2759.2ms
+[gateway] startup phase: cli.bootstrap.admission.workspace-readiness 14.1ms total=2773.2ms start=2759.2ms agentCount=30
+[gateway] startup phase: cli.bootstrap.admission.config-recovery starting total=2773.4ms
+[gateway] startup phase: cli.bootstrap.admission.config-recovery 0.2ms total=2773.5ms start=2773.4ms
+[gateway] startup phase: cli.bootstrap.admission.state-snapshot 1127.1ms total=2773.6ms start=1646.5ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard starting total=2773.6ms
+[gateway] startup phase: cli.bootstrap.admission.config-guard 0.3ms total=2774.0ms start=2773.6ms
+OpenClaw config is invalid
+File: /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-canonical/config.json
+Problem:
+  - config.json:15 — agents.defaults: Unrecognized key: "heartbeat"
+Legacy config keys detected:
+  - agents.defaults.heartbeat: Heartbeat configuration retired; run "openclaw doctor --fix" to preserve it as an editable automation.
+
+Inspect: openclaw config validate
+Audit, status, health, logs, and doctor commands still run with invalid config.
+Run "openclaw doctor --fix" to repair the config, then retry.
+[gateway] startup phase: cli.command.config-ready 1386.7ms total=2862.7ms start=1476.0ms
+[gateway] startup phase: cli.main.gateway-run-bootstrap 1391.0ms total=2862.7ms start=1471.7ms failed

@@ -1,0 +1,74 @@
+│
+◇  Doctor changes ─────────────────────────────────────╮
+│                                                      │
+│  - Installed missing configured plugin "codex" from  │
+│    @openclaw/codex@2026.9.6.                         │
+│                                                      │
+├──────────────────────────────────────────────────────╯
+[state-migrations] Plugin "codex" data/settings upgrade is unfinished: The configured plugin package is missing or has not converged. Your existing data and settings have been kept. Run "openclaw update repair", then "openclaw doctor --fix" to retry the upgrade. pluginId=codex reason="The configured plugin package is missing or has not converged." action="openclaw update repair" status=pending
+│
+◇  Doctor changes ────────────────────────────────────────────╮
+│                                                             │
+│  - Migrated plugins.bundledDiscovery → shared SQLite state  │
+│                                                             │
+├─────────────────────────────────────────────────────────────╯
+[state-migrations] Deferred state migration completed for plugin "codex".
+│
+◇  Doctor changes ─────────────────────────────────────────────────────────╮
+│                                                                          │
+│  Migrated legacy config keys at startup:                                 │
+│  - Copied the legacy default model map to                                │
+│    agents.defaults.modelPolicy.allow.                                    │
+│  - Stamped the multi-agent roster for explicit per-surface ownership.    │
+│  - Set agents.defaults.systemAgent.agentId to main for legacy ambient    │
+│    operations.                                                           │
+│  - Set agents.defaults.heartbeat.agentId to main for legacy heartbeats.  │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-10-24T10:15:21.492-04:00 [gateway] loading configuration…
+2026-10-24T10:15:21.854-04:00 [gateway] resolving authentication…
+2026-10-24T10:15:21.857-04:00 [gateway] starting...
+2026-10-24T10:15:22.182-04:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=Gateway stop policy=330000ms
+2026-10-24T10:15:22.352-04:00 [gateway] spawn broker ready pid=1465962
+2026-10-24T10:15:25.764-04:00 [gateway] starting HTTP server...
+2026-10-24T10:15:33.643-04:00 [gateway] agent model: fixture/model-0 (thinking=off, fast=off)
+2026-10-24T10:15:33.644-04:00 [gateway] http server listening (2 plugins: codex, memory-core; 11.5s)
+2026-10-24T10:15:33.644-04:00 [gateway] log file: /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-delayed/gateway-private.log
+2026-10-24T10:15:34.426-04:00 [gateway] starting channels and sidecars...
+2026-10-24T10:16:09.906-04:00 [gateway/channels] skipping channel start (OPENCLAW_SKIP_CHANNELS=1 or OPENCLAW_SKIP_PROVIDERS=1)
+2026-10-24T10:16:10.039-04:00 [gateway] startup outcomes: internal-hooks=skipped (not-configured); internal-startup-hook=skipped (no-handlers-loaded); gateway-start-hooks=scheduled; gmail-watcher=skipped (hooks-disabled); gmail-model=skipped (not-configured)
+2026-10-24T10:16:10.042-04:00 [heartbeat] scheduled heartbeats are disabled because the cron scheduler is disabled; enable cron and restart the gateway
+2026-10-24T10:16:10.043-04:00 [skill-workshop] scheduled skill collection reviews are disabled because the cron scheduler is disabled; enable cron and restart the gateway
+2026-10-24T10:16:10.045-04:00 [heartbeat] started
+2026-10-24T10:16:10.061-04:00 [gateway] ready
+2026-10-24T10:16:12.372-04:00 [ws] ⇄ res ✓ models.list 1161ms conn=f2823c3c…5f0d id=1
+2026-10-24T10:16:12.688-04:00 [ws] ⇄ res ✓ sessions.create 273ms conn=f2823c3c…5f0d id=2
+2026-10-24T10:16:12.925-04:00 [ws] ⇄ res ✓ sessions.create 138ms conn=f2823c3c…5f0d id=3
+2026-10-24T10:16:13.013-04:00 [ws] ⇄ res ✓ chat.send 72ms runId=9be2588f-ccb4-4ca5-a1dd-0793400cc99e conn=f2823c3c…5f0d id=4
+2026-10-24T10:16:13.020-04:00 [ws] ⇄ res ✓ chat.send 78ms runId=233be418-0e03-494e-9edd-b208e869efbd conn=f2823c3c…5f0d id=5
+2026-10-24T10:16:13.686-04:00 [gateway] remote model catalog downloaded; restart the Gateway to apply it
+2026-10-24T10:16:14.039-04:00 [gateway] update available (latest): v2026.10.7 (current v2026.9.6). Run: openclaw update
+2026-10-24T10:16:15.598-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:16:15.627-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=9be2588f-ccb4-4ca5-a1dd-0793400cc99e session=sha256:1b33cd62d034
+2026-10-24T10:16:16.136-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:16:16.665-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=233be418-0e03-494e-9edd-b208e869efbd session=sha256:0d69019606b1
+2026-10-24T10:16:17.111-04:00 [ws] ⇄ res ✓ agent.wait 4077ms conn=f2823c3c…5f0d id=6
+2026-10-24T10:16:17.336-04:00 [ws] ⇄ res ✓ chat.history 204ms conn=f2823c3c…5f0d id=8
+2026-10-24T10:16:17.969-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:16:18.818-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:16:18.926-04:00 [ws] ⇄ res ✓ agent.wait 5892ms conn=f2823c3c…5f0d id=7
+2026-10-24T10:17:12.177-04:00 [ws] ⇄ res ✓ models.list 896ms conn=f2823c3c…5f0d id=10
+2026-10-24T10:17:13.367-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=105236ca-e4f4-45b0-b9ac-61fec8546fbd session=sha256:1b33cd62d034
+2026-10-24T10:17:13.591-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:17:14.304-04:00 [agent/embedded] [model-fallback] configured fallbacks disabled by user model override run=aab12ced-6ec2-4206-b826-77bbb744715d session=sha256:0d69019606b1
+2026-10-24T10:17:14.345-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:17:14.554-04:00 [ws] ⇄ res ✓ agent.wait 2331ms conn=f2823c3c…5f0d id=13
+2026-10-24T10:17:14.661-04:00 [ws] ⇄ res ✓ chat.history 100ms conn=f2823c3c…5f0d id=15
+2026-10-24T10:17:15.224-04:00 [ws] ⇄ res ✓ agent.wait 3001ms conn=f2823c3c…5f0d id=14
+2026-10-24T10:17:15.405-04:00 [state/database-verify] database integrity verification passed
+2026-10-24T10:18:50.978-04:00 [admission] closed: stop (SIGTERM)
+2026-10-24T10:18:50.979-04:00 [gateway] received SIGTERM; shutting down
+2026-10-24T10:18:50.981-04:00 [gateway] shutdown budget at shutdown: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=Gateway stop policy=330000ms
+2026-10-24T10:18:50.984-04:00 [gateway] active-work drain settled; beginning server close
+2026-10-24T10:18:53.144-04:00 [gmail-watcher] gmail watcher stopped
+2026-10-24T10:18:53.468-04:00 [shutdown] completed cleanly in 2480ms

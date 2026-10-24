@@ -1,0 +1,376 @@
+{
+  "startedAtMs": 1792852238252,
+  "sourceSha256": "011c14ee76bccd8dacfe43a3d7219eef52ac1da7f92f2e965878111d8cce18ab",
+  "model": "fixture/model-0",
+  "agentIds": [
+    "agent15",
+    "agent16"
+  ],
+  "seconds": 150,
+  "syntheticInference": true,
+  "android": false,
+  "injectedEvents": false,
+  "requests": [
+    {
+      "id": "1",
+      "method": "models.list",
+      "params": {
+        "agentId": "agent15",
+        "view": "configured",
+        "includeDetails": true
+      },
+      "startedAtMs": 1792852238319,
+      "finishedAtMs": 1792852239386,
+      "ok": true,
+      "modelCount": 732
+    },
+    {
+      "id": "2",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent15:retained-admission-seed",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e"
+      },
+      "startedAtMs": 1792852273735,
+      "finishedAtMs": 1792852273925,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "3",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent16:retained-admission-seed",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "e1f49991-9a0b-45e7-89b1-0a3467fe367a"
+      },
+      "startedAtMs": 1792852273736,
+      "finishedAtMs": 1792852274084,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "4",
+      "method": "agent.wait",
+      "params": {
+        "runId": "bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792852273926,
+      "finishedAtMs": 1792852278671,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "5",
+      "method": "agent.wait",
+      "params": {
+        "runId": "e1f49991-9a0b-45e7-89b1-0a3467fe367a",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792852274084,
+      "finishedAtMs": 1792852279122,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "6",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:agent15:retained-admission-seed"
+      },
+      "startedAtMs": 1792852278672,
+      "finishedAtMs": 1792852278924,
+      "ok": true
+    },
+    {
+      "id": "7",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:agent16:retained-admission-seed"
+      },
+      "startedAtMs": 1792852279122,
+      "finishedAtMs": 1792852279151,
+      "ok": true
+    },
+    {
+      "id": "8",
+      "method": "models.list",
+      "params": {
+        "agentId": "agent15",
+        "view": "configured",
+        "includeDetails": true
+      },
+      "startedAtMs": 1792852298323,
+      "finishedAtMs": 1792852299231,
+      "ok": true,
+      "modelCount": 732,
+      "refreshFailed": true
+    },
+    {
+      "id": "9",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent15:retained-admission-seed",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "50deb7b0-9826-4bfc-9300-c7eab0d17aa9"
+      },
+      "startedAtMs": 1792852299231,
+      "finishedAtMs": 1792852299267,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "10",
+      "method": "chat.send",
+      "params": {
+        "sessionKey": "agent:agent16:retained-admission-seed",
+        "message": "Reply with the synthetic test marker.",
+        "idempotencyKey": "b99c06c3-8562-4787-b5bd-33be7eab40e0"
+      },
+      "startedAtMs": 1792852299232,
+      "finishedAtMs": 1792852299270,
+      "ok": true,
+      "status": "started"
+    },
+    {
+      "id": "11",
+      "method": "agent.wait",
+      "params": {
+        "runId": "50deb7b0-9826-4bfc-9300-c7eab0d17aa9",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792852299268,
+      "finishedAtMs": 1792852300180,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "12",
+      "method": "agent.wait",
+      "params": {
+        "runId": "b99c06c3-8562-4787-b5bd-33be7eab40e0",
+        "timeoutMs": 20000
+      },
+      "startedAtMs": 1792852299270,
+      "finishedAtMs": 1792852302206,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "id": "13",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:agent15:retained-admission-seed"
+      },
+      "startedAtMs": 1792852300181,
+      "finishedAtMs": 1792852300228,
+      "ok": true
+    },
+    {
+      "id": "14",
+      "method": "chat.history",
+      "params": {
+        "sessionKey": "agent:agent16:retained-admission-seed"
+      },
+      "startedAtMs": 1792852302206,
+      "finishedAtMs": 1792852302233,
+      "ok": true
+    }
+  ],
+  "events": {
+    "connect.challenge": 1,
+    "health": 3,
+    "update.available": 3,
+    "chat.metadata.changed": 62,
+    "tick": 5,
+    "chat": 20,
+    "agent": 40,
+    "skills.changed": 1
+  },
+  "turns": [
+    {
+      "phase": "initial",
+      "agentId": "agent15",
+      "key": "agent:agent15:retained-admission-seed",
+      "startedAtMs": 1792852273702,
+      "idempotencyKey": "bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e",
+      "runId": "bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e",
+      "sendStatus": "started",
+      "final": {
+        "runId": "bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e",
+        "status": "ok",
+        "endedAt": 1792852278670,
+        "terminalReceipt": {
+          "runId": "bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e",
+          "sessionId": "a15891de-7e1a-4719-b60a-31d70a7f6a6d",
+          "turnId": "bc0d1b79-0dd5-4364-be4e-c810d1ddbe6e",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792852278924
+    },
+    {
+      "phase": "initial",
+      "agentId": "agent16",
+      "key": "agent:agent16:retained-admission-seed",
+      "startedAtMs": 1792852273735,
+      "idempotencyKey": "e1f49991-9a0b-45e7-89b1-0a3467fe367a",
+      "runId": "e1f49991-9a0b-45e7-89b1-0a3467fe367a",
+      "sendStatus": "started",
+      "final": {
+        "runId": "e1f49991-9a0b-45e7-89b1-0a3467fe367a",
+        "status": "ok",
+        "endedAt": 1792852279121,
+        "terminalReceipt": {
+          "runId": "e1f49991-9a0b-45e7-89b1-0a3467fe367a",
+          "sessionId": "71cb8125-20c4-464b-b250-f2bc6658e4ae",
+          "turnId": "e1f49991-9a0b-45e7-89b1-0a3467fe367a",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792852279151
+    },
+    {
+      "phase": "retained-after-discovery-deadline",
+      "agentId": "agent15",
+      "key": "agent:agent15:retained-admission-seed",
+      "startedAtMs": 1792852299231,
+      "idempotencyKey": "50deb7b0-9826-4bfc-9300-c7eab0d17aa9",
+      "runId": "50deb7b0-9826-4bfc-9300-c7eab0d17aa9",
+      "sendStatus": "started",
+      "final": {
+        "runId": "50deb7b0-9826-4bfc-9300-c7eab0d17aa9",
+        "status": "ok",
+        "endedAt": 1792852300180,
+        "terminalReceipt": {
+          "runId": "50deb7b0-9826-4bfc-9300-c7eab0d17aa9",
+          "sessionId": "a15891de-7e1a-4719-b60a-31d70a7f6a6d",
+          "turnId": "50deb7b0-9826-4bfc-9300-c7eab0d17aa9",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK",
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792852300229
+    },
+    {
+      "phase": "retained-after-discovery-deadline",
+      "agentId": "agent16",
+      "key": "agent:agent16:retained-admission-seed",
+      "startedAtMs": 1792852299232,
+      "idempotencyKey": "b99c06c3-8562-4787-b5bd-33be7eab40e0",
+      "runId": "b99c06c3-8562-4787-b5bd-33be7eab40e0",
+      "sendStatus": "started",
+      "final": {
+        "runId": "b99c06c3-8562-4787-b5bd-33be7eab40e0",
+        "status": "ok",
+        "endedAt": 1792852302205,
+        "terminalReceipt": {
+          "runId": "b99c06c3-8562-4787-b5bd-33be7eab40e0",
+          "sessionId": "71cb8125-20c4-464b-b250-f2bc6658e4ae",
+          "turnId": "b99c06c3-8562-4787-b5bd-33be7eab40e0",
+          "requested": {
+            "provider": "fixture",
+            "model": "model-0"
+          },
+          "effective": {
+            "provider": "fixture",
+            "model": "model-0",
+            "responseModel": "model-0"
+          },
+          "successfulToolNames": [],
+          "rerouted": false,
+          "terminalDisposition": "visible"
+        },
+        "terminalReply": {
+          "disposition": "visible",
+          "text": "NATIVE_CATALOG_TURN_OK"
+        }
+      },
+      "assistantTexts": [
+        "NATIVE_CATALOG_TURN_OK",
+        "NATIVE_CATALOG_TURN_OK"
+      ],
+      "persistedFixtureReply": true,
+      "finishedAtMs": 1792852302233
+    }
+  ],
+  "connectedAtMs": 1792852238319,
+  "firstCatalog": {
+    "count": 732
+  },
+  "overlapTrigger": {
+    "atMs": 1792852273702,
+    "required": 15,
+    "observed": 15,
+    "retainedKeys": [
+      "agent:agent15:retained-admission-seed",
+      "agent:agent16:retained-admission-seed"
+    ]
+  },
+  "laterCatalog": {
+    "count": 732,
+    "refreshFailed": true
+  },
+  "status": "observed",
+  "finishedAtMs": 1792852388320,
+  "pendingMethods": []
+}

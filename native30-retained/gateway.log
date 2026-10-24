@@ -1,0 +1,82 @@
+│
+◇  Doctor changes ─────────────────────────────────────╮
+│                                                      │
+│  - Installed missing configured plugin "codex" from  │
+│    @openclaw/codex@2026.9.6.                         │
+│                                                      │
+├──────────────────────────────────────────────────────╯
+[state-migrations] Plugin "codex" data/settings upgrade is unfinished: The configured plugin package is missing or has not converged. Your existing data and settings have been kept. Run "openclaw update repair", then "openclaw doctor --fix" to retry the upgrade. pluginId=codex reason="The configured plugin package is missing or has not converged." action="openclaw update repair" status=pending
+│
+◇  Doctor changes ────────────────────────────────────────────╮
+│                                                             │
+│  - Migrated plugins.bundledDiscovery → shared SQLite state  │
+│                                                             │
+├─────────────────────────────────────────────────────────────╯
+[state-migrations] Deferred state migration completed for plugin "codex".
+│
+◇  Doctor changes ─────────────────────────────────────────────────────────╮
+│                                                                          │
+│  Migrated legacy config keys at startup:                                 │
+│  - Copied the legacy default model map to                                │
+│    agents.defaults.modelPolicy.allow.                                    │
+│  - Stamped the multi-agent roster for explicit per-surface ownership.    │
+│  - Set agents.defaults.systemAgent.agentId to main for legacy ambient    │
+│    operations.                                                           │
+│  - Set agents.defaults.heartbeat.agentId to main for legacy heartbeats.  │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-10-24T10:27:46.560-04:00 [gateway] loading configuration…
+2026-10-24T10:27:46.924-04:00 [gateway] resolving authentication…
+2026-10-24T10:27:46.927-04:00 [gateway] starting...
+2026-10-24T10:27:47.257-04:00 [gateway] shutdown budget at startup: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=Gateway stop policy=330000ms
+2026-10-24T10:27:47.428-04:00 [gateway] spawn broker ready pid=1471810
+2026-10-24T10:27:50.875-04:00 [gateway] starting HTTP server...
+2026-10-24T10:27:58.732-04:00 [gateway] agent model: fixture/model-0 (thinking=off, fast=off)
+2026-10-24T10:27:58.733-04:00 [gateway] http server listening (2 plugins: codex, memory-core; 11.5s)
+2026-10-24T10:27:58.734-04:00 [gateway] log file: /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/gateway-private.log
+2026-10-24T10:27:59.490-04:00 [gateway] starting channels and sidecars...
+2026-10-24T10:28:35.995-04:00 [gateway/channels] skipping channel start (OPENCLAW_SKIP_CHANNELS=1 or OPENCLAW_SKIP_PROVIDERS=1)
+2026-10-24T10:28:36.119-04:00 [gateway] startup outcomes: internal-hooks=skipped (not-configured); internal-startup-hook=skipped (no-handlers-loaded); gateway-start-hooks=scheduled; gmail-watcher=skipped (hooks-disabled); gmail-model=skipped (not-configured)
+2026-10-24T10:28:36.122-04:00 [heartbeat] scheduled heartbeats are disabled because the cron scheduler is disabled; enable cron and restart the gateway
+2026-10-24T10:28:36.123-04:00 [skill-workshop] scheduled skill collection reviews are disabled because the cron scheduler is disabled; enable cron and restart the gateway
+2026-10-24T10:28:36.125-04:00 [heartbeat] started
+2026-10-24T10:28:36.136-04:00 [gateway] ready
+2026-10-24T10:28:37.234-04:00 [ws] ⇄ res ✓ sessions.create 306ms conn=ef8d8445…3789 id=1
+2026-10-24T10:28:37.479-04:00 [ws] ⇄ res ✓ sessions.create 241ms conn=ef8d8445…3789 id=2
+2026-10-24T10:28:37.645-04:00 [ws] ⇄ res ✓ sessions.create 141ms conn=ef8d8445…3789 id=3
+2026-10-24T10:28:37.789-04:00 [ws] ⇄ res ✓ sessions.create 142ms conn=ef8d8445…3789 id=4
+2026-10-24T10:28:37.929-04:00 [ws] ⇄ res ✓ sessions.create 139ms conn=ef8d8445…3789 id=5
+2026-10-24T10:28:38.083-04:00 [ws] ⇄ res ✓ sessions.create 152ms conn=ef8d8445…3789 id=6
+2026-10-24T10:28:38.235-04:00 [ws] ⇄ res ✓ sessions.create 134ms conn=ef8d8445…3789 id=7
+2026-10-24T10:28:38.359-04:00 [ws] ⇄ res ✓ sessions.create 115ms conn=ef8d8445…3789 id=8
+2026-10-24T10:28:38.504-04:00 [ws] ⇄ res ✓ sessions.create 131ms conn=ef8d8445…3789 id=9
+2026-10-24T10:28:38.618-04:00 [ws] ⇄ res ✓ sessions.create 106ms conn=ef8d8445…3789 id=10
+2026-10-24T10:28:38.748-04:00 [ws] ⇄ res ✓ sessions.create 117ms conn=ef8d8445…3789 id=11
+2026-10-24T10:28:38.858-04:00 [ws] ⇄ res ✓ sessions.create 103ms conn=ef8d8445…3789 id=12
+2026-10-24T10:28:38.976-04:00 [ws] ⇄ res ✓ sessions.create 105ms conn=ef8d8445…3789 id=13
+2026-10-24T10:28:39.113-04:00 [ws] ⇄ res ✓ sessions.create 130ms conn=ef8d8445…3789 id=14
+2026-10-24T10:28:39.230-04:00 [ws] ⇄ res ✓ sessions.create 104ms conn=ef8d8445…3789 id=15
+2026-10-24T10:28:39.339-04:00 [ws] ⇄ res ✓ sessions.create 102ms conn=ef8d8445…3789 id=16
+2026-10-24T10:28:39.456-04:00 [ws] ⇄ res ✓ sessions.create 104ms conn=ef8d8445…3789 id=17
+2026-10-24T10:28:39.566-04:00 [ws] ⇄ res ✓ sessions.create 103ms conn=ef8d8445…3789 id=18
+2026-10-24T10:28:39.683-04:00 [ws] ⇄ res ✓ sessions.create 105ms conn=ef8d8445…3789 id=19
+2026-10-24T10:28:39.816-04:00 [ws] ⇄ res ✓ sessions.create 125ms conn=ef8d8445…3789 id=20
+2026-10-24T10:28:39.968-04:00 [ws] ⇄ res ✓ sessions.create 132ms conn=ef8d8445…3789 id=21
+2026-10-24T10:28:40.085-04:00 [ws] ⇄ res ✓ sessions.create 109ms conn=ef8d8445…3789 id=22
+2026-10-24T10:28:40.204-04:00 [ws] ⇄ res ✓ sessions.create 104ms conn=ef8d8445…3789 id=23
+2026-10-24T10:28:40.322-04:00 [ws] ⇄ res ✓ sessions.create 110ms conn=ef8d8445…3789 id=24
+2026-10-24T10:28:40.449-04:00 [ws] ⇄ res ✓ sessions.create 113ms conn=ef8d8445…3789 id=25
+2026-10-24T10:28:40.565-04:00 [ws] ⇄ res ✓ sessions.create 105ms conn=ef8d8445…3789 id=26
+2026-10-24T10:28:40.697-04:00 [ws] ⇄ res ✓ sessions.create 118ms conn=ef8d8445…3789 id=27
+2026-10-24T10:28:40.845-04:00 [ws] ⇄ res ✓ sessions.create 138ms conn=ef8d8445…3789 id=28
+2026-10-24T10:28:40.982-04:00 [ws] ⇄ res ✓ sessions.create 116ms conn=ef8d8445…3789 id=29
+2026-10-24T10:28:41.110-04:00 [ws] ⇄ res ✓ sessions.create 109ms conn=ef8d8445…3789 id=30
+2026-10-24T10:28:41.325-04:00 [admission] closed: stop (SIGTERM)
+2026-10-24T10:28:41.325-04:00 [gateway] received SIGTERM; shutting down
+2026-10-24T10:28:41.330-04:00 [gateway] shutdown budget at shutdown: drain=315000ms shutdown=325000ms reserve=10000ms exitMargin=5000ms; source=Gateway stop policy=330000ms
+2026-10-24T10:28:41.333-04:00 [gateway] draining active work before stop with timeout 315000ms: rootRequests=1
+2026-10-24T10:28:41.694-04:00 [gateway] remote model catalog downloaded; restart the Gateway to apply it
+2026-10-24T10:28:41.732-04:00 [gateway] update available (latest): v2026.10.7 (current v2026.9.6). Run: openclaw update
+2026-10-24T10:28:41.952-04:00 [gateway] active-work drain settled; beginning server close
+2026-10-24T10:28:41.973-04:00 [gmail-watcher] gmail watcher stopped
+2026-10-24T10:28:43.314-04:00 [shutdown] completed cleanly in 1359ms

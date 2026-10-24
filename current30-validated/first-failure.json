@@ -1,0 +1,42 @@
+{
+  "observedAtMs": 1792852724082,
+  "line": "2026-10-24T10:38:43.564-04:00 [gateway] worker startup state: {\"workerCount\":8,\"workerLifecycle\":[{\"script\":\"client-credential.worker.js\",\"started\":1,\"retired\":[]},{\"script\":\"sqlite-store.worker.js\",\"started\":1,\"retired\":[]},{\"script\":\"gateway-state-owner-heartbeat.worker.js\",\"started\":2,\"retired\":[{\"reason\":\"exit\",\"count\":1}]},{\"script\":\"worker-native-lifecycle.worker.js\",\"started\":1,\"retired\":[]},{\"script\":\"openclaw-state-read.worker.js\",\"started\":2,\"retired\":[]},{\"script\":\"openclaw-state-lease-heartbeat.worker.js\",\"started\":1,\"retired\":[]},{\"script\":\"session-transcript.worker.js\",\"started\":1,\"retired\":[]}],\"workerTaskMetrics\":[{\"workerClass\":\"singleton\",\"script\":\"client-credential.worker.js\",\"tasksCompleted\":0,\"heapUsedHighWaterBytes\":32982312,\"gc\":[]},{\"workerClass\":\"other\",\"script\":\"openclaw-state-read.worker.js\",\"tasksCompleted\":0,\"heapUsedHighWaterBytes\":24964664,\"gc\":[]},{\"workerClass\":\"other\",\"script\":\"session-transcript.worker.js\",\"tasksCompleted\":0,\"heapUsedHighWaterBytes\":31081408,\"gc\":[]}],\"compute\":{\"limit\":7,\"active\":0,\"waitingPools\":0,\"pendingTasks\":0,\"pendingBytes\":0}}",
+  "processes": [
+    {
+      "pid": 1477335,
+      "ppid": 1477278,
+      "state": "S",
+      "startTicks": "233952792",
+      "rssKb": 106164,
+      "threads": 11,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-134498-proof/candidate/dist/process/spawn-broker/worker.js "
+    },
+    {
+      "pid": 1477387,
+      "ppid": 1477278,
+      "state": "S",
+      "startTicks": "233952945",
+      "rssKb": 93768,
+      "threads": 11,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-134498-proof/candidate/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1477277,
+      "ppid": 1477197,
+      "state": "S",
+      "startTicks": "233952133",
+      "rssKb": 63664,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-validated --seconds 300 "
+    },
+    {
+      "pid": 1477278,
+      "ppid": 1477197,
+      "state": "R",
+      "startTicks": "233952133",
+      "rssKb": 1024084,
+      "threads": 22,
+      "command": "openclaw-gateway                                                                                                                                                                                                        "
+    }
+  ]
+}

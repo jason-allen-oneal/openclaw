@@ -1,0 +1,579 @@
+{
+  "policy": "Selected synthetic diagnostic files. Host paths normalized, connect/health snapshots excluded from wire. Config, databases, caches, credentials, signing material excluded. Sanitized drivers are reference copies.",
+  "files": [
+    {
+      "path": "analyze.py",
+      "rawSha256": "8b3fe65154d59c266b290710ed71f4f4da5191088dc5f01cd95b4c5c1fc18e0e",
+      "publicSha256": "8b3fe65154d59c266b290710ed71f4f4da5191088dc5f01cd95b4c5c1fc18e0e",
+      "rawRelativeSource": "analyze.py",
+      "transformed": false
+    },
+    {
+      "path": "ANALYSIS.json",
+      "rawSha256": "835ca64c88f2cd96779abfe9435c140c2628371b80320825176834d6d98b4257",
+      "publicSha256": "835ca64c88f2cd96779abfe9435c140c2628371b80320825176834d6d98b4257",
+      "rawRelativeSource": "ANALYSIS.json",
+      "transformed": false
+    },
+    {
+      "path": "run.py",
+      "rawSha256": "e775f1ac4cfc92dfca3fa515262030f96d11a461dc0efc46efdf113dee46cf62",
+      "publicSha256": "340ee146d7edd4281183ce677ab32176b737181b06aab8efb8989543a466a070",
+      "rawRelativeSource": "run.py",
+      "transformed": true
+    },
+    {
+      "path": "resume.py",
+      "rawSha256": "71d9baa937721fb6bb0dc46ab2d1b54ca70191721c5e434d47bb708661f5929b",
+      "publicSha256": "71d9baa937721fb6bb0dc46ab2d1b54ca70191721c5e434d47bb708661f5929b",
+      "rawRelativeSource": "resume.py",
+      "transformed": false
+    },
+    {
+      "path": "exercise-admission.mjs",
+      "rawSha256": "8e5501c51d6c8dfcd18cdf2e53ec4da553dd6a02ea48fb14dd6fbb255475360c",
+      "publicSha256": "8e5501c51d6c8dfcd18cdf2e53ec4da553dd6a02ea48fb14dd6fbb255475360c",
+      "rawRelativeSource": "exercise-admission.mjs",
+      "transformed": false
+    },
+    {
+      "path": "exercise-retained.mjs",
+      "rawSha256": "011c14ee76bccd8dacfe43a3d7219eef52ac1da7f92f2e965878111d8cce18ab",
+      "publicSha256": "011c14ee76bccd8dacfe43a3d7219eef52ac1da7f92f2e965878111d8cce18ab",
+      "rawRelativeSource": "exercise-retained.mjs",
+      "transformed": false
+    },
+    {
+      "path": "seed-sessions.mjs",
+      "rawSha256": "20285f76ed1f518878c176dde3f1f284d18b20799232618df1e51f62747fe761",
+      "publicSha256": "20285f76ed1f518878c176dde3f1f284d18b20799232618df1e51f62747fe761",
+      "rawRelativeSource": "seed-sessions.mjs",
+      "transformed": false
+    },
+    {
+      "path": "codex-fixture.mjs",
+      "rawSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "publicSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "rawRelativeSource": "codex-fixture.mjs",
+      "transformed": false
+    },
+    {
+      "path": "inference-server.mjs",
+      "rawSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "rawRelativeSource": "inference-server.mjs",
+      "transformed": false
+    },
+    {
+      "path": "README.md",
+      "rawSha256": "105728b202f7487516833768bbf22bbace79acdd17040dc5bc35aeedf371bbe9",
+      "publicSha256": "105728b202f7487516833768bbf22bbace79acdd17040dc5bc35aeedf371bbe9",
+      "rawRelativeSource": "RESULT.md",
+      "transformed": false
+    },
+    {
+      "path": "admission-owner-audit.md",
+      "rawSha256": "3bff1107fcd29741f374a07dd0fbc5a29c48630cdd3b79085cf8f8c6a94bd575",
+      "publicSha256": "3bff1107fcd29741f374a07dd0fbc5a29c48630cdd3b79085cf8f8c6a94bd575",
+      "rawRelativeSource": "admission-owner-audit.md",
+      "transformed": false
+    },
+    {
+      "path": "native30-delayed/cleanup-receipt.json",
+      "rawSha256": "8d7cb48b951dc5ff102725ee953cb9b70a1199b65b2d82fd4df4883a5f4379f7",
+      "publicSha256": "658fe512170d105522c1704f3e04a6794d8623abbacea5a6fe9076e8665f1865",
+      "rawRelativeSource": "native30-delayed/cleanup-receipt.json",
+      "transformed": true
+    },
+    {
+      "path": "native30-delayed/codex-events.jsonl",
+      "rawSha256": "b0c5fa9e0539d4b59961fe92c14e7cc2e6325d848e832153c8ba5656d417255a",
+      "publicSha256": "77df6da7dbaea9396f301e916fac49a33b1b72218d5e2de43218add8c9605b4c",
+      "rawRelativeSource": "native30-delayed/codex-events.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "native30-delayed/diagnostic-receipt.json",
+      "rawSha256": "dfff05fd60171912ee65ffbdb016ca1f30951dd8839ca6d42bee637de4a7a818",
+      "publicSha256": "dfff05fd60171912ee65ffbdb016ca1f30951dd8839ca6d42bee637de4a7a818",
+      "rawRelativeSource": "native30-delayed/diagnostic-receipt.json",
+      "transformed": false
+    },
+    {
+      "path": "native30-delayed/diagnostic-wire.jsonl",
+      "rawSha256": "127ab51e7af18e1cfee4d13f0acb62da91b61d6c8696dac6d05c3d3db32f18cf",
+      "publicSha256": "d62567e395926957494284a760ec9f133a9d737229f09ba37ef65e31568aca37",
+      "rawRelativeSource": "native30-delayed/diagnostic-wire.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "native30-delayed/gateway-private.log",
+      "rawSha256": "1eca30a447a972585b1b348f4a1be5f5292c11677d2294bf6c27e38e31f5bc55",
+      "publicSha256": "782395acfcf9445b370450ed573669173fb1c28219a7d879b5a0c45563479f47",
+      "rawRelativeSource": "native30-delayed/gateway-private.log",
+      "transformed": true
+    },
+    {
+      "path": "native30-delayed/gateway.log",
+      "rawSha256": "576e35eef77c9c0395f61c3e4571f3ae5d6ee2f2706ec495eda8158a8d7da788",
+      "publicSha256": "eba35d93d1786534a95bc4c16961ca36f83c651287d50dcf14763686db8fa157",
+      "rawRelativeSource": "native30-delayed/gateway.log",
+      "transformed": true
+    },
+    {
+      "path": "native30-delayed/identity.json",
+      "rawSha256": "082ebb9a21d352856f6cb50b61f8a50224590424f67d65c633494a0e2e4c7f25",
+      "publicSha256": "082ebb9a21d352856f6cb50b61f8a50224590424f67d65c633494a0e2e4c7f25",
+      "rawRelativeSource": "native30-delayed/identity.json",
+      "transformed": false
+    },
+    {
+      "path": "native30-delayed/process-census.jsonl",
+      "rawSha256": "d26c80a0f4840bad725c33c09179dde145205602d92994db0f7c74707d0729cf",
+      "publicSha256": "2080c5e32bcb82a2c99f2f8fa4e77a9474efa09527e08b9c18986679d8cfe141",
+      "rawRelativeSource": "native30-delayed/process-census.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "native30-delayed/readiness.jsonl",
+      "rawSha256": "eb5ba5e65300d3409861f17f09d36eefb989b913334b1e621f339c6a05bde380",
+      "publicSha256": "eb5ba5e65300d3409861f17f09d36eefb989b913334b1e621f339c6a05bde380",
+      "rawRelativeSource": "native30-delayed/readiness.jsonl",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/cleanup-receipt.json",
+      "rawSha256": "0a3201b270d91d76bdc529265321a40ffb79872ae027351e1965f32ae5cfc6d1",
+      "publicSha256": "27d5866e66b01727f8f6672f01e002b06c3d4e202a3ed26c220c8710297dc069",
+      "rawRelativeSource": "native30-retained/cleanup-receipt.json",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/driver-snapshot/codex-fixture.mjs",
+      "rawSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "publicSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "rawRelativeSource": "native30-retained/driver-snapshot/codex-fixture.mjs",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/driver-snapshot/inference-server.mjs",
+      "rawSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "rawRelativeSource": "native30-retained/driver-snapshot/inference-server.mjs",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/driver-snapshot/run.py",
+      "rawSha256": "e619b472fc3849b377c91ece8cea547d3f8dfab86e5dacffe36961e5dd671090",
+      "publicSha256": "409a798fd11e9a827d4511cf64159d06f89b8f13b2a9016f976cac9bdb79ba90",
+      "rawRelativeSource": "native30-retained/driver-snapshot/run.py",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/gateway-private.log",
+      "rawSha256": "2f5887a947f99c889354b0a41a3659059d53b12eaea0f2861e9e73c4af7c198d",
+      "publicSha256": "7a1c4f505ad02b9fc3b99069970982a7238512bd2f11202ab3e706da4d934c9d",
+      "rawRelativeSource": "native30-retained/gateway-private.log",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/gateway.log",
+      "rawSha256": "6b158336f6aa8a1d6ea58cdaff509548be9b3c4946f0d2a978c501b7df3b8935",
+      "publicSha256": "9fbcbf266bdcda10963441ce6f3985f9ddeba8591695676afe653f646fb04a8d",
+      "rawRelativeSource": "native30-retained/gateway.log",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/identity.json",
+      "rawSha256": "082ebb9a21d352856f6cb50b61f8a50224590424f67d65c633494a0e2e4c7f25",
+      "publicSha256": "082ebb9a21d352856f6cb50b61f8a50224590424f67d65c633494a0e2e4c7f25",
+      "rawRelativeSource": "native30-retained/identity.json",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/cleanup-receipt.json",
+      "rawSha256": "5ee4a144d1b12046e89ecd4cd6d0110251ad4189ff8c3e694dcb35dd65a562ab",
+      "publicSha256": "3bd32daac96d7a05f4d5e1cb0a06c48d1a796c4a276df4168e4045561368f161",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/cleanup-receipt.json",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/codex-events.jsonl",
+      "rawSha256": "8f0e01b71279cb93c4307aa7b39bed0850120dc7458e338aafd3104fb5ab65d9",
+      "publicSha256": "761d90908b4d5e29de20184fc7e17aea0249c3e5ec7820c464f8e837a9d00e9d",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/codex-events.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/diagnostic-receipt.json",
+      "rawSha256": "386c6c7123c4d50e367d082d27e2a28e80539ed1c3ac46bc2960fadce7ba753d",
+      "publicSha256": "386c6c7123c4d50e367d082d27e2a28e80539ed1c3ac46bc2960fadce7ba753d",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/diagnostic-receipt.json",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/diagnostic-wire.jsonl",
+      "rawSha256": "00387ea5904b6f122b9cee08ae3ce958dcdbf59a7175c8de6ba11c4835d1f455",
+      "publicSha256": "afb23b3c7e6bc683f775910f2e676b8f701f23259c8a756590759e638725e6f0",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/diagnostic-wire.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/driver-snapshot/codex-fixture.mjs",
+      "rawSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "publicSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/driver-snapshot/codex-fixture.mjs",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/driver-snapshot/inference-server.mjs",
+      "rawSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/driver-snapshot/inference-server.mjs",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/driver-snapshot/resume.py",
+      "rawSha256": "71d9baa937721fb6bb0dc46ab2d1b54ca70191721c5e434d47bb708661f5929b",
+      "publicSha256": "71d9baa937721fb6bb0dc46ab2d1b54ca70191721c5e434d47bb708661f5929b",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/driver-snapshot/resume.py",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/gateway-private-phase.log",
+      "rawSha256": "6cd2913e039bf84be2f75a6994da37541ed94c041f1a05a55c42e53b8f769337",
+      "publicSha256": "b88bf7d138f85ea2900059cf6315fd5c045ba63781d62dbad56e2df49a7948fc",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/gateway-private-phase.log",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/gateway.log",
+      "rawSha256": "4d8fa6002942ece8fa419e784ef5a3c860b0980b436684100a6a5300241ddc60",
+      "publicSha256": "1d9d9cae5e62de4e74acdb7df06e20979bedd71a64b7da230a39c84b0769d9e6",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/gateway.log",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/identity.json",
+      "rawSha256": "082ebb9a21d352856f6cb50b61f8a50224590424f67d65c633494a0e2e4c7f25",
+      "publicSha256": "082ebb9a21d352856f6cb50b61f8a50224590424f67d65c633494a0e2e4c7f25",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/identity.json",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/process-census.jsonl",
+      "rawSha256": "c173b02551f66ee2b6b87b76b049b66d7a5405f14ba1775e5bfe4d3bfc99d548",
+      "publicSha256": "dd20a357eb255238def13ab42f3d44fae93c1e61131989694948885218603959",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/process-census.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/readiness.jsonl",
+      "rawSha256": "216ddfdf7d0ecf1ed36ac29f2117019038466e4950ae7007050db6e0116e2daa",
+      "publicSha256": "216ddfdf7d0ecf1ed36ac29f2117019038466e4950ae7007050db6e0116e2daa",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/readiness.jsonl",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/phases/retained-startup/state-before.json",
+      "rawSha256": "2d536fd60954e1a9332d2db9529fe3dd5b5acd843563516637b20d7b82f29adf",
+      "publicSha256": "2d536fd60954e1a9332d2db9529fe3dd5b5acd843563516637b20d7b82f29adf",
+      "rawRelativeSource": "native30-retained/phases/retained-startup/state-before.json",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/process-census.jsonl",
+      "rawSha256": "066b6daf0c3a24d4678ed47871e7024332306d7e7142c9ab0752abd553a9224e",
+      "publicSha256": "983f0aecd4164105e3ec23b874ed20cef9b1e6ea016a8ab112be881b13120f83",
+      "rawRelativeSource": "native30-retained/process-census.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "native30-retained/readiness.jsonl",
+      "rawSha256": "3dc8ffa8f99911824243094264495d8c2d8458e07936110bb81f01f9d6915c08",
+      "publicSha256": "3dc8ffa8f99911824243094264495d8c2d8458e07936110bb81f01f9d6915c08",
+      "rawRelativeSource": "native30-retained/readiness.jsonl",
+      "transformed": false
+    },
+    {
+      "path": "native30-retained/session-seed-receipt.json",
+      "rawSha256": "036e11bd2d60f738cf2164e87136270c49d429c66eaeabdba2419eaf5622f893",
+      "publicSha256": "036e11bd2d60f738cf2164e87136270c49d429c66eaeabdba2419eaf5622f893",
+      "rawRelativeSource": "native30-retained/session-seed-receipt.json",
+      "transformed": false
+    },
+    {
+      "path": "current30-delayed/cleanup-receipt.json",
+      "rawSha256": "c9f5248a974c5a00c1bfdebbcdac4cf7b6aeeedbfce9a952215d62f1d0c2ff63",
+      "publicSha256": "0f47e958f3ae31c9cbbb71f15002e9a22a621d8769a59da41d64cf42abd45fa8",
+      "rawRelativeSource": "current30-delayed/cleanup-receipt.json",
+      "transformed": true
+    },
+    {
+      "path": "current30-delayed/driver-snapshot/codex-fixture.mjs",
+      "rawSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "publicSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "rawRelativeSource": "current30-delayed/driver-snapshot/codex-fixture.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-delayed/driver-snapshot/inference-server.mjs",
+      "rawSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "rawRelativeSource": "current30-delayed/driver-snapshot/inference-server.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-delayed/driver-snapshot/run.py",
+      "rawSha256": "e619b472fc3849b377c91ece8cea547d3f8dfab86e5dacffe36961e5dd671090",
+      "publicSha256": "409a798fd11e9a827d4511cf64159d06f89b8f13b2a9016f976cac9bdb79ba90",
+      "rawRelativeSource": "current30-delayed/driver-snapshot/run.py",
+      "transformed": true
+    },
+    {
+      "path": "current30-delayed/identity.json",
+      "rawSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "publicSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "rawRelativeSource": "current30-delayed/identity.json",
+      "transformed": false
+    },
+    {
+      "path": "current30-control/cleanup-receipt.json",
+      "rawSha256": "9a2c638912d60a796d34f6749c6b5faa4bb7b76ec3876bfbaefc0ab5a2c5bdb3",
+      "publicSha256": "ef6d79d5cad7fd788a3a1a43ffc1082647884688f18780059d9c5048ff825de1",
+      "rawRelativeSource": "current30-control/cleanup-receipt.json",
+      "transformed": true
+    },
+    {
+      "path": "current30-control/driver-snapshot/codex-fixture.mjs",
+      "rawSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "publicSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "rawRelativeSource": "current30-control/driver-snapshot/codex-fixture.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-control/driver-snapshot/inference-server.mjs",
+      "rawSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "rawRelativeSource": "current30-control/driver-snapshot/inference-server.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-control/driver-snapshot/run.py",
+      "rawSha256": "f45d81e908d560e7f69118a3a30965657d45e59e20d41b34cb2e8265277bc5c1",
+      "publicSha256": "1bdebfe42c48f161c0fbb9245abf4077de04f7cd5acac82e0288033cef5c7f12",
+      "rawRelativeSource": "current30-control/driver-snapshot/run.py",
+      "transformed": true
+    },
+    {
+      "path": "current30-control/gateway-private.log",
+      "rawSha256": "c7f0fdceeef5512798167da2301936ae23b4d748a4f3007d2bde9d926af29ec1",
+      "publicSha256": "ffcb3eb1dc3413627ddc3d75e0ba70f633a807af6332956fb742afd2518e7888",
+      "rawRelativeSource": "current30-control/gateway-private.log",
+      "transformed": true
+    },
+    {
+      "path": "current30-control/gateway.log",
+      "rawSha256": "df4b58234bcda8ede65533fca7180bec5e6edb83de5ce0e3cf369f17fefc548e",
+      "publicSha256": "5befa243c3873c6c313a37754bb6aba82b4d73b082ed5c186a29b035ae118169",
+      "rawRelativeSource": "current30-control/gateway.log",
+      "transformed": true
+    },
+    {
+      "path": "current30-control/identity.json",
+      "rawSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "publicSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "rawRelativeSource": "current30-control/identity.json",
+      "transformed": false
+    },
+    {
+      "path": "current30-control/process-census.jsonl",
+      "rawSha256": "9ba7c313ad19d0f761ffb15f8ed926afa5bacff327b1d202f92f2ba31ca2d492",
+      "publicSha256": "1aa3c8f27753e7f19323cc638641c8e7f926a007336ff773f9df316911d340cb",
+      "rawRelativeSource": "current30-control/process-census.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "current30-control/readiness.jsonl",
+      "rawSha256": "b669ca26893a21fbce044cc08d6dfac2ed703eca5b667442286d4dc6774fe9b2",
+      "publicSha256": "b669ca26893a21fbce044cc08d6dfac2ed703eca5b667442286d4dc6774fe9b2",
+      "rawRelativeSource": "current30-control/readiness.jsonl",
+      "transformed": false
+    },
+    {
+      "path": "current30-canonical/cleanup-receipt.json",
+      "rawSha256": "f06e2911c3b6ba24c74898eac47db030aad9ad8e50979f61c0d1b587a3559ca1",
+      "publicSha256": "cc985cc868bed3b4c3f76760951ee3925d3362c9928fe550c44bed18ea1549c6",
+      "rawRelativeSource": "current30-canonical/cleanup-receipt.json",
+      "transformed": true
+    },
+    {
+      "path": "current30-canonical/driver-snapshot/codex-fixture.mjs",
+      "rawSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "publicSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "rawRelativeSource": "current30-canonical/driver-snapshot/codex-fixture.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-canonical/driver-snapshot/inference-server.mjs",
+      "rawSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "rawRelativeSource": "current30-canonical/driver-snapshot/inference-server.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-canonical/driver-snapshot/run.py",
+      "rawSha256": "b288ca85a16cfb3588272c743809b7f5ad2074ede857635096caa8b1b564c196",
+      "publicSha256": "bf9fd6969faa770d7c32edd8fa6fcaf1dde6ce1e8d539dced92040d901e73d0d",
+      "rawRelativeSource": "current30-canonical/driver-snapshot/run.py",
+      "transformed": true
+    },
+    {
+      "path": "current30-canonical/gateway-private.log",
+      "rawSha256": "25f9d89662a22de21f0cab91d42a3307e87dea84dd821fd935e7838383ad35be",
+      "publicSha256": "f37fd17506c9a6ee3a831debd933cee222175813fc92217f6948d44c5494f78d",
+      "rawRelativeSource": "current30-canonical/gateway-private.log",
+      "transformed": true
+    },
+    {
+      "path": "current30-canonical/gateway.log",
+      "rawSha256": "32dc322c97f975e862c5a97906149ffeb4159fdbf6dcab361168c8ea42743908",
+      "publicSha256": "1b87699d8ccca3d7156ef5b5cc2f22a5ef488b34efa46d5b261b2c8906e6ee84",
+      "rawRelativeSource": "current30-canonical/gateway.log",
+      "transformed": true
+    },
+    {
+      "path": "current30-canonical/identity.json",
+      "rawSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "publicSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "rawRelativeSource": "current30-canonical/identity.json",
+      "transformed": false
+    },
+    {
+      "path": "current30-canonical/process-census.jsonl",
+      "rawSha256": "29b9e4eb4537b5a1bb7fbb1f0e68f04f1a89af15b6ca9dbaa6978ab438b3f9c0",
+      "publicSha256": "a1fbed9a5bdbfa4d2390ab094ad92166f1ee8faded7ef8018d67e51928bdf5c5",
+      "rawRelativeSource": "current30-canonical/process-census.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "current30-canonical/readiness.jsonl",
+      "rawSha256": "685a3dc7942cc35a4d84b9a598cf9288de5985644c164d67d343867eea03457b",
+      "publicSha256": "685a3dc7942cc35a4d84b9a598cf9288de5985644c164d67d343867eea03457b",
+      "rawRelativeSource": "current30-canonical/readiness.jsonl",
+      "transformed": false
+    },
+    {
+      "path": "current30-validated/cleanup-receipt.json",
+      "rawSha256": "c3086ecf86608aa627ac9e682263e6065f4b3e60c3bbc030829338defd7753e8",
+      "publicSha256": "af725f207286a9ea6d3dd180a7af4b524c38042abe1534a58f2d1c0a466513d2",
+      "rawRelativeSource": "current30-validated/cleanup-receipt.json",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/codex-events.jsonl",
+      "rawSha256": "f6b4f685193979159a287413bb91860215a2b1c4a549eb37ea3b3f2bc18b96f6",
+      "publicSha256": "67dbe60f843496f439f18cc27802a88c271c8af8f786721091078810c2830f6a",
+      "rawRelativeSource": "current30-validated/codex-events.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/config-validation.json",
+      "rawSha256": "98d89c2e056470b6305a3da99273f592455b3d296325fa4e7c5189ee98633ec9",
+      "publicSha256": "98d89c2e056470b6305a3da99273f592455b3d296325fa4e7c5189ee98633ec9",
+      "rawRelativeSource": "current30-validated/config-validation.json",
+      "transformed": false
+    },
+    {
+      "path": "current30-validated/config-validation.log",
+      "rawSha256": "3f18ab59cdafb7627d47854004d80d82391108b9d301b1792e251bc8d7adc075",
+      "publicSha256": "b0b4514afa63759497e8dbcf6e98c8761ae861a72a3f82193ef6afe7b3c4445d",
+      "rawRelativeSource": "current30-validated/config-validation.log",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/diagnostic-receipt.json",
+      "rawSha256": "10bb07ec234ab9858b99066bcdbf87082e3ae6961098a072d6418c778a3c29e9",
+      "publicSha256": "10bb07ec234ab9858b99066bcdbf87082e3ae6961098a072d6418c778a3c29e9",
+      "rawRelativeSource": "current30-validated/diagnostic-receipt.json",
+      "transformed": false
+    },
+    {
+      "path": "current30-validated/diagnostic-wire.jsonl",
+      "rawSha256": "95dc9b543debd3829c6651514757ec921bbc711afb220402ee390842e6655323",
+      "publicSha256": "a9f89d7301aabaeea529d4d98c46ba0aed1a4ccc65c83f22a26bec921fda38ec",
+      "rawRelativeSource": "current30-validated/diagnostic-wire.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/driver-snapshot/codex-fixture.mjs",
+      "rawSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "publicSha256": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+      "rawRelativeSource": "current30-validated/driver-snapshot/codex-fixture.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-validated/driver-snapshot/inference-server.mjs",
+      "rawSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "publicSha256": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+      "rawRelativeSource": "current30-validated/driver-snapshot/inference-server.mjs",
+      "transformed": false
+    },
+    {
+      "path": "current30-validated/driver-snapshot/run.py",
+      "rawSha256": "e775f1ac4cfc92dfca3fa515262030f96d11a461dc0efc46efdf113dee46cf62",
+      "publicSha256": "340ee146d7edd4281183ce677ab32176b737181b06aab8efb8989543a466a070",
+      "rawRelativeSource": "current30-validated/driver-snapshot/run.py",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/failures.jsonl",
+      "rawSha256": "df48c432e215a2832e89816fc02f2546e1269c13ef818b291b47e69c175d2141",
+      "publicSha256": "1336166f87817c4ae2df16267405f9e501882db0a0f656e74bb00c37d6b4d15b",
+      "rawRelativeSource": "current30-validated/failures.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/first-failure.json",
+      "rawSha256": "92b98a663be92c3cffd0de73618b771a52b6925211874d6b0ed0a86d60d144c2",
+      "publicSha256": "cb06e5bac99b9b5d184dbcc64f2767d6e9e0cab3328ab0343f5b0a5456446c7a",
+      "rawRelativeSource": "current30-validated/first-failure.json",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/gateway-private.log",
+      "rawSha256": "ede7fd7e32c18747de061a4723b4d66f1ed804441b2aa5524d67659439455205",
+      "publicSha256": "597f7d57a2b4fff399eaebbf87c39047c9441677e7a4f9639ebb9f3b3af3e6c2",
+      "rawRelativeSource": "current30-validated/gateway-private.log",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/gateway.log",
+      "rawSha256": "f45bb285920a469cddcdf02e73ffd9f68b5558a2879b490f3662cf0deda93682",
+      "publicSha256": "6cab2971a39b092e6cb6a71a14183a88afa9be74f6cfc16a592e8f5d5b3eb6a6",
+      "rawRelativeSource": "current30-validated/gateway.log",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/identity.json",
+      "rawSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "publicSha256": "e25cbb9fc3e54c2a12a8a506f3c71a4ea3e7c18781cfa5e0b7d491403a98944b",
+      "rawRelativeSource": "current30-validated/identity.json",
+      "transformed": false
+    },
+    {
+      "path": "current30-validated/process-census.jsonl",
+      "rawSha256": "bb8133995eeb1e210989d3329b7a0ee1a6a03b888cb8dde5b5f1285e18f4f447",
+      "publicSha256": "d6b42c0df5b2974966828e10759d199f742139ed993d51e486b242713c9d18c4",
+      "rawRelativeSource": "current30-validated/process-census.jsonl",
+      "transformed": true
+    },
+    {
+      "path": "current30-validated/readiness.jsonl",
+      "rawSha256": "ecd88952a6e2eaa9ddc85b6e1cc54e9e40e3a66a9fd676b55bf91cace570f9c1",
+      "publicSha256": "ecd88952a6e2eaa9ddc85b6e1cc54e9e40e3a66a9fd676b55bf91cace570f9c1",
+      "rawRelativeSource": "current30-validated/readiness.jsonl",
+      "transformed": false
+    }
+  ]
+}

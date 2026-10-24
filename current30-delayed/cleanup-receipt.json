@@ -1,0 +1,31 @@
+{
+  "status": "preflight-refused",
+  "syntheticProvider": true,
+  "realCredentials": false,
+  "paidInference": false,
+  "productModified": false,
+  "directDatabaseManipulation": false,
+  "parameters": {
+    "name": "current30-delayed",
+    "run": true,
+    "package": "/fixture-runtime/openclaw-134498-proof/candidate",
+    "node": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "agents": 30,
+    "native_version": "0.162.1",
+    "seconds": 240,
+    "model_delay_ms": 4500,
+    "port": 20096,
+    "max_descendants": 96,
+    "codex_mode": "enabled"
+  },
+  "case": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/current30-delayed",
+  "driverHashes": {
+    "codex-fixture.mjs": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+    "inference-server.mjs": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+    "run.py": "e619b472fc3849b377c91ece8cea547d3f8dfab86e5dacffe36961e5dd671090"
+  },
+  "configSha256": "dfe80b2fa0c35cf3f5a5bdaecd48d0fe58f2159048e4b938a4afe92b5b93842b",
+  "error": "Initial bind check rejected TIME_WAIT without SO_REUSEADDR before any spawn",
+  "processesLaunched": false,
+  "recordedAt": 1792852455.803173
+}

@@ -1,0 +1,574 @@
+{
+  "syntheticProvider": true,
+  "realCredentials": false,
+  "paidInference": false,
+  "productModified": false,
+  "directDatabaseManipulation": false,
+  "configSha256": "e26c15dea065427be0bfbb9c6e873537181b41066712d8ee20910cc10cc27e43",
+  "status": "finished",
+  "case": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/phases/retained-startup",
+  "sourceCase": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained",
+  "parameters": {
+    "name": "native30-retained",
+    "run": true,
+    "package": "/fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw",
+    "node": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "agents": 30,
+    "native_version": "0.155.1",
+    "seconds": 240,
+    "model_delay_ms": 4500,
+    "port": 20096,
+    "max_descendants": 96,
+    "codex_mode": "enabled"
+  },
+  "phase": "retained-startup",
+  "seconds": 240,
+  "requestedSeconds": 240,
+  "driverHashes": {
+    "codex-fixture.mjs": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+    "resume.py": "71d9baa937721fb6bb0dc46ab2d1b54ca70191721c5e434d47bb708661f5929b",
+    "inference-server.mjs": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155"
+  },
+  "sourceCleanupSha256": "0a3201b270d91d76bdc529265321a40ffb79872ae027351e1965f32ae5cfc6d1",
+  "seedReceiptSha256": "036e11bd2d60f738cf2164e87136270c49d429c66eaeabdba2419eaf5622f893",
+  "stateBeforeSha256": "2d536fd60954e1a9332d2db9529fe3dd5b5acd843563516637b20d7b82f29adf",
+  "agentDatabases": [
+    "agent01",
+    "agent02",
+    "agent03",
+    "agent04",
+    "agent05",
+    "agent06",
+    "agent07",
+    "agent08",
+    "agent09",
+    "agent10",
+    "agent11",
+    "agent12",
+    "agent13",
+    "agent14",
+    "agent15",
+    "agent16",
+    "agent17",
+    "agent18",
+    "agent19",
+    "agent20",
+    "agent21",
+    "agent22",
+    "agent23",
+    "agent24",
+    "agent25",
+    "agent26",
+    "agent27",
+    "agent28",
+    "agent29",
+    "main"
+  ],
+  "privateLogStartByte": 73650,
+  "retainedConfigSha256": "37ecc0478a65075416ea12164b4f7449c691c53f4c54894a5f03dc18bad866e1",
+  "configTransition": {
+    "reason": "Gateway 2026.9.6 automatic first-start config normalization; retained unchanged for cold restart",
+    "beforeSha256": "e26c15dea065427be0bfbb9c6e873537181b41066712d8ee20910cc10cc27e43",
+    "afterSha256": "37ecc0478a65075416ea12164b4f7449c691c53f4c54894a5f03dc18bad866e1",
+    "backupMatchesOriginal": true,
+    "semanticDeltaVerified": true
+  },
+  "startedAt": 1792852174.708005,
+  "hardLifetimeSeconds": 275,
+  "inference": {
+    "pid": 1472653,
+    "ppid": 1472596,
+    "state": "R",
+    "startTicks": "233898584",
+    "rssKb": 532,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/phases/retained-startup/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/phases/retained-startup --seconds 300 "
+  },
+  "gateway": {
+    "pid": 1472654,
+    "ppid": 1472596,
+    "state": "R",
+    "startTicks": "233898584",
+    "rssKb": 528,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/openclaw.mjs gateway --port 20096 --bind loopback --allow-unconfigured "
+  },
+  "readyAt": 1792852237.9582825,
+  "configPath": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/config.json",
+  "port": 20096,
+  "stopReason": "stop-request",
+  "readyObserved": true,
+  "descendantsObserved": [
+    {
+      "pid": 1472653,
+      "ppid": 1472596,
+      "state": "S",
+      "startTicks": "233898584",
+      "rssKb": 67824,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/phases/retained-startup/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/phases/retained-startup --seconds 300 "
+    },
+    {
+      "pid": 1472654,
+      "ppid": 1472596,
+      "state": "S",
+      "startTicks": "233898584",
+      "rssKb": 1141744,
+      "threads": 16,
+      "command": "openclaw-gateway                                                                                                                                                                                                                                       "
+    },
+    {
+      "pid": 1472678,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233898779",
+      "rssKb": 98724,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child sync /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/state/state/openclaw.sqlite /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/home/cache/openclaw/openclaw-sqlite-readonly-v2-LowtSZ "
+    },
+    {
+      "pid": 1472693,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233898894",
+      "rssKb": 85468,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child sync /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/state/state/openclaw.sqlite /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/home/cache/openclaw/openclaw-sqlite-readonly-v2-66D8yp "
+    },
+    {
+      "pid": 1472714,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233899006",
+      "rssKb": 111640,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/state/openclaw-agent-schema-inspection.worker.js "
+    },
+    {
+      "pid": 1472715,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233899007",
+      "rssKb": 111344,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/state/openclaw-agent-schema-inspection.worker.js "
+    },
+    {
+      "pid": 1472700,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233898925",
+      "rssKb": 117088,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1472728,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233899057",
+      "rssKb": 117684,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1472729,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233899058",
+      "rssKb": 117740,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1472762,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233899318",
+      "rssKb": 80672,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/state/openclaw-agent-schema-inspection.worker.js "
+    },
+    {
+      "pid": 1472763,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233899319",
+      "rssKb": 86668,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/state/openclaw-agent-schema-inspection.worker.js "
+    },
+    {
+      "pid": 1472841,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233899538",
+      "rssKb": 73304,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/process/spawn-broker/worker.js "
+    },
+    {
+      "pid": 1472848,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233899588",
+      "rssKb": 107776,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1472861,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233900413",
+      "rssKb": 102708,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1472951,
+      "ppid": 1472654,
+      "state": "Z",
+      "startTicks": "233901106",
+      "rssKb": 0,
+      "threads": 1,
+      "command": ""
+    },
+    {
+      "pid": 1473208,
+      "ppid": 1472841,
+      "state": "S",
+      "startTicks": "233904907",
+      "rssKb": 111856,
+      "threads": 11,
+      "command": "node /usr/bin/pnpm root -g "
+    },
+    {
+      "pid": 1473290,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233905886",
+      "rssKb": 51968,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473306,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233906070",
+      "rssKb": 52188,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473320,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233906263",
+      "rssKb": 50156,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473334,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233906458",
+      "rssKb": 52032,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473424,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233906647",
+      "rssKb": 52200,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473438,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233906827",
+      "rssKb": 51932,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473459,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233907008",
+      "rssKb": 52168,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473480,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233907202",
+      "rssKb": 51992,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473494,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233907390",
+      "rssKb": 51932,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473546,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233907570",
+      "rssKb": 52000,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473573,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233907749",
+      "rssKb": 51936,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473594,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233907918",
+      "rssKb": 52148,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473608,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233908089",
+      "rssKb": 52144,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473622,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233908289",
+      "rssKb": 51956,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473643,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233908468",
+      "rssKb": 52000,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473748,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233908685",
+      "rssKb": 91364,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/state/openclaw-database-verify.worker.js --openclaw-database-verify-child "
+    },
+    {
+      "pid": 1473754,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233908688",
+      "rssKb": 51992,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473761,
+      "ppid": 1472654,
+      "state": "Z",
+      "startTicks": "233908690",
+      "rssKb": 0,
+      "threads": 1,
+      "command": ""
+    },
+    {
+      "pid": 1473772,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233908898",
+      "rssKb": 51992,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473786,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233908915",
+      "rssKb": 57100,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/state/openclaw-database-verify.worker.js --openclaw-database-verify-child "
+    },
+    {
+      "pid": 1473793,
+      "ppid": 1472654,
+      "state": "R",
+      "startTicks": "233908994",
+      "rssKb": 94388,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/state/openclaw-database-verify.worker.js --openclaw-database-verify-child "
+    },
+    {
+      "pid": 1473800,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233909095",
+      "rssKb": 52212,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473880,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233909294",
+      "rssKb": 52000,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473894,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233909462",
+      "rssKb": 52032,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473948,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233909634",
+      "rssKb": 52120,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473962,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233909801",
+      "rssKb": 51932,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473983,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233909981",
+      "rssKb": 51928,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1473997,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233910174",
+      "rssKb": 52148,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1474011,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233910364",
+      "rssKb": 51936,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1474081,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233910549",
+      "rssKb": 51948,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1474095,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233910728",
+      "rssKb": 52128,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1474109,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233910902",
+      "rssKb": 52004,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1474124,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233911104",
+      "rssKb": 52108,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    },
+    {
+      "pid": 1474160,
+      "ppid": 1472654,
+      "state": "S",
+      "startTicks": "233911319",
+      "rssKb": 52016,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/codex-fixture.mjs -c cli_auth_credentials_store=\"ephemeral\" app-server "
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "inference",
+      "pid": 1472653,
+      "exitCode": 0
+    },
+    {
+      "label": "gateway",
+      "pid": 1472654,
+      "exitCode": 0
+    }
+  ],
+  "survivors": [],
+  "ports": {
+    "20096": "free",
+    "20095": "free"
+  },
+  "portFree": true,
+  "finishedAt": 1792852393.89318,
+  "elapsedSeconds": 219.1851982283406,
+  "firstFailureObserved": false
+}

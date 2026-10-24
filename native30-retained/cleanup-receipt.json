@@ -1,0 +1,166 @@
+{
+  "status": "finished",
+  "syntheticProvider": true,
+  "realCredentials": false,
+  "paidInference": false,
+  "productModified": false,
+  "directDatabaseManipulation": false,
+  "parameters": {
+    "name": "native30-retained",
+    "run": true,
+    "package": "/fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw",
+    "node": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node",
+    "agents": 30,
+    "native_version": "0.155.1",
+    "seconds": 240,
+    "model_delay_ms": 4500,
+    "port": 20096,
+    "max_descendants": 96,
+    "codex_mode": "enabled"
+  },
+  "case": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained",
+  "driverHashes": {
+    "codex-fixture.mjs": "ccc8545cdbdb28b21c4dc38a3ce32c2b58bd6255bbdbca0161fc43407e5f34cb",
+    "inference-server.mjs": "d627afec67f0a2eeb27e00277d478ff90280f0182744145bdc65201c87faa155",
+    "run.py": "e619b472fc3849b377c91ece8cea547d3f8dfab86e5dacffe36961e5dd671090"
+  },
+  "configSha256": "e26c15dea065427be0bfbb9c6e873537181b41066712d8ee20910cc10cc27e43",
+  "startedAt": 1792852037.632628,
+  "hardLifetimeSeconds": 275,
+  "inference": {
+    "pid": 1471497,
+    "ppid": 1471496,
+    "state": "R",
+    "startTicks": "233884876",
+    "rssKb": 532,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained --seconds 300 "
+  },
+  "gateway": {
+    "pid": 1471498,
+    "ppid": 1471496,
+    "state": "R",
+    "startTicks": "233884877",
+    "rssKb": 532,
+    "threads": 1,
+    "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/openclaw.mjs gateway --port 20096 --bind loopback --allow-unconfigured "
+  },
+  "readyAt": 1792852116.6022863,
+  "configPath": "/fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/config.json",
+  "port": 20096,
+  "stopReason": "stop-request",
+  "readyObserved": true,
+  "descendantsObserved": [
+    {
+      "pid": 1471497,
+      "ppid": 1471496,
+      "state": "S",
+      "startTicks": "233884876",
+      "rssKb": 65196,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained/driver-snapshot/inference-server.mjs --out /fixture-runtime/openclaw-179075-reported-gateway/multiagent-admission/native30-retained --seconds 300 "
+    },
+    {
+      "pid": 1471498,
+      "ppid": 1471496,
+      "state": "R",
+      "startTicks": "233884877",
+      "rssKb": 1125044,
+      "threads": 17,
+      "command": "openclaw-gateway                                                                                                                                                                                                                                       "
+    },
+    {
+      "pid": 1471525,
+      "ppid": 1471498,
+      "state": "S",
+      "startTicks": "233885270",
+      "rssKb": 107692,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1471582,
+      "ppid": 1471498,
+      "state": "Z",
+      "startTicks": "233885544",
+      "rssKb": 0,
+      "threads": 2,
+      "command": ""
+    },
+    {
+      "pid": 1471605,
+      "ppid": 1471498,
+      "state": "R",
+      "startTicks": "233885644",
+      "rssKb": 393752,
+      "threads": 11,
+      "command": "npm install                                                                                                                                                                                                                      "
+    },
+    {
+      "pid": 1471647,
+      "ppid": 1471498,
+      "state": "R",
+      "startTicks": "233886025",
+      "rssKb": 349708,
+      "threads": 11,
+      "command": "npm install                                                                                                                                                                                          "
+    },
+    {
+      "pid": 1471810,
+      "ppid": 1471498,
+      "state": "S",
+      "startTicks": "233887843",
+      "rssKb": 70712,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/process/spawn-broker/worker.js "
+    },
+    {
+      "pid": 1471817,
+      "ppid": 1471498,
+      "state": "S",
+      "startTicks": "233887876",
+      "rssKb": 108352,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1471826,
+      "ppid": 1471498,
+      "state": "S",
+      "startTicks": "233888286",
+      "rssKb": 102692,
+      "threads": 7,
+      "command": "/fixture-runtime/openclaw-134498-proof/runtime/node-v24.22.1-linux-x64/bin/node /fixture-runtime/openclaw-179075-reported-gateway/runtime/node_modules/openclaw/dist/infra/sqlite-readonly-location.worker.js --openclaw-sqlite-readonly-child session "
+    },
+    {
+      "pid": 1472178,
+      "ppid": 1471810,
+      "state": "S",
+      "startTicks": "233892906",
+      "rssKb": 94168,
+      "threads": 11,
+      "command": "node /usr/bin/pnpm root -g "
+    }
+  ],
+  "cleanup": [
+    {
+      "label": "inference",
+      "pid": 1471497,
+      "exitCode": 0
+    },
+    {
+      "label": "gateway",
+      "pid": 1471498,
+      "exitCode": 0
+    }
+  ],
+  "survivors": [],
+  "ports": {
+    "20096": "free",
+    "20095": "free"
+  },
+  "portFree": true,
+  "finishedAt": 1792852124.1079566,
+  "elapsedSeconds": 86.47535259928554,
+  "firstFailureObserved": false
+}
