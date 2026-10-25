@@ -1,764 +1,241 @@
-// Tests persisted pairing store lifecycle and challenge lookup.
+import assert from "node:assert/strict";
 import crypto from "node:crypto";
-import fsSync from "node:fs";
+import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { resolveOAuthDir } from "../config/paths.js";
+import { afterAll, afterEach, beforeAll, beforeEach, expect, it, vi } from "vitest";
+import { observeHostDataSql } from "../../test/helpers/sqlite-statement-execution-counter.js";
+import { executeSqliteQuerySync, getNodeSqliteKysely } from "../infra/kysely-sync.js";
 import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+import { openOpenClawStateDatabase } from "../state/openclaw-state-db.js";
+import { closeStateDatabaseForTest } from "../test-utils/database-cleanup.js";
+import { generateUniqueCode } from "./pairing-store-model.js";
 
-const pairingMocks = vi.hoisted(() => ({
-  getPairingAdapter: vi.fn<
-    () => {
-      idLabel: string;
-      normalizeAllowEntry?: (entry: string) => string;
-    } | null
-  >(() => null),
-}));
-
+// mock-isolation: Store tests pass explicit adapters and must not discover installed channels.
 vi.mock("../channels/plugins/pairing.js", () => ({
-  getPairingAdapter: pairingMocks.getPairingAdapter,
+  getPairingAdapter: () => null,
 }));
 
-import { drainFileLockStateForTest, resetFileLockStateForTest } from "../infra/file-lock.js";
 import {
-  addChannelAllowFromStoreEntry,
-  clearPairingAllowFromReadCacheForTest,
+  readChannelPairingStateSnapshot,
+  writeChannelPairingStateSnapshot,
+} from "./pairing-store-sqlite.test-helpers.js";
+import {
   approveChannelPairingCode,
+  dismissChannelPairingRequest,
   listChannelPairingRequests,
-  readChannelAllowFromStore,
-  readLegacyChannelAllowFromStore,
-  readLegacyChannelAllowFromStoreSync,
   readChannelAllowFromStoreSync,
-  removeChannelAllowFromStoreEntry,
-  upsertChannelPairingRequest,
+  resolveChannelPairingRequestId,
 } from "./pairing-store.js";
+import { pairingStoreFixture } from "./pairing-store.test-support.js";
+
+type PairingTestDatabase = Pick<
+  OpenClawStateKyselyDatabase,
+  "channel_pairing_allow_entries" | "channel_pairing_requests"
+>;
 
 let fixtureRoot = "";
-let caseId = 0;
-type RandomIntSync = (minOrMax: number, max?: number) => number;
-type FileReadSpy = {
-  readCount: () => number;
-  mockRestore: () => void;
-};
+let pairingEnv: NodeJS.ProcessEnv;
+let store: ReturnType<typeof pairingStoreFixture>;
+beforeEach(() => vi.stubEnv("OPENCLAW_STATE_DIR", fixtureRoot));
 
 beforeAll(() => {
-  fixtureRoot = fsSync.mkdtempSync(path.join(os.tmpdir(), "openclaw-pairing-"));
+  fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-pairing-"));
+  pairingEnv = { ...process.env, OPENCLAW_STATE_DIR: fixtureRoot };
+  openOpenClawStateDatabase({ env: pairingEnv });
+  store = pairingStoreFixture("telegram", pairingEnv);
 });
 
-afterAll(() => {
-  if (fixtureRoot) {
-    fsSync.rmSync(fixtureRoot, { recursive: true, force: true });
-  }
+afterAll(async () => {
+  await closeStateDatabaseForTest();
+  fs.rmSync(fixtureRoot, { recursive: true, force: true });
 });
 
-beforeEach(() => {
-  vi.useRealTimers();
+afterEach(() => {
   vi.restoreAllMocks();
-  resetFileLockStateForTest();
-  clearPairingAllowFromReadCacheForTest();
-  pairingMocks.getPairingAdapter.mockReset();
+  openOpenClawStateDatabase({ env: pairingEnv }).db.exec(
+    "DELETE FROM channel_pairing_requests; DELETE FROM channel_pairing_allow_entries;",
+  );
 });
 
-afterEach(async () => {
-  await drainFileLockStateForTest();
-  resetFileLockStateForTest();
-  vi.useRealTimers();
-  vi.restoreAllMocks();
-});
-
-function requireFirstPairingRequest(
-  requests: Awaited<ReturnType<typeof listChannelPairingRequests>>,
-) {
+async function requestFor(accountId: string) {
+  const requests = await store.list(accountId);
   expect(requests).toHaveLength(1);
-  const [request] = requests;
-  if (!request) {
-    throw new Error("expected pairing request");
-  }
+  const request = requests[0];
+  assert.ok(request, "expected pairing request");
   return request;
 }
 
-async function withTempStateDir<T>(fn: (stateDir: string, env: NodeJS.ProcessEnv) => Promise<T>) {
-  const dir = path.join(fixtureRoot, `case-${caseId++}`);
-  fsSync.mkdirSync(dir, { recursive: true });
-  const env = { ...process.env, OPENCLAW_STATE_DIR: dir };
-  return await fn(dir, env);
+function writeAllowFromFixture(entries: string[]) {
+  store.write({ version: 1, requests: [], allowFrom: { yy: entries } });
 }
 
-function writeJsonFixture(filePath: string, value: unknown) {
-  fsSync.mkdirSync(path.dirname(filePath), { recursive: true });
-  fsSync.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+function upsert(id: string, accountId = DEFAULT_ACCOUNT_ID, channel = "telegram") {
+  return pairingStoreFixture(channel, pairingEnv).upsert(id, accountId);
 }
 
-function resolvePairingFilePath(stateDir: string, channel: string) {
-  return path.join(resolveOAuthDir(process.env, stateDir), `${channel}-pairing.json`);
-}
-
-function resolveAllowFromFilePath(stateDir: string, channel: string, accountId?: string) {
-  const suffix = accountId ? `-${accountId}` : "";
-  return path.join(resolveOAuthDir(process.env, stateDir), `${channel}${suffix}-allowFrom.json`);
-}
-
-function clearOAuthFixtures(stateDir: string) {
-  clearPairingAllowFromReadCacheForTest();
-  fsSync.rmSync(resolveOAuthDir(process.env, stateDir), { recursive: true, force: true });
-}
-
-async function writeAllowFromFixture(params: {
-  stateDir: string;
-  channel: string;
-  allowFrom: string[];
-  accountId?: string;
-}) {
-  writeJsonFixture(resolveAllowFromFilePath(params.stateDir, params.channel, params.accountId), {
-    version: 1,
-    allowFrom: params.allowFrom,
-  });
-}
-
-async function createTelegramPairingRequest(
-  accountId: string,
-  env: NodeJS.ProcessEnv,
-  id = "12345",
-) {
-  const created = await upsertChannelPairingRequest({
-    channel: "telegram",
-    accountId,
-    id,
-    env,
-  });
-  expect(created.created).toBe(true);
-  return created;
-}
-
-async function seedTelegramAllowFromFixtures(params: {
-  stateDir: string;
-  scopedAccountId: string;
-  scopedAllowFrom: string[];
-  legacyAllowFrom?: string[];
-}) {
-  await writeAllowFromFixture({
-    stateDir: params.stateDir,
-    channel: "telegram",
-    allowFrom: params.legacyAllowFrom ?? ["1001"],
-  });
-  await writeAllowFromFixture({
-    stateDir: params.stateDir,
-    channel: "telegram",
-    accountId: params.scopedAccountId,
-    allowFrom: params.scopedAllowFrom,
-  });
-}
-
-async function assertAllowFromCacheInvalidation(params: {
-  stateDir: string;
-  readAllowFrom: () => Promise<string[]>;
-  readSpy: FileReadSpy;
-}) {
-  const first = await params.readAllowFrom();
-  const second = await params.readAllowFrom();
-  expect(first).toEqual(["1001"]);
-  expect(second).toEqual(["1001"]);
-  expect(params.readSpy.readCount()).toBe(1);
-
-  await writeAllowFromFixture({
-    stateDir: params.stateDir,
-    channel: "telegram",
-    accountId: "yy",
-    allowFrom: ["10022"],
-  });
-  const third = await params.readAllowFrom();
-  expect(third).toEqual(["10022"]);
-  expect(params.readSpy.readCount()).toBe(2);
-}
-
-async function expectAccountScopedEntryIsolated(
-  entry: string,
-  env: NodeJS.ProcessEnv,
-  accountId = "yy",
-) {
-  const accountScoped = await readChannelAllowFromStore("telegram", env, accountId);
-  const channelScoped = await readLegacyChannelAllowFromStore("telegram", env);
-  expect(accountScoped).toContain(entry);
-  expect(channelScoped).not.toContain(entry);
-}
-
-async function expectAllowFromCacheInvalidationWithReadSpy(params: {
-  stateDir: string;
-  createReadSpy: (filePath: string) => FileReadSpy;
-  readAllowFrom: () => Promise<string[]>;
-}) {
-  const filePath = resolveAllowFromFilePath(params.stateDir, "telegram", "yy");
-  await writeAllowFromFixture({
-    stateDir: params.stateDir,
-    channel: "telegram",
-    accountId: "yy",
-    allowFrom: ["1001"],
-  });
-  clearPairingAllowFromReadCacheForTest();
-  const readSpy = params.createReadSpy(filePath);
-  try {
-    await assertAllowFromCacheInvalidation({
-      stateDir: params.stateDir,
-      readAllowFrom: params.readAllowFrom,
-      readSpy,
-    });
-  } finally {
-    readSpy.mockRestore();
-  }
-}
-
-function countFileReads(spy: { mock: { calls: unknown[][] } }, filePath: string): number {
-  let count = 0;
-  for (const [candidate] of spy.mock.calls) {
-    if (candidate === filePath) {
-      count++;
-    }
-  }
-  return count;
-}
-
-async function seedDefaultAccountAllowFromFixture(stateDir: string) {
-  await seedTelegramAllowFromFixtures({
-    stateDir,
-    scopedAccountId: DEFAULT_ACCOUNT_ID,
-    scopedAllowFrom: ["1002"],
-  });
-}
-
-async function withMockRandomInt(params: {
-  initialValue?: number;
-  sequence?: number[];
-  fallbackValue?: number;
-  run: () => Promise<void>;
-}) {
-  const randomIntSpy = vi.spyOn(crypto, "randomInt") as unknown as {
-    mockImplementation: (impl: RandomIntSync) => void;
-    mockRestore: () => void;
-    mockReturnValue: (value: number) => void;
-  };
-  try {
-    if (params.initialValue !== undefined) {
-      randomIntSpy.mockReturnValue(params.initialValue);
-    }
-
-    if (params.sequence) {
-      let idx = 0;
-      randomIntSpy.mockImplementation(() => params.sequence?.[idx++] ?? params.fallbackValue ?? 1);
-    }
-
-    await params.run();
-  } finally {
-    randomIntSpy.mockRestore();
-  }
-}
-
-async function expectAllowFromReadConsistencyCase(params: {
-  env: NodeJS.ProcessEnv;
-  accountId?: string;
-  expected: readonly string[];
-  expectedLegacy?: readonly string[];
-}) {
-  const asyncScoped = await readChannelAllowFromStore("telegram", params.env, params.accountId);
-  const syncScoped = readChannelAllowFromStoreSync("telegram", params.env, params.accountId);
-  expect(asyncScoped).toEqual(params.expected);
-  expect(syncScoped).toEqual(params.expected);
-  if (params.expectedLegacy) {
-    expect(await readLegacyChannelAllowFromStore("telegram", params.env)).toEqual(
-      params.expectedLegacy,
-    );
-    expect(readLegacyChannelAllowFromStoreSync("telegram", params.env)).toEqual(
-      params.expectedLegacy,
-    );
-  }
-}
-
-async function expectPendingPairingRequestsIsolatedByAccount(params: {
-  env: NodeJS.ProcessEnv;
-  sharedId: string;
-  firstAccountId: string;
-  secondAccountId: string;
-}) {
-  const first = await upsertChannelPairingRequest({
-    channel: "telegram",
-    accountId: params.firstAccountId,
-    id: params.sharedId,
-    env: params.env,
-  });
-  const second = await upsertChannelPairingRequest({
-    channel: "telegram",
-    accountId: params.secondAccountId,
-    id: params.sharedId,
-    env: params.env,
-  });
-
-  expect(first.created).toBe(true);
-  expect(second.created).toBe(true);
-  expect(second.code).not.toBe(first.code);
-
-  const firstList = await listChannelPairingRequests("telegram", params.env, params.firstAccountId);
-  const secondList = await listChannelPairingRequests(
-    "telegram",
-    params.env,
-    params.secondAccountId,
+it("skips malformed persisted requests while approving valid codes", async () => {
+  const env = pairingEnv;
+  const database = openOpenClawStateDatabase({ env });
+  const db = getNodeSqliteKysely<PairingTestDatabase>(database.db);
+  executeSqliteQuerySync(
+    database.db,
+    db.insertInto("channel_pairing_requests").values([
+      {
+        channel_key: "telegram",
+        account_id: DEFAULT_ACCOUNT_ID,
+        request_id: "",
+        code: "BADCODE1",
+        created_at: "invalid",
+        last_seen_at: "invalid",
+        meta_json: null,
+      },
+      {
+        channel_key: "telegram",
+        account_id: "alpha",
+        request_id: "valid-user",
+        code: "GOODCODE",
+        created_at: new Date().toISOString(),
+        last_seen_at: new Date().toISOString(),
+        meta_json: JSON.stringify({ accountId: "stale-account" }),
+      },
+    ]),
   );
-  expect(requireFirstPairingRequest(firstList).code).toBe(first.code);
-  expect(requireFirstPairingRequest(secondList).code).toBe(second.code);
-}
 
-describe("pairing store", () => {
-  it("normalizes allowlist entries through channel pairing adapters", async () => {
-    pairingMocks.getPairingAdapter.mockReturnValue({
-      idLabel: "Telegram user",
-      normalizeAllowEntry: (entry: string) => entry.replace(/^telegram:/i, ""),
+  await expect(store.list("alpha")).resolves.toHaveLength(1);
+  await expect(store.list("stale-account")).resolves.toEqual([]);
+  await expect(
+    approveChannelPairingCode({ channel: "telegram", accountId: "alpha", code: "GOODCODE", env }),
+  ).resolves.toMatchObject({ id: "valid-user" });
+  await expect(store.allow("alpha")).resolves.toEqual(["valid-user"]);
+  await expect(store.allow("stale-account")).resolves.toEqual([]);
+});
+
+it("handles pending request reuse, expiry, and per-account limits", async () => {
+  const env = pairingEnv;
+  const first = await upsert("u1", DEFAULT_ACCOUNT_ID, "demo-a");
+  const reused = await upsert("u1", DEFAULT_ACCOUNT_ID, "demo-a");
+  expect(reused).toEqual({ code: first.code, created: false });
+
+  const expired = await upsert("expired", DEFAULT_ACCOUNT_ID, "demo-b");
+  expect(expired.created).toBe(true);
+  const state = readChannelPairingStateSnapshot("demo-b", env);
+  const expiredAt = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
+  state.requests = state.requests.map((request) => ({
+    ...request,
+    createdAt: expiredAt,
+    lastSeenAt: expiredAt,
+  }));
+  writeChannelPairingStateSnapshot("demo-b", state, env);
+  await expect(listChannelPairingRequests("demo-b", env)).resolves.toEqual([]);
+
+  for (const id of ["one", "two", "three"]) {
+    await expect(upsert(id, DEFAULT_ACCOUNT_ID, "demo-c")).resolves.toMatchObject({
+      created: true,
     });
-
-    await withTempStateDir(async (stateDir, env) => {
-      await expect(
-        addChannelAllowFromStoreEntry({
-          channel: "telegram",
-          entry: "telegram:1001",
-          accountId: "main",
-          env,
-        }),
-      ).resolves.toMatchObject({ changed: true, allowFrom: ["1001"] });
-      expect(await readChannelAllowFromStore("telegram", env, "main")).toEqual(["1001"]);
-      expect(readChannelAllowFromStoreSync("telegram", env, "main")).toEqual(["1001"]);
-
-      await writeAllowFromFixture({
-        stateDir,
-        channel: "telegram",
-        accountId: "main",
-        allowFrom: ["telegram:1002", "telegram:*"],
-      });
-      clearPairingAllowFromReadCacheForTest();
-      expect(await readChannelAllowFromStore("telegram", env, "main")).toEqual(["1002"]);
-
-      await expect(
-        addChannelAllowFromStoreEntry({
-          channel: "telegram",
-          entry: "telegram:*",
-          accountId: "main",
-          env,
-        }),
-      ).resolves.toMatchObject({ changed: false, allowFrom: ["1002"] });
-
-      await expect(
-        removeChannelAllowFromStoreEntry({
-          channel: "telegram",
-          entry: "telegram:1002",
-          accountId: "main",
-          env,
-        }),
-      ).resolves.toMatchObject({ changed: true, allowFrom: [] });
-    });
+  }
+  await expect(upsert("four", DEFAULT_ACCOUNT_ID, "demo-c")).resolves.toEqual({
+    code: "",
+    created: false,
   });
+});
 
-  it("skips malformed persisted pairing requests while approving valid codes", async () => {
-    await withTempStateDir(async (stateDir, env) => {
-      const now = new Date().toISOString();
-      writeJsonFixture(resolvePairingFilePath(stateDir, "telegram"), {
-        version: 1,
-        requests: [
-          {
-            id: "bad-code",
-            code: { nested: "bad" },
-            createdAt: now,
-            lastSeenAt: now,
-          },
-          {
-            id: "1001",
-            code: "ABCDEFGH",
-            createdAt: now,
-            lastSeenAt: now,
-            meta: {
-              accountId: "yy",
-              ignored: { nested: "bad" },
-            },
-          },
-        ],
-      });
-
-      await expect(
-        approveChannelPairingCode({
-          channel: "telegram",
-          code: "ABCDEFGH",
-          accountId: "yy",
-          env,
-        }),
-      ).resolves.toMatchObject({ id: "1001" });
-      await expect(readChannelAllowFromStore("telegram", env, "yy")).resolves.toEqual(["1001"]);
-    });
+it("persists a channel-derived approval entry from request metadata", async () => {
+  const fixture = pairingStoreFixture("demo-a", pairingEnv);
+  const request = await fixture.upsert("alice", DEFAULT_ACCOUNT_ID, {
+    proofEntry: "fixture-entry",
   });
+  await expect(
+    fixture.approve({
+      code: request.code,
+      resolveApprovalStoreEntry: ({ meta }) => meta?.proofEntry ?? null,
+    }),
+  ).resolves.toMatchObject({ id: "alice" });
+  await expect(fixture.allow()).resolves.toEqual(["fixture-entry"]);
+});
 
-  it("handles pending pairing request lifecycle and limits", async () => {
-    await withTempStateDir(async (stateDir, env) => {
-      const first = await upsertChannelPairingRequest({
-        channel: "demo-pairing-a",
-        id: "u1",
-        accountId: DEFAULT_ACCOUNT_ID,
-        env,
-      });
-      const second = await upsertChannelPairingRequest({
-        channel: "demo-pairing-a",
-        id: "u1",
-        accountId: DEFAULT_ACCOUNT_ID,
-        env,
-      });
-      expect(first.created).toBe(true);
-      expect(second.created).toBe(false);
-      expect(second.code).toBe(first.code);
-      const reusedList = await listChannelPairingRequests("demo-pairing-a", env);
-      expect(requireFirstPairingRequest(reusedList).code).toBe(first.code);
+it("approves and dismisses account-scoped requests by opaque id", async () => {
+  const env = pairingEnv;
+  await upsert("shared-sender", "alpha");
+  await upsert("shared-sender", "beta");
+  const alphaRequest = await requestFor("alpha");
+  const betaRequest = await requestFor("beta");
+  const alphaChannel = " TeLeGrAm ";
+  const alphaRequestId = resolveChannelPairingRequestId(alphaChannel, alphaRequest);
+  const betaRequestId = resolveChannelPairingRequestId("telegram", betaRequest);
 
-      const created = await upsertChannelPairingRequest({
-        channel: "demo-pairing-b",
-        id: "+15550001111",
-        accountId: DEFAULT_ACCOUNT_ID,
-        env,
-      });
-      expect(created.created).toBe(true);
-      const filePath = resolvePairingFilePath(stateDir, "demo-pairing-b");
-      const raw = fsSync.readFileSync(filePath, "utf8");
-      const parsed = JSON.parse(raw) as {
-        requests?: Array<Record<string, unknown>>;
-      };
-      const expiredAt = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
-      const requests = (parsed.requests ?? []).map((entry) =>
-        Object.assign({}, entry, { createdAt: expiredAt, lastSeenAt: expiredAt }),
-      );
-      writeJsonFixture(filePath, { version: 1, requests });
-      expect(await listChannelPairingRequests("demo-pairing-b", env)).toHaveLength(0);
-      const next = await upsertChannelPairingRequest({
-        channel: "demo-pairing-b",
-        id: "+15550001111",
-        accountId: DEFAULT_ACCOUNT_ID,
-        env,
-      });
-      expect(next.created).toBe(true);
-
-      const ids = ["+15550000001", "+15550000002", "+15550000003"];
-      for (const id of ids) {
-        const capped = await upsertChannelPairingRequest({
-          channel: "demo-pairing-c",
-          id,
-          accountId: DEFAULT_ACCOUNT_ID,
-          env,
-        });
-        expect(capped.created).toBe(true);
-      }
-      const blocked = await upsertChannelPairingRequest({
-        channel: "demo-pairing-c",
-        id: "+15550000004",
-        accountId: DEFAULT_ACCOUNT_ID,
-        env,
-      });
-      expect(blocked.created).toBe(false);
-      const listIds = (await listChannelPairingRequests("demo-pairing-c", env)).map(
-        (entry) => entry.id,
-      );
-      expect(listIds).toEqual(["+15550000001", "+15550000002", "+15550000003"]);
-
-      const createdAt = new Date().toISOString();
-      writeJsonFixture(resolvePairingFilePath(stateDir, "demo-pairing-d"), {
-        version: 1,
-        requests: ids.map((id, index) => ({
-          id,
-          code: `AAAAAAA${String.fromCharCode(66 + index)}`,
-          createdAt,
-          lastSeenAt: createdAt,
-        })),
-      });
-      const legacyBlocked = await upsertChannelPairingRequest({
-        channel: "demo-pairing-d",
-        id: "+15550000004",
-        accountId: DEFAULT_ACCOUNT_ID,
-        env,
-      });
-      expect(legacyBlocked.created).toBe(false);
-      const legacyList = await listChannelPairingRequests("demo-pairing-d", env);
-      expect(legacyList.map((entry) => entry.id)).toEqual(ids);
-    });
+  expect(alphaRequestId).not.toBe(betaRequestId);
+  expect(alphaRequestId).not.toContain(alphaRequest.code);
+  await expect(store.approveRequest(alphaRequestId, "alpha", alphaChannel)).resolves.toMatchObject({
+    id: "shared-sender",
   });
+  await expect(store.allow("alpha")).resolves.toEqual(["shared-sender"]);
+  await expect(store.approveRequest(alphaRequestId, "beta")).resolves.toBeNull();
 
-  it("regenerates when a generated code collides", async () => {
-    await withTempStateDir(async (_stateDir, env) => {
-      await withMockRandomInt({
-        sequence: Array(16).fill(0).concat(Array(8).fill(1)),
-        fallbackValue: 1,
-        run: async () => {
-          const first = await upsertChannelPairingRequest({
-            channel: "telegram",
-            id: "123",
-            accountId: DEFAULT_ACCOUNT_ID,
-            env,
-          });
-          expect(first.code).toBe("AAAAAAAA");
+  await expect(
+    dismissChannelPairingRequest({
+      channel: "telegram",
+      accountId: "beta",
+      requestId: betaRequestId,
+    }),
+  ).resolves.toMatchObject({ id: "shared-sender" });
+  await expect(store.allow("beta")).resolves.toEqual([]);
+  await expect(listChannelPairingRequests("telegram", env)).resolves.toEqual([]);
+});
 
-          const second = await upsertChannelPairingRequest({
-            channel: "telegram",
-            id: "456",
-            accountId: DEFAULT_ACCOUNT_ID,
-            env,
-          });
-          expect(second.code).toBe("BBBBBBBB");
-        },
-      });
-    });
+it("regenerates colliding codes and reports exhaustion without leaking codes", () => {
+  const randomInt = vi.spyOn(crypto, "randomInt").mockImplementation(() => 0);
+  expect(generateUniqueCode(new Set())).toBe("AAAAAAAA");
+
+  let draws = 0;
+  randomInt.mockImplementation(() => (draws++ < 8 ? 0 : 1));
+  expect(generateUniqueCode(new Set(["AAAAAAAA"]))).toBe("BBBBBBBB");
+
+  randomInt.mockImplementation(() => 0);
+  expect(() => generateUniqueCode(new Set(["AAAAAAAA"]))).toThrow(
+    "failed to generate unique pairing code after 500 attempts; existing code count: 1",
+  );
+});
+
+it("keeps allowFrom and pending requests isolated by account", async () => {
+  const env = pairingEnv;
+  const alphaStore = pairingStoreFixture("telegram", env, "alpha");
+  await alphaStore.add("1001");
+  await expect(store.allow("alpha")).resolves.toEqual(["1001"]);
+  await expect(store.allow("beta")).resolves.toEqual([]);
+
+  const alpha = await upsert("shared", "alpha");
+  const beta = await upsert("shared", "beta");
+  expect(beta.code).not.toBe(alpha.code);
+  expect((await requestFor("alpha")).code).toBe(alpha.code);
+  expect((await requestFor("beta")).code).toBe(beta.code);
+
+  await expect(
+    approveChannelPairingCode({ channel: "telegram", code: alpha.code, env }),
+  ).resolves.toMatchObject({ id: "shared" });
+  await expect(store.allow("alpha")).resolves.toEqual(["1001", "shared"]);
+  await expect(store.allow("beta")).resolves.toEqual([]);
+
+  await expect(alphaStore.remove("1001")).resolves.toEqual({
+    changed: true,
+    allowFrom: ["shared"],
   });
+});
 
-  it("reports unique code exhaustion without exposing reserved codes", async () => {
-    await withTempStateDir(async (_stateDir, env) => {
-      await withMockRandomInt({
-        initialValue: 0,
-        run: async () => {
-          const first = await upsertChannelPairingRequest({
-            channel: "telegram",
-            id: "123",
-            accountId: DEFAULT_ACCOUNT_ID,
-            env,
-          });
-          expect(first.code).toBe("AAAAAAAA");
+it("reads current SQLite entries without a process-local file cache", async () => {
+  const env = pairingEnv;
+  writeAllowFromFixture(["1001"]);
+  await expect(store.allow("yy")).resolves.toEqual(["1001"]);
+  expect(readChannelAllowFromStoreSync("telegram", env, "yy")).toEqual(["1001"]);
 
-          await expect(
-            upsertChannelPairingRequest({
-              channel: "telegram",
-              id: "456",
-              accountId: DEFAULT_ACCOUNT_ID,
-              env,
-            }),
-          ).rejects.toThrow(
-            "failed to generate unique pairing code after 500 attempts; existing code count: 1",
-          );
-        },
-      });
-    });
-  });
-
-  it("keeps allowFrom account-scoped across manual and pairing-code approvals", async () => {
-    await withTempStateDir(async (_stateDir, env) => {
-      await addChannelAllowFromStoreEntry({
-        channel: "telegram",
-        accountId: "yy",
-        entry: "12345",
-        env,
-      });
-      await expectAccountScopedEntryIsolated("12345", env);
-
-      const created = await createTelegramPairingRequest("yy", env, "67890");
-      const approved = await approveChannelPairingCode({
-        channel: "telegram",
-        code: created.code,
-        env,
-      });
-      expect(approved?.id).toBe("67890");
-      await expectAccountScopedEntryIsolated("67890", env);
-
-      const filtered = await createTelegramPairingRequest("yy", env, "filtered");
-      await expect(
-        approveChannelPairingCode({
-          channel: "telegram",
-          code: "   ",
-          env,
-        }),
-      ).resolves.toBeNull();
-      await expect(
-        approveChannelPairingCode({
-          channel: "telegram",
-          code: filtered.code,
-          accountId: "zz",
-          env,
-        }),
-      ).resolves.toBeNull();
-      const pending = await listChannelPairingRequests("telegram", env);
-      expect(pending.map((entry) => entry.id)).toEqual(["filtered"]);
-
-      const removed = await removeChannelAllowFromStoreEntry({
-        channel: "telegram",
-        accountId: "yy",
-        entry: "12345",
-        env,
-      });
-      expect(removed.changed).toBe(true);
-      expect(removed.allowFrom).toEqual(["67890"]);
-
-      const removedAgain = await removeChannelAllowFromStoreEntry({
-        channel: "telegram",
-        accountId: "yy",
-        entry: "12345",
-        env,
-      });
-      expect(removedAgain.changed).toBe(false);
-      expect(removedAgain.allowFrom).toEqual(["67890"]);
-    });
-  });
-
-  it("rethrows unexpected stat errors after allowFrom writes", async () => {
-    await withTempStateDir(async (stateDir, env) => {
-      const allowFromPath = resolveAllowFromFilePath(stateDir, "telegram", "yy");
-      const error = Object.assign(new Error("stat failed"), { code: "EACCES" });
-      const originalStat = fsSync.promises.stat.bind(fsSync.promises);
-      const statSpy = vi.spyOn(fsSync.promises, "stat").mockImplementation(async (target) => {
-        if (String(target) === allowFromPath) {
-          throw error;
-        }
-        return await originalStat(target);
-      });
-
-      try {
-        await expect(
-          addChannelAllowFromStoreEntry({
-            channel: "telegram",
-            accountId: "yy",
-            entry: "12345",
-            env,
-          }),
-        ).rejects.toBe(error);
-      } finally {
-        statSpy.mockRestore();
-      }
-    });
-  });
-
-  it("reads allowFrom variants with account-scoped isolation", async () => {
-    await withTempStateDir(async (stateDir, env) => {
-      for (const { setup, accountId, expected, expectedLegacy } of [
-        {
-          setup: async () => {
-            await seedTelegramAllowFromFixtures({
-              stateDir,
-              scopedAccountId: "yy",
-              scopedAllowFrom: [" 1003 ", "*", "1003"],
-              legacyAllowFrom: ["1001", "*", "1002", "1001"],
-            });
-          },
-          accountId: "yy",
-          expected: ["1003"],
-          expectedLegacy: ["1001", "1002"],
-        },
-        {
-          setup: async () => {
-            await seedTelegramAllowFromFixtures({
-              stateDir,
-              scopedAccountId: "yy",
-              scopedAllowFrom: [],
-            });
-          },
-          accountId: "yy",
-          expected: [],
-        },
-        {
-          setup: async () => {
-            await writeAllowFromFixture({
-              stateDir,
-              channel: "telegram",
-              allowFrom: ["1001"],
-            });
-            const malformedScopedPath = resolveAllowFromFilePath(stateDir, "telegram", "yy");
-            fsSync.mkdirSync(path.dirname(malformedScopedPath), { recursive: true });
-            fsSync.writeFileSync(malformedScopedPath, "{ this is not json\n", "utf8");
-          },
-          accountId: "yy",
-          expected: [],
-        },
-        {
-          setup: async () => {
-            await seedDefaultAccountAllowFromFixture(stateDir);
-          },
-          accountId: DEFAULT_ACCOUNT_ID,
-          expected: ["1002", "1001"],
-        },
-        {
-          setup: async () => {
-            await seedDefaultAccountAllowFromFixture(stateDir);
-          },
-          accountId: undefined,
-          expected: ["1002", "1001"],
-        },
-      ] as const) {
-        clearOAuthFixtures(stateDir);
-        await setup();
-        await expectAllowFromReadConsistencyCase({
-          env,
-          ...(accountId !== undefined ? { accountId } : {}),
-          expected,
-          ...(expectedLegacy !== undefined ? { expectedLegacy } : {}),
-        });
-      }
-    });
-  });
-
-  it("keeps pending pairing requests isolated by account", async () => {
-    await withTempStateDir(async (stateDir, env) => {
-      await expectPendingPairingRequestsIsolatedByAccount({
-        env,
-        sharedId: "12345",
-        firstAccountId: "alpha",
-        secondAccountId: "beta",
-      });
-
-      clearOAuthFixtures(stateDir);
-      for (const accountId of ["alpha", "beta", "gamma"]) {
-        const created = await upsertChannelPairingRequest({
-          channel: "telegram",
-          accountId,
-          id: `pending-${accountId}`,
-          env,
-        });
-        expect(created.created).toBe(true);
-      }
-
-      const delta = await upsertChannelPairingRequest({
-        channel: "telegram",
-        accountId: "delta",
-        id: "pending-delta",
-        env,
-      });
-      expect(delta.created).toBe(true);
-
-      const deltaList = await listChannelPairingRequests("telegram", env, "delta");
-      const allPending = await listChannelPairingRequests("telegram", env);
-      expect(deltaList.map((entry) => entry.id)).toEqual(["pending-delta"]);
-      expect(allPending.map((entry) => entry.id)).toEqual([
-        "pending-alpha",
-        "pending-beta",
-        "pending-gamma",
-        "pending-delta",
-      ]);
-    });
-  });
-
-  it("reuses cached allowFrom reads and invalidates on file updates", async () => {
-    await withTempStateDir(async (stateDir, env) => {
-      for (const variant of [
-        {
-          createReadSpy: (filePath: string) => {
-            const spy = vi.spyOn(fsSync.promises, "readFile");
-            return {
-              readCount: () => countFileReads(spy, filePath),
-              mockRestore: () => spy.mockRestore(),
-            };
-          },
-          readAllowFrom: () => readChannelAllowFromStore("telegram", env, "yy"),
-        },
-        {
-          createReadSpy: (filePath: string) => {
-            const spy = vi.spyOn(fsSync, "readFileSync");
-            return {
-              readCount: () => countFileReads(spy, filePath),
-              mockRestore: () => spy.mockRestore(),
-            };
-          },
-          readAllowFrom: async () => readChannelAllowFromStoreSync("telegram", env, "yy"),
-        },
-      ]) {
-        clearOAuthFixtures(stateDir);
-        await expectAllowFromCacheInvalidationWithReadSpy({
-          stateDir,
-          createReadSpy: variant.createReadSpy,
-          readAllowFrom: variant.readAllowFrom,
-        });
-      }
-    });
-  });
+  writeAllowFromFixture(["10022"]);
+  await expect(store.allow("yy")).resolves.toEqual(["10022"]);
+  const sql = observeHostDataSql();
+  try {
+    expect(readChannelAllowFromStoreSync("telegram", env, "yy")).toEqual(["10022"]);
+    expect(sql.queries.filter((query) => query.includes("channel_pairing_requests"))).toEqual([]);
+  } finally {
+    sql.restore();
+  }
 });

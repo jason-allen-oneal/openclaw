@@ -1,7 +1,14 @@
 // Plugin config runtime helpers load and normalize plugin-owned configuration at execution time.
+import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
+import { getRuntimeConfigCapture } from "../config/runtime-config-capture-state.js";
 import type { OpenClawConfig } from "../config/types.js";
+import { normalizePluginsConfig as readNormalizedPluginsConfig } from "../plugins/config-state.js";
 
-export { normalizePluginsConfig, resolveEffectiveEnableState } from "../plugins/config-state.js";
+export {
+  createNormalizedPluginsConfig as normalizePluginsConfig,
+  resolveEffectiveEnableState,
+} from "../plugins/config-state.js";
+export { mergeDeep } from "../infra/deep-merge.js";
 
 /** Requires an already-resolved runtime config at plugin runtime boundaries. */
 export function requireRuntimeConfig(config: OpenClawConfig, context: string): OpenClawConfig {
@@ -19,21 +26,9 @@ export function resolvePluginConfigObject(
   pluginId: string,
 ): Record<string, unknown> | undefined {
   const plugins =
-    config?.plugins && typeof config.plugins === "object" && !Array.isArray(config.plugins)
-      ? (config.plugins as Record<string, unknown>)
-      : undefined;
-  const entries =
-    plugins?.entries && typeof plugins.entries === "object" && !Array.isArray(plugins.entries)
-      ? (plugins.entries as Record<string, unknown>)
-      : undefined;
-  const entry = entries?.[pluginId];
-  if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
-    return undefined;
-  }
-  const pluginConfig = (entry as { config?: unknown }).config;
-  return pluginConfig && typeof pluginConfig === "object" && !Array.isArray(pluginConfig)
-    ? (pluginConfig as Record<string, unknown>)
-    : undefined;
+    getRuntimeConfigCapture(config)?.plugins ?? readNormalizedPluginsConfig(config?.plugins);
+  const pluginConfig = plugins.entries[pluginId]?.config;
+  return asOptionalRecord(pluginConfig);
 }
 
 /** Resolves live plugin config through a loader, falling back to startup config when unavailable. */

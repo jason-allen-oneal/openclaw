@@ -1,1063 +1,584 @@
-// Session manager tests cover JSONL recovery behavior for interrupted or
-// corrupted transcript writes.
-import { writeFileSync } from "node:fs";
-import fs from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
+import { serialize } from "node:v8";
+import { redactIdentifier } from "@openclaw/normalization-core/node-crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { withOwnedSessionTranscriptWrites } from "../../config/sessions/transcript-write-context.js";
-import { prepareSessionManagerForRun } from "../embedded-agent-runner/session-manager-init.js";
-import { repairSessionFileIfNeeded } from "../session-file-repair.js";
+import { observeHostDataSql } from "../../../test/helpers/sqlite-statement-execution-counter.js";
+import { useAutoCleanupTempDirTracker } from "../../../test/helpers/temp-dir.js";
+import { makeUserMessage } from "../../../test/helpers/user-message.js";
+import * as configEnv from "../../config/config-env-vars.js";
 import {
-  CURRENT_SESSION_VERSION,
-  loadEntriesFromFile,
-  SessionManager,
-  type SessionEntry,
-} from "./session-manager.js";
+  formatSqliteSessionFileMarker,
+  parseSqliteSessionFileMarker,
+} from "../../config/sessions/legacy-sqlite-marker.js";
+import {
+  appendTranscriptMessage,
+  appendTranscriptMessageSync,
+  loadSessionEntry,
+  loadTranscriptEvents,
+  readTranscriptRawDelta,
+  resolveSessionTranscriptDatabasePath,
+  upsertSessionEntryCore,
+} from "../../config/sessions/session-accessor.js";
+import { replaceTranscriptEventsSync } from "../../config/sessions/session-accessor.sqlite-transcript-write.test-support.js";
+import { formatErrorMessage } from "../../infra/errors.js";
+import { createNestedToolActivity } from "../../sessions/nested-tool-activity.js";
+import { openOpenClawAgentDatabase } from "../../state/openclaw-agent-db.js";
+import { cleanupSessionStateForTest } from "../../test-utils/session-state-cleanup.js";
+import { withMockedPlatform } from "../../test-utils/vitest-spies.js";
+import { makeAgentAssistantMessage } from "../test-helpers/agent-message-fixtures.js";
+import { sessionScope } from "./session-manager-fixtures.test-support.js";
+import { buildSessionContext, CURRENT_SESSION_VERSION, SessionManager } from "./session-manager.js";
 
-const tempPaths: string[] = [];
+const tempDirs = useAutoCleanupTempDirTracker((cleanup) =>
+  afterEach(async () => {
+    for (const stateDir of tempDirs.dirs) {
+      await cleanupSessionStateForTest({ stateDir });
+    }
+    cleanup();
+  }),
+);
 
-async function makeTempDir(): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-session-manager-"));
-  tempPaths.push(dir);
-  return dir;
+function createScope(sessionId: string) {
+  const dir = tempDirs.make("openclaw-session-manager-");
+  return { dir, scope: sessionScope(path.join(dir, "sessions.json"), sessionId) };
+}
+
+function sessionHeader(id: string, cwd: string, version = CURRENT_SESSION_VERSION) {
+  return { type: "session" as const, version, id, timestamp: "2026-01-01T00:00:00.000Z", cwd };
+}
+
+function openMarker(marker: string, sessionKey: string, cwd: string): SessionManager {
+  const target = parseSqliteSessionFileMarker(marker);
+  if (!target) {
+    throw new Error("expected SQLite transcript marker fixture");
+  }
+  return SessionManager.open({ ...target, sessionKey }, cwd);
+}
+
+function appendState(manager: SessionManager) {
+  return [manager.getEntries(), manager.getLeafId(), manager.getAppendParentId()];
+}
+
+function branchIds(manager: SessionManager) {
+  return manager.getBranch().map((entry) => entry.id);
+}
+
+async function expectRejectedAppend(
+  manager: SessionManager,
+  events: () => Promise<unknown>,
+  append: () => unknown,
+) {
+  const before = [manager.getBranch(), await events()];
+  expect(append).toThrow("SQLite transcript changed while preparing rewrite");
+  expect([manager.getBranch(), await events()]).toEqual(before);
 }
 
 describe("SessionManager.open", () => {
-  afterEach(async () => {
-    await Promise.all(
-      tempPaths.splice(0).map((dir) => fs.rm(dir, { recursive: true, force: true })),
-    );
-  });
-
-  it("recovers a corrupted first-line header without truncating later messages", async () => {
-    // A damaged header should be repairable without treating valid later
-    // message entries as disposable transcript state.
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const originalHeader = {
-      type: "session",
-      version: 3,
-      id: "original-session",
-      timestamp: "2026-05-27T00:00:00.000Z",
-      cwd: "/srv/openclaw/main",
-    };
-    const userEntry = {
-      type: "message",
-      id: "user-1",
-      parentId: null,
-      timestamp: "2026-05-27T00:00:01.000Z",
-      message: { role: "user", content: "important question" },
-    };
-    const assistantEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: "user-1",
-      timestamp: "2026-05-27T00:00:02.000Z",
-      message: { role: "assistant", content: "important answer" },
-    };
-    const originalTranscript =
-      [
-        JSON.stringify(originalHeader).slice(0, 30),
-        JSON.stringify(userEntry),
-        JSON.stringify(assistantEntry),
-      ].join("\n") + "\n";
-    await fs.writeFile(sessionFile, originalTranscript, "utf8");
-    if (process.platform !== "win32") {
-      await fs.chmod(sessionFile, 0o600);
-    }
-
-    const sessionManager = SessionManager.open(sessionFile, dir, "/tmp/task-repo");
-
-    expect(sessionManager.getEntries()).toEqual([userEntry, assistantEntry]);
-    expect(await fs.readFile(sessionFile, "utf8")).toContain("important question");
-    expect(await fs.readFile(sessionFile, "utf8")).toContain("important answer");
-    await expect(fs.readFile(sessionFile, "utf8")).resolves.not.toBe(originalTranscript);
-
-    const backupFiles = (await fs.readdir(dir)).filter((file) => file.includes(".corrupt-"));
-    expect(backupFiles).toHaveLength(1);
-    // Keep an exact backup for audit/debugging before rewriting the live file.
-    await expect(fs.readFile(path.join(dir, backupFiles[0] ?? ""), "utf8")).resolves.toBe(
-      originalTranscript,
-    );
-    if (process.platform !== "win32") {
-      const backupStat = await fs.stat(path.join(dir, backupFiles[0] ?? ""));
-      expect(backupStat.mode & 0o777).toBe(0o600);
-    }
-  });
-
-  it("does not duplicate the header after recovering a header-only corrupt file", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    await fs.writeFile(sessionFile, '{"type":"session","version":3,"id":"sess', "utf8");
-
-    const sessionManager = SessionManager.open(sessionFile, dir, "/tmp/task-repo");
-    sessionManager.appendMessage({ role: "user", content: "hello", timestamp: Date.now() });
-    sessionManager.appendMessage({
-      role: "assistant",
-      content: [{ type: "text", text: "hi" }],
-      api: "messages",
-      provider: "anthropic",
-      model: "sonnet-4.6",
-      usage: {
-        input: 0,
-        output: 0,
-        cacheRead: 0,
-        cacheWrite: 0,
-        totalTokens: 0,
-        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
-      },
-      stopReason: "stop",
-      timestamp: Date.now(),
+  it("commits ordered metadata and custom messages with Windows environment semantics off-thread", async () => {
+    const { dir, scope: target } = createScope("metadata-worker");
+    target.storePath = path.join(dir, "agents", "main", "agent", "openclaw-agent.sqlite");
+    const manager = SessionManager.open(target, dir);
+    const sql = observeHostDataSql();
+    const cloneEnv = configEnv.cloneEnvWithPlatformSemantics;
+    const clone = vi.spyOn(configEnv, "cloneEnvWithPlatformSemantics").mockImplementation((env) => {
+      const { OPENCLAW_STATE_DIR, ...rest } = env;
+      const captured = withMockedPlatform("win32", () =>
+        cloneEnv({
+          ...rest,
+          OpenClaw_State_Dir: OPENCLAW_STATE_DIR,
+        }),
+      );
+      expect(() => serialize(captured)).toThrow(
+        expect.objectContaining(
+          process.versions.bun
+            ? { name: "DataCloneError", code: 25 }
+            : { name: "Error", message: "#<Object> could not be cloned." },
+        ),
+      );
+      return captured;
     });
-
-    const entries = (await fs.readFile(sessionFile, "utf8"))
-      .trim()
-      .split("\n")
-      .map((line) => JSON.parse(line) as { type: string });
-
-    expect(entries.map((entry) => entry.type)).toEqual(["session", "message", "message"]);
-    expect(entries.filter((entry) => entry.type === "session")).toHaveLength(1);
-  });
-
-  it("still migrates old transcript versions while bypassing the warm cache", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const legacyHeader = {
-      type: "session",
-      version: 2,
-      id: "legacy-session",
-      timestamp: "2026-06-04T00:00:00.000Z",
-      cwd: dir,
-    };
-    const legacyEntry = {
-      type: "message",
-      id: "legacy-entry",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: {
-        role: "hookMessage",
-        content: "legacy hook content",
-      },
-    };
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(legacyHeader)}\n${JSON.stringify(legacyEntry)}\n`,
-      "utf8",
-    );
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-
-    expect(sessionManager.getHeader()?.version).toBe(CURRENT_SESSION_VERSION);
-    expect(sessionManager.getEntries()).toEqual([
+    let ids: Array<string | undefined>;
+    try {
+      ids = await Promise.all([
+        manager.appendModelChange("p", "m"),
+        manager.appendThinkingLevelChange("high"),
+        manager.appendMessageAsync({
+          role: "custom",
+          customType: "synthetic-note",
+          content: "worker note",
+          display: false,
+          timestamp: 1,
+        }),
+      ]);
+    } finally {
+      sql.restore();
+      clone.mockRestore();
+    }
+    const dataSql =
+      /\b(?:transcript_events|transcript_payloads|session_windows|session_nodes)\b|BEGIN\s+IMMEDIATE/i;
+    expect(sql.queries.filter((query) => dataSql.test(query))).toEqual([]);
+    expect(manager.getEntries()).toMatchObject([
+      { type: "model_change", id: ids[0], parentId: null, provider: "p", modelId: "m" },
+      { type: "thinking_level_change", id: ids[1], parentId: ids[0], thinkingLevel: "high" },
       {
-        ...legacyEntry,
-        message: { ...legacyEntry.message, role: "custom" },
+        type: "message",
+        id: ids[2],
+        parentId: ids[1],
+        message: { role: "custom", content: "worker note" },
       },
     ]);
-    const persistedEntries = (await fs.readFile(sessionFile, "utf8"))
-      .trim()
-      .split("\n")
-      .map((line) => JSON.parse(line) as { type: string; version?: number; message?: unknown });
-    expect(persistedEntries[0]).toMatchObject({
-      type: "session",
-      version: CURRENT_SESSION_VERSION,
+    expect(SessionManager.open(target, dir).getEntries()).toEqual(manager.getEntries());
+    expect(loadSessionEntry(target)?.sessionId).toBe(target.sessionId);
+  });
+
+  it("does not overwrite a rebound session row when the first append seeds its header", async () => {
+    const { dir, scope } = createScope("sqlite-stale-appender");
+    await upsertSessionEntryCore(scope, {
+      sessionId: "sqlite-current-owner",
+      updatedAt: 456,
+      label: "preserved",
     });
-    expect(persistedEntries[1]).toMatchObject({
-      type: "message",
-      message: { role: "custom" },
+    const before = loadSessionEntry(scope);
+    const manager = SessionManager.open(scope, dir);
+
+    expect(() => manager.appendMessage(makeUserMessage("stale", 1))).toThrow(
+      "Session transcript header was not persisted",
+    );
+    expect(loadSessionEntry(scope)).toEqual(before);
+  });
+
+  it("rejects invalid entries before mutating in-memory state", async () => {
+    const manager = SessionManager.inMemory("/tmp");
+    const entriesBefore = manager.getEntries();
+
+    await expect(manager.appendModelChange("", "")).rejects.toThrow(
+      "Invalid session transcript entry",
+    );
+    expect(appendState(manager)).toEqual([entriesBefore, null, null]);
+  });
+
+  it("uses the selected logical leaf immediately after a side append control", () => {
+    const manager = SessionManager.inMemory("/tmp");
+    const firstId = manager.appendMessage(makeUserMessage("first", 1));
+    const secondId = manager.appendMessage(makeUserMessage("second", 2));
+    const control = manager.appendLeafControl({
+      targetId: firstId,
+      appendParentId: secondId,
+      appendMode: "side",
+    });
+
+    const thirdId = manager.appendMessage(makeUserMessage("third", 3));
+
+    expect(branchIds(manager)).toEqual([firstId, thirdId]);
+    manager.branch(control.id);
+    expect(manager.getLeafId()).toBe(firstId);
+    expect(() =>
+      manager.appendLeafControl({
+        targetId: thirdId,
+        appendParentId: "missing-parent",
+      }),
+    ).toThrow("Append parent missing-parent not found");
+  });
+
+  it("refreshes cwd when switching persisted targets and rejects identity reset", async () => {
+    const { dir, scope: firstTarget } = createScope("first-target");
+    const secondTarget = sessionScope(firstTarget.storePath, "second-target");
+    await upsertSessionEntryCore(firstTarget, { sessionId: firstTarget.sessionId, updatedAt: 1 });
+    await upsertSessionEntryCore(secondTarget, { sessionId: secondTarget.sessionId, updatedAt: 1 });
+    await appendTranscriptMessage(firstTarget, {
+      cwd: path.join(dir, "first-workspace"),
+      message: { role: "user", content: "first" },
+    });
+    replaceTranscriptEventsSync(secondTarget, [
+      null,
+      sessionHeader(secondTarget.sessionId, path.join(dir, "second-workspace")),
+    ]);
+
+    const manager = SessionManager.open(firstTarget);
+    const leaf = manager.getLeafId();
+    manager.appendLeafControl({ targetId: leaf, appendParentId: leaf, appendMode: "side" });
+    manager.setSessionTarget(secondTarget);
+    expect(manager.getAppendMode()).toBeUndefined();
+
+    expect(manager.getCwd()).toBe(path.join(dir, "second-workspace"));
+    expect(() => manager.newSession()).toThrow(
+      "Persisted session managers cannot change session identity in place",
+    );
+  });
+
+  it("does not mutate frozen caller entries during in-memory migration", () => {
+    const entries = [
+      null,
+      Object.freeze(sessionHeader("frozen-legacy-session", "/tmp", 2)),
+      Object.freeze({
+        type: "message" as const,
+        id: "frozen-legacy-hook",
+        parentId: null,
+        timestamp: "2026-01-01T00:00:01.000Z",
+        message: Object.freeze({ role: "hookMessage", content: "frozen hook context" }),
+      }),
+    ] as const;
+
+    const manager = SessionManager.fromEntries(Object.freeze(entries));
+
+    expect(manager.getEntry("frozen-legacy-hook")).toMatchObject({
+      message: { role: "custom", customType: "hook", content: "frozen hook context" },
+    });
+    expect(entries[2].message).toEqual({
+      role: "hookMessage",
+      content: "frozen hook context",
     });
   });
 
-  it("reuses current transcript entries across warm opens and appends without stale readback", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    const secondMessage = buildAssistantMessage("message 2");
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
-    );
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-
-    try {
-      expect(SessionManager.open(sessionFile, dir, dir).getEntries()).toEqual([firstEntry]);
-      expect(parseCount).toBe(2);
-
-      parseCount = 0;
-      expect(SessionManager.open(sessionFile, dir, dir).getEntries()).toEqual([firstEntry]);
-      expect(parseCount).toBe(0);
-
-      const sessionManager = SessionManager.open(sessionFile, dir, dir);
-      let trustedSnapshot = await readTrustedRepairSnapshot(sessionFile);
-      let cacheAdvanceChecks = 0;
-      let snapshotPublications = 0;
-      await withOwnedSessionTranscriptWrites(
-        {
-          sessionFile,
-          canAdvanceSessionEntryCache: (snapshot) => {
-            cacheAdvanceChecks += 1;
-            expect(snapshot).toEqual(trustedSnapshot);
-            return true;
-          },
-          publishSessionFileSnapshot: (snapshot) => {
-            snapshotPublications += 1;
-            trustedSnapshot = snapshot;
-            return true;
-          },
-          withSessionWriteLock: async (run) => await run(),
-        },
-        async () => {
-          sessionManager.appendMessage(secondMessage);
-          sessionManager.appendMessage(buildAssistantMessage("message 3"));
-        },
-      );
-      expect(cacheAdvanceChecks).toBe(2);
-      expect(snapshotPublications).toBe(2);
-      const persistedEntries = (await fs.readFile(sessionFile, "utf8"))
-        .trim()
-        .split("\n")
-        .map((line) => originalParse(line) as { type: string });
-      expect(persistedEntries.map((entry) => entry.type)).toEqual([
-        "session",
-        "message",
-        "message",
-        "message",
-      ]);
-
-      parseCount = 0;
-      const reopened = SessionManager.open(sessionFile, dir, dir);
-      expect(reopened.getEntries().map((entry) => readMessageContent(entry))).toEqual([
-        "message 1",
-        "message 2",
-        "message 3",
-      ]);
-      expect(parseCount).toBe(0);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("invalidates warm entries after an append outside the owned write context", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
-    );
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    sessionManager.appendMessage(buildAssistantMessage("message 2"));
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-
-    try {
-      expect(
-        SessionManager.open(sessionFile, dir, dir)
-          .getEntries()
-          .map((entry) => readMessageContent(entry)),
-      ).toEqual(["message 1", "message 2"]);
-      expect(parseCount).toBeGreaterThanOrEqual(3);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("caches the persisted JSON shape for owned appends", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const assistantEntry = {
-      type: "message",
-      id: "assistant-1",
+  it("keeps stale appenders valid across a reset while snapshot replacement rotates generation", async () => {
+    const { dir, scope } = createScope("sqlite-reset-stale-appender");
+    const marker = formatSqliteSessionFileMarker(scope);
+    await upsertSessionEntryCore(scope, {
+      sessionFile: marker,
+      sessionId: scope.sessionId,
+      updatedAt: 1,
+    });
+    await appendTranscriptMessage(scope, {
+      eventId: "initial-user",
+      message: { role: "user", content: "before reset" },
       parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: buildAssistantMessage("message 1"),
-    };
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(assistantEntry)}\n`,
-      "utf8",
-    );
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await withOwnedSessionTranscriptWrites(
-      {
-        sessionFile,
-        canAdvanceSessionEntryCache: () => true,
-        publishSessionFileSnapshot: () => true,
-        withSessionWriteLock: async (run) => await run(),
-      },
-      async () => {
-        sessionManager.appendCustomEntry("json-shape", {
-          date: new Date("2026-06-15T00:00:00.000Z"),
-          dropped: () => "not persisted",
-          nan: Number.NaN,
-        });
-      },
-    );
-
-    const warmEntry = SessionManager.open(sessionFile, dir, dir)
-      .getEntries()
-      .find((entry) => entry.type === "custom");
-    const freshEntry = loadEntriesFromFile(sessionFile).find((entry) => entry.type === "custom");
-    expect(warmEntry).toEqual(freshEntry);
-    expect(warmEntry).toMatchObject({
-      data: {
-        date: "2026-06-15T00:00:00.000Z",
-        nan: null,
-      },
     });
-    expect((warmEntry as { data?: Record<string, unknown> }).data).not.toHaveProperty("dropped");
-  });
-
-  it("serializes owned appends once and caches those exact bytes", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const assistantEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: buildAssistantMessage("message 1"),
-    };
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(assistantEntry)}\n`,
-      "utf8",
-    );
-
-    let serializationCount = 0;
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await withOwnedSessionTranscriptWrites(
-      {
-        sessionFile,
-        canAdvanceSessionEntryCache: () => true,
-        publishSessionFileSnapshot: () => true,
-        withSessionWriteLock: async (run) => await run(),
-      },
-      async () => {
-        sessionManager.appendCustomEntry("stateful-json", {
-          value: {
-            toJSON() {
-              serializationCount += 1;
-              return serializationCount === 1 ? "first" : "later";
-            },
-          },
-        });
-      },
-    );
-
-    const warmEntry = SessionManager.open(sessionFile, dir, dir)
-      .getEntries()
-      .find((entry) => entry.type === "custom");
-    const freshEntry = loadEntriesFromFile(sessionFile).find((entry) => entry.type === "custom");
-    expect(serializationCount).toBe(1);
-    expect(warmEntry).toEqual(freshEntry);
-    expect(warmEntry).toMatchObject({ data: { value: "first" } });
-  });
-
-  it("validates the transcript prefix after a custom entry is serialized", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const originalEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: buildAssistantMessage("message 1"),
-    };
-    const replacementEntry = {
-      ...originalEntry,
-      message: buildAssistantMessage("changed 1"),
-    };
-    const headerLine = JSON.stringify(buildSessionHeader(dir));
-    await fs.writeFile(sessionFile, `${headerLine}\n${JSON.stringify(originalEntry)}\n`, "utf8");
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await withOwnedSessionTranscriptWrites(
-      {
-        sessionFile,
-        canAdvanceSessionEntryCache: () => true,
-        publishSessionFileSnapshot: () => true,
-        withSessionWriteLock: async (run) => await run(),
-      },
-      async () => {
-        sessionManager.appendCustomEntry("rewrite-during-serialization", {
-          value: {
-            toJSON() {
-              writeFileSync(
-                sessionFile,
-                `${headerLine}\n${JSON.stringify(replacementEntry)}\n`,
-                "utf8",
-              );
-              return "persisted";
-            },
-          },
-        });
-      },
-    );
-
-    expect(
-      SessionManager.open(sessionFile, dir, dir)
-        .getEntries()
-        .filter((entry) => entry.type === "message")
-        .map((entry) => readMessageContent(entry)),
-    ).toEqual(["changed 1"]);
-  });
-
-  it("invalidates incremental repair when append ownership cannot be proven", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const assistantEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: buildAssistantMessage("message 1"),
-    };
-    const headerLine = JSON.stringify(buildSessionHeader(dir));
-    const assistantLine = JSON.stringify(assistantEntry);
-    await fs.writeFile(sessionFile, `${headerLine}\n${assistantLine}\n`, "utf8");
-    await repairSessionFileIfNeeded({
-      sessionFile,
-      trustedSnapshot: await readTrustedRepairSnapshot(sessionFile),
-    });
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await withOwnedSessionTranscriptWrites(
-      {
-        sessionFile,
-        canAdvanceSessionEntryCache: () => false,
-        publishSessionFileSnapshot: () => true,
-        withSessionWriteLock: async (run) => await run(),
-      },
-      async () => {
-        sessionManager.appendCustomEntry("corrupt-prefix-during-serialization", {
-          value: {
-            toJSON() {
-              writeFileSync(sessionFile, `${headerLine}\n!${assistantLine.slice(1)}\n`, "utf8");
-              return "persisted";
-            },
-          },
-        });
-      },
-    );
-
-    await repairSessionFileIfNeeded({
-      sessionFile,
-      trustedSnapshot: await readTrustedRepairSnapshot(sessionFile),
-    });
-    const repairedEntries = (await fs.readFile(sessionFile, "utf8"))
-      .trim()
-      .split("\n")
-      .map((line) => JSON.parse(line) as { type: string });
-    expect(repairedEntries.map((entry) => entry.type)).toEqual(["session", "custom"]);
-  });
-
-  it("separates an owned append from an unterminated transcript entry", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}`,
-      "utf8",
-    );
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await withOwnedSessionTranscriptWrites(
-      {
-        sessionFile,
-        canAdvanceSessionEntryCache: () => true,
-        publishSessionFileSnapshot: () => true,
-        withSessionWriteLock: async (run) => await run(),
-      },
-      async () => {
-        sessionManager.appendMessage(buildAssistantMessage("message 2"));
-      },
-    );
-
-    const content = await fs.readFile(sessionFile, "utf8");
-    expect(content.endsWith("\n")).toBe(true);
-    expect(content.trimEnd().split("\n")).toHaveLength(3);
-    expect(
-      loadEntriesFromFile(sessionFile)
-        .filter((entry) => entry.type === "message")
-        .map((entry) => readMessageContent(entry)),
-    ).toEqual(["message 1", "message 2"]);
-  });
-
-  it("caches the persisted JSON shape after a deferred full write", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    let serializationCount = 0;
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    sessionManager.appendCustomEntry("json-shape", {
-      kept: "value",
-      dropped: () => "not persisted",
-      stateful: {
-        toJSON() {
-          serializationCount += 1;
-          return serializationCount === 1 ? "first" : "later";
-        },
-      },
-    });
-
-    expect(() => {
-      sessionManager.appendMessage(buildAssistantMessage("first assistant"));
-    }).not.toThrow();
-
-    const warmEntry = SessionManager.open(sessionFile, dir, dir)
-      .getEntries()
-      .find((entry) => entry.type === "custom");
-    expect(serializationCount).toBe(1);
-    expect(warmEntry).toMatchObject({ data: { kept: "value", stateful: "first" } });
-    expect((warmEntry as { data?: Record<string, unknown> }).data).not.toHaveProperty("dropped");
-  });
-
-  it("keeps the exported file loader mutable and separate from warm SessionManager entries", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
-    );
-
-    const loaded = loadEntriesFromFile(sessionFile);
-    const messageEntry = loaded[1];
-    if (!messageEntry || messageEntry.type !== "message") {
-      throw new Error("expected message entry");
+    const cursor = readTranscriptRawDelta(scope);
+    expect(cursor.kind).toBe("page");
+    if (cursor.kind !== "page") {
+      throw new Error("expected initial raw cursor page");
     }
-    (messageEntry.message as { content: unknown }).content = "caller-owned mutation";
 
-    expect(readMessageContent(messageEntry)).toBe("caller-owned mutation");
-    expect(
-      SessionManager.open(sessionFile, dir, dir)
-        .getEntries()
-        .map((entry) => readMessageContent(entry)),
-    ).toEqual(["message 1"]);
+    const staleManager = openMarker(marker, scope.sessionKey, dir);
+    const resetManager = openMarker(marker, scope.sessionKey, dir);
+    resetManager.appendResetBoundary("reset");
+    expect(() => staleManager.appendMessage(rebaseAssistant("late append"))).not.toThrow();
+
+    expect(readTranscriptRawDelta(scope, { cursor: cursor.cursor }).kind).toBe("page");
+    const events = await loadTranscriptEvents(scope);
+    expect(events.map((event) => (event as { type?: unknown }).type)).toContain("reset");
+    const context = JSON.stringify(openMarker(marker, scope.sessionKey, dir).buildSessionContext());
+    expect(context).not.toContain("before reset");
+    expect(context).toContain("late append");
+
+    expect(replaceTranscriptEventsSync(scope, events)).toBe(true);
+    expect(readTranscriptRawDelta(scope, { cursor: cursor.cursor })).toMatchObject({
+      kind: "reset",
+      reason: "generation_mismatch",
+    });
   });
 
-  it("invalidates the transcript entry cache when the file is externally replaced", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    const replacementEntry = buildMessageEntry(2, null);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
+  it("rejects persistence after the session target rebounds", async () => {
+    const { dir, scope } = createScope("sqlite-prompt-release-rebound");
+    const sensitivePeer = "+15551234567";
+    const replacement = "replacement-session";
+    const sessionKey = `agent:main:whatsapp:direct:${sensitivePeer}\n\x1b[31mspoof`;
+    scope.sessionKey = sessionKey;
+    const { sessionId, storePath } = scope;
+    const marker = formatSqliteSessionFileMarker(scope);
+    await upsertSessionEntryCore(scope, { sessionFile: marker, sessionId, updatedAt: 10 });
+    const user = await appendTranscriptMessage(scope, {
+      cwd: dir,
+      eventId: "rebound-user",
+      message: { role: "user", content: "question", timestamp: 1 },
+    });
+    const assistant = await appendTranscriptMessage(scope, {
+      cwd: dir,
+      eventId: "rebound-assistant",
+      message: rebaseAssistant("answer"),
+      parentId: user.messageId,
+    });
+    const sessionManager = openMarker(marker, sessionKey, dir);
+    await upsertSessionEntryCore(
+      { agentId: "main", sessionKey, storePath },
+      { sessionId: replacement, updatedAt: 20 },
     );
 
-    expect(SessionManager.open(sessionFile, dir, dir).getEntries()).toEqual([firstEntry]);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir, "replacement-session"))}\n${JSON.stringify(
-        replacementEntry,
-      )}\n`,
-      "utf8",
-    );
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-
-    try {
-      const reopened = SessionManager.open(sessionFile, dir, dir);
-      expect(reopened.getSessionId()).toBe("replacement-session");
-      expect(reopened.getEntries()).toEqual([replacementEntry]);
-      expect(parseCount).toBeGreaterThanOrEqual(2);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("revalidates a transcript changed while the initial load is parsing", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    const replacementEntry = buildMessageEntry(2, null);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
-    );
-    const replacementContent =
-      `${JSON.stringify(buildSessionHeader(dir, "intermediate-session"))}\n` +
-      `${JSON.stringify(replacementEntry)}\n`;
-    const finalEntry = buildMessageEntry(3, null);
-    const finalContent =
-      `${JSON.stringify(buildSessionHeader(dir, "replacement-session"))}\n` +
-      `${JSON.stringify(finalEntry)}\n`;
-
-    const originalParse = JSON.parse;
-    let replacementCount = 0;
-    JSON.parse = function replaceDuringParse(...args: Parameters<typeof JSON.parse>) {
-      const parsed = originalParse.apply(originalParse, args);
-      if (replacementCount === 0) {
-        replacementCount += 1;
-        writeFileSync(sessionFile, replacementContent, "utf8");
-      } else if (replacementCount === 1 && args[0].includes("intermediate-session")) {
-        replacementCount += 1;
-        writeFileSync(sessionFile, finalContent, "utf8");
+    const expectedCause = {
+      actualSessionIdHash: redactIdentifier(replacement),
+      agentIdHash: redactIdentifier(scope.agentId),
+      code: "session-rebound",
+      expectedSessionIdHash: redactIdentifier(sessionId),
+      sessionKeyHash: redactIdentifier(sessionKey),
+    };
+    const captureError = async (run: () => unknown): Promise<unknown> => {
+      try {
+        await run();
+      } catch (error) {
+        return error;
       }
-      return parsed;
-    } as typeof JSON.parse;
-
-    try {
-      const reopened = SessionManager.open(sessionFile, dir, dir);
-      expect(reopened.getSessionId()).toBe("replacement-session");
-      expect(reopened.getEntries()).toEqual([finalEntry]);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("does not cache manager entries over a same-length external replacement", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    const replacementEntry = {
-      ...buildMessageEntry(2, null),
-      id: firstEntry.id,
+      throw new Error("expected rebound transcript persistence to fail");
     };
-    const header = buildSessionHeader(dir);
-    const originalContent = `${JSON.stringify(header)}\n${JSON.stringify(firstEntry)}\n`;
-    const replacementContent = `${JSON.stringify(header)}\n${JSON.stringify(replacementEntry)}\n`;
-    expect(Buffer.byteLength(replacementContent)).toBe(Buffer.byteLength(originalContent));
-    await fs.writeFile(sessionFile, originalContent, "utf8");
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await fs.writeFile(sessionFile, replacementContent, "utf8");
-    sessionManager.syncSnapshotAfterHeaderRewrite();
-
-    expect(
-      SessionManager.open(sessionFile, dir, dir)
-        .getEntries()
-        .map((entry) => readMessageContent(entry)),
-    ).toEqual(["message 2"]);
-  });
-
-  it("does not publish a header rewrite snapshot when the expected bytes do not match", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const header = buildSessionHeader(dir);
-    const originalContent = `${JSON.stringify(header)}\n${JSON.stringify(buildMessageEntry(1, null))}\n`;
-    const replacementContent = `${JSON.stringify(header)}\n${JSON.stringify(
-      buildMessageEntry(2, null),
-    )}\n`;
-    await fs.writeFile(sessionFile, originalContent, "utf8");
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    const publishSessionFileSnapshot = vi.fn(() => true);
-    await withOwnedSessionTranscriptWrites(
-      {
-        sessionFile,
-        publishSessionFileSnapshot,
-        withSessionWriteLock: async (run) => await run(),
-      },
-      async () => {
-        await fs.writeFile(sessionFile, replacementContent, "utf8");
-        sessionManager.syncSnapshotAfterHeaderRewrite(originalContent);
-      },
+    const compactionError = await captureError(() =>
+      sessionManager.appendCompaction("late summary", assistant.messageId, 42),
     );
+    expect(compactionError).toMatchObject({ cause: expectedCause });
 
-    expect(publishSessionFileSnapshot).not.toHaveBeenCalled();
-    expect(
-      SessionManager.open(sessionFile, dir, dir)
-        .getEntries()
-        .map((entry) => readMessageContent(entry)),
-    ).toEqual(["message 2"]);
-  });
-
-  it("does not persist caller-side entry mutations into warm cache hits", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
+    const beforeRejectedAppends = appendState(sessionManager);
+    expect(() => sessionManager.branchWithSummary(null, "late summary")).toThrow(
+      "entry was not persisted",
     );
-
-    const opened = SessionManager.open(sessionFile, dir, dir);
-    const returnedEntry = opened.getEntries()[0];
-    if (!returnedEntry || returnedEntry.type !== "message") {
-      throw new Error("expected message entry");
+    for (const append of [
+      () => sessionManager.appendModelChange("openai", "gpt-5.5"),
+      () => sessionManager.appendMessage(makeUserMessage("late message", 1)),
+    ]) {
+      const error = await captureError(append);
+      expect(error).toMatchObject({ cause: expectedCause });
+      const operatorFacingReason = formatErrorMessage(error);
+      for (const hash of Object.values(expectedCause).filter((value) =>
+        value.startsWith("sha256:"),
+      )) {
+        expect(operatorFacingReason).toContain(hash);
+      }
+      expect(operatorFacingReason).not.toContain(sessionKey);
+      expect(operatorFacingReason).not.toContain(sensitivePeer);
+      expect(operatorFacingReason).not.toContain("spoof");
+      expect(operatorFacingReason).not.toContain(sessionId);
+      expect(operatorFacingReason).not.toContain(replacement);
+      expect(operatorFacingReason).not.toContain("\n");
+      expect(operatorFacingReason).not.toContain("\x1b");
     }
-    expect(() => {
-      (returnedEntry.message as { content: unknown }).content = "mutated only in caller";
-    }).toThrow(TypeError);
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-
-    try {
-      const reopened = SessionManager.open(sessionFile, dir, dir);
-      expect(reopened.getEntries().map((entry) => readMessageContent(entry))).toEqual([
-        "message 1",
-      ]);
-      expect(parseCount).toBe(0);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("keeps current-version entries immutable when the transcript exceeds the cache limit", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const hugeEntry = buildMessageEntry(1, null);
-    if (hugeEntry.type !== "message") {
-      throw new Error("expected message entry fixture");
-    }
-    (hugeEntry.message as { content: string }).content = "x".repeat(33 * 1024 * 1024);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(hugeEntry)}\n`,
-      "utf8",
-    );
-
-    const opened = SessionManager.open(sessionFile, dir, dir);
-    const returnedEntry = opened.getEntries()[0];
-    if (!returnedEntry || returnedEntry.type !== "message") {
-      throw new Error("expected message entry");
-    }
-
-    expect(() => {
-      (returnedEntry.message as { content: unknown }).content = "mutated";
-    }).toThrow(TypeError);
-  });
-
-  it("invalidates the warm cache when another writer appends before this manager persists", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = buildMessageEntry(1, null);
-    const externalEntry = buildMessageEntry(2, firstEntry.id);
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
-    );
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await fs.appendFile(sessionFile, `${JSON.stringify(externalEntry)}\n`, "utf8");
-    sessionManager.appendMessage(buildAssistantMessage("message 3"));
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-
-    try {
-      const reopened = SessionManager.open(sessionFile, dir, dir);
-      expect(reopened.getEntries().map((entry) => readMessageContent(entry))).toEqual([
-        "message 1",
-        "message 2",
-        "message 3",
-      ]);
-      expect(parseCount).toBeGreaterThanOrEqual(4);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("lets prepareSessionManagerForRun normalize a warm-cached header without re-parsing", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const assistantEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: { role: "assistant", content: "carried context" },
-    };
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir, "original-session"))}\n${JSON.stringify(
-        assistantEntry,
-      )}\n`,
-      "utf8",
-    );
-
-    // Warm the process-level entry cache.
-    expect(SessionManager.open(sessionFile, dir, dir).getSessionId()).toBe("original-session");
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-
-    try {
-      // Two warm hits off the same cache entry: must not re-parse the transcript.
-      const sessionManager = SessionManager.open(sessionFile, dir, dir);
-      const sibling = SessionManager.open(sessionFile, dir, dir);
-      expect(parseCount).toBe(0);
-
-      // The embedded runner normalizes the loaded header in place. With a shared
-      // frozen cache entry this threw "Cannot assign to read only property".
-      await expect(
-        prepareSessionManagerForRun({
-          sessionManager,
-          sessionFile,
-          hadSessionFile: true,
-          sessionId: "run-session",
-          cwd: "/tmp/task-repo",
-        }),
-      ).resolves.toBeUndefined();
-
-      expect(sessionManager.getSessionId()).toBe("run-session");
-      expect(sessionManager.getHeader()).toEqual(
-        expect.objectContaining({ type: "session", id: "run-session", cwd: "/tmp/task-repo" }),
-      );
-      expect(sessionManager.getCwd()).toBe("/tmp/task-repo");
-
-      // Each warm hit gets an independent mutable header clone, so normalizing
-      // one manager's header must not bleed into the cached snapshot shared with
-      // the sibling manager.
-      expect(sibling.getHeader()).toEqual(
-        expect.objectContaining({ type: "session", id: "original-session", cwd: dir }),
-      );
-
-      // The warm hits stayed parse-free. The required header rewrite parses
-      // its two persisted lines once so the cache matches JSON round-tripping.
-      expect(parseCount).toBe(2);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("keeps the warm cache after prepareSessionManagerForRun rewrites then appends", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const assistantEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: { role: "assistant", content: "carried context" },
-    };
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir, "original-session"))}\n${JSON.stringify(
-        assistantEntry,
-      )}\n`,
-      "utf8",
-    );
-
-    // Warm the process-level entry cache, then open the manager the embedded
-    // runner will normalize.
-    expect(SessionManager.open(sessionFile, dir, dir).getSessionId()).toBe("original-session");
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-
-    let trustedSnapshot = await readTrustedRepairSnapshot(sessionFile);
-    let snapshotPublications = 0;
-    await withOwnedSessionTranscriptWrites(
-      {
-        sessionFile,
-        canAdvanceSessionEntryCache: (snapshot) => {
-          expect(snapshot).toEqual(trustedSnapshot);
-          return true;
-        },
-        publishSessionFileSnapshot: (snapshot) => {
-          snapshotPublications += 1;
-          trustedSnapshot = snapshot;
-          return true;
-        },
-        withSessionWriteLock: async (run) => await run(),
-      },
-      async () => {
-        await prepareSessionManagerForRun({
-          sessionManager,
-          sessionFile,
-          hadSessionFile: true,
-          sessionId: "run-session",
-          cwd: dir,
-        });
-        // First append after the embedded header rewrite. Before the fix the
-        // stale snapshot made this drop the warm cache.
-        sessionManager.appendMessage(buildAssistantMessage("after rewrite"));
-      },
-    );
-    expect(snapshotPublications).toBe(2);
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-
-    try {
-      const reopened = SessionManager.open(sessionFile, dir, dir);
-      expect(reopened.getEntries().map((entry) => readMessageContent(entry))).toEqual([
-        "carried context",
-        "after rewrite",
-      ]);
-      // The next warm open must hit the cache instead of reparsing the whole
-      // transcript that the embedded header rewrite produced.
-      expect(parseCount).toBe(0);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("invalidates incremental repair state after a full header rewrite", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const firstEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: buildAssistantMessage("message 1"),
-    };
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(firstEntry)}\n`,
-      "utf8",
-    );
-    await repairSessionFileIfNeeded({ sessionFile });
-
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-    await prepareSessionManagerForRun({
-      sessionManager,
-      sessionFile,
-      hadSessionFile: true,
-      sessionId: "longer-rewritten-session-id",
-      cwd: dir,
-    });
-
-    const originalParse = JSON.parse;
-    let parseCount = 0;
-    JSON.parse = function countedParse(...args: Parameters<typeof JSON.parse>) {
-      parseCount += 1;
-      return originalParse.apply(originalParse, args);
-    } as typeof JSON.parse;
-    try {
-      await repairSessionFileIfNeeded({
-        sessionFile,
-        trustedSnapshot: await readTrustedRepairSnapshot(sessionFile),
-      });
-      expect(parseCount).toBeGreaterThanOrEqual(2);
-    } finally {
-      JSON.parse = originalParse;
-    }
-  });
-
-  it("does not rewrite a warm transcript when its header already matches the run", async () => {
-    const dir = await makeTempDir();
-    const sessionFile = path.join(dir, "session.jsonl");
-    const assistantEntry = {
-      type: "message",
-      id: "assistant-1",
-      parentId: null,
-      timestamp: "2026-06-04T00:00:01.000Z",
-      message: { role: "assistant", content: "carried context" },
-    };
-    await fs.writeFile(
-      sessionFile,
-      `${JSON.stringify(buildSessionHeader(dir))}\n${JSON.stringify(assistantEntry)}\n`,
-      "utf8",
-    );
-    await fs.utimes(sessionFile, new Date(1_000), new Date(1_000));
-    const before = await fs.stat(sessionFile);
-    const sessionManager = SessionManager.open(sessionFile, dir, dir);
-
-    await prepareSessionManagerForRun({
-      sessionManager,
-      sessionFile,
-      hadSessionFile: true,
-      sessionId: "test-session",
-      cwd: dir,
-    });
-
-    const after = await fs.stat(sessionFile);
-    expect(after.mtimeMs).toBe(before.mtimeMs);
+    expect(appendState(sessionManager)).toEqual(beforeRejectedAppends);
   });
 });
 
-function readMessageContent(entry: SessionEntry): unknown {
-  const content = (entry as { message: { content: unknown } }).message.content;
-  if (Array.isArray(content)) {
-    return content.map((part) => (part as { text?: string }).text ?? "").join("");
-  }
-  return content;
+function rebaseAssistant(text: string, timestamp = 2) {
+  return makeAgentAssistantMessage({
+    content: [{ type: "text", text }],
+    model: "gpt-5.5",
+    timestamp,
+  });
 }
 
-async function readTrustedRepairSnapshot(sessionFile: string) {
-  const stat = await fs.stat(sessionFile, { bigint: true });
+function nestedTool(timestamp: number) {
+  return createNestedToolActivity({
+    runId: "prepared-run",
+    scopeId: "prepared-scope",
+    afterEntryId: null,
+    startOrder: 0,
+    toolCallId: "prepared-message",
+    toolName: "message",
+    input: { action: "send", message: "Delivered reply" },
+    result: { content: [{ type: "text", text: "Sent" }] },
+    isError: false,
+    startedAt: timestamp,
+    timestamp,
+  });
+}
+
+async function setup(content = "base") {
+  const { dir, scope: target } = createScope("rebase");
+  await upsertSessionEntryCore(target, { sessionId: target.sessionId, updatedAt: 1 });
+  const persist = (eventId: string, message: unknown, now = 2, parentId?: string | null) =>
+    appendTranscriptMessage(target, { eventId, message, now, parentId });
+  await persist("base", makeUserMessage(content, 1), 1);
   return {
-    dev: stat.dev,
-    ino: stat.ino,
-    size: stat.size,
-    mtimeNs: stat.mtimeNs,
-    ctimeNs: stat.ctimeNs,
+    dir,
+    target,
+    persist,
+    manager: SessionManager.open(target, dir),
+    events: () => loadTranscriptEvents(target),
   };
 }
 
-function buildAssistantMessage(text: string) {
-  return {
-    role: "assistant" as const,
-    content: [{ type: "text" as const, text }],
-    api: "messages" as const,
-    provider: "anthropic" as const,
-    model: "sonnet-4.6" as const,
-    usage: {
-      input: 0,
-      output: 0,
-      cacheRead: 0,
-      cacheWrite: 0,
-      totalTokens: 0,
-      cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
+describe("SessionManager stale-parent rebase", () => {
+  it("rebases a stale active append and replays its canonical parent", async () => {
+    const { target, manager, persist, events } = await setup();
+    const { role, content, timestamp } = rebaseAssistant("late");
+    await persist("out-of-band", { role, content, timestamp });
+    const message = makeUserMessage("next", 3);
+    const id = manager.appendMessage(message);
+    expect(await events()).toMatchObject([
+      { type: "session" },
+      { id: "base", parentId: null },
+      { id: "out-of-band", parentId: "base" },
+      { id, parentId: "out-of-band" },
+    ]);
+    expect(manager.getEntry(id)?.parentId).toBe("out-of-band");
+    expect(branchIds(manager)).toEqual(["base", "out-of-band", id]);
+    expect(
+      await appendTranscriptMessage(target, {
+        appendIntent: "active-branch",
+        eventId: id,
+        message,
+        parentId: "base",
+      }),
+    ).toMatchObject({ appended: false, effectiveParentId: "out-of-band", messageId: id });
+  });
+
+  it("reloads a stale control append after an unchanged-parent prefix rewrite", async () => {
+    const { target, manager, events } = await setup("old");
+    const records = await events();
+    expect(
+      replaceTranscriptEventsSync(target, [
+        records[0],
+        {
+          type: "message",
+          id: "base",
+          parentId: null,
+          timestamp: new Date(1).toISOString(),
+          message: makeUserMessage("rewritten", 2),
+        },
+      ]),
+    ).toBe(true);
+    const id = await manager.appendModelChange("openai", "gpt-5.6");
+    expect(branchIds(manager)).toEqual(["base", id]);
+    expect(manager.getEntry("base")).toMatchObject({
+      type: "message",
+      message: { role: "user", content: "rewritten" },
+    });
+  });
+
+  it("continues a prepared assistant across a visible context-free command pair without replaying it", async () => {
+    const { dir, target, manager, persist, events } = await setup();
+    const metadata = { excludeFromContext: true, __openclaw: { contextFreeCommand: true } };
+    await persist("status-user", { ...makeUserMessage("/status", 2), ...metadata });
+    await persist(
+      "status-assistant",
+      { ...rebaseAssistant("Worker is running", 3), ...metadata },
+      3,
+    );
+    const continuation = rebaseAssistant("stale reply", 4);
+    const id = manager.appendMessage(continuation);
+    expect(await events()).toMatchObject([
+      { type: "session" },
+      { id: "base", message: { role: "user", content: "base" } },
+      { id: "status-user", parentId: "base", message: { role: "user", content: "/status" } },
+      {
+        id: "status-assistant",
+        parentId: "status-user",
+        message: { role: "assistant", content: [{ type: "text", text: "Worker is running" }] },
+      },
+      { id, parentId: "status-assistant", message: continuation },
+    ]);
+    const context = manager.buildSessionContext();
+    expect(context.messages).toEqual([makeUserMessage("base", 1), continuation]);
+    expect(SessionManager.open(target, dir).buildSessionContext()).toEqual(context);
+  });
+
+  it.each([
+    { name: "excluded-only", kind: "assistant", metadata: { excludeFromContext: true } },
+    {
+      name: "marked-only",
+      kind: "assistant",
+      metadata: { __openclaw: { contextFreeCommand: true } },
     },
-    stopReason: "stop" as const,
-    timestamp: Date.now(),
-  };
-}
+    {
+      name: "nonboolean-marker",
+      kind: "nested-tool",
+      metadata: { excludeFromContext: true, __openclaw: { contextFreeCommand: "true" } },
+    },
+  ])(
+    "rejects a stale prepared $kind after a newer user turn ($name)",
+    async ({ kind, metadata }) => {
+      const { manager, persist, events } = await setup();
+      await persist("new-user", { ...makeUserMessage("/status", 2), ...metadata });
+      await expectRejectedAppend(manager, events, () =>
+        manager.appendMessage(
+          kind === "assistant" ? rebaseAssistant("stale reply", 3) : nestedTool(3),
+        ),
+      );
+    },
+  );
 
-function buildSessionHeader(cwd: string, id = "test-session") {
-  return {
-    type: "session",
-    version: CURRENT_SESSION_VERSION,
-    id,
-    timestamp: "2026-06-04T00:00:00.000Z",
-    cwd,
-  };
-}
+  it("rejects a stale custom message after a same-turn assistant append", async () => {
+    const { manager, persist, events } = await setup();
+    await persist("delivered-reply", rebaseAssistant("stale reply"));
+    await expectRejectedAppend(manager, events, () =>
+      manager.appendMessage({
+        role: "custom",
+        customType: "extension-input",
+        content: "Additional instructions",
+        display: true,
+        timestamp: 3,
+      }),
+    );
+  });
 
-function buildMessageEntry(index: number, parentId: string | null): SessionEntry {
-  return {
-    type: "message",
-    id: `entry-${index}`,
-    parentId,
-    timestamp: `2026-06-04T00:00:0${index}.000Z`,
-    message: { role: "user", content: `message ${index}`, timestamp: index },
-  };
-}
+  it("fences a prepared assistant retry to the snapshot that passed validation", async () => {
+    const { target, manager, persist, events } = await setup();
+    await persist("intermediate-assistant", rebaseAssistant("late"));
+    const beforeBranch = branchIds(manager);
+    const { db } = openOpenClawAgentDatabase({
+      agentId: target.agentId,
+      path: resolveSessionTranscriptDatabasePath(target),
+    });
+    const exec = db.exec.bind(db);
+    let injected = false;
+    const spy = vi.spyOn(db, "exec").mockImplementation((statement) => {
+      if (statement === "BEGIN IMMEDIATE" && !injected) {
+        injected = true;
+        expect(
+          appendTranscriptMessageSync(target, {
+            appendIntent: "active-branch",
+            eventId: "new-user",
+            message: makeUserMessage("new", 3),
+            now: 3,
+          }).ok,
+        ).toBe(true);
+      }
+      return exec(statement);
+    });
+    try {
+      expect(() => manager.appendMessage(rebaseAssistant("stale reply", 4))).toThrow(
+        "SQLite transcript changed while preparing rewrite",
+      );
+    } finally {
+      spy.mockRestore();
+    }
+    expect(branchIds(manager)).toEqual(beforeBranch);
+    expect(await events()).toMatchObject([
+      { type: "session" },
+      { id: "base" },
+      { id: "intermediate-assistant" },
+      { id: "new-user" },
+    ]);
+  });
+
+  it("rejects a prepared nested tool after a newer user outside the restored active ancestry", async () => {
+    const { dir, target, manager: source, events } = await setup();
+    const parentId = source.appendMessage(rebaseAssistant("ready"));
+    const stale = SessionManager.open(target, dir);
+    source.branch("base");
+    source.appendMessage(makeUserMessage("side user", 3));
+    source.branch(parentId);
+    await expectRejectedAppend(stale, events, () => stale.appendMessage(nestedTool(4)));
+  });
+
+  it("preserves a stale manager branch when the concurrent tail is unrelated", async () => {
+    const { dir, target, persist, events } = await setup("first");
+    await persist("first-tail", rebaseAssistant("first"));
+    const manager = SessionManager.open(target, dir);
+    await persist("second-root", makeUserMessage("second", 3), 3, null);
+    const id = manager.appendMessage(makeUserMessage("branch", 4));
+    expect(manager.getEntry(id)?.parentId).toBe("first-tail");
+    expect(branchIds(manager)).toEqual(["base", "first-tail", id]);
+    expect(buildSessionContext(manager.getEntries(), "first-tail").messages).toMatchObject([
+      { role: "user", content: "first" },
+      { role: "assistant", content: [{ type: "text", text: "first" }] },
+    ]);
+    expect(await events()).toContainEqual(expect.objectContaining({ id, parentId: "first-tail" }));
+  });
+
+  it.each(["side", "branch"])("retries a stale %s append at its explicit parent", async (mode) => {
+    const { dir, target, manager, persist, events } = await setup();
+    if (mode === "side") {
+      manager.appendLeafControl({ targetId: "base", appendParentId: "base", appendMode: "side" });
+      const reopened = SessionManager.open(target, dir);
+      expect([
+        reopened.getLeafId(),
+        reopened.getAppendParentId(),
+        reopened.getAppendMode(),
+      ]).toEqual(["base", "base", "side"]);
+    } else {
+      manager.branch("base");
+    }
+    await persist("concurrent-tail", rebaseAssistant("concurrent"), 2, "base");
+    const id = manager.appendMessage(makeUserMessage(mode, 3));
+    expect(await events()).toContainEqual(expect.objectContaining({ id, parentId: "base" }));
+    expect(manager.getChildren("base").map((entry) => entry.id)).toEqual(["concurrent-tail", id]);
+    if (mode === "side") {
+      expect(() => manager.prepareTranscriptRewrite()).not.toThrow();
+    }
+  });
+});

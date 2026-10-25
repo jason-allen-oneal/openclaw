@@ -1,15 +1,11 @@
-// Avatar policy helpers resolve avatar paths and provider fallback rules.
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { isPathInside } from "../infra/path-guards.js";
+export { AVATAR_MAX_BYTES } from "./avatar-limits.js";
 
 /**
  * Shared avatar source policy for config validation, agent identity loading,
  * gateway uploads, and Control UI rendering hints.
  */
-
-/** Maximum avatar payload size accepted by local file and gateway upload paths. */
-export const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
 
 // Local avatar serving intentionally excludes formats handled only as MIME fallbacks:
 // callers may recognize BMP/TIFF MIME types, but local inline serving stays on
@@ -30,15 +26,13 @@ const AVATAR_MIME_BY_EXT: Record<string, string> = {
 };
 
 /** Detects data URLs before image-specific avatar validation. */
-export const AVATAR_DATA_RE = /^data:/i;
-/** Detects inline image data URLs that can be used as avatar sources. */
-export const AVATAR_IMAGE_DATA_RE = /^data:image\//i;
+const AVATAR_DATA_RE = /^data:/i;
 /** Detects remote avatar URLs served over HTTP(S). */
-export const AVATAR_HTTP_RE = /^https?:\/\//i;
+const AVATAR_HTTP_RE = /^https?:\/\//i;
 /** Detects URI schemes so non-path avatar values can be rejected or routed. */
-export const AVATAR_SCHEME_RE = /^[a-z][a-z0-9+.-]*:/i;
+const AVATAR_SCHEME_RE = /^[a-z][a-z0-9+.-]*:/i;
 /** Detects Windows absolute paths before URI-scheme classification. */
-export const WINDOWS_ABS_RE = /^[a-zA-Z]:[\\/]/;
+const WINDOWS_ABS_RE = /^[a-zA-Z]:[\\/]/;
 
 const AVATAR_PATH_EXT_RE = /\.(png|jpe?g|gif|webp|svg|ico)$/i;
 
@@ -51,11 +45,6 @@ export function resolveAvatarMime(filePath: string): string {
 /** Detects any data URL value before image-specific validation. */
 export function isAvatarDataUrl(value: string): boolean {
   return AVATAR_DATA_RE.test(value);
-}
-
-/** Detects image data URLs accepted by avatar sources. */
-export function isAvatarImageDataUrl(value: string): boolean {
-  return AVATAR_IMAGE_DATA_RE.test(value);
 }
 
 /** Detects remote HTTP(S) avatar URLs. */
@@ -73,23 +62,18 @@ export function isWindowsAbsolutePath(value: string): boolean {
   return WINDOWS_ABS_RE.test(value);
 }
 
-/** Accepts workspace-relative avatar paths while rejecting home paths and URI values. */
-export function isWorkspaceRelativeAvatarPath(value: string): boolean {
-  if (!value) {
-    return false;
-  }
-  if (value.startsWith("~")) {
-    return false;
-  }
-  if (hasAvatarUriScheme(value) && !isWindowsAbsolutePath(value)) {
-    return false;
-  }
-  return true;
-}
-
-/** Checks that a resolved avatar path remains inside its configured root. */
-export function isPathWithinRoot(rootDir: string, targetPath: string): boolean {
-  return isPathInside(rootDir, targetPath);
+/**
+ * Trimmed avatar values that config validation confines to the agent workspace.
+ * Data and HTTP(S) URLs are allowed anywhere; "~" and other URI-like values are rejected.
+ */
+export function isAvatarWorkspacePath(value: string): boolean {
+  return (
+    value !== "" &&
+    !isAvatarDataUrl(value) &&
+    !isAvatarHttpUrl(value) &&
+    !value.startsWith("~") &&
+    (!hasAvatarUriScheme(value) || isWindowsAbsolutePath(value))
+  );
 }
 
 /** Heuristically detects strings that look like local avatar file paths. */

@@ -1,5 +1,5 @@
 // Shares plugin runtime workspace state across module reloads.
-const PLUGIN_REGISTRY_STATE = Symbol.for("openclaw.pluginRegistryState");
+import { PLUGIN_REGISTRY_STATE } from "./runtime-state-key.js";
 
 type GlobalRegistryWorkspaceState = typeof globalThis & {
   [PLUGIN_REGISTRY_STATE]?: {
@@ -8,7 +8,7 @@ type GlobalRegistryWorkspaceState = typeof globalThis & {
 };
 
 /** Reads the active plugin registry workspace directory from global runtime state. */
-export function getActivePluginRegistryWorkspaceDirFromState(): string | undefined {
+export function getActivePluginRegistryWorkspaceDirFromStateCore(): string | undefined {
   return (
     (globalThis as GlobalRegistryWorkspaceState)[PLUGIN_REGISTRY_STATE]?.workspaceDir ?? undefined
   );

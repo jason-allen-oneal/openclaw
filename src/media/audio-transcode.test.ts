@@ -1,27 +1,34 @@
 // Audio transcode tests cover ffmpeg-backed audio conversion behavior.
-import { existsSync, realpathSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import syncFs, { existsSync, realpathSync } from "node:fs";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import { mockCall } from "../test-utils/mock-call-assertions.js";
 
 const runFfmpegMock = vi.hoisted(() => vi.fn());
+const runCommandWithTimeoutMock = vi.hoisted(() => vi.fn());
 
 vi.mock("./ffmpeg-exec.js", () => ({
   runFfmpeg: runFfmpegMock,
 }));
 
-import { transcodeAudioBuffer, transcodeAudioBufferToOpus } from "./audio-transcode.js";
+vi.mock("../process/exec.js", () => ({
+  runCommandWithTimeout: runCommandWithTimeoutMock,
+}));
 
-type MockWithCalls = { mock: { calls: unknown[][] } };
+let transcodeAudioBuffer: typeof import("./audio-transcode.js").transcodeAudioBuffer;
+let transcodeAudioBufferToOpus: typeof import("./audio-transcode.js").transcodeAudioBufferToOpus;
 
-function firstMockCall(mock: MockWithCalls, label: string): unknown[] {
-  const call = mock.mock.calls[0];
-  if (!call) {
-    throw new Error(`expected ${label} call`);
-  }
-  return call;
-}
+beforeAll(async () => {
+  vi.resetModules();
+  ({ transcodeAudioBuffer, transcodeAudioBufferToOpus } = await import("./audio-transcode.js"));
+});
+
+afterAll(() => {
+  vi.doUnmock("./ffmpeg-exec.js");
+  vi.resetModules();
+});
 
 describe("transcodeAudioBufferToOpus", () => {
   afterEach(() => {
@@ -29,6 +36,7 @@ describe("transcodeAudioBufferToOpus", () => {
   });
 
   it("writes input audio, runs ffmpeg for 48k mono Opus, and cleans temp files", async () => {
+    using sync = vi.spyOn(syncFs, "fsyncSync");
     let capturedInputPath: string | undefined;
     let capturedOutputPath: string | undefined;
     runFfmpegMock.mockImplementationOnce(async (args: string[]) => {
@@ -55,7 +63,7 @@ describe("transcodeAudioBufferToOpus", () => {
     ).resolves.toEqual(Buffer.from("opus-output"));
 
     expect(runFfmpegMock).toHaveBeenCalledTimes(1);
-    expect(firstMockCall(runFfmpegMock, "runFfmpeg")).toStrictEqual([
+    expect(mockCall(runFfmpegMock)).toStrictEqual([
       [
         "-hide_banner",
         "-loglevel",
@@ -84,6 +92,7 @@ describe("transcodeAudioBufferToOpus", () => {
     expect(capturedInputPath?.startsWith(path.join(tempRoot, "tts-test-"))).toBe(true);
     expect(capturedInputPath ? existsSync(capturedInputPath) : true).toBe(false);
     expect(capturedOutputPath ? existsSync(capturedOutputPath) : true).toBe(false);
+    expect(sync).not.toHaveBeenCalled();
   });
 
   it("sanitizes unsafe input extensions", async () => {
@@ -104,6 +113,34 @@ describe("transcodeAudioBufferToOpus", () => {
       inputExtension: "../bad",
     });
   });
+
+  it("passes the maximum duration to ffmpeg when requested", async () => {
+    runFfmpegMock.mockImplementationOnce(async (args: string[]) => {
+      const outputPath = args.at(-1);
+      if (!outputPath) {
+        throw new Error("missing ffmpeg output path");
+      }
+      await writeFile(outputPath, Buffer.from("ogg-opus-output"));
+    });
+
+    await transcodeAudioBufferToOpus({
+      audioBuffer: Buffer.from("source-m4a"),
+      maxDurationSeconds: 300,
+    });
+
+    const ffmpegArgs = mockCall(runFfmpegMock)[0] as string[];
+    expect(ffmpegArgs).toEqual(expect.arrayContaining(["-t", "300", "-c:a", "libopus"]));
+  });
+
+  it.each([0, -1, Number.NaN, Number.POSITIVE_INFINITY])(
+    "rejects invalid maximum duration %s before ffmpeg",
+    async (maxDurationSeconds) => {
+      await expect(
+        transcodeAudioBufferToOpus({ audioBuffer: Buffer.from("source"), maxDurationSeconds }),
+      ).rejects.toThrow("maxDurationSeconds must be a positive finite number");
+      expect(runFfmpegMock).not.toHaveBeenCalled();
+    },
+  );
 
   it("keeps temp prefixes and output names inside the preferred temp root", async () => {
     let capturedInputPath: string | undefined;
@@ -160,52 +197,63 @@ describe("transcodeAudioBufferToOpus", () => {
 
 describe("transcodeAudioBuffer", () => {
   afterEach(() => {
+    vi.restoreAllMocks();
+    runCommandWithTimeoutMock.mockReset();
     runFfmpegMock.mockReset();
   });
 
-  it("returns noop-same-container when source and target containers match", async () => {
+  it("returns a failure and cleans its workspace when input staging fails", async () => {
+    vi.spyOn(process, "platform", "get").mockReturnValue("darwin");
+    let workspaceDir: string | undefined;
+    const lstat = syncFs.lstatSync;
+    vi.spyOn(syncFs, "lstatSync").mockImplementation((...args) => {
+      const [filePath] = args;
+      if (typeof filePath === "string" && path.basename(filePath) === "in.mp3") {
+        workspaceDir = path.dirname(filePath);
+        throw Object.assign(new Error("input exceeds bounded staging limit"), { code: "EFBIG" });
+      }
+      return lstat(...args);
+    });
+
     const result = await transcodeAudioBuffer({
       audioBuffer: Buffer.from("payload"),
       sourceExtension: "mp3",
-      targetExtension: ".mp3",
-    });
-    expect(result).toEqual({ ok: false, reason: "noop-same-container" });
-  });
-
-  it("returns no-recipe when no afconvert recipe is defined for the requested pair", async () => {
-    const result = await transcodeAudioBuffer({
-      audioBuffer: Buffer.from("payload"),
-      sourceExtension: "mp3",
-      targetExtension: "flac",
-    });
-    expect(result).toEqual({ ok: false, reason: "no-recipe" });
-  });
-
-  it("returns invalid-extension for an empty source extension", async () => {
-    const result = await transcodeAudioBuffer({
-      audioBuffer: Buffer.from("payload"),
-      sourceExtension: "",
       targetExtension: "caf",
     });
-    expect(result).toEqual({ ok: false, reason: "invalid-extension" });
+
+    expect(result).toEqual({
+      ok: false,
+      reason: "transcoder-failed",
+      detail: "input exceeds bounded staging limit",
+    });
+    expect(workspaceDir).toBeDefined();
+    expect(workspaceDir ? existsSync(workspaceDir) : true).toBe(false);
+    expect(runCommandWithTimeoutMock).not.toHaveBeenCalled();
   });
 
-  it("returns invalid-extension for an empty target extension", async () => {
+  it.each([
+    [
+      "returns noop-same-container when source and target containers match",
+      "mp3",
+      ".mp3",
+      "noop-same-container",
+    ],
+    [
+      "returns no-recipe when no afconvert recipe is defined for the requested pair",
+      "mp3",
+      "flac",
+      "no-recipe",
+    ],
+    ["returns invalid-extension for an empty source extension", "", "caf", "invalid-extension"],
+    ["returns invalid-extension for an empty target extension", "mp3", "", "invalid-extension"],
+    ["rejects path-traversal style extensions", "../etc/passwd", "caf", "invalid-extension"],
+  ])("%s", async (_name, sourceExtension, targetExtension, reason) => {
     const result = await transcodeAudioBuffer({
       audioBuffer: Buffer.from("payload"),
-      sourceExtension: "mp3",
-      targetExtension: "",
+      sourceExtension,
+      targetExtension,
     });
-    expect(result).toEqual({ ok: false, reason: "invalid-extension" });
-  });
-
-  it("rejects path-traversal style extensions", async () => {
-    const result = await transcodeAudioBuffer({
-      audioBuffer: Buffer.from("payload"),
-      sourceExtension: "../etc/passwd",
-      targetExtension: "caf",
-    });
-    expect(result).toEqual({ ok: false, reason: "invalid-extension" });
+    expect(result).toEqual({ ok: false, reason });
   });
 
   it("returns platform-unsupported off-Darwin without invoking afconvert", async () => {

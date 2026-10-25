@@ -1,4 +1,4 @@
-// Xiaomi tests cover index plugin behavior.
+import { expectDefined } from "@openclaw/normalization-core";
 import type { StreamFn } from "openclaw/plugin-sdk/agent-core";
 import type { Context, Model } from "openclaw/plugin-sdk/llm";
 import { createAssistantMessageEventStream } from "openclaw/plugin-sdk/llm";
@@ -6,13 +6,14 @@ import {
   registerProviderPlugin,
   requireRegisteredProvider,
   resolveProviderPluginChoice,
-  type RegisteredProviderCollections,
 } from "openclaw/plugin-sdk/plugin-test-runtime";
 import { buildOpenAICompletionsParams } from "openclaw/plugin-sdk/provider-transport-runtime";
+import * as ssrfRuntime from "openclaw/plugin-sdk/ssrf-runtime";
+import { createZeroUsageFixture } from "openclaw/plugin-sdk/test-fixtures";
 import { describe, expect, it, vi } from "vitest";
+import { makeTextToolResult } from "../test-support/message-fixtures.test-support.js";
 import { runSingleProviderCatalog } from "../test-support/provider-model-test-helpers.js";
 import xiaomiPlugin from "./index.js";
-import { createMiMoThinkingWrapper } from "./stream.js";
 
 type OpenAICompletionsModel = Model<"openai-completions">;
 
@@ -20,52 +21,17 @@ type PayloadCapture = {
   payload?: Record<string, unknown>;
 };
 
-type ThinkingPayload = {
-  type?: unknown;
-};
-
-type ReplayToolCall = {
-  id?: unknown;
-  type?: unknown;
-  function?: {
-    name?: unknown;
-    arguments?: unknown;
-  };
-};
-
-type RegisteredProvider = RegisteredProviderCollections["providers"][number];
-type FakeStream = {
-  result: () => Promise<unknown>;
-  [Symbol.asyncIterator]: () => AsyncIterator<unknown>;
-};
-
-const emptyUsage = {
-  input: 0,
-  output: 0,
-  cacheRead: 0,
-  cacheWrite: 0,
-  totalTokens: 0,
-  cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
-};
-
-function requireThinkingProfileResolver(
-  provider: RegisteredProvider,
-): NonNullable<RegisteredProvider["resolveThinkingProfile"]> {
-  if (!provider.resolveThinkingProfile) {
-    throw new Error("Xiaomi provider did not register a thinking profile resolver");
-  }
-  return provider.resolveThinkingProfile;
-}
+const emptyUsage = createZeroUsageFixture();
+const modelIds = [
+  "mimo-v2.6-pro",
+  "mimo-v2.6-flash",
+  "mimo-v2.6-pro-ultraspeed",
+  "mimo-v2.5",
+  "mimo-v2.5-pro",
+] as const;
 
 const readToolCall = { type: "toolCall", id: "call_1", name: "read", arguments: {} };
-const readToolResult = {
-  role: "toolResult",
-  toolCallId: "call_1",
-  toolName: "read",
-  content: [{ type: "text", text: "ok" }],
-  isError: false,
-  timestamp: 3,
-};
+const readToolResult = makeTextToolResult("call_1", "read", "ok", false, 3);
 const readTool = {
   name: "read",
   description: "Read data",
@@ -73,24 +39,15 @@ const readTool = {
 };
 
 const registerXiaomiPlugin = () =>
-  registerProviderPlugin({
-    plugin: xiaomiPlugin,
-    id: "xiaomi",
-    name: "Xiaomi Provider",
-  });
+  registerProviderPlugin({ plugin: xiaomiPlugin, id: "xiaomi", name: "Xiaomi Provider" });
 
-async function getXiaomiProvider() {
+async function getXiaomiProvider(id = "xiaomi") {
   const { providers } = await registerXiaomiPlugin();
-  return requireRegisteredProvider(providers, "xiaomi");
-}
-
-async function getXiaomiTokenPlanProvider() {
-  const { providers } = await registerXiaomiPlugin();
-  return requireRegisteredProvider(providers, "xiaomi-token-plan");
+  return requireRegisteredProvider(providers, id);
 }
 
 function mimoReasoningModel(
-  id: "mimo-v2-pro" | "mimo-v2-omni" | "mimo-v2.5" | "mimo-v2.5-pro" | "mimo-v2.6-pro",
+  id: (typeof modelIds)[number],
   provider: "xiaomi" | "xiaomi-token-plan" = "xiaomi",
 ): OpenAICompletionsModel {
   return {
@@ -108,358 +65,186 @@ function mimoReasoningModel(
   } as OpenAICompletionsModel;
 }
 
-function replayAssistantMessage(params: {
-  provider: string;
-  model: string;
-  content: Array<Record<string, unknown>>;
-  stopReason: "stop" | "toolUse";
-}) {
-  return {
+function readToolReplayContext(provider = "xiaomi", reasoning = true): Context {
+  const assistantMessage = {
     role: "assistant",
     api: "openai-completions",
-    provider: params.provider,
-    model: params.model,
-    content: params.content,
+    provider,
+    model: provider === "openai" ? "gpt-5.5" : "mimo-v2.5-pro",
+    content: [
+      ...(reasoning
+        ? [{ type: "thinking", thinking: "call reasoning", thinkingSignature: "reasoning_content" }]
+        : []),
+      readToolCall,
+    ],
     usage: emptyUsage,
-    stopReason: params.stopReason,
+    stopReason: "toolUse",
     timestamp: 2,
   };
-}
-
-function readToolReplayContext(assistantMessage: ReturnType<typeof replayAssistantMessage>) {
   return {
     messages: [{ role: "user", content: "hi", timestamp: 1 }, assistantMessage, readToolResult],
     tools: [readTool],
   } as Context;
 }
 
-function mimoReasoningToolReplayContext(provider = "xiaomi") {
-  return readToolReplayContext(
-    replayAssistantMessage({
-      provider,
-      model: "mimo-v2.5-pro",
-      content: [
-        {
-          type: "thinking",
-          thinking: "call reasoning",
-          thinkingSignature: "reasoning_content",
-        },
-        readToolCall,
-      ],
-      stopReason: "toolUse",
-    }),
-  );
-}
-
-function createPayloadCapturingStream(capture: PayloadCapture, model: OpenAICompletionsModel) {
-  return (
-    _streamModel: OpenAICompletionsModel,
-    streamContext: Context,
-    options?: { onPayload?: (payload: unknown, m: unknown) => unknown },
-  ) => {
-    capture.payload = buildOpenAICompletionsParams(model, streamContext, {
-      reasoning: "high",
-    } as never);
+async function captureThinkingPayload(
+  model: OpenAICompletionsModel,
+  thinkingLevel: "off" | "high",
+  context = readToolReplayContext(model.provider),
+) {
+  const capture: PayloadCapture = {};
+  const provider = await getXiaomiProvider(model.provider);
+  const streamFn: StreamFn = (_streamModel, streamContext, options) => {
+    capture.payload = buildOpenAICompletionsParams(model, streamContext, { reasoning: "high" });
     options?.onPayload?.(capture.payload, model);
     const stream = createAssistantMessageEventStream();
     queueMicrotask(() => stream.end());
     return stream;
   };
+  const stream = expectDefined(
+    provider.wrapStreamFn?.({
+      provider: model.provider,
+      modelId: model.id,
+      model,
+      streamFn,
+      thinkingLevel,
+    }),
+    "Registered MiMo thinking stream",
+  );
+  await stream(model, context, {});
+  return capture;
 }
 
-function createFakeStream(params: { events: unknown[]; resultMessage: unknown }): FakeStream {
-  return {
-    async result() {
-      return params.resultMessage;
-    },
-    [Symbol.asyncIterator]() {
-      return (async function* () {
-        for (const event of params.events) {
-          yield event;
-        }
-      })();
-    },
-  };
-}
-
-function createResultStreamFn(params: { events?: unknown[]; resultMessage: unknown }): StreamFn {
-  return () =>
-    createFakeStream({
-      events: params.events ?? [],
-      resultMessage: params.resultMessage,
-    }) as ReturnType<StreamFn>;
-}
-
-function requireThinkingWrapper(
-  wrapper: ReturnType<typeof createMiMoThinkingWrapper>,
-  label: string,
-): NonNullable<ReturnType<typeof createMiMoThinkingWrapper>> {
-  if (!wrapper) {
-    throw new Error(`expected MiMo thinking wrapper for ${label}`);
-  }
-  return wrapper;
-}
-
-function readThinking(payload: Record<string, unknown> | undefined): ThinkingPayload | undefined {
-  return payload?.thinking as ThinkingPayload | undefined;
-}
-
-function readPayloadMessage(
-  capture: PayloadCapture,
-  index: number,
-): Record<string, unknown> | undefined {
-  return (capture.payload?.messages as Array<Record<string, unknown>> | undefined)?.[index];
-}
-
-function readFirstToolCall(
-  message: Record<string, unknown> | undefined,
-): ReplayToolCall | undefined {
-  return (message?.tool_calls as ReplayToolCall[] | undefined)?.[0];
+function readAssistantPayload(capture: PayloadCapture): Record<string, unknown> | undefined {
+  return (capture.payload?.messages as Array<Record<string, unknown>> | undefined)?.[1];
 }
 
 describe("xiaomi provider plugin", () => {
-  it("registers Xiaomi pay-as-you-go auth metadata", async () => {
-    const { providers } = await registerXiaomiPlugin();
-    const provider = requireRegisteredProvider(providers, "xiaomi");
-    const resolved = resolveProviderPluginChoice({
-      providers,
-      choice: "xiaomi-api-key",
-    });
-
-    expect(provider.id).toBe("xiaomi");
-    expect(provider.label).toBe("Xiaomi");
-    expect(provider.envVars).toEqual(["XIAOMI_API_KEY"]);
-    expect(provider.auth).toHaveLength(1);
-    expect(provider.auth[0]?.label).toBe("Xiaomi API key (Pay-as-you-go)");
-    if (!resolved) {
-      throw new Error("expected Xiaomi api-key auth choice");
-    }
-    expect(resolved.provider.id).toBe("xiaomi");
-    expect(resolved.method.id).toBe("api-key");
-  });
-
-  it("registers Xiaomi Token Plan regional auth metadata", async () => {
-    const { providers } = await registerXiaomiPlugin();
-    const provider = requireRegisteredProvider(providers, "xiaomi-token-plan");
-    const resolved = resolveProviderPluginChoice({
-      providers,
-      choice: "xiaomi-token-plan-sgp",
-    });
-
-    expect(provider.id).toBe("xiaomi-token-plan");
-    expect(provider.label).toBe("Xiaomi Token Plan");
-    expect(provider.envVars).toEqual(["XIAOMI_TOKEN_PLAN_API_KEY"]);
-    expect(
-      provider.auth.map((method) => ({
-        id: method.id,
-        label: method.label,
-        hint: method.hint,
-        choiceId: method.wizard?.choiceId,
-      })),
-    ).toEqual([
-      {
-        id: "token-plan-ams",
-        label: "Xiaomi Token Plan (Europe)",
-        hint: "Endpoint preset: token-plan-ams.xiaomimimo.com/v1",
-        choiceId: "xiaomi-token-plan-ams",
-      },
-      {
-        id: "token-plan-cn",
-        label: "Xiaomi Token Plan (China)",
-        hint: "Endpoint preset: token-plan-cn.xiaomimimo.com/v1",
-        choiceId: "xiaomi-token-plan-cn",
-      },
-      {
-        id: "token-plan-sgp",
-        label: "Xiaomi Token Plan (Singapore)",
-        hint: "Endpoint preset: token-plan-sgp.xiaomimimo.com/v1",
-        choiceId: "xiaomi-token-plan-sgp",
-      },
-    ]);
-    if (!resolved) {
-      throw new Error("expected Xiaomi token-plan auth choice");
-    }
-    expect(resolved.provider.id).toBe("xiaomi-token-plan");
-    expect(resolved.method.id).toBe("token-plan-sgp");
-  });
-
   it("builds the static Xiaomi model catalog with reasoning flags", async () => {
     const provider = await getXiaomiProvider();
-    const catalogProvider = await runSingleProviderCatalog(provider);
+    const catalogProvider = await runSingleProviderCatalog({ catalog: provider.staticCatalog });
 
     expect(catalogProvider.api).toBe("openai-completions");
     expect(catalogProvider.baseUrl).toBe("https://api.xiaomimimo.com/v1");
 
-    const modelIds = catalogProvider.models?.map((m) => m.id);
-    expect(modelIds).toContain("mimo-v2-pro");
-    expect(modelIds).toContain("mimo-v2-omni");
-    expect(modelIds).toContain("mimo-v2-flash");
-
-    expect(catalogProvider.models?.find((m) => m.id === "mimo-v2-pro")?.reasoning).toBe(true);
-    expect(catalogProvider.models?.find((m) => m.id === "mimo-v2-omni")?.reasoning).toBe(true);
-    expect(catalogProvider.models?.find((m) => m.id === "mimo-v2-flash")?.reasoning).toBeFalsy();
-  });
-
-  it("exposes Token Plan v2.5 catalog rows only after a provider config selects a region", async () => {
-    const provider = await getXiaomiTokenPlanProvider();
-
-    const missingConfig = await provider.catalog?.run({
-      config: {},
-      env: {},
-      resolveProviderApiKey: () => ({ apiKey: "tp-test" }),
-      resolveProviderAuth: () => ({
-        apiKey: "tp-test",
-        mode: "api_key",
-        source: "env",
-      }),
-    } as never);
-    expect(missingConfig).toBeNull();
-
-    const configured = await provider.catalog?.run({
-      config: {
-        models: {
-          providers: {
-            "xiaomi-token-plan": {
-              baseUrl: "https://token-plan-cn.xiaomimimo.com/v1",
-            },
-          },
-        },
-      },
-      env: {},
-      resolveProviderApiKey: () => ({ apiKey: "tp-test" }),
-      resolveProviderAuth: () => ({
-        apiKey: "tp-test",
-        mode: "api_key",
-        source: "profile",
-        profileId: "xiaomi-token-plan:default",
-      }),
-    } as never);
-    if (!configured || !("provider" in configured)) {
-      throw new Error("expected configured Xiaomi Token Plan catalog");
-    }
-    expect(configured.provider.baseUrl).toBe("https://token-plan-cn.xiaomimimo.com/v1");
-    expect(configured.provider.api).toBe("openai-completions");
-    expect(configured.provider.models?.map((model) => model.id)).toEqual([
-      "mimo-v2.5-pro",
-      "mimo-v2.5",
-    ]);
-    expect(configured.provider.models?.find((model) => model.id === "mimo-v2.5")?.input).toEqual([
+    expect(catalogProvider.models?.map((model) => model.id)).toEqual(modelIds);
+    expect(catalogProvider.models?.find((m) => m.id === "mimo-v2.6-flash")?.input).toEqual([
       "text",
       "image",
     ]);
+    for (const [id, input, output, cacheRead] of [
+      ["mimo-v2.6-flash", 0.14, 0.28, 0.0028],
+      ["mimo-v2.6-pro", 0.435, 0.87, 0.0036],
+      ["mimo-v2.6-pro-ultraspeed", 4.35, 8.7, 0.036],
+    ] as const) {
+      expect(catalogProvider.models?.find((m) => m.id === id)?.cost).toEqual({
+        input,
+        output,
+        cacheRead,
+        cacheWrite: 0,
+      });
+    }
+    expect(catalogProvider.models?.every((model) => model.reasoning)).toBe(true);
   });
 
-  it("rejects token-plan keys on the pay-as-you-go auth choice", async () => {
-    const provider = await getXiaomiProvider();
-    const method = provider.auth[0];
-    if (!method?.runNonInteractive) {
-      throw new Error("expected Xiaomi pay-as-you-go non-interactive auth");
-    }
+  it("exposes Token Plan catalog rows only after a provider config selects a region", async () => {
+    const response = Response.json({
+      data: [
+        { id: "mimo-v2.6-pro" },
+        { id: "mimo-v2.6-flash" },
+        { id: "mimo-v2.5" },
+        { id: "mimo-v2.5-pro" },
+      ],
+    });
+    const release = vi.fn(async () => undefined);
+    const guardedFetch = vi.spyOn(ssrfRuntime, "fetchWithSsrFGuard").mockResolvedValue({
+      response,
+      finalUrl: "https://token-plan-cn.xiaomimimo.com/v1/models",
+      release,
+    });
 
-    await expect(
-      method.runNonInteractive({
-        authChoice: "xiaomi-api-key",
-        config: {},
-        baseConfig: {},
-        opts: { xiaomiApiKey: "tp-test" },
-        runtime: {} as never,
-        resolveApiKey: async () => ({
-          key: "tp-test",
-          source: "flag",
-        }),
-        toApiKeyCredential: vi.fn(),
-      } as never),
-    ).rejects.toThrow(
-      "This looks like a Xiaomi MiMo Token Plan key (tp-...). " +
-        "Re-run onboarding with one of: --auth-choice xiaomi-token-plan-cn, " +
-        "--auth-choice xiaomi-token-plan-sgp, or --auth-choice xiaomi-token-plan-ams.",
-    );
+    try {
+      const provider = await getXiaomiProvider("xiaomi-token-plan");
+      const runCatalog = (baseUrl?: string) =>
+        provider.catalog?.run({
+          config: baseUrl ? { models: { providers: { "xiaomi-token-plan": { baseUrl } } } } : {},
+          env: {},
+          resolveProviderApiKey: () => ({ apiKey: "tp-test" }),
+        } as never);
+      expect(await runCatalog()).toBeNull();
+      expect(guardedFetch).not.toHaveBeenCalled();
+      const configured = await runCatalog("https://token-plan-cn.xiaomimimo.com/v1");
+      if (!configured || !("provider" in configured)) {
+        throw new Error("expected configured Xiaomi Token Plan catalog");
+      }
+      expect(configured.provider).toMatchObject({
+        baseUrl: "https://token-plan-cn.xiaomimimo.com/v1",
+        api: "openai-completions",
+      });
+      expect(configured.provider.models?.map((model) => model.id)).toEqual([
+        "mimo-v2.5",
+        "mimo-v2.5-pro",
+        "mimo-v2.6-flash",
+        "mimo-v2.6-pro",
+      ]);
+      expect(
+        configured.provider.models?.find((model) => model.id === "mimo-v2.6-flash")?.input,
+      ).toEqual(["text", "image"]);
+      for (const model of configured.provider.models ?? []) {
+        expect(model.cost).toEqual({ input: 0, output: 0, cacheRead: 0, cacheWrite: 0 });
+      }
+      expect(guardedFetch).toHaveBeenCalledOnce();
+      const request = guardedFetch.mock.calls[0]?.[0];
+      expect(request?.url).toBe("https://token-plan-cn.xiaomimimo.com/v1/models");
+      expect(request?.init?.method ?? "GET").toBe("GET");
+      expect(new Headers(request?.init?.headers).get("authorization")).toBe("Bearer tp-test");
+      expect(response.bodyUsed).toBe(true);
+      expect(release).toHaveBeenCalledOnce();
+    } finally {
+      guardedFetch.mockRestore();
+    }
   });
 
-  it("rejects pay-as-you-go keys on Token Plan auth choices", async () => {
-    const provider = await getXiaomiTokenPlanProvider();
-    const method = provider.auth.find((entry) => entry.id === "token-plan-ams");
-    if (!method?.runNonInteractive) {
-      throw new Error("expected Xiaomi Token Plan non-interactive auth");
-    }
-
-    await expect(
-      method.runNonInteractive({
-        authChoice: "xiaomi-token-plan-ams",
-        config: {},
-        baseConfig: {},
-        opts: { xiaomiTokenPlanApiKey: "sk-test" },
-        runtime: {} as never,
-        resolveApiKey: async () => ({
-          key: "sk-test",
-          source: "flag",
-        }),
-        toApiKeyCredential: vi.fn(),
-      } as never),
-    ).rejects.toThrow(
-      "This looks like a Xiaomi MiMo pay-as-you-go key (sk-...). " +
-        `Re-run onboarding with --auth-choice xiaomi-api-key or pass --xiaomi-api-key.`,
-    );
-  });
-
-  it("rejects keys that do not start with sk- on the pay-as-you-go auth choice", async () => {
-    const provider = await getXiaomiProvider();
-    const method = provider.auth[0];
-    if (!method?.runNonInteractive) {
-      throw new Error("expected Xiaomi pay-as-you-go non-interactive auth");
-    }
-
-    await expect(
-      method.runNonInteractive({
-        authChoice: "xiaomi-api-key",
-        config: {},
-        baseConfig: {},
-        opts: { xiaomiApiKey: "bad-key" },
-        runtime: {} as never,
-        resolveApiKey: async () => ({
-          key: "bad-key",
-          source: "flag",
-        }),
-        toApiKeyCredential: vi.fn(),
-      } as never),
-    ).rejects.toThrow(
+  it.each([
+    [
+      "xiaomi-api-key",
+      "xiaomiApiKey",
+      "tp-test",
+      "This looks like a Xiaomi MiMo Token Plan key (tp-...). Re-run onboarding with one of: --auth-choice xiaomi-token-plan-cn, --auth-choice xiaomi-token-plan-sgp, or --auth-choice xiaomi-token-plan-ams.",
+    ],
+    [
+      "xiaomi-token-plan-ams",
+      "xiaomiTokenPlanApiKey",
+      "sk-test",
+      "This looks like a Xiaomi MiMo pay-as-you-go key (sk-...). Re-run onboarding with --auth-choice xiaomi-api-key or pass --xiaomi-api-key.",
+    ],
+    [
+      "xiaomi-api-key",
+      "xiaomiApiKey",
+      "bad-key",
       'Xiaomi MiMo pay-as-you-go keys must start with "sk-". The entered key does not match the expected format.',
-    );
-  });
-
-  it("rejects keys that do not start with tp- on Token Plan auth choices", async () => {
-    const provider = await getXiaomiTokenPlanProvider();
-    const method = provider.auth.find((entry) => entry.id === "token-plan-ams");
-    if (!method?.runNonInteractive) {
-      throw new Error("expected Xiaomi Token Plan non-interactive auth");
-    }
-
+    ],
+    [
+      "xiaomi-token-plan-sgp",
+      "xiaomiTokenPlanApiKey",
+      "bad-key",
+      'Xiaomi MiMo Token Plan keys must start with "tp-". The entered key does not match the expected format.',
+    ],
+  ])("rejects keys for %s (%s, %s)", async (choice, option, key, error) => {
+    const { providers } = await registerXiaomiPlugin();
+    const resolved = resolveProviderPluginChoice({ providers, choice });
+    const run = expectDefined(resolved?.method.runNonInteractive, "Xiaomi non-interactive auth");
     await expect(
-      method.runNonInteractive({
-        authChoice: "xiaomi-token-plan-ams",
+      run({
+        authChoice: choice,
         config: {},
         baseConfig: {},
-        opts: { xiaomiTokenPlanApiKey: "bad-key" },
+        opts: { [option]: key },
         runtime: {} as never,
-        resolveApiKey: async () => ({
-          key: "bad-key",
-          source: "flag",
-        }),
+        resolveApiKey: async () => ({ key, source: "flag" }),
         toApiKeyCredential: vi.fn(),
       } as never),
-    ).rejects.toThrow(
-      'Xiaomi MiMo Token Plan keys must start with "tp-". The entered key does not match the expected format.',
-    );
-  });
-
-  it("owns OpenAI-compatible replay policy", async () => {
-    const provider = await getXiaomiProvider();
-
-    const replayPolicy = provider.buildReplayPolicy?.({ modelApi: "openai-completions" } as never);
-    expect(replayPolicy?.sanitizeToolCallIds).toBe(true);
-    expect(replayPolicy?.toolCallIdMode).toBe("strict");
-    expect(replayPolicy?.validateGeminiTurns).toBe(true);
-    expect(replayPolicy?.validateAnthropicTurns).toBe(true);
+    ).rejects.toThrow(error);
   });
 
   it("marks resolved MiMo models for empty array items omission", async () => {
@@ -473,211 +258,53 @@ describe("xiaomi provider plugin", () => {
       model,
     } as never);
 
-    expect(
-      (normalized?.compat as { omitEmptyArrayItems?: unknown } | undefined)?.omitEmptyArrayItems,
-    ).toBe(true);
+    expect(normalized).toMatchObject({ compat: { omitEmptyArrayItems: true } });
   });
 
   it("advertises thinking profiles for MiMo reasoning models only", async () => {
     const provider = await getXiaomiProvider();
-    const resolveThinkingProfile = requireThinkingProfileResolver(provider);
+    const resolveThinkingProfile = expectDefined(
+      provider.resolveThinkingProfile,
+      "Xiaomi thinking profile resolver",
+    );
     const expectedLevels = ["off", "minimal", "low", "medium", "high", "xhigh", "max"];
 
-    for (const modelId of [
-      "mimo-v2-pro",
-      "mimo-v2-omni",
-      "mimo-v2.5",
-      "mimo-v2.5-pro",
-      "mimo-v2.6-pro",
-    ]) {
+    for (const modelId of modelIds) {
       const profile = resolveThinkingProfile({ provider: "xiaomi", modelId } as never);
       expect(profile?.levels.map((l) => l.id)).toEqual(expectedLevels);
       expect(profile?.defaultLevel).toBe("high");
     }
 
-    expect(resolveThinkingProfile({ provider: "xiaomi", modelId: "mimo-v2-flash" } as never)).toBe(
+    expect(resolveThinkingProfile({ provider: "xiaomi", modelId: "custom-model" } as never)).toBe(
       undefined,
     );
   });
 
-  it("isModernModelRef returns true only for MiMo reasoning models", async () => {
-    const provider = await getXiaomiProvider();
-
-    expect(
-      provider.isModernModelRef?.({ provider: "xiaomi", modelId: "mimo-v2.5-pro" } as never),
-    ).toBe(true);
-    expect(
-      provider.isModernModelRef?.({ provider: "xiaomi", modelId: "mimo-v2.6-pro" } as never),
-    ).toBe(true);
-    expect(
-      provider.isModernModelRef?.({ provider: "xiaomi", modelId: "mimo-v2-pro" } as never),
-    ).toBe(true);
-    expect(
-      provider.isModernModelRef?.({ provider: "xiaomi", modelId: "mimo-v2-flash" } as never),
-    ).toBe(false);
-  });
-
-  it("adds blank reasoning_content for replayed tool calls from non-xiaomi turns", async () => {
-    const capture: PayloadCapture = {};
-    const model = mimoReasoningModel("mimo-v2.5-pro");
-    const context = readToolReplayContext(
-      replayAssistantMessage({
-        provider: "openai",
-        model: "gpt-5.5",
-        content: [readToolCall],
-        stopReason: "toolUse",
-      }),
-    );
-    const baseStreamFn = createPayloadCapturingStream(capture, model);
-
-    const wrapThinkingHigh = requireThinkingWrapper(
-      createMiMoThinkingWrapper(baseStreamFn as never, "high"),
-      "high",
-    );
-    await wrapThinkingHigh(model, context, {});
-
-    const assistantMessage = readPayloadMessage(capture, 1);
-    expect(assistantMessage?.role).toBe("assistant");
-    expect(assistantMessage?.reasoning_content).toBe("");
-    const toolCall = readFirstToolCall(assistantMessage);
-    expect(toolCall?.id).toBe("call_1");
-    expect(toolCall?.type).toBe("function");
-    expect(toolCall?.function?.name).toBe("read");
-    expect(toolCall?.function?.arguments).toBe("{}");
-  });
-
-  it("preserves replayed reasoning_content when MiMo thinking is enabled", async () => {
-    const capture: PayloadCapture = {};
-    const model = mimoReasoningModel("mimo-v2.5-pro", "xiaomi-token-plan");
-    const context = mimoReasoningToolReplayContext("xiaomi-token-plan");
-    const baseStreamFn = createPayloadCapturingStream(capture, model);
-
-    const wrapThinkingHigh = requireThinkingWrapper(
-      createMiMoThinkingWrapper(baseStreamFn as never, "high"),
-      "high",
-    );
-    await wrapThinkingHigh(model, context, {});
-
-    expect(readThinking(capture.payload)?.type).toBe("enabled");
-    const assistantMessage = readPayloadMessage(capture, 1);
-    expect(assistantMessage?.role).toBe("assistant");
-    expect(assistantMessage?.reasoning_content).toBe("call reasoning");
-    const toolCall = readFirstToolCall(assistantMessage);
-    expect(toolCall?.id).toBe("call_1");
-    expect(toolCall?.type).toBe("function");
-    expect(toolCall?.function?.name).toBe("read");
-  });
-
-  it("strips reasoning_content when MiMo thinking is disabled", async () => {
-    const capture: PayloadCapture = {};
-    const model = mimoReasoningModel("mimo-v2-pro");
-    const context = mimoReasoningToolReplayContext();
-    const baseStreamFn = createPayloadCapturingStream(capture, model);
-
-    const wrapThinkingNone = requireThinkingWrapper(
-      createMiMoThinkingWrapper(baseStreamFn as never, "none" as never),
-      "none",
-    );
-    await wrapThinkingNone(model, context, {});
-
-    expect(readThinking(capture.payload)?.type).toBe("disabled");
-    expect((capture.payload!.messages as Array<Record<string, unknown>>)[1]).not.toHaveProperty(
-      "reasoning_content",
-    );
-  });
-
-  it.each(["mimo-v2-pro", "mimo-v2-omni"] as const)(
-    "promotes reasoning-only terminal output to visible text for %s",
-    async (modelId) => {
-      const model = mimoReasoningModel(modelId);
-      const wrapped = requireThinkingWrapper(
-        createMiMoThinkingWrapper(
-          createResultStreamFn({
-            events: [
-              {
-                type: "message_end",
-                message: {
-                  role: "assistant",
-                  content: [{ type: "thinking", thinking: "MiMo final answer" }],
-                  stopReason: "stop",
-                },
-              },
-            ],
-            resultMessage: {
-              role: "assistant",
-              content: [{ type: "thinking", thinking: "MiMo final answer" }],
-              stopReason: "stop",
-            },
-          }),
-          "high",
-        ),
-        modelId,
+  it.each(["foreign", "enabled", "disabled"] as const)(
+    "handles %s reasoning replay",
+    async (mode) => {
+      const provider = mode === "enabled" ? "xiaomi-token-plan" : "xiaomi";
+      const capture = await captureThinkingPayload(
+        mimoReasoningModel(mode === "disabled" ? "mimo-v2.5" : "mimo-v2.5-pro", provider),
+        mode === "disabled" ? "off" : "high",
+        readToolReplayContext(mode === "foreign" ? "openai" : provider, mode !== "foreign"),
       );
-
-      const stream = (await wrapped(model, { messages: [] } as Context, {})) as FakeStream;
-      const events: unknown[] = [];
-      for await (const event of stream) {
-        events.push(event);
+      const assistantMessage = readAssistantPayload(capture);
+      if (mode === "disabled") {
+        expect(capture.payload).toHaveProperty("thinking.type", "disabled");
+        expect(assistantMessage).not.toHaveProperty("reasoning_content");
+        return;
       }
-
-      expect(events).toEqual([
-        {
-          type: "message_end",
-          message: {
-            role: "assistant",
-            content: [{ type: "text", text: "MiMo final answer" }],
-            stopReason: "stop",
-          },
-        },
-      ]);
-      await expect(stream.result()).resolves.toEqual({
+      if (mode === "enabled") {
+        expect(capture.payload).toHaveProperty("thinking.type", "enabled");
+      }
+      expect(assistantMessage).toMatchObject({
         role: "assistant",
-        content: [{ type: "text", text: "MiMo final answer" }],
-        stopReason: "stop",
+        reasoning_content: mode === "foreign" ? "" : "call reasoning",
+        tool_calls: [
+          { id: "call_1", type: "function", function: { name: "read", arguments: "{}" } },
+        ],
       });
     },
   );
-
-  it("does not promote reasoning when the MiMo assistant turn also has text or tool calls", async () => {
-    const model = mimoReasoningModel("mimo-v2-pro");
-    const textMessage = {
-      role: "assistant",
-      content: [
-        { type: "thinking", thinking: "internal" },
-        { type: "text", text: "already visible" },
-      ],
-      stopReason: "stop",
-    };
-    const toolMessage = {
-      role: "assistant",
-      content: [{ type: "thinking", thinking: "call reasoning" }, readToolCall],
-      stopReason: "toolUse",
-    };
-
-    for (const resultMessage of [textMessage, toolMessage]) {
-      const wrapped = requireThinkingWrapper(
-        createMiMoThinkingWrapper(createResultStreamFn({ resultMessage }), "high"),
-        "mixed-content",
-      );
-      const stream = (await wrapped(model, { messages: [] } as Context, {})) as FakeStream;
-
-      await expect(stream.result()).resolves.toEqual(resultMessage);
-    }
-  });
-
-  it("does not promote reasoning-only output for newer MiMo replay models", async () => {
-    const model = mimoReasoningModel("mimo-v2.5-pro");
-    const resultMessage = {
-      role: "assistant",
-      content: [{ type: "thinking", thinking: "actual reasoning" }],
-      stopReason: "stop",
-    };
-    const wrapped = requireThinkingWrapper(
-      createMiMoThinkingWrapper(createResultStreamFn({ resultMessage }), "high"),
-      "mimo-v2.5-pro",
-    );
-    const stream = (await wrapped(model, { messages: [] } as Context, {})) as FakeStream;
-
-    await expect(stream.result()).resolves.toEqual(resultMessage);
-  });
 });

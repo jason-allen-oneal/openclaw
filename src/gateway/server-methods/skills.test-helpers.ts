@@ -5,16 +5,23 @@ import { vi } from "vitest";
 import type { GatewayClient, GatewayRequestContext, GatewayRequestHandlers } from "./types.js";
 
 /** Captured JSON-RPC response tuple emitted by a gateway request handler. */
-export type CapturedGatewayResponse = {
+type CapturedGatewayResponse = {
   ok: boolean | null;
   response: unknown;
   error: unknown;
 };
 
 function makeGatewayHandlerTestContext(): GatewayRequestContext {
+  // Gateway authority checks compare the current config snapshot by identity.
+  const runtimeConfig = {};
   return {
-    getRuntimeConfig: () => ({}),
-    logGateway: vi.fn(),
+    getRuntimeConfig: () => runtimeConfig,
+    logGateway: {
+      debug: vi.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
+      warn: vi.fn(),
+    },
   } as unknown as GatewayRequestContext;
 }
 

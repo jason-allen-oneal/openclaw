@@ -1,35 +1,53 @@
-/**
- * Tests helper logic for live agent probe configuration and result handling.
- */
-import { describe, expect, it, vi } from "vitest";
+import path from "node:path";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+const runExecMock = vi.hoisted(() => vi.fn());
+// mock-isolation: Child execution is the external I/O boundary; this fixture must not spawn a CLI.
+vi.mock("../process/exec.js", () => ({ runExec: runExecMock }));
+
 import {
   assertCronJobMatches,
   assertLiveImageProbeReply,
   buildLiveCronProbeMessage,
   createLiveCronProbeSpec,
-  isClaudeLikeLiveAgent,
+  resolveOpenClawCliProcessArgs,
+  runOpenClawCliJson,
   shouldRunLiveImageProbe,
 } from "./live-agent-probes.js";
 
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
 describe("live-agent-probes", () => {
-  it("only special-cases Claude-like retry prompts", () => {
-    expect(isClaudeLikeLiveAgent("claude")).toBe(true);
-    expect(isClaudeLikeLiveAgent("claude-cli")).toBe(true);
-    expect(isClaudeLikeLiveAgent("codex")).toBe(false);
-    expect(isClaudeLikeLiveAgent("google-gemini-cli")).toBe(false);
-    expect(isClaudeLikeLiveAgent("opencode-ai")).toBe(false);
-    expect(isClaudeLikeLiveAgent("future-agent")).toBe(false);
+  it("runs CLI probes through standalone identity without a loose entry", async () => {
+    vi.stubGlobal("__openclawStandaloneRootUrl", "file:///standalone/runtime/");
+    runExecMock.mockResolvedValueOnce({ stdout: '{"ok":true}', stderr: "" });
+
+    await expect(runOpenClawCliJson(["cron", "list"], {})).resolves.toEqual({ ok: true });
+    expect(runExecMock).toHaveBeenCalledExactlyOnceWith(
+      process.execPath,
+      ["cron", "list", "--timeout", "30000"],
+      expect.objectContaining({ cwd: process.cwd(), baseEnv: {} }),
+    );
+  });
+
+  it.each([
+    [false, "scripts/run-node.mjs"],
+    [true, "openclaw.mjs"],
+  ] as const)("selects CLI entry for built=%s", (built, entry) => {
+    expect(resolveOpenClawCliProcessArgs(["cron", "list"], built)).toEqual([
+      path.resolve(entry),
+      "cron",
+      "list",
+    ]);
   });
 
   it("accepts only cat for the shared image probe reply", () => {
     expect(assertLiveImageProbeReply("cat")).toBeUndefined();
-    expect(
-      assertLiveImageProbeReply(
-        "model metadata for `gpt-5.5` not found. defaulting to fallback metadata; this can degrade performance and cause issues.cat",
-      ),
-    ).toBeUndefined();
-    expect(() => assertLiveImageProbeReply("horse")).toThrow("image probe expected 'cat'");
-    expect(() => assertLiveImageProbeReply("caterpillar")).toThrow("image probe expected 'cat'");
+    expect(assertLiveImageProbeReply("metadata unavailable.cat")).toBeUndefined();
+    expect(() => assertLiveImageProbeReply("horse")).toThrow("image check expected 'cat'");
+    expect(() => assertLiveImageProbeReply("caterpillar")).toThrow("image check expected 'cat'");
   });
 
   it("skips the shared image probe for text-only live agents unless forced", () => {
@@ -43,37 +61,39 @@ describe("live-agent-probes", () => {
     const spec = createLiveCronProbeSpec({
       agentId: "codex",
       sessionKey: "agent:codex:acp:test",
+      model: "openai/gpt-5.6-luna@openai:manual",
     });
-    expect(
+    const retryPrompt = (agent: string) =>
       buildLiveCronProbeMessage({
-        agent: "claude-cli",
+        agent,
         argsJson: spec.argsJson,
         attempt: 1,
         exactReply: spec.name,
+      });
+    const claudeRetryPrompt = retryPrompt("claude-cli");
+    expect(claudeRetryPrompt).toContain(
+      "Preserve job.sessionTarget and job.sessionKey exactly as provided.",
+    );
+    expect(claudeRetryPrompt).toContain(
+      "search/load MCP tools for `openclaw automations` or `automations`",
+    );
+    expect(claudeRetryPrompt).toContain("mcp__openclaw__automations");
+    expect(claudeRetryPrompt).toContain("Do not use Claude native `CronCreate`");
+    expect(claudeRetryPrompt).not.toContain("openclaw-tools");
+    expect(retryPrompt("future-agent")).toContain("ask me to retry");
+    expect(retryPrompt("codex")).toContain(
+      "previous OpenClaw automations MCP tool call was cancelled",
+    );
+    const args: { job?: unknown } = JSON.parse(spec.argsJson);
+    expect(args.job).toEqual(
+      expect.objectContaining({
+        sessionTarget: "session:agent:codex:acp:test",
+        agentId: "codex",
+        sessionKey: "agent:codex:acp:test",
+        delivery: { mode: "none" },
+        payload: expect.objectContaining({ model: "openai/gpt-5.6-luna@openai:manual" }),
       }),
-    ).toContain("Preserve job.sessionTarget and job.sessionKey exactly as provided.");
-    expect(
-      buildLiveCronProbeMessage({
-        agent: "future-agent",
-        argsJson: spec.argsJson,
-        attempt: 1,
-        exactReply: spec.name,
-      }),
-    ).toContain("ask me to retry");
-    expect(
-      buildLiveCronProbeMessage({
-        agent: "codex",
-        argsJson: spec.argsJson,
-        attempt: 1,
-        exactReply: spec.name,
-      }),
-    ).toContain("previous OpenClaw cron MCP tool call was cancelled");
-    const args = JSON.parse(spec.argsJson) as {
-      job?: { sessionTarget?: string; agentId?: string; sessionKey?: string };
-    };
-    expect(args.job?.sessionTarget).toBe("session:agent:codex:acp:test");
-    expect(args.job?.agentId).toBe("codex");
-    expect(args.job?.sessionKey).toBe("agent:codex:acp:test");
+    );
   });
 
   it("builds a cron probe spec when the process clock is outside the Date range", () => {
@@ -81,10 +101,7 @@ describe("live-agent-probes", () => {
 
     try {
       const spec = createLiveCronProbeSpec();
-      const args = JSON.parse(spec.argsJson) as {
-        job?: { schedule?: { at?: string } };
-      };
-
+      const args: { job?: { schedule?: { at?: string } } } = JSON.parse(spec.argsJson);
       expect(spec.at).toBe("1970-01-01T00:00:00.000Z");
       expect(args.job?.schedule?.at).toBe("1970-01-01T00:00:00.000Z");
     } finally {
@@ -92,12 +109,12 @@ describe("live-agent-probes", () => {
     }
   });
 
-  it("validates cron cli job shape for the shared live probe", () => {
+  it.each([undefined, "current"])("validates cron cli job shape with target %s", (target) => {
     expect(
       assertCronJobMatches({
         job: {
           name: "live-mcp-abc",
-          sessionTarget: "session:agent:dev:test",
+          sessionTarget: target ?? "session:agent:dev:test",
           agentId: "dev",
           sessionKey: "agent:dev:test",
           payload: { kind: "agentTurn", message: "probe-abc" },
@@ -105,6 +122,7 @@ describe("live-agent-probes", () => {
         expectedName: "live-mcp-abc",
         expectedMessage: "probe-abc",
         expectedSessionKey: "agent:dev:test",
+        expectedSessionTarget: target,
       }),
     ).toBeUndefined();
   });

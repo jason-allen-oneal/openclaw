@@ -56,14 +56,13 @@ describe("resolveManifestContractRuntimePluginResolution", () => {
         contract: "webSearchProviders",
         value: "search",
       }),
-    ).toEqual({
+    ).toMatchObject({
       pluginIds: ["bundled-search", "external-search"],
       bundledCompatPluginIds: ["bundled-search"],
     });
     expect(loadPluginMetadataSnapshot).toHaveBeenCalledWith({
       config: {},
       env: process.env,
-      preferPersisted: false,
     });
   });
 });

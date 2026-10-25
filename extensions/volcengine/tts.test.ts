@@ -1,11 +1,14 @@
-// Volcengine tests cover tts plugin behavior.
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import "openclaw/plugin-sdk/compiled-subprocess-testing";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createSpeechDirectivePolicy } from "../test-support/speech-directive-policy.test-support.js";
+import { createClosedChunkStream } from "../test-support/streaming-error-response.js";
 import { buildVolcengineSpeechProvider } from "./speech-provider.js";
-import { volcengineTTS } from "./tts.js";
 
 const { fetchWithSsrFGuardMock } = vi.hoisted(() => ({
   fetchWithSsrFGuardMock: vi.fn(),
 }));
+
+const PROVIDER_RESPONSE_MAX_BYTES = 16 * 1024 * 1024;
 
 vi.mock("openclaw/plugin-sdk/ssrf-runtime", () => ({
   fetchWithSsrFGuard: fetchWithSsrFGuardMock,
@@ -27,93 +30,86 @@ function makeProviderConfig(overrides?: Record<string, unknown>) {
   };
 }
 
-function makeLegacyProviderConfig(overrides?: Record<string, unknown>) {
-  return {
-    appId: "test-app-id",
-    token: "test-token",
-    voice: "zh_female_xiaohe_uranus_bigtts",
-    cluster: "volcano_tts",
-    ...overrides,
-  };
+function mockResponse(
+  response = Response.json({ code: 0, data: Buffer.from("voice-audio").toString("base64") }),
+) {
+  const release = vi.fn();
+  fetchWithSsrFGuardMock.mockResolvedValue({ response, release });
+  return release;
 }
 
-function clearTtsEnv() {
-  delete process.env.BYTEPLUS_API_KEY;
-  delete process.env.BYTEPLUS_SEED_SPEECH_API_KEY;
-  delete process.env.VOLCENGINE_TTS_API_KEY;
-  delete process.env.VOLCENGINE_TTS_APPID;
-  delete process.env.VOLCENGINE_TTS_TOKEN;
-}
+const directivePolicy = createSpeechDirectivePolicy();
 
-function restoreOptionalEnv(key: string, value: string | undefined) {
-  if (value === undefined) {
-    delete process.env[key];
-  } else {
-    process.env[key] = value;
+const TTS_ENV_KEYS = [
+  "BYTEPLUS_SEED_SPEECH_API_KEY",
+  "VOLCENGINE_TTS_API_KEY",
+  "VOLCENGINE_TTS_APPID",
+  "VOLCENGINE_TTS_TOKEN",
+] as const;
+
+beforeEach(() => {
+  fetchWithSsrFGuardMock.mockReset();
+  for (const key of TTS_ENV_KEYS) {
+    vi.stubEnv(key, undefined);
   }
+});
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
+
+async function synthesize(providerConfig: Record<string, unknown>) {
+  const result = await buildVolcengineSpeechProvider().synthesize({
+    text: "hello",
+    cfg: {},
+    providerConfig,
+    target: "audio-file",
+    timeoutMs: 1000,
+  });
+  return result.audioBuffer;
+}
+
+function makeOversizedStreamResponse(): Response {
+  return new Response(
+    createClosedChunkStream([new Uint8Array(PROVIDER_RESPONSE_MAX_BYTES), new Uint8Array(1)]),
+  );
 }
 
 describe("Volcengine speech provider", () => {
   const provider = buildVolcengineSpeechProvider();
 
-  beforeEach(() => {
-    fetchWithSsrFGuardMock.mockReset();
-  });
-
-  it("has correct id, label, and aliases", () => {
-    expect(provider.id).toBe("volcengine");
-    expect(provider.label).toBe("Volcengine");
-    expect(provider.aliases).toContain("bytedance");
-    expect(provider.aliases).toContain("doubao");
-  });
-
-  it("reports configured when an API key is present in providerConfig", () => {
-    expect(provider.isConfigured({ providerConfig: makeProviderConfig(), timeoutMs: 30000 })).toBe(
-      true,
-    );
-  });
-
-  it("reports configured for legacy appId and token in providerConfig", () => {
+  it("reports configured for legacy appId and token in providerConfig", async () => {
     expect(
-      provider.isConfigured({ providerConfig: makeLegacyProviderConfig(), timeoutMs: 30000 }),
+      await provider.isConfiguredAsync?.({
+        providerConfig: { appId: "test-app-id", token: "test-token" },
+        timeoutMs: 30000,
+      }),
     ).toBe(true);
   });
 
-  it("reports not configured when credentials are missing", () => {
-    const oldBytePlusKey = process.env.BYTEPLUS_API_KEY;
-    const oldSeedKey = process.env.BYTEPLUS_SEED_SPEECH_API_KEY;
-    const oldApiKey = process.env.VOLCENGINE_TTS_API_KEY;
-    const oldAppId = process.env.VOLCENGINE_TTS_APPID;
-    const oldToken = process.env.VOLCENGINE_TTS_TOKEN;
-    clearTtsEnv();
-    try {
-      expect(provider.isConfigured({ providerConfig: {}, timeoutMs: 30000 })).toBe(false);
-    } finally {
-      restoreOptionalEnv("BYTEPLUS_API_KEY", oldBytePlusKey);
-      restoreOptionalEnv("BYTEPLUS_SEED_SPEECH_API_KEY", oldSeedKey);
-      restoreOptionalEnv("VOLCENGINE_TTS_API_KEY", oldApiKey);
-      restoreOptionalEnv("VOLCENGINE_TTS_APPID", oldAppId);
-      restoreOptionalEnv("VOLCENGINE_TTS_TOKEN", oldToken);
-    }
+  it("falls back to env vars for credentials", async () => {
+    vi.stubEnv("BYTEPLUS_SEED_SPEECH_API_KEY", "env-api-key");
+    expect(await provider.isConfiguredAsync?.({ providerConfig: {}, timeoutMs: 30000 })).toBe(true);
   });
 
-  it("falls back to env vars for credentials", () => {
-    const oldBytePlusKey = process.env.BYTEPLUS_API_KEY;
-    const oldSeedKey = process.env.BYTEPLUS_SEED_SPEECH_API_KEY;
-    const oldApiKey = process.env.VOLCENGINE_TTS_API_KEY;
-    const oldAppId = process.env.VOLCENGINE_TTS_APPID;
-    const oldToken = process.env.VOLCENGINE_TTS_TOKEN;
-    clearTtsEnv();
-    process.env.BYTEPLUS_SEED_SPEECH_API_KEY = "env-api-key";
-    try {
-      expect(provider.isConfigured({ providerConfig: {}, timeoutMs: 30000 })).toBe(true);
-    } finally {
-      restoreOptionalEnv("BYTEPLUS_API_KEY", oldBytePlusKey);
-      restoreOptionalEnv("BYTEPLUS_SEED_SPEECH_API_KEY", oldSeedKey);
-      restoreOptionalEnv("VOLCENGINE_TTS_API_KEY", oldApiKey);
-      restoreOptionalEnv("VOLCENGINE_TTS_APPID", oldAppId);
-      restoreOptionalEnv("VOLCENGINE_TTS_TOKEN", oldToken);
+  it("rejects blank Seed and legacy credentials before requests", async () => {
+    for (const key of TTS_ENV_KEYS) {
+      vi.stubEnv(key, "   ");
     }
+    const providerConfig = { apiKey: "   ", appId: "   ", token: "   " };
+
+    expect(await provider.isConfiguredAsync?.({ providerConfig, timeoutMs: 30_000 })).toBe(false);
+    await expect(
+      provider.synthesize({
+        text: "hello",
+        cfg: {},
+        providerConfig,
+        target: "audio-file",
+        timeoutMs: 1_000,
+      }),
+    ).rejects.toThrow("Volcengine TTS credentials missing");
+
+    expect(fetchWithSsrFGuardMock).not.toHaveBeenCalled();
   });
 
   it("lists voices with locale and gender", async () => {
@@ -136,16 +132,7 @@ describe("Volcengine speech provider", () => {
       provider.parseDirectiveToken?.({
         key: "speed",
         value: "0x1",
-        policy: {
-          enabled: true,
-          allowText: true,
-          allowProvider: true,
-          allowVoice: true,
-          allowModelId: true,
-          allowVoiceSettings: true,
-          allowNormalization: true,
-          allowSeed: true,
-        },
+        policy: directivePolicy,
       }),
     ).toEqual({
       handled: true,
@@ -154,16 +141,7 @@ describe("Volcengine speech provider", () => {
   });
 
   it("sends the documented Seed Speech API key payload and returns voice-note Opus metadata", async () => {
-    const release = vi.fn();
-    fetchWithSsrFGuardMock.mockResolvedValue({
-      response: new Response(
-        JSON.stringify({
-          code: 0,
-          data: Buffer.from("voice-audio").toString("base64"),
-        }),
-      ),
-      release,
-    });
+    const release = mockResponse();
 
     const result = await provider.synthesize({
       text: "hello",
@@ -213,16 +191,7 @@ describe("Volcengine speech provider", () => {
   });
 
   it("drops malformed speed ratios before synthesis", async () => {
-    const release = vi.fn();
-    fetchWithSsrFGuardMock.mockResolvedValue({
-      response: new Response(
-        JSON.stringify({
-          code: 0,
-          data: Buffer.from("voice-audio").toString("base64"),
-        }),
-      ),
-      release,
-    });
+    mockResponse();
 
     await provider.synthesize({
       text: "hello",
@@ -241,15 +210,10 @@ describe("Volcengine speech provider", () => {
   });
 });
 
-describe("volcengineTTS", () => {
-  beforeEach(() => {
-    fetchWithSsrFGuardMock.mockReset();
-  });
-
+describe("Volcengine provider response handling", () => {
   it("joins streamed Seed Speech audio frames", async () => {
-    const release = vi.fn();
-    fetchWithSsrFGuardMock.mockResolvedValue({
-      response: new Response(
+    const release = mockResponse(
+      new Response(
         [
           JSON.stringify({ code: 0, message: "" }),
           JSON.stringify({ code: 0, data: Buffer.from("audio-1").toString("base64") }),
@@ -257,74 +221,100 @@ describe("volcengineTTS", () => {
           JSON.stringify({ code: 20000000, message: "ok", data: null }),
         ].join("\n"),
       ),
-      release,
-    });
+    );
 
-    const audio = await volcengineTTS({
-      text: "hello",
+    const audio = await synthesize({
       apiKey: "secret-api-key",
       voice: "zh_female_xiaohe_uranus_bigtts",
-      encoding: "mp3",
-      timeoutMs: 1000,
     });
 
     expect(audio.toString()).toBe("audio-1audio-2");
     expect(release).toHaveBeenCalledTimes(1);
   });
 
-  it("reports Seed Speech provider errors without exposing credentials", async () => {
-    const release = vi.fn();
-    fetchWithSsrFGuardMock.mockResolvedValue({
-      response: new Response(
-        JSON.stringify({ header: { code: 45000000, message: "speaker permission denied" } }),
-        { status: 403 },
-      ),
-      release,
+  describe.each([
+    {
+      name: "BytePlus Seed Speech",
+      code: 0,
+      params: { apiKey: "secret-api-key" },
+      secret: "secret-api-key",
+      failure: { header: { code: 45000000, message: "speaker permission denied" } },
+      status: 403,
+      error: "BytePlus Seed Speech TTS error 45000000: speaker permission denied",
+    },
+    {
+      name: "Volcengine",
+      code: 3000,
+      params: { appId: "app-id", token: "secret-token" },
+      secret: "secret-token",
+      failure: { code: 3001, message: "load grant failed" },
+      status: 401,
+      error: "Volcengine TTS error 3001: load grant failed",
+    },
+  ])("$name responses", ({ name, code, params, secret, failure, status, error }) => {
+    it("rejects malformed base64 and releases the request", async () => {
+      const release = mockResponse(Response.json({ code, data: "%%%not-base64!!" }));
+      await expect(synthesize(params)).rejects.toThrow(
+        `${name} TTS returned malformed base64 audio data`,
+      );
+      expect(release).toHaveBeenCalledTimes(1);
     });
 
-    let error: unknown;
-    try {
-      await volcengineTTS({
-        text: "hello",
-        apiKey: "secret-api-key",
-        timeoutMs: 1000,
-      });
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error).toBeInstanceOf(Error);
-    expect((error as Error).message).toBe(
-      "BytePlus Seed Speech TTS error 45000000: speaker permission denied",
-    );
-    expect((error as Error).message).not.toContain("secret-api-key");
-    expect(release).toHaveBeenCalledTimes(1);
-  });
-
-  it("reports provider errors without exposing credentials", async () => {
-    const release = vi.fn();
-    fetchWithSsrFGuardMock.mockResolvedValue({
-      response: new Response(JSON.stringify({ code: 3001, message: "load grant failed" }), {
-        status: 401,
-      }),
-      release,
+    it("rejects invalid UTF-8 and releases the request", async () => {
+      const release = mockResponse(
+        new Response(
+          Buffer.concat([
+            Buffer.from(`{"code":${code},"message":"bad`),
+            Buffer.from([0xff]),
+            Buffer.from(`","data":"${Buffer.from("audio").toString("base64")}"}`),
+          ]),
+        ),
+      );
+      await expect(synthesize(params)).rejects.toThrow(TypeError);
+      expect(release).toHaveBeenCalledTimes(1);
     });
 
-    let error: unknown;
-    try {
-      await volcengineTTS({
-        text: "hello",
-        appId: "app-id",
-        token: "secret-token",
-        timeoutMs: 1000,
+    it("reports provider errors without exposing credentials", async () => {
+      const release = mockResponse(Response.json(failure, { status }));
+      await expect(synthesize(params)).rejects.toSatisfy((err: unknown) => {
+        expect(err).toBeInstanceOf(Error);
+        expect(err).toHaveProperty("message", error);
+        expect(err).not.toHaveProperty("message", expect.stringContaining(secret));
+        return true;
       });
-    } catch (err) {
-      error = err;
-    }
+      expect(release).toHaveBeenCalledTimes(1);
+    });
 
-    expect(error).toBeInstanceOf(Error);
-    expect((error as Error).message).toBe("Volcengine TTS error 3001: load grant failed");
-    expect((error as Error).message).not.toContain("secret-token");
-    expect(release).toHaveBeenCalledTimes(1);
+    it("bounds success response reads and releases the request", async () => {
+      const release = mockResponse(makeOversizedStreamResponse());
+      await expect(synthesize(params)).rejects.toThrow(
+        `${name} TTS response exceeds 16777216 bytes`,
+      );
+      expect(release).toHaveBeenCalledTimes(1);
+    });
   });
+
+  it.each([
+    { key: "speed", value: "0.2", expected: 0.2 },
+    { key: "speedratio", value: "1.25", expected: 1.25 },
+    { key: "speed_ratio", value: "3", expected: 3 },
+  ])(
+    "returns the $key=$value patch without mutating prior overrides",
+    ({ key, value, expected }) => {
+      const provider = buildVolcengineSpeechProvider();
+      const currentOverrides = Object.freeze({ voice: "retained", speedRatio: 0.75 });
+      const result = provider.parseDirectiveToken?.({
+        key,
+        value,
+        currentOverrides,
+        policy: directivePolicy,
+      });
+      expect(result).toEqual({
+        handled: true,
+        overrides: { speedRatio: expected },
+      });
+      expect(result?.overrides).not.toBe(currentOverrides);
+      expect(currentOverrides).toEqual({ voice: "retained", speedRatio: 0.75 });
+    },
+  );
 });

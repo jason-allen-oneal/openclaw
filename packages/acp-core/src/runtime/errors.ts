@@ -1,4 +1,5 @@
-// ACP Core module implements errors behavior.
+import { mapErrorCauseChain } from "@openclaw/normalization-core/error-coercion";
+import { asOptionalObjectRecord } from "@openclaw/normalization-core/record-coerce";
 import { redactSensitiveText, stringifyNonErrorCause } from "../error-format.js";
 
 export const ACP_ERROR_CODES = [
@@ -17,12 +18,23 @@ const ACP_ERROR_CODE_SET = new Set<AcpRuntimeErrorCode>(ACP_ERROR_CODES);
 /** Error type used at ACP runtime boundaries so callers can preserve structured failure codes. */
 export class AcpRuntimeError extends Error {
   readonly code: AcpRuntimeErrorCode;
+  /**
+   * Backend-specific structured failure code (e.g. acpx "SESSION_RESUME_REQUIRED"),
+   * preserved so recovery decisions key on the failure kind rather than parsing
+   * the human-readable message.
+   */
+  readonly detailCode?: string;
   override readonly cause?: unknown;
 
-  constructor(code: AcpRuntimeErrorCode, message: string, options?: { cause?: unknown }) {
+  constructor(
+    code: AcpRuntimeErrorCode,
+    message: string,
+    options?: { cause?: unknown; detailCode?: string },
+  ) {
     super(message);
     this.name = "AcpRuntimeError";
     this.code = code;
+    this.detailCode = options?.detailCode;
     this.cause = options?.cause;
   }
 }
@@ -49,24 +61,13 @@ function readAcpRequestErrorDetails(value: Error): string | undefined {
   if (typeof code !== "number") {
     return undefined;
   }
-  const data = (value as { data?: unknown }).data;
-  if (!data || typeof data !== "object") {
-    return undefined;
-  }
-  const details = (data as { details?: unknown }).details;
+  const data = asOptionalObjectRecord((value as { data?: unknown }).data);
+  const details = data?.details;
   if (details === undefined || details === null) {
     return undefined;
   }
   const rendered = redactSensitiveText(stringifyNonErrorCause(details)).trim();
   return rendered.length > 0 ? rendered : undefined;
-}
-
-function messageWithAcpRequestErrorDetails(error: Error): string {
-  const details = readAcpRequestErrorDetails(error);
-  if (!details || error.message.includes(details)) {
-    return error.message;
-  }
-  return `${error.message}: ${details}`;
 }
 
 /** Recognizes local and cross-realm ACP runtime errors by their stable error code. */
@@ -90,17 +91,16 @@ export function toAcpRuntimeError(params: {
     });
   }
   if (params.error instanceof Error) {
+    const details = readAcpRequestErrorDetails(params.error);
     return new AcpRuntimeError(
       params.fallbackCode,
-      messageWithAcpRequestErrorDetails(params.error),
-      {
-        cause: params.error,
-      },
+      !details || params.error.message.includes(details)
+        ? params.error.message
+        : `${params.error.message}: ${details}`,
+      { cause: params.error },
     );
   }
-  return new AcpRuntimeError(params.fallbackCode, params.fallbackMessage, {
-    cause: params.error,
-  });
+  return new AcpRuntimeError(params.fallbackCode, params.fallbackMessage, { cause: params.error });
 }
 
 /**
@@ -116,24 +116,11 @@ export function formatAcpErrorChain(error: unknown): string {
   if (!(error instanceof Error)) {
     return redactSensitiveText(String(error));
   }
-  const segments: string[] = [renderSingleError(error)];
-  let current: unknown = (error as unknown as { cause?: unknown }).cause;
-  let depth = 0;
-  while (current !== undefined && current !== null && depth < 8) {
-    if (current instanceof Error) {
-      segments.push(renderSingleError(current));
-      current = (current as unknown as { cause?: unknown }).cause;
-    } else {
-      segments.push(stringifyNonErrorCause(current));
-      current = undefined;
-    }
-    depth += 1;
-  }
-  return redactSensitiveText(segments.join(" <- "));
+  return redactSensitiveText(mapErrorCauseChain(error, renderSingleError).join(" <- "));
 }
 
 function renderSingleError(error: Error): string {
-  const codeValue = (error as unknown as { code?: unknown }).code;
+  const codeValue = "code" in error ? error.code : undefined;
   const codeSuffix =
     typeof codeValue === "string" || typeof codeValue === "number" ? ` [${codeValue}]` : "";
   return `${error.name}${codeSuffix}: ${error.message}`;

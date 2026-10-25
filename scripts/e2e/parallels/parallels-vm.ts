@@ -9,21 +9,21 @@ interface PrlctlVmListItem {
   status?: string;
 }
 
-export interface WaitForVmStatusOptions {
+interface WaitForVmStatusOptions {
   probeTimeoutMs?: () => number | undefined;
 }
 
-export interface EnsureVmRunningOptions extends WaitForVmStatusOptions {
+interface EnsureVmRunningOptions extends WaitForVmStatusOptions {
   transitionTimeoutMs?: () => number | undefined;
 }
 
-export function listVmNames(): string[] {
+function listVmNames(): string[] {
   return listVms()
     .map((item) => (item.name ?? "").trim())
     .filter(Boolean);
 }
 
-export function vmStatus(vmName: string, timeoutMs?: number): string {
+function vmStatus(vmName: string, timeoutMs?: number): string {
   return listVms(timeoutMs).find((vm) => vm.name === vmName)?.status || "missing";
 }
 
@@ -37,13 +37,12 @@ export function waitForVmStatus(
   while (Date.now() < deadline) {
     const status = run("prlctl", ["status", vmName], {
       check: false,
-      quiet: true,
       timeoutMs: options.probeTimeoutMs?.() ?? PRLCTL_STATUS_TIMEOUT_MS,
     }).stdout;
     if (status.includes(` ${expected}`)) {
       return;
     }
-    run("sleep", ["1"], { quiet: true });
+    run("sleep", ["1"]);
   }
   throw new Error(`VM ${vmName} did not reach ${expected}`);
 }
@@ -62,19 +61,17 @@ export function ensureVmRunning(
     if (status === "stopped") {
       say(`Start ${vmName} before update phase`);
       run("prlctl", ["start", vmName], {
-        quiet: true,
         timeoutMs: options.transitionTimeoutMs?.() ?? PRLCTL_TRANSITION_TIMEOUT_MS,
       });
     } else if (status === "suspended" || status === "paused") {
       say(`Resume ${vmName} before update phase`);
       run("prlctl", ["resume", vmName], {
-        quiet: true,
         timeoutMs: options.transitionTimeoutMs?.() ?? PRLCTL_TRANSITION_TIMEOUT_MS,
       });
     } else if (status === "missing") {
       die(`VM not found before update phase: ${vmName}`);
     }
-    run("sleep", ["5"], { quiet: true });
+    run("sleep", ["5"]);
   }
   die(`VM did not become running before update phase: ${vmName}`);
 }
@@ -89,15 +86,11 @@ export function resolveUbuntuVmName(requested: string, explicit = false): string
   }
   const fallback =
     names
-      .map((name) => ({ name, version: /ubuntu\s+(\d+(?:\.\d+)*)/i.exec(name)?.[1] }))
-      .filter((item): item is { name: string; version: string } => Boolean(item.version))
-      .map((item) => ({
-        name: item.name,
-        parts: item.version.split(".").map(Number),
-      }))
-      .filter((item) => item.parts[0] >= 24)
+      .map((name) => ({ name, parts: parseUbuntuVersionParts(name) }))
+      .filter((item): item is { name: string; parts: number[] } => Boolean(item.parts))
+      .filter((item) => item.parts[0] !== undefined && item.parts[0] >= 24)
       .toSorted((a, b) => compareVersions(b.parts, a.parts))[0]?.name ??
-    names.find((name) => /ubuntu/i.test(name));
+    names.find(isSafeUbuntuFallbackName);
   if (!fallback) {
     die(`VM not found: ${requested}`);
   }
@@ -124,10 +117,26 @@ export function resolveMacosVmName(requested: string, explicit = false): string 
 function listVms(timeoutMs = PRLCTL_STATUS_TIMEOUT_MS): PrlctlVmListItem[] {
   return JSON.parse(
     run("prlctl", ["list", "--all", "--json"], {
-      quiet: true,
       timeoutMs,
     }).stdout,
   ) as PrlctlVmListItem[];
+}
+
+function parseUbuntuVersionParts(name: string): number[] | undefined {
+  const version = /ubuntu\s+(\d+(?:\.\d+)*)/i.exec(name)?.[1];
+  const parts = version?.split(".").map((part) => Number(part));
+  if (!parts?.every((part) => Number.isSafeInteger(part))) {
+    return undefined;
+  }
+  return parts;
+}
+
+function isSafeUbuntuFallbackName(name: string): boolean {
+  if (!/ubuntu/i.test(name)) {
+    return false;
+  }
+  const hasVersion = /ubuntu\s+\d+(?:\.\d+)*/i.test(name);
+  return !hasVersion || Boolean(parseUbuntuVersionParts(name));
 }
 
 function compareVersions(a: number[], b: number[]): number {

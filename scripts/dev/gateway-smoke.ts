@@ -1,10 +1,14 @@
-// Gateway Smoke script supports OpenClaw repository automation.
 import { fileURLToPath } from "node:url";
+import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import {
   MIN_CLIENT_PROTOCOL_VERSION,
   PROTOCOL_VERSION,
 } from "../../packages/gateway-protocol/src/version.js";
-import { createArgReader, createGatewayWsClient, resolveGatewayUrl } from "./gateway-ws-client.ts";
+import {
+  createArgReader,
+  createGatewayWsClient,
+  resolveGatewayUrl,
+} from "../lib/gateway-ws-client.ts";
 
 function writeStdoutLine(message: string): void {
   process.stdout.write(`${message}\n`);
@@ -14,14 +18,7 @@ function writeStderrLine(message: string): void {
   process.stderr.write(`${message}\n`);
 }
 
-function writeUsage(): void {
-  writeStderrLine(
-    "Usage: bun scripts/dev/gateway-smoke.ts --url <wss://host[:port]> --token <gateway.auth.token>\n" +
-      "Or set env: OPENCLAW_GATEWAY_URL / OPENCLAW_GATEWAY_TOKEN",
-  );
-}
-
-type GatewaySmokeClient = ReturnType<typeof createGatewayWsClient>;
+type GatewaySmokeCliOptions = ReturnType<typeof parseGatewaySmokeCli>;
 
 type GatewaySmokeDeps = {
   createClient?: typeof createGatewayWsClient;
@@ -29,8 +26,51 @@ type GatewaySmokeDeps = {
   stdout?: (message: string) => void;
 };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
+class GatewaySmokeArgError extends Error {}
+
+const BOOLEAN_FLAGS = new Set(["--help", "-h"]);
+const VALUE_FLAGS = new Set(["--url", "--token"]);
+
+function usage(): string {
+  return [
+    "Usage: bun scripts/dev/gateway-smoke.ts --url <wss://host[:port]> --token <gateway.auth.token>",
+    "Or set env: OPENCLAW_GATEWAY_URL / OPENCLAW_GATEWAY_TOKEN",
+    "",
+    "Options:",
+    "  --url <url>       Gateway websocket URL",
+    "  --token <token>   Gateway auth token",
+    "  -h, --help        Show this help",
+  ].join("\n");
+}
+
+function validateArgs(argv: readonly string[]): void {
+  const seen = new Set<string>();
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index] ?? "";
+    if (VALUE_FLAGS.has(arg)) {
+      const value = argv[index + 1];
+      if (!value || value.startsWith("-")) {
+        throw new GatewaySmokeArgError(`${arg} requires a value`);
+      }
+      index += 1;
+    } else if (!BOOLEAN_FLAGS.has(arg)) {
+      throw new GatewaySmokeArgError(`Unknown argument: ${arg}`);
+    }
+    if (seen.has(arg)) {
+      throw new GatewaySmokeArgError(`${arg} was provided more than once`);
+    }
+    seen.add(arg);
+  }
+}
+
+function parseGatewaySmokeCli(argv = process.argv.slice(2), env: NodeJS.ProcessEnv = process.env) {
+  validateArgs(argv);
+  const { get: getArg, has } = createArgReader([...argv]);
+  return {
+    help: has("--help") || has("-h"),
+    token: getArg("--token") ?? env.OPENCLAW_GATEWAY_TOKEN,
+    urlRaw: getArg("--url") ?? env.OPENCLAW_GATEWAY_URL,
+  };
 }
 
 function hasHealthSummaryPayload(response: unknown): boolean {
@@ -75,18 +115,6 @@ function connectHelloScopes(response: unknown): string[] | null {
   return payload.auth.scopes;
 }
 
-function hasConnectHelloPayload(response: unknown): boolean {
-  return connectHelloScopes(response) !== null;
-}
-
-function hasUnpairedOperatorScopes(response: unknown): boolean {
-  const scopes = connectHelloScopes(response);
-  if (!scopes) {
-    return false;
-  }
-  return scopes.length > 0;
-}
-
 export async function runGatewaySmoke(
   input: { token: string; urlRaw: string },
   deps: GatewaySmokeDeps = {},
@@ -95,13 +123,7 @@ export async function runGatewaySmoke(
   const createClient = deps.createClient ?? createGatewayWsClient;
   const stderr = deps.stderr ?? writeStderrLine;
   const stdout = deps.stdout ?? writeStdoutLine;
-  const client: GatewaySmokeClient = createClient({
-    url: url.toString(),
-    onEvent: (evt) => {
-      // Ignore noisy connect handshakes.
-      void evt;
-    },
-  });
+  const client = createClient({ url: url.toString() });
   const { request, waitOpen, close } = client;
 
   try {
@@ -131,11 +153,12 @@ export async function runGatewaySmoke(
       stderr(`connect failed: ${String(connectRes.error)}`);
       return 2;
     }
-    if (!hasConnectHelloPayload(connectRes)) {
+    const scopes = connectHelloScopes(connectRes);
+    if (scopes === null) {
       stderr("connect failed: missing hello-ok payload");
       return 2;
     }
-    if (hasUnpairedOperatorScopes(connectRes)) {
+    if (scopes.length > 0) {
       stderr("connect failed: unpaired iOS smoke unexpectedly received operator scopes");
       return 2;
     }
@@ -158,14 +181,20 @@ export async function runGatewaySmoke(
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  const { get: getArg } = createArgReader();
-  const urlRaw = getArg("--url") ?? process.env.OPENCLAW_GATEWAY_URL;
-  const token = getArg("--token") ?? process.env.OPENCLAW_GATEWAY_TOKEN;
+  let cli: GatewaySmokeCliOptions;
+  try {
+    cli = parseGatewaySmokeCli();
+  } catch (error) {
+    writeStderrLine(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
 
-  if (!urlRaw || !token) {
-    writeUsage();
+  if (cli.help) {
+    writeStdoutLine(usage());
+  } else if (!cli.urlRaw || !cli.token) {
+    writeStderrLine(usage());
     process.exitCode = 1;
   } else {
-    process.exitCode = await runGatewaySmoke({ token, urlRaw });
+    process.exitCode = await runGatewaySmoke({ token: cli.token, urlRaw: cli.urlRaw });
   }
 }

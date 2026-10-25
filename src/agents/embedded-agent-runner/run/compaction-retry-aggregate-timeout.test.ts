@@ -1,204 +1,107 @@
-// Coverage for aggregate timeout handling while waiting on compaction retry.
 import { MAX_TIMER_TIMEOUT_MS } from "@openclaw/normalization-core/number-coercion";
-import { describe, expect, it, vi } from "vitest";
-import { waitForCompactionRetryWithAggregateTimeout } from "./compaction-retry-aggregate-timeout.js";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createDeferredCore } from "../../../shared/deferred.js";
+import {
+  hasActiveCompactionRetryWork,
+  waitForCompactionRetryWithAggregateTimeout,
+} from "./compaction-retry-aggregate-timeout.js";
 
 type AggregateTimeoutParams = Parameters<typeof waitForCompactionRetryWithAggregateTimeout>[0];
-type TimeoutCallback = NonNullable<AggregateTimeoutParams["onTimeout"]>;
-type TimeoutCallbackMock = ReturnType<typeof vi.fn<TimeoutCallback>>;
 
-async function withFakeTimers(run: () => Promise<void>) {
-  // Ensure timer state is fully drained between cases because aggregate timeout
-  // races can otherwise leak scheduled callbacks.
-  vi.useFakeTimers();
-  vi.clearAllTimers();
-  try {
-    await run();
-  } finally {
-    await vi.runOnlyPendingTimersAsync();
-    vi.clearAllTimers();
-    vi.useRealTimers();
-  }
-}
-
-function expectClearedTimeoutState(onTimeout: TimeoutCallbackMock, timedOut: boolean) {
-  if (timedOut) {
-    expect(onTimeout).toHaveBeenCalledTimes(1);
-  } else {
-    expect(onTimeout).not.toHaveBeenCalled();
-  }
-  expect(vi.getTimerCount()).toBe(0);
-}
-
-function buildAggregateTimeoutParams(
-  overrides: Partial<AggregateTimeoutParams> &
-    Pick<AggregateTimeoutParams, "waitForCompactionRetry">,
-): AggregateTimeoutParams & { onTimeout: TimeoutCallbackMock } {
-  // Defaults model the normal wait path; tests override only the timeout or
-  // in-flight signal under review.
-  const onTimeout =
-    (overrides.onTimeout as TimeoutCallbackMock | undefined) ?? vi.fn<TimeoutCallback>();
-  return {
-    waitForCompactionRetry: overrides.waitForCompactionRetry,
-    abortable: overrides.abortable ?? (async (promise) => await promise),
-    aggregateTimeoutMs: overrides.aggregateTimeoutMs ?? 60_000,
-    isCompactionStillInFlight: overrides.isCompactionStillInFlight,
-    onTimeout,
-  };
+function waitForRetry(overrides: Partial<AggregateTimeoutParams> = {}) {
+  return waitForCompactionRetryWithAggregateTimeout({
+    waitForCompactionRetry: () => new Promise<void>(() => {}),
+    abortable: async (promise) => await promise,
+    aggregateTimeoutMs: 60_000,
+    ...overrides,
+  });
 }
 
 describe("waitForCompactionRetryWithAggregateTimeout", () => {
-  it("times out and fires callback when compaction retry never resolves", async () => {
-    await withFakeTimers(async () => {
-      const waitForCompactionRetry = vi.fn(async () => await new Promise<void>(() => {}));
-      const params = buildAggregateTimeoutParams({ waitForCompactionRetry });
-
-      const resultPromise = waitForCompactionRetryWithAggregateTimeout(params);
-
-      await vi.advanceTimersByTimeAsync(60_000);
-      const result = await resultPromise;
-
-      expect(result.timedOut).toBe(true);
-      expectClearedTimeoutState(params.onTimeout, true);
-    });
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.clearAllTimers();
+  });
+  afterEach(async () => {
+    await vi.runOnlyPendingTimersAsync();
+    vi.clearAllTimers();
+    vi.useRealTimers();
   });
 
-  it("keeps waiting while compaction remains in flight", async () => {
-    // The aggregate timer should not cut off active compaction work; timeout
-    // starts once compaction is no longer in flight.
-    await withFakeTimers(async () => {
-      let compactionInFlight = true;
-      const waitForCompactionRetry = vi.fn(
-        async () =>
-          await new Promise<void>((resolve) => {
-            setTimeout(() => {
-              compactionInFlight = false;
-              resolve();
-            }, 170_000);
-          }),
-      );
-      const params = buildAggregateTimeoutParams({
-        waitForCompactionRetry,
-        isCompactionStillInFlight: () => compactionInFlight,
-      });
-
-      const resultPromise = waitForCompactionRetryWithAggregateTimeout(params);
-
-      await vi.advanceTimersByTimeAsync(170_000);
-      const result = await resultPromise;
-
-      expect(result.timedOut).toBe(false);
-      expectClearedTimeoutState(params.onTimeout, false);
+  it("keeps waiting while compaction retry work remains active", async () => {
+    let retryWorkActive = true;
+    const result = waitForRetry({
+      waitForCompactionRetry: () =>
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            retryWorkActive = false;
+            resolve();
+          }, 170_000);
+        }),
+      isCompactionRetryStillActive: () => retryWorkActive,
     });
+    await vi.advanceTimersByTimeAsync(170_000);
+    expect((await result).timedOut).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
   });
 
   it("times out after an idle timeout window", async () => {
-    await withFakeTimers(async () => {
-      let compactionInFlight = true;
-      const waitForCompactionRetry = vi.fn(async () => await new Promise<void>(() => {}));
-      setTimeout(() => {
-        compactionInFlight = false;
-      }, 90_000);
-      const params = buildAggregateTimeoutParams({
-        waitForCompactionRetry,
-        isCompactionStillInFlight: () => compactionInFlight,
-      });
-
-      const resultPromise = waitForCompactionRetryWithAggregateTimeout(params);
-
-      await vi.advanceTimersByTimeAsync(120_000);
-      const result = await resultPromise;
-
-      expect(result.timedOut).toBe(true);
-      expectClearedTimeoutState(params.onTimeout, true);
-    });
-  });
-
-  it("does not time out when compaction retry resolves", async () => {
-    await withFakeTimers(async () => {
-      const waitForCompactionRetry = vi.fn(async () => {});
-      const params = buildAggregateTimeoutParams({ waitForCompactionRetry });
-
-      const result = await waitForCompactionRetryWithAggregateTimeout(params);
-
-      expect(result.timedOut).toBe(false);
-      expectClearedTimeoutState(params.onTimeout, false);
-    });
+    let compactionInFlight = true;
+    setTimeout(() => {
+      compactionInFlight = false;
+    }, 90_000);
+    const result = waitForRetry({ isCompactionRetryStillActive: () => compactionInFlight });
+    await vi.advanceTimersByTimeAsync(120_000);
+    expect((await result).timedOut).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
   });
 
   it("caps aggregate timeout before scheduling", async () => {
-    await withFakeTimers(async () => {
-      const timeoutSpy = vi.spyOn(globalThis, "setTimeout");
-      const waitForCompactionRetry = vi.fn(async () => {});
-      const params = buildAggregateTimeoutParams({
-        waitForCompactionRetry,
+    const timeoutSpy = vi.spyOn(globalThis, "setTimeout");
+    try {
+      const result = await waitForRetry({
+        waitForCompactionRetry: async () => {},
         aggregateTimeoutMs: Number.MAX_SAFE_INTEGER,
       });
-
-      const result = await waitForCompactionRetryWithAggregateTimeout(params);
-
       expect(result.timedOut).toBe(false);
       expect(timeoutSpy).toHaveBeenCalledWith(expect.any(Function), MAX_TIMER_TIMEOUT_MS);
-      expectClearedTimeoutState(params.onTimeout, false);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
       timeoutSpy.mockRestore();
-    });
+    }
   });
 
-  it("propagates immediate waitForCompactionRetry failures", async () => {
-    await withFakeTimers(async () => {
-      const waitError = new Error("compaction wait failed");
-      const waitForCompactionRetry = vi.fn(async () => {
-        throw waitError;
-      });
-      const params = buildAggregateTimeoutParams({ waitForCompactionRetry });
-
-      await expect(waitForCompactionRetryWithAggregateTimeout(params)).rejects.toThrow(
-        "compaction wait failed",
-      );
-
-      expectClearedTimeoutState(params.onTimeout, false);
-    });
+  it.each([
+    ["waitForCompactionRetry", new Error("compaction wait failed")],
+    ["abortable", Object.assign(new Error("aborted"), { name: "AbortError" })],
+  ] as const)("propagates %s failures and clears the timer", async (callback, error) => {
+    await expect(
+      waitForRetry({
+        [callback]: async () => {
+          throw error;
+        },
+      }),
+    ).rejects.toThrow(error.message);
+    expect(vi.getTimerCount()).toBe(0);
   });
 
   it("handles waitForCompactionRetry rejection after timeout wins", async () => {
-    await withFakeTimers(async () => {
-      let rejectWait: ((error: Error) => void) | undefined;
-      const waitForCompactionRetry = vi.fn(
-        async () =>
-          await new Promise<void>((_resolve, reject) => {
-            rejectWait = reject;
-          }),
-      );
-      const params = buildAggregateTimeoutParams({ waitForCompactionRetry });
-
-      const resultPromise = waitForCompactionRetryWithAggregateTimeout(params);
-
-      await vi.advanceTimersByTimeAsync(60_000);
-      const result = await resultPromise;
-
-      rejectWait?.(new Error("cancelled after timeout"));
-      await Promise.resolve();
-
-      expect(result.timedOut).toBe(true);
-      expectClearedTimeoutState(params.onTimeout, true);
-    });
+    const wait = createDeferredCore();
+    const result = waitForRetry({ waitForCompactionRetry: () => wait.promise });
+    await vi.advanceTimersByTimeAsync(60_000);
+    const settled = await result;
+    wait.reject(new Error("cancelled after timeout"));
+    await Promise.resolve();
+    expect(settled.timedOut).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
   });
+});
 
-  it("propagates abort errors from abortable and clears timer", async () => {
-    await withFakeTimers(async () => {
-      const abortError = new Error("aborted");
-      abortError.name = "AbortError";
-      const waitForCompactionRetry = vi.fn(async () => await new Promise<void>(() => {}));
-      const params = buildAggregateTimeoutParams({
-        waitForCompactionRetry,
-        abortable: async () => {
-          throw abortError;
-        },
-      });
-
-      await expect(waitForCompactionRetryWithAggregateTimeout(params)).rejects.toThrow("aborted");
-
-      expectClearedTimeoutState(params.onTimeout, false);
-    });
-  });
+it("returns true while the retry model is streaming", () => {
+  expect(
+    hasActiveCompactionRetryWork({
+      isCompactionInFlight: false,
+      isSessionStreaming: true,
+    }),
+  ).toBe(true);
 });

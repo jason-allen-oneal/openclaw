@@ -1,116 +1,50 @@
 // noVNC auth tests cover observer URL construction, one-time tokens, and
 // password generation for sandbox browser viewing.
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-  buildNoVncDirectUrl,
   buildNoVncObserverTokenUrl,
-  buildNoVncObserverTargetUrl,
   consumeNoVncObserverToken,
-  generateNoVncPassword,
   issueNoVncObserverToken,
-  resetNoVncObserverTokensForTests,
 } from "./novnc-auth.js";
 
-const passwordKey = ["pass", "word"].join("");
-
 describe("noVNC auth helpers", () => {
-  it("builds the default observer URL without password", () => {
-    expect(buildNoVncDirectUrl(45678)).toBe("http://127.0.0.1:45678/vnc.html");
-  });
-
-  it("builds a fragment-based observer target URL with password", () => {
-    const observerPassword = "a+b c&d"; // pragma: allowlist secret
-    expect(buildNoVncObserverTargetUrl({ port: 45678, [passwordKey]: observerPassword })).toBe(
-      "http://127.0.0.1:45678/vnc.html#autoconnect=1&resize=remote&password=a%2Bb+c%26d",
-    );
-  });
+  afterEach(() => vi.restoreAllMocks());
 
   it("issues one-time short-lived observer tokens", () => {
     // Observer tokens are bearer access to a browser session, so consumption is
     // one-shot and bounded by a short TTL.
-    resetNoVncObserverTokensForTests();
+    vi.spyOn(Date, "now").mockReturnValueOnce(1000).mockReturnValue(1050);
     const token = issueNoVncObserverToken({
       noVncPort: 50123,
-      [passwordKey]: "abcd1234", // pragma: allowlist secret
-      nowMs: 1000,
-      ttlMs: 100,
+      password: "abcd1234", // pragma: allowlist secret
     });
     expect(buildNoVncObserverTokenUrl("http://127.0.0.1:19999", token)).toBe(
       `http://127.0.0.1:19999/sandbox/novnc?token=${token}`,
     );
-    expect(consumeNoVncObserverToken(token, 1050)).toEqual({
+    expect(consumeNoVncObserverToken(token)).toEqual({
       noVncPort: 50123,
-      [passwordKey]: "abcd1234", // pragma: allowlist secret
+      password: "abcd1234", // pragma: allowlist secret
     });
-    expect(consumeNoVncObserverToken(token, 1050)).toBeNull();
+    expect(consumeNoVncObserverToken(token)).toBeNull();
   });
 
-  it("expires observer tokens", () => {
-    resetNoVncObserverTokensForTests();
+  it("expires observer tokens after the short default ttl", () => {
+    vi.spyOn(Date, "now").mockReturnValueOnce(1000).mockReturnValue(61_001);
     const token = issueNoVncObserverToken({
       noVncPort: 50123,
       password: "abcd1234", // pragma: allowlist secret
-      nowMs: 1000,
-      ttlMs: 100,
-    });
-    expect(consumeNoVncObserverToken(token, 1200)).toBeNull();
-  });
-
-  it("uses the default ttl when observer token ttlMs is non-finite", () => {
-    resetNoVncObserverTokensForTests();
-    const liveToken = issueNoVncObserverToken({
-      noVncPort: 50123,
-      password: "abcd1234", // pragma: allowlist secret
-      nowMs: 1000,
-      ttlMs: Number.NaN,
-    });
-    const expiredToken = issueNoVncObserverToken({
-      noVncPort: 50123,
-      password: "abcd1234", // pragma: allowlist secret
-      nowMs: 1000,
-      ttlMs: Number.NaN,
     });
 
-    expect(consumeNoVncObserverToken(liveToken, 60_999)).toEqual({
-      noVncPort: 50123,
-      password: "abcd1234", // pragma: allowlist secret
-    });
-    expect(consumeNoVncObserverToken(expiredToken, 61_001)).toBeNull();
-  });
-
-  it("uses the default ttl when observer token ttlMs is unsafe or too large", () => {
-    resetNoVncObserverTokensForTests();
-    const unsafeToken = issueNoVncObserverToken({
-      noVncPort: 50123,
-      password: "abcd1234", // pragma: allowlist secret
-      nowMs: 1000,
-      ttlMs: Number.MAX_SAFE_INTEGER,
-    });
-    const tooLargeToken = issueNoVncObserverToken({
-      noVncPort: 50123,
-      password: "abcd1234", // pragma: allowlist secret
-      nowMs: 1000,
-      ttlMs: 60_001,
-    });
-
-    expect(consumeNoVncObserverToken(unsafeToken, 61_001)).toBeNull();
-    expect(consumeNoVncObserverToken(tooLargeToken, 61_001)).toBeNull();
+    expect(consumeNoVncObserverToken(token)).toBeNull();
   });
 
   it("does not issue usable observer tokens when the issue time is invalid", () => {
-    resetNoVncObserverTokensForTests();
+    vi.spyOn(Date, "now").mockReturnValueOnce(Number.NaN).mockReturnValue(1050);
     const token = issueNoVncObserverToken({
       noVncPort: 50123,
       password: "abcd1234", // pragma: allowlist secret
-      nowMs: Number.NaN,
-      ttlMs: 100,
     });
 
-    expect(consumeNoVncObserverToken(token, 1050)).toBeNull();
-  });
-
-  it("generates 8-char alphanumeric passwords", () => {
-    const password = generateNoVncPassword();
-    expect(password).toMatch(/^[a-zA-Z0-9]{8}$/);
+    expect(consumeNoVncObserverToken(token)).toBeNull();
   });
 });

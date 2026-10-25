@@ -1,23 +1,25 @@
-// Session store writes are serialized per store path to avoid lost updates.
+import { normalizeSessionIdentities } from "../../sessions/session-lifecycle-identity.js";
 import { runQueuedStoreWrite } from "../../shared/store-writer-queue.js";
 import { WRITER_QUEUES } from "./store-writer-state.js";
 
-/** Runs a callback under the same per-store writer queue used in production. */
-export async function withSessionStoreWriterForTest<T>(
-  storePath: string,
-  fn: () => Promise<T>,
-): Promise<T> {
-  return await runExclusiveSessionStoreWrite(storePath, fn);
-}
+type RunExclusiveSessionStoreWriteOptions = {
+  reentrant?: boolean;
+  identities?: Iterable<string | undefined>;
+  signal?: AbortSignal;
+};
 
 export async function runExclusiveSessionStoreWrite<T>(
   storePath: string,
   fn: () => Promise<T>,
+  opts: RunExclusiveSessionStoreWriteOptions = {},
 ): Promise<T> {
   return await runQueuedStoreWrite({
     queues: WRITER_QUEUES,
     storePath,
     label: "runExclusiveSessionStoreWrite",
     fn,
+    reentrant: opts.reentrant,
+    signal: opts.signal,
+    keys: opts.identities ? normalizeSessionIdentities(storePath, opts.identities) : undefined,
   });
 }

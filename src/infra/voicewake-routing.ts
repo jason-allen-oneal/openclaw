@@ -1,14 +1,8 @@
-// Persists and resolves voice wake routing rules.
-import path from "node:path";
-import { isRecord as isPlainObject } from "@openclaw/normalization-core/record-coerce";
+import { floorPositiveFiniteNumber } from "@openclaw/normalization-core/number-coercion";
+import { asOptionalObjectRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveStateDir } from "../config/paths.js";
-import {
-  classifySessionKeyShape,
-  isValidAgentId,
-  normalizeAgentId,
-} from "../routing/session-key.js";
-import { createAsyncLock, tryReadJson, writeJson } from "./json-files.js";
+import { normalizeAgentId } from "../routing/session-key.js";
+import { readVoiceWakeMachineState } from "../state/config-machine-state-async.js";
 
 // Voice wake routing maps normalized wake phrases to an agent, session key, or
 // current session target and persists the mapping under state settings.
@@ -29,8 +23,7 @@ export type VoiceWakeRoutingConfig = {
   updatedAtMs: number;
 };
 
-const MAX_VOICEWAKE_ROUTES = 32;
-const MAX_VOICEWAKE_TRIGGER_LENGTH = 64;
+const VOICEWAKE_ROUTING_STATE_KEY = "voicewake.routing";
 
 const DEFAULT_ROUTING: VoiceWakeRoutingConfig = {
   version: 1,
@@ -39,13 +32,7 @@ const DEFAULT_ROUTING: VoiceWakeRoutingConfig = {
   updatedAtMs: 0,
 };
 
-function resolvePath(baseDir?: string) {
-  const root = baseDir ?? resolveStateDir();
-  return path.join(root, "settings", "voicewake-routing.json");
-}
-
-/** Normalize a voice wake trigger phrase for matching and duplicate checks. */
-export function normalizeVoiceWakeTriggerWord(value: string): string {
+function normalizeVoiceWakeTriggerWord(value: string): string {
   return value
     .toLowerCase()
     .split(/\s+/)
@@ -55,10 +42,10 @@ export function normalizeVoiceWakeTriggerWord(value: string): string {
 }
 
 function normalizeRouteTarget(value: unknown): VoiceWakeRouteTarget | null {
-  if (!value || typeof value !== "object") {
+  const rec = asOptionalObjectRecord(value);
+  if (!rec) {
     return null;
   }
-  const rec = value as { mode?: unknown; agentId?: unknown; sessionKey?: unknown };
   const mode = normalizeOptionalString(rec.mode);
   if (mode === "current") {
     return { mode: "current" };
@@ -75,10 +62,10 @@ function normalizeRouteTarget(value: unknown): VoiceWakeRouteTarget | null {
 }
 
 function normalizeRouteRule(value: unknown): VoiceWakeRouteRule | null {
-  if (!value || typeof value !== "object") {
+  const rec = asOptionalObjectRecord(value);
+  if (!rec) {
     return null;
   }
-  const rec = value as { trigger?: unknown; target?: unknown };
   const triggerRaw = normalizeOptionalString(rec.trigger);
   if (!triggerRaw) {
     return null;
@@ -94,160 +81,18 @@ function normalizeRouteRule(value: unknown): VoiceWakeRouteRule | null {
   return { trigger, target };
 }
 
-function isCanonicalAgentSessionKey(value: string): boolean {
-  const trimmed = value.trim();
-  if (classifySessionKeyShape(trimmed) !== "agent") {
-    return false;
-  }
-  return !trimmed.split(":").some((part) => part.length === 0);
-}
-
-function validateRouteTargetInput(
-  value: unknown,
-  label: string,
-): { ok: true } | { ok: false; message: string } {
-  if (!isPlainObject(value)) {
-    return { ok: false, message: `${label} must be an object` };
-  }
-  const rec = value as { mode?: unknown; agentId?: unknown; sessionKey?: unknown };
-  const mode = normalizeOptionalString(rec.mode);
-  const agentId = normalizeOptionalString(rec.agentId);
-  const sessionKey = normalizeOptionalString(rec.sessionKey);
-  if (mode !== undefined) {
-    if (mode !== "current") {
-      return {
-        ok: false,
-        message: `${label}.mode must be "current" when provided`,
-      };
-    }
-    if (agentId !== undefined || sessionKey !== undefined) {
-      return {
-        ok: false,
-        message: `${label} cannot mix mode with agentId or sessionKey`,
-      };
-    }
-    return { ok: true };
-  }
-  if (agentId !== undefined && sessionKey !== undefined) {
-    return {
-      ok: false,
-      message: `${label} cannot include both agentId and sessionKey`,
-    };
-  }
-  if (agentId !== undefined) {
-    if (!isValidAgentId(agentId)) {
-      return {
-        ok: false,
-        message: `${label}.agentId must be a valid agent id`,
-      };
-    }
-    return { ok: true };
-  }
-  if (sessionKey !== undefined) {
-    if (!isCanonicalAgentSessionKey(sessionKey)) {
-      return {
-        ok: false,
-        message: `${label}.sessionKey must be a canonical agent session key`,
-      };
-    }
-    return { ok: true };
-  }
-  return {
-    ok: false,
-    message: `${label} must include mode, agentId, or sessionKey`,
-  };
-}
-
-/** Validate user-provided voice wake routing config before persistence. */
-export function validateVoiceWakeRoutingConfigInput(
-  input: unknown,
-): { ok: true } | { ok: false; message: string } {
-  if (!isPlainObject(input)) {
-    return { ok: false, message: "config must be an object" };
-  }
-  const rec = input as {
-    defaultTarget?: unknown;
-    routes?: unknown;
-  };
-  if (rec.defaultTarget !== undefined) {
-    const validatedDefaultTarget = validateRouteTargetInput(
-      rec.defaultTarget,
-      "config.defaultTarget",
-    );
-    if (!validatedDefaultTarget.ok) {
-      return validatedDefaultTarget;
-    }
-  }
-  if (rec.routes !== undefined && !Array.isArray(rec.routes)) {
-    return { ok: false, message: "config.routes must be an array" };
-  }
-  if (Array.isArray(rec.routes)) {
-    if (rec.routes.length > MAX_VOICEWAKE_ROUTES) {
-      return {
-        ok: false,
-        message: `config.routes must contain at most ${MAX_VOICEWAKE_ROUTES} entries`,
-      };
-    }
-    const normalizedTriggers = new Map<string, number>();
-    for (const [index, route] of rec.routes.entries()) {
-      if (!isPlainObject(route)) {
-        return { ok: false, message: `config.routes[${index}] must be an object` };
-      }
-      const trigger = normalizeOptionalString(route.trigger);
-      const normalizedTrigger = trigger ? normalizeVoiceWakeTriggerWord(trigger) : "";
-      if (!trigger || !normalizedTrigger) {
-        return {
-          ok: false,
-          message: `config.routes[${index}].trigger must be a non-empty string`,
-        };
-      }
-      if (trigger.length > MAX_VOICEWAKE_TRIGGER_LENGTH) {
-        return {
-          ok: false,
-          message: `config.routes[${index}].trigger must be at most ${MAX_VOICEWAKE_TRIGGER_LENGTH} characters`,
-        };
-      }
-      const duplicateIndex = normalizedTriggers.get(normalizedTrigger);
-      if (duplicateIndex !== undefined) {
-        return {
-          ok: false,
-          message: `config.routes[${index}].trigger duplicates config.routes[${duplicateIndex}].trigger after normalization`,
-        };
-      }
-      normalizedTriggers.set(normalizedTrigger, index);
-      const validatedTarget = validateRouteTargetInput(
-        route.target,
-        `config.routes[${index}].target`,
-      );
-      if (!validatedTarget.ok) {
-        return validatedTarget;
-      }
-    }
-  }
-  return { ok: true };
-}
-
-/** Normalize persisted or user-provided voice wake routing config. */
-export function normalizeVoiceWakeRoutingConfig(input: unknown): VoiceWakeRoutingConfig {
-  if (!input || typeof input !== "object") {
+function normalizeVoiceWakeRoutingConfig(input: unknown): VoiceWakeRoutingConfig {
+  const rec = asOptionalObjectRecord(input);
+  if (!rec) {
     return { ...DEFAULT_ROUTING };
   }
-  const rec = input as {
-    version?: unknown;
-    defaultTarget?: unknown;
-    routes?: unknown;
-    updatedAtMs?: unknown;
-  };
   const defaultTarget = normalizeRouteTarget(rec.defaultTarget) ?? { mode: "current" as const };
   const routes = Array.isArray(rec.routes)
     ? rec.routes
         .map((entry) => normalizeRouteRule(entry))
         .filter((entry): entry is VoiceWakeRouteRule => Boolean(entry))
     : [];
-  const updatedAtMs =
-    typeof rec.updatedAtMs === "number" && Number.isFinite(rec.updatedAtMs) && rec.updatedAtMs > 0
-      ? Math.floor(rec.updatedAtMs)
-      : 0;
+  const updatedAtMs = floorPositiveFiniteNumber(rec.updatedAtMs) ?? 0;
   return {
     version: 1,
     defaultTarget,
@@ -256,67 +101,25 @@ export function normalizeVoiceWakeRoutingConfig(input: unknown): VoiceWakeRoutin
   };
 }
 
-const withLock = createAsyncLock();
-
-/** Load persisted voice wake routing config from state. */
 export async function loadVoiceWakeRoutingConfig(
   baseDir?: string,
 ): Promise<VoiceWakeRoutingConfig> {
-  const filePath = resolvePath(baseDir);
-  const existing = await tryReadJson<unknown>(filePath);
-  if (!existing) {
-    return { ...DEFAULT_ROUTING };
-  }
-  return normalizeVoiceWakeRoutingConfig(existing);
-}
-
-/** Persist normalized voice wake routing config. */
-export async function setVoiceWakeRoutingConfig(
-  config: unknown,
-  baseDir?: string,
-): Promise<VoiceWakeRoutingConfig> {
-  const normalized = normalizeVoiceWakeRoutingConfig(config);
-  const filePath = resolvePath(baseDir);
-  return await withLock(async () => {
-    const next: VoiceWakeRoutingConfig = {
-      ...normalized,
-      updatedAtMs: Date.now(),
-    };
-    await writeJson(filePath, next);
-    return next;
-  });
+  const config = await readVoiceWakeMachineState(
+    VOICEWAKE_ROUTING_STATE_KEY,
+    baseDir ? { env: { ...process.env, OPENCLAW_STATE_DIR: baseDir } } : {},
+  );
+  return config ? normalizeVoiceWakeRoutingConfig(config.value) : { ...DEFAULT_ROUTING };
 }
 
 type VoiceWakeResolvedRoute = { mode: "current" } | { agentId: string } | { sessionKey: string };
 
-function resolveVoiceWakeRouteTarget(
-  routeTarget: VoiceWakeRouteTarget | undefined,
-): VoiceWakeResolvedRoute {
-  if (!routeTarget || ("mode" in routeTarget && routeTarget.mode === "current")) {
-    return { mode: "current" };
-  }
-  if ("agentId" in routeTarget && routeTarget.agentId) {
-    return { agentId: routeTarget.agentId };
-  }
-  if ("sessionKey" in routeTarget && routeTarget.sessionKey) {
-    return { sessionKey: routeTarget.sessionKey };
-  }
-  return { mode: "current" };
-}
-
-/** Resolve the route target for a normalized wake trigger. */
 export function resolveVoiceWakeRouteByTrigger(params: {
   trigger: string | undefined;
   config: VoiceWakeRoutingConfig;
 }): VoiceWakeResolvedRoute {
-  const normalizedTrigger = normalizeOptionalString(params.trigger)
-    ? normalizeVoiceWakeTriggerWord(params.trigger as string)
-    : "";
-  if (normalizedTrigger) {
-    const matched = params.config.routes.find((route) => route.trigger === normalizedTrigger);
-    if (matched) {
-      return resolveVoiceWakeRouteTarget(matched.target);
-    }
-  }
-  return resolveVoiceWakeRouteTarget(params.config.defaultTarget);
+  const normalizedTrigger = normalizeVoiceWakeTriggerWord(params.trigger ?? "");
+  const matched = normalizedTrigger
+    ? params.config.routes.find((route) => route.trigger === normalizedTrigger)
+    : undefined;
+  return matched ? matched.target : params.config.defaultTarget;
 }

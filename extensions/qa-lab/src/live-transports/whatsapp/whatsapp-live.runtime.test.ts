@@ -1,1211 +1,584 @@
-// Qa Lab tests cover whatsapp live plugin behavior.
-import { execFile } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { promisify } from "node:util";
-import type { WhatsAppQaDriverSession } from "@openclaw/whatsapp/api.js";
-import { describe, expect, it, vi } from "vitest";
-import { testing } from "./whatsapp-live.runtime.js";
+import { expectDefined } from "@openclaw/normalization-core";
+import type {
+  WhatsAppQaDriverObservedMessage,
+  WhatsAppQaDriverSession,
+} from "@openclaw/whatsapp/api.js";
+import { afterEach, expect, it, vi } from "vitest";
+import { fingerprintQaCredentialId } from "../../qa-credentials-fingerprint.runtime.js";
+import { readQaScenarioById } from "../../scenario-catalog.js";
+import { resolveLiveTransportQaScenarioIds } from "../shared/scenario-selection.js";
+import {
+  createArchive,
+  createDriver,
+  observedMessage,
+  phones,
+  groupJid,
+} from "./runtime.test-support.js";
+import { gateway, scenario } from "./scenario.test-support.js";
+import { parseWhatsAppQaCredentialPayload } from "./whatsapp-live.config.js";
+import type { WhatsAppQaMessageScenarioContext as Context } from "./whatsapp-live.contracts.js";
+import { isTransientWhatsAppQaDriverError } from "./whatsapp-live.driver.js";
+import {
+  callWhatsAppGatewayMessageAction,
+  callWhatsAppGatewayPoll,
+  callWhatsAppGatewaySend,
+} from "./whatsapp-live.gateway.js";
+import { runWhatsAppStructuredInboundChecks } from "./whatsapp-live.media.js";
+import { waitForScenarioObservedMessage } from "./whatsapp-live.observations.js";
+import { unpackWhatsAppAuthArchive } from "./whatsapp-live.setup.js";
 
-const execFileAsync = promisify(execFile);
-
-async function createTgz(params: { entries: Record<string, string>; root: string }) {
-  const sourceDir = path.join(params.root, "src");
-  await fs.mkdir(sourceDir, { recursive: true });
-  for (const [relativePath, content] of Object.entries(params.entries)) {
-    const filePath = path.join(sourceDir, relativePath);
-    await fs.mkdir(path.dirname(filePath), { recursive: true });
-    await fs.writeFile(filePath, content);
+function messageRun(id: string) {
+  const run = scenario(id).buildRun();
+  if (run.kind === "approval") {
+    throw new Error("Expected message scenario: " + id);
   }
-  const archivePath = path.join(params.root, "archive.tgz");
-  await execFileAsync("tar", ["-czf", archivePath, "-C", sourceDir, "."]);
-  return await fs.readFile(archivePath, "base64");
+  return run;
 }
-
-function createGatewayTargetContext(params: { gatewayTarget: string }) {
-  const calls: Array<{ method: string; payload: Record<string, unknown> }> = [];
-  const context = {
-    gateway: {
-      call: async (method: string, payload: Record<string, unknown>) => {
-        calls.push({ method, payload });
-        return {};
-      },
-    },
-    gatewayTarget: params.gatewayTarget,
-    scenarioId: "whatsapp-reply-context-isolation",
+const fresh = (text: string, extra: Partial<WhatsAppQaDriverObservedMessage> = {}) =>
+  observedMessage("reply", { observedAt: new Date().toISOString(), text, ...extra });
+function fixture(id: string) {
+  const run = messageRun(id);
+  const rpc = vi
+    .fn<Context["gateway"]["call"]>()
+    .mockRejectedValue(new Error("Unexpected Gateway call"));
+  const wait = vi
+    .fn<WhatsAppQaDriverSession["waitForMessage"]>()
+    .mockRejectedValue(new Error("Unexpected driver wait"));
+  const send = vi.fn<WhatsAppQaDriverSession["sendText"]>();
+  send.mockImplementation(async () => ({ messageId: "driver-" + send.mock.calls.length }));
+  const messages: WhatsAppQaDriverObservedMessage[] = [];
+  const context: Context = {
+    ...phones,
+    scenarioId: id,
     sutAccountId: "sut",
-  } satisfies Parameters<typeof testing.callWhatsAppGatewaySend>[0];
-  return { calls, context };
-}
-
-function createDiagnosticsContext(
-  messages: Array<{
-    fromPhoneE164: string | null;
-    kind: "media" | "poll" | "reaction" | "text" | "unknown";
-    messageId?: string;
-    observedAt: string;
-    quoted?: { messageId?: string; text?: string };
-    text: string;
-  }>,
-) {
-  return {
-    driver: {
+    gateway: gateway(rpc),
+    gatewayWorkspaceDir: "/tmp/openclaw-whatsapp-qa",
+    driver: createDriver({
+      sendText: send,
+      waitForMessage: wait,
       getObservedMessages: () => messages,
-    },
-    sutPhoneE164: "+15550000002",
-  } satisfies Parameters<typeof testing.formatWhatsAppScenarioWaitDiagnostics>[0];
-}
-
-function createWhatsAppQaDriverMock(
-  overrides: Partial<WhatsAppQaDriverSession> = {},
-): WhatsAppQaDriverSession {
-  return {
-    close: async () => {},
-    getObservedMessages: () => [],
-    sendContact: async () => ({}),
-    sendLocation: async () => ({}),
-    sendMedia: async () => ({}),
-    sendPoll: async () => ({}),
-    sendReaction: async () => ({}),
-    sendSticker: async () => ({}),
-    sendText: async () => ({}),
-    waitForMessage: async () => ({
-      kind: "text",
-      observedAt: new Date().toISOString(),
-      text: "ok",
     }),
-    ...overrides,
+    gatewayTarget: run.target === "group" ? groupJid : phones.driverPhoneE164,
+    target: run.target === "group" ? groupJid : phones.sutPhoneE164,
+    targetKind: run.target,
+    requestStartedAt: new Date("2026-06-21T12:00:00.000Z"),
+    sent: { messageId: "driver-message-1" },
+  };
+  return {
+    run,
+    context,
+    rpc,
+    wait,
+    send,
+    messages,
+    afterSend: () => expectDefined(run.afterSend, "afterSend")(context),
+    reply: (value = fresh(String(run.matchText))) =>
+      expectDefined(run.afterReply, "afterReply")(value, context),
+    verify: (value: WhatsAppQaDriverObservedMessage) =>
+      expectDefined(run.verify, "verify")(value, context),
   };
 }
+function matching(
+  match: Parameters<WhatsAppQaDriverSession["waitForMessage"]>[0]["match"],
+  accepted: WhatsAppQaDriverObservedMessage,
+  ...rejected: WhatsAppQaDriverObservedMessage[]
+) {
+  expect(rejected.map(match)).toEqual(rejected.map(() => false));
+  expect(match(accepted)).toBe(true);
+  return accepted;
+}
+afterEach(() => {
+  vi.clearAllTimers();
+  vi.useRealTimers();
+});
 
-describe("WhatsApp QA live runtime", () => {
-  it("parses credential payloads and normalizes phone numbers", () => {
-    const payload = testing.parseWhatsAppQaCredentialPayload({
+it("can remove copied Signal sessions while preserving other auth archive state", async () => {
+  const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-wa-qa-test-"));
+  try {
+    const preserved = [
+      "creds.json",
+      "device-list-15550000001.json",
+      "lid-mapping-123_reverse.json",
+      "sender-key-120363000@g.us--123_1--5.json",
+    ];
+    const sessions = ["session-123_1.0.json", "session-123_1.5.json"];
+    const entries = Object.fromEntries([...preserved, ...sessions].map((file) => [file, "{}\n"]));
+    const archiveBase64 = await createArchive(tempRoot, entries);
+    const authDir = await unpackWhatsAppAuthArchive({
+      archiveBase64,
+      label: "driver",
+      parentDir: tempRoot,
+    });
+    for (const file of preserved) {
+      await expect(fs.readFile(path.join(authDir, file), "utf8")).resolves.toBe("{}\n");
+    }
+    for (const file of sessions) {
+      await expect(fs.stat(path.join(authDir, file))).rejects.toMatchObject({ code: "ENOENT" });
+    }
+  } finally {
+    await fs.rm(tempRoot, { recursive: true, force: true });
+  }
+});
+
+it.each([phones.sutPhoneE164, phones.driverPhoneE164])(
+  "validates credential phones: %s",
+  (sutPhoneE164) => {
+    const payload = {
       driverPhoneE164: "15550000001",
-      sutPhoneE164: "+15550000002",
+      sutPhoneE164,
       driverAuthArchiveBase64: "driver",
       sutAuthArchiveBase64: "sut",
-    });
-    expect(payload.driverPhoneE164).toBe("+15550000001");
-    expect(payload.sutPhoneE164).toBe("+15550000002");
-    expect(payload.driverAuthArchiveBase64).toBe("driver");
-    expect(payload.sutAuthArchiveBase64).toBe("sut");
-  });
-
-  it("rejects credential payloads that reuse the same phone", () => {
-    expect(() =>
-      testing.parseWhatsAppQaCredentialPayload({
-        driverPhoneE164: "+15550000001",
-        sutPhoneE164: "+15550000001",
-        driverAuthArchiveBase64: "driver",
-        sutAuthArchiveBase64: "sut",
-      }),
-    ).toThrow("requires two distinct WhatsApp phone numbers");
-  });
-
-  it("redacts observed message content and phone metadata by default", () => {
-    expect(
-      testing.toObservedWhatsAppArtifacts({
-        includeContent: false,
-        redactMetadata: true,
-        messages: [
-          {
-            fromJid: "15550000002@s.whatsapp.net",
-            fromPhoneE164: "+15550000002",
-            kind: "text",
-            matchedScenario: true,
-            messageId: "msg-1",
-            observedAt: "2026-05-04T12:00:00.000Z",
-            scenarioId: "whatsapp-canary",
-            scenarioTitle: "WhatsApp DM canary",
-            text: "secret body",
-          },
-        ],
-      }),
-    ).toEqual([
-      {
-        kind: "text",
-        matchedScenario: true,
-        observedAt: "2026-05-04T12:00:00.000Z",
-        scenarioId: "whatsapp-canary",
-        scenarioTitle: "WhatsApp DM canary",
-      },
-    ]);
-  });
-
-  it("keeps observed message content only when capture is requested", () => {
-    expect(
-      testing.toObservedWhatsAppArtifacts({
-        includeContent: true,
-        redactMetadata: true,
-        messages: [
-          {
-            fromPhoneE164: "+15550000002",
-            kind: "text",
-            observedAt: "2026-05-04T12:00:00.000Z",
-            text: "captured body",
-          },
-        ],
-      }),
-    ).toEqual([
-      {
-        kind: "text",
-        observedAt: "2026-05-04T12:00:00.000Z",
-        text: "captured body",
-      },
-    ]);
-  });
-
-  it("does not expose quoted message text when only metadata capture is enabled", () => {
-    expect(
-      testing.toObservedWhatsAppArtifacts({
-        includeContent: false,
-        redactMetadata: false,
-        messages: [
-          {
-            fromPhoneE164: "+15550000002",
-            kind: "text",
-            messageId: "msg-1",
-            observedAt: "2026-05-04T12:00:00.000Z",
-            quoted: {
-              messageId: "quoted-msg-1",
-              participant: "15550000001@s.whatsapp.net",
-              text: "quoted secret body",
-            },
-            text: "secret body",
-          },
-        ],
-      }),
-    ).toEqual([
-      {
-        fromPhoneE164: "+15550000002",
-        kind: "text",
-        messageId: "msg-1",
-        observedAt: "2026-05-04T12:00:00.000Z",
-        quoted: {
-          messageId: "quoted-msg-1",
-          participant: "15550000001@s.whatsapp.net",
-          text: undefined,
-        },
-      },
-    ]);
-  });
-
-  it("does not expose reaction emoji when content capture is disabled", () => {
-    expect(
-      testing.toObservedWhatsAppArtifacts({
-        includeContent: false,
-        redactMetadata: false,
-        messages: [
-          {
-            fromPhoneE164: "+15550000002",
-            kind: "reaction",
-            messageId: "reaction-msg-1",
-            observedAt: "2026-05-04T12:00:00.000Z",
-            reaction: {
-              emoji: "👍",
-              fromMe: false,
-              messageId: "target-msg-1",
-              participant: "15550000001@s.whatsapp.net",
-            },
-            text: "👍",
-          },
-        ],
-      }),
-    ).toEqual([
-      {
-        fromPhoneE164: "+15550000002",
-        kind: "reaction",
-        messageId: "reaction-msg-1",
-        observedAt: "2026-05-04T12:00:00.000Z",
-        reaction: {
-          fromMe: false,
-          messageId: "target-msg-1",
-          participant: "15550000001@s.whatsapp.net",
-        },
-      },
-    ]);
-  });
-
-  it("derives a stable non-secret credential fingerprint", () => {
-    expect(testing.fingerprintWhatsAppCredentialId("cred-stale-row")).toMatch(
-      /^sha256:[0-9a-f]{16}$/,
-    );
-    expect(testing.fingerprintWhatsAppCredentialId("cred-stale-row")).toBe(
-      testing.fingerprintWhatsAppCredentialId("cred-stale-row"),
-    );
-    expect(testing.fingerprintWhatsAppCredentialId(undefined)).toBeUndefined();
-  });
-
-  it("keeps credential fingerprints visible in redacted reports", () => {
-    const report = testing.renderWhatsAppQaMarkdown({
-      cleanupIssues: [],
-      credentialFingerprint: "sha256:1234567890abcdef",
-      credentialSource: "convex",
-      finishedAt: "2026-05-04T12:01:00.000Z",
-      redactMetadata: true,
-      scenarios: [],
-      startedAt: "2026-05-04T12:00:00.000Z",
-      sutPhoneE164: "+15550000002",
-    });
-
-    expect(report).toContain("Credential fingerprint: `sha256:1234567890abcdef`");
-    expect(report).toContain("SUT phone: `<redacted>`");
-    expect(report).not.toContain("+15550000002");
-  });
-
-  it("redacts published scenario details before rendering public artifacts", () => {
-    const publishedScenarios = testing.redactWhatsAppQaScenarioResults([
-      {
-        id: "whatsapp-reply-delivery-shape",
-        title: "WhatsApp gateway send chunks long replies",
-        status: "pass",
-        details: "long reply chunked across raw-message-id-1 and raw-message-id-2",
-      },
-      {
-        id: "whatsapp-inbound-structured-messages",
-        title: "WhatsApp inbound structured messages reach the agent",
-        status: "fail",
-        details:
-          "timed out waiting for WhatsApp QA driver message; observed 2 WhatsApp driver message(s) after wait lower bound: #1 observedAt=2026-06-04T23:47:00.000Z fromPhone=present kind=text textLength=17 messageId=present(length=10) quoted=missing quotedMessageId=missing fromExpectedSut=yes containsExpectedToken=no; #2 observedAt=2026-06-04T23:47:01.000Z fromPhone=present kind=text textLength=24 messageId=present(length=10) quoted=missing quotedMessageId=missing fromExpectedSut=no containsExpectedToken=yes",
-      },
-    ]);
-    const report = testing.renderWhatsAppQaMarkdown({
-      cleanupIssues: [
-        "temporary auth cleanup failed: details redacted (OPENCLAW_QA_REDACT_PUBLIC_METADATA=1)",
-      ],
-      credentialSource: "convex",
-      finishedAt: "2026-05-04T12:01:00.000Z",
-      redactMetadata: true,
-      scenarios: publishedScenarios,
-      startedAt: "2026-05-04T12:00:00.000Z",
-      sutPhoneE164: "+15550000002",
-    });
-
-    expect(publishedScenarios[0]?.details).toBe(
-      "details redacted (OPENCLAW_QA_REDACT_PUBLIC_METADATA=1)",
-    );
-    expect(publishedScenarios[1]?.details).toContain("observed 2 WhatsApp driver message(s)");
-    expect(publishedScenarios[1]?.details).toContain("fromExpectedSut=yes");
-    expect(publishedScenarios[1]?.details).toContain("textLength=17");
-    expect(report).toContain("Details: details redacted");
-    expect(report).toContain("observed 2 WhatsApp driver message(s)");
-    expect(report).toContain("fromExpectedSut=yes");
-    expect(report).toContain("textLength=17");
-    expect(report).not.toContain("raw-message-id-1");
-    expect(report).not.toContain("raw-message-id-2");
-    expect(report).not.toContain("+15550000002");
-  });
-
-  it("unpacks auth archives into a caller-provided temp directory", async () => {
-    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-wa-qa-test-"));
-    try {
-      const archiveBase64 = await createTgz({
-        root: tempRoot,
-        entries: {
-          "creds.json": "{}\n",
-          "session/key.json": "{}\n",
-        },
-      });
-      const authDir = await testing.unpackWhatsAppAuthArchive({
-        archiveBase64,
-        label: "driver",
-        parentDir: tempRoot,
-      });
-      await expect(fs.readFile(path.join(authDir, "creds.json"), "utf8")).resolves.toBe("{}\n");
-      await expect(fs.readFile(path.join(authDir, "session/key.json"), "utf8")).resolves.toBe(
-        "{}\n",
+    };
+    if (sutPhoneE164 === phones.driverPhoneE164) {
+      expect(() => parseWhatsAppQaCredentialPayload(payload)).toThrow(
+        "requires two distinct WhatsApp phone numbers",
       );
-    } finally {
-      await fs.rm(tempRoot, { recursive: true, force: true });
+    } else {
+      expect(parseWhatsAppQaCredentialPayload(payload)).toEqual({ ...payload, ...phones });
     }
-  });
+  },
+);
+it("derives a stable non-secret credential fingerprint", () => {
+  expect(fingerprintQaCredentialId("cred-stale-row")).toMatch(/^sha256:[0-9a-f]{16}$/);
+  expect(fingerprintQaCredentialId(undefined)).toBeUndefined();
+});
 
-  it("rejects unsafe archive entries before extraction", () => {
-    expect(() => testing.assertSafeArchiveEntries(["../creds.json"])).toThrow("unsafe entry");
-    expect(() => testing.assertSafeArchiveEntries(["/tmp/creds.json"])).toThrow("unsafe entry");
-  });
+it("runs group media, audio and poll probes against the group target", async () => {
+  const shapes: Partial<WhatsAppQaDriverObservedMessage>[] = [
+    { kind: "media", hasMedia: true, mediaType: "image/png" },
+    {
+      kind: "media",
+      hasMedia: true,
+      mediaType: "application/pdf",
+      mediaFileName: "whatsapp-qa-group.pdf",
+    },
+    { kind: "media", hasMedia: true, mediaType: "audio/ogg; codecs=opus" },
+    {},
+    { kind: "poll", poll: { options: ["alpha", "beta"] } },
+  ];
+  const messages = shapes.map((shape, i) =>
+    fresh("", { ...shape, fromJid: groupJid, messageId: "group-" + i }),
+  );
+  const calls: Array<[string, unknown]> = [];
+  for (const kind of ["media", "audio", "poll"]) {
+    const f = fixture("whatsapp-group-outbound-" + kind);
+    f.wait.mockImplementation(async ({ match }) =>
+      expectDefined(messages.find(match), "group observation"),
+    );
+    f.rpc.mockImplementation(async (method, payload) => {
+      calls.push([method, payload]);
+      const { message, question } = payload as Record<string, unknown>;
+      const update = (i: number, patch: Partial<WhatsAppQaDriverObservedMessage>) =>
+        Object.assign(
+          expectDefined(messages[i], "message"),
+          { observedAt: new Date().toISOString() },
+          patch,
+        );
+      if (typeof question === "string" && question) {
+        update(4, { poll: { options: ["alpha", "beta"], question } });
+      }
+      if (typeof message === "string") {
+        if (message.endsWith("_IMAGE")) {
+          update(0, { text: message });
+        }
+        if (message.endsWith("_DOCUMENT")) {
+          update(1, { text: message });
+        }
+        if (message.endsWith("_AUDIO")) {
+          update(2, {});
+          update(3, { text: message });
+        }
+      }
+      return {};
+    });
+    await f.reply();
+  }
+  expect(calls.map(([method]) => method)).toEqual(["send", "send", "send", "poll"]);
+  expect(calls.map(([, payload]) => payload)).toMatchObject(
+    Array.from({ length: 4 }, () => ({ to: groupJid })),
+  );
+});
 
-  it("registers the WhatsApp canary and pairing scenarios", () => {
-    const scenarios = testing.findScenarios(["whatsapp-canary", "whatsapp-pairing-block"]);
-    expect(scenarios.map(({ id }) => id)).toEqual(["whatsapp-canary", "whatsapp-pairing-block"]);
+it("isolates quoted and fresh Gateway sends", async () => {
+  const f = fixture("whatsapp-reply-context-isolation");
+  f.rpc.mockResolvedValue({});
+  f.wait.mockImplementation(async ({ match }) => {
+    const payload = f.rpc.mock.calls.at(-1)?.[1] as { message: string };
+    const reply = fresh(payload.message);
+    return f.wait.mock.calls.length === 1
+      ? matching(match, { ...reply, quoted: { messageId: "driver-message-1" } }, reply, {
+          ...reply,
+          quoted: { messageId: "wrong-trigger" },
+        })
+      : matching(match, reply, { ...reply, text: "wrong fresh marker" });
   });
+  await f.reply();
+  expect(
+    f.rpc.mock.calls.map(([, payload]) => (payload as { replyToId?: string }).replyToId),
+  ).toEqual(["driver-message-1", undefined]);
+  expect(f.wait).toHaveBeenCalledTimes(2);
+});
 
-  it("reports WhatsApp live transport standard scenario coverage", () => {
-    expect(testing.WHATSAPP_QA_STANDARD_SCENARIO_IDS).toEqual([
-      "canary",
-      "mention-gating",
-      "top-level-reply-shape",
-      "restart-resume",
-      "help-command",
-      "reaction-observation",
-      "allowlist-block",
-    ]);
+it("quotes the second queued message in batched reply-to mode", async () => {
+  const f = fixture("whatsapp-reply-to-mode-batched");
+  f.context.sent.messageId = "first-batched-message";
+  f.send.mockResolvedValue({ messageId: "second-batched-message" });
+  await f.afterSend();
+  const first = f.run.input.match(/\bWHATSAPP_QA_BATCHED_FIRST_[A-Z0-9]+\b/u)?.[0];
+  expect(first).toEqual(expect.any(String));
+  expect(f.send.mock.calls[0]?.[1]).toContain(String(f.run.matchText));
+  expect(f.send.mock.calls[0]?.[1]).not.toContain(first);
+  expect(() =>
+    f.verify(fresh("", { quoted: { messageId: "second-batched-message" } })),
+  ).not.toThrow();
+});
+
+it("waits for upload-file media", async () => {
+  const f = fixture("whatsapp-agent-message-action-upload-file");
+  const token = expectDefined(
+    /\bWHATSAPP_QA_AGENT_UPLOAD_[A-Z0-9]+\b/u.exec(f.run.input)?.[0],
+    "upload token",
+  );
+  const media = Promise.withResolvers<WhatsAppQaDriverObservedMessage>();
+  f.wait.mockReturnValue(media.promise);
+  let settled = false;
+  const pending = f.afterSend().then((result) => {
+    settled = true;
+    return result;
   });
+  await Promise.resolve();
+  expect(f.wait).toHaveBeenCalledOnce();
+  expect(settled).toBe(false);
+  media.resolve(fresh(token, { kind: "media", hasMedia: true, mediaType: "image/png" }));
+  expect(await pending).toContain("upload-file media");
+});
 
-  it("uses opposite DM peers for driver sends and Gateway sends", () => {
-    expect(
-      testing.resolveWhatsAppQaMessageTargets({
-        driverPhoneE164: "+15550000001",
-        scenarioTarget: "dm",
-        sutPhoneE164: "+15550000002",
+it.each([true, false])("validates status reaction ordering: %s", async (ordered) => {
+  const f = fixture("whatsapp-status-reaction-lifecycle");
+  f.messages.push(
+    ...(ordered ? ["👀", "✅"] : ["✅", "👀"]).map((emoji, index) =>
+      observedMessage("reaction-" + index, {
+        kind: "reaction",
+        text: "",
+        observedAt: `2026-06-21T12:00:0${index + 1}.000Z`,
+        reaction: { emoji, messageId: "driver-message-1" },
       }),
-    ).toEqual({
-      driverTarget: "+15550000002",
-      gatewayTarget: "+15550000001",
-    });
-    expect(
-      testing.resolveWhatsAppQaMessageTargets({
-        driverPhoneE164: "+15550000001",
-        groupJid: "120363000000000000@g.us",
-        scenarioTarget: "group",
-        sutPhoneE164: "+15550000002",
-      }),
-    ).toEqual({
-      driverTarget: "120363000000000000@g.us",
-      gatewayTarget: "120363000000000000@g.us",
-    });
+    ),
+  );
+  vi.useFakeTimers({ now: new Date("2026-06-21T12:00:00.000Z") });
+  const result = f.reply(observedMessage("reply", { observedAt: "2026-06-21T12:00:03.000Z" }));
+  const outcome = ordered
+    ? expect(result).resolves.toContain("👀 -> ✅")
+    : expect(result).rejects.toThrow("timed out waiting for WhatsApp status reaction sequence");
+  await vi.runAllTimersAsync();
+  await outcome;
+});
+
+it("routes Gateway DM helper calls to the driver", async () => {
+  const f = fixture("whatsapp-reply-context-isolation");
+  f.rpc.mockResolvedValue({});
+  await callWhatsAppGatewaySend(f.context, {
+    label: "quoted",
+    message: "WHATSAPP_QA_QUOTED",
+    replyToId: "driver-message-1",
+  });
+  await callWhatsAppGatewayPoll(f.context, {
+    label: "poll",
+    options: ["alpha", "beta"],
+    question: "WHATSAPP_QA_POLL",
+  });
+  await callWhatsAppGatewayMessageAction(f.context, {
+    action: "react",
+    label: "react",
+    params: { emoji: "👍", messageId: "driver-message-1" },
+  });
+  expect(f.rpc.mock.calls.map(([, payload]) => payload)).toMatchObject([
+    { to: phones.driverPhoneE164 },
+    { to: phones.driverPhoneE164 },
+    {
+      params: { emoji: "👍", messageId: "driver-message-1", to: phones.driverPhoneE164 },
+      conversationReadOrigin: "direct-operator",
+    },
+  ]);
+});
+it("derives live-frontier selection from taxonomy and provider eligibility", () => {
+  const scenarioIds = resolveLiveTransportQaScenarioIds({
+    channelId: "whatsapp",
+    providerMode: "live-frontier",
+    supportsModuleFlows: true,
   });
 
-  it("routes WhatsApp Gateway DM helper calls to the driver peer", async () => {
-    const { calls, context } = createGatewayTargetContext({
-      gatewayTarget: "+15550000001",
+  expect(scenarioIds).toContain("whatsapp-canary");
+  expect(scenarioIds).toContain("whatsapp-mention-gating");
+  expect(scenarioIds).not.toContain("whatsapp-native-new-command");
+});
+
+it.each([false, true])(
+  "restores mention gating after activation (failure=%s)",
+  async (failProbe) => {
+    const f = fixture("whatsapp-group-activation-always");
+    expect(f.run).toMatchObject({ target: "group", input: "/activation always" });
+    const always = /\bWHATSAPP_QA_ACTIVATION_ALWAYS_[A-Z0-9]+\b/u;
+    const quiet = /\bWHATSAPP_QA_ACTIVATION_QUIET_[A-Z0-9]+\b/u;
+    const sends = () => f.send.mock.calls;
+    const restoreIndex = () =>
+      sends().findIndex(([to, text]) => to === groupJid && text.trim() === "/activation mention");
+    let alwaysMatched = false,
+      quietReads = 0;
+    f.context.driver.getObservedMessages = () => {
+      if (sends().some(([, text]) => quiet.test(text))) {
+        quietReads++;
+      }
+      return [];
+    };
+    f.wait.mockImplementation(async ({ match }) => {
+      const restoring = restoreIndex() >= 0;
+      if (failProbe && !restoring) {
+        throw new Error("forced always-mode probe failure");
+      }
+      const probe = sends().findLast(
+        ([, text]) => always.test(text) && !/\bopenclawqa\b/iu.test(text),
+      );
+      const reply = fresh(
+        restoring ? "Activation: mention" : expectDefined(probe, "always probe")[1],
+        { fromJid: groupJid },
+      );
+      const rejected = restoring
+        ? []
+        : [{ ...reply, text: reply.text.replace(always, "WHATSAPP_QA_ACTIVATION_ALWAYS_WRONG") }];
+      matching(match, reply, ...rejected);
+      if (!restoring) {
+        alwaysMatched = true;
+      }
+      return reply;
     });
-
-    await testing.callWhatsAppGatewaySend(context, {
-      label: "quoted",
-      message: "WHATSAPP_QA_QUOTED",
-      replyToId: "driver-message-1",
-    });
-    await testing.callWhatsAppGatewayPoll(context, {
-      label: "poll",
-      options: ["alpha", "beta"],
-      question: "WHATSAPP_QA_POLL",
-    });
-    await testing.callWhatsAppGatewayMessageAction(context, {
-      action: "react",
-      label: "react",
-      params: {
-        emoji: "👍",
-        messageId: "driver-message-1",
-      },
-    });
-
-    expect(calls).toHaveLength(3);
-    expect(calls[0]?.payload).toMatchObject({ to: "+15550000001" });
-    expect(calls[1]?.payload).toMatchObject({ to: "+15550000001" });
-    expect(calls[2]?.payload.params).toMatchObject({
-      emoji: "👍",
-      messageId: "driver-message-1",
-      to: "+15550000001",
-    });
-  });
-
-  it("formats redacted wait diagnostics for unmatched WhatsApp observations", () => {
-    const diagnostics = testing.formatWhatsAppScenarioWaitDiagnostics(
-      createDiagnosticsContext([
-        {
-          fromPhoneE164: "+15550000002",
-          kind: "text",
-          messageId: "before-lower-bound",
-          observedAt: "2026-06-05T00:59:59.000Z",
-          text: "SECRET_BEFORE",
-        },
-        {
-          fromPhoneE164: "+15550000002",
-          kind: "text",
-          messageId: "fresh-message-secret-id",
-          observedAt: "2026-06-05T01:00:01.000Z",
-          quoted: { messageId: "quoted-secret-id", text: "quoted secret body" },
-          text: "SECRET_MARKER",
-        },
-        {
-          fromPhoneE164: "+15550000003",
-          kind: "media",
-          messageId: "other-sender-secret-id",
-          observedAt: "2026-06-05T01:00:02.000Z",
-          text: "SECRET_OTHER",
-        },
-      ]),
-      {
-        diagnosticChecks: [
-          {
-            label: "textMarker",
-            match: (message) => message.text.includes("SECRET_MARKER"),
-          },
-          {
-            label: "quoteMatchesTrigger",
-            match: (message) => message.quoted?.messageId === "trigger-message",
-          },
-        ],
-        observedAfter: new Date("2026-06-05T01:00:00.000Z"),
-      },
-    );
-
-    expect(diagnostics).toContain("observed 2 WhatsApp driver message(s)");
-    expect(diagnostics).toContain("fromExpectedSut=yes");
-    expect(diagnostics).toContain("fromExpectedSut=no");
-    expect(diagnostics).toContain("textMarker=yes");
-    expect(diagnostics).toContain("quoteMatchesTrigger=no");
-    expect(diagnostics).toContain("quoted=present");
-    expect(diagnostics).toContain("quotedMessageId=present(length=16)");
-    expect(diagnostics).not.toContain("+15550000002");
-    expect(diagnostics).not.toContain("SECRET_MARKER");
-    expect(diagnostics).not.toContain("fresh-message-secret-id");
-    expect(diagnostics).not.toContain("quoted-secret-id");
-  });
-
-  it("formats batch count diagnostics without exposing WhatsApp message content", () => {
-    const diagnostics = testing.formatWhatsAppBatchMessageDiagnostics([
-      {
-        fromPhoneE164: "+15550000002",
-        kind: "text",
-        messageId: "batch-secret-id",
-        observedAt: "2026-06-05T01:00:01.000Z",
-        quoted: { messageId: "quoted-secret-id", text: "quoted secret body" },
-        text: "SECRET_BATCH_BODY",
-      },
-    ]);
-
-    expect(diagnostics).toContain("textLength=17");
-    expect(diagnostics).toContain("messageId=present(length=15)");
-    expect(diagnostics).toContain("quoted=present");
-    expect(diagnostics).not.toContain("+15550000002");
-    expect(diagnostics).not.toContain("SECRET_BATCH_BODY");
-    expect(diagnostics).not.toContain("batch-secret-id");
-    expect(diagnostics).not.toContain("quoted secret body");
-  });
-
-  it("treats any fresh SUT message as unexpected for no-reply scenarios", () => {
-    const unexpected = testing.findUnexpectedWhatsAppNoReplyMessage({
-      messages: [
-        {
-          fromPhoneE164: "+15550000002",
-          kind: "text",
-          observedAt: "2026-06-05T00:59:59.000Z",
-          text: "old generic access warning",
-        },
-        {
-          fromPhoneE164: "+15550000003",
-          kind: "text",
-          observedAt: "2026-06-05T01:00:01.000Z",
-          text: "unrelated peer message",
-        },
-        {
-          fromPhoneE164: "+15550000002",
-          kind: "text",
-          observedAt: "2026-06-05T01:00:02.000Z",
-          text: "generic access warning without the scenario marker",
-        },
-      ],
-      observedAfter: new Date("2026-06-05T01:00:00.000Z"),
-      sutPhoneE164: "+15550000002",
-      target: "dm",
-    });
-
-    expect(unexpected?.text).toBe("generic access warning without the scenario marker");
-  });
-
-  it("treats any fresh group message as unexpected for group no-reply scenarios", () => {
-    const unexpected = testing.findUnexpectedWhatsAppNoReplyMessage({
-      groupJid: "120363000000000000@g.us",
-      messages: [
-        {
-          fromJid: "120363111111111111@g.us",
-          fromPhoneE164: null,
-          kind: "text",
-          observedAt: "2026-06-05T01:00:01.000Z",
-          text: "different group message",
-        },
-        {
-          fromJid: "120363000000000000@g.us",
-          fromPhoneE164: null,
-          kind: "text",
-          observedAt: "2026-06-05T01:00:02.000Z",
-          text: "generic group access warning without the scenario marker",
-        },
-      ],
-      observedAfter: new Date("2026-06-05T01:00:00.000Z"),
-      sutPhoneE164: "+15550000002",
-      target: "group",
-    });
-
-    expect(unexpected?.text).toBe("generic group access warning without the scenario marker");
-  });
-
-  it("keeps mock-backed and native approval scenarios out of default live-frontier selection", () => {
-    const expectedDefaultIds = [
-      "whatsapp-canary",
-      "whatsapp-pairing-block",
-      "whatsapp-mention-gating",
-      "whatsapp-top-level-reply-shape",
-      "whatsapp-restart-resume",
-      "whatsapp-help-command",
-      "whatsapp-status-reactions",
-      "whatsapp-group-allowlist-block",
-    ];
-
-    expect(testing.findScenarios(undefined, "live-frontier").map(({ id }) => id)).toEqual(
-      expectedDefaultIds,
-    );
-    expect(testing.findScenarios([], "live-frontier").map(({ id }) => id)).toEqual(
-      expectedDefaultIds,
-    );
-  });
-
-  it("adds deterministic audio preflight to the default mock-openai WhatsApp selection", () => {
-    expect(testing.findScenarios(undefined, "mock-openai").map(({ id }) => id)).toEqual([
-      "whatsapp-canary",
-      "whatsapp-pairing-block",
-      "whatsapp-mention-gating",
-      "whatsapp-top-level-reply-shape",
-      "whatsapp-restart-resume",
-      "whatsapp-help-command",
-      "whatsapp-commands-command",
-      "whatsapp-tools-compact-command",
-      "whatsapp-whoami-command",
-      "whatsapp-context-command",
-      "whatsapp-tool-only-usage-footer",
-      "whatsapp-reply-context-isolation",
-      "whatsapp-inbound-image-caption",
-      "whatsapp-audio-preflight",
-      "whatsapp-outbound-media-matrix",
-      "whatsapp-outbound-document-preserves-filename",
-      "whatsapp-outbound-poll",
-      "whatsapp-message-actions",
-      "whatsapp-inbound-structured-messages",
-      "whatsapp-group-audio-gating",
-      "whatsapp-access-control-dm-open",
-      "whatsapp-access-control-dm-disabled",
-      "whatsapp-access-control-group-open",
-      "whatsapp-access-control-group-disabled",
-      "whatsapp-reply-delivery-shape",
-      "whatsapp-stream-final-message-accounting",
-      "whatsapp-native-new-command",
-      "whatsapp-status-reactions",
-      "whatsapp-group-allowlist-block",
-    ]);
-  });
-
-  it("seeds the structured-message location check through text context", () => {
-    const [scenario] = testing.findScenarios(["whatsapp-inbound-structured-messages"]);
-    if (!scenario) {
-      throw new Error("missing structured WhatsApp scenario");
+    vi.useFakeTimers({ now: new Date("2026-06-21T12:00:02.000Z") });
+    const result = f.reply(fresh("Activation: always", { fromJid: groupJid }));
+    const outcome = failProbe
+      ? expect(result).rejects.toThrow("forced always-mode probe failure")
+      : result;
+    await vi.runAllTimersAsync();
+    await outcome;
+    expect(restoreIndex()).toBeGreaterThanOrEqual(0);
+    if (!failProbe) {
+      for (const probe of [
+        sends().find(([, text]) => always.test(text)),
+        sends()
+          .slice(restoreIndex() + 1)
+          .find(([, text]) => quiet.test(text)),
+      ]) {
+        expect(probe?.[0]).toBe(groupJid);
+        expect(probe?.[1]).not.toMatch(/\bopenclawqa\b/i);
+      }
+      expect(alwaysMatched).toBe(true);
+      expect(quietReads).toBeGreaterThan(0);
     }
-    const run = scenario.buildRun();
-    if (run.kind === "approval") {
-      throw new Error("structured WhatsApp scenario unexpectedly built an approval run");
-    }
+  },
+);
 
-    expect(run.input).toContain("37.774900, -122.419400");
-    expect(run.input).toContain("WhatsApp location marker");
-    expect(run.input).toContain("WhatsApp contact marker");
-    expect(run.input).toContain("WhatsApp sticker marker");
-    expect(run.input).toContain("exact marker before structured inbound checks");
+it("quotes the SUT reply without a mention for reply-to-bot activation", async () => {
+  const f = fixture("whatsapp-group-reply-to-bot-triggers");
+  expect(f.run.target).toBe("group");
+  expect(f.run.input).toMatch(/\bopenclawqa\b/iu);
+  expect(f.run.input).toMatch(/\bWHATSAPP_QA_REPLY_TO_BOT_SEED_[A-Z0-9]+\b/u);
+  f.wait.mockImplementation(async ({ match }) => {
+    const trigger = f.send.mock.calls.find((call) => call[2]?.quotedMessageKey);
+    const marker = expectDefined(
+      /\bWHATSAPP_QA_REPLY_TO_BOT_TRIGGER_[A-Z0-9]+\b/u.exec(trigger?.[1] ?? "")?.[0],
+      "trigger marker",
+    );
+    const candidate = fresh(marker, { fromJid: groupJid });
+    return matching(
+      match,
+      { ...candidate, quoted: { messageId: "driver-1" } },
+      { ...candidate, text: "WHATSAPP_QA_REPLY_TO_BOT_TRIGGER_WRONG" },
+      candidate,
+    );
   });
+  const seed = fresh("WHATSAPP_QA_REPLY_TO_BOT_SEED_TEST", {
+    messageId: "sut-seed-reply",
+    fromJid: groupJid,
+    participantJid: "15550000002@s.whatsapp.net",
+  });
+  await f.reply(seed);
+  const [to, text, options] = expectDefined(
+    f.send.mock.calls.find((call) => call[2]?.quotedMessageKey),
+    "quoted send",
+  );
+  expect(to).toBe(groupJid);
+  expect(text).toMatch(/\bWHATSAPP_QA_REPLY_TO_BOT_TRIGGER_[A-Z0-9]+\b/u);
+  expect(text).not.toMatch(/\bopenclawqa\b|@\d/iu);
+  expect(options?.quotedMessageKey).toMatchObject({
+    fromMe: false,
+    id: seed.messageId,
+    messageText: seed.text,
+    participant: seed.participantJid,
+    remoteJid: groupJid,
+  });
+  expect(f.wait).toHaveBeenCalledOnce();
+});
 
-  it("sends a WhatsApp-routable contact card in the structured-message check", async () => {
-    const sendContact = vi.fn(async () => ({ messageId: "contact-1" }));
-    const driver = createWhatsAppQaDriverMock({
+it.each(["dm", "group"] as const)("verifies quoted %s replies", (target) => {
+  const f = fixture(
+    target === "dm" ? "whatsapp-reply-to-message" : "whatsapp-group-reply-to-message",
+  );
+  expect([scenario(f.context.scenarioId).requiresGroupJid, f.run.target]).toEqual([
+    target === "group" ? true : undefined,
+    target,
+  ]);
+  if (target === "dm") {
+    expect(f.run.input).not.toContain("openclawqa");
+  } else {
+    expect(f.run.input).toMatch(/^openclawqa\b/u);
+  }
+  const reply = fresh("reply");
+  expect(() => f.verify({ ...reply, quoted: { messageId: "driver-message-1" } })).not.toThrow();
+  expect(() => f.verify(reply)).toThrow("expected reply quote driver-message-1, got <missing>");
+});
+
+it("seeds structured inbound context and sends a routable contact", async () => {
+  const run = messageRun("whatsapp-inbound-structured-messages");
+  for (const text of [
+    "37.774900, -122.419400",
+    "WhatsApp location marker",
+    "WhatsApp contact marker",
+    "WhatsApp sticker marker",
+    "exact marker before structured inbound checks",
+  ]) {
+    expect(run.input).toContain(text);
+  }
+  const sent = async () => ({ messageId: "structured-1" });
+  const sendContact = vi.fn(sent);
+  await runWhatsAppStructuredInboundChecks({
+    ...phones,
+    target: phones.sutPhoneE164,
+    driver: createDriver({
       sendContact,
-      sendLocation: vi.fn(async () => ({ messageId: "location-1" })),
-      sendMedia: vi.fn(async () => ({ messageId: "document-1" })),
-      sendSticker: vi.fn(async () => ({ messageId: "sticker-1" })),
-    });
-
-    await testing.runWhatsAppStructuredInboundChecks({
-      contactToken: "CONTACT_TOKEN",
-      documentToken: "DOCUMENT_TOKEN",
-      driver,
-      driverPhoneE164: "+15550000001",
-      locationToken: "LOCATION_TOKEN",
-      stickerToken: "STICKER_TOKEN",
-      target: "+15550000002",
-      waitForStructuredReply: async () => {},
-    });
-
-    expect(sendContact).toHaveBeenCalledWith(
-      "+15550000002",
-      expect.objectContaining({
-        vcard: expect.stringContaining("waid=15550000001:+15550000001"),
-      }),
-    );
+      sendLocation: sent,
+      sendMedia: sent,
+      sendSticker: sent,
+    }),
+    contactToken: "CONTACT_TOKEN",
+    documentToken: "DOCUMENT_TOKEN",
+    locationToken: "LOCATION_TOKEN",
+    stickerToken: "STICKER_TOKEN",
+    waitForStructuredReply: async () => {},
   });
+  expect(sendContact).toHaveBeenCalledWith(
+    phones.sutPhoneE164,
+    expect.objectContaining({ vcard: expect.stringContaining("waid=15550000001:+15550000001") }),
+  );
+});
 
-  it("labels structured-message contact wait failures", async () => {
-    const sendSticker = vi.fn(async () => ({ messageId: "sticker-1" }));
-    const driver = createWhatsAppQaDriverMock({
-      sendContact: vi.fn(async () => ({ messageId: "contact-1" })),
-      sendLocation: vi.fn(async () => ({ messageId: "location-1" })),
-      sendMedia: vi.fn(async () => ({ messageId: "document-1" })),
-      sendSticker,
+it.each([false, true])(
+  "reports observation diagnostics with unresolved sender=%s",
+  async (unresolved) => {
+    const f = fixture("whatsapp-group-pending-history-context");
+    if (unresolved) {
+      f.messages.push(fresh(String(f.run.matchText), { fromJid: groupJid, fromPhoneE164: null }));
+    }
+    f.wait.mockImplementation(async ({ match }) => {
+      if (unresolved) {
+        expect(match(expectDefined(f.messages[0], "unresolved observation"))).toBe(false);
+      }
+      throw new Error("timed out waiting for WhatsApp QA driver message");
     });
-
     await expect(
-      testing.runWhatsAppStructuredInboundChecks({
-        contactToken: "CONTACT_TOKEN",
-        documentToken: "DOCUMENT_TOKEN",
-        driver,
-        driverPhoneE164: "+15550000001",
-        locationToken: "LOCATION_TOKEN",
-        stickerToken: "STICKER_TOKEN",
-        target: "+15550000002",
-        waitForStructuredReply: async (label, _observedAfter, expectedToken) => {
-          if (label === "contact") {
-            throw new Error(
-              `timed out waiting for WhatsApp structured ${label} reply (${expectedToken})`,
-            );
-          }
-        },
+      waitForScenarioObservedMessage(f.context, {
+        observedAfter: f.context.requestStartedAt,
+        match: (message) => message.text.includes(String(f.run.matchText)),
       }),
-    ).rejects.toThrow("timed out waiting for WhatsApp structured contact reply");
-    expect(sendSticker).not.toHaveBeenCalled();
-  });
+    ).rejects.toThrow(
+      unresolved
+        ? "fromExpectedSut=no"
+        : "observed 0 WhatsApp driver message(s) after wait lower bound",
+    );
+  },
+);
 
-  it("formats approval wait diagnostics without exposing message content", () => {
-    const observedAfter = new Date("2026-06-05T18:36:57.000Z");
-    const diagnostics = testing.formatWhatsAppApprovalWaitDiagnostics({
-      approvalId: "plugin:approval-1",
-      approvalKind: "plugin",
-      driver: createWhatsAppQaDriverMock({
-        getObservedMessages: () => [
-          {
-            fromPhoneE164: "+15550000002",
-            kind: "text",
-            messageId: "message-1",
-            observedAt: "2026-06-05T18:36:58.000Z",
-            text: "unrelated text that should not be copied into diagnostics",
-          },
-        ],
-      }),
-      observedAfter,
-      state: "pending",
-      sutPhoneE164: "+15550000002",
-      token: "TOKEN-1",
+it("requires the second delivery chunk's tail marker and quote", async () => {
+  const f = fixture("whatsapp-reply-delivery-shape"),
+    token = String(f.run.matchText);
+  f.rpc.mockResolvedValue({});
+  const chunk = (text: string, quoted = true) =>
+    fresh(text, {
+      messageId: text,
+      ...(quoted ? { quoted: { messageId: "driver-message-1" } } : {}),
     });
+  f.wait.mockImplementation(async ({ match }) =>
+    f.wait.mock.calls.length === 1
+      ? matching(match, chunk(token + "_LONG_BEGIN"))
+      : matching(
+          match,
+          chunk(token + "_LONG_END"),
+          chunk("missing tail"),
+          chunk(token + "_LONG_END", false),
+        ),
+  );
+  await f.reply();
+  expect(f.wait).toHaveBeenCalledTimes(2);
+});
 
-    expect(diagnostics).toContain("observed 1 WhatsApp driver message(s)");
-    expect(diagnostics).toContain("fromExpectedSut=yes");
-    expect(diagnostics).toContain("approvalText=no");
-    expect(diagnostics).toContain("messageId=present(length=9)");
-    expect(diagnostics).not.toContain("unrelated text");
+it("defines final-message accounting", () => {
+  expect(messageRun("whatsapp-stream-final-message-accounting")).toMatchObject({
+    input: expect.stringContaining("WhatsApp long final QA check"),
+    matchText: "WHATSAPP-LONG-FINAL-BEGIN",
+    expectedJoinedSutTextIncludes: ["WHATSAPP-LONG-FINAL-BEGIN", "WHATSAPP-LONG-FINAL-END"],
+    expectedSutMessageCount: 2,
+    settleMs: 4_000,
   });
+});
+it("defines automatic visible mention-gated replies", () => {
+  const run = messageRun("whatsapp-mention-gating");
+  expect(run.input).toContain("openclawqa reply with only this exact marker");
+  expect(run.input).not.toContain("visible reply tool check");
+});
 
-  it("formats per-scenario progress lines for live lane visibility", () => {
-    const [scenario] = testing.findScenarios(["whatsapp-inbound-structured-messages"]);
-    if (!scenario) {
-      throw new Error("missing structured WhatsApp scenario");
-    }
-
+it.each([false, true])("defines captionless audio with group=%s", (group) => {
+  const id = group ? "whatsapp-group-audio-gating" : "whatsapp-audio-preflight";
+  const run = messageRun(id);
+  const audio = (fileName: string) => ({
+    fileName,
+    kind: "media",
+    mediaType: "audio/ogg; codecs=opus",
+  });
+  if (group) {
+    expect(run.quietMatchText).toBeUndefined();
+    expect(run).toMatchObject({
+      input: "",
+      quietInput: "",
+      matchText: "WHATSAPP_QA_GROUP_AUDIO_TRANSCRIPT_OK",
+      sendMode: audio("whatsapp-qa-group-audio.ogg"),
+      quietSendMode: audio("whatsapp-qa-group-audio-quiet.ogg"),
+    });
+    const trigger = Buffer.from("OPENCLAW_QA_GROUP_AUDIO_TRIGGER");
+    expect(run.sendMode?.kind === "media" && run.sendMode.mediaBuffer.includes(trigger)).toBe(true);
     expect(
-      testing.formatWhatsAppScenarioProgressLine({
-        details: "timed out waiting for WhatsApp QA driver message",
-        index: 21,
-        scenario,
-        status: "fail",
-        total: 35,
-      }),
-    ).toBe(
-      "[whatsapp-qa] [21/35] fail whatsapp-inbound-structured-messages: " +
-        "WhatsApp inbound structured messages reach the agent - " +
-        "timed out waiting for WhatsApp QA driver message",
-    );
-  });
-
-  it("redacts per-scenario progress details when public metadata redaction is enabled", () => {
-    expect(
-      testing.formatWhatsAppScenarioProgressDetails({
-        details: "long reply chunked across raw-message-id-1 and raw-message-id-2",
-        redactMetadata: true,
-      }),
-    ).toBe("details redacted (OPENCLAW_QA_REDACT_PUBLIC_METADATA=1)");
-    expect(
-      testing.formatWhatsAppScenarioProgressDetails({
-        details:
-          "timed out waiting for WhatsApp QA driver message; observed 1 WhatsApp driver message(s) after wait lower bound: #1 observedAt=2026-06-04T23:47:00.000Z fromPhone=present kind=text textLength=17 messageId=present(length=10) quoted=missing quotedMessageId=missing fromExpectedSut=yes",
-        redactMetadata: true,
-      }),
-    ).toBe(
-      "observed 1 WhatsApp driver message(s) after wait lower bound: " +
-        "#1 observedAt=2026-06-04T23:47:00.000Z fromPhone=present kind=text " +
-        "textLength=17 messageId=present(length=10) quoted=missing " +
-        "quotedMessageId=missing fromExpectedSut=yes",
-    );
-    expect(
-      testing.formatWhatsAppScenarioProgressDetails({
-        details: "safe local diagnostic",
-        redactMetadata: false,
-      }),
-    ).toBe("safe local diagnostic");
-  });
-
-  it("adds WhatsApp command UX parity scenarios to the mock-backed selection", () => {
-    const scenarios = testing.findScenarios([
-      "whatsapp-commands-command",
-      "whatsapp-tools-compact-command",
-      "whatsapp-whoami-command",
-      "whatsapp-context-command",
-      "whatsapp-tool-only-usage-footer",
-    ]);
-
-    expect(
-      scenarios.map((scenario) => {
-        const run = scenario.buildRun();
-        if (run.kind === "approval") {
-          throw new Error(`${scenario.id} unexpectedly built an approval run`);
-        }
-        return [
-          scenario.id,
-          run.input,
-          String(run.matchText),
-          run.expectedJoinedSutTextIncludes,
-          run.expectedSutMessageCountRange,
-        ] as const;
-      }),
-    ).toEqual([
-      [
-        "whatsapp-commands-command",
-        "/commands",
-        "/Commands \\(|\\/session|\\/verbose/iu",
-        ["/session", "/verbose"],
-        undefined,
-      ],
-      [
-        "whatsapp-tools-compact-command",
-        "/tools compact",
-        "/Available tools|exec|Use \\/tools verbose for descriptions/iu",
-        ["exec", "Use /tools verbose for descriptions"],
-        undefined,
-      ],
-      [
-        "whatsapp-whoami-command",
-        "/whoami",
-        "/(?=.*Identity)(?=.*Channel: whatsapp)(?=.*AllowFrom:)/isu",
-        undefined,
-        undefined,
-      ],
-      [
-        "whatsapp-context-command",
-        "/context list",
-        "/(?=.*Context breakdown)(?=.*Workspace:)(?=.*Tool schemas)/isu",
-        undefined,
-        undefined,
-      ],
-      [
-        "whatsapp-tool-only-usage-footer",
-        "/usage tokens",
-        "/Usage footer: tokens/iu",
-        undefined,
-        undefined,
-      ],
-    ]);
-    expect(scenarios.map((scenario) => scenario.defaultProviderModes)).toEqual([
-      ["mock-openai"],
-      ["mock-openai"],
-      ["mock-openai"],
-      ["mock-openai"],
-      ["mock-openai"],
-    ]);
-  });
-
-  it("defines WhatsApp final-message accounting as a settled two-chunk assertion", () => {
-    const [scenario] = testing.findScenarios(["whatsapp-stream-final-message-accounting"]);
-    const run = scenario.buildRun();
-    if (run.kind === "approval") {
-      throw new Error("whatsapp-stream-final-message-accounting unexpectedly built approval run");
-    }
-
-    expect(scenario.defaultProviderModes).toEqual(["mock-openai"]);
-    expect(run.input).toContain("WhatsApp long final QA check");
-    expect(run.matchText).toBe("WHATSAPP-LONG-FINAL-BEGIN");
-    expect(run.expectedJoinedSutTextIncludes).toEqual([
-      "WHATSAPP-LONG-FINAL-BEGIN",
-      "WHATSAPP-LONG-FINAL-END",
-    ]);
-    expect(run.expectedSutMessageCount).toBe(2);
-    expect(run.settleMs).toBe(4_000);
-  });
-
-  it("requires the long-reply delivery-shape tail marker in the second chunk", async () => {
-    const [scenario] = testing.findScenarios(["whatsapp-reply-delivery-shape"]);
-    const run = scenario.buildRun();
-    if (run.kind === "approval" || !run.afterReply) {
-      throw new Error("whatsapp-reply-delivery-shape unexpectedly omitted afterReply");
-    }
-    const token = String(run.matchText);
-    let waitCallCount = 0;
-    const driver = createWhatsAppQaDriverMock({
-      waitForMessage: async (params) => {
-        waitCallCount += 1;
-        if (waitCallCount === 1) {
-          const firstChunk = {
-            fromPhoneE164: "+15550000002",
-            kind: "text" as const,
-            messageId: "chunk-1",
-            observedAt: "2026-06-05T01:00:01.000Z",
-            text: `${token}_LONG_BEGIN`,
-          };
-          expect(params.match(firstChunk)).toBe(true);
-          return firstChunk;
-        }
-
-        const missingTailMarker = {
-          fromPhoneE164: "+15550000002",
-          kind: "text" as const,
-          messageId: "chunk-2",
-          observedAt: "2026-06-05T01:00:02.000Z",
-          text: "second chunk without the tail marker",
-        };
-        const tailChunk = {
-          fromPhoneE164: "+15550000002",
-          kind: "text" as const,
-          messageId: "chunk-3",
-          observedAt: "2026-06-05T01:00:03.000Z",
-          text: `${token}_LONG_END`,
-        };
-        expect(params.match(missingTailMarker)).toBe(false);
-        expect(params.match(tailChunk)).toBe(true);
-        return tailChunk;
-      },
-    });
-    const context = {
-      driver,
-      driverPhoneE164: "+15550000001",
-      gateway: {
-        call: async () => ({}),
-        restart: async () => {},
-        workspaceDir: "/tmp/openclaw-whatsapp-qa-gateway",
-      },
-      gatewayTarget: "+15550000001",
-      gatewayWorkspaceDir: "/tmp/openclaw-whatsapp-qa-gateway",
-      recordObservedMessage: () => {},
-      requestStartedAt: new Date("2026-06-05T01:00:00.000Z"),
-      scenarioId: "whatsapp-reply-delivery-shape",
-      scenarioTitle: "WhatsApp gateway send chunks long replies",
-      sent: { messageId: "driver-message-1" },
-      sutAccountId: "sut",
-      sutPhoneE164: "+15550000002",
-      target: "+15550000002",
-      waitForReady: async () => {},
-    } satisfies Parameters<NonNullable<typeof run.afterReply>>[1];
-
-    await run.afterReply(
-      {
-        fromPhoneE164: "+15550000002",
-        kind: "text",
-        messageId: "initial-reply",
-        observedAt: "2026-06-05T01:00:00.500Z",
-        text: token,
-      },
-      context,
-    );
-
-    expect(waitCallCount).toBe(2);
-  });
-
-  it("selects native approval scenarios by id without changing standard scenario coverage", () => {
-    const scenarios = testing.findScenarios([
-      "whatsapp-approval-exec-native",
-      "whatsapp-approval-exec-reaction-native",
-      "whatsapp-approval-plugin-native",
-    ]);
-
-    expect(scenarios.map(({ id }) => id)).toEqual([
-      "whatsapp-approval-exec-native",
-      "whatsapp-approval-exec-reaction-native",
-      "whatsapp-approval-plugin-native",
-    ]);
-    expect(testing.WHATSAPP_QA_STANDARD_SCENARIO_IDS).not.toContain(
-      "whatsapp-approval-exec-native",
-    );
-    expect(scenarios.map((scenario) => scenario.buildRun().kind)).toEqual([
-      "approval",
-      "approval",
-      "approval",
-    ]);
-    expect(scenarios[1]?.buildRun()).toMatchObject({
-      decisionMode: "reaction",
-    });
-  });
-
-  it("enables WhatsApp native exec and plugin approval delivery for approval scenarios", () => {
-    const cfg = testing.buildWhatsAppQaConfig(
-      {},
-      {
-        allowFrom: ["+15550000001"],
-        authDir: "/tmp/openclaw-whatsapp-qa-auth",
-        dmPolicy: "allowlist",
-        overrides: {
-          approvals: {
-            exec: true,
-            plugin: true,
-          },
-        },
-        sutAccountId: "sut",
-      },
-    );
-
-    expect(cfg.approvals?.exec).toEqual({ enabled: true, mode: "session" });
-    expect(cfg.approvals?.plugin).toEqual({ enabled: true, mode: "session" });
-    const account = cfg.channels?.whatsapp?.accounts?.sut;
-    expect(account?.allowFrom).toEqual(["+15550000001"]);
-    expect(account).not.toHaveProperty("execApprovals");
-  });
-
-  it("enables WhatsApp audio preflight with the OpenAI transcription provider", () => {
-    const cfg = testing.buildWhatsAppQaConfig(
-      {},
-      {
-        allowFrom: ["+15550000001"],
-        authDir: "/tmp/openclaw-whatsapp-qa-auth",
-        dmPolicy: "allowlist",
-        overrides: {
-          audioPreflight: true,
-        },
-        sutAccountId: "sut",
-      },
-    );
-
-    expect(cfg.plugins?.allow).toContain("whatsapp");
-    expect(cfg.tools?.media?.audio).toEqual({
-      enabled: true,
-      models: [{ provider: "openai", model: "gpt-4o-transcribe" }],
-    });
-  });
-
-  it("enables WhatsApp action discovery for message action scenarios", () => {
-    const cfg = testing.buildWhatsAppQaConfig(
-      {},
-      {
-        allowFrom: ["+15550000001"],
-        authDir: "/tmp/openclaw-whatsapp-qa-auth",
-        dmPolicy: "allowlist",
-        overrides: {
-          actions: true,
-        },
-        sutAccountId: "sut",
-      },
-    );
-
-    expect(cfg.channels?.whatsapp?.actions).toEqual({ reactions: true, polls: true });
-    expect(cfg.channels?.whatsapp?.reactionLevel).toBe("minimal");
-  });
-
-  it("defines the WhatsApp audio preflight scenario as mock-backed audio media", () => {
-    const [scenario] = testing.findScenarios(["whatsapp-audio-preflight"]);
-    const scenarioRun = scenario.buildRun();
-    if (scenarioRun.kind === "approval") {
-      throw new Error("whatsapp-audio-preflight unexpectedly built an approval scenario run");
-    }
-
-    expect(scenario.requiredPluginIds).toEqual(["openai"]);
-    expect(scenario.defaultProviderModes).toEqual(["mock-openai"]);
-    expect(scenarioRun.expectReply).toBe(true);
-    expect(scenarioRun.matchText).toBe("WHATSAPP_QA_AUDIO_TRANSCRIPT_OK");
-    expect(scenarioRun.sendMode).toMatchObject({
-      fileName: "whatsapp-qa-audio.wav",
-      kind: "media",
-      mediaType: "audio/wav",
-    });
-    expect(scenarioRun.sendMode?.kind === "media" && scenarioRun.sendMode.mediaBuffer.length).toBe(
-      32_044,
-    );
-  });
-
-  it("defines group audio gating as captionless audio driven by mock transcription", () => {
-    const [scenario] = testing.findScenarios(["whatsapp-group-audio-gating"]);
-    const scenarioRun = scenario.buildRun();
-    if (scenarioRun.kind === "approval") {
-      throw new Error("whatsapp-group-audio-gating unexpectedly built an approval scenario run");
-    }
-
-    expect(scenarioRun.input).toBe("");
-    expect(scenarioRun.matchText).toBe("WHATSAPP_QA_GROUP_AUDIO_TRANSCRIPT_OK");
-    expect(scenarioRun.quietInput).toBe("");
-    expect(scenarioRun.quietMatchText).toBeUndefined();
-    expect(scenarioRun.sendMode).toMatchObject({
-      fileName: "whatsapp-qa-group-audio.wav",
-      kind: "media",
-      mediaType: "audio/wav",
-    });
-    expect(scenarioRun.quietSendMode).toMatchObject({
-      fileName: "whatsapp-qa-group-audio-quiet.wav",
-      kind: "media",
-      mediaType: "audio/wav",
-    });
-    expect(
-      scenarioRun.sendMode?.kind === "media" &&
-        scenarioRun.quietSendMode?.kind === "media" &&
-        scenarioRun.sendMode.mediaBuffer.length > scenarioRun.quietSendMode.mediaBuffer.length,
+      run.quietSendMode?.kind === "media" &&
+        run.quietSendMode.mediaBuffer.length === 1_303 &&
+        !run.quietSendMode.mediaBuffer.includes(trigger),
     ).toBe(true);
-  });
-
-  it("applies WhatsApp QA config overrides for reply mode and status reactions", () => {
-    const cfg = testing.buildWhatsAppQaConfig(
-      {},
-      {
-        allowFrom: ["+15550000001"],
-        authDir: "/tmp/openclaw-whatsapp-qa-auth",
-        dmPolicy: "allowlist",
-        overrides: {
-          replyToMode: "all",
-          statusReactions: true,
-        },
-        sutAccountId: "sut",
-      },
-    );
-
-    expect(cfg.channels?.whatsapp?.accounts?.sut?.replyToMode).toBe("all");
-    expect(cfg.channels?.whatsapp?.ackReaction).toMatchObject({
-      direct: true,
-      emoji: "👀",
+  } else {
+    expect(readQaScenarioById(id).plugins).toEqual(["openai"]);
+    expect(run).toMatchObject({
+      expectReply: true,
+      matchText: "WHATSAPP_QA_AUDIO_TRANSCRIPT_OK",
+      sendMode: audio("whatsapp-qa-audio.ogg"),
     });
-    expect(cfg.messages?.statusReactions?.enabled).toBe(true);
-  });
+    expect(run.sendMode?.kind === "media" && run.sendMode.mediaBuffer.length).toBe(1_303);
+  }
+});
 
-  it("can configure a group scenario as sender allowlist-blocked instead of open mention-gated", () => {
-    const cfg = testing.buildWhatsAppQaConfig(
-      {},
-      {
-        allowFrom: ["+15550000000"],
-        authDir: "/tmp/openclaw-whatsapp-qa-auth",
-        dmPolicy: "allowlist",
-        groupJid: "120363000000000000@g.us",
-        overrides: {
-          blockGroupSender: true,
-          groupPolicy: "allowlist",
-        },
-        sutAccountId: "sut",
-      },
-    );
-
-    const account = cfg.channels?.whatsapp?.accounts?.sut;
-    expect(account?.groupPolicy).toBe("allowlist");
-    expect(account?.groupAllowFrom).toEqual(["+15550000001"]);
-    expect(account?.groupAllowFrom).not.toContain("+15550000000");
-    expect(account?.groups).toBeUndefined();
-  });
-
-  it("matches native approval resolved text emitted by the WhatsApp approval handler", () => {
-    expect(
-      testing.matchesWhatsAppApprovalResolvedText({
-        approvalId: "whatsapp-qa-exec-123",
-        approvalKind: "exec",
-        text: "✅ Exec approval allow-once. ID: whatsapp-qa-exec-123",
-      }),
-    ).toBe(true);
-    expect(
-      testing.matchesWhatsAppApprovalResolvedText({
-        approvalId: "whatsapp-qa-plugin-123",
-        approvalKind: "plugin",
-        text: "✅ Plugin approval allowed once. ID: whatsapp-qa-plugin-123",
-      }),
-    ).toBe(true);
-    expect(
-      testing.matchesWhatsAppApprovalResolvedText({
-        approvalId: "whatsapp-qa-exec-deny-123",
-        approvalKind: "exec",
-        decision: "deny",
-        text: "✅ Exec approval deny. ID: whatsapp-qa-exec-deny-123",
-      }),
-    ).toBe(true);
-    expect(
-      testing.matchesWhatsAppApprovalResolvedText({
-        approvalId: "whatsapp-qa-plugin-deny-123",
-        approvalKind: "plugin",
-        decision: "deny",
-        text: "✅ Plugin approval denied. ID: whatsapp-qa-plugin-deny-123",
-      }),
-    ).toBe(true);
-  });
-
-  it("uses automatic visible replies for WhatsApp group mention gating", () => {
-    const [scenario] = testing.findScenarios(["whatsapp-mention-gating"]);
-    const scenarioRun = scenario.buildRun();
-    if (scenarioRun.kind === "approval") {
-      throw new Error("whatsapp-mention-gating unexpectedly built an approval scenario run");
-    }
-    expect(scenarioRun.input).toContain("openclawqa reply with only this exact marker");
-    expect(scenarioRun.input).not.toContain("visible reply tool check");
-
-    const cfg = testing.buildWhatsAppQaConfig(
-      {},
-      {
-        allowFrom: ["+15550000001"],
-        authDir: "/tmp/openclaw-whatsapp-qa-auth",
-        dmPolicy: "allowlist",
-        groupJid: "120363000000000000@g.us",
-        sutAccountId: "sut",
-      },
-    );
-    expect(cfg.messages?.groupChat?.visibleReplies).toBe("automatic");
-    expect(cfg.messages?.groupChat?.mentionPatterns).toContain("\\bopenclawqa\\b");
-  });
-
-  it("fails explicitly requested group scenarios when group credentials are missing", () => {
-    const [scenario] = testing.findScenarios(["whatsapp-mention-gating"]);
-
-    const implicitResult = testing.createMissingGroupJidScenarioResult({
-      explicitScenarioSelection: false,
-      scenario,
-    });
-    expect(implicitResult.id).toBe("whatsapp-mention-gating");
-    expect(implicitResult.status).toBe("skip");
-
-    const explicitResult = testing.createMissingGroupJidScenarioResult({
-      explicitScenarioSelection: true,
-      scenario,
-    });
-    expect(explicitResult.id).toBe("whatsapp-mention-gating");
-    expect(explicitResult.status).toBe("fail");
-    expect(explicitResult.details).toContain("requested scenario requires groupJid");
-  });
-
-  it("attributes pre-scenario setup failures to the selected scenario", () => {
-    const scenarios = testing.findScenarios(["whatsapp-mention-gating"]);
-    const scenarioResults: Array<{
-      details: string;
-      id: string;
-      status: "fail" | "pass" | "skip";
-      title: string;
-    }> = [];
-
-    testing.appendPreScenarioFailureResults({
-      details: "setup exploded",
-      scenarioResults,
-      scenarios,
-    });
-
-    expect(scenarioResults).toEqual([
-      {
-        id: "whatsapp-mention-gating",
-        title: "WhatsApp group mention gating",
-        standardId: "mention-gating",
-        status: "fail",
-        details: "setup exploded",
-      },
-    ]);
-  });
-
-  it("classifies WhatsApp driver connection closures as retryable", () => {
-    expect(testing.isTransientWhatsAppQaDriverError(new Error("Connection Closed"))).toBe(true);
-    expect(
-      testing.isTransientWhatsAppQaDriverError(new Error("status 440: session conflict")),
-    ).toBe(true);
-    expect(testing.isTransientWhatsAppQaDriverError(new Error("Stream Errored (conflict)"))).toBe(
-      true,
-    );
-    expect(
-      testing.isTransientWhatsAppQaDriverError(
-        new Error("timed out after 45000ms waiting for WhatsApp QA driver pending notifications"),
-      ),
-    ).toBe(true);
-    expect(
-      testing.isTransientWhatsAppQaDriverError(
-        new Error("timed out waiting for WhatsApp QA driver message"),
-      ),
-    ).toBe(false);
-    expect(testing.isTransientWhatsAppQaDriverError(new Error("timed out waiting"))).toBe(false);
-  });
+it.each([
+  ["Connection Closed", true],
+  ["status 440: session conflict", true],
+  ["Stream Errored (conflict)", true],
+  ["timed out after 45000ms waiting for WhatsApp QA driver pending notifications", true],
+  ["timed out waiting for WhatsApp QA driver message", false],
+  ["timed out waiting", false],
+] as const)("classifies driver error %s", (message, retryable) => {
+  expect(isTransientWhatsAppQaDriverError(new Error(message))).toBe(retryable);
 });

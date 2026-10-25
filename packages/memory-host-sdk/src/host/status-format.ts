@@ -1,5 +1,3 @@
-// Shared status text/tone formatter for memory health summaries.
-
 /** Display tone used by memory status renderers. */
 export type Tone = "ok" | "warn" | "muted";
 
@@ -41,12 +39,4 @@ export function resolveMemoryCacheSummary(cache: { enabled: boolean; entries?: n
   }
   const suffix = typeof cache.entries === "number" ? ` (${cache.entries})` : "";
   return { tone: "ok", text: `cache on${suffix}` };
-}
-
-/** Resolve cache enabled state without count text. */
-export function resolveMemoryCacheState(cache: { enabled: boolean }): {
-  tone: Tone;
-  state: "enabled" | "disabled";
-} {
-  return cache.enabled ? { tone: "ok", state: "enabled" } : { tone: "muted", state: "disabled" };
 }

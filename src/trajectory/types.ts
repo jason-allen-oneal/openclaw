@@ -1,6 +1,6 @@
 // Shared trajectory support-bundle schema. Runtime, transcript, and export code
 // all emit this versioned JSONL shape so external debugging tools can replay it.
-export type TrajectoryEventSource = "runtime" | "transcript" | "export";
+type TrajectoryEventSource = "runtime" | "transcript" | "export";
 
 // Serialized tool definition captured with compiled context events.
 export type TrajectoryToolDefinition = {
@@ -9,7 +9,6 @@ export type TrajectoryToolDefinition = {
   parameters?: unknown;
 };
 
-// Versioned event envelope for runtime and transcript-derived trajectory rows.
 export type TrajectoryEvent = {
   traceSchema: "openclaw-trajectory";
   schemaVersion: 1;

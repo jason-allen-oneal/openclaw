@@ -1,358 +1,398 @@
-// Terminal Core tests cover table behavior.
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { visibleWidth } from "./ansi.js";
-import { resolveNoteColumns, wrapNoteMessage } from "./note.js";
-import { renderTable } from "./table.js";
+import { spawnSync } from "node:child_process";
+import path from "node:path";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  resolveRuntimeWorkerArgv,
+  resolveRuntimeWorkerUrl,
+} from "../../../src/infra/runtime-worker-url.js";
+import { sanitizeForLog, stripAnsi, visibleWidth } from "./ansi.js";
+import { tableStackEntrypoint } from "./table-runtime.test-support.js";
+import { renderTable, type TableColumn } from "./table.js";
 
-function mockProcessPlatform(platform: NodeJS.Platform): void {
-  vi.spyOn(process, "platform", "get").mockReturnValue(platform);
+function column(key: string, options: Omit<TableColumn, "key" | "header"> = {}): TableColumn {
+  return { key, header: key, ...options };
+}
+const cells = (lines: string[], strip: (line: string) => string, separator: string) =>
+  lines.map((line) =>
+    strip(line)
+      .split(separator)
+      .slice(1, -1)
+      .map((cell) => cell.trim()),
+  );
+
+function renderRow(columns: TableColumn[], row: Record<string, string>, width?: number) {
+  return renderTable({ columns, rows: [row], width });
+}
+
+function renderCell(value: string, minWidth?: number, width?: number) {
+  return renderRow([column("V", { minWidth })], { V: value }, width);
+}
+
+function matchingLines(out: string, text: string) {
+  const lines = out.split("\n").filter((line) => line.includes(text));
+  expect(lines.length).toBeGreaterThan(1);
+  return lines;
+}
+
+function expectIntroducersToStartCompleteSequences(
+  value: string,
+  introducer: string,
+  sequences: readonly string[],
+): void {
+  let index = value.indexOf(introducer);
+  while (index >= 0) {
+    const sequence = sequences.find((candidate) => value.startsWith(candidate, index));
+    expect(sequence).toBeDefined();
+    index = value.indexOf(introducer, index + (sequence?.length ?? introducer.length));
+  }
+}
+
+function renderValue(value: string, width = 24) {
+  vi.spyOn(process, "platform", "get").mockReturnValue("darwin");
+  return renderRow(
+    [column("K", { minWidth: 3 }), column("V", { flex: true, minWidth: 10 })],
+    { K: "X", V: value },
+    width,
+  );
+}
+
+const pluginListColumns = [
+  column("Name", { minWidth: 14, flex: true }),
+  column("ID", { minWidth: 10, flex: true }),
+  column("Format", { minWidth: 9 }),
+  column("Status", { minWidth: 10 }),
+  column("Source", { minWidth: 26, flex: true }),
+  column("Version", { minWidth: 8 }),
+];
+
+const pluginListRows = [
+  {
+    Name: "N".repeat(40),
+    ID: "i".repeat(22),
+    Format: "openclaw",
+    Status: "disabled",
+    Source: `/${"s".repeat(80)}`,
+    Version: "2026.8.1",
+  },
+];
+
+function renderPluginListTable(width: number): string {
+  vi.spyOn(process, "platform", "get").mockReturnValue("darwin");
+  return renderTable({ width, columns: pluginListColumns, rows: pluginListRows });
 }
 
 describe("renderTable", () => {
+  beforeEach(() => {
+    vi.spyOn(process, "platform", "get").mockReturnValue("win32");
+    vi.stubEnv("WT_SESSION", "");
+    vi.stubEnv("TERM_PROGRAM", "");
+    vi.stubEnv("TERM", "vt100");
+  });
+
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.restoreAllMocks();
   });
 
-  it("prefers shrinking flex columns to avoid wrapping non-flex labels", () => {
-    const out = renderTable({
-      width: 40,
-      columns: [
-        { key: "Item", header: "Item", minWidth: 10 },
-        { key: "Value", header: "Value", flex: true, minWidth: 24 },
-      ],
-      rows: [{ Item: "Dashboard", Value: "http://127.0.0.1:18789/" }],
-    });
-
-    expect(out).toContain("Dashboard");
-    expect(out).toMatch(/[│|] Dashboard\s+[│|]/);
+  it("materializes executable tabs as table spacing in CSI-only cells", () => {
+    expect(renderCell("\x1b[31\tm", 9)).toBe(
+      "+---------+\n| V       |\n+---------+\n|         |\n+---------+\n",
+    );
   });
 
-  it("expands flex columns to fill available width", () => {
+  it("keeps materialized tabs visible after C0 before CSI restarts", () => {
+    const out = renderCell("a\x1b[31\t\x07\x9b0\tmb", 9);
+    expect(sanitizeForLog(out.split("\n")[3] ?? "")).toBe("| a  b    |");
+    expect(stripAnsi(out)).not.toContain("\x18");
+  });
+
+  it("sizes multiline linked LF headers and cells by their widest line", () => {
+    const out = renderTable({
+      columns: [
+        { key: "A", header: "abc\ndef" },
+        { key: "B", header: "B" },
+      ],
+      rows: [{ A: "x", B: "\x1b]8;;https://example.com/\x07abc\ndef\x1b]8;;\x07" }],
+    });
+    expect(stripAnsi(out)).toBe(
+      "+-----+-----+\n| abc | B   |\n| def |     |\n+-----+-----+\n| x   | abc |\n|     | def |\n+-----+-----+\n",
+    );
+  });
+
+  it("keeps newlines inside an OSC payload out of table line metrics", () => {
+    const open = "\x1b]8;id=line\nmetadata;https://example.com/\x07";
+    const close = "\x1b]8;;\x07";
+    const out = renderCell(`${open}abc${close}`);
+
+    expect(out).toContain(`${open}abc${close}`);
+    expect(stripAnsi(out)).toBe("+-----+\n| V   |\n+-----+\n| abc |\n+-----+\n");
+  });
+
+  it.each(["rows", "wrapped lines", "soft-wrap suffix"])(
+    "renders large %s with the CLI process stack",
+    (shape) => {
+      // Worker threads have a larger stack than the CLI process. Neither many
+      // rows nor one heavily wrapped cell may depend on V8's argument-count limit.
+      const result = spawnSync(
+        process.execPath,
+        [...resolveRuntimeWorkerArgv(resolveRuntimeWorkerUrl(tableStackEntrypoint)), shape],
+        { encoding: "utf8", timeout: 30_000 },
+      );
+
+      expect(result.error).toBeUndefined();
+      expect(result.status, result.stderr).toBe(0);
+      const rendered = JSON.parse(result.stdout);
+      expect(rendered).toMatchObject({
+        lineCount: shape === "soft-wrap suffix" ? 6 : 150_004,
+        rows: shape === "soft-wrap suffix" ? 0 : 150_000,
+        ...(shape === "soft-wrap suffix" ? { softWrapRowsMatch: true } : {}),
+        header: expect.stringMatching(/^([│|]) Key +\1$/u),
+      });
+      expect([
+        ["+-----+", "+-----+"],
+        ["┌─────┐", "└─────┘"],
+      ]).toContainEqual([rendered.firstLine, rendered.lastLine]);
+    },
+  );
+
+  it("keeps the plugin-list shape deterministic and within 60 columns", () => {
     const width = 60;
-    const out = renderTable({
-      width,
-      columns: [
-        { key: "Item", header: "Item", minWidth: 10 },
-        { key: "Value", header: "Value", flex: true, minWidth: 24 },
-      ],
-      rows: [{ Item: "OS", Value: "macos 26.2 (arm64)" }],
-    });
+    const out = renderPluginListTable(width);
+    const lines = out.trimEnd().split("\n");
+    const headerCells = (lines[1] ?? "").split("│").slice(1, -1);
 
-    const firstLine = out.trimEnd().split("\n")[0] ?? "";
-    expect(visibleWidth(firstLine)).toBe(width);
-  });
-
-  it("wraps ANSI-colored cells without corrupting escape sequences", () => {
-    const out = renderTable({
-      width: 36,
-      columns: [
-        { key: "K", header: "K", minWidth: 3 },
-        { key: "V", header: "V", flex: true, minWidth: 10 },
-      ],
-      rows: [
-        {
-          K: "X",
-          V: `\x1b[33m${"a".repeat(120)}\x1b[0m`,
-        },
-      ],
-    });
-
-    const ansiToken = new RegExp(String.raw`\u001b\[[0-9;]*m|\u001b\]8;;.*?\u001b\\`, "gs");
-    let escapeIndex = out.indexOf("\u001b");
-    while (escapeIndex >= 0) {
-      ansiToken.lastIndex = escapeIndex;
-      const match = ansiToken.exec(out);
-      expect(match?.index).toBe(escapeIndex);
-      escapeIndex = out.indexOf("\u001b", escapeIndex + 1);
+    expect(out).toBe(renderPluginListTable(width));
+    expect(Math.max(...lines.map(visibleWidth))).toBeLessThanOrEqual(width);
+    expect(headerCells).toHaveLength(pluginListColumns.length);
+    for (const [index, definition] of pluginListColumns.entries()) {
+      expect(visibleWidth(headerCells[index] ?? "")).toBeGreaterThanOrEqual(
+        visibleWidth(definition.header) + 2,
+      );
     }
-  });
-
-  it("resets ANSI styling on wrapped lines", () => {
-    const reset = "\x1b[0m";
-    const out = renderTable({
-      width: 24,
-      columns: [
-        { key: "K", header: "K", minWidth: 3 },
-        { key: "V", header: "V", flex: true, minWidth: 10 },
-      ],
-      rows: [
-        {
-          K: "X",
-          V: `\x1b[31m${"a".repeat(80)}${reset}`,
-        },
-      ],
-    });
-
-    const lines = out.split("\n").filter((line) => line.includes("a"));
-    for (const line of lines) {
-      const resetIndex = line.lastIndexOf(reset);
-      const lastSep = Math.max(line.lastIndexOf("│"), line.lastIndexOf("|"));
-      expect(resetIndex).toBeGreaterThan(-1);
-      expect(lastSep).toBeGreaterThan(resetIndex);
-    }
-  });
-
-  it("trims leading spaces on wrapped ANSI-colored continuation lines", () => {
-    const out = renderTable({
-      width: 113,
-      columns: [
-        { key: "Status", header: "Status", minWidth: 10 },
-        { key: "Skill", header: "Skill", minWidth: 18, flex: true },
-        { key: "Description", header: "Description", minWidth: 24, flex: true },
-        { key: "Source", header: "Source", minWidth: 10 },
-      ],
-      rows: [
-        {
-          Status: "✓ ready",
-          Skill: "🌤️ weather",
-          Description:
-            `\x1b[2mGet current weather and forecasts via wttr.in or Open-Meteo. ` +
-            `Use when: user asks about weather, temperature, or forecasts for any location.` +
-            `\x1b[0m`,
-          Source: "openclaw-bundled",
-        },
-      ],
-    });
-
-    const lines = out
-      .trimEnd()
-      .split("\n")
-      .filter((line) => line.includes("Use when"));
-    expect(lines).toHaveLength(1);
-    expect(lines[0]).toContain("\u001b[2mUse when");
-    expect(lines[0]).not.toContain("│  Use when");
-    expect(lines[0]).not.toContain("│ \x1b[2m Use when");
   });
 
   it("keeps ANSI styling when a multiline cell wraps after an unstyled line", () => {
     const muted = "\x1b[38;2;120;120;120m";
     const resetForeground = "\x1b[39m";
-    const out = renderTable({
-      width: 62,
-      columns: [
-        { key: "Status", header: "Status", minWidth: 10 },
-        { key: "Source", header: "Source", minWidth: 24, flex: true },
-        { key: "Version", header: "Version", minWidth: 8 },
-      ],
-      rows: [
-        {
-          Status: "disabled",
-          Source:
-            "stock:codex/index.js\n" +
-            `${muted}Codex app-server harness and Codex-managed GPT model catalog.${resetForeground}`,
-          Version: "2026.5.12-beta.6",
-        },
-      ],
-    });
+    const out = renderValue(`plain\n${muted}${"styled ".repeat(12)}${resetForeground}`);
 
-    const descLines = out
-      .split("\n")
-      .filter((line) => line.includes("Codex") || line.includes("catalog."));
-    expect(descLines.length).toBeGreaterThan(1);
-    for (const line of descLines) {
+    for (const line of matchingLines(out, "styled")) {
       expect(line).toContain(muted);
       const resetIndex = line.lastIndexOf(resetForeground);
-      const lastSep = Math.max(line.lastIndexOf("│"), line.lastIndexOf("|"));
       expect(resetIndex).toBeGreaterThan(-1);
-      expect(lastSep).toBeGreaterThan(resetIndex);
+      expect(line.lastIndexOf("│")).toBeGreaterThan(resetIndex);
     }
   });
 
-  it("respects explicit newlines in cell values", () => {
-    const out = renderTable({
-      width: 48,
-      columns: [
-        { key: "A", header: "A", minWidth: 6 },
-        { key: "B", header: "B", minWidth: 10, flex: true },
-      ],
-      rows: [{ A: "row", B: "line1\nline2" }],
-    });
-
-    const lines = out.trimEnd().split("\n");
-    const line1Index = lines.findIndex((line) => line.includes("line1"));
-    const line2Index = lines.findIndex((line) => line.includes("line2"));
-    expect(line1Index).toBeGreaterThan(-1);
-    expect(line2Index).toBe(line1Index + 1);
+  it.each([
+    [
+      "RGB zero operands",
+      "prefix \x1b[1m\x1b[38;2;255;0;0m",
+      ["\x1b[1m", "\x1b[38;2;255;0;0m"],
+      [],
+    ],
+    ["selective reset", "\x1b[1;31mred\x1b[39m\n", ["\x1b[1m"], ["\x1b[1;31m", "\x1b[31m"]],
+  ] as const)("keeps unrelated SGR categories after %s", (_name, prefix, present, absent) => {
+    const out = renderValue(`${prefix}${"z".repeat(80)}\x1b[0m`);
+    for (const line of matchingLines(out, "z")) {
+      for (const sequence of present) {
+        expect(line).toContain(sequence);
+      }
+      for (const sequence of absent) {
+        expect(line).not.toContain(sequence);
+      }
+    }
   });
 
-  it("keeps table borders aligned when cells contain wide emoji graphemes", () => {
-    const width = 72;
+  it("keeps underline color active with colon operands", () => {
+    const combined = "\x1b[4;58:2::255:0:0m";
+    const color = "\x1b[58:2::255:0:0m";
+    const underline = "\x1b[4m";
+    const globalReset = "\x1b[0m";
+    const out = renderValue(`${combined}${"u".repeat(80)}${globalReset}`);
+
+    for (const line of matchingLines(out, "u")) {
+      const hasOpeningState =
+        line.includes(combined) || (line.includes(underline) && line.includes(color));
+      expect(hasOpeningState).toBe(true);
+      const hasClosingState =
+        line.includes(globalReset) || (line.includes("\x1b[24m") && line.includes("\x1b[59m"));
+      expect(hasClosingState).toBe(true);
+    }
+  });
+
+  it("preserves OSC-8 parameters when reopening wrapped links", () => {
+    const open = "\x1b]8;id=docs;https://openclaw.ai\x07";
+    const close = "\x1b]8;;\x07";
+    const out = renderValue(`${open}${"OpenClaw".repeat(5)}${close} after`, 20);
+
+    for (const line of matchingLines(out, "OpenClaw")) {
+      expect(line).toContain(open);
+      expect(line).toContain(close);
+    }
+    const afterLine = out.split("\n").find((line) => line.includes("after"));
+    expect(afterLine).toBeDefined();
+    const afterIndex = afterLine?.indexOf("after") ?? -1;
+    const closeIndex = afterLine?.indexOf(close) ?? -1;
+    expect(closeIndex).toBeGreaterThan(-1);
+    expect(closeIndex).toBeLessThan(afterIndex);
+    const openIndex = afterLine?.indexOf(open) ?? -1;
+    if (openIndex >= 0) {
+      expect(openIndex).toBeLessThan(closeIndex);
+    }
+  });
+
+  it("does not reopen a leading OSC-8 link onto wrapped suffix lines (BEL ST)", () => {
+    const openSeq = "\x1b]8;;https://openclaw.ai\x07";
+    const closeSeq = "\x1b]8;;\x07";
+    const link = `${openSeq}OpenClaw${closeSeq}`;
+    const out = renderValue(`${link} after`, 20);
+    expectIntroducersToStartCompleteSequences(out, openSeq.charAt(0), [openSeq, closeSeq]);
+
+    // Reopening here would leak an unclosed hyperlink past the cell border.
+    const lines = out.split("\n");
+    const afterLines = lines.filter((line) => line.includes("after"));
+    expect(afterLines.length).toBeGreaterThan(0);
+    for (const line of afterLines) {
+      expect(line.includes(openSeq)).toBe(false);
+    }
+    const linkLine = lines.find((line) => line.includes("OpenClaw"));
+    expect(linkLine).toBeDefined();
+    expect(linkLine?.includes(openSeq)).toBe(true);
+    expect(linkLine?.includes(closeSeq)).toBe(true);
+  });
+
+  it("preserves blank colored CRLF lines without adding rows after wrapped spacing", () => {
+    const open = "\x1b[31m";
+    const close = "\x1b[39m";
+    const out = renderRow(
+      [column("A", { minWidth: 6 }), column("B", { minWidth: 6 })],
+      { A: `${open}\r\nRead \r\n\r\nNext\r\n\r\n${close}`, B: "0\n1\n2\n3\n4" },
+      15,
+    );
+
+    const dataLines = out.trimEnd().split("\n").slice(3, -1);
+    expect(cells(dataLines, stripAnsi, "|")).toEqual([
+      ["", "0"],
+      ["Read", "1"],
+      ["", "2"],
+      ["Next", "3"],
+      ["", "4"],
+    ]);
+    for (const line of dataLines) {
+      const cell = line.split("|")[1] ?? "";
+      expect(cell).toContain(open);
+      expect(cell).toContain(close);
+    }
+  });
+
+  it.each([
+    [
+      "linked CRLF",
+      "\x1b]8;;https://openclaw.ai\x07line1\r\n東京 line2\x1b]8;;\x07",
+      "\x1b]8;;https://openclaw.ai\x07",
+      "\x1b]8;;\x07",
+      0,
+    ],
+    ["CR/CSI-HT/LF", "line1\r\x1b[31\tm\n東京 line2\x1b[39m", "\x1b[31m", "\x1b[39m", 1],
+  ] as const)(
+    "respects explicit %s newlines in cell values",
+    (_name, value, open, close, styledStart) => {
+      vi.spyOn(process, "platform", "get").mockReturnValue("darwin");
+      const out = renderRow(
+        [column("A", { minWidth: 6 }), column("B", { minWidth: 10, flex: true })],
+        { A: "row", B: value },
+        48,
+      );
+
+      const lines = out.trimEnd().split("\n");
+      expect(lines).toHaveLength(6);
+      for (const line of lines) {
+        expect(visibleWidth(line)).toBe(48);
+      }
+      const dataLines = lines.slice(3, -1);
+      expect(cells(dataLines, sanitizeForLog, "│")).toEqual([
+        ["row", "line1"],
+        ["", "東京 line2"],
+      ]);
+      for (const line of dataLines.slice(styledStart)) {
+        expect(line).toContain(open);
+        expect(line).toContain(close);
+        expect(line.lastIndexOf(close)).toBeLessThan(line.lastIndexOf("│"));
+      }
+    },
+  );
+
+  it("shortens home paths in table cells for a whitespace-padded OPENCLAW_HOME", () => {
+    const home = path.resolve("/srv/openclaw-home");
+    const prefix = "$OPENCLAW_HOME";
+    vi.spyOn(process, "platform", "get").mockReturnValue("darwin");
+    vi.stubEnv("HOME", "/home/other");
+    vi.stubEnv("USERPROFILE", "");
+    vi.stubEnv("OPENCLAW_HOME", " /srv/openclaw-home ");
+
     const out = renderTable({
-      width,
-      columns: [
-        { key: "Status", header: "Status", minWidth: 10 },
-        { key: "Skill", header: "Skill", minWidth: 18 },
-        { key: "Description", header: "Description", minWidth: 18, flex: true },
-        { key: "Source", header: "Source", minWidth: 10 },
-      ],
+      columns: [column("Path")],
       rows: [
-        {
-          Status: "✗ missing",
-          Skill: "📸 peekaboo",
-          Description: "Capture screenshots from macOS windows and keep table wrapping stable.",
-          Source: "openclaw-bundled",
-        },
+        { Path: home },
+        { Path: `${home}/project` },
+        { Path: `${home}2/project` },
+        { Path: `Workspace: ${home}/project` },
       ],
     });
 
-    for (const line of out.trimEnd().split("\n")) {
-      expect(visibleWidth(line)).toBe(width);
-    }
+    expect(out.split("\n")[3]?.split("│")[1]?.trim()).toBe(prefix);
+    expect(out).toContain(`${prefix}/project`);
+    expect(out).toContain(`${home}2/project`);
+    expect(out).toContain(`Workspace: ${prefix}/project`);
+    expect(out).not.toContain(`${prefix}2/project`);
   });
 
-  it("keeps borders aligned when a wide grapheme lands in a narrow cell", () => {
-    // A width-2 CJK/emoji glyph in a column whose content width is 1 cannot be
-    // wrapped, so padCell must clamp it instead of overflowing the cell and
-    // pushing the right border out of alignment.
-    const out = renderTable({
-      border: "ascii",
-      padding: 0,
-      columns: [{ key: "B", header: "B", minWidth: 1, maxWidth: 1 }],
-      rows: [{ B: "表" }],
-    });
-    const lines = out.trimEnd().split("\n");
-    for (const line of lines) {
-      expect(visibleWidth(line)).toBe(3);
-    }
-  });
-
-  it("keeps borders aligned when a narrow flex column receives wide content", () => {
-    const out = renderTable({
-      width: 10,
-      border: "ascii",
-      columns: [
+  it("terminates with aligned borders when a flex column starts at its floor", () => {
+    const out = renderRow(
+      [
         { key: "A", header: "long header here" },
         { key: "B", header: "", flex: true },
       ],
-      rows: [{ A: "data", B: "📸" }],
-    });
+      { A: "data", B: "📸" },
+      10,
+    );
     const lines = out.trimEnd().split("\n");
     const headerWidth = visibleWidth(lines[0] ?? "");
+    expect(headerWidth).toBeGreaterThan(10);
     for (const line of lines) {
       expect(visibleWidth(line)).toBe(headerWidth);
     }
   });
 
-  it("consumes unsupported escape sequences without hanging", () => {
-    const out = renderTable({
-      width: 48,
-      columns: [
-        { key: "K", header: "K", minWidth: 6 },
-        { key: "V", header: "V", minWidth: 12, flex: true },
-      ],
-      rows: [{ K: "row", V: "before \x1b[2J after" }],
-    });
+  it("wraps separately executed CSI tabs with the surrounding text", () => {
+    const sequence = "\x1b[31\t\t\tm";
+    const out = renderCell(`a bbb${sequence}d\x1b[0m`, 7, 9);
 
-    expect(out).toContain("before");
-    expect(out).toContain("after");
+    expect(out).toBe(
+      "+-------+\n| V     |\n+-------+\n| a     |\n| bbb\x1b[\x18   |\n| \x1b[31md\x1b[0m     |\n+-------+\n",
+    );
   });
 
-  it("falls back to ASCII borders on legacy Windows consoles", () => {
-    mockProcessPlatform("win32");
-    vi.stubEnv("WT_SESSION", "");
-    vi.stubEnv("TERM_PROGRAM", "");
-    vi.stubEnv("TERM", "vt100");
+  it("does not interpret CSI intermediates as SGR state", () => {
+    const sequence = "\x1b[31 m";
+    const out = renderValue(`${sequence}${"a".repeat(80)}`);
 
-    const out = renderTable({
-      columns: [
-        { key: "A", header: "A", minWidth: 6 },
-        { key: "B", header: "B", minWidth: 10, flex: true },
-      ],
-      rows: [{ A: "row", B: "value" }],
-    });
-
-    expect(out).toContain("+");
-    expect(out).not.toContain("┌");
+    expect(out.split(sequence)).toHaveLength(2);
+    expect(out).not.toContain("\x1b[39m");
+    for (const line of out.trimEnd().split("\n")) {
+      expect(visibleWidth(line)).toBe(24);
+    }
   });
 
-  it("keeps unicode borders on modern Windows terminals", () => {
-    mockProcessPlatform("win32");
-    vi.stubEnv("WT_SESSION", "1");
-    vi.stubEnv("TERM", "");
-    vi.stubEnv("TERM_PROGRAM", "");
-
-    const out = renderTable({
-      columns: [
-        { key: "A", header: "A", minWidth: 6 },
-        { key: "B", header: "B", minWidth: 10, flex: true },
-      ],
-      rows: [{ A: "row", B: "value" }],
-    });
-
-    expect(out).toContain("┌");
-    expect(out).not.toContain("+");
-  });
-});
-
-describe("wrapNoteMessage", () => {
-  it("preserves long filesystem paths without inserting spaces/newlines", () => {
-    const input =
-      "/Users/user/Documents/Github/impact-signals-pipeline/with/really/long/segments/file.txt";
-    const wrapped = wrapNoteMessage(input, { maxWidth: 22, columns: 80 });
-
-    expect(wrapped).toBe(input);
-  });
-
-  it("preserves long urls without inserting spaces/newlines", () => {
-    const input =
-      "https://example.com/this/is/a/very/long/url/segment/that/should/not/be/split/for-copy";
-    const wrapped = wrapNoteMessage(input, { maxWidth: 24, columns: 80 });
-
-    expect(wrapped).toBe(input);
-  });
-
-  it("preserves long file-like underscore tokens for copy safety", () => {
-    const input = "administrators_authorized_keys_with_extra_suffix";
-    const wrapped = wrapNoteMessage(input, { maxWidth: 14, columns: 80 });
-
-    expect(wrapped).toBe(input);
-  });
-
-  it("still chunks generic long opaque tokens to avoid pathological line width", () => {
-    const input = "x".repeat(70);
-    const wrapped = wrapNoteMessage(input, { maxWidth: 20, columns: 80 });
-
-    expect(wrapped).toContain("\n");
-    expect(wrapped.replace(/\n/g, "")).toBe(input);
-  });
-
-  it("wraps bullet lines while preserving bullet indentation", () => {
-    const input = "- one two three four five six seven eight nine ten";
-    const wrapped = wrapNoteMessage(input, { maxWidth: 18, columns: 80 });
-    const lines = wrapped.split("\n");
-    expect(lines.length).toBeGreaterThan(1);
-    expect(lines[0]?.startsWith("- ")).toBe(true);
-    const unindentedContinuationLines = lines.slice(1).filter((line) => !line.startsWith("  "));
-    expect(unindentedContinuationLines).toStrictEqual([]);
-  });
-
-  it("preserves long Windows paths without inserting spaces/newlines", () => {
-    // No spaces: wrapNoteMessage splits on whitespace, so a "Program Files" style path would wrap.
-    const input = "C:\\\\State\\\\OpenClaw\\\\bin\\\\openclaw.exe";
-    const wrapped = wrapNoteMessage(input, { maxWidth: 10, columns: 80 });
-    expect(wrapped).toBe(input);
-  });
-
-  it("preserves UNC paths without inserting spaces/newlines", () => {
-    const input = "\\\\\\\\server\\\\share\\\\some\\\\really\\\\long\\\\path\\\\file.txt";
-    const wrapped = wrapNoteMessage(input, { maxWidth: 12, columns: 80 });
-    expect(wrapped).toBe(input);
-  });
-
-  it("clamps bogus TTY columns before clack wraps note text", () => {
-    expect(resolveNoteColumns(undefined)).toBe(80);
-    expect(resolveNoteColumns(0)).toBe(80);
-    expect(resolveNoteColumns(1)).toBe(80);
-    expect(resolveNoteColumns(79)).toBe(80);
-    expect(resolveNoteColumns(120)).toBe(120);
-  });
-
-  it("coerces nullish and non-string note messages before wrapping", () => {
-    expect(wrapNoteMessage(undefined, { maxWidth: 20, columns: 80 })).toBe("");
-    expect(wrapNoteMessage(null, { maxWidth: 20, columns: 80 })).toBe("");
-    expect(wrapNoteMessage(12345, { maxWidth: 20, columns: 80 })).toBe("12345");
-    expect(wrapNoteMessage(new Error("boom"), { maxWidth: 20, columns: 80 })).toBe("Error: boom");
-    expect(wrapNoteMessage({ message: "boom" }, { maxWidth: 20, columns: 80 })).toBe("");
+  it.each([
+    ["legacy", "", "vt100", "+", "┌"],
+    ["modern", "1", "", "┌", "+"],
+  ])("selects borders for %s Windows terminals", (_name, session, term, border, excluded) => {
+    vi.stubEnv("WT_SESSION", session);
+    vi.stubEnv("TERM", term);
+    const out = renderCell("value");
+    expect(out).toContain(border);
+    expect(out).not.toContain(excluded);
   });
 });

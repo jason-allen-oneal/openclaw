@@ -1,4 +1,3 @@
-// Agent bind Matrix integration tests cover account binding resolution through plugin registry surfaces.
 import { afterEach, describe, expect, it } from "vitest";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import {
@@ -9,14 +8,7 @@ import { parseBindingSpecs } from "./agents.bindings.js";
 
 const matrixBindingPlugin = createBindingResolverTestPlugin({
   id: "matrix",
-  resolveBindingAccountId: ({ accountId, agentId }) => {
-    const explicit = accountId?.trim();
-    if (explicit) {
-      return explicit;
-    }
-    const agent = agentId?.trim();
-    return agent || "default";
-  },
+  resolveBindingAccountId: ({ agentId }) => agentId.trim() || "default",
 });
 
 describe("agents bind matrix integration", () => {

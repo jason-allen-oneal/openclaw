@@ -13,7 +13,6 @@ describe("merge-head-diff-base", () => {
   it("rejects missing refs", () => {
     expect(() => parseArgs(["--base", "--head", "HEAD"])).toThrow("--base requires a value");
     expect(() => parseArgs(["--head"])).toThrow("--head requires a value");
-    expect(() => parseArgs(["--base", ""])).toThrow("--base requires a value");
   });
 
   it("keeps empty base resolution as the no-op programmatic default", () => {

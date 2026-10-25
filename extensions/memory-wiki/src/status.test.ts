@@ -1,10 +1,9 @@
-// Memory Wiki tests cover status plugin behavior.
-import fs from "node:fs/promises";
-import path from "node:path";
-import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../api.js";
+import type { MemoryPluginPublicArtifact } from "openclaw/plugin-sdk/memory-host-core";
+import * as memoryHost from "openclaw/plugin-sdk/memory-host-core";
+import * as securityRuntime from "openclaw/plugin-sdk/security-runtime";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveMemoryWikiConfig } from "./config.js";
-import { renderWikiMarkdown } from "./markdown.js";
+import * as obsidian from "./obsidian.js";
 import {
   buildMemoryWikiDoctorReport,
   renderMemoryWikiDoctor,
@@ -15,141 +14,141 @@ import { createMemoryWikiTestHarness } from "./test-helpers.js";
 
 const { createVault } = createMemoryWikiTestHarness();
 
-async function resolveBridgeMissingArtifactsStatus() {
-  const config = resolveMemoryWikiConfig(
-    {
-      vaultMode: "bridge",
-      bridge: {
-        enabled: true,
-        readMemoryArtifacts: true,
-      },
-    },
-    { homedir: "/Users/tester" },
-  );
-
-  return resolveMemoryWikiStatus(config, {
-    appConfig: {
-      agents: {
-        list: [{ id: "main", default: true, workspace: "/tmp/workspace" }],
-      },
-    } as OpenClawConfig,
-    listPublicArtifacts: async () => [],
-    pathExists: async () => true,
-    resolveCommand: async () => null,
-  });
+function statusConfig(config: Parameters<typeof resolveMemoryWikiConfig>[0]) {
+  return resolveMemoryWikiConfig(config, { homedir: "/Users/tester" });
 }
 
-describe("resolveMemoryWikiStatus", () => {
-  it("reports missing vault and missing requested obsidian cli", async () => {
-    const config = resolveMemoryWikiConfig(
-      {
-        vault: { path: "/tmp/wiki" },
-        obsidian: { enabled: true, useOfficialCli: true },
-      },
-      { homedir: "/Users/tester" },
-    );
+const bridgeOptions = {
+  vaultMode: "bridge",
+  bridge: { enabled: true, readMemoryArtifacts: true },
+} as const;
 
-    const status = await resolveMemoryWikiStatus(config, {
-      pathExists: async () => false,
-      resolveCommand: async () => null,
-    });
+beforeEach(() => {
+  vi.spyOn(obsidian, "probeObsidianCli").mockResolvedValue({ available: false, command: null });
+});
+afterEach(() => vi.restoreAllMocks());
 
-    expect(status.vaultExists).toBe(false);
-    expect(status.obsidianCli.requested).toBe(true);
-    expect(status.warnings.map((warning) => warning.code)).toEqual([
-      "vault-missing",
-      "obsidian-cli-missing",
-    ]);
-    expect(status.sourceCounts).toEqual({
-      native: 0,
-      bridge: 0,
-      bridgeEvents: 0,
-      unsafeLocal: 0,
-      other: 0,
-    });
-  });
+function publicArtifact(
+  workspace: string,
+  agentIds: string[],
+  kind: "memory-root" | "daily-note" = "memory-root",
+): MemoryPluginPublicArtifact {
+  const relativePath = kind === "daily-note" ? "memory/2026-07-09.md" : "MEMORY.md";
+  return {
+    kind,
+    workspaceDir: "/tmp/" + workspace,
+    relativePath,
+    absolutePath: "/tmp/" + workspace + "/" + relativePath,
+    agentIds,
+    contentType: "markdown",
+  };
+}
 
+function writeSource(
+  page: Awaited<ReturnType<typeof createVault>>["page"],
+  name: string,
+  title: string,
+  fields = {},
+) {
+  return page(`sources/${name}.md`, { pageType: "source", id: `source.${name}`, title, ...fields });
+}
+
+describe("memory wiki status and doctor", () => {
   it("warns when unsafe-local is selected without explicit private access", async () => {
-    const config = resolveMemoryWikiConfig(
-      {
-        vaultMode: "unsafe-local",
-      },
-      { homedir: "/Users/tester" },
-    );
+    const config = statusConfig({ vaultMode: "unsafe-local" });
 
-    const status = await resolveMemoryWikiStatus(config, {
-      pathExists: async () => true,
-      resolveCommand: async () => "/usr/local/bin/obsidian",
+    vi.spyOn(securityRuntime, "pathExists").mockResolvedValue(true);
+    vi.mocked(obsidian.probeObsidianCli).mockResolvedValue({
+      available: true,
+      command: "/usr/local/bin/obsidian",
     });
+    const status = await resolveMemoryWikiStatus(config);
 
     expect(status.warnings.map((warning) => warning.code)).toContain("unsafe-local-disabled");
   });
 
-  it("warns when bridge mode has no exported memory artifacts", async () => {
-    const status = await resolveBridgeMissingArtifactsStatus();
+  it("counts only artifacts owned by the resolved agent in agent scope", async () => {
+    const config = {
+      ...statusConfig({ ...bridgeOptions, vault: { scope: "agent", path: "/tmp/wiki/support" } }),
+      agentId: "support",
+    };
+    const artifacts: MemoryPluginPublicArtifact[] = [
+      publicArtifact("support", [" SUPPORT "]),
+      publicArtifact("marketing", ["marketing"]),
+      publicArtifact("shared", ["support", "marketing"], "daily-note"),
+      publicArtifact("unknown", []),
+    ];
 
-    expect(status.bridgePublicArtifactCount).toBe(0);
-    expect(status.warnings.map((warning) => warning.code)).toContain("bridge-artifacts-missing");
+    vi.spyOn(securityRuntime, "pathExists").mockResolvedValue(true);
+    vi.spyOn(memoryHost, "listActiveMemoryPublicArtifacts").mockResolvedValue(artifacts);
+    const status = await resolveMemoryWikiStatus(config, {
+      appConfig: {
+        agents: { entries: { support: { workspace: "/tmp/support" } } },
+      },
+    });
+
+    expect(status).toMatchObject({
+      vaultScope: "agent",
+      agentId: "support",
+      bridgePublicArtifactCount: 2,
+    });
   });
 
-  it("counts source provenance from the vault", async () => {
-    const { rootDir, config } = await createVault({
+  it("scopes global-vault status metadata when called by an agent tool", async () => {
+    const config = statusConfig(bridgeOptions);
+    const artifacts: MemoryPluginPublicArtifact[] = [
+      publicArtifact("support", ["support"]),
+      publicArtifact("marketing", ["marketing"]),
+      publicArtifact("shared", ["support", "marketing"], "daily-note"),
+      publicArtifact("legacy", []),
+    ];
+    vi.spyOn(securityRuntime, "pathExists").mockResolvedValue(true);
+    vi.spyOn(memoryHost, "listActiveMemoryPublicArtifacts").mockResolvedValue(artifacts);
+    const options = {
+      appConfig: {},
+    };
+
+    const agentStatus = await resolveMemoryWikiStatus(config, {
+      ...options,
+      callerAgentId: " SUPPORT ",
+    });
+    const operatorStatus = await resolveMemoryWikiStatus(config, options);
+
+    expect(agentStatus).toMatchObject({
+      vaultScope: "global",
+      agentId: null,
+      bridgePublicArtifactCount: 2,
+    });
+    expect(operatorStatus.bridgePublicArtifactCount).toBe(4);
+  });
+
+  it("counts source provenance while excluding malformed pages (#96125)", async () => {
+    const { config, page, write } = await createVault({
       prefix: "memory-wiki-status-",
       initialize: true,
     });
-    await fs.writeFile(
-      path.join(rootDir, "sources", "native.md"),
-      renderWikiMarkdown({
-        frontmatter: { pageType: "source", id: "source.native", title: "Native Source" },
-        body: "# Native Source\n",
-      }),
-      "utf8",
+    await write(
+      "sources/broken.md",
+      [
+        "---",
+        "pageType: source",
+        "id: source.broken",
+        "sourceIds:",
+        '  - **MEMORY.md line 235**:"some quoted, value"',
+        "---",
+        "",
+        "# Broken",
+      ].join("\n"),
     );
-    await fs.writeFile(
-      path.join(rootDir, "sources", "bridge.md"),
-      renderWikiMarkdown({
-        frontmatter: {
-          pageType: "source",
-          id: "source.bridge",
-          title: "Bridge Source",
-          sourceType: "memory-bridge",
-        },
-        body: "# Bridge Source\n",
-      }),
-      "utf8",
-    );
-    await fs.writeFile(
-      path.join(rootDir, "sources", "events.md"),
-      renderWikiMarkdown({
-        frontmatter: {
-          pageType: "source",
-          id: "source.events",
-          title: "Event Source",
-          sourceType: "memory-bridge-events",
-        },
-        body: "# Event Source\n",
-      }),
-      "utf8",
-    );
-    await fs.writeFile(
-      path.join(rootDir, "sources", "unsafe.md"),
-      renderWikiMarkdown({
-        frontmatter: {
-          pageType: "source",
-          id: "source.unsafe",
-          title: "Unsafe Source",
-          sourceType: "memory-unsafe-local",
-          provenanceMode: "unsafe-local",
-        },
-        body: "# Unsafe Source\n",
-      }),
-      "utf8",
-    );
-
-    const status = await resolveMemoryWikiStatus(config, {
-      pathExists: async () => true,
-      resolveCommand: async () => null,
+    await writeSource(page, "native", "Native Source");
+    await writeSource(page, "bridge", "Bridge Source", { sourceType: "memory-bridge" });
+    await writeSource(page, "events", "Event Source", { sourceType: "memory-bridge-events" });
+    await writeSource(page, "unsafe", "Unsafe Source", {
+      sourceType: "memory-unsafe-local",
+      provenanceMode: "unsafe-local",
     });
+
+    const status = await resolveMemoryWikiStatus(config);
 
     expect(status.pageCounts.source).toBe(4);
     expect(status.sourceCounts).toEqual({
@@ -160,52 +159,20 @@ describe("resolveMemoryWikiStatus", () => {
       other: 0,
     });
   });
-});
 
-describe("renderMemoryWikiStatus", () => {
-  it("includes warnings in the text output", () => {
-    const rendered = renderMemoryWikiStatus({
-      vaultMode: "isolated",
-      renderMode: "native",
-      vaultPath: "/tmp/wiki",
-      vaultExists: false,
-      bridge: {
-        enabled: false,
-        readMemoryArtifacts: true,
-        indexDreamReports: true,
-        indexDailyNotes: true,
-        indexMemoryRoot: true,
-        followMemoryEvents: true,
-      },
-      bridgePublicArtifactCount: null,
-      obsidianCli: {
-        enabled: true,
-        requested: true,
-        available: false,
-        command: null,
-      },
-      unsafeLocal: {
-        allowPrivateMemoryCoreAccess: false,
-        pathCount: 0,
-      },
-      pageCounts: {
-        source: 0,
-        entity: 0,
-        concept: 0,
-        synthesis: 0,
-        report: 0,
-      },
-      sourceCounts: {
-        native: 0,
-        bridge: 0,
-        bridgeEvents: 0,
-        unsafeLocal: 0,
-        other: 0,
-      },
-      warnings: [{ code: "vault-missing", message: "Wiki vault has not been initialized yet." }],
-    });
+  it("includes warnings in the text output", async () => {
+    vi.spyOn(securityRuntime, "pathExists").mockResolvedValue(false);
+    const rendered = renderMemoryWikiStatus(
+      await resolveMemoryWikiStatus(
+        statusConfig({
+          vault: { path: "/tmp/wiki" },
+          obsidian: { enabled: true, useOfficialCli: true },
+        }),
+      ),
+    );
 
     expect(rendered).toContain("Wiki vault mode: isolated");
+    expect(rendered).toContain("Vault scope: global");
     expect(rendered).toContain("Pages: 0 sources, 0 entities, 0 concepts, 0 syntheses, 0 reports");
     expect(rendered).toContain(
       "Source provenance: 0 native, 0 bridge, 0 bridge-events, 0 unsafe-local, 0 other",
@@ -213,34 +180,15 @@ describe("renderMemoryWikiStatus", () => {
     expect(rendered).toContain("Warnings:");
     expect(rendered).toContain("Wiki vault has not been initialized yet.");
   });
-});
-
-describe("memory wiki doctor", () => {
-  it("builds actionable fixes from status warnings", async () => {
-    const config = resolveMemoryWikiConfig(
-      {
-        vault: { path: "/tmp/wiki" },
-        obsidian: { enabled: true, useOfficialCli: true },
-      },
-      { homedir: "/Users/tester" },
-    );
-
-    const status = await resolveMemoryWikiStatus(config, {
-      pathExists: async () => false,
-      resolveCommand: async () => null,
-    });
-    const report = buildMemoryWikiDoctorReport(status);
-    const rendered = renderMemoryWikiDoctor(report);
-
-    expect(report.healthy).toBe(false);
-    expect(report.warningCount).toBe(2);
-    expect(report.fixes.map((fix) => fix.code)).toEqual(["vault-missing", "obsidian-cli-missing"]);
-    expect(rendered).toContain("Suggested fixes:");
-    expect(rendered).toContain("openclaw wiki init");
-  });
 
   it("suggests bridge fixes when no public artifacts are exported", async () => {
-    const status = await resolveBridgeMissingArtifactsStatus();
+    vi.spyOn(securityRuntime, "pathExists").mockResolvedValue(true);
+    vi.spyOn(memoryHost, "listActiveMemoryPublicArtifacts").mockResolvedValue([]);
+    const status = await resolveMemoryWikiStatus(statusConfig(bridgeOptions), {
+      appConfig: { agents: { entries: { main: { workspace: "/tmp/workspace" } } } },
+    });
+    expect(status.bridgePublicArtifactCount).toBe(0);
+    expect(status.warnings.map((warning) => warning.code)).toContain("bridge-artifacts-missing");
     const report = buildMemoryWikiDoctorReport(status);
 
     expect(report.fixes.map((fix) => fix.code)).toContain("bridge-artifacts-missing");

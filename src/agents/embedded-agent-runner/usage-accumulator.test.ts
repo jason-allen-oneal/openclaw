@@ -1,33 +1,23 @@
-// Usage accumulator tests cover multi-call token aggregation and last-call
-// snapshots used for billing metadata on embedded run results.
 import { describe, expect, it } from "vitest";
 import {
   createUsageAccumulator,
+  mergeAttemptRunStatsIntoAccumulator,
   mergeUsageIntoAccumulator,
-  resolveLastCallUsage,
-  toLastCallUsage,
   toNormalizedUsage,
 } from "./usage-accumulator.js";
 
 type UsageInput = NonNullable<Parameters<typeof mergeUsageIntoAccumulator>[1]>;
-
+const ZERO_USAGE = { input: 0, output: 0, total: 0 };
 const FIRST_USAGE: UsageInput = {
   input: 100,
   output: 50,
   reasoningTokens: 12,
   cacheRead: 80_000,
   cacheWrite: 5_000,
+  cacheWrite1h: 3_000,
+  cacheWrite5m: 2_000,
   total: 85_150,
 };
-
-const SECOND_USAGE: UsageInput = {
-  input: 120,
-  output: 30,
-  cacheRead: 82_000,
-  cacheWrite: 0,
-  total: 82_150,
-};
-
 const FINAL_USAGE: UsageInput = {
   input: 150,
   output: 40,
@@ -36,216 +26,156 @@ const FINAL_USAGE: UsageInput = {
   cacheWrite: 0,
   total: 84_190,
 };
-
-function createAccumulatorWithUsage(...usages: UsageInput[]) {
-  // Helper feeds usage snapshots in order so tests can distinguish accumulated
-  // totals from the exact final provider call.
+function createAccumulatorWithUsage(...usages: (UsageInput | undefined)[]) {
   const acc = createUsageAccumulator();
   for (const usage of usages) {
     mergeUsageIntoAccumulator(acc, usage);
   }
   return acc;
 }
-
-const emptyAccumulatorCases = [
-  { name: "toNormalizedUsage", resolve: toNormalizedUsage },
-  { name: "toLastCallUsage", resolve: toLastCallUsage },
-];
+function normalizedAttempt(...usages: (UsageInput | undefined)[]) {
+  return toNormalizedUsage(createAccumulatorWithUsage(...usages));
+}
 
 describe("usage-accumulator", () => {
-  describe("mergeUsageIntoAccumulator", () => {
-    it("accumulates usage across multiple API calls", () => {
-      const acc = createAccumulatorWithUsage(FIRST_USAGE, SECOND_USAGE, FINAL_USAGE);
-
-      expect(acc.input).toBe(370);
-      expect(acc.output).toBe(120);
-      expect(acc.reasoningTokens).toBe(19);
-      expect(acc.cacheRead).toBe(246_000);
-      expect(acc.cacheWrite).toBe(5_000);
-      expect(acc.total).toBe(251_490);
-    });
-
-    it("stores the exact final call snapshot", () => {
-      const acc = createAccumulatorWithUsage(FIRST_USAGE, FINAL_USAGE);
-
-      expect(acc.lastInput).toBe(150);
-      expect(acc.lastOutput).toBe(40);
-      expect(acc.lastReasoningTokens).toBe(7);
-      expect(acc.lastCacheRead).toBe(84_000);
-      expect(acc.lastCacheWrite).toBe(0);
-      expect(acc.lastTotal).toBe(84_190);
-    });
-
-    it("ignores undefined or zero-only usage", () => {
-      const acc = createUsageAccumulator();
-
-      mergeUsageIntoAccumulator(acc, undefined);
-      mergeUsageIntoAccumulator(acc, {
-        input: 0,
-        output: 0,
-        cacheRead: 0,
-        cacheWrite: 0,
-        total: 0,
-      });
-
-      expect(acc).toEqual(createUsageAccumulator());
+  it("preserves complete zero accounting without a price across attempts", () => {
+    const zero: UsageInput = { ...ZERO_USAGE, usageReport: { state: "available" } };
+    expect(normalizedAttempt(normalizedAttempt(zero))).toEqual({
+      input: 0,
+      output: 0,
+      total: 0,
+      usageReport: { state: "available" },
     });
   });
 
-  describe("empty accumulator", () => {
-    it.each(emptyAccumulatorCases)(
-      "$name returns undefined for an empty accumulator",
-      ({ resolve }) => {
-        expect(resolve(createUsageAccumulator())).toBeUndefined();
-      },
+  it("does not present completed calls as a complete run total after an interrupted call", () => {
+    expect(
+      normalizedAttempt(FIRST_USAGE, { usageReport: { state: "unavailable" } }, FINAL_USAGE),
+    ).toEqual({
+      usageReport: { state: "unavailable" },
+      contextUsage: { state: "unavailable" },
+    });
+  });
+
+  it("accumulates usage across multiple API calls", () => {
+    const acc = createAccumulatorWithUsage(
+      FIRST_USAGE,
+      { input: 120, output: 30, cacheRead: 82_000, cacheWrite: 0, total: 82_150 },
+      FINAL_USAGE,
     );
+    expect(acc).toMatchObject({
+      input: 370,
+      output: 120,
+      reasoningTokens: 19,
+      cacheRead: 246_000,
+      cacheWrite: 5_000,
+      total: 251_490,
+    });
+    expect(toNormalizedUsage(acc)).toMatchObject({ cacheWrite1h: 3_000, cacheWrite5m: 2_000 });
   });
 
-  describe("toNormalizedUsage", () => {
-    it("returns accumulated totals for billing", () => {
-      const acc = createUsageAccumulator();
+  it("carries complete costs across attempts without claiming provider provenance", () => {
+    const run = createAccumulatorWithUsage(
+      normalizedAttempt({ input: 150_000, cost: { total: 0.125, totalOrigin: "provider-billed" } }),
+      normalizedAttempt({ input: 150_000, cost: { total: 0.5 } }),
+    );
+    expect(toNormalizedUsage(run)?.cost).toEqual({ total: 0.625 });
+    mergeUsageIntoAccumulator(run, { input: 1 });
+    expect(toNormalizedUsage(run)?.cost).toBeUndefined();
+    mergeUsageIntoAccumulator(run, { input: 1, cost: { total: 0.25 } });
+    expect(toNormalizedUsage(run)?.cost).toBeUndefined();
+  });
 
-      mergeUsageIntoAccumulator(acc, {
-        input: 100,
-        output: 50,
-        reasoningTokens: 4,
-        cacheRead: 80_000,
-        cacheWrite: 5_000,
-      });
-      mergeUsageIntoAccumulator(acc, {
-        input: 120,
-        output: 30,
-        cacheRead: 82_000,
-        cacheWrite: 0,
-      });
-      mergeUsageIntoAccumulator(acc, {
-        input: 150,
-        output: 40,
-        cacheRead: 84_000,
-        cacheWrite: 0,
-      });
-
-      expect(toNormalizedUsage(acc)).toEqual({
-        input: 370,
-        output: 120,
-        reasoningTokens: 4,
-        cacheRead: 246_000,
-        cacheWrite: 5_000,
-        total: 251_490,
-      });
+  it("preserves billed-zero provenance only while every contribution is billed", () => {
+    const attempt = normalizedAttempt({
+      input: 100,
+      cost: { total: 0, totalOrigin: "provider-billed" },
     });
+    const run = createAccumulatorWithUsage(attempt);
+    expect(toNormalizedUsage(run)?.cost).toEqual({ total: 0, totalOrigin: "provider-billed" });
+    mergeUsageIntoAccumulator(run, { input: 100, cost: { total: 0 } });
+    expect(toNormalizedUsage(run)?.cost).toEqual({ total: 0 });
+    mergeUsageIntoAccumulator(run, attempt);
+    expect(toNormalizedUsage(run)?.cost).toEqual({ total: 0 });
+  });
 
-    it("omits zero fields", () => {
-      const acc = createUsageAccumulator();
-      mergeUsageIntoAccumulator(acc, { input: 100, output: 50 });
+  it("ignores undefined or zero-only usage", () => {
+    expect(
+      createAccumulatorWithUsage(undefined, { ...ZERO_USAGE, cacheRead: 0, cacheWrite: 0 }),
+    ).toEqual(createUsageAccumulator());
+  });
 
-      expect(toNormalizedUsage(acc)).toEqual({
-        input: 100,
-        output: 50,
-        cacheRead: undefined,
-        cacheWrite: undefined,
-        total: 150,
-      });
+  it("accumulates turns and bridge calls across retry/fallback attempts", () => {
+    const acc = createUsageAccumulator();
+    mergeAttemptRunStatsIntoAccumulator(acc, {
+      assistantTurns: 2,
+      bridgeCalls: { search: 1, describe: 2, call: 3 },
+    });
+    mergeAttemptRunStatsIntoAccumulator(acc, {
+      assistantTurns: 1,
+      bridgeCalls: { search: 0, describe: 1, call: 4 },
+    });
+    expect(acc.assistantTurns).toBe(3);
+    expect(acc.bridgeCalls).toEqual({ search: 1, describe: 3, call: 7 });
+  });
+
+  it("keeps bridgeCalls absent for catalog-less attempts", () => {
+    const acc = createUsageAccumulator();
+    mergeAttemptRunStatsIntoAccumulator(acc, { assistantTurns: 1 });
+    expect(acc.assistantTurns).toBe(1);
+    expect(acc.bridgeCalls).toBeUndefined();
+  });
+
+  it("preserves reported zero cache counters across attempt and run totals", () => {
+    expect(
+      normalizedAttempt(normalizedAttempt({ input: 100, cacheRead: 0, cacheWrite: 0 })),
+    ).toMatchObject({
+      input: 100,
+      cacheRead: 0,
+      cacheWrite: 0,
+      total: 100,
+    });
+    expect(normalizedAttempt({ input: 100 })).toMatchObject({
+      cacheRead: undefined,
+      cacheWrite: undefined,
     });
   });
 
-  describe("toLastCallUsage", () => {
-    it("returns the exact final call snapshot", () => {
-      const acc = createAccumulatorWithUsage(FIRST_USAGE, FINAL_USAGE);
-
-      expect(toLastCallUsage(acc)).toEqual({
-        input: 150,
-        output: 40,
-        reasoningTokens: 7,
-        cacheRead: 84_000,
-        cacheWrite: undefined,
-        total: 84_190,
-      });
+  it("accumulates both TTL buckets across attempt and run totals", () => {
+    const attempt = createAccumulatorWithUsage(FIRST_USAGE, {
+      cacheWrite: 10,
+      cacheWrite1h: 4,
+      cacheWrite5m: 6,
+    });
+    const run = createUsageAccumulator();
+    mergeUsageIntoAccumulator(run, toNormalizedUsage(attempt));
+    mergeUsageIntoAccumulator(run, { cacheWrite: 5, cacheWrite5m: 5 });
+    expect(toNormalizedUsage(run)).toMatchObject({
+      cacheWrite: 5_015,
+      cacheWrite1h: 3_004,
+      cacheWrite5m: 2_011,
     });
   });
 
-  describe("resolveLastCallUsage", () => {
-    it("prefers raw assistant usage when present", () => {
-      // Raw assistant usage is the provider's final-call truth; the accumulator
-      // is only a fallback when that snapshot is absent or unusable.
-      const acc = createUsageAccumulator();
-      mergeUsageIntoAccumulator(acc, {
-        input: 150,
-        output: 40,
-        cacheRead: 84_000,
-        cacheWrite: 0,
-        total: 84_190,
-      });
+  it.each(["cacheWrite1h", "cacheWrite5m"] as const)(
+    "preserves a reported zero %s across attempt and run totals without inventing its sibling",
+    (bucket) => {
+      const attempt = createAccumulatorWithUsage({ input: 100, cacheWrite: 10, [bucket]: 0 });
+      const run = createUsageAccumulator();
+      mergeUsageIntoAccumulator(run, toNormalizedUsage(attempt));
+      mergeUsageIntoAccumulator(run, { input: 50 });
+      const normalized = toNormalizedUsage(run);
+      expect(normalized).toMatchObject({ input: 150, cacheWrite: 10, [bucket]: 0 });
+      const sibling = bucket === "cacheWrite1h" ? "cacheWrite5m" : "cacheWrite1h";
+      expect(normalized).not.toHaveProperty(sibling);
+    },
+  );
 
-      expect(
-        resolveLastCallUsage(
-          {
-            inputTokens: 99,
-            outputTokens: 12,
-            completion_tokens_details: { reasoning_tokens: 8 },
-            cache_read_input_tokens: 456,
-            cache_creation_input_tokens: 3,
-            totalTokens: 570,
-          },
-          acc,
-        ),
-      ).toEqual({
-        input: 99,
-        output: 12,
-        reasoningTokens: 8,
-        cacheRead: 456,
-        cacheWrite: 3,
-        total: 570,
-      });
-    });
-
-    it("falls back to the accumulator when assistant usage is missing", () => {
-      const acc = createAccumulatorWithUsage(FINAL_USAGE);
-
-      expect(resolveLastCallUsage(undefined, acc)).toEqual({
-        input: 150,
-        output: 40,
-        reasoningTokens: 7,
-        cacheRead: 84_000,
-        cacheWrite: undefined,
-        total: 84_190,
-      });
-    });
-
-    it("falls back when assistant usage exists but is unusable", () => {
-      const acc = createAccumulatorWithUsage(FINAL_USAGE);
-
-      expect(resolveLastCallUsage({ responseId: "abc" } as never, acc)).toEqual({
-        input: 150,
-        output: 40,
-        reasoningTokens: 7,
-        cacheRead: 84_000,
-        cacheWrite: undefined,
-        total: 84_190,
-      });
-    });
-
-    it("keeps an explicit zero-usage raw snapshot instead of falling back", () => {
-      const acc = createAccumulatorWithUsage(FINAL_USAGE);
-
-      expect(
-        resolveLastCallUsage(
-          {
-            input: 0,
-            output: 0,
-            cacheRead: 0,
-            cacheWrite: 0,
-            total: 0,
-          },
-          acc,
-        ),
-      ).toEqual({
-        input: 0,
-        output: 0,
-        cacheRead: 0,
-        cacheWrite: 0,
-        total: 0,
-      });
-    });
+  it("keeps both TTL buckets absent when no attempt reports a breakdown", () => {
+    const attempt = createAccumulatorWithUsage({ input: 100, cacheWrite: 10 });
+    const run = createUsageAccumulator();
+    mergeUsageIntoAccumulator(run, toNormalizedUsage(attempt));
+    expect(toNormalizedUsage(run)).not.toHaveProperty("cacheWrite1h");
+    expect(toNormalizedUsage(run)).not.toHaveProperty("cacheWrite5m");
   });
 });

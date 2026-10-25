@@ -1,12 +1,24 @@
-// Matrix tests cover storage plugin behavior.
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { createDeferred } from "openclaw/plugin-sdk/extension-shared";
+import {
+  createPluginStateSyncKeyedStoreForTests,
+  resetPluginStateStoreForTests,
+} from "openclaw/plugin-sdk/plugin-state-test-runtime";
+import { closeOpenClawStateDatabaseAsync } from "openclaw/plugin-sdk/sqlite-runtime-testing";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { getMatrixRuntime } from "../../runtime.js";
 import { resolveMatrixAccountStorageRoot } from "../../storage-paths.js";
 import { installMatrixTestRuntime } from "../../test-runtime.js";
-import { readMatrixIdbSnapshotJson, writeMatrixIdbSnapshotJson } from "../crypto-state-store.js";
+import {
+  openMatrixRecoveryKeyStoreOptions,
+  writeMatrixIdbSnapshotJson,
+} from "../crypto-state-store.js";
 import { SqliteBackedMatrixSyncStore } from "./file-sync-store.js";
+import { julyLegacyCryptoStoreOptions } from "./legacy-crypto-state.test-support.js";
+import { openMatrixStorageMetaStoreOptions } from "./storage-metadata.js";
 import {
   claimCurrentTokenStorageState,
   maybeMigrateLegacyStorage,
@@ -17,214 +29,84 @@ import {
   writeStorageMeta,
 } from "./storage.js";
 
-const createBackupArchiveMock = vi.hoisted(() =>
-  vi.fn(async (_params: unknown) => ({
-    createdAt: "2026-03-17T00:00:00.000Z",
-    archiveRoot: "2026-03-17-openclaw-backup",
-    archivePath: "/tmp/matrix-migration-snapshot.tar.gz",
-    dryRun: false,
-    includeWorkspace: false,
-    onlyConfig: false,
-    verified: false,
-    assets: [],
-    skipped: [],
-  })),
-);
-
-const maybeCreateMatrixMigrationSnapshotMock = vi.hoisted(() =>
-  vi.fn(async (_params: unknown) => ({
-    created: true,
-    archivePath: "/tmp/matrix-migration-snapshot.tar.gz",
-    markerPath: "/tmp/matrix-migration-snapshot.json",
-  })),
-);
-
-vi.mock("./migration-snapshot.runtime.js", () => ({
-  maybeCreateMatrixMigrationSnapshot: (params: unknown) =>
-    maybeCreateMatrixMigrationSnapshotMock(params),
-}));
 describe("matrix client storage paths", () => {
-  const tempDirs: string[] = [];
+  let homeDir: string;
+  let stateDir: string;
+  let logger: ReturnType<typeof createTestLogger>;
   const defaultStorageAuth = {
     homeserver: "https://matrix.example.org",
     userId: "@bot:example.org",
     accessToken: "secret-token",
   };
 
-  afterEach(() => {
-    createBackupArchiveMock.mockReset();
-    createBackupArchiveMock.mockImplementation(async (_params: unknown) => ({
-      createdAt: "2026-03-17T00:00:00.000Z",
-      archiveRoot: "2026-03-17-openclaw-backup",
-      archivePath: "/tmp/matrix-migration-snapshot.tar.gz",
-      dryRun: false,
-      includeWorkspace: false,
-      onlyConfig: false,
-      verified: false,
-      assets: [],
-      skipped: [],
-    }));
-    maybeCreateMatrixMigrationSnapshotMock.mockReset().mockResolvedValue({
-      created: true,
-      archivePath: "/tmp/matrix-migration-snapshot.tar.gz",
-      markerPath: "/tmp/matrix-migration-snapshot.json",
-    });
-    vi.restoreAllMocks();
-    for (const dir of tempDirs.splice(0)) {
-      fs.rmSync(dir, { recursive: true, force: true });
-    }
-  });
-
-  function setupStateDir(
-    cfg: Record<string, unknown> = {
-      channels: {
-        matrix: {},
-      },
-    },
-  ): string {
-    const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-matrix-storage-"));
-    const stateDir = path.join(homeDir, ".openclaw");
+  beforeEach(() => {
+    resetPluginStateStoreForTests();
+    logger = createTestLogger();
+    homeDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-matrix-storage-"));
+    stateDir = path.join(homeDir, ".openclaw");
     fs.mkdirSync(stateDir, { recursive: true });
-    tempDirs.push(homeDir);
     installMatrixTestRuntime({
-      cfg,
-      logging: {
-        getChildLogger: () => ({
-          info: () => {},
-          warn: () => {},
-          error: () => {},
-        }),
-      },
+      cfg: { channels: { matrix: {} } },
+      logging: { getChildLogger: () => logger },
       stateDir,
     });
-    return stateDir;
+  });
+
+  afterEach(async () => {
+    vi.restoreAllMocks();
+    await closeOpenClawStateDatabaseAsync();
+    resetPluginStateStoreForTests();
+    fs.rmSync(homeDir, { recursive: true, force: true });
+  });
+
+  function createTestLogger() {
+    return {
+      info: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+    };
   }
 
-  function createMigrationEnv(stateDir: string): NodeJS.ProcessEnv {
+  function createMigrationEnv(): NodeJS.ProcessEnv {
     return {
       HOME: path.dirname(stateDir),
       OPENCLAW_HOME: path.dirname(stateDir),
       OPENCLAW_STATE_DIR: stateDir,
       OPENCLAW_TEST_FAST: "1",
-    } as NodeJS.ProcessEnv;
+    };
   }
 
-  function expectFallbackMigrationSnapshot(env: NodeJS.ProcessEnv): void {
-    expect(maybeCreateMatrixMigrationSnapshotMock).toHaveBeenCalledTimes(1);
-    const [params] = maybeCreateMatrixMigrationSnapshotMock.mock.calls.at(0) ?? [];
-    expect(params).toEqual({
-      env,
-      log: {
-        info: (params as { log?: { info?: unknown } })?.log?.info,
-        warn: (params as { log?: { warn?: unknown } })?.log?.warn,
-        error: (params as { log?: { error?: unknown } })?.log?.error,
-      },
-      trigger: "matrix-client-fallback",
-    });
-    const log = (params as { log?: { info?: unknown; warn?: unknown; error?: unknown } })?.log;
-    expect(typeof log?.info).toBe("function");
-    expect(typeof log?.warn).toBe("function");
-    expect(typeof log?.error).toBe("function");
-  }
-
-  function resolveDefaultStoragePaths(
-    overrides: Partial<{
-      homeserver: string;
-      userId: string;
-      accessToken: string;
-      accountId: string;
-      deviceId: string;
-    }> = {},
+  async function resolveDefaultStoragePaths(
+    overrides: Partial<typeof defaultStorageAuth> & { accountId?: string; deviceId?: string } = {},
   ) {
-    return resolveMatrixStoragePaths({
+    return await resolveMatrixStoragePaths({
       ...defaultStorageAuth,
       ...overrides,
       env: {},
     });
   }
 
-  function setupCurrentTokenBackfillScenario(params: {
-    currentRootFiles: "thread-bindings" | "startup-verification";
-    oldRootFiles: "crypto-only" | "thread-bindings";
-  }) {
-    const stateDir = setupStateDir();
-    const canonicalPaths = resolveMatrixAccountStorageRoot({
-      stateDir,
-      homeserver: defaultStorageAuth.homeserver,
-      userId: defaultStorageAuth.userId,
-      accessToken: "secret-token-new",
-    });
-    fs.mkdirSync(canonicalPaths.rootDir, { recursive: true });
-    writeJson(canonicalPaths.rootDir, "storage-meta.json", {
+  function storageMeta(accessTokenHash: string, extra: Record<string, unknown> = {}) {
+    return {
       homeserver: defaultStorageAuth.homeserver,
       userId: defaultStorageAuth.userId,
       accountId: "default",
-      accessTokenHash: canonicalPaths.tokenHash,
-      deviceId: null,
-    });
-    if (params.currentRootFiles === "thread-bindings") {
-      writeJson(canonicalPaths.rootDir, "thread-bindings.json", {
-        version: 1,
-        bindings: [
-          {
-            accountId: "default",
-            conversationId: "$thread-new",
-            targetKind: "subagent",
-            targetSessionKey: "agent:ops:subagent:new",
-            boundAt: 1,
-            lastActivityAt: 1,
-          },
-        ],
-      });
-      expect(
-        claimCurrentTokenStorageState({
-          rootDir: canonicalPaths.rootDir,
-        }),
-      ).toBe(true);
-    } else {
-      writeJson(canonicalPaths.rootDir, "startup-verification.json", {
-        deviceId: "DEVICE123",
-      });
-    }
-
-    const oldStoragePaths = seedExistingStorageRoot({
-      accessToken: "secret-token-old",
+      accessTokenHash,
       deviceId: "DEVICE123",
-      storageMeta: {
-        homeserver: defaultStorageAuth.homeserver,
-        userId: defaultStorageAuth.userId,
-        accountId: "default",
-        accessTokenHash: resolveDefaultStoragePaths({ accessToken: "secret-token-old" }).tokenHash,
-        deviceId: "DEVICE123",
-      },
-    });
-    fs.mkdirSync(oldStoragePaths.cryptoPath, { recursive: true });
-    if (params.oldRootFiles === "thread-bindings") {
-      writeJson(oldStoragePaths.rootDir, "thread-bindings.json", {
-        version: 1,
-        bindings: [
-          {
-            accountId: "default",
-            conversationId: "$thread-old",
-            targetKind: "subagent",
-            targetSessionKey: "agent:ops:subagent:old",
-            boundAt: 1,
-            lastActivityAt: 1,
-          },
-        ],
-      });
-    } else {
-      writeJson(oldStoragePaths.rootDir, "startup-verification.json", {
-        deviceId: "DEVICE123",
-      });
-    }
-
-    return { stateDir, canonicalPaths, oldStoragePaths };
+      ...extra,
+    };
   }
 
-  it("resolves state file paths inside the selected storage root", () => {
-    setupStateDir();
-    const filePath = resolveMatrixStateFilePath({
+  function canonicalRoot(accessToken: string) {
+    return resolveMatrixAccountStorageRoot({ ...defaultStorageAuth, stateDir, accessToken });
+  }
+
+  function resolveRotatedDevice(deviceId = "DEVICE123") {
+    return resolveDefaultStoragePaths({ accessToken: "secret-token-new", deviceId });
+  }
+
+  it("resolves state file paths inside the selected storage root", async () => {
+    const filePath = await resolveMatrixStateFilePath({
       auth: {
         ...defaultStorageAuth,
         accountId: "ops",
@@ -236,28 +118,11 @@ describe("matrix client storage paths", () => {
 
     expect(filePath).toBe(
       path.join(
-        resolveDefaultStoragePaths({ accountId: "ops", deviceId: "DEVICE1" }).rootDir,
+        (await resolveDefaultStoragePaths({ accountId: "ops", deviceId: "DEVICE1" })).rootDir,
         "thread-bindings.json",
       ),
     );
   });
-
-  function writeLegacyMatrixStorage(
-    stateDir: string,
-    params: {
-      storageBody?: string;
-      withCrypto?: boolean;
-    } = {},
-  ) {
-    const legacyRoot = path.join(stateDir, "matrix");
-    if (params.withCrypto ?? true) {
-      fs.mkdirSync(path.join(legacyRoot, "crypto"), { recursive: true });
-    }
-    if (params.storageBody !== undefined) {
-      fs.writeFileSync(path.join(legacyRoot, "bot-storage.json"), params.storageBody);
-    }
-    return legacyRoot;
-  }
 
   function legacySyncCacheBody(nextBatch = "legacy-token"): string {
     return JSON.stringify({
@@ -276,440 +141,450 @@ describe("matrix client storage paths", () => {
     });
   }
 
-  function writeJson(rootDir: string, filename: string, value: Record<string, unknown>) {
-    fs.writeFileSync(path.join(rootDir, filename), JSON.stringify(value, null, 2));
-  }
-
-  it("records a learned deviceId in storage metadata without startup JSON", () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveMatrixStoragePaths({
-      ...defaultStorageAuth,
-      env: { ...process.env, OPENCLAW_STATE_DIR: stateDir },
-    });
-    expect(
-      writeStorageMeta({
-        storagePaths,
-        homeserver: defaultStorageAuth.homeserver,
-        userId: defaultStorageAuth.userId,
-        deviceId: null,
-      }),
-    ).toBe(true);
-
-    expect(
-      recordCurrentStorageMetaDeviceId({
-        rootDir: storagePaths.rootDir,
-        deviceId: "DEVICE123",
-      }),
-    ).toBe(true);
-
-    const meta = JSON.parse(fs.readFileSync(storagePaths.metaPath, "utf8")) as {
-      deviceId?: string | null;
-    };
-    expect(meta.deviceId).toBe("DEVICE123");
-    expect(fs.existsSync(path.join(storagePaths.rootDir, "startup-verification.json"))).toBe(false);
+  it("retains malformed UTF-8 legacy sync cache without aborting client initialization", async () => {
+    const storagePaths = await resolveDefaultStoragePaths();
+    fs.mkdirSync(storagePaths.rootDir, { recursive: true });
+    const bytes = Buffer.from(legacySyncCacheBody("utf8-marker"));
+    bytes[bytes.indexOf("utf8-marker")] = 0xff;
+    fs.writeFileSync(storagePaths.storagePath, bytes);
+    await expect(maybeMigrateLegacyStorage({ storagePaths })).resolves.toBeUndefined();
+    expect(fs.readFileSync(storagePaths.storagePath)).toEqual(bytes);
+    expect(fs.existsSync(`${storagePaths.storagePath}.migrated`)).toBe(false);
+    expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining("must be valid UTF-8"));
+    const store = await SqliteBackedMatrixSyncStore.create(storagePaths.rootDir);
+    expect(await store.getSavedSyncToken()).toBeNull();
   });
 
-  function seedExistingStorageRoot(params: {
-    accessToken: string;
-    deviceId?: string;
-    storageBody?: string;
-    storageMeta?: Record<string, unknown>;
-    startupVerificationDeviceId?: string;
-  }) {
-    const storagePaths = resolveDefaultStoragePaths({
-      accessToken: params.accessToken,
-      ...(params.deviceId ? { deviceId: params.deviceId } : {}),
+  function metadataStore(rootDir: string) {
+    return createPluginStateSyncKeyedStoreForTests<Record<string, unknown>>(
+      "matrix",
+      openMatrixStorageMetaStoreOptions(rootDir),
+    );
+  }
+
+  function stateStore(options: Parameters<typeof createPluginStateSyncKeyedStoreForTests>[1]) {
+    return createPluginStateSyncKeyedStoreForTests("matrix", options);
+  }
+
+  function readStorageMeta(rootDir: string) {
+    return metadataStore(rootDir).lookup("current");
+  }
+
+  function seedStorageMeta(rootDir: string, value: Record<string, unknown>): void {
+    metadataStore(rootDir).register("current", value);
+  }
+
+  function seedThreadBinding(rootDir: string, suffix: "new" | "old"): void {
+    const conversationId = `$thread-${suffix}`;
+    const digest = createHash("sha256").update(`default\0\0${conversationId}`).digest("hex");
+    createPluginStateSyncKeyedStoreForTests("matrix", {
+      namespace: "thread-bindings",
+      maxEntries: 10_000,
+      env: { OPENCLAW_STATE_DIR: rootDir },
+    }).register(`default:${digest}`, {
+      accountId: "default",
+      conversationId,
+      targetKind: "subagent",
+      targetSessionKey: `agent:ops:subagent:${suffix}`,
+      boundAt: 1,
+      lastActivityAt: 1,
+    });
+  }
+
+  function seedStartupVerification(rootDir: string, deviceId: string): void {
+    createPluginStateSyncKeyedStoreForTests("matrix", {
+      namespace: "startup-verification",
+      maxEntries: 1_000,
+      env: { OPENCLAW_STATE_DIR: rootDir },
+    }).register("default", {
+      userId: defaultStorageAuth.userId,
+      deviceId,
+      attemptedAt: "2026-07-13T12:00:00.000Z",
+      outcome: "requested",
+      requestId: "verification-1",
+      transactionId: "txn-1",
+    });
+  }
+
+  function seedLegacyStorageMeta(rootDir: string, value: Record<string, unknown>): void {
+    fs.mkdirSync(rootDir, { recursive: true });
+    fs.writeFileSync(path.join(rootDir, "storage-meta.json"), JSON.stringify(value, null, 2));
+  }
+
+  it.each(["claim", "initialize", "initialize-explicit"] as const)(
+    "preserves a device learned while %s waits for persistence",
+    async (operation) => {
+      const storagePaths = await resolveDefaultStoragePaths();
+      seedStorageMeta(storagePaths.rootDir, {
+        accessTokenHash: storagePaths.tokenHash,
+        createdAt: "2026-09-01T00:00:00.000Z",
+      });
+      const runtime = getMatrixRuntime();
+      const openStore = runtime.state.openKeyedStoreV2.bind(runtime.state);
+      const observed = createDeferred<void>();
+      const resume = createDeferred<void>();
+      let pause = true;
+      vi.spyOn(runtime.state, "openKeyedStoreV2").mockImplementation((options) => {
+        const store = openStore(options);
+        const observe = store.observe;
+        if (options.namespace !== "storage-meta" || !observe) {
+          return store;
+        }
+        return {
+          ...store,
+          observe: async (key) => {
+            const result = await observe(key);
+            if (pause) {
+              pause = false;
+              observed.resolve();
+              await resume.promise;
+            }
+            return result;
+          },
+        };
+      });
+      const pending =
+        operation === "claim"
+          ? claimCurrentTokenStorageState({ rootDir: storagePaths.rootDir })
+          : writeStorageMeta({
+              storagePaths,
+              homeserver: defaultStorageAuth.homeserver,
+              userId: defaultStorageAuth.userId,
+              deviceId: operation === "initialize-explicit" ? "EXPLICIT" : undefined,
+            });
+      try {
+        await observed.promise;
+        expect(
+          await recordCurrentStorageMetaDeviceId({
+            rootDir: storagePaths.rootDir,
+            deviceId: "LEARNED",
+          }),
+        ).toBe(true);
+        resume.resolve();
+        expect(await pending).toBe(true);
+        expect(readStorageMeta(storagePaths.rootDir)).toMatchObject({
+          deviceId: operation === "initialize-explicit" ? "EXPLICIT" : "LEARNED",
+          ...(operation === "claim" ? { currentTokenStateClaimed: true } : {}),
+          createdAt: "2026-09-01T00:00:00.000Z",
+        });
+      } finally {
+        resume.resolve();
+        await pending;
+      }
+    },
+  );
+
+  it("does not create storage when device metadata has no current token to update", async () => {
+    const { rootDir } = await resolveDefaultStoragePaths();
+    expect(await recordCurrentStorageMetaDeviceId({ rootDir, deviceId: "LEARNED" })).toBe(false);
+    expect(fs.existsSync(rootDir)).toBe(false);
+  });
+
+  it("preserves metadata when its worker write fails", async () => {
+    const storagePaths = await resolveDefaultStoragePaths();
+    seedStorageMeta(storagePaths.rootDir, {
+      accessTokenHash: storagePaths.tokenHash,
+      deviceId: "ORIGINAL",
+    });
+    const runtime = getMatrixRuntime();
+    const openStore = runtime.state.openKeyedStoreV2.bind(runtime.state);
+    vi.spyOn(runtime.state, "openKeyedStoreV2").mockImplementation((options) => {
+      const store = openStore(options);
+      return {
+        ...store,
+        compareAndApply: async () => {
+          throw new Error("synthetic worker failure");
+        },
+      };
+    });
+    const native = vi.spyOn(runtime.state, "openSyncKeyedStore");
+    expect(
+      await recordCurrentStorageMetaDeviceId({ rootDir: storagePaths.rootDir, deviceId: "NEW" }),
+    ).toBe(false);
+    expect(native).not.toHaveBeenCalled();
+    expect(readStorageMeta(storagePaths.rootDir)?.deviceId).toBe("ORIGINAL");
+  });
+
+  async function seedOldStorageRoot(
+    params: {
+      deviceId?: string;
+      metadata?: false;
+      startupVerificationDeviceId?: string;
+    } = {},
+  ) {
+    const storagePaths = await resolveDefaultStoragePaths({
+      accessToken: "secret-token-old",
+      deviceId: params.deviceId ?? "DEVICE123",
     });
     fs.mkdirSync(storagePaths.rootDir, { recursive: true });
-    fs.writeFileSync(storagePaths.storagePath, params.storageBody ?? '{"legacy":true}');
-    if (params.storageMeta) {
-      writeJson(storagePaths.rootDir, "storage-meta.json", params.storageMeta);
+    fs.writeFileSync(storagePaths.storagePath, '{"legacy":true}');
+    if (params.metadata !== false) {
+      seedStorageMeta(storagePaths.rootDir, storageMeta(storagePaths.tokenHash));
     }
     if (params.startupVerificationDeviceId) {
-      writeJson(storagePaths.rootDir, "startup-verification.json", {
-        deviceId: params.startupVerificationDeviceId,
-      });
+      seedStartupVerification(storagePaths.rootDir, params.startupVerificationDeviceId);
     }
     return storagePaths;
   }
 
-  function seedCanonicalStorageRoot(params: {
-    stateDir: string;
-    accessToken: string;
-    storageMeta: Record<string, unknown>;
-  }) {
-    const canonicalPaths = resolveMatrixAccountStorageRoot({
-      stateDir: params.stateDir,
-      homeserver: defaultStorageAuth.homeserver,
-      userId: defaultStorageAuth.userId,
-      accessToken: params.accessToken,
-    });
+  function seedCanonicalStorageRoot(
+    accessToken = "secret-token-new",
+    extra: Record<string, unknown> = {},
+  ) {
+    const canonicalPaths = canonicalRoot(accessToken);
     fs.mkdirSync(canonicalPaths.rootDir, { recursive: true });
-    writeJson(canonicalPaths.rootDir, "storage-meta.json", params.storageMeta);
+    seedStorageMeta(canonicalPaths.rootDir, storageMeta(canonicalPaths.tokenHash, extra));
     return canonicalPaths;
   }
 
-  function expectCanonicalRootForNewDevice(stateDir: string) {
-    const newerCanonicalPaths = seedCanonicalStorageRoot({
-      stateDir,
-      accessToken: "secret-token-new",
-      storageMeta: {
-        homeserver: defaultStorageAuth.homeserver,
-        userId: defaultStorageAuth.userId,
-        accountId: "default",
-        accessTokenHash: resolveDefaultStoragePaths({ accessToken: "secret-token-new" }).tokenHash,
-        deviceId: "NEWDEVICE",
-      },
-    });
-
-    const resolvedPaths = resolveDefaultStoragePaths({
-      accessToken: "secret-token-new",
-      deviceId: "NEWDEVICE",
-    });
-
-    expect(resolvedPaths.rootDir).toBe(newerCanonicalPaths.rootDir);
-    expect(resolvedPaths.tokenHash).toBe(newerCanonicalPaths.tokenHash);
-  }
-
-  it("uses the simplified matrix runtime root for account-scoped storage", () => {
-    const stateDir = setupStateDir();
-
-    const storagePaths = resolveMatrixStoragePaths({
-      homeserver: "https://matrix.example.org",
-      userId: "@Bot:example.org",
-      accessToken: "secret-token",
-      accountId: "ops",
-      env: {},
-    });
-
-    expect(storagePaths.rootDir).toBe(
-      path.join(
-        stateDir,
-        "matrix",
-        "accounts",
-        "ops",
-        "matrix.example.org__bot_example.org",
-        storagePaths.tokenHash,
-      ),
-    );
-    expect(storagePaths.storagePath).toBe(path.join(storagePaths.rootDir, "bot-storage.json"));
-    expect(storagePaths.cryptoPath).toBe(path.join(storagePaths.rootDir, "crypto"));
-    expect(storagePaths.metaPath).toBe(path.join(storagePaths.rootDir, "storage-meta.json"));
-    expect(storagePaths.recoveryKeyPath).toBe(path.join(storagePaths.rootDir, "recovery-key.json"));
-    expect(storagePaths.idbSnapshotPath).toBe(
-      path.join(storagePaths.rootDir, "crypto-idb-snapshot.json"),
-    );
-  });
-
-  it("falls back to migrating the older flat matrix storage layout", async () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveDefaultStoragePaths();
-    const legacyRoot = writeLegacyMatrixStorage(stateDir, {
-      storageBody: legacySyncCacheBody("legacy-token"),
-    });
-    const env = createMigrationEnv(stateDir);
-
-    await maybeMigrateLegacyStorage({
-      storagePaths,
-      env,
-    });
-
-    expectFallbackMigrationSnapshot(env);
-    expect(fs.existsSync(path.join(legacyRoot, "bot-storage.json"))).toBe(false);
-    expect(fs.existsSync(path.join(legacyRoot, "bot-storage.json.migrated"))).toBe(true);
-    expect(fs.existsSync(storagePaths.storagePath)).toBe(false);
-    expect(fs.existsSync(storagePaths.cryptoPath)).toBe(true);
-    const syncStore = new SqliteBackedMatrixSyncStore(storagePaths.rootDir);
-    expect(syncStore.hasSavedSync()).toBe(true);
-    await expect(syncStore.getSavedSyncToken()).resolves.toBe("legacy-token");
-  });
-
   it("migrates the previous account-scoped sync cache into sqlite before startup", async () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveDefaultStoragePaths();
+    const storagePaths = await resolveDefaultStoragePaths();
     fs.mkdirSync(storagePaths.rootDir, { recursive: true });
     fs.writeFileSync(storagePaths.storagePath, legacySyncCacheBody("account-token"));
-    const env = createMigrationEnv(stateDir);
+    await maybeMigrateLegacyStorage({ storagePaths });
 
-    await maybeMigrateLegacyStorage({
-      storagePaths,
-      env,
-    });
-
-    expectFallbackMigrationSnapshot(env);
     expect(fs.existsSync(storagePaths.storagePath)).toBe(false);
     expect(fs.existsSync(`${storagePaths.storagePath}.migrated`)).toBe(true);
-    const syncStore = new SqliteBackedMatrixSyncStore(storagePaths.rootDir);
+    const syncStore = await SqliteBackedMatrixSyncStore.create(storagePaths.rootDir);
     expect(syncStore.hasSavedSync()).toBe(true);
     await expect(syncStore.getSavedSyncToken()).resolves.toBe("account-token");
   });
 
-  it("does not overwrite existing SQLite IDB snapshot state with a stale legacy sidecar", async () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveDefaultStoragePaths();
-    fs.mkdirSync(storagePaths.rootDir, { recursive: true });
-    const currentSnapshot = JSON.stringify([
-      {
-        name: "current",
-        version: 1,
-        stores: [],
-      },
-    ]);
-    writeMatrixIdbSnapshotJson({
-      storageRootDir: storagePaths.rootDir,
-      snapshotJson: currentSnapshot,
-      databaseCount: 1,
-    });
-    fs.writeFileSync(
-      storagePaths.idbSnapshotPath,
-      JSON.stringify([{ name: "stale", version: 1, stores: [] }]),
-    );
-    const env = createMigrationEnv(stateDir);
-
-    await maybeMigrateLegacyStorage({
-      storagePaths,
-      env,
-    });
-
-    expectFallbackMigrationSnapshot(env);
-    expect(readMatrixIdbSnapshotJson(storagePaths.rootDir)).toBe(currentSnapshot);
-    expect(fs.existsSync(storagePaths.idbSnapshotPath)).toBe(false);
-    expect(fs.existsSync(`${storagePaths.idbSnapshotPath}.migrated`)).toBe(true);
-  });
-
   it("ignores unrecognized account-scoped sync cache files without a migration snapshot", async () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveDefaultStoragePaths();
+    const storagePaths = await resolveDefaultStoragePaths();
     fs.mkdirSync(storagePaths.rootDir, { recursive: true });
     fs.writeFileSync(storagePaths.storagePath, '{"new":true}');
-    const env = createMigrationEnv(stateDir);
+    await maybeMigrateLegacyStorage({ storagePaths });
 
-    await maybeMigrateLegacyStorage({
-      storagePaths,
-      env,
-    });
-
-    expect(maybeCreateMatrixMigrationSnapshotMock).not.toHaveBeenCalled();
     expect(fs.readFileSync(storagePaths.storagePath, "utf8")).toBe('{"new":true}');
   });
 
-  it("continues migrating whichever legacy artifact is still missing", async () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveDefaultStoragePaths();
-    const legacyRoot = writeLegacyMatrixStorage(stateDir);
-    const env = createMigrationEnv(stateDir);
+  it("preserves completed imports and retries a later archive failure with an unrelated sibling", async () => {
+    const storagePaths = await resolveDefaultStoragePaths();
     fs.mkdirSync(storagePaths.rootDir, { recursive: true });
-    fs.writeFileSync(storagePaths.storagePath, '{"new":true}');
-
-    await maybeMigrateLegacyStorage({
-      storagePaths,
-      env,
-    });
-
-    expectFallbackMigrationSnapshot(env);
-    expect(fs.readFileSync(storagePaths.storagePath, "utf8")).toBe('{"new":true}');
-    expect(fs.existsSync(path.join(legacyRoot, "bot-storage.json"))).toBe(false);
-    expect(fs.existsSync(path.join(legacyRoot, "crypto"))).toBe(false);
-    expect(fs.existsSync(storagePaths.cryptoPath)).toBe(true);
-  });
-
-  it("refuses to migrate legacy storage when the snapshot step fails", async () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveDefaultStoragePaths();
-    const legacyRoot = writeLegacyMatrixStorage(stateDir, { storageBody: '{"legacy":true}' });
-    const env = createMigrationEnv(stateDir);
-    maybeCreateMatrixMigrationSnapshotMock.mockRejectedValueOnce(new Error("snapshot failed"));
-
-    await expect(
-      maybeMigrateLegacyStorage({
-        storagePaths,
-        env,
-      }),
-    ).rejects.toThrow("snapshot failed");
-    expect(fs.existsSync(path.join(legacyRoot, "bot-storage.json"))).toBe(true);
-    expect(fs.existsSync(storagePaths.storagePath)).toBe(false);
-  });
-
-  it("rolls back moved legacy storage when the crypto move fails", async () => {
-    const stateDir = setupStateDir();
-    const storagePaths = resolveDefaultStoragePaths();
-    const legacyRoot = writeLegacyMatrixStorage(stateDir, { storageBody: '{"legacy":true}' });
-    const env = createMigrationEnv(stateDir);
-    const realRenameSync = fs.renameSync.bind(fs);
-    const renameSync = vi.spyOn(fs, "renameSync");
-    renameSync.mockImplementation((sourcePath, targetPath) => {
-      if (String(targetPath) === storagePaths.cryptoPath) {
-        throw new Error("disk full");
+    fs.writeFileSync(storagePaths.storagePath, legacySyncCacheBody("retry-token"));
+    const recoveryKey = {
+      version: 1,
+      createdAt: "2026-09-01T00:00:00.000Z",
+      keyId: "synthetic-key",
+      privateKeyBase64: Buffer.alloc(32, 7).toString("base64"),
+    };
+    const migrationState = {
+      version: 1,
+      accountId: "default",
+      roomKeyCounts: null,
+      restoreStatus: "pending",
+    };
+    const recoveryStore = () => stateStore(openMatrixRecoveryKeyStoreOptions(storagePaths.rootDir));
+    const migrationStore = () => stateStore(julyLegacyCryptoStoreOptions(storagePaths.rootDir));
+    recoveryStore().register("current", recoveryKey);
+    migrationStore().register("current", migrationState);
+    const migrationPath = storagePaths.storagePath;
+    const sentinelPath = `${storagePaths.rootDir} SQLite sync cache`;
+    const sentinel = "unrelated file must remain at its original path";
+    fs.writeFileSync(sentinelPath, sentinel);
+    const renameSync = fs.renameSync;
+    const rename = vi.spyOn(fs, "renameSync").mockImplementation((source, destination) => {
+      if (String(source) === migrationPath) {
+        throw Object.assign(new Error("synthetic migration archive denied"), { code: "EACCES" });
       }
-      return realRenameSync(sourcePath, targetPath);
+      renameSync(source, destination);
     });
+    await expect(maybeMigrateLegacyStorage({ storagePaths })).rejects.toThrow(
+      "synthetic migration archive denied",
+    );
+    rename.mockRestore();
+    await closeOpenClawStateDatabaseAsync();
+    resetPluginStateStoreForTests();
 
+    const expectPreservedState = () => {
+      expect(recoveryStore().lookup("current")).toEqual(recoveryKey);
+      expect(migrationStore().lookup("current")).toEqual(migrationState);
+      expect
+        .soft({
+          recoverySource: fs.existsSync(storagePaths.recoveryKeyPath)
+            ? fs.readFileSync(storagePaths.recoveryKeyPath, "utf8")
+            : null,
+          unrelatedFile: fs.existsSync(sentinelPath) ? fs.readFileSync(sentinelPath, "utf8") : null,
+        })
+        .toEqual({
+          recoverySource: null,
+          unrelatedFile: sentinel,
+        });
+    };
+    expectPreservedState();
+    expect(fs.existsSync(migrationPath)).toBe(true);
+    expect(fs.existsSync(`${migrationPath}.migrated`)).toBe(false);
     await expect(
-      maybeMigrateLegacyStorage({
-        storagePaths,
-        env,
-      }),
-    ).rejects.toThrow("disk full");
-    expect(fs.existsSync(path.join(legacyRoot, "bot-storage.json"))).toBe(true);
-    expect(fs.existsSync(storagePaths.storagePath)).toBe(false);
-    expect(fs.existsSync(path.join(legacyRoot, "crypto"))).toBe(true);
+      (await SqliteBackedMatrixSyncStore.create(storagePaths.rootDir)).getSavedSyncToken(),
+    ).resolves.toBe("retry-token");
+
+    resetPluginStateStoreForTests();
+    await maybeMigrateLegacyStorage({ storagePaths });
+    await closeOpenClawStateDatabaseAsync();
+    resetPluginStateStoreForTests();
+
+    expectPreservedState();
+    expect(fs.existsSync(migrationPath)).toBe(false);
+    expect(fs.readFileSync(`${migrationPath}.migrated`, "utf8")).toBe(
+      legacySyncCacheBody("retry-token"),
+    );
+    await expect(
+      (await SqliteBackedMatrixSyncStore.create(storagePaths.rootDir)).getSavedSyncToken(),
+    ).resolves.toBe("retry-token");
   });
 
-  it("refuses fallback migration when multiple Matrix accounts need explicit selection", async () => {
-    const stateDir = setupStateDir({
-      channels: {
-        matrix: {
-          accounts: {
-            ops: {},
-            work: {},
-          },
-        },
+  it("warns with structured metadata when populated token-hash storage roots accumulate", async () => {
+    const oldStoragePaths = await seedOldStorageRoot();
+    const canonicalPaths = seedCanonicalStorageRoot();
+    fs.mkdirSync(path.join(canonicalPaths.rootDir, "crypto"), { recursive: true });
+
+    const resolvedPaths = await resolveRotatedDevice();
+
+    expect(resolvedPaths.rootDir).toBe(canonicalPaths.rootDir);
+    expect(logger.warn).toHaveBeenCalledTimes(1);
+    expect(logger.warn).toHaveBeenCalledWith(
+      "matrix: multiple populated token-hash storage roots detected",
+      {
+        parentDir: path.dirname(canonicalPaths.rootDir),
+        canonicalTokenHash: canonicalPaths.tokenHash,
+        selectedTokenHash: canonicalPaths.tokenHash,
+        populatedTokenHashes: [canonicalPaths.tokenHash, oldStoragePaths.tokenHash],
+        populatedSiblingTokenHashes: [oldStoragePaths.tokenHash],
+        populatedRootCount: 2,
       },
-    });
-    const storagePaths = resolveDefaultStoragePaths({ accountId: "ops" });
-    const legacyRoot = writeLegacyMatrixStorage(stateDir, { storageBody: '{"legacy":true}' });
-    const env = createMigrationEnv(stateDir);
-
-    await expect(
-      maybeMigrateLegacyStorage({
-        storagePaths,
-        env,
-      }),
-    ).rejects.toThrow(/defaultAccount is not set/i);
-    expect(createBackupArchiveMock).not.toHaveBeenCalled();
-    expect(fs.existsSync(path.join(legacyRoot, "bot-storage.json"))).toBe(true);
+    );
   });
 
-  it("refuses fallback migration for a non-selected Matrix account", async () => {
-    const stateDir = setupStateDir({
-      channels: {
-        matrix: {
-          defaultAccount: "ops",
-          homeserver: "https://matrix.default.example.org",
-          accessToken: "default-token",
-          accounts: {
-            ops: {
-              homeserver: "https://matrix.ops.example.org",
-              accessToken: "ops-token",
-            },
-          },
-        },
-      },
-    });
-    const storagePaths = resolveMatrixStoragePaths({
-      homeserver: "https://matrix.default.example.org",
-      userId: "@default:example.org",
-      accessToken: "default-token",
-      env: {},
-    });
-    const legacyRoot = writeLegacyMatrixStorage(stateDir, { storageBody: '{"legacy":true}' });
-    const env = createMigrationEnv(stateDir);
+  it("selects the canonical active root without inspecting archived siblings", async () => {
+    const canonicalPaths = seedCanonicalStorageRoot();
+    const previousPaths = seedCanonicalStorageRoot("secret-token-old");
+    fs.mkdirSync(path.join(previousPaths.rootDir, "crypto"), { recursive: true });
+    const archivedTokenRoot = `${previousPaths.rootDir}.apr24-cutover-20260424`;
+    fs.renameSync(previousPaths.rootDir, archivedTokenRoot);
+    const archivedBackupRoot = path.join(
+      path.dirname(canonicalPaths.rootDir),
+      "sync-cache-backup-after-limit1-20260720",
+    );
+    fs.mkdirSync(archivedBackupRoot, { recursive: true });
+    seedStorageMeta(archivedBackupRoot, storageMeta("fedcba9876543210"));
+    fs.mkdirSync(path.join(archivedBackupRoot, "crypto"), { recursive: true });
+    const archivedRoots = [archivedTokenRoot, archivedBackupRoot];
+    resetPluginStateStoreForTests();
 
-    await expect(
-      maybeMigrateLegacyStorage({
-        storagePaths,
-        env,
-      }),
-    ).rejects.toThrow(/targets account "ops"/i);
-    expect(createBackupArchiveMock).not.toHaveBeenCalled();
-    expect(fs.existsSync(path.join(legacyRoot, "bot-storage.json"))).toBe(true);
+    const existsSync = vi.spyOn(fs, "existsSync");
+    const resolvedPaths = await resolveRotatedDevice();
+
+    expect(resolvedPaths.rootDir).toBe(canonicalPaths.rootDir);
+    expect(resolvedPaths.tokenHash).toBe(canonicalPaths.tokenHash);
+    const inspectedPaths = existsSync.mock.calls.map(([filePath]) =>
+      path.resolve(String(filePath)),
+    );
+    for (const storageRootDir of archivedRoots) {
+      expect(
+        inspectedPaths.some(
+          (inspectedPath) =>
+            inspectedPath === path.resolve(storageRootDir) ||
+            inspectedPath.startsWith(`${path.resolve(storageRootDir)}${path.sep}`),
+        ),
+      ).toBe(false);
+    }
+    expect(logger.warn).not.toHaveBeenCalled();
   });
 
-  it("keeps the canonical current-token storage root when deviceId is still unknown", () => {
-    const stateDir = setupStateDir();
-    const oldStoragePaths = seedExistingStorageRoot({
-      accessToken: "secret-token-old",
+  it("does not scan token-history roots when the canonical current-token state is claimed", async () => {
+    const oldStoragePaths = await seedOldStorageRoot();
+    fs.mkdirSync(path.join(oldStoragePaths.rootDir, "crypto"), { recursive: true });
+
+    const canonicalPaths = seedCanonicalStorageRoot("secret-token-new", {
+      currentTokenStateClaimed: true,
     });
 
-    const rotatedStoragePaths = resolveDefaultStoragePaths({
-      accessToken: "secret-token-new",
-    });
-    const canonicalPaths = resolveMatrixAccountStorageRoot({
-      stateDir,
-      homeserver: defaultStorageAuth.homeserver,
-      userId: defaultStorageAuth.userId,
-      accessToken: "secret-token-new",
-    });
+    const readdirSync = vi.spyOn(fs, "readdirSync");
+    const resolvedPaths = await resolveRotatedDevice();
 
-    expect(rotatedStoragePaths.rootDir).toBe(canonicalPaths.rootDir);
-    expect(rotatedStoragePaths.tokenHash).toBe(canonicalPaths.tokenHash);
-    expect(rotatedStoragePaths.rootDir).not.toBe(oldStoragePaths.rootDir);
+    expect(resolvedPaths.rootDir).toBe(canonicalPaths.rootDir);
+    expect(resolvedPaths.tokenHash).toBe(canonicalPaths.tokenHash);
+    expect(readdirSync).not.toHaveBeenCalled();
+    expect(logger.warn).not.toHaveBeenCalled();
   });
 
-  it("reuses an existing token-hash storage root for the same device after the access token changes", () => {
-    setupStateDir();
-    const oldStoragePaths = seedExistingStorageRoot({
+  it("refuses retired storage metadata without selecting or rewriting its root", async () => {
+    const oldStoragePaths = await resolveDefaultStoragePaths({
       accessToken: "secret-token-old",
       deviceId: "DEVICE123",
-      storageMeta: {
-        homeserver: defaultStorageAuth.homeserver,
-        userId: defaultStorageAuth.userId,
-        accountId: "default",
-        accessTokenHash: resolveDefaultStoragePaths({ accessToken: "secret-token-old" }).tokenHash,
+    });
+    seedLegacyStorageMeta(
+      oldStoragePaths.rootDir,
+      storageMeta(oldStoragePaths.tokenHash, { currentTokenStateClaimed: true }),
+    );
+
+    const sourcePath = path.join(oldStoragePaths.rootDir, "storage-meta.json");
+    const source = fs.readFileSync(sourcePath, "utf8");
+    await expect(
+      resolveDefaultStoragePaths({ accessToken: "secret-token-new", deviceId: "DEVICE123" }),
+    ).rejects.toThrow("Install OpenClaw 2026.9.5");
+    expect(fs.readFileSync(sourcePath, "utf8")).toBe(source);
+    expect(fs.existsSync(path.join(oldStoragePaths.rootDir, "state", "openclaw.sqlite"))).toBe(
+      false,
+    );
+  });
+
+  it.each(["recovery-key", "idb-snapshot"])(
+    "keeps a July SQLite %s root selectable across token rotation",
+    async (namespace) => {
+      const oldStoragePaths = await resolveDefaultStoragePaths({
+        accessToken: "secret-token-old",
         deviceId: "DEVICE123",
-      },
-    });
+      });
+      seedStorageMeta(oldStoragePaths.rootDir, storageMeta(oldStoragePaths.tokenHash));
+      if (namespace === "recovery-key") {
+        stateStore(openMatrixRecoveryKeyStoreOptions(oldStoragePaths.rootDir)).register("current", {
+          version: 1,
+          createdAt: "2026-07-01T00:00:00.000Z",
+          keyId: "fixture-key",
+          privateKeyBase64: "AQIDBA==",
+        });
+      } else {
+        await writeMatrixIdbSnapshotJson({
+          storageRootDir: oldStoragePaths.rootDir,
+          snapshotJson: JSON.stringify([{ name: "fixture-crypto", version: 1, stores: [] }]),
+          databaseCount: 1,
+        });
+      }
 
-    const rotatedStoragePaths = resolveDefaultStoragePaths({
-      accessToken: "secret-token-new",
-      deviceId: "DEVICE123",
+      seedCanonicalStorageRoot();
+
+      const rotatedStoragePaths = await resolveRotatedDevice();
+
+      expect(rotatedStoragePaths.rootDir).toBe(oldStoragePaths.rootDir);
+    },
+  );
+
+  it("scans for and prefers claimed current-token state over an unclaimed canonical root", async () => {
+    const oldStoragePaths = seedCanonicalStorageRoot("secret-token-old", {
+      currentTokenStateClaimed: true,
     });
+    seedCanonicalStorageRoot();
+
+    const readdirSync = vi.spyOn(fs, "readdirSync");
+    const rotatedStoragePaths = await resolveRotatedDevice();
 
     expect(rotatedStoragePaths.rootDir).toBe(oldStoragePaths.rootDir);
     expect(rotatedStoragePaths.tokenHash).toBe(oldStoragePaths.tokenHash);
-    expect(rotatedStoragePaths.storagePath).toBe(oldStoragePaths.storagePath);
+    expect(readdirSync).toHaveBeenCalledOnce();
   });
 
-  it("prefers claimed current-token state over an empty new-token metadata root", () => {
-    const stateDir = setupStateDir();
-    const oldStoragePaths = seedCanonicalStorageRoot({
-      stateDir,
-      accessToken: "secret-token-old",
-      storageMeta: {
-        homeserver: defaultStorageAuth.homeserver,
-        userId: defaultStorageAuth.userId,
-        accountId: "default",
-        accessTokenHash: resolveDefaultStoragePaths({ accessToken: "secret-token-old" }).tokenHash,
-        currentTokenStateClaimed: true,
-        deviceId: "DEVICE123",
-      },
-    });
-    seedCanonicalStorageRoot({
-      stateDir,
-      accessToken: "secret-token-new",
-      storageMeta: {
-        homeserver: defaultStorageAuth.homeserver,
-        userId: defaultStorageAuth.userId,
-        accountId: "default",
-        accessTokenHash: resolveDefaultStoragePaths({ accessToken: "secret-token-new" }).tokenHash,
-        deviceId: "DEVICE123",
-      },
+  it("does not reuse a populated older token-hash root while deviceId is unknown", async () => {
+    const oldStoragePaths = await seedOldStorageRoot({ metadata: false });
+
+    const newerCanonicalPaths = canonicalRoot("secret-token-new");
+    fs.mkdirSync(newerCanonicalPaths.rootDir, { recursive: true });
+    seedStorageMeta(newerCanonicalPaths.rootDir, {
+      accessTokenHash: newerCanonicalPaths.tokenHash,
     });
 
-    const rotatedStoragePaths = resolveDefaultStoragePaths({
-      accessToken: "secret-token-new",
-      deviceId: "DEVICE123",
-    });
-
-    expect(rotatedStoragePaths.rootDir).toBe(oldStoragePaths.rootDir);
-    expect(rotatedStoragePaths.tokenHash).toBe(oldStoragePaths.tokenHash);
-  });
-
-  it("does not reuse a populated older token-hash root while deviceId is unknown", () => {
-    const stateDir = setupStateDir();
-    const oldStoragePaths = seedExistingStorageRoot({
-      accessToken: "secret-token-old",
-    });
-
-    const newerCanonicalPaths = seedCanonicalStorageRoot({
-      stateDir,
-      accessToken: "secret-token-new",
-      storageMeta: {
-        accessTokenHash: resolveDefaultStoragePaths({ accessToken: "secret-token-new" }).tokenHash,
-      },
-    });
-
-    const resolvedPaths = resolveDefaultStoragePaths({
+    const resolvedPaths = await resolveDefaultStoragePaths({
       accessToken: "secret-token-new",
     });
 
@@ -718,74 +593,66 @@ describe("matrix client storage paths", () => {
     expect(resolvedPaths.rootDir).not.toBe(oldStoragePaths.rootDir);
   });
 
-  it("does not reuse a populated sibling storage root from a different device", () => {
-    const stateDir = setupStateDir();
-    seedExistingStorageRoot({
-      accessToken: "secret-token-old",
+  it("does not reuse a populated sibling storage root from a different device", async () => {
+    await seedOldStorageRoot({
       deviceId: "OLDDEVICE",
+      metadata: false,
       startupVerificationDeviceId: "OLDDEVICE",
     });
-    expectCanonicalRootForNewDevice(stateDir);
-  });
-
-  it("does not reuse a populated sibling storage root with ambiguous device metadata", () => {
-    const stateDir = setupStateDir();
-    seedExistingStorageRoot({
-      accessToken: "secret-token-old",
-    });
-    expectCanonicalRootForNewDevice(stateDir);
-  });
-
-  it("keeps the current-token storage root stable after deviceId backfill when startup claimed state there", () => {
-    const { stateDir, canonicalPaths } = setupCurrentTokenBackfillScenario({
-      currentRootFiles: "thread-bindings",
-      oldRootFiles: "crypto-only",
+    const newerCanonicalPaths = seedCanonicalStorageRoot("secret-token-new", {
+      deviceId: "NEWDEVICE",
     });
 
-    repairCurrentTokenStorageMetaDeviceId({
-      homeserver: defaultStorageAuth.homeserver,
-      userId: defaultStorageAuth.userId,
+    const resolvedPaths = await resolveRotatedDevice("NEWDEVICE");
+
+    expect(resolvedPaths.rootDir).toBe(newerCanonicalPaths.rootDir);
+    expect(resolvedPaths.tokenHash).toBe(newerCanonicalPaths.tokenHash);
+  });
+
+  it("does not reuse a populated sibling storage root with ambiguous device metadata", async () => {
+    const storagePaths = await resolveDefaultStoragePaths({ accessToken: "secret-token-old" });
+    fs.mkdirSync(storagePaths.rootDir, { recursive: true });
+    fs.writeFileSync(storagePaths.storagePath, '{"legacy":true}');
+    const canonicalPaths = seedCanonicalStorageRoot("secret-token-new", {
+      deviceId: "NEWDEVICE",
+    });
+    const resolved = await resolveRotatedDevice("NEWDEVICE");
+    expect(resolved.rootDir).toBe(canonicalPaths.rootDir);
+    expect(resolved.tokenHash).toBe(canonicalPaths.tokenHash);
+  });
+
+  it.each([true, false])("keeps backfilled roots sticky only when claimed: %s", async (claimed) => {
+    const canonicalPaths = seedCanonicalStorageRoot("secret-token-new", {
+      deviceId: null,
+    });
+    if (claimed) {
+      seedThreadBinding(canonicalPaths.rootDir, "new");
+      expect(await claimCurrentTokenStorageState(canonicalPaths)).toBe(true);
+    } else {
+      seedStartupVerification(canonicalPaths.rootDir, "DEVICE123");
+    }
+
+    const oldStoragePaths = await seedOldStorageRoot();
+    fs.mkdirSync(path.join(oldStoragePaths.rootDir, "crypto"), { recursive: true });
+    if (!claimed) {
+      seedThreadBinding(oldStoragePaths.rootDir, "old");
+    } else {
+      seedStartupVerification(oldStoragePaths.rootDir, "DEVICE123");
+    }
+
+    await repairCurrentTokenStorageMetaDeviceId({
+      ...defaultStorageAuth,
       accessToken: "secret-token-new",
       accountId: "default",
       deviceId: "DEVICE123",
-      env: createMigrationEnv(stateDir),
+      env: createMigrationEnv(),
     });
-
-    const repairedMeta = JSON.parse(
-      fs.readFileSync(path.join(canonicalPaths.rootDir, "storage-meta.json"), "utf8"),
-    ) as { deviceId?: string | null };
-
-    expect(repairedMeta.deviceId).toBe("DEVICE123");
-    const startupPaths = resolveDefaultStoragePaths({
-      accessToken: "secret-token-new",
-    });
-    expect(startupPaths.rootDir).toBe(canonicalPaths.rootDir);
-    const restartedPaths = resolveDefaultStoragePaths({
-      accessToken: "secret-token-new",
-      deviceId: "DEVICE123",
-    });
-    expect(restartedPaths.rootDir).toBe(canonicalPaths.rootDir);
-  });
-
-  it("does not keep the current-token storage root sticky when only marker files exist after backfill", () => {
-    const { stateDir, oldStoragePaths } = setupCurrentTokenBackfillScenario({
-      currentRootFiles: "startup-verification",
-      oldRootFiles: "thread-bindings",
-    });
-
-    repairCurrentTokenStorageMetaDeviceId({
-      homeserver: defaultStorageAuth.homeserver,
-      userId: defaultStorageAuth.userId,
-      accessToken: "secret-token-new",
-      accountId: "default",
-      deviceId: "DEVICE123",
-      env: createMigrationEnv(stateDir),
-    });
-
-    const restartedPaths = resolveDefaultStoragePaths({
-      accessToken: "secret-token-new",
-      deviceId: "DEVICE123",
-    });
-    expect(restartedPaths.rootDir).toBe(oldStoragePaths.rootDir);
+    if (claimed) {
+      expect(readStorageMeta(canonicalPaths.rootDir)).toMatchObject({ deviceId: "DEVICE123" });
+      const startupPaths = await resolveDefaultStoragePaths({ accessToken: "secret-token-new" });
+      expect(startupPaths.rootDir).toBe(canonicalPaths.rootDir);
+    }
+    const restartedPaths = await resolveRotatedDevice();
+    expect(restartedPaths.rootDir).toBe((claimed ? canonicalPaths : oldStoragePaths).rootDir);
   });
 });

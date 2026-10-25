@@ -2,12 +2,31 @@
 import { describe, expect, it } from "vitest";
 import {
   assertNoGatewayLogSentinels,
+  extractGatewayMessageText,
   formatGatewayLogSentinelSummary,
   scanDirectReplyTranscriptSentinels,
   scanGatewayLogSentinels,
 } from "./gateway-log-sentinel.js";
 
 describe("gateway log sentinels", () => {
+  it.each([
+    [
+      {
+        content: [
+          "  plain  ",
+          " ",
+          null,
+          { type: "ToOl_ReSuLt", content: " nested " },
+          { type: "OUTPUT_TEXT", content: "output" },
+          { type: "unknown", text: " priority ", content: "ignored" },
+        ],
+      },
+      "plain\nnested\noutput\npriority",
+    ],
+  ])("extracts message text from tool result shapes", (message, expected) => {
+    expect(extractGatewayMessageText(message)).toBe(expected);
+  });
+
   it("classifies May 13 beta.5 operational failure signatures", () => {
     const findings = scanGatewayLogSentinels(
       [
@@ -17,7 +36,7 @@ describe("gateway log sentinels", () => {
         "[plugins] plugin must declare contracts.tools for: runtime_tool",
         "2026-05-13T00:00:04Z codex app-server attempt timed out after 180000ms",
         "2026-05-13T00:00:05Z codex_app_server progress stalled for run abc123",
-        "2026-05-13T00:00:06Z cron payload model openai/gpt-5.5 is not in model allowlist",
+        "2026-05-13T00:00:06Z cron payload model openai/gpt-5.6-luna is not in model allowlist",
         "2026-05-13T00:00:07Z OpenAI quota exceeded for live-frontier request",
       ].join("\n"),
     );
@@ -46,6 +65,33 @@ describe("gateway log sentinels", () => {
     );
   });
 
+  it("classifies channel final reply delivery failures without block-reply noise", () => {
+    const findings = scanGatewayLogSentinels(
+      [
+        "2026-10-11T07:57:01.932+00:00 [telegram] final reply failed: SqliteWorkerError: Session actor version changed before command admission",
+        "[tlon] final reply failed after 812ms: Error: socket closed",
+        "msteams block reply failed: Error: throttled",
+      ].join("\n"),
+    );
+
+    expect(
+      findings.map(({ kind, line, verdict, owner }) => ({ kind, line, verdict, owner })),
+    ).toEqual([
+      {
+        kind: "final-reply-delivery-failure",
+        line: 1,
+        verdict: "product-bug",
+        owner: "openclaw-routing",
+      },
+      {
+        kind: "final-reply-delivery-failure",
+        line: 2,
+        verdict: "product-bug",
+        owner: "openclaw-routing",
+      },
+    ]);
+  });
+
   it("honors log cursors while preserving absolute line numbers", () => {
     const prefix = "safe line\n";
     const findings = scanGatewayLogSentinels(`${prefix}codex app-server attempt timed out`, {
@@ -59,13 +105,13 @@ describe("gateway log sentinels", () => {
     });
   });
 
-  it("throws actionable summaries unless only environment blockers are allowed", () => {
+  it("throws actionable summaries for product and environment failures", () => {
     expect(() => assertNoGatewayLogSentinels("codex_app_server progress stalled")).toThrow(
       "stalled-agent-run",
     );
-    expect(() =>
-      assertNoGatewayLogSentinels("OpenAI quota exceeded", { allowEnvironmentBlocked: true }),
-    ).not.toThrow();
+    expect(() => assertNoGatewayLogSentinels("OpenAI quota exceeded")).toThrow(
+      "live-quota-or-subscription",
+    );
     expect(formatGatewayLogSentinelSummary(scanGatewayLogSentinels("OpenAI quota exceeded"))).toBe(
       "live-quota-or-subscription@1 environment-blocked owner=environment: OpenAI quota exceeded",
     );
@@ -98,7 +144,19 @@ describe("gateway log sentinels", () => {
     });
   });
 
-  it("detects OpenAI function_call-shaped direct reply transcripts", () => {
+  it.each([
+    [{ action: "send", target: "current", text: "hello" }, true],
+    ['{"action":"send","target":"current","text":"hello"}', true],
+    ['{"action":"send","target":"other-chat"}', false],
+    [null, false],
+    [[], false],
+    ["null", false],
+    ["[]", false],
+    ["42", false],
+    ['"text"', false],
+    [" ", false],
+    ["{", false],
+  ])("classifies function_call message arguments %j", (args, shouldFind) => {
     const findings = scanDirectReplyTranscriptSentinels(
       [
         JSON.stringify({
@@ -108,11 +166,7 @@ describe("gateway log sentinels", () => {
               {
                 type: "function_call",
                 name: "message",
-                arguments: JSON.stringify({
-                  action: "send",
-                  target: "current",
-                  text: "hello",
-                }),
+                arguments: args,
               },
             ],
           },
@@ -121,6 +175,8 @@ describe("gateway log sentinels", () => {
       ].join("\n"),
     );
 
-    expect(findings.map((finding) => finding.kind)).toEqual(["direct-reply-self-message"]);
+    expect(findings.map((finding) => finding.kind)).toEqual(
+      shouldFind ? ["direct-reply-self-message"] : [],
+    );
   });
 });

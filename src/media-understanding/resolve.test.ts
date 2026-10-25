@@ -1,20 +1,23 @@
-// Media-understanding resolve tests cover timeout clamping, capability filtering,
-// and active-model fallback behavior.
 import { MAX_TIMER_TIMEOUT_MS } from "@openclaw/normalization-core/number-coercion";
 import { describe, expect, it } from "vitest";
 import type { OpenClawConfig } from "../config/types.js";
-import {
-  resolveEntriesWithActiveFallback,
-  resolveMediaRuntimeTimeoutMs,
-  resolveModelEntries,
-  resolveTimeoutMs,
-} from "./resolve.js";
+import type { MediaUnderstandingModelConfig } from "../config/types.tools.js";
+import { resolveMediaRuntimeTimeoutMs, resolveModelEntries, resolveTimeoutMs } from "./resolve.js";
 import type { MediaUnderstandingCapability } from "./types.js";
 
 const providerRegistry = new Map<string, { capabilities: MediaUnderstandingCapability[] }>([
   ["openai", { capabilities: ["image"] }],
   ["groq", { capabilities: ["audio"] }],
 ]);
+
+function resolve(
+  models: MediaUnderstandingModelConfig[],
+  capability: MediaUnderstandingCapability,
+  preferredModel?: string,
+) {
+  const cfg: OpenClawConfig = { tools: { media: { models } } };
+  return resolveModelEntries({ cfg, capability, config: { preferredModel }, providerRegistry });
+}
 
 describe("media timeout resolution", () => {
   it("caps configured media timeout seconds to timer-safe values", () => {
@@ -30,148 +33,55 @@ describe("media timeout resolution", () => {
 
 describe("resolveModelEntries", () => {
   it("uses provider capabilities for shared entries without explicit caps", () => {
-    const cfg: OpenClawConfig = {
-      tools: {
-        media: {
-          models: [{ provider: "openai", model: "gpt-5.4" }],
-        },
+    const models = [{ provider: "openai", model: "gpt-5.4" }];
+    const imageEntries = resolve(models, "image");
+    expect(imageEntries).toMatchObject([
+      {
+        entry: { provider: "openai", model: "gpt-5.4" },
+        secretOwnerId: "media-model:shared:0",
       },
-    };
+    ]);
 
-    const imageEntries = resolveModelEntries({
-      cfg,
-      capability: "image",
-      providerRegistry,
-    });
-    expect(imageEntries).toHaveLength(1);
-
-    const audioEntries = resolveModelEntries({
-      cfg,
-      capability: "audio",
-      providerRegistry,
-    });
-    expect(audioEntries).toHaveLength(0);
+    expect(resolve(models, "audio")).toHaveLength(0);
   });
 
-  it("keeps per-capability entries even without explicit caps", () => {
-    const cfg: OpenClawConfig = {
-      tools: {
-        media: {
-          image: {
-            models: [{ provider: "openai", model: "gpt-5.4" }],
-          },
-        },
-      },
-    };
-
-    const imageEntries = resolveModelEntries({
-      cfg,
-      capability: "image",
-      config: cfg.tools?.media?.image,
-      providerRegistry,
-    });
-    expect(imageEntries).toHaveLength(1);
+  it("orders capability-tagged shared entries by the per-capability preference", () => {
+    const imageEntries = resolve(
+      [
+        { type: "cli", command: "unused-media-fixture" },
+        { provider: "openai", model: "gpt-5.4-mini", capabilities: ["image"] },
+        { provider: "openai", model: "gpt-5.4", capabilities: ["image"] },
+      ],
+      "image",
+      "openai/gpt-5.4",
+    );
+    expect(imageEntries).toMatchObject([
+      { entry: { model: "gpt-5.4" }, secretOwnerId: "media-model:shared:2" },
+      { entry: { model: "gpt-5.4-mini" }, secretOwnerId: "media-model:shared:1" },
+    ]);
   });
 
-  it("skips shared CLI entries without capabilities", () => {
-    const cfg: OpenClawConfig = {
-      tools: {
-        media: {
-          models: [{ type: "cli", command: "gemini", args: ["--file", "{{MediaPath}}"] }],
-        },
-      },
-    };
-
-    const entries = resolveModelEntries({
-      cfg,
-      capability: "image",
-      providerRegistry,
-    });
-    expect(entries).toHaveLength(0);
-  });
-});
-
-describe("resolveEntriesWithActiveFallback", () => {
-  type ResolveWithFallbackInput = Parameters<typeof resolveEntriesWithActiveFallback>[0];
-  const defaultActiveModel = { provider: "groq", model: "whisper-large-v3" } as const;
-
-  function resolveWithActiveFallback(params: {
-    cfg: ResolveWithFallbackInput["cfg"];
-    capability: ResolveWithFallbackInput["capability"];
-    config: ResolveWithFallbackInput["config"];
-  }) {
-    return resolveEntriesWithActiveFallback({
-      cfg: params.cfg,
-      capability: params.capability,
-      config: params.config,
-      providerRegistry,
-      activeModel: defaultActiveModel,
-    });
-  }
-
-  function expectResolvedProviders(params: {
-    cfg: OpenClawConfig;
-    capability: ResolveWithFallbackInput["capability"];
-    config: ResolveWithFallbackInput["config"];
-    providers: string[];
-  }) {
-    const entries = resolveWithActiveFallback({
-      cfg: params.cfg,
-      capability: params.capability,
-      config: params.config,
-    });
-    expect(entries).toHaveLength(params.providers.length);
-    expect(entries.map((entry) => entry.provider)).toEqual(params.providers);
-  }
-
-  it("uses active model when enabled and no models are configured", () => {
-    const cfg: OpenClawConfig = {
-      tools: {
-        media: {
-          audio: { enabled: true },
-        },
-      },
-    };
-
-    expectResolvedProviders({
-      cfg,
-      capability: "audio",
-      config: cfg.tools?.media?.audio,
-      providers: ["groq"],
-    });
+  it("ranks an exact provider-qualified preference above a matching bare model id", () => {
+    const entries = resolve(
+      [
+        { provider: "openrouter", model: "openai/gpt-5.4", capabilities: ["image"] },
+        { provider: "openai", model: "gpt-5.4", capabilities: ["image"] },
+      ],
+      "image",
+      "openai/gpt-5.4",
+    );
+    expect(entries[0]?.entry).toMatchObject({ provider: "openai", model: "gpt-5.4" });
   });
 
-  it("ignores active model when configured entries exist", () => {
-    const cfg: OpenClawConfig = {
-      tools: {
-        media: {
-          audio: { enabled: true, models: [{ provider: "openai", model: "whisper-1" }] },
-        },
-      },
-    };
-
-    expectResolvedProviders({
-      cfg,
-      capability: "audio",
-      config: cfg.tools?.media?.audio,
-      providers: ["openai"],
-    });
-  });
-
-  it("skips active model when provider lacks capability", () => {
-    const cfg: OpenClawConfig = {
-      tools: {
-        media: {
-          video: { enabled: true },
-        },
-      },
-    };
-
-    const entries = resolveWithActiveFallback({
-      cfg,
-      capability: "video",
-      config: cfg.tools?.media?.video,
-    });
-    expect(entries).toHaveLength(0);
+  it("prefers a provider-default entry without requiring a model id", () => {
+    const entries = resolve(
+      [
+        { provider: "groq", model: "whisper-large-v3", capabilities: ["audio"] },
+        { provider: "openai", capabilities: ["audio"] },
+      ],
+      "audio",
+      "provider:openai",
+    );
+    expect(entries[0]?.entry.provider).toBe("openai");
   });
 });

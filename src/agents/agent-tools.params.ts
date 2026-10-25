@@ -1,9 +1,15 @@
 /**
  * Shared validation for model-supplied tool parameters.
  * Converts malformed file-tool arguments into retryable errors and fixes the
- * specific XML suffix corruption seen in path arguments.
+ * specific XML suffix and Office-extension corruption seen in path arguments.
  */
+import { asOptionalObjectRecord as getToolParamsRecord } from "@openclaw/normalization-core/record-coerce";
 import type { AnyAgentTool } from "./agent-tools.types.js";
+import { preserveAtPrefixedRelativePath } from "./path-policy.js";
+import type { SandboxFsBridge } from "./sandbox/fs-bridge.types.js";
+import { normalizeLocalWindowsDrivePath } from "./sessions/tools/path-utils.js";
+
+export { getToolParamsRecord };
 
 export type RequiredParamGroup = {
   keys: readonly string[];
@@ -14,7 +20,12 @@ export type RequiredParamGroup = {
 
 const RETRY_GUIDANCE_SUFFIX = " Supply correct parameters before retrying.";
 const XML_ARG_VALUE_SUFFIX_RE = /<\/arg_value>>+$/;
-const XML_ARG_VALUE_PATH_PARAM_KEYS = new Set(["path"]);
+const HALLUCINATED_OFFICE_PATH_EXTENSION_RE = /\.(doc|ppt|xls)(?:odex|codex|xodex|xcodex)$/i;
+const OFFICE_EXTENSION_BY_FAMILY: Record<string, string> = {
+  doc: ".docx",
+  ppt: ".pptx",
+  xls: ".xlsx",
+};
 
 function parameterValidationError(message: string): Error {
   return new Error(`${message}.${RETRY_GUIDANCE_SUFFIX}`);
@@ -42,14 +53,7 @@ function formatReceivedParamHint(
 ): string {
   // Include only present fields so errors can distinguish missing parameters
   // from wrong-shaped or empty values without echoing full content.
-  const allowEmptyKeys = new Set<string>();
-  for (const group of groups) {
-    if (group.allowEmpty) {
-      for (const key of group.keys) {
-        allowEmptyKeys.add(key);
-      }
-    }
-  }
+  const allowEmptyKeys = new Set(groups.flatMap((group) => (group.allowEmpty ? group.keys : [])));
   const received: string[] = [];
   for (const key of Object.keys(record)) {
     const detail = describeReceivedParamValue(record[key], allowEmptyKeys.has(key));
@@ -61,12 +65,7 @@ function formatReceivedParamHint(
   return received.length > 0 ? ` (received: ${received.join(", ")})` : "";
 }
 
-type EditReplacement = {
-  oldText: string;
-  newText: string;
-};
-
-function isValidEditReplacement(value: unknown): value is EditReplacement {
+function isValidEditReplacement(value: unknown): boolean {
   if (!value || typeof value !== "object") {
     return false;
   }
@@ -80,19 +79,14 @@ function isValidEditReplacement(value: unknown): value is EditReplacement {
 
 function hasValidEditReplacements(record: Record<string, unknown>): boolean {
   const edits = record.edits;
-  return (
-    Array.isArray(edits) &&
-    edits.length > 0 &&
-    edits.every((entry) => isValidEditReplacement(entry))
-  );
+  return Array.isArray(edits) && edits.length > 0 && edits.every(isValidEditReplacement);
 }
 
-/** Required parameter groups for file-style tools that need retry guidance. */
 export const REQUIRED_PARAM_GROUPS = {
   read: [{ keys: ["path"], label: "path" }],
   write: [
     { keys: ["path"], label: "path" },
-    { keys: ["content"], label: "content" },
+    { keys: ["content"], label: "content", allowEmpty: true },
   ],
   edit: [
     { keys: ["path"], label: "path" },
@@ -100,14 +94,28 @@ export const REQUIRED_PARAM_GROUPS = {
   ],
 } as const;
 
-/** Return a record view of model-supplied tool params when possible. */
-export function getToolParamsRecord(params: unknown): Record<string, unknown> | undefined {
-  return params && typeof params === "object" ? (params as Record<string, unknown>) : undefined;
+function stripMalformedXmlArgValueSuffix(value: string): string {
+  return value.includes("</arg_value>") ? value.replace(XML_ARG_VALUE_SUFFIX_RE, "") : value;
 }
 
-/** Strip extra closing markers sometimes produced in XML arg_value path params. */
-export function stripMalformedXmlArgValueSuffix(value: string): string {
-  return value.includes("</arg_value>") ? value.replace(XML_ARG_VALUE_SUFFIX_RE, "") : value;
+/** Normalize model-supplied file-tool path params without touching payload text. */
+export function normalizeFileToolPathParam(value: string): string;
+export function normalizeFileToolPathParam(
+  value: string,
+  cwd: string,
+  bridge?: SandboxFsBridge,
+): Promise<string>;
+export function normalizeFileToolPathParam(
+  value: string,
+  cwd?: string,
+  bridge?: SandboxFsBridge,
+): string | Promise<string> {
+  const repaired = stripMalformedXmlArgValueSuffix(value).replace(
+    HALLUCINATED_OFFICE_PATH_EXTENSION_RE,
+    (match, family: string) => OFFICE_EXTENSION_BY_FAMILY[family.toLowerCase()] ?? match,
+  );
+  const filePath = cwd && !bridge ? normalizeLocalWindowsDrivePath(repaired) : repaired;
+  return cwd ? Promise.resolve(preserveAtPrefixedRelativePath(filePath, cwd, bridge)) : repaired;
 }
 
 /** Strip malformed XML suffixes from selected string fields without mutating input. */
@@ -130,53 +138,62 @@ export function stripMalformedXmlArgValueSuffixFromKeys<T extends Record<string,
   return normalized ?? record;
 }
 
-function resolveMalformedXmlArgValuePathKeys(
-  groups: readonly RequiredParamGroup[] | undefined,
-): string[] {
-  const keys = new Set<string>();
-  for (const group of groups ?? []) {
-    for (const key of group.keys) {
-      if (XML_ARG_VALUE_PATH_PARAM_KEYS.has(key)) {
-        keys.add(key);
-      }
+/** Normalize selected file-tool path fields without mutating input. */
+export async function normalizeFileToolPathParamsFromKeys<T extends Record<string, unknown>>(
+  record: T,
+  keys: readonly string[],
+  cwd?: string,
+  bridge?: SandboxFsBridge,
+): Promise<T> {
+  let normalized: T | undefined;
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value !== "string") {
+      continue;
+    }
+    const normalizedValue = cwd
+      ? await normalizeFileToolPathParam(value, cwd, bridge)
+      : normalizeFileToolPathParam(value);
+    if (normalizedValue !== value) {
+      normalized ??= { ...record };
+      normalized[key as keyof T] = normalizedValue as T[keyof T];
     }
   }
-  return [...keys];
+  return normalized ?? record;
 }
 
-/** Throw actionable retry guidance when required tool params are missing. */
+function missingRequiredParamLabels(
+  record: Record<string, unknown> | undefined,
+  groups: readonly RequiredParamGroup[],
+): string[] {
+  return groups
+    .filter(
+      (group) =>
+        !record ||
+        !(
+          group.validator?.(record) ??
+          group.keys.some((key) => {
+            if (!(key in record)) {
+              return false;
+            }
+            const value = record[key];
+            return typeof value === "string" && (group.allowEmpty || value.trim().length > 0);
+          })
+        ),
+    )
+    .map((group) => group.label ?? group.keys.join(" or "));
+}
+
 export function assertRequiredParams(
   record: Record<string, unknown> | undefined,
   groups: readonly RequiredParamGroup[],
   toolName: string,
 ): void {
-  if (!record || typeof record !== "object") {
+  if (!record) {
     throw parameterValidationError(`Missing parameters for ${toolName}`);
   }
 
-  const missingLabels: string[] = [];
-  for (const group of groups) {
-    const satisfied =
-      group.validator?.(record) ??
-      group.keys.some((key) => {
-        if (!(key in record)) {
-          return false;
-        }
-        const value = record[key];
-        if (typeof value !== "string") {
-          return false;
-        }
-        if (group.allowEmpty) {
-          return true;
-        }
-        return value.trim().length > 0;
-      });
-
-    if (!satisfied) {
-      const label = group.label ?? group.keys.join(" or ");
-      missingLabels.push(label);
-    }
-  }
+  const missingLabels = missingRequiredParamLabels(record, groups);
 
   if (missingLabels.length > 0) {
     const joined = missingLabels.join(", ");
@@ -186,24 +203,20 @@ export function assertRequiredParams(
   }
 }
 
-/** Wrap a tool execute function with required-parameter validation. */
 export function wrapToolParamValidation(
   tool: AnyAgentTool,
-  requiredParamGroups?: readonly RequiredParamGroup[],
+  requiredParamGroups: readonly RequiredParamGroup[],
+  cwd?: string,
 ): AnyAgentTool {
   return {
     ...tool,
     execute: async (toolCallId, params, signal, onUpdate) => {
       const record = getToolParamsRecord(params);
-      const pathKeys = resolveMalformedXmlArgValuePathKeys(requiredParamGroups);
-      const normalizedParams =
-        record && pathKeys.length > 0
-          ? stripMalformedXmlArgValueSuffixFromKeys(record, pathKeys)
-          : params;
-      if (requiredParamGroups?.length) {
-        assertRequiredParams(getToolParamsRecord(normalizedParams), requiredParamGroups, tool.name);
-      }
-      return tool.execute(toolCallId, normalizedParams, signal, onUpdate);
+      const normalizedRecord = record
+        ? await normalizeFileToolPathParamsFromKeys(record, ["path"], cwd)
+        : record;
+      assertRequiredParams(normalizedRecord, requiredParamGroups, tool.name);
+      return tool.execute(toolCallId, normalizedRecord ?? params, signal, onUpdate);
     },
   };
 }
