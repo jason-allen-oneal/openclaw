@@ -288,10 +288,6 @@ export function runExclusiveSqliteTranscriptArchiveWorker<T>(
       pending = undefined;
       reject(toStringifiedError(signal.reason));
     };
-    if (signal.aborted) {
-      cancel();
-      return;
-    }
     signal.addEventListener("abort", cancel, { once: true });
     void sqliteTranscriptArchiveWorkerQueue.queue
       .enqueue(

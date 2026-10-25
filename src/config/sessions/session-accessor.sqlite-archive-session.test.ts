@@ -176,7 +176,6 @@ describe("SQLite transcript archive sessions", () => {
         throw new Error("expected a retained archive plan");
       }
       const gate = new Int32Array(new SharedArrayBuffer(8));
-      const create = createNativeTrackedWorker;
       let archive: Worker | undefined;
       using createWorker = vi
         .spyOn(workerCpu, "createCpuTrackedWorker")
@@ -185,9 +184,9 @@ describe("SQLite transcript archive sessions", () => {
             !isRecord(options?.workerData) ||
             options.workerData.type !== "sqlite-transcript-archive-v2"
           ) {
-            return create(filename, options);
+            return createNativeTrackedWorker(filename, options);
           }
-          archive = create(
+          archive = createNativeTrackedWorker(
             new URL("./session-accessor.sqlite-archive-timeout.test-support.mjs", import.meta.url),
             {
               ...options,

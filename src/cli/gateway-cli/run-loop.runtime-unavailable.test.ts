@@ -59,10 +59,9 @@ it("closes admission and drains active work before handing runtime recovery to t
     try {
       diagnose();
       await vi.dynamicImportSettled();
-      expect(
-        f.requestGatewayRestartWithSignalAdmission,
-        JSON.stringify(f.gatewayLog.warn.mock.calls),
-      ).toHaveBeenCalledExactlyOnceWith("gateway.runtime-unavailable");
+      expect(f.requestGatewayRestartWithSignalAdmission).toHaveBeenCalledExactlyOnceWith(
+        "gateway.runtime-unavailable",
+      );
       await drain.entered;
       expect(gatewayWorkAdmissionActual.isGatewayWorkAdmissionClosed()).toBe(true);
       expectUncalled(close, f.restartGatewayProcessWithFreshPid);
