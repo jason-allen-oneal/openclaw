@@ -209,6 +209,9 @@ export function collectRecoveryInventory(params: {
       );
     } else if (refs.some((ref) => ref.consumedByRestore)) {
       classify("protected", "archive-consumed-by-restore");
+    } else if (refs.some((ref) => ref.move.retirement)) {
+      // Explicit loss of unverified history is never resumed by automatic cleanup.
+      classify("protected", "explicit-history-retirement-pending");
     } else if (
       hasSymbolicLinkInDirectoryPath(path.dirname(archivePath)) ||
       (stat &&
