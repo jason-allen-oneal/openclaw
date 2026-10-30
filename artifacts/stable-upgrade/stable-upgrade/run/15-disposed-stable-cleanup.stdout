@@ -1,0 +1,56 @@
+{
+  "stateDir": "/tmp/openclaw-186088-stable-proof/run/state",
+  "artifacts": [
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/session-sqlite-migration-runs/startup-migration-75865dcb-39a1-4899-a409-6d20614de969.json",
+      "runs": [],
+      "bytes": 2332,
+      "outcome": "blocked",
+      "reason": "unreadable-manifest"
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/session-sqlite-migration-runs/session-sqlite-1793365513592-50afea5a.json",
+      "runs": [],
+      "bytes": 13136,
+      "outcome": "blocked",
+      "reason": "unreadable-manifest"
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad.bak",
+      "runs": [
+        "startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad"
+      ],
+      "bytes": 675840,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/state/openclaw.sqlite.pre-startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad.bak",
+      "runs": [
+        "startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad"
+      ],
+      "bytes": 1429504,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/state/openclaw.sqlite.pre-startup-migration-75865dcb-39a1-4899-a409-6d20614de969.scoped.bak",
+      "runs": [],
+      "bytes": 24576,
+      "outcome": "protected",
+      "reason": "unmanifested-recovery-original"
+    }
+  ],
+  "totals": {
+    "candidateBytes": 0,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 2129920,
+    "blockedBytes": 15468,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "blocked",
+  "dryRun": false
+}

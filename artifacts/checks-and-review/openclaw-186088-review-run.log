@@ -1,0 +1,21 @@
+preparation: target selection
+autoreview target: local
+branch: fix/session-archive-retirement-186088
+engine: codex
+model: gpt-6.1-sol
+fallback_model: gpt-6-sol
+thinking: medium
+codex_speed: service_tier="ultrafast"
+tools: on
+web_search: off
+ref: f964859d9f2bd045420271b95f6523df70285bd4
+preparation: evidence selection
+preparation: initial source snapshot
+preparation: bundle/evidence preparation
+bundle: 690206 bytes; review passes: 2
+review plan: 2 passes; 943262 total prompt bytes
+preparation: pre-review verification
+preparation: evidence verification
+review pass: 1/2 (507861 prompt bytes)
+review usage: {"attempts": 1, "complete": false, "partial_attempts": 0, "reported_attempts": 0, "tokens": null, "unknown_attempts": 1}
+codex engine failed: authentication; authentication diagnostics suppressed

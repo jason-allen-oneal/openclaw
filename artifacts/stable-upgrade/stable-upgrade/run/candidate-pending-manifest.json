@@ -1,0 +1,294 @@
+{
+  "completedAt": "2026-10-30T13:05:14.708Z",
+  "manifestVersion": 5,
+  "openClawVersion": "2026.10.9",
+  "runId": "session-sqlite-1793365513592-50afea5a",
+  "startedAt": "2026-10-30T13:05:13.592Z",
+  "targets": [
+    {
+      "agentId": "main",
+      "completedMoves": [
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935761",
+              "mtimeNs": "1793365598936419404",
+              "size": 651,
+              "sha256": "b6766734953e08fc46152976c0f4a17e8d3f4f0e6e2dcc998afa7b1a249b7605"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "pending-disposal",
+              "intendedAt": "2026-10-30T13:17:30.759Z",
+              "phase": "intent",
+              "claimPath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/.cleanup-1f1401a8-405b-4817-8240-09f0225c96ce"
+            }
+          },
+          "kind": "transcript",
+          "sessionKey": "agent:main:proof",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl",
+          "retirement": {
+            "acceptedAt": "2026-10-30T13:17:30.758Z",
+            "backupPath": "/tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+            "backupManifestPath": "/tmp/openclaw-186088-stable-proof/run/backup/session-sqlite-migration-runs/session-sqlite-1793365513592-50afea5a.json",
+            "backupManifestSha256": "db79a57aefbea463f5be60048024f6cb30cb56fadea9412643468d389a8b3dc8",
+            "previousArtifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "1935761",
+                "mtimeNs": "1793365471571100714",
+                "size": 496,
+                "sha256": "2ab1feb7c598924e6487e1b260aed20fbf1ce83b7870d40d8deacb6e318b568f"
+              },
+              "classification": "imported",
+              "reason": "verified-import-original",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935762",
+              "mtimeNs": "1793365471571134446",
+              "size": 100,
+              "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "pending-disposal",
+              "intendedAt": "2026-10-30T13:17:30.759Z",
+              "phase": "intent",
+              "claimPath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/.cleanup-29613508-05e1-4586-96e0-50498f0f6f5c"
+            }
+          },
+          "kind": "unreferenced-jsonl",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/history.trajectory.jsonl",
+          "retirement": {
+            "acceptedAt": "2026-10-30T13:17:30.758Z",
+            "backupPath": "/tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+            "backupManifestPath": "/tmp/openclaw-186088-stable-proof/run/backup/session-sqlite-migration-runs/session-sqlite-1793365513592-50afea5a.json",
+            "backupManifestSha256": "db79a57aefbea463f5be60048024f6cb30cb56fadea9412643468d389a8b3dc8",
+            "previousArtifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "1935762",
+                "mtimeNs": "1793365471571134446",
+                "size": 100,
+                "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+              },
+              "classification": "protected",
+              "reason": "unreferenced-history",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935760",
+              "mtimeNs": "1793365471571061693",
+              "size": 229,
+              "sha256": "f777b927bd5210033fe81203690fb91331d02ebcc5e22d54e1909e9860b1981a"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [
+              "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+            ],
+            "disposal": {
+              "state": "pending-disposal",
+              "intendedAt": "2026-10-30T13:17:30.759Z",
+              "phase": "intent",
+              "claimPath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/.cleanup-d9aee498-a032-423e-91e3-5b6905ad5dfe"
+            }
+          },
+          "kind": "legacy-store",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/sessions.json",
+          "retirement": {
+            "acceptedAt": "2026-10-30T13:17:30.758Z",
+            "backupPath": "/tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+            "backupManifestPath": "/tmp/openclaw-186088-stable-proof/run/backup/session-sqlite-migration-runs/session-sqlite-1793365513592-50afea5a.json",
+            "backupManifestSha256": "db79a57aefbea463f5be60048024f6cb30cb56fadea9412643468d389a8b3dc8",
+            "previousArtifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "1935760",
+                "mtimeNs": "1793365471571061693",
+                "size": 229,
+                "sha256": "f777b927bd5210033fe81203690fb91331d02ebcc5e22d54e1909e9860b1981a"
+              },
+              "classification": "imported",
+              "reason": "verified-index-import",
+              "dependencies": [
+                "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+              ],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        }
+      ],
+      "issues": [],
+      "plannedMoves": [
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935761",
+              "mtimeNs": "1793365598936419404",
+              "size": 651,
+              "sha256": "b6766734953e08fc46152976c0f4a17e8d3f4f0e6e2dcc998afa7b1a249b7605"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "pending-disposal",
+              "intendedAt": "2026-10-30T13:17:30.759Z",
+              "phase": "intent",
+              "claimPath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/.cleanup-1f1401a8-405b-4817-8240-09f0225c96ce"
+            }
+          },
+          "kind": "transcript",
+          "sessionKey": "agent:main:proof",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl",
+          "retirement": {
+            "acceptedAt": "2026-10-30T13:17:30.758Z",
+            "backupPath": "/tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+            "backupManifestPath": "/tmp/openclaw-186088-stable-proof/run/backup/session-sqlite-migration-runs/session-sqlite-1793365513592-50afea5a.json",
+            "backupManifestSha256": "db79a57aefbea463f5be60048024f6cb30cb56fadea9412643468d389a8b3dc8",
+            "previousArtifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "1935761",
+                "mtimeNs": "1793365471571100714",
+                "size": 496,
+                "sha256": "2ab1feb7c598924e6487e1b260aed20fbf1ce83b7870d40d8deacb6e318b568f"
+              },
+              "classification": "imported",
+              "reason": "verified-import-original",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935762",
+              "mtimeNs": "1793365471571134446",
+              "size": 100,
+              "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "pending-disposal",
+              "intendedAt": "2026-10-30T13:17:30.759Z",
+              "phase": "intent",
+              "claimPath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/.cleanup-29613508-05e1-4586-96e0-50498f0f6f5c"
+            }
+          },
+          "kind": "unreferenced-jsonl",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/history.trajectory.jsonl",
+          "retirement": {
+            "acceptedAt": "2026-10-30T13:17:30.758Z",
+            "backupPath": "/tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+            "backupManifestPath": "/tmp/openclaw-186088-stable-proof/run/backup/session-sqlite-migration-runs/session-sqlite-1793365513592-50afea5a.json",
+            "backupManifestSha256": "db79a57aefbea463f5be60048024f6cb30cb56fadea9412643468d389a8b3dc8",
+            "previousArtifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "1935762",
+                "mtimeNs": "1793365471571134446",
+                "size": 100,
+                "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+              },
+              "classification": "protected",
+              "reason": "unreferenced-history",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935760",
+              "mtimeNs": "1793365471571061693",
+              "size": 229,
+              "sha256": "f777b927bd5210033fe81203690fb91331d02ebcc5e22d54e1909e9860b1981a"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [
+              "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+            ],
+            "disposal": {
+              "state": "pending-disposal",
+              "intendedAt": "2026-10-30T13:17:30.759Z",
+              "phase": "intent",
+              "claimPath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/.cleanup-d9aee498-a032-423e-91e3-5b6905ad5dfe"
+            }
+          },
+          "kind": "legacy-store",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/sessions.json",
+          "retirement": {
+            "acceptedAt": "2026-10-30T13:17:30.758Z",
+            "backupPath": "/tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+            "backupManifestPath": "/tmp/openclaw-186088-stable-proof/run/backup/session-sqlite-migration-runs/session-sqlite-1793365513592-50afea5a.json",
+            "backupManifestSha256": "db79a57aefbea463f5be60048024f6cb30cb56fadea9412643468d389a8b3dc8",
+            "previousArtifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "1935760",
+                "mtimeNs": "1793365471571061693",
+                "size": 229,
+                "sha256": "f777b927bd5210033fe81203690fb91331d02ebcc5e22d54e1909e9860b1981a"
+              },
+              "classification": "imported",
+              "reason": "verified-index-import",
+              "dependencies": [
+                "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+              ],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        }
+      ],
+      "sqlitePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/agent/openclaw-agent.sqlite",
+      "storePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/sessions.json",
+      "validationBeforeArchive": "passed"
+    }
+  ]
+}

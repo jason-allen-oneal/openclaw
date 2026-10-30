@@ -1,0 +1,72 @@
+2026-10-30T13:43:17.9506441Z [shard:bun:agentic-gateway-methods-hosted-3]  FAIL   gateway-methods  src/gateway/server-methods/update-effective-channel.test.ts > reports slow status phases with {"enabled":true,"elapsed":1000,"throws":false}
+2026-10-30T13:43:17.9508672Z [shard:bun:agentic-gateway-methods-hosted-3] AssertionError: expected "vi.fn()" to be called once with arguments: [ 'update.status: slow request', …(1) ]
+2026-10-30T13:43:17.9509058Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9509266Z [shard:bun:agentic-gateway-methods-hosted-3] Received:
+2026-10-30T13:43:17.9509461Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9509732Z [shard:bun:agentic-gateway-methods-hosted-3]   1st vi.fn() call:
+2026-10-30T13:43:17.9509977Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9510236Z [shard:bun:agentic-gateway-methods-hosted-3] @@ -6,10 +6,11 @@
+2026-10-30T13:43:17.9510977Z [shard:bun:agentic-gateway-methods-hosted-3]       "phaseDurationsMs": {
+2026-10-30T13:43:17.9511441Z [shard:bun:agentic-gateway-methods-hosted-3]         "checkout": 20,
+2026-10-30T13:43:17.9511739Z [shard:bun:agentic-gateway-methods-hosted-3]         "history": 0,
+2026-10-30T13:43:17.9512035Z [shard:bun:agentic-gateway-methods-hosted-3]         "identity": 30,
+2026-10-30T13:43:17.9512352Z [shard:bun:agentic-gateway-methods-hosted-3]         "reconciliation": 0,
+2026-10-30T13:43:17.9512655Z [shard:bun:agentic-gateway-methods-hosted-3] +       "recovery": 0,
+2026-10-30T13:43:17.9512953Z [shard:bun:agentic-gateway-methods-hosted-3]         "response": 0,
+2026-10-30T13:43:17.9513254Z [shard:bun:agentic-gateway-methods-hosted-3]         "sentinel": 950,
+2026-10-30T13:43:17.9513539Z [shard:bun:agentic-gateway-methods-hosted-3]       },
+2026-10-30T13:43:17.9513791Z [shard:bun:agentic-gateway-methods-hosted-3]     },
+2026-10-30T13:43:17.9514056Z [shard:bun:agentic-gateway-methods-hosted-3]   ]
+2026-10-30T13:43:17.9514435Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9514769Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9515158Z [shard:bun:agentic-gateway-methods-hosted-3] Number of calls: 1
+2026-10-30T13:43:17.9515603Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9516284Z [shard:bun:agentic-gateway-methods-hosted-3]  ❯ src/gateway/server-methods/update-effective-channel.test.ts:320:18
+2026-10-30T13:43:17.9541724Z [shard:bun:agentic-gateway-methods-hosted-3]     318|   );
+2026-10-30T13:43:17.9542131Z [shard:bun:agentic-gateway-methods-hosted-3]     319|   if (enabled && elapsed >= 1_000) {
+2026-10-30T13:43:17.9542801Z [shard:bun:agentic-gateway-methods-hosted-3]     320|     expect(warn).toHaveBeenCalledExactlyOnceWith("update.status: slow …
+2026-10-30T13:43:17.9543476Z [shard:bun:agentic-gateway-methods-hosted-3]        |                  ^
+2026-10-30T13:43:17.9544087Z [shard:bun:agentic-gateway-methods-hosted-3]     321|       operation: "update.status",
+2026-10-30T13:43:17.9544713Z [shard:bun:agentic-gateway-methods-hosted-3]     322|       elapsedMs: elapsed,
+2026-10-30T13:43:17.9545129Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9545507Z [shard:bun:agentic-gateway-methods-hosted-3] ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+2026-10-30T13:43:17.9545945Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9547002Z [shard:bun:agentic-gateway-methods-hosted-3]  FAIL   gateway-methods  src/gateway/server-methods/update-effective-channel.test.ts > reports slow status phases with {"enabled":true,"elapsed":40000,"throws":true}
+2026-10-30T13:43:17.9548339Z [shard:bun:agentic-gateway-methods-hosted-3] AssertionError: expected "vi.fn()" to be called once with arguments: [ 'update.status: slow request', …(1) ]
+2026-10-30T13:43:17.9548953Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9549271Z [shard:bun:agentic-gateway-methods-hosted-3] Received:
+2026-10-30T13:43:17.9549588Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9550030Z [shard:bun:agentic-gateway-methods-hosted-3]   1st vi.fn() call:
+2026-10-30T13:43:17.9550380Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9550804Z [shard:bun:agentic-gateway-methods-hosted-3] @@ -6,10 +6,11 @@
+2026-10-30T13:43:17.9551315Z [shard:bun:agentic-gateway-methods-hosted-3]       "phaseDurationsMs": {
+2026-10-30T13:43:17.9551827Z [shard:bun:agentic-gateway-methods-hosted-3]         "checkout": 20,
+2026-10-30T13:43:17.9552323Z [shard:bun:agentic-gateway-methods-hosted-3]         "history": 0,
+2026-10-30T13:43:17.9552810Z [shard:bun:agentic-gateway-methods-hosted-3]         "identity": 30,
+2026-10-30T13:43:17.9553811Z [shard:bun:agentic-gateway-methods-hosted-3]         "reconciliation": 0,
+2026-10-30T13:43:17.9554435Z [shard:bun:agentic-gateway-methods-hosted-3] +       "recovery": 0,
+2026-10-30T13:43:17.9554928Z [shard:bun:agentic-gateway-methods-hosted-3]         "response": 0,
+2026-10-30T13:43:17.9555437Z [shard:bun:agentic-gateway-methods-hosted-3]         "sentinel": 39950,
+2026-10-30T13:43:17.9555912Z [shard:bun:agentic-gateway-methods-hosted-3]       },
+2026-10-30T13:43:17.9556316Z [shard:bun:agentic-gateway-methods-hosted-3]     },
+2026-10-30T13:43:17.9556710Z [shard:bun:agentic-gateway-methods-hosted-3]   ]
+2026-10-30T13:43:17.9557087Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9557410Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9557807Z [shard:bun:agentic-gateway-methods-hosted-3] Number of calls: 1
+2026-10-30T13:43:17.9558220Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9558881Z [shard:bun:agentic-gateway-methods-hosted-3]  ❯ src/gateway/server-methods/update-effective-channel.test.ts:320:18
+2026-10-30T13:43:17.9559272Z [shard:bun:agentic-gateway-methods-hosted-3]     318|   );
+2026-10-30T13:43:17.9559592Z [shard:bun:agentic-gateway-methods-hosted-3]     319|   if (enabled && elapsed >= 1_000) {
+2026-10-30T13:43:17.9560077Z [shard:bun:agentic-gateway-methods-hosted-3]     320|     expect(warn).toHaveBeenCalledExactlyOnceWith("update.status: slow …
+2026-10-30T13:43:17.9560902Z [shard:bun:agentic-gateway-methods-hosted-3]        |                  ^
+2026-10-30T13:43:17.9561248Z [shard:bun:agentic-gateway-methods-hosted-3]     321|       operation: "update.status",
+2026-10-30T13:43:17.9561595Z [shard:bun:agentic-gateway-methods-hosted-3]     322|       elapsedMs: elapsed,
+2026-10-30T13:43:17.9561837Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9562136Z [shard:bun:agentic-gateway-methods-hosted-3] ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+2026-10-30T13:43:17.9562383Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9562554Z [shard:bun:agentic-gateway-methods-hosted-3] 
+2026-10-30T13:43:17.9562932Z [shard:bun:agentic-gateway-methods-hosted-3]  Test Files  1 failed | 1 passed (2)
+2026-10-30T13:43:17.9563422Z [shard:bun:agentic-gateway-methods-hosted-3]       Tests  2 failed | 39 passed (41)
+2026-10-30T13:43:17.9563804Z [shard:bun:agentic-gateway-methods-hosted-3]    Start at  13:42:31
+2026-10-30T13:43:17.9564200Z [shard:bun:agentic-gateway-methods-hosted-3]    Duration  46.67s (transform 77%, tests 21%, worker 1%, import 1%)
+2026-10-30T13:43:17.9564499Z [shard:bun:agentic-gateway-methods-hosted-3] 

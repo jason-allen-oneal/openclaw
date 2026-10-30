@@ -1,0 +1,146 @@
+{
+  "manifestVersion": 3,
+  "openClawVersion": "2026.10.9",
+  "runId": "session-sqlite-1793365513592-50afea5a",
+  "startedAt": "2026-10-30T13:05:13.592Z",
+  "targets": [
+    {
+      "agentId": "main",
+      "sqlitePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/agent/openclaw-agent.sqlite",
+      "storePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/sessions.json",
+      "completedMoves": [
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935761",
+              "mtimeNs": "1793365471571100714",
+              "size": 496,
+              "sha256": "2ab1feb7c598924e6487e1b260aed20fbf1ce83b7870d40d8deacb6e318b568f"
+            },
+            "classification": "imported",
+            "reason": "verified-import-original",
+            "dependencies": [],
+            "disposal": {
+              "state": "retained"
+            }
+          },
+          "kind": "transcript",
+          "sessionKey": "agent:main:proof",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935762",
+              "mtimeNs": "1793365471571134446",
+              "size": 100,
+              "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+            },
+            "classification": "protected",
+            "reason": "unreferenced-history",
+            "dependencies": [],
+            "disposal": {
+              "state": "retained"
+            }
+          },
+          "kind": "unreferenced-jsonl",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/history.trajectory.jsonl"
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935760",
+              "mtimeNs": "1793365471571061693",
+              "size": 229,
+              "sha256": "f777b927bd5210033fe81203690fb91331d02ebcc5e22d54e1909e9860b1981a"
+            },
+            "classification": "imported",
+            "reason": "verified-index-import",
+            "dependencies": [
+              "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+            ],
+            "disposal": {
+              "state": "retained"
+            }
+          },
+          "kind": "legacy-store",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/sessions.json"
+        }
+      ],
+      "issues": [],
+      "plannedMoves": [
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935761",
+              "mtimeNs": "1793365471571100714",
+              "size": 496,
+              "sha256": "2ab1feb7c598924e6487e1b260aed20fbf1ce83b7870d40d8deacb6e318b568f"
+            },
+            "classification": "imported",
+            "reason": "verified-import-original",
+            "dependencies": [],
+            "disposal": {
+              "state": "retained"
+            }
+          },
+          "kind": "transcript",
+          "sessionKey": "agent:main:proof",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935762",
+              "mtimeNs": "1793365471571134446",
+              "size": 100,
+              "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+            },
+            "classification": "protected",
+            "reason": "unreferenced-history",
+            "dependencies": [],
+            "disposal": {
+              "state": "retained"
+            }
+          },
+          "kind": "unreferenced-jsonl",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/history.trajectory.jsonl"
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1935760",
+              "mtimeNs": "1793365471571061693",
+              "size": 229,
+              "sha256": "f777b927bd5210033fe81203690fb91331d02ebcc5e22d54e1909e9860b1981a"
+            },
+            "classification": "imported",
+            "reason": "verified-index-import",
+            "dependencies": [
+              "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+            ],
+            "disposal": {
+              "state": "retained"
+            }
+          },
+          "kind": "legacy-store",
+          "sourcePath": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/sessions/sessions.json"
+        }
+      ],
+      "validationBeforeArchive": "passed"
+    }
+  ],
+  "completedAt": "2026-10-30T13:05:14.708Z"
+}

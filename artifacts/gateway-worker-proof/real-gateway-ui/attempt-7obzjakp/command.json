@@ -1,0 +1,45 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "<proof-artifacts>/real-gateway-ui/vitest.config.ts",
+    "--configLoader",
+    "runner",
+    "--maxWorkers=1",
+    "<proof-artifacts>/real-gateway-ui/proof.test.ts"
+  ],
+  "cwd": "<candidate-checkout>",
+  "environment": {
+    "PATH": "<host-executable-PATH>",
+    "HOME": "<proof-artifacts>/real-gateway-ui/attempt-7obzjakp/home",
+    "OPENCLAW_HOME": "<proof-artifacts>/real-gateway-ui/attempt-7obzjakp/home",
+    "OPENCLAW_STATE_DIR": "<proof-artifacts>/real-gateway-ui/attempt-7obzjakp/bootstrap-state",
+    "OPENCLAW_CONFIG_PATH": "<proof-artifacts>/real-gateway-ui/attempt-7obzjakp/bootstrap-state/openclaw.json",
+    "TMPDIR": "/tmp/rproof-6du03hlg",
+    "NO_COLOR": "1",
+    "TERM": "dumb",
+    "PLAYWRIGHT_BROWSERS_PATH": "<host-home>/.cache/ms-playwright",
+    "OPENCLAW_UI_E2E_ARTIFACT_DIR": "<proof-artifacts>/real-gateway-ui/attempt-7obzjakp",
+    "OPENCLAW_VITEST_FS_MODULE_CACHE_PATH": "<proof-artifacts>/real-gateway-ui/attempt-7obzjakp/vitest-module-cache",
+    "RECOVERY_PROOF_ATTEMPT": "<proof-artifacts>/real-gateway-ui/attempt-7obzjakp"
+  },
+  "before": {
+    "head": "bf1debacae768ac8da1a8ee496f99fc1b53323fe",
+    "sourceDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sourceStatus": "",
+    "builtEntrypointSha256": "47e82151b29cbfc906b011ff123740fadd7d715ef9495d382ada6ea26f60314a",
+    "builtUiIndexSha256": "ad5d12a226efeda1617b44446b735b66ca21eda8d345639ddaadece01e539a0e"
+  },
+  "startedAt": "2026-10-30T14:39:38.713136+00:00",
+  "exitCode": 1,
+  "completedAt": "2026-10-30T14:41:17.883533+00:00",
+  "after": {
+    "head": "bf1debacae768ac8da1a8ee496f99fc1b53323fe",
+    "sourceDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "builtEntrypointSha256": "47e82151b29cbfc906b011ff123740fadd7d715ef9495d382ada6ea26f60314a",
+    "builtUiIndexSha256": "ad5d12a226efeda1617b44446b735b66ca21eda8d345639ddaadece01e539a0e"
+  },
+  "sourceAndBuildUnchanged": true
+}

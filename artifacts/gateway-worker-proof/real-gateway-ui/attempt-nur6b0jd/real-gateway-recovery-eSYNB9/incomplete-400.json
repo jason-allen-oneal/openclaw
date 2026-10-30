@@ -1,0 +1,181 @@
+{
+  "stage": "incomplete",
+  "width": 400,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "5:80623395-3456-4b92-a335-8c486579737d",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "5:80623395-3456-4b92-a335-8c486579737d",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "21:abfdbd21-5faa-4498-ae52-6d7fe06be017",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "22:5f6262d3-7587-412e-8b40-faedc726e3e9",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "21:abfdbd21-5faa-4498-ae52-6d7fe06be017",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "22:5f6262d3-7587-412e-8b40-faedc726e3e9",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "23:42320b8d-c3e8-45ba-bf50-732ffcb702a7",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "23:42320b8d-c3e8-45ba-bf50-732ffcb702a7",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "partial",
+        "incomplete": true,
+        "incompleteReasons": [
+          "time-limit",
+          "unreadable-manifest"
+        ],
+        "total": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 2,
+            "logicalBytes": 320,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 2,
+              "logicalBytes": 320
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": [
+          {
+            "reason": "artifact-metadata-changed",
+            "outcome": "blocked",
+            "count": 1,
+            "logicalBytes": 213
+          },
+          {
+            "reason": "unreadable-recovery-dependencies",
+            "outcome": "blocked",
+            "count": 1,
+            "logicalBytes": 107
+          }
+        ]
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Incomplete inventory — observed copies onlySome recovery metadata could not be inspected. Totals may be lower than actual usage, and eligibility may be unverified.time-limit, unreadable-manifestObserved recovery copies320 B in 2 copiesBlocked: artifact-metadata-changedThe archive no longer matches its recorded identity. Preserve the current bytes and review the mismatch before considering retirement.213 B in 1 copiesBlocked: unreadable-recovery-dependenciesInspect the recovery inventory and its dependencies before changing these copies.107 B in 1 copiesSafe recovery and retirement guidance",
+  "shifts": [],
+  "shellSelector": ".topbar-nav-toggle",
+  "chromeBefore": [
+    12,
+    12.5,
+    32,
+    32
+  ],
+  "chromeAfter": [
+    12,
+    12.5,
+    32,
+    32
+  ],
+  "layout": {
+    "documentWidth": 400,
+    "documentScrollWidth": 400,
+    "sectionWidth": 376,
+    "sectionScrollWidth": 376
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "pageErrors": [],
+  "screenshot": "incomplete-400.png"
+}

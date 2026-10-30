@@ -1,0 +1,85 @@
+[test] starting test/vitest/vitest.cli.config.ts
+
+ RUN  v5.0.5 /home/runner/.local/share/openclaw-worktrees/issue-186088
+
+[vitest-workers] local cache hit after 3963ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 941b0511721a in 4033ms (18071 inputs, 22911 outputs)
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > previews backup-backed retirement of both reported archive classes without changing receipts 79ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > retires only explicitly selected backed-up history and preserves the original evidence 77ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > does not let ordinary --yes consent retire unverified or changed archives 16ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > parses repeated archive selections and requires history-loss consent independently of --yes 63ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses missing backup without changing original files or manifests 24ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses conflicting selection without changing original files or manifests 16ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses orphan backup without changing original files or manifests 17ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses orphan consent without changing original files or manifests 16ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > requires every retained member of the selected session target 7ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > resumes shared-store retirement after a partial cross-manifest intent write 79ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > resumes shared-store retirement after a partial cross-manifest disposed write 81ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the archive after confirmation before retirement 15ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the backup after confirmation before retirement 12ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the manifest after confirmation before retirement 23ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the archive inode after confirmation before retirement 14ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses unresolved configuration before explicit archive selection 9ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: missing archive 8ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: changed archive 7ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: same-size changed archive 7ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: missing manifest 9ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: inside state 7ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rejects a bind-mounted archive backup alias 8ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rejects a bind-mounted manifest backup alias 9ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks configured live files at the claim boundary after progress callbacks 15ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > protects archives referenced by pending recovery despite explicit history-loss consent 281ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses a recreated original from an ordinary completed disposal 18ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses conflicting pending claims across referencing manifests 23ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+
+ × |cli| src/cli/update-cli/cleanup-session-archives.test.ts > preserves a pending claim that becomes a configured live store before retry 53ms
+   → promise resolved "undefined" instead of rejecting
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > resumes an interrupted group claim with the original backup and durable retirement evidence 49ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |cli| src/cli/update-cli/cleanup-session-archives.test.ts > preserves a pending claim that becomes a configured live store before retry
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ src/cli/update-cli/cleanup-session-archives.test.ts:<redacted len=6>
+    556|       JSON.stringify({ session: <redacted len=29> }),
+    557|     );
+    558|     await expect(updateCleanupCommand({ ...f.options, yes: true })).re…
+       |                                                                     ^
+    559|       new ExitError(1),
+    560|     );
+ ❯ withEnvAsync src/test-utils/env.ts:147:12
+ ❯ src/cli/update-cli/cleanup-session-archives.test.ts:<redacted len=5>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 28 passed (29)
+   Start at  09:00:40
+   Duration  10.38s (transform 71%, import 14%, tests 10%, worker 3%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 13.26s
+[test] FAILED (exit 1)

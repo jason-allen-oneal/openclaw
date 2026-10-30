@@ -1,0 +1,324 @@
+[
+  {
+    "name": "00-stable-version",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-stable-proof/stable/package/openclaw.mjs",
+      "--version"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "01-stable-import",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-stable-proof/stable/package/openclaw.mjs",
+      "doctor",
+      "--session-sqlite",
+      "import",
+      "--session-sqlite-all-agents",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 1
+  },
+  {
+    "name": "02-stable-import-with-shipped-internal-deps",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-stable-proof/stable/package/openclaw.mjs",
+      "doctor",
+      "--session-sqlite",
+      "import",
+      "--session-sqlite-all-agents",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "03-stable-sqlite-before",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-real-cli/snapshot.mjs"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "04-candidate-inspect-stable-state",
+    "argv": [
+      "node",
+      "--import",
+      "/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs",
+      "/tmp/openclaw-186088-real-cli/cli.mts",
+      "doctor",
+      "--session-sqlite",
+      "inspect",
+      "--session-sqlite-all-agents",
+      "--json"
+    ],
+    "exitCode": 2
+  },
+  {
+    "name": "04b-candidate-inspect-stable-state-private-root",
+    "argv": [
+      "node",
+      "--import",
+      "/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs",
+      "/tmp/openclaw-186088-real-cli/cli.mts",
+      "doctor",
+      "--session-sqlite",
+      "inspect",
+      "--session-sqlite-all-agents",
+      "--json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "05-candidate-import-stable-state",
+    "argv": [
+      "node",
+      "--import",
+      "/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs",
+      "/tmp/openclaw-186088-real-cli/cli.mts",
+      "doctor",
+      "--session-sqlite",
+      "import",
+      "--session-sqlite-all-agents",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "06-candidate-ordinary-cleanup",
+    "argv": [
+      "node",
+      "--import",
+      "/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs",
+      "/tmp/openclaw-186088-real-cli/cli.mts",
+      "update",
+      "cleanup",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 1
+  },
+  {
+    "name": "07-candidate-retirement-preview",
+    "argv": [
+      "node",
+      "--import",
+      "/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs",
+      "/tmp/openclaw-186088-real-cli/cli.mts",
+      "update",
+      "cleanup",
+      "--json",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+      "--archive-backup",
+      "/tmp/openclaw-186088-stable-proof/run/backup",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "stdoutNote": "Original stdout accidentally overwritten while passing the later preview to interruption harness; duplicate retained as 07-preview-harness-overwrite.stdout. Use independently captured 10-upgraded-retirement-preview.stdout for preview evidence."
+  },
+  {
+    "name": "08b-candidate-doctor-upgrade-bounded",
+    "argv": [
+      "node",
+      "--import",
+      "/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs",
+      "/tmp/openclaw-186088-real-cli/cli.mts",
+      "doctor",
+      "--fix",
+      "--yes",
+      "--non-interactive"
+    ],
+    "exitCode": 124,
+    "timeoutSeconds": 180
+  },
+  {
+    "name": "09-upgraded-sqlite",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-real-cli/snapshot.mjs"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "08c-normal-launcher-doctor-upgrade",
+    "argv": [
+      "pnpm",
+      "--silent",
+      "openclaw",
+      "doctor",
+      "--fix",
+      "--yes",
+      "--non-interactive"
+    ],
+    "exitCode": 0,
+    "timeoutSeconds": 120
+  },
+  {
+    "name": "09b-upgraded-sqlite-after-normal-doctor",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-real-cli/snapshot.mjs"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "10-upgraded-retirement-preview",
+    "argv": [
+      "pnpm",
+      "--silent",
+      "openclaw",
+      "update",
+      "cleanup",
+      "--json",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+      "--archive-backup",
+      "/tmp/openclaw-186088-stable-proof/run/backup",
+      "--dry-run"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "11-interrupt-before-second-claim",
+    "argv": [
+      "node",
+      "--import",
+      "/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs",
+      "/tmp/openclaw-186088-stable-proof/interrupt.mts"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "12-pending-stable-cleanup",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-stable-proof/stable/package/openclaw.mjs",
+      "update",
+      "cleanup",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 1
+  },
+  {
+    "name": "12-pending-stable-restore",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-stable-proof/stable/package/openclaw.mjs",
+      "doctor",
+      "--session-sqlite",
+      "restore",
+      "--session-sqlite-all-agents",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 2
+  },
+  {
+    "name": "13-candidate-retirement-resume",
+    "argv": [
+      "pnpm",
+      "--silent",
+      "openclaw",
+      "update",
+      "cleanup",
+      "--json",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+      "--archive-backup",
+      "/tmp/openclaw-186088-stable-proof/run/backup",
+      "--accept-history-loss",
+      "--yes"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "14-candidate-retirement-replay",
+    "argv": [
+      "pnpm",
+      "--silent",
+      "openclaw",
+      "update",
+      "cleanup",
+      "--json",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+      "--retire-session-archive",
+      "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+      "--archive-backup",
+      "/tmp/openclaw-186088-stable-proof/run/backup",
+      "--accept-history-loss",
+      "--yes"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "15-disposed-stable-cleanup",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-stable-proof/stable/package/openclaw.mjs",
+      "update",
+      "cleanup",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 1
+  },
+  {
+    "name": "15-disposed-stable-restore",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-stable-proof/stable/package/openclaw.mjs",
+      "doctor",
+      "--session-sqlite",
+      "restore",
+      "--session-sqlite-all-agents",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 2
+  },
+  {
+    "name": "16-final-sqlite",
+    "argv": [
+      "node",
+      "/tmp/openclaw-186088-real-cli/snapshot.mjs"
+    ],
+    "exitCode": 0
+  },
+  {
+    "name": "17-final-candidate-inspect",
+    "argv": [
+      "pnpm",
+      "--silent",
+      "openclaw",
+      "doctor",
+      "--session-sqlite",
+      "inspect",
+      "--session-sqlite-all-agents",
+      "--json"
+    ],
+    "exitCode": 0
+  }
+]

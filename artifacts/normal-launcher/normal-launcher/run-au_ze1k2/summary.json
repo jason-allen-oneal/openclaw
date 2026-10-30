@@ -1,0 +1,33 @@
+{
+  "label": "SYNTHETIC ISOLATED NORMAL-LAUNCHER PROOF; NOT ORIGINAL REPORTER INSTALLATION",
+  "result": "PASS",
+  "root": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2",
+  "sqliteSha256BeforeAfter": "1f34a3d4cde60bfa7c0678812817b630f7a190e3a9d9599e7ab7c410c3091352",
+  "sqliteBytesBeforeAfter": 667648,
+  "sessionEntriesBeforeAfter": 1,
+  "transcriptEventsBeforeAfter": 3,
+  "ordinaryRefusalReasons": [
+    "historical-import-proof-unavailable",
+    "artifact-metadata-changed"
+  ],
+  "dryRunCandidates": 2,
+  "removedFiles": 2,
+  "secondApplyRemovedFiles": 0,
+  "independentBackupFilesUnchanged": 10,
+  "allStateFileBytesUnchangedByExplicitDryRun": true,
+  "ordinaryCleanupOtherChangedPaths": [
+    "agents/main/agent/openclaw-agent.sqlite-shm",
+    "agents/main/agent/openclaw-agent.sqlite-wal",
+    "state/openclaw.sqlite",
+    "state/openclaw.sqlite.seal"
+  ],
+  "secondApplyOtherChangedPaths": [],
+  "activeSqliteQueriesAndBytesUnchanged": true,
+  "manifestVersion": 5,
+  "retirementProvenancePreserved": true,
+  "gaps": [
+    "Candidate source checkout normal pnpm openclaw launcher, not an npm-installed candidate package",
+    "Synthetic isolated data, not original reporter installation",
+    "No live Gateway or model execution; no stable-version upgrade performed"
+  ]
+}

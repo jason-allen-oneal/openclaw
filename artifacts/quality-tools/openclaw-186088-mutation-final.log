@@ -1,0 +1,23 @@
+KILLED    src/commands/update-cleanup-session-archives.ts:188 !== -> ===
+KILLED    src/commands/update-cleanup-session-archives.ts:188 || -> &&
+KILLED    src/commands/update-cleanup-session-archives.ts:188 !== -> ===
+Function                              Namespace                                 Killed  Survived  Uncovered  Sites   Score
+--------------------------------------------------------------------------------------------------------------------------
+assertCompleteSelection               commands.update-cleanup-session-archives       0         0          0      9    n/a
+assertIndependentCopy                 commands.update-cleanup-session-archives       0         0          0      3    n/a
+assertReferenceGroup                  commands.update-cleanup-session-archives       0         0          0     31    n/a
+assertSessionArchiveBackupsCurrent    commands.update-cleanup-session-archives       0         0          0      2    n/a
+assertSessionArchivePathsInactive     commands.update-cleanup-session-archives       0         0          0      0    n/a
+assertSessionArchiveRetirementOptions commands.update-cleanup-session-archives       0         0          0      8    n/a
+assertSessionArchiveSelectionCurrent  commands.update-cleanup-session-archives       0         0          0      1    n/a
+backedUpPath                          commands.update-cleanup-session-archives       0         0          0      1    n/a
+backupRoot                            commands.update-cleanup-session-archives       0         0          0      5    n/a
+isSettled                             commands.update-cleanup-session-archives       0         0          0      3    n/a
+recordSessionArchiveRetirement        commands.update-cleanup-session-archives       0         0          0     12    n/a
+selectSessionArchiveRetirement        commands.update-cleanup-session-archives       0         0          0     16    n/a
+selectedIdentity                      commands.update-cleanup-session-archives       0         0          0     19    n/a
+verifyManifestBackup                  commands.update-cleanup-session-archives       0         0          0     12    n/a
+verifyCopy                            commands.update-cleanup-session-archives       3         0          0      3 100.0%
+--------------------------------------------------------------------------------------------------------------------------
+Total                                                                                3         0          0    125  100.0%
+Wrote /tmp/openclaw-186088-mutator-final-09j2ewdr/.metrics/mutate/commands.update-cleanup-session-archives.edn

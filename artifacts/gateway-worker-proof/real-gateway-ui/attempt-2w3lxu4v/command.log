@@ -1,0 +1,494 @@
+[openclaw] Staging pinned Bun fork openclaw-v1.4.4-20261026-191755ec11-webkit-b82bc917e9 (one-time download)…
+10:30:27 AM [vite] (inline) warning: 
+<candidate-checkout>/scripts/lib/tsx-cli-shim.mjs
+76 |  export async function registerToolingTsx() {
+77 |    configureToolingTsx();
+78 |    await import(resolveTsxImport(SHIM_CHECKOUT_ROOT));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+79 |  }
+80 |  
+The above dynamic import cannot be analyzed by Vite.
+See https://vite.dev/guide/features#dynamic-import for supported dynamic import formats. If this is intended to be left as-is, you can use the /* @vite-ignore */ comment inside the import() call to suppress this warning.
+
+  Plugin: vite:import-analysis
+  File: <candidate-checkout>/scripts/lib/tsx-cli-shim.mjs:8766:39
+
+ RUN  v5.0.5 <candidate-checkout>
+
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache miss after 4028ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest-workers] prepared eb1d1d9234e0 in 49607ms (18071 inputs, 22911 outputs)
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:114 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <proof-artifacts>/real-gateway-ui/attempt-2w3lxu4v/real-gateway-recovery-L0w3ra
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:114 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <proof-artifacts>/real-gateway-ui/attempt-2w3lxu4v/real-gateway-recovery-L0w3ra
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:114 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:114 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+[vitest] still running with no output for 30000ms.
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"timeout","browser":{"readiness":{"generation":94,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":false,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:32:13.772Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.list","outcome":"ok"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"agents.list","outcome":"ok"},{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"timeout","browser":{"readiness":{"generation":94,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":false,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:32:13.772Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.list","outcome":"ok"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"agents.list","outcome":"ok"},{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-QRta0f
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-QRta0f
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-QRta0f/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-QRta0f/failure.private.png
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-QRta0f/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-QRta0f/failure.private.png
+
+ × |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths 36070ms
+   → waitFor: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('heading', { name: 'Recovery storage', exact: true }) to be visible
+
+ ❯ |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts (1 test | 1 failed) 48149ms
+   ❯ Recovery Storage actual built Gateway proof (1)
+     × renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths 36070ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+TimeoutError: waitFor: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('heading', { name: 'Recovery storage', exact: true }) to be visible
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:179:25
+    177|           const heading = page.getByRole("heading", { name: "Recovery …
+    178|           const storage = page.locator(".settings-section").filter({ h…
+    179|           await heading.waitFor({ timeout: 30_000 });
+       |                         ^
+    180|           await expect.poll(() => rpc.some((entry: any) => entry.direc…
+    181|           await page.evaluate(() => new Promise<void>((resolve) => req…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [ '  - waiting for getByRole('heading', { name: 'Recovery storage', exact: true }) to be visible' ] }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 13 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+     Errors  13 errors
+   Start at  10:30:27
+   Duration  107.84s (transform 54%, tests 45%, import 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+TimeoutError: waitFor: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('heading', { name: 'Recovery storage', exact: true }) to be visible
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:179:25
+    177|           const heading = page.getByRole("heading", { name: "Recovery …
+    178|           const storage = page.locator(".settings-section").filter({ h…
+    179|           await heading.waitFor({ timeout: 30_000 });
+       |                         ^
+    180|           await expect.poll(() => rpc.some((entry: any) => entry.direc…
+    181|           await page.evaluate(() => new Promise<void>((resolve) => req…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 13 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:130:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { log: [] }
+This error originated in "../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+     Errors  13 errors
+   Start at  10:30:27
+   Duration  107.86s (transform 54%, tests 45%, import 1%)
+
+[vitest] UNHANDLED ERRORS (13): ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts — Error: body: Protocol error (Network.getResponseBody): No resource with given identifier found
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] FAILED (exit 1)

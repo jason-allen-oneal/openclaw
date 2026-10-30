@@ -1,0 +1,170 @@
+{
+  "sha256": "8ed6981b9f2cba1156bf8e3134b0a4a7a6314acf79e44872510af5d80539247e",
+  "bytes": 684032,
+  "integrity": [
+    {
+      "integrity_check": "ok"
+    }
+  ],
+  "foreignKeys": [],
+  "rows": {
+    "schema_meta": [
+      {
+        "meta_key": "primary",
+        "role": "agent",
+        "schema_version": 38,
+        "agent_id": "main",
+        "app_version": "2026.10.9",
+        "created_at": 1793365513645,
+        "updated_at": 1793366049586
+      }
+    ],
+    "session_nodes": [
+      {
+        "session_key": "agent:main:proof",
+        "current_session_id": "11111111-1111-4111-8111-111111111111",
+        "entry_json": "{\"sessionId\":\"11111111-1111-4111-8111-111111111111\",\"updatedAt\":1793361602000,\"delivery\":{\"kind\":\"none\"}}",
+        "snapshot_revision": 0,
+        "legacy_acp_migration_json": null,
+        "entry_valid": 1,
+        "updated_at": 1793361602000,
+        "status": null,
+        "created_at": null,
+        "created_via": null,
+        "created_actor_type": null,
+        "created_actor_id": null,
+        "owner_actor_type": null,
+        "owner_actor_id": null,
+        "owner_assigned_by_type": null,
+        "owner_assigned_by_id": null,
+        "owner_assigned_at": null,
+        "project_id": null,
+        "parent_session_key": null,
+        "spawned_by": null,
+        "fork_source_session_key": null,
+        "fork_source_session_id": null,
+        "fork_source_entry_id": null,
+        "label": null,
+        "display_name": null,
+        "category": null,
+        "icon": null,
+        "pinned_at": null,
+        "archived_at": null,
+        "last_read_at": null,
+        "last_interaction_at": null,
+        "last_activity_at": null,
+        "session_started_at": null,
+        "has_optional_references": 0
+      }
+    ],
+    "session_windows": [
+      {
+        "session_id": "11111111-1111-4111-8111-111111111111",
+        "session_key": "agent:main:proof",
+        "previous_session_id": null,
+        "reason": null,
+        "session_scope": "conversation",
+        "created_at": 1793361602000,
+        "updated_at": 1793361602000,
+        "transcript_updated_at": 1793365471571,
+        "transcript_observed_at": 1793361602000,
+        "session_entry_provenance": 1,
+        "acp_owned": 0,
+        "plugin_owner_id": null,
+        "hook_external_content_source": null,
+        "started_at": null,
+        "ended_at": null,
+        "status": null,
+        "chat_type": null,
+        "channel": null,
+        "account_id": null,
+        "primary_conversation_id": null,
+        "model_provider": null,
+        "model": null,
+        "agent_harness_id": null,
+        "parent_session_key": null,
+        "spawned_by": null,
+        "display_name": null,
+        "row_transcript_json": null,
+        "row_transcript_updated_at": null
+      }
+    ],
+    "transcript_events": [
+      {
+        "session_id": "11111111-1111-4111-8111-111111111111",
+        "seq": 0,
+        "event_json": "{\"type\":\"session\",\"version\":3,\"id\":\"11111111-1111-4111-8111-111111111111\",\"timestamp\":\"2026-10-30T12:00:00.000Z\",\"cwd\":\"\"}",
+        "created_at": 1793361600000,
+        "event_zstd": null,
+        "event_utf8_bytes": 122,
+        "navigation_json": null,
+        "navigation_type": null,
+        "navigation_custom_type": null,
+        "navigation_display": 0,
+        "message_role": null,
+        "navigation_last_type": null,
+        "navigation_last_custom_type": null,
+        "navigation_valid": 1
+      },
+      {
+        "session_id": "11111111-1111-4111-8111-111111111111",
+        "seq": 1,
+        "event_json": "{\"type\":\"message\",\"id\":\"u1\",\"parentId\":null,\"timestamp\":\"2026-10-30T12:00:01.000Z\",\"message\":{\"role\":\"user\",\"content\":\"Synthetic stable conversation must survive candidate retirement.\"}}",
+        "created_at": 1793361601000,
+        "event_zstd": null,
+        "event_utf8_bytes": 186,
+        "navigation_json": null,
+        "navigation_type": null,
+        "navigation_custom_type": null,
+        "navigation_display": 0,
+        "message_role": null,
+        "navigation_last_type": null,
+        "navigation_last_custom_type": null,
+        "navigation_valid": 1
+      },
+      {
+        "session_id": "11111111-1111-4111-8111-111111111111",
+        "seq": 2,
+        "event_json": "{\"type\":\"message\",\"id\":\"a1\",\"parentId\":\"u1\",\"timestamp\":\"2026-10-30T12:00:02.000Z\",\"message\":{\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"Synthetic stable response preserved.\"}]}}",
+        "created_at": 1793361602000,
+        "event_zstd": null,
+        "event_utf8_bytes": 188,
+        "navigation_json": null,
+        "navigation_type": null,
+        "navigation_custom_type": null,
+        "navigation_display": 0,
+        "message_role": null,
+        "navigation_last_type": null,
+        "navigation_last_custom_type": null,
+        "navigation_valid": 1
+      }
+    ],
+    "session_transcript_index_state": [
+      {
+        "session_id": "11111111-1111-4111-8111-111111111111",
+        "indexed_seq": 2,
+        "leaf_event_id": "a1",
+        "needs_rebuild": 0,
+        "active_event_count": 2,
+        "active_message_count": 2,
+        "updated_at": 1793361602000
+      }
+    ],
+    "session_transcript_active_events": [
+      {
+        "session_id": "11111111-1111-4111-8111-111111111111",
+        "active_position": 0,
+        "event_seq": 1,
+        "message_position": 0,
+        "context_eligible": 1
+      },
+      {
+        "session_id": "11111111-1111-4111-8111-111111111111",
+        "active_position": 1,
+        "event_seq": 2,
+        "message_position": 1,
+        "context_eligible": 1
+      }
+    ]
+  }
+}

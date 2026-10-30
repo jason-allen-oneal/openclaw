@@ -1,0 +1,33 @@
+{
+  "head": "983ac6b5bfc091fe6130d1f6eb87ccd75207f046 plus worker correction",
+  "completedAt": "2026-10-30T14:25:14.398147+00:00",
+  "checks": [
+    {
+      "name": "core tsgo",
+      "exitCode": 0
+    },
+    {
+      "name": "scoped oxlint type-aware",
+      "exitCode": 0
+    },
+    {
+      "name": "madge import cycle guard (0 cycles)",
+      "exitCode": 0
+    },
+    {
+      "name": "oxfmt five changed files",
+      "exitCode": 0
+    },
+    {
+      "name": "git diff --check",
+      "exitCode": 0
+    },
+    {
+      "name": "test-lines ratchet",
+      "exitCode": 0
+    }
+  ],
+  "testLines": 6296411,
+  "ceiling": 6333318,
+  "independentReview": "No actionable findings in four-file worker diff"
+}

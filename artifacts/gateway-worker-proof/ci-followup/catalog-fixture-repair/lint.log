@@ -1,0 +1,13 @@
+<candidate-checkout>/scripts/run-oxlint.mts:641
+    throw new Error(`prepare-extension-package-boundary-artifacts failed with exit code ${status}`);
+          ^
+
+Error: prepare-extension-package-boundary-artifacts failed with exit code 130
+    at prepareExtensionPackageBoundaryArtifacts (<candidate-checkout>/scripts/run-oxlint.mts:641:11)
+    at async run (<candidate-checkout>/scripts/run-oxlint.mts:703:7)
+    at async withDistArtifactOwnership (<candidate-checkout>/scripts/lib/dist-artifact-lock.mts:204:12)
+    at async runOxlint (<candidate-checkout>/scripts/run-oxlint.mts:716:7)
+    at async <anonymous> (<candidate-checkout>/scripts/run-oxlint.mts:721:18)
+
+Node.js v24.22.2
+[oxlint] FAILED (exit 1)

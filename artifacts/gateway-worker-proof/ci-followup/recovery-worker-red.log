@@ -1,0 +1,76 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 4207ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 5f2bccc9a5c9 in 4276ms (18071 inputs, 22911 outputs)
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against failed history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against running history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against unrelated history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against hidden-run retry history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > does not clear a replacement campaign after an awaited ledger read
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > keeps private recovery receipts durable while status and history stay public
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into accepting
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into suspension
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart signal
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart drain
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads fresh status concurrently without copying the shared database
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > projects distinct active and latest runs and reads persisted history in creation order
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rejects malformed identities, invalid limits, and unsupported query fields
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an expired legacy admission on Gateway watcher startup
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > watches a valid active update when newer terminal history is malformed
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionGroupCatalog
+
+ × |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes 196ms
+   → closeOpenClawStateDatabaseAsync is not a function. (In 'closeOpenClawStateDatabaseAsync()', 'closeOpenClawStateDatabaseAsync' is undefined)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes
+TypeError: closeOpenClawStateDatabaseAsync is not a function. (In 'closeOpenClawStateDatabaseAsync()', 'closeOpenClawStateDatabaseAsync' is undefined)
+ ❯ src/gateway/server-methods/update-status.test.ts:523:9
+    521|   fs.writeFileSync(path.join(capture, UPDATE_CAPTURE_PRIVACY_MARKER), …
+    522|   fs.writeFileSync(path.join(capture, "original"), "capture");
+    523|   await closeOpenClawStateDatabaseAsync();
+       |         ^
+    524|   const lock = await acquireGatewayLock({ role: "gateway", allowInTest…
+    525|   expect(lock).toBeTruthy();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 skipped (22)
+   Start at  10:17:54
+   Duration  23.73s (transform 83%, import 12%, worker 3%, tests 1%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 28.19s
+[test] FAILED (exit 1)

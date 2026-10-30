@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/tmp/openclaw-186088-stable-proof/upgrade.py", line 2, in <module>
+    result=call('08-candidate-doctor-upgrade',['doctor','--fix','--yes','--non-interactive'],runner=candidate,expect=0)
+  File "<string>", line 14, in call
+  File "/usr/lib/python3.13/subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 1222, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 2155, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 1269, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['node', '--import', '/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/tsx.mjs', '/tmp/openclaw-186088-real-cli/cli.mts', 'doctor', '--fix', '--yes', '--non-interactive']' timed out after 100 seconds

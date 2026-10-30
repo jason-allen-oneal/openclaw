@@ -1,0 +1,54 @@
+[
+  {
+    "direction": "request",
+    "id": "5:3b84ab6b-9866-4dfd-9cd7-eaa632d698bf",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "5:3b84ab6b-9866-4dfd-9cd7-eaa632d698bf",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "21:93b2ea95-7f73-4e13-961b-66d6c16a80a6",
+    "method": "update.status",
+    "params": {
+      "refreshCheckout": true
+    }
+  },
+  {
+    "direction": "request",
+    "id": "22:4481ead0-07ea-454a-a9bb-f31cb80803be",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "22:4481ead0-07ea-454a-a9bb-f31cb80803be",
+    "ok": true
+  },
+  {
+    "direction": "response",
+    "id": "21:93b2ea95-7f73-4e13-961b-66d6c16a80a6",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "23:af89d1d3-40ad-429b-b3f5-3cf080aaab32",
+    "method": "update.status",
+    "params": {
+      "includeRecoveryCopies": true
+    }
+  },
+  {
+    "direction": "response",
+    "id": "23:af89d1d3-40ad-429b-b3f5-3cf080aaab32",
+    "ok": false,
+    "error": {
+      "code": "UNAVAILABLE",
+      "message": "Error: Gateway does not own the selected state"
+    }
+  }
+]

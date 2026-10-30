@@ -1,0 +1,49 @@
+[
+  {
+    "check": "format-final",
+    "command": [
+      "node",
+      "scripts/run-format.mts",
+      "--check",
+      "ui/src/e2e/catalog-request-admission.e2e.test.ts"
+    ],
+    "exitCode": 0,
+    "wallSeconds": 0.085
+  },
+  {
+    "check": "lint-final",
+    "command": [
+      "node",
+      "scripts/run-oxlint.mjs",
+      "--type-aware",
+      "--tsconfig",
+      "tsconfig.ui.json",
+      "ui/src/e2e/catalog-request-admission.e2e.test.ts"
+    ],
+    "exitCode": 0,
+    "wallSeconds": 4.977
+  },
+  {
+    "check": "diff-final",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exitCode": 0,
+    "wallSeconds": 0.022
+  },
+  {
+    "check": "test-lines-final",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/tsx.mjs",
+      "scripts/check-test-lines-ratchet.mts",
+      "--base",
+      "bf1debacae768ac8da1a8ee496f99fc1b53323fe"
+    ],
+    "exitCode": 0,
+    "wallSeconds": 0.706
+  }
+]

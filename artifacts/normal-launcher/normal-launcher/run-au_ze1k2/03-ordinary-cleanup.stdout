@@ -1,0 +1,37 @@
+{
+  "stateDir": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state",
+  "artifacts": [
+    {
+      "path": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+      "runs": [
+        "session-sqlite-1793366107813-98a8e182"
+      ],
+      "bytes": 107,
+      "outcome": "protected",
+      "reason": "historical-import-proof-unavailable",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata.",
+      "detail": "Error: historical-import-proof-unavailable"
+    },
+    {
+      "path": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+      "runs": [
+        "session-sqlite-1793366107813-98a8e182"
+      ],
+      "bytes": 213,
+      "outcome": "blocked",
+      "reason": "artifact-metadata-changed",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    }
+  ],
+  "totals": {
+    "candidateBytes": 0,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 107,
+    "blockedBytes": 213,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "blocked",
+  "missingOriginals": 0,
+  "dryRun": false
+}

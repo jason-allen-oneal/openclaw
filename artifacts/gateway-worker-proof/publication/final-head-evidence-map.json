@@ -1,0 +1,13 @@
+{
+  "candidateHead": "440f9f312feeeba735cb942491efd2cd52c40e47",
+  "runtimeExecutedHead": "bf1debacae768ac8da1a8ee496f99fc1b53323fe",
+  "onlySubsequentSourceChange": "ui/src/e2e/catalog-request-admission.e2e.test.ts (+5 fixture lines); no production/runtime/UI asset changes",
+  "catalogCorrection": "exact two-file upstream-admission overlay red 2 pass/1 fail then green3/3; formatting-only wrapping follows executed green; canonical127 UI asset hashes still match",
+  "catalogChecks": "scoped type-aware lint,format,diff,test-line ratchet exit0; independent review no actionable findings",
+  "runtimeProofReuse": "justified for unchanged built Gateway and served UI; final merge CI separately required",
+  "diagnostic": "real-gateway-ui/diagnostic-tl4qxifz/command.json",
+  "diagnosticResult": "one empty/400 case passed; UI config GET401 and synthetic gateway-owner avatar GET404; real update.status success. Does not retroactively establish original nine-case response URLs.",
+  "maintainerPolicyAcceptance": "not recorded",
+  "finalHeadCi": "pending",
+  "finalHeadClawSweeper": "pending"
+}

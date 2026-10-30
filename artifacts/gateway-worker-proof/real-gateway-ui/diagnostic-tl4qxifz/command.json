@@ -1,0 +1,45 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "<proof-artifacts>/real-gateway-ui/vitest.diagnostic.config.ts",
+    "--configLoader",
+    "runner",
+    "--maxWorkers=1",
+    "<proof-artifacts>/real-gateway-ui/network-diagnostic.test.ts"
+  ],
+  "cwd": "<candidate-checkout>",
+  "environment": {
+    "PATH": "<host-executable-PATH>",
+    "HOME": "<proof-artifacts>/real-gateway-ui/diagnostic-tl4qxifz/home",
+    "OPENCLAW_HOME": "<proof-artifacts>/real-gateway-ui/diagnostic-tl4qxifz/home",
+    "OPENCLAW_STATE_DIR": "<proof-artifacts>/real-gateway-ui/diagnostic-tl4qxifz/bootstrap-state",
+    "OPENCLAW_CONFIG_PATH": "<proof-artifacts>/real-gateway-ui/diagnostic-tl4qxifz/bootstrap-state/openclaw.json",
+    "TMPDIR": "/tmp/rproof-pbfqe39a",
+    "NO_COLOR": "1",
+    "TERM": "dumb",
+    "PLAYWRIGHT_BROWSERS_PATH": "<host-home>/.cache/ms-playwright",
+    "OPENCLAW_UI_E2E_ARTIFACT_DIR": "<proof-artifacts>/real-gateway-ui/diagnostic-tl4qxifz",
+    "OPENCLAW_VITEST_FS_MODULE_CACHE_PATH": "<proof-artifacts>/real-gateway-ui/diagnostic-tl4qxifz/vitest-module-cache",
+    "RECOVERY_PROOF_ATTEMPT": "<proof-artifacts>/real-gateway-ui/diagnostic-tl4qxifz"
+  },
+  "before": {
+    "head": "bf1debacae768ac8da1a8ee496f99fc1b53323fe",
+    "sourceDiffSha256": "89fd2b834f29a3f19696ddfadd22f16eb43059708926924eabf42681983e23ad",
+    "sourceStatus": " M ui/src/e2e/catalog-request-admission.e2e.test.ts\n",
+    "builtEntrypointSha256": "47e82151b29cbfc906b011ff123740fadd7d715ef9495d382ada6ea26f60314a",
+    "builtUiIndexSha256": "ad5d12a226efeda1617b44446b735b66ca21eda8d345639ddaadece01e539a0e"
+  },
+  "startedAt": "2026-10-30T14:59:37.411276+00:00",
+  "exitCode": 0,
+  "completedAt": "2026-10-30T15:00:14.935591+00:00",
+  "after": {
+    "head": "bf1debacae768ac8da1a8ee496f99fc1b53323fe",
+    "sourceDiffSha256": "89fd2b834f29a3f19696ddfadd22f16eb43059708926924eabf42681983e23ad",
+    "builtEntrypointSha256": "47e82151b29cbfc906b011ff123740fadd7d715ef9495d382ada6ea26f60314a",
+    "builtUiIndexSha256": "ad5d12a226efeda1617b44446b735b66ca21eda8d345639ddaadece01e539a0e"
+  },
+  "sourceAndBuildUnchanged": true
+}

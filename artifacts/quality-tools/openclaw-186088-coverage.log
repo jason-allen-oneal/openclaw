@@ -1,0 +1,62 @@
+8:32:55 AM [vite] (inline) warning: 
+/home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/lib/tsx-cli-shim.mjs
+76 |  export async function registerToolingTsx() {
+77 |    configureToolingTsx();
+78 |    await import(resolveTsxImport(SHIM_CHECKOUT_ROOT));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+79 |  }
+80 |  
+The above dynamic import cannot be analyzed by Vite.
+See https://vite.dev/guide/features#dynamic-import for supported dynamic import formats. If this is intended to be left as-is, you can use the /* @vite-ignore */ comment inside the import() call to suppress this warning.
+
+  Plugin: vite:import-analysis
+  File: /home/runner/.local/share/openclaw-worktrees/issue-186088/scripts/lib/tsx-cli-shim.mjs:8766:39
+
+ RUN  v5.0.5 /home/runner/.local/share/openclaw-worktrees/issue-186088
+      Coverage enabled with v8
+
+[vitest-workers] local cache hit after 4076ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 94cf44ff70e3 in 4145ms (18070 inputs, 22910 outputs)
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > previews backup-backed retirement of both reported archive classes without changing receipts 96ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > retires only explicitly selected backed-up history and preserves the original evidence 96ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > does not let ordinary --yes consent retire unverified or changed archives 20ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > parses repeated archive selections and requires history-loss consent independently of --yes 45ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses missing backup without changing original files or manifests 19ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses conflicting selection without changing original files or manifests 18ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses orphan backup without changing original files or manifests 17ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses orphan consent without changing original files or manifests 16ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > requires every retained member of the selected session target 7ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the archive after confirmation before retirement 18ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the backup after confirmation before retirement 17ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the manifest after confirmation before retirement 16ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the archive inode after confirmation before retirement 15ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses unresolved configuration before explicit archive selection 12ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: missing archive 11ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: changed archive 9ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: missing manifest 8ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: inside state 8ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > protects archives referenced by pending recovery despite explicit history-loss consent 430ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses a recreated original from an ordinary completed disposal 22ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses conflicting pending claims across referencing manifests 25ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > resumes an interrupted group claim with the original backup and durable retirement evidence 64ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  08:32:55
+   Duration  18.77s (transform 79%, import 11%, tests 5%, worker 4%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse

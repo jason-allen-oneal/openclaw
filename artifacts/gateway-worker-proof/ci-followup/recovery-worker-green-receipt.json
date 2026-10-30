@@ -1,0 +1,9 @@
+{
+  "command": "node scripts/run-vitest.mjs src/gateway/server-methods/update-status.test.ts src/commands/recovery-disk-usage.test.ts src/commands/update-automatic-cleanup.test.ts --maxWorkers=1",
+  "exitCode": 0,
+  "testFiles": 3,
+  "testsPassed": 45,
+  "durationSeconds": 144.73,
+  "sourceState": "983ac6b plus uncommitted worker fix",
+  "log": "recovery-worker-green.log"
+}

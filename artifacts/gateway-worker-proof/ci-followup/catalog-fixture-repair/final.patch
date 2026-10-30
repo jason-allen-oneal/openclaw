@@ -1,0 +1,16 @@
+diff --git a/ui/src/e2e/catalog-request-admission.e2e.test.ts b/ui/src/e2e/catalog-request-admission.e2e.test.ts
+index c94b604c9b8..abcb42e7c18 100644
+--- a/ui/src/e2e/catalog-request-admission.e2e.test.ts
++++ b/ui/src/e2e/catalog-request-admission.e2e.test.ts
+@@ -41,6 +41,11 @@ async function client(path: string) {
+   const fixture = createControlUiTeamScaleFixture({ baseUrl: suite.server.baseUrl });
+   const gateway = await installMockGateway(page, {
+     ...fixture.scenario,
++    featureMethods: [
++      ...(fixture.scenario.featureMethods ?? []),
++      "tools.catalog",
++      "tools.effective",
++    ],
+     models: [model("Initial fixture model")],
+     methodResponses: {
+       ...fixture.scenario.methodResponses,

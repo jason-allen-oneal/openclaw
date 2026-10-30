@@ -1,0 +1,11 @@
+/tmp/openclaw-186088-launcher-proof/setup.mts:7
+if (!root?.startsWith('/tmp/openclaw-186088-real-cli/run-') || !stateDir.startsWith(root + '/')) throw new Error('isolation required');
+                                                                                                       ^
+
+Error: isolation required
+    at <anonymous> (/tmp/openclaw-186088-launcher-proof/setup.mts:7:104)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.22.2

@@ -1,0 +1,41 @@
+{
+  "result": "PASS",
+  "stableVersion": "2026.10.9",
+  "stableCliCommit": "8b18b5578f66eab1501cba4cef2310d88bfb9a41",
+  "candidateBase": "f964859d9f2bd045420271b95f6523df70285bd4",
+  "candidate": "working tree including issue186088 changes; source Doctor migration, completed normal launcher Doctor, retirement, replay and inspect",
+  "stableManifestVersion": 3,
+  "candidateManifestVersion": 5,
+  "stableAgentSchema": 25,
+  "candidateAgentSchema": 38,
+  "sessionsPreserved": 1,
+  "transcriptEventsPreserved": 3,
+  "retiredFiles": 3,
+  "replayRemovedFiles": 0,
+  "replayAllStateBytesUnchanged": true,
+  "afterUpgradeDatabaseBytesUnchangedByRetirement": true,
+  "archiveAndManifestBytesPreservedByDoctorUpgrade": true,
+  "independentBackupFilesUnchanged": 11,
+  "pendingOlderReader": "PASS",
+  "disposedOlderReader": "PASS",
+  "gaps": [
+    "Source Doctor performed schema migration; source wrapper timed out during later unrelated plugin-health scanning. Normal built pnpm openclaw Doctor then completed exit 0. No installed updater replacement or service restart.",
+    "Stable top-level package and @openclaw internal dependencies downloaded and integrity-verified; remaining dependencies linked read-only from prepared candidate install",
+    "Synthetic legacy session data, not original reporter installation",
+    "No model/channel interaction; proof exercises owning storage/update/Doctor CLI boundaries",
+    "Pending checkpoint uses actual retirement owner with progress-callback exception, not OS kill"
+  ],
+  "initialAttempts": [
+    "Stable bootstrap initially lacked shipped @openclaw/ai dist; fixed isolated dependency links by downloading exact official dependencies",
+    "First candidate attempt refused group-writable scratch ancestor; fixed scratch permissions to 0700",
+    "First source session import emitted schema-repair guidance; then real doctor --fix upgraded 25->38",
+    "Source Doctor bounded attempts timed out at 100 and 180 seconds; the second completed schema migration before timeout. Normal built launcher completed Doctor exit 0.",
+    "Early preview raw stdout accidentally overwritten by later preview while preparing callback harness; mislabeled duplicate retained explicitly, later preview independently captured and used for actual retirement."
+  ],
+  "normalLauncherDoctorExitCode": 0,
+  "retirementDatabaseSha256BeforeAfter": "f20c2684afe9432ad813c70ddfc0a47a1c34d8fdc5e9f18154d16aa56188644f",
+  "retirementDatabaseBytesBeforeAfter": 684032,
+  "backupHashComparisonScope": "resume and replay; initial admission independently verified each selected archive and raw manifest",
+  "olderReaderRestoreGate": "newer shared-state schema refuses before restore selection; cleanup separately classifies v5 receipt unreadable and removes nothing",
+  "olderReaderOtherChanges": "Stable bootstrap refreshed three plugin skill documentation files in each separate copied-state probe; receipts, archives and live database unchanged"
+}

@@ -1,0 +1,46 @@
+{
+  "stateDir": "/tmp/openclaw-186088-stable-proof/run/state",
+  "artifacts": [
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+      "runs": [
+        "session-sqlite-1793365513592-50afea5a"
+      ],
+      "bytes": 651,
+      "outcome": "blocked",
+      "reason": "artifact-metadata-changed",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+      "runs": [
+        "session-sqlite-1793365513592-50afea5a"
+      ],
+      "bytes": 100,
+      "outcome": "protected",
+      "reason": "unreferenced-history",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+      "runs": [
+        "session-sqlite-1793365513592-50afea5a"
+      ],
+      "bytes": 229,
+      "outcome": "protected",
+      "reason": "retained-recovery-dependency",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    }
+  ],
+  "totals": {
+    "candidateBytes": 0,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 329,
+    "blockedBytes": 651,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "blocked",
+  "missingOriginals": 0,
+  "dryRun": false
+}

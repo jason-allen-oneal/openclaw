@@ -1,0 +1,82 @@
+{
+  "label": "Synthetic archive data; no live installation or model calls",
+  "files": [
+    "<isolated-state>/home/.openclaw/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+    "<isolated-state>/home/.openclaw/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1"
+  ],
+  "manifestPath": "<isolated-state>/home/.openclaw/session-sqlite-migration-runs/session-sqlite-1793371533418-77141618.json",
+  "archiveBytes": [
+    107,
+    213
+  ],
+  "manifest": {
+    "manifestVersion": 3,
+    "openClawVersion": "2026.10.9",
+    "runId": "session-sqlite-1793371533418-77141618",
+    "startedAt": "2026-10-30T14:45:33.418Z",
+    "targets": [
+      {
+        "agentId": "main",
+        "sqlitePath": "<isolated-state>/home/.openclaw/agents/main/agent/openclaw-agent.sqlite",
+        "storePath": "<isolated-state>/home/.openclaw/agents/main/sessions/sessions.json",
+        "completedMoves": [
+          {
+            "archivePath": "<isolated-state>/home/.openclaw/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+            "sourcePath": "<isolated-state>/home/.openclaw/agents/main/sessions/history.trajectory.jsonl",
+            "kind": "trajectory"
+          },
+          {
+            "archivePath": "<isolated-state>/home/.openclaw/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+            "sourcePath": "<isolated-state>/home/.openclaw/agents/main/sessions/changed.jsonl",
+            "kind": "transcript",
+            "artifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "2030385",
+                "mtimeNs": "1793371533413320097",
+                "size": 75,
+                "sha256": "a242f71d19eeaaa6fcb0467e20ae4bf1ef414fb76c582e0c9cdcabf998fb8a88"
+              },
+              "classification": "imported",
+              "reason": "verified-import",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        ],
+        "issues": [],
+        "plannedMoves": [
+          {
+            "archivePath": "<isolated-state>/home/.openclaw/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+            "sourcePath": "<isolated-state>/home/.openclaw/agents/main/sessions/history.trajectory.jsonl",
+            "kind": "trajectory"
+          },
+          {
+            "archivePath": "<isolated-state>/home/.openclaw/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+            "sourcePath": "<isolated-state>/home/.openclaw/agents/main/sessions/changed.jsonl",
+            "kind": "transcript",
+            "artifact": {
+              "identity": {
+                "dev": "40",
+                "ino": "2030385",
+                "mtimeNs": "1793371533413320097",
+                "size": 75,
+                "sha256": "a242f71d19eeaaa6fcb0467e20ae4bf1ef414fb76c582e0c9cdcabf998fb8a88"
+              },
+              "classification": "imported",
+              "reason": "verified-import",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          }
+        ],
+        "validationBeforeArchive": "passed"
+      }
+    ],
+    "completedAt": "2026-10-30T14:45:33.418Z"
+  }
+}

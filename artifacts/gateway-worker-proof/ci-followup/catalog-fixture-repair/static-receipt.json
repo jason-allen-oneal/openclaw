@@ -1,0 +1,47 @@
+[
+  {
+    "check": "format",
+    "command": [
+      "node",
+      "scripts/run-format.mts",
+      "--check",
+      "ui/src/e2e/catalog-request-admission.e2e.test.ts"
+    ],
+    "exitCode": 1,
+    "wallSeconds": 0.078
+  },
+  {
+    "check": "lint",
+    "command": [
+      "node",
+      "scripts/run-oxlint.mjs",
+      "--type-aware",
+      "ui/src/e2e/catalog-request-admission.e2e.test.ts"
+    ],
+    "exitCode": 1,
+    "wallSeconds": 114.744
+  },
+  {
+    "check": "diff",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exitCode": 0,
+    "wallSeconds": 0.021
+  },
+  {
+    "check": "test-lines",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/tsx.mjs",
+      "scripts/check-test-lines-ratchet.mts",
+      "--base",
+      "bf1debacae768ac8da1a8ee496f99fc1b53323fe"
+    ],
+    "exitCode": 0,
+    "wallSeconds": 0.711
+  }
+]

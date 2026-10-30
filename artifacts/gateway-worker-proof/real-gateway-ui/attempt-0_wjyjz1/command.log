@@ -1,0 +1,116 @@
+[openclaw] Staging pinned Bun fork openclaw-v1.4.4-20261026-191755ec11-webkit-b82bc917e9 (one-time download)…
+10:29:23 AM [vite] (inline) warning: 
+<candidate-checkout>/scripts/lib/tsx-cli-shim.mjs
+76 |  export async function registerToolingTsx() {
+77 |    configureToolingTsx();
+78 |    await import(resolveTsxImport(SHIM_CHECKOUT_ROOT));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+79 |  }
+80 |  
+The above dynamic import cannot be analyzed by Vite.
+See https://vite.dev/guide/features#dynamic-import for supported dynamic import formats. If this is intended to be left as-is, you can use the /* @vite-ignore */ comment inside the import() call to suppress this warning.
+
+  Plugin: vite:import-analysis
+  File: <candidate-checkout>/scripts/lib/tsx-cli-shim.mjs:8766:39
+
+ RUN  v5.0.5 <candidate-checkout>
+
+
+ RUN  v5.0.5 <candidate-checkout>
+
+No test files found, exiting with code 1
+
+filter: <proof-artifacts>/real-gateway-ui/proof.test.ts
+
+|recovery-storage-real-gateway-proof| 
+
+include: <proof-artifacts>/real-gateway-ui/proof.test.ts
+exclude:  
+
+No test files found, exiting with code 1
+
+filter: <proof-artifacts>/real-gateway-ui/proof.test.ts
+
+|recovery-storage-real-gateway-proof| 
+
+include: <proof-artifacts>/real-gateway-ui/proof.test.ts
+exclude:  
+
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: Protocol error (Browser.getVersion): Internal server error, session closed. Failed to launch browser.
+<launching> <host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,AvoidCorsURLLoaderRestartOnRedirect,Translate,AutoDeElevate,OptimizationHints,NetworkTimeServiceQuerying,AimEnabled,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic <redacted> --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --disable-partial-raster --disable-gpu-rasterization --user-data-dir=<proof-artifacts>/real-gateway-ui/attempt-0_wjyjz1/tmp/oc-vt-gpsyMb/playwright_chromiumdev_profile-klHwre --remote-debugging-pipe --no-startup-window
+<launched> pid=1206055
+[pid=1206055][err] [1206055:1206055:1030/102924.132200:FATAL:chrome/browser/process_singleton_posix.cc:313] Socket path too long: <proof-artifacts>/real-gateway-ui/attempt-0_wjyjz1/tmp/oc-vt-gpsyMb/org.chromium.Chromium.WB1wgs/SingletonSocket.
+[pid=1206055][err] Received signal 6
+[pid=1206055][err] #0 0x56112903bbc3 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x6a9abc2)
+[pid=1206055][err] #1 0x56112dd01494 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0xb760493)
+[pid=1206055][err] #2 0x7fb09a7f66b0 (/usr/lib/x86_64-linux-gnu/libc.so.6+0x406af)
+[pid=1206055][err] #3 0x56112dcb814d (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0xb71714c)
+[pid=1206055][err] #4 0x56112dcb80de (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0xb7170dd)
+[pid=1206055][err] #5 0x561128e02603 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x6861602)
+[pid=1206055][err] #6 0x561127a9b1f9 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x54fa1f8)
+[pid=1206055][err] #7 0x5611282d6a56 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5d35a55)
+[pid=1206055][err] #8 0x5611282d55af (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5d345ae)
+[pid=1206055][err] #9 0x5611282d5564 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5d34563)
+[pid=1206055][err] #10 0x5611273b573b (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x4e1473a)
+[pid=1206055][err] #11 0x5611273b4953 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x4e13952)
+[pid=1206055][err] #12 0x561128570106 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5fcf105)
+[pid=1206055][err] #13 0x56112856f7a9 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5fce7a8)
+[pid=1206055][err] #14 0x56112856eb00 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5fcdaff)
+[pid=1206055][err] #15 0x7fb09a7dffba (/usr/lib/x86_64-linux-gnu/libc.so.6+0x29fb9)
+[pid=1206055][err]   r8: 00003f48000e4b0c  r9: 0000000000000001 r10: 00003f48000e4b0c r11: 0000000000000246
+[pid=1206055][err]  r12: 00007ffc3d647478 r13: 00003f48000e4a00 r14: 0000000000000006 r15: 00007ffc3d6479a0
+[pid=1206055][err]   di: 0000000000126727  si: 0000000000126727  bp: 00007ffc3d647410  bx: 0000000000126727
+[pid=1206055][err]   dx: 0000000000000006  ax: 0000000000000000  cx: 00007fb09a84cd0c  sp: 00007ffc3d647300
+[pid=1206055][err]   ip: 00007fb09a84cd0c efl: 0000000000000246 cgf: 002b000000000033 erf: 0000000000000000
+[pid=1206055][err]  trp: 0000000000000000 msk: 0000000000000000 cr2: 0000000000000000
+[pid=1206055][err] [end of stack trace]
+[pid=1206055] <gracefully close start>
+[pid=1206055] <kill>
+[pid=1206055] <will force kill>
+[pid=1206055] exception while trying to kill process: SystemError: kill() failed: ESRCH: No such process
+[pid=1206055] <process did exit: exitCode=null, signal=SIGABRT>
+[pid=1206055] starting temporary directories cleanup
+[pid=1206055] finished temporary directories cleanup
+[pid=1206055] <gracefully close end>
+ ❯ <anonymous> node_modules/.pnpm/playwright-core@1.64.1_patch_hash=eedf680682a6840d82c6ad530a60875857aa8c0372785acf8e8e5df9c2e3ac16/node_modules/playwright-core/lib/coreBundle.js:36360:61
+ ❯ send node_modules/.pnpm/playwright-core@1.64.1_patch_hash=eedf680682a6840d82c6ad530a60875857aa8c0372785acf8e8e5df9c2e3ac16/node_modules/playwright-core/lib/coreBundle.js:36359:16
+ ❯ connect node_modules/.pnpm/playwright-core@1.64.1_patch_hash=eedf680682a6840d82c6ad530a60875857aa8c0372785acf8e8e5df9c2e3ac16/node_modules/playwright-core/lib/coreBundle.js:39767:40
+ ❯ connectToTransport node_modules/.pnpm/playwright-core@1.64.1_patch_hash=eedf680682a6840d82c6ad530a60875857aa8c0372785acf8e8e5df9c2e3ac16/node_modules/playwright-core/lib/coreBundle.js:44618:34
+ ❯ _innerLaunch node_modules/.pnpm/playwright-core@1.64.1_patch_hash=eedf680682a6840d82c6ad530a60875857aa8c0372785acf8e8e5df9c2e3ac16/node_modules/playwright-core/lib/coreBundle.js:41155:53
+ ❯ _innerLaunchWithRetries node_modules/.pnpm/playwright-core@1.64.1_patch_hash=eedf680682a6840d82c6ad530a60875857aa8c0372785acf8e8e5df9c2e3ac16/node_modules/playwright-core/lib/coreBundle.js:41116:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { method: 'Browser.getVersion', logs: '
+<launching> <host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,AvoidCorsURLLoaderRestartOnRedirect,Translate,AutoDeElevate,OptimizationHints,NetworkTimeServiceQuerying,AimEnabled,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic <redacted> --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --disable-partial-raster --disable-gpu-rasterization --user-data-dir=<proof-artifacts>/real-gateway-ui/attempt-0_wjyjz1/tmp/oc-vt-gpsyMb/playwright_chromiumdev_profile-klHwre --remote-debugging-pipe --no-startup-window
+<launched> pid=1206055
+[pid=1206055][err] [1206055:1206055:1030/102924.132200:FATAL:chrome/browser/process_singleton_posix.cc:313] Socket path too long: <proof-artifacts>/real-gateway-ui/attempt-0_wjyjz1/tmp/oc-vt-gpsyMb/org.chromium.Chromium.WB1wgs/SingletonSocket.
+[pid=1206055][err] Received signal 6
+[pid=1206055][err] #0 0x56112903bbc3 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x6a9abc2)
+[pid=1206055][err] #1 0x56112dd01494 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0xb760493)
+[pid=1206055][err] #2 0x7fb09a7f66b0 (/usr/lib/x86_64-linux-gnu/libc.so.6+0x406af)
+[pid=1206055][err] #3 0x56112dcb814d (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0xb71714c)
+[pid=1206055][err] #4 0x56112dcb80de (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0xb7170dd)
+[pid=1206055][err] #5 0x561128e02603 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x6861602)
+[pid=1206055][err] #6 0x561127a9b1f9 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x54fa1f8)
+[pid=1206055][err] #7 0x5611282d6a56 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5d35a55)
+[pid=1206055][err] #8 0x5611282d55af (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5d345ae)
+[pid=1206055][err] #9 0x5611282d5564 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5d34563)
+[pid=1206055][err] #10 0x5611273b573b (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x4e1473a)
+[pid=1206055][err] #11 0x5611273b4953 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x4e13952)
+[pid=1206055][err] #12 0x561128570106 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5fcf105)
+[pid=1206055][err] #13 0x56112856f7a9 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5fce7a8)
+[pid=1206055][err] #14 0x56112856eb00 (<host-home>/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome+0x5fcdaff)
+[pid=1206055][err] #15 0x7fb09a7dffba (/usr/lib/x86_64-linux-gnu/libc.so.6+0x29fb9)
+[pid=1206055][err]   r8: 00003f48000e4b0c  r9: 0000000000000001 r10: 00003f48000e4b0c r11: 0000000000000246
+[pid=1206055][err]  r12: 00007ffc3d647478 r13: 00003f48000e4a00 r14: 0000000000000006 r15: 00007ffc3d6479a0
+[pid=1206055][err]   di: 0000000000126727  si: 0000000000126727  bp: 00007ffc3d647410  bx: 0000000000126727
+[pid=1206055][err]   dx: 0000000000000006  ax: 0000000000000000  cx: 00007fb09a84cd0c  sp: 00007ffc3d647300
+[pid=1206055][err]   ip: 00007fb09a84cd0c efl: 0000000000000246 cgf: 002b000000000033 erf: 0000000000000000
+[pid=1206055][err]  trp: 0000000000000000 msk: 0000000000000000 cr2: 0000000000000000
+[pid=1206055][err] [end of stack trace]' }
+
+
+
+[test] FAILED (exit 1)

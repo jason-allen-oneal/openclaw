@@ -1,0 +1,347 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 4192ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 5ca767dd86ac in 4261ms (18071 inputs, 22911 outputs)
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against failed history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against running history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against unrelated history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against hidden-run retry history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > does not clear a replacement campaign after an awaited ledger read
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > keeps private recovery receipts durable while status and history stay public
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into accepting
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into suspension
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart signal
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart drain
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads fresh status concurrently without copying the shared database
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > projects distinct active and latest runs and reads persisted history in creation order
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rejects malformed identities, invalid limits, and unsupported query fields
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an expired legacy admission on Gateway watcher startup
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > watches a valid active update when newer terminal history is malformed
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionGroupCatalog
+
+ × |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes 2696ms
+   → expected "vi.fn()" to be called with arguments: [ true, ObjectContaining{…} ]
+
+Received:
+
+  1st vi.fn() call:
+
+  [
+    true,
+-   ObjectContaining {
+-     "recoveryCopies": ObjectContaining {
+-       "byReason": ArrayContaining [
++   {
++     "effectiveChannel": "stable",
++     "lastRun": {
++       "after": {},
++       "before": {},
++       "confirmedAtMs": null,
++       "createdAtMs": 1793369942860,
++       "downtimeMs": null,
++       "finishedAtMs": 1793369942984,
++       "origin": {},
++       "phase": "finished",
++       "reason": null,
++       "repair": [],
++       "runId": "ed43b1ea-4059-43ee-b909-0b45f06a4bae",
++       "status": "succeeded",
++       "steps": [
+          {
++           "endedAtMs": 1793369942984,
++           "startedAtMs": 1793369942860,
++           "status": "completed",
++           "step": "requested",
++         },
++       ],
++       "target": {},
++       "trigger": "cli",
++       "updatedAtMs": 1793369942985,
++       "verification": {},
++     },
++     "recoveryCopies": {
++       "byKind": {
++         "doctorCaptures": {
++           "count": 0,
++           "logicalBytes": 0,
++           "protected": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "retirable": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "unmanifestedOrOrphan": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++         },
++         "migrationOriginals": {
+            "count": 1,
+            "logicalBytes": 8,
+-           "outcome": "protected",
+-           "reason": "unmanifested-recovery-original",
++           "protected": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "retirable": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "unmanifestedOrOrphan": {
++             "count": 1,
++             "logicalBytes": 8,
++           },
++         },
++         "updateCaptures": {
++           "count": 0,
++           "logicalBytes": 0,
++           "protected": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "retirable": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "unmanifestedOrOrphan": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++         },
+        },
++       "byReason": [
+          {
+            "count": 1,
+-           "logicalBytes": 7,
++           "logicalBytes": 8,
+            "outcome": "protected",
+-           "reason": "awaiting-later-completed-update",
++           "reason": "unmanifested-recovery-original",
+          },
++       ],
++       "incomplete": true,
++       "incompleteReasons": [
++         "time-limit",
+        ],
+-       "total": ObjectContaining {
+-         "count": 2,
+-         "logicalBytes": 15,
++       "measurement": "partial",
++       "scope": "local",
++       "total": {
++         "count": 1,
++         "logicalBytes": 8,
++         "protected": {
++           "count": 0,
++           "logicalBytes": 0,
++         },
++         "retirable": {
++           "count": 0,
++           "logicalBytes": 0,
++         },
++         "unmanifestedOrOrphan": {
++           "count": 1,
++           "logicalBytes": 8,
++         },
+        },
+      },
++     "sentinel": null,
++     "updateAvailable": null,
+    },
+  ]
+
+
+Number of calls: 1
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes
+AssertionError: expected "vi.fn()" to be called with arguments: [ true, ObjectContaining{…} ]
+
+Received:
+
+  1st vi.fn() call:
+
+  [
+    true,
+-   ObjectContaining {
+-     "recoveryCopies": ObjectContaining {
+-       "byReason": ArrayContaining [
++   {
++     "effectiveChannel": "stable",
++     "lastRun": {
++       "after": {},
++       "before": {},
++       "confirmedAtMs": null,
++       "createdAtMs": 1793369942860,
++       "downtimeMs": null,
++       "finishedAtMs": 1793369942984,
++       "origin": {},
++       "phase": "finished",
++       "reason": null,
++       "repair": [],
++       "runId": "ed43b1ea-4059-43ee-b909-0b45f06a4bae",
++       "status": "succeeded",
++       "steps": [
+          {
++           "endedAtMs": 1793369942984,
++           "startedAtMs": 1793369942860,
++           "status": "completed",
++           "step": "requested",
++         },
++       ],
++       "target": {},
++       "trigger": "cli",
++       "updatedAtMs": 1793369942985,
++       "verification": {},
++     },
++     "recoveryCopies": {
++       "byKind": {
++         "doctorCaptures": {
++           "count": 0,
++           "logicalBytes": 0,
++           "protected": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "retirable": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "unmanifestedOrOrphan": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++         },
++         "migrationOriginals": {
+            "count": 1,
+            "logicalBytes": 8,
+-           "outcome": "protected",
+-           "reason": "unmanifested-recovery-original",
++           "protected": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "retirable": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "unmanifestedOrOrphan": {
++             "count": 1,
++             "logicalBytes": 8,
++           },
++         },
++         "updateCaptures": {
++           "count": 0,
++           "logicalBytes": 0,
++           "protected": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "retirable": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++           "unmanifestedOrOrphan": {
++             "count": 0,
++             "logicalBytes": 0,
++           },
++         },
+        },
++       "byReason": [
+          {
+            "count": 1,
+-           "logicalBytes": 7,
++           "logicalBytes": 8,
+            "outcome": "protected",
+-           "reason": "awaiting-later-completed-update",
++           "reason": "unmanifested-recovery-original",
+          },
++       ],
++       "incomplete": true,
++       "incompleteReasons": [
++         "time-limit",
+        ],
+-       "total": ObjectContaining {
+-         "count": 2,
+-         "logicalBytes": 15,
++       "measurement": "partial",
++       "scope": "local",
++       "total": {
++         "count": 1,
++         "logicalBytes": 8,
++         "protected": {
++           "count": 0,
++           "logicalBytes": 0,
++         },
++         "retirable": {
++           "count": 0,
++           "logicalBytes": 0,
++         },
++         "unmanifestedOrOrphan": {
++           "count": 1,
++           "logicalBytes": 8,
++         },
+        },
+      },
++     "sentinel": null,
++     "updateAvailable": null,
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ expectPartial src/gateway/server-methods/update-status.test.ts:73:19
+     71|
+     72| function expectPartial(respond: unknown, payload: Record<string, unkno…
+     73|   expect(respond).toHaveBeenCalledWith(true, expect.objectContaining(p…
+       |                   ^
+     74| }
+     75|
+ ❯ src/gateway/server-methods/update-status.test.ts:528:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 skipped (22)
+   Start at  10:18:51
+   Duration  13.85s (transform 62%, tests 20%, import 15%, worker 2%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 18.07s
+[test] FAILED (exit 1)

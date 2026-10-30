@@ -1,0 +1,29 @@
+│
+◇  Session SQLite ────────────────────────────────────────────────────────────────────────╮
+│                                                                                         │
+│  - Session entry inspection awaits database schema repair: OpenClaw                     │
+│    agent database                                                                       │
+│    /tmp/openclaw-186088-stable-proof/run/state/agents/main/agent/openclaw-agent.sqlite  │
+│    uses schema version 25; stop active agents and run openclaw doctor                   │
+│    --fix to upgrade it to schema version 38 before using it.                            │
+│                                                                                         │
+├─────────────────────────────────────────────────────────────────────────────────────────╯
+{
+  "mode": "import",
+  "targets": [],
+  "totals": {
+    "archivedLegacyStoreFiles": 0,
+    "archivedTranscriptFiles": 0,
+    "archivedUnreferencedJsonlFiles": 0,
+    "importedEntries": 0,
+    "importedTranscriptEvents": 0,
+    "issues": 0,
+    "legacyEntries": 0,
+    "reclaimedBytes": 0,
+    "sqliteEntries": 0,
+    "targets": 0,
+    "unreferencedJsonlFiles": 0,
+    "validatedEntries": 0,
+    "validatedTranscriptEvents": 0
+  }
+}

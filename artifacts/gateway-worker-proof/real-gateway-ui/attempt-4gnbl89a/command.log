@@ -1,0 +1,46 @@
+[openclaw] Staging pinned Bun fork openclaw-v1.4.4-20261026-191755ec11-webkit-b82bc917e9 (one-time download)…
+10:33:57 AM [vite] (inline) warning: 
+<candidate-checkout>/scripts/lib/tsx-cli-shim.mjs
+76 |  export async function registerToolingTsx() {
+77 |    configureToolingTsx();
+78 |    await import(resolveTsxImport(SHIM_CHECKOUT_ROOT));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+79 |  }
+80 |  
+The above dynamic import cannot be analyzed by Vite.
+See https://vite.dev/guide/features#dynamic-import for supported dynamic import formats. If this is intended to be left as-is, you can use the /* @vite-ignore */ comment inside the import() call to suppress this warning.
+
+  Plugin: vite:import-analysis
+  File: <candidate-checkout>/scripts/lib/tsx-cli-shim.mjs:8766:39
+
+ RUN  v5.0.5 <candidate-checkout>
+
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 4059ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared e0788ddbff51 in 4129ms (18071 inputs, 22911 outputs)
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <proof-artifacts>/real-gateway-ui/attempt-4gnbl89a/real-gateway-recovery-Mcv1Bf
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <proof-artifacts>/real-gateway-ui/attempt-4gnbl89a/real-gateway-recovery-Mcv1Bf
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:115 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+[vitest] still running with no output for 90000ms.
+[vitest] no output for 120000ms; terminating stalled Vitest process group.
+[vitest] no-output process diagnostics begin (pid=1213500)
+[vitest] process: pid=1213500 ppid=1213333 pgid=1213500 elapsed=02:14 state=Z cpu=8.5% rss_kb=0 wchan=- comm=bun
+[vitest] process tree: pgid=1213500 members=0
+[vitest] fd summary: unavailable
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] FAILED (exit 143)

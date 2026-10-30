@@ -1,0 +1,25 @@
+
+OpenClaw 2026.10.9 (f964859) — All your chats, one OpenClaw.
+
+Usage: openclaw update cleanup [options]
+
+Retire verified update recovery originals after acknowledging rollback loss
+
+Options:
+  --accept-history-loss            Accept loss of potentially unique session
+                                   history (default: false)
+  --archive-backup <directory>     Independent raw backup of selected archives
+                                   and manifests
+  --dry-run                        Inspect recovery metadata without writes
+                                   (default: false)
+  -h, --help                       Display help for command
+  --include-unmanifested <path>    Explicitly select one known unmanifested
+                                   original or orphan capture (repeatable)
+                                   (default: [])
+  --json                           Output one JSON result; never implies consent
+                                   (default: false)
+  --retire-session-archive <path>  Explicitly retire backed-up session history;
+                                   select every target member (repeatable)
+                                   (default: [])
+  --yes                            Acknowledge permanent loss of the selected
+                                   rollback originals (default: false)

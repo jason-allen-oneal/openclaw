@@ -1,0 +1,196 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 6759ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 981e482f0e14 in 6889ms (18071 inputs, 22911 outputs)
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against failed history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against running history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against unrelated history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against hidden-run retry history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > does not clear a replacement campaign after an awaited ledger read
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > keeps private recovery receipts durable while status and history stay public
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into accepting
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into suspension
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart signal
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart drain
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads fresh status concurrently without copying the shared database
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > projects distinct active and latest runs and reads persisted history in creation order
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rejects malformed identities, invalid limits, and unsupported query fields
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an expired legacy admission on Gateway watcher startup
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > watches a valid active update when newer terminal history is malformed
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionGroupCatalog
+
+ × |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes 1988ms
+   → expected "prepare" to not be called at all, but actually been called 9 times
+
+Received:
+
+  1st prepare call:
+
+    Array [
+      "PRAGMA schema_version",
+    ]
+
+  2nd prepare call:
+
+    Array [
+      "PRAGMA user_version",
+    ]
+
+  3rd prepare call:
+
+    Array [
+      "PRAGMA encoding",
+    ]
+
+  4th prepare call:
+
+    Array [
+      "SELECT type, name, tbl_name, sql FROM main.sqlite_schema WHERE type IN ('table', 'view', 'index', 'trigger')",
+    ]
+
+  5th prepare call:
+
+    Array [
+      "select "value_json" from "config_machine_state" where "state_key" = ?",
+    ]
+
+  6th prepare call:
+
+    Array [
+      "select * from "update_runs" where "status" = ? order by "created_at_ms" desc, "run_id" desc limit ?",
+    ]
+
+  7th prepare call:
+
+    Array [
+      "select * from "update_runs" order by "created_at_ms" desc, "run_id" desc limit ?",
+    ]
+
+  8th prepare call:
+
+    Array [
+      "PRAGMA journal_mode",
+    ]
+
+  9th prepare call:
+
+    Array [
+      "PRAGMA user_version",
+    ]
+
+
+Number of calls: 9
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes
+AssertionError: expected "prepare" to not be called at all, but actually been called 9 times
+
+Received:
+
+  1st prepare call:
+
+    Array [
+      "PRAGMA schema_version",
+    ]
+
+  2nd prepare call:
+
+    Array [
+      "PRAGMA user_version",
+    ]
+
+  3rd prepare call:
+
+    Array [
+      "PRAGMA encoding",
+    ]
+
+  4th prepare call:
+
+    Array [
+      "SELECT type, name, tbl_name, sql FROM main.sqlite_schema WHERE type IN ('table', 'view', 'index', 'trigger')",
+    ]
+
+  5th prepare call:
+
+    Array [
+      "select "value_json" from "config_machine_state" where "state_key" = ?",
+    ]
+
+  6th prepare call:
+
+    Array [
+      "select * from "update_runs" where "status" = ? order by "created_at_ms" desc, "run_id" desc limit ?",
+    ]
+
+  7th prepare call:
+
+    Array [
+      "select * from "update_runs" order by "created_at_ms" desc, "run_id" desc limit ?",
+    ]
+
+  8th prepare call:
+
+    Array [
+      "PRAGMA journal_mode",
+    ]
+
+  9th prepare call:
+
+    Array [
+      "PRAGMA user_version",
+    ]
+
+
+Number of calls: 9
+
+ ❯ src/gateway/server-methods/update-status.test.ts:529:9
+    527|   try {
+    528|     const response = await read("update.status", { includeRecoveryCopi…
+    529|     sql.expectIdle();
+       |         ^
+    530|     expectPartial(response, {
+    531|       recoveryCopies: expect.objectContaining({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 skipped (22)
+   Start at  10:20:02
+   Duration  16.91s (transform 71%, import 13%, tests 12%, worker 3%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 21.94s
+[test] FAILED (exit 1)

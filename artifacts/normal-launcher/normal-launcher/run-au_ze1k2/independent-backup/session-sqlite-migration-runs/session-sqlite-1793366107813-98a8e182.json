@@ -1,0 +1,70 @@
+{
+  "manifestVersion": 3,
+  "openClawVersion": "2026.10.9",
+  "runId": "session-sqlite-1793366107813-98a8e182",
+  "startedAt": "2026-10-30T13:15:07.813Z",
+  "targets": [
+    {
+      "agentId": "main",
+      "sqlitePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/agent/openclaw-agent.sqlite",
+      "storePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/sessions/sessions.json",
+      "completedMoves": [
+        {
+          "archivePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+          "sourcePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/sessions/history.trajectory.jsonl",
+          "kind": "trajectory"
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+          "sourcePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/sessions/changed.jsonl",
+          "kind": "transcript",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1944415",
+              "mtimeNs": "1793366107815096264",
+              "size": 75,
+              "sha256": "a242f71d19eeaaa6fcb0467e20ae4bf1ef414fb76c582e0c9cdcabf998fb8a88"
+            },
+            "classification": "imported",
+            "reason": "verified-import",
+            "dependencies": [],
+            "disposal": {
+              "state": "retained"
+            }
+          }
+        }
+      ],
+      "issues": [],
+      "plannedMoves": [
+        {
+          "archivePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+          "sourcePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/sessions/history.trajectory.jsonl",
+          "kind": "trajectory"
+        },
+        {
+          "archivePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+          "sourcePath": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/sessions/changed.jsonl",
+          "kind": "transcript",
+          "artifact": {
+            "identity": {
+              "dev": "40",
+              "ino": "1944415",
+              "mtimeNs": "1793366107815096264",
+              "size": 75,
+              "sha256": "a242f71d19eeaaa6fcb0467e20ae4bf1ef414fb76c582e0c9cdcabf998fb8a88"
+            },
+            "classification": "imported",
+            "reason": "verified-import",
+            "dependencies": [],
+            "disposal": {
+              "state": "retained"
+            }
+          }
+        }
+      ],
+      "validationBeforeArchive": "passed"
+    }
+  ],
+  "completedAt": "2026-10-30T13:15:07.813Z"
+}

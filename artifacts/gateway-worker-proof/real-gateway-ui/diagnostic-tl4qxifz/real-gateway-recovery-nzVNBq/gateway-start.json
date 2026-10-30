@@ -1,0 +1,266 @@
+{
+  "execution": "built-process",
+  "minimalGateway": false,
+  "nodeEnv": null,
+  "vitest": null,
+  "externalModelCalls": 0,
+  "readiness": [
+    {
+      "probe": "GET /readyz",
+      "settlementProbe": "GET /startupz",
+      "startedAtMs": 1793372395667,
+      "deadlineMs": 1793372515667,
+      "elapsedMs": 8399,
+      "outcome": "ready",
+      "attempts": 22,
+      "probes": [
+        {
+          "attempt": 1,
+          "phase": "headers",
+          "elapsedMs": 1,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372395667,
+          "deadlineMs": 1793372396667
+        },
+        {
+          "attempt": 2,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372395678,
+          "deadlineMs": 1793372396678
+        },
+        {
+          "attempt": 3,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372395699,
+          "deadlineMs": 1793372396699
+        },
+        {
+          "attempt": 4,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372395739,
+          "deadlineMs": 1793372396739
+        },
+        {
+          "attempt": 5,
+          "phase": "headers",
+          "elapsedMs": 1,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372395819,
+          "deadlineMs": 1793372396819
+        },
+        {
+          "attempt": 6,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372395980,
+          "deadlineMs": 1793372396980
+        },
+        {
+          "attempt": 7,
+          "phase": "headers",
+          "elapsedMs": 11,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372396301,
+          "deadlineMs": 1793372397301
+        },
+        {
+          "attempt": 8,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372396812,
+          "deadlineMs": 1793372397812
+        },
+        {
+          "attempt": 9,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372397313,
+          "deadlineMs": 1793372398313
+        },
+        {
+          "attempt": 10,
+          "phase": "headers",
+          "elapsedMs": 1,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372397813,
+          "deadlineMs": 1793372398813
+        },
+        {
+          "attempt": 11,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372398314,
+          "deadlineMs": 1793372399314
+        },
+        {
+          "attempt": 12,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372398815,
+          "deadlineMs": 1793372399815
+        },
+        {
+          "attempt": 13,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372399318,
+          "deadlineMs": 1793372400318
+        },
+        {
+          "attempt": 14,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372399819,
+          "deadlineMs": 1793372400819
+        },
+        {
+          "attempt": 15,
+          "phase": "headers",
+          "elapsedMs": 0,
+          "error": "fetch-failed",
+          "startedAtMs": 1793372400322,
+          "deadlineMs": 1793372401322
+        },
+        {
+          "attempt": 16,
+          "phase": "complete",
+          "elapsedMs": 9,
+          "status": 503,
+          "ready": false,
+          "uptimeMs": 446,
+          "failing": [
+            "startup-sidecars"
+          ],
+          "omittedFailing": 0,
+          "startedAtMs": 1793372400823,
+          "deadlineMs": 1793372401823
+        },
+        {
+          "attempt": 17,
+          "phase": "complete",
+          "elapsedMs": 2,
+          "status": 503,
+          "ready": false,
+          "uptimeMs": 951,
+          "failing": [
+            "startup-sidecars"
+          ],
+          "omittedFailing": 0,
+          "startedAtMs": 1793372401335,
+          "deadlineMs": 1793372402335
+        },
+        {
+          "attempt": 18,
+          "phase": "complete",
+          "elapsedMs": 5,
+          "status": 503,
+          "ready": false,
+          "uptimeMs": 1457,
+          "failing": [
+            "startup-sidecars"
+          ],
+          "omittedFailing": 0,
+          "startedAtMs": 1793372401837,
+          "deadlineMs": 1793372402837
+        },
+        {
+          "attempt": 19,
+          "phase": "complete",
+          "elapsedMs": 3,
+          "status": 503,
+          "ready": false,
+          "uptimeMs": 1963,
+          "failing": [
+            "startup-sidecars"
+          ],
+          "omittedFailing": 0,
+          "startedAtMs": 1793372402346,
+          "deadlineMs": 1793372403346
+        },
+        {
+          "attempt": 20,
+          "phase": "complete",
+          "elapsedMs": 210,
+          "status": 503,
+          "ready": false,
+          "uptimeMs": 2674,
+          "failing": [
+            "startup-sidecars"
+          ],
+          "omittedFailing": 0,
+          "startedAtMs": 1793372402849,
+          "deadlineMs": 1793372403849
+        },
+        {
+          "attempt": 21,
+          "phase": "complete",
+          "elapsedMs": 1,
+          "status": 503,
+          "ready": false,
+          "uptimeMs": 3175,
+          "failing": [
+            "startup-sidecars"
+          ],
+          "omittedFailing": 0,
+          "startedAtMs": 1793372403560,
+          "deadlineMs": 1793372404560
+        },
+        {
+          "attempt": 22,
+          "phase": "complete",
+          "elapsedMs": 5,
+          "ready": true,
+          "uptimeMs": 3679,
+          "failing": [],
+          "omittedFailing": 0,
+          "endpoint": "/startupz",
+          "status": 200,
+          "startupStatus": "started",
+          "startedAtMs": 1793372404061,
+          "deadlineMs": 1793372405061
+        }
+      ],
+      "omittedProbes": 0,
+      "lastProbe": {
+        "attempt": 22,
+        "phase": "complete",
+        "elapsedMs": 5,
+        "ready": true,
+        "uptimeMs": 3679,
+        "failing": [],
+        "omittedFailing": 0,
+        "endpoint": "/startupz",
+        "status": 200,
+        "startupStatus": "started"
+      },
+      "lastFailedResponse": {
+        "attempt": 21,
+        "phase": "complete",
+        "elapsedMs": 1,
+        "status": 503,
+        "ready": false
+      },
+      "child": {
+        "pid": 1259258,
+        "exitCode": null,
+        "signalCode": null
+      },
+      "logs": null
+    }
+  ],
+  "port": "isolated-free-port",
+  "assets": "actual dist/control-ui served by Gateway"
+}

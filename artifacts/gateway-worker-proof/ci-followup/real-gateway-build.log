@@ -1,0 +1,117 @@
+EXCERPT ONLY: original full build log retained locally; ranges below use original 1-based lines.
+
+--- Original lines 1-32 of 2934 ---
+$ node --import ./scripts/tsx.mjs scripts/build-all.mts runtime
+[build-all] native-protocol
+[build-all] native-protocol done in 80ms
+[build-all] runtime:scripts:check
+[build-all] runtime:scripts:check done in 3.21s
+[build-all] plugins:assets:build
+[clawrouter] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/clawrouter
+[knowledge] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/knowledge
+[mcp-relay] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/mcp-relay
+[memory-core] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/memory-core
+[nostr] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/nostr
+[whatsapp] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/whatsapp
+[workboard] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard
+[x] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x
+[build-all] plugins:assets:build done in 14.1s
+[build-all] tsdown
+[tsdown-build] invocation 1/2 finished in 0.6s
+[tsdown-cache] tsdown-runtime-agent-core: reused
+[tsdown-cache] tsdown-runtime-gateway-protocol: reused
+[tsdown-cache] tsdown-runtime-gateway-client: reused
+[tsdown-cache] tsdown-runtime-net-policy: reused
+[tsdown-cache] tsdown-runtime-media-generation-core: reused
+[tsdown-cache] tsdown-runtime-media-understanding-common: reused
+[tsdown-cache] tsdown-runtime-markdown-core: reused
+[tsdown-cache] tsdown-runtime-normalization-core: reused
+[tsdown-cache] tsdown-runtime-retry: reused
+[tsdown-cache] tsdown-runtime-worker-runtime: reused
+[tsdown-cache] tsdown-runtime-sdk: reused
+[tsdown-cache] tsdown-runtime-media-core: reused
+[tsdown-cache] tsdown-runtime-acp-core: reused
+[tsdown-cache] tsdown-runtime-terminal-core: reused
+[tsdown-cache] tsdown-runtime-llm-core: reused
+
+--- Original lines 2855-2934 of 2934 ---
+[INEFFECTIVE_DYNAMIC_IMPORT] src/components/app-sidebar-session-narration.ts is dynamically imported by src/components/app-sidebar-owner.tsx but also statically imported by src/pages/chat/subagents-panel-data.ts, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/pages/chat/session-snapshot-store.ts is dynamically imported by src/pages/chat/route-loader-short-cache.ts, src/pages/chat/session-snapshot-prewarm.ts but also statically imported by src/components/sidebar-snapshot.ts, src/pages/chat/chat-page-state.ts, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/lib/chat/outbox-store-projection.ts is dynamically imported by src/app/app-host.tsx but also statically imported by src/lib/chat/outbox-attention.ts, src/pages/chat/chat-outbox-drain.ts, src/pages/chat/chat-outbox-owner.ts, src/pages/chat/chat-outbox-resume.ts, src/pages/chat/chat-outbox-scopes.ts, ..., dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/lib/chat/composer-draft-store.runtime.ts is dynamically imported by src/lib/chat/outbox-store-projection.ts, src/pages/chat/chat-outbox-recovery.tsx, src/pages/chat/chat-session-companion-comments.ts, src/pages/chat/components/chat-async-question-draft.ts, src/pages/chat/durable-composer-persistence.ts, ... but also statically imported by src/lib/chat/composer-draft-retirement.runtime.ts, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/pages/chat/components/chat-divider.tsx is dynamically imported by src/pages/chat/components/chat-transcript-rows.ts but also statically imported by src/pages/chat/components/chat-notice-view.tsx, src/pages/chat/components/chat-system-events.tsx, src/pages/custodian/custodian-surface.tsx, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/pages/chat/chat-outbox-drain.ts is dynamically imported by src/pages/chat/chat-outbox-resume.ts, src/pages/chat/chat-send-actions.ts but also statically imported by src/pages/chat/chat-send-delivery.runtime.ts, src/pages/chat/chat-send-delivery.ts, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/pages/chat/chat-send-queue-state.ts is dynamically imported by src/pages/chat/initial-turn-handoff-admission.ts but also statically imported by src/pages/chat/chat-send-delivery.runtime.ts, src/pages/chat/chat-send-delivery.ts, src/pages/chat/chat-send-queue-runtime.ts, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/pages/chat/chat-send-actions.ts is dynamically imported by src/pages/chat/initial-turn-handoff-admission.ts but also statically imported by src/pages/chat/chat-live-events.runtime.ts, src/pages/chat/chat-pane-context.ts, src/pages/chat/chat-pane-lifecycle.ts, src/pages/chat/chat-pane-retained-presentation.ts, src/pages/chat/chat-pane-session-observation.ts, ..., dynamic import will not move module into another chunk.
+
+✓ built in 36.91s
+[PLUGIN_TIMINGS] JavaScript callbacks ran for 32.0s of this 36.9s build (87%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin control-ui-precompressed-assets writeBundle (54%, 20.0s, 1 call)
+  - plugin control-ui-isolated-desktop-runtime resolveDynamicImport (6%, 2.1s, 2367 calls)
+  - plugin control-ui-build-output writeBundle (5%, 1.9s, 1 call)
+  - plugin vite:build-import-analysis generateBundle (4%, 1.3s, 1 call)
+  - plugin vite:worker load (3%, 1.2s, 1 call)
+Additional callback time came from the callbacks below and from callbacks under 1s.
+4 callbacks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - plugin solid transform (6959 calls)
+  - plugin control-ui-locale-modules load (1827 calls)
+  - plugin vite:css transform (231 calls)
+  … and 1 more
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+verified 2460 finalized Control UI sidecars
+Control UI performance:
+  measurement: shipped sidecars with identity fallback; Node v24.22.2
+  startup JS: 3 requests, 88.7 KiB gzip (90822 B), 80.3 KiB br, 282832 B raw (limits: 7 requests, 88.6 KiB gzip / 90771 B)
+  startup JS gzip vs baseline: 90822 B (baseline 90195 B + growth allowance 512 B = growth limit 90707 B; build-variance allowance 64 B; enforcement limit 90771 B; max committed baseline 325131 B)
+  startup CSS: 1 request, 32.8 KiB gzip (33542 B), 29.1 KiB br, 191699 B raw (limits: 1 request, advisory target 46080 B, hard ceiling 51200 B; headroom 17658 B)
+  largest ordinary JS: assets/control-ui-boot-shared-CNZ4nVM3.js, 535.4 KiB gzip (limit: 557.9 KiB)
+  largest CSS: assets/control-ui-boot-shared-styles-DiFiSbL1.css, 52567 B gzip (hard ceiling 58315 B; headroom 5748 B)
+  all JS: 2495 requests, 12320.8 KiB gzip (12616463 B), 11293.4 KiB br, 37212854 B raw
+  all CSS: 115 requests, 302.9 KiB gzip (310124 B), 268.1 KiB br, 1603069 B raw (fixed ceilings: 309265 B gzip, 1597676 B raw)
+  route boot accounting: initial-entry assets plus measured immediate dynamic imports; existing initial-entry limits unchanged
+  chat boot JS: 20 requests, 1244.1 KiB gzip (1273970 B), 1077.1 KiB br, 4070961 B raw (1183148 B beyond initial-entry JS; limits: 20 requests, 1276669 B gzip)
+  chat boot CSS: 3 requests, 124.7 KiB gzip (127730 B), 108.0 KiB br, 782981 B raw (2 beyond initial-entry CSS; limit: 3 requests)
+  new boot JS: 15 requests, 763.9 KiB gzip (782213 B), 663.2 KiB br, 2518801 B raw (691391 B beyond initial-entry JS; limits: 17 requests, 797395 B gzip)
+  new boot CSS: 3 requests, 89.6 KiB gzip (91717 B), 78.0 KiB br, 556106 B raw (2 beyond initial-entry CSS; limit: 3 requests)
+  isolated Mermaid JS: 1 request, 222.5 KiB gzip (227859 B), 186.7 KiB br, 658047 B raw (limits: 1 deferred asset, 256.0 KiB gzip; forbidden at startup)
+  locale catalog JS: 42 requests, 2592.6 KiB gzip (2654801 B), 2242.5 KiB br, 10634858 B raw (largest pair: ru, 141.5 KiB gzip; limits: 1 base + 1 config-hint asset per locale, 300.0 KiB combined; forbidden at startup)
+    ar: 131248 B gzip (base 17912 B + config hints 113336 B; cap 307200 B; headroom 175952 B)
+    de: 128133 B gzip (base 17581 B + config hints 110552 B; cap 307200 B; headroom 179067 B)
+    es: 121810 B gzip (base 16864 B + config hints 104946 B; cap 307200 B; headroom 185390 B)
+    fa: 131970 B gzip (base 17880 B + config hints 114090 B; cap 307200 B; headroom 175230 B)
+    fr: 125365 B gzip (base 17476 B + config hints 107889 B; cap 307200 B; headroom 181835 B)
+    hi: 140354 B gzip (base 19421 B + config hints 120933 B; cap 307200 B; headroom 166846 B)
+    id: 112562 B gzip (base 15773 B + config hints 96789 B; cap 307200 B; headroom 194638 B)
+    it: 121180 B gzip (base 16672 B + config hints 104508 B; cap 307200 B; headroom 186020 B)
+    ja-JP: 128778 B gzip (base 17948 B + config hints 110830 B; cap 307200 B; headroom 178422 B)
+    ko: 119725 B gzip (base 17222 B + config hints 102503 B; cap 307200 B; headroom 187475 B)
+    nl: 121264 B gzip (base 16735 B + config hints 104529 B; cap 307200 B; headroom 185936 B)
+    pl: 128483 B gzip (base 17619 B + config hints 110864 B; cap 307200 B; headroom 178717 B)
+    pt-BR: 119138 B gzip (base 16584 B + config hints 102554 B; cap 307200 B; headroom 188062 B)
+    ru: 144921 B gzip (base 19694 B + config hints 125227 B; cap 307200 B; headroom 162279 B)
+    sv: 118632 B gzip (base 16520 B + config hints 102112 B; cap 307200 B; headroom 188568 B)
+    th: 140339 B gzip (base 19024 B + config hints 121315 B; cap 307200 B; headroom 166861 B)
+    tr: 122677 B gzip (base 16881 B + config hints 105796 B; cap 307200 B; headroom 184523 B)
+    uk: 143118 B gzip (base 19506 B + config hints 123612 B; cap 307200 B; headroom 164082 B)
+    vi: 121074 B gzip (base 17189 B + config hints 103885 B; cap 307200 B; headroom 186126 B)
+    zh-CN: 116374 B gzip (base 16605 B + config hints 99769 B; cap 307200 B; headroom 190826 B)
+    zh-TW: 117656 B gzip (base 16756 B + config hints 100900 B; cap 307200 B; headroom 189544 B)
+  violations:
+    - startup JS gzip: 88.7 KiB exceeds 88.6 KiB
+    - total CSS gzip: 302.9 KiB exceeds 302.0 KiB
+    - total CSS raw: 1565.5 KiB exceeds 1560.2 KiB
+[build-all] ui:build done in 43.1s
+[build-all] write-build-info
+[build-all] write-build-info done in 148ms
+[build-all] write-cli-startup-metadata
+[build-all] write-cli-startup-metadata done in 7.05s
+[build-all] phase timings: total 2m 47.6s; slowest tsdown 1m 0.6s; ui:build 43.1s; check-cli-bootstrap-imports 17s; plugins:assets:build 14.1s; plugins:assets:copy 10.6s; write-cli-startup-metadata 7.05s; runtime-postbuild 6.55s; external-plugins:local-dist 4.24s; runtime:scripts:check 3.21s; write-build-info 148ms; build-stamp 94ms; runtime-postbuild-stamp 84ms; native-protocol 80ms

@@ -1,0 +1,138 @@
+[
+  {
+    "direction": "request",
+    "id": "5:02ae96e4-1a79-48c9-ad99-693353baf22d",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "5:02ae96e4-1a79-48c9-ad99-693353baf22d",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "21:3a446068-79af-4dc8-883a-d19cfd599ebf",
+    "method": "update.status",
+    "params": {
+      "refreshCheckout": true
+    }
+  },
+  {
+    "direction": "request",
+    "id": "22:74924ef9-823e-46be-b273-05b1574c3f4b",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "21:3a446068-79af-4dc8-883a-d19cfd599ebf",
+    "ok": true
+  },
+  {
+    "direction": "response",
+    "id": "22:74924ef9-823e-46be-b273-05b1574c3f4b",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "23:8e6f8700-1b3e-4d64-bd3c-8ced80c17459",
+    "method": "update.status",
+    "params": {
+      "includeRecoveryCopies": true
+    }
+  },
+  {
+    "direction": "response",
+    "id": "23:8e6f8700-1b3e-4d64-bd3c-8ced80c17459",
+    "ok": true,
+    "recoveryCopies": {
+      "scope": "local",
+      "measurement": "partial",
+      "incomplete": true,
+      "incompleteReasons": [
+        "time-limit"
+      ],
+      "total": {
+        "count": 2,
+        "logicalBytes": 320,
+        "retirable": {
+          "count": 0,
+          "logicalBytes": 0
+        },
+        "protected": {
+          "count": 2,
+          "logicalBytes": 320
+        },
+        "unmanifestedOrOrphan": {
+          "count": 0,
+          "logicalBytes": 0
+        }
+      },
+      "byKind": {
+        "updateCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "doctorCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "migrationOriginals": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        }
+      },
+      "byReason": [
+        {
+          "reason": "artifact-metadata-changed",
+          "outcome": "blocked",
+          "count": 1,
+          "logicalBytes": 213
+        },
+        {
+          "reason": "historical-manifest-without-import-proof",
+          "outcome": "verification-required",
+          "count": 1,
+          "logicalBytes": 107
+        }
+      ]
+    }
+  }
+]

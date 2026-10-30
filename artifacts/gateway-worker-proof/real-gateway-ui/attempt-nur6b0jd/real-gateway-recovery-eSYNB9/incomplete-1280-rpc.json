@@ -1,0 +1,139 @@
+[
+  {
+    "direction": "request",
+    "id": "5:985dc93d-4c90-4798-96d9-2d07653c0db2",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "5:985dc93d-4c90-4798-96d9-2d07653c0db2",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "21:0185617d-6bbd-4b76-a30e-aaec7901dde4",
+    "method": "update.status",
+    "params": {
+      "refreshCheckout": true
+    }
+  },
+  {
+    "direction": "request",
+    "id": "22:f11aa0e1-2a73-4d22-aa05-fa8790819e74",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "21:0185617d-6bbd-4b76-a30e-aaec7901dde4",
+    "ok": true
+  },
+  {
+    "direction": "response",
+    "id": "22:f11aa0e1-2a73-4d22-aa05-fa8790819e74",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "23:9e678c9e-9716-4e6c-b429-7782393fe0f6",
+    "method": "update.status",
+    "params": {
+      "includeRecoveryCopies": true
+    }
+  },
+  {
+    "direction": "response",
+    "id": "23:9e678c9e-9716-4e6c-b429-7782393fe0f6",
+    "ok": true,
+    "recoveryCopies": {
+      "scope": "local",
+      "measurement": "partial",
+      "incomplete": true,
+      "incompleteReasons": [
+        "time-limit",
+        "unreadable-manifest"
+      ],
+      "total": {
+        "count": 2,
+        "logicalBytes": 320,
+        "retirable": {
+          "count": 0,
+          "logicalBytes": 0
+        },
+        "protected": {
+          "count": 2,
+          "logicalBytes": 320
+        },
+        "unmanifestedOrOrphan": {
+          "count": 0,
+          "logicalBytes": 0
+        }
+      },
+      "byKind": {
+        "updateCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "doctorCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "migrationOriginals": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        }
+      },
+      "byReason": [
+        {
+          "reason": "artifact-metadata-changed",
+          "outcome": "blocked",
+          "count": 1,
+          "logicalBytes": 213
+        },
+        {
+          "reason": "unreadable-recovery-dependencies",
+          "outcome": "blocked",
+          "count": 1,
+          "logicalBytes": 107
+        }
+      ]
+    }
+  }
+]

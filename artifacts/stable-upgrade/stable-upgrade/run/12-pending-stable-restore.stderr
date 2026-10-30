@@ -1,0 +1,5 @@
+Failed to read config at /tmp/openclaw-186088-stable-proof/run/state/openclaw.json: This OpenClaw build cannot open your existing data.
+OpenClaw state database /tmp/openclaw-186088-stable-proof/run/state/state/openclaw.sqlite uses newer schema version 36; this build supports 20.
+Refused by OpenClaw 2026.10.9 (8b18b55) installed at /tmp/openclaw-186088-stable-proof/stable/package.
+Use a build that supports schema 36 or newer with this state directory. To use an older build, restore your pre-update backup created with openclaw backup create.
+See https://docs.openclaw.ai/reference/database-schemas.

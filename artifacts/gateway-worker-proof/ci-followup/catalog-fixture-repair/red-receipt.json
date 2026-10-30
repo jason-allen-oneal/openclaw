@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "test/vitest/vitest.ui-e2e.config.ts",
+    "--configLoader",
+    "runner",
+    "ui/src/e2e/catalog-request-admission.e2e.test.ts",
+    "--maxWorkers=1"
+  ],
+  "startedAt": "2026-10-30T14:54:26.183056+00:00",
+  "finishedAt": "2026-10-30T14:55:02.492064+00:00",
+  "wallSeconds": 36.309,
+  "exitCode": 1,
+  "source": "candidate bf1deba plus two exact CI-merge admission files; original test fixture"
+}

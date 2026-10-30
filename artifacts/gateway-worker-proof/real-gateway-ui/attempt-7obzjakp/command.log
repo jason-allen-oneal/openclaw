@@ -1,0 +1,425 @@
+[openclaw] Staging pinned Bun fork openclaw-v1.4.4-20261026-191755ec11-webkit-b82bc917e9 (one-time download)…
+10:39:42 AM [vite] (inline) warning: 
+<candidate-checkout>/scripts/lib/tsx-cli-shim.mjs
+76 |  export async function registerToolingTsx() {
+77 |    configureToolingTsx();
+78 |    await import(resolveTsxImport(SHIM_CHECKOUT_ROOT));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+79 |  }
+80 |  
+The above dynamic import cannot be analyzed by Vite.
+See https://vite.dev/guide/features#dynamic-import for supported dynamic import formats. If this is intended to be left as-is, you can use the /* @vite-ignore */ comment inside the import() call to suppress this warning.
+
+  Plugin: vite:import-analysis
+  File: <candidate-checkout>/scripts/lib/tsx-cli-shim.mjs:8766:39
+
+ RUN  v5.0.5 <candidate-checkout>
+
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache miss after 2428ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest-workers] prepared a41006b10362 in 47655ms (18071 inputs, 22911 outputs)
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <proof-artifacts>/real-gateway-ui/attempt-7obzjakp/real-gateway-recovery-w7rU1m
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <proof-artifacts>/real-gateway-ui/attempt-7obzjakp/real-gateway-recovery-w7rU1m
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/400
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/400
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/820
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/820
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-aUFlJ9
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-aUFlJ9
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"assertion","browser":{"readiness":{"generation":116,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":true,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:41:03.124Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"assertion","browser":{"readiness":{"generation":116,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":true,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:41:03.124Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-aUFlJ9/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-aUFlJ9/failure.private.png
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-aUFlJ9/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-aUFlJ9/failure.private.png
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/1280
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/1280
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-yllePX
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-yllePX
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"assertion","browser":{"readiness":{"generation":116,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":true,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:41:08.885Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"assertion","browser":{"readiness":{"generation":116,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":true,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:41:08.885Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-yllePX/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-yllePX/failure.private.png
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-yllePX/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-yllePX/failure.private.png
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/400
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/400
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-chn3ok
+
+stdout | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] retained proof: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-chn3ok
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"assertion","browser":{"readiness":{"generation":116,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":true,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:41:14.559Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure state {"schemaVersion":1,"failureKind":"assertion","browser":{"readiness":{"generation":116,"booted":true,"gatewayPhase":"connected","routeReady":true,"rosterReady":true,"ready":true,"settlementFailed":false},"markdownTables":{"dialogDefined":true,"expandButtons":0,"focusedExpandButton":false,"modals":[]},"sessionGroupDefaults":null,"canvasWidgets":[],"agentFiles":{"pathname":"other","pagePresent":false,"selectedAgentPresent":false,"selectionMatchesPath":null,"listMatchesSelection":null,"panel":"unknown","activeFile":"unknown","loading":null,"editorPresent":false,"editorLength":null,"editorDisabled":null},"runInspector":{"panelPresent":false,"executionIdentityPresent":null,"runIdentityPresent":null},"gatewayPhase":"connected","connected":true,"roster":{"loading":false,"count":1,"errorPresent":false},"longFrames":[],"documentReadyState":"complete","providerStatuses":[],"activeElement":{"kind":"body","inComposer":false,"isStop":false,"isSend":false},"tooltips":{"openCount":0,"entries":[]},"composer":null},"hostBeforeRead":{"capturedAt":"2026-10-30T14:41:14.559Z","pageClosed":false,"browserConnected":true},"lifecycle":null,"rendererRead":"completed","rendererStall":null,"models":null,"retainedBrowserErrors":{"console":0,"page":0,"scriptRequests":0},"gatewayRpc":[{"method":"sessions.subscribe","outcome":"sent"},{"method":"sessions.list","outcome":"sent"},{"method":"agents.list","outcome":"sent"},{"method":"sessions.subscribe","outcome":"ok"},{"method":"sessions.list","outcome":"ok"},{"method":"agents.list","outcome":"ok"}],"scenarioFacts":null,"frameDepthCounts":[1],"route":{"pathname":"/settings/updates","agentPanel":null,"status":"success","matches":1,"pendingMatches":0}}
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-chn3ok/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-chn3ok/failure.private.png
+
+stderr | ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[control-ui-e2e] failure diagnostics: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-chn3ok/failure.private.json
+[control-ui-e2e] failure screenshot: <candidate-checkout>/.artifacts/control-ui-e2e-timeouts/local/failure-chn3ok/failure.private.png
+
+ × |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths 25192ms
+   → empty/820 route entry layout shifts: expected [ { …(3) } ] to deeply equal []
+   → empty/1280 route entry layout shifts: expected [ { …(3) } ] to deeply equal []
+   → expected 'Recovery storageLocal recovery copies…' to contain 'historical-import-proof-unavailable'
+ ❯ |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts (1 test | 1 failed) 35720ms
+   ❯ Recovery Storage actual built Gateway proof (1)
+     × renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths 25192ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+AssertionError: empty/820 route entry layout shifts: expected [ { …(3) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "hadRecentInput": false,
++     "sources": [
++       {
++         "currentRect": {
++           "bottom": 781.609375,
++           "height": 21.6875,
++           "left": 619.640625,
++           "right": 757.640625,
++           "top": 759.921875,
++           "width": 138,
++           "x": 619.640625,
++           "y": 759.921875,
++         },
++         "node": "DIV.settings-row__control",
++         "previousRect": {
++           "bottom": 781.609375,
++           "height": 21.6875,
++           "left": 634.09375,
++           "right": 757,
++           "top": 759.921875,
++           "width": 122.90625,
++           "x": 634.09375,
++           "y": 759.921875,
++         },
++       },
++     ],
++     "value": 0.000044224639689578714,
++   },
++ ]
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:224:78
+    222|           expect(rpc.some((entry: any) => entry.forbiddenMutation)).to…
+    223|           expect(pageErrors).toEqual([]);
+    224|           expect.soft(shifts, `${stage}/${width} route entry layout sh…
+       |                                                                              ^
+    225|           expect.soft(chromeAfter, `${stage}/${width} shell geometry`)…
+    226|           expect.soft(layout.documentScrollWidth, `${stage}/${width} d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+AssertionError: empty/1280 route entry layout shifts: expected [ { …(3) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "hadRecentInput": false,
++     "sources": [
++       {
++         "currentRect": {
++           "bottom": 756.40625,
++           "height": 21.6875,
++           "left": 993.640625,
++           "right": 1131.640625,
++           "top": 734.71875,
++           "width": 138,
++           "x": 993.640625,
++           "y": 734.71875,
++         },
++         "node": "DIV.settings-row__control",
++         "previousRect": {
++           "bottom": 756.40625,
++           "height": 21.6875,
++           "left": 1008.09375,
++           "right": 1131,
++           "top": 734.71875,
++           "width": 122.90625,
++           "x": 1008.09375,
++           "y": 734.71875,
++         },
++       },
++     ],
++     "value": 0.00002324060960249467,
++   },
++ ]
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:224:78
+    222|           expect(rpc.some((entry: any) => entry.forbiddenMutation)).to…
+    223|           expect(pageErrors).toEqual([]);
+    224|           expect.soft(shifts, `${stage}/${width} route entry layout sh…
+       |                                                                              ^
+    225|           expect.soft(chromeAfter, `${stage}/${width} shell geometry`)…
+    226|           expect.soft(layout.documentScrollWidth, `${stage}/${width} d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+AssertionError: expected 'Recovery storageLocal recovery copies…' to contain 'historical-import-proof-unavailable'
+
+Expected: "historical-import-proof-unavailable"
+Received: "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Incomplete inventory — observed copies onlySome recovery metadata could not be inspected. Totals may be lower than actual usage, and eligibility may be unverified.time-limitObserved recovery copies320 B in 2 copiesBlocked: artifact-metadata-changedThe archive no longer matches its recorded identity. Preserve the current bytes and review the mismatch before considering retirement.213 B in 1 copiesVerification required: historical-manifest-without-import-proofImport proof is unavailable or has not been checked. Keep these archives until you have reviewed recovery dependencies and the retirement guidance.107 B in 1 copiesSafe recovery and retirement guidance"
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:212:26
+    210|           expect(response.recoveryCopies.total.count).toBe(stage === "…
+    211|           if (stage !== "empty") {
+    212|             expect(text).toContain("historical-import-proof-unavailabl…
+       |                          ^
+    213|             expect(text).toContain("artifact-metadata-changed");
+    214|             expect(response.recoveryCopies.total.logicalBytes).toBe(32…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  10:39:43
+   Duration  93.18s (transform 60%, tests 39%, import 2%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+AssertionError: empty/820 route entry layout shifts: expected [ { …(3) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "hadRecentInput": false,
++     "sources": [
++       {
++         "currentRect": {
++           "bottom": 781.609375,
++           "height": 21.6875,
++           "left": 619.640625,
++           "right": 757.640625,
++           "top": 759.921875,
++           "width": 138,
++           "x": 619.640625,
++           "y": 759.921875,
++         },
++         "node": "DIV.settings-row__control",
++         "previousRect": {
++           "bottom": 781.609375,
++           "height": 21.6875,
++           "left": 634.09375,
++           "right": 757,
++           "top": 759.921875,
++           "width": 122.90625,
++           "x": 634.09375,
++           "y": 759.921875,
++         },
++       },
++     ],
++     "value": 0.000044224639689578714,
++   },
++ ]
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:224:78
+    222|           expect(rpc.some((entry: any) => entry.forbiddenMutation)).to…
+    223|           expect(pageErrors).toEqual([]);
+    224|           expect.soft(shifts, `${stage}/${width} route entry layout sh…
+       |                                                                              ^
+    225|           expect.soft(chromeAfter, `${stage}/${width} shell geometry`)…
+    226|           expect.soft(layout.documentScrollWidth, `${stage}/${width} d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+AssertionError: empty/1280 route entry layout shifts: expected [ { …(3) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "hadRecentInput": false,
++     "sources": [
++       {
++         "currentRect": {
++           "bottom": 756.40625,
++           "height": 21.6875,
++           "left": 993.640625,
++           "right": 1131.640625,
++           "top": 734.71875,
++           "width": 138,
++           "x": 993.640625,
++           "y": 734.71875,
++         },
++         "node": "DIV.settings-row__control",
++         "previousRect": {
++           "bottom": 756.40625,
++           "height": 21.6875,
++           "left": 1008.09375,
++           "right": 1131,
++           "top": 734.71875,
++           "width": 122.90625,
++           "x": 1008.09375,
++           "y": 734.71875,
++         },
++       },
++     ],
++     "value": 0.00002324060960249467,
++   },
++ ]
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:224:78
+    222|           expect(rpc.some((entry: any) => entry.forbiddenMutation)).to…
+    223|           expect(pageErrors).toEqual([]);
+    224|           expect.soft(shifts, `${stage}/${width} route entry layout sh…
+       |                                                                              ^
+    225|           expect.soft(chromeAfter, `${stage}/${width} shell geometry`)…
+    226|           expect.soft(layout.documentScrollWidth, `${stage}/${width} d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |recovery-storage-real-gateway-proof| ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+AssertionError: expected 'Recovery storageLocal recovery copies…' to contain 'historical-import-proof-unavailable'
+
+Expected: "historical-import-proof-unavailable"
+Received: "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Incomplete inventory — observed copies onlySome recovery metadata could not be inspected. Totals may be lower than actual usage, and eligibility may be unverified.time-limitObserved recovery copies320 B in 2 copiesBlocked: artifact-metadata-changedThe archive no longer matches its recorded identity. Preserve the current bytes and review the mismatch before considering retirement.213 B in 1 copiesVerification required: historical-manifest-without-import-proofImport proof is unavailable or has not been checked. Keep these archives until you have reviewed recovery dependencies and the retirement guidance.107 B in 1 copiesSafe recovery and retirement guidance"
+
+ ❯ ../../../../.openclaw/workspace/artifacts/openclaw-186088-proof/real-gateway-ui/proof.test.ts:212:26
+    210|           expect(response.recoveryCopies.total.count).toBe(stage === "…
+    211|           if (stage !== "empty") {
+    212|             expect(text).toContain("historical-import-proof-unavailabl…
+       |                          ^
+    213|             expect(text).toContain("artifact-metadata-changed");
+    214|             expect(response.recoveryCopies.total.logicalBytes).toBe(32…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  10:39:43
+   Duration  93.19s (transform 60%, tests 39%, import 2%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] FAILED (exit 1)

@@ -1,0 +1,180 @@
+{
+  "stage": "retained",
+  "width": 400,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "5:2dba1ab5-3a9d-44e0-941a-39226e4b435e",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "5:2dba1ab5-3a9d-44e0-941a-39226e4b435e",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "21:ff6fecf5-7ad6-4798-89d2-2592e7172614",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "22:f6c5c750-5e1d-476b-88a9-6fd0ba8b86f7",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "21:ff6fecf5-7ad6-4798-89d2-2592e7172614",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "22:f6c5c750-5e1d-476b-88a9-6fd0ba8b86f7",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "23:1ec93bb2-a7ed-41ee-9025-ad62637bdbb6",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "23:1ec93bb2-a7ed-41ee-9025-ad62637bdbb6",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "partial",
+        "incomplete": true,
+        "incompleteReasons": [
+          "time-limit"
+        ],
+        "total": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 2,
+            "logicalBytes": 320,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 2,
+              "logicalBytes": 320
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": [
+          {
+            "reason": "artifact-metadata-changed",
+            "outcome": "blocked",
+            "count": 1,
+            "logicalBytes": 213
+          },
+          {
+            "reason": "historical-manifest-without-import-proof",
+            "outcome": "verification-required",
+            "count": 1,
+            "logicalBytes": 107
+          }
+        ]
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Incomplete inventory — observed copies onlySome recovery metadata could not be inspected. Totals may be lower than actual usage, and eligibility may be unverified.time-limitObserved recovery copies320 B in 2 copiesBlocked: artifact-metadata-changedThe archive no longer matches its recorded identity. Preserve the current bytes and review the mismatch before considering retirement.213 B in 1 copiesVerification required: historical-manifest-without-import-proofImport proof is unavailable or has not been checked. Keep these archives until you have reviewed recovery dependencies and the retirement guidance.107 B in 1 copiesSafe recovery and retirement guidance",
+  "shifts": [],
+  "shellSelector": ".topbar-nav-toggle",
+  "chromeBefore": [
+    12,
+    12.5,
+    32,
+    32
+  ],
+  "chromeAfter": [
+    12,
+    12.5,
+    32,
+    32
+  ],
+  "layout": {
+    "documentWidth": 400,
+    "documentScrollWidth": 400,
+    "sectionWidth": 376,
+    "sectionScrollWidth": 376
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "pageErrors": [],
+  "screenshot": "retained-400.png"
+}

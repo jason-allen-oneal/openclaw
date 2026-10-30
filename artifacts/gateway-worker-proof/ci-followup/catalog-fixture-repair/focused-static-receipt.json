@@ -1,0 +1,28 @@
+[
+  {
+    "check": "format-focused",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/tsx.mjs",
+      "scripts/run-format.mts",
+      "--check",
+      "ui/src/e2e/catalog-request-admission.e2e.test.ts"
+    ],
+    "exitCode": 1,
+    "wallSeconds": 0.187
+  },
+  {
+    "check": "lint-focused",
+    "command": [
+      "node",
+      "scripts/run-oxlint.mjs",
+      "--type-aware",
+      "--tsconfig",
+      "tsconfig.ui.json",
+      "ui/src/e2e/catalog-request-admission.e2e.test.ts"
+    ],
+    "exitCode": 0,
+    "wallSeconds": 5.376
+  }
+]

@@ -1,0 +1,202 @@
+{
+  "stage": "empty",
+  "width": 400,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "5:865d17f2-2a6f-44b9-aa65-e610ad970514",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "5:865d17f2-2a6f-44b9-aa65-e610ad970514",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "21:71985f9f-9439-4e77-85b2-fd6de52f0771",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "22:b9a76c45-ff77-43b3-a9c6-c469f1300281",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "22:b9a76c45-ff77-43b3-a9c6-c469f1300281",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "21:71985f9f-9439-4e77-85b2-fd6de52f0771",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "23:164f840f-782e-448b-a324-44b8171bc743",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "23:164f840f-782e-448b-a324-44b8171bc743",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "partial",
+        "incomplete": true,
+        "incompleteReasons": [
+          "time-limit"
+        ],
+        "total": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": []
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Incomplete inventory — observed copies onlySome recovery metadata could not be inspected. Totals may be lower than actual usage, and eligibility may be unverified.time-limitObserved recovery copies0.0 B in 0 copiesSafe recovery and retirement guidance",
+  "shifts": [],
+  "shellSelector": ".topbar-nav-toggle",
+  "chromeBefore": [
+    12,
+    12.5,
+    32,
+    32
+  ],
+  "chromeAfter": [
+    12,
+    12.5,
+    32,
+    32
+  ],
+  "layout": {
+    "documentWidth": 400,
+    "documentScrollWidth": 400,
+    "sectionWidth": 376,
+    "sectionScrollWidth": 376
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright",
+      "location": {
+        "url": "",
+        "line": 2,
+        "column": 99,
+        "lineNumber": 2,
+        "columnNumber": 99
+      }
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "location": {
+        "url": "http://<isolated-loopback>/control-ui-config.json",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "location": {
+        "url": "http://<isolated-loopback>/api/users/gateway-owner/avatar?v=1793372401328",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ],
+  "pageErrors": [],
+  "networkFailures": [
+    {
+      "status": 401,
+      "url": "http://<isolated-loopback>/control-ui-config.json",
+      "method": "GET",
+      "resourceType": "fetch"
+    },
+    {
+      "status": 404,
+      "url": "http://<isolated-loopback>/api/users/gateway-owner/avatar?v=1793372401328",
+      "method": "GET",
+      "resourceType": "fetch"
+    }
+  ],
+  "screenshot": "empty-400.png"
+}

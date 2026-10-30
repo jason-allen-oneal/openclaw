@@ -1,0 +1,8 @@
+[state/db] state database schema migration pending; verifying integrity first
+{
+  "ok": false,
+  "error": {
+    "type": "cli_error",
+    "message": "No safe OpenClaw temp root is available. Default root: Error: Temp workspace ancestor \"/tmp/openclaw-186088-stable-proof\" is group/world writable without sticky protection; have its owner run chmod +t '/tmp/openclaw-186088-stable-proof' for a shared temp directory or chmod go-w '/tmp/openclaw-186088-stable-proof' for a private ancestor. State fallback \"/tmp/openclaw-186088-stable-proof/run/state\": Error: Temp workspace ancestor \"/tmp/openclaw-186088-stable-proof\" is group/world writable without sticky protection; have its owner run chmod +t '/tmp/openclaw-186088-stable-proof' for a shared temp directory or chmod go-w '/tmp/openclaw-186088-stable-proof' for a private ancestor."
+  }
+}

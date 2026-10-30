@@ -1,0 +1,12 @@
+09b-upgraded-sqlite-after-normal-doctor 0
+10-upgraded-retirement-preview 0
+11-interrupt-before-second-claim 0
+12-pending-stable-cleanup 1
+12-pending-stable-restore 2
+Traceback (most recent call last):
+  File "/tmp/openclaw-186088-stable-proof/finish.py", line 34, in <module>
+    pending_compat=probe('12-pending',run,state,fixture,call,stable)
+  File "/tmp/openclaw-186088-stable-proof/compatibility.py", line 13, in probe
+    restore=call(f'{label}-stable-restore',['doctor','--session-sqlite','restore','--session-sqlite-all-agents','--yes','--json'],runner=stable,expect=1)
+  File "<string>", line 17, in call
+AssertionError: ('12-pending-stable-restore', 2)

@@ -1,0 +1,19 @@
+CRAP Report
+===========
+Languages: typescript
+
+Function                             Namespace                                  CC    Cov%     CRAP
+---------------------------------------------------------------------------------------------------
+assertReferenceGroup                 commands.update-cleanup-session-archives   23   N/A       N/A
+selectSessionArchiveRetirement       commands.update-cleanup-session-archives   19   N/A       N/A
+selectedIdentity                     commands.update-cleanup-session-archives   17   N/A       N/A
+recordSessionArchiveRetirement       commands.update-cleanup-session-archives   16   N/A       N/A
+assertCompleteSelection              commands.update-cleanup-session-archives   12   N/A       N/A
+verifyManifestBackup                 commands.update-cleanup-session-archives   10   N/A       N/A
+assertSessionArchiveBackupsCurrent   commands.update-cleanup-session-archives    6   N/A       N/A
+backupRoot                           commands.update-cleanup-session-archives    6   N/A       N/A
+backedUpPath                         commands.update-cleanup-session-archives    3   N/A       N/A
+isSettled                            commands.update-cleanup-session-archives    3   N/A       N/A
+verifyCopy                           commands.update-cleanup-session-archives    3   N/A       N/A
+assertSessionArchiveSelectionCurrent commands.update-cleanup-session-archives    2   N/A       N/A
+Wrote /home/runner/.local/share/openclaw-worktrees/issue-186088/.metrics/crap.edn

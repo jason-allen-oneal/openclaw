@@ -1,0 +1,7 @@
+{
+  "ok": false,
+  "error": {
+    "type": "cli_error",
+    "message": "This OpenClaw build cannot open your existing data.\nOpenClaw state database /tmp/openclaw-186088-stable-proof/run/state/state/openclaw.sqlite uses newer schema version 36; this build supports 20.\nRefused by OpenClaw 2026.10.9 (8b18b55) installed at /tmp/openclaw-186088-stable-proof/stable/package.\nUse a build that supports schema 36 or newer with this state directory. To use an older build, restore your pre-update backup created with openclaw backup create.\nSee https://docs.openclaw.ai/reference/database-schemas."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "test/vitest/vitest.ui-e2e.config.ts",
+    "--configLoader",
+    "runner",
+    "ui/src/e2e/catalog-request-admission.e2e.test.ts",
+    "--maxWorkers=1"
+  ],
+  "startedAt": "2026-10-30T14:55:16.468239+00:00",
+  "finishedAt": "2026-10-30T14:55:43.520546+00:00",
+  "wallSeconds": 27.052,
+  "exitCode": 0,
+  "source": "candidate bf1deba plus two exact CI-merge admission files; fixture advertises tools.catalog and tools.effective",
+  "sourceHashes": {
+    "ui/src/pages/agents/agents-page-state.ts": "ca4a8adb27980e956a961723d8f0ab4dec3b344e6957bfb97be7434cb47daf1a",
+    "ui/src/pages/agents/tools.ts": "731cdce792e69b6d6fbffe4e3c439e1ce1afb60e72c1dc5e00d7ebf54a2a6928",
+    "ui/src/e2e/catalog-request-admission.e2e.test.ts": "d66e32745879b6618a04dfb3769de09f5f840d03325bcd594eb1cf714ce416e3"
+  },
+  "sourceUnchangedDuringRun": true
+}

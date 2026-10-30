@@ -1,0 +1,181 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache miss after 3085ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest-workers] prepared 29287a522259 in 49804ms (18071 inputs, 22911 outputs)
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against failed history 577ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against running history 68ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against unrelated history 75ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against hidden-run retry history 95ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > does not clear a replacement campaign after an awaited ledger read 82ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > keeps private recovery receipts durable while status and history stay public 88ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into accepting 11ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into suspension 6ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart signal 449ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart drain 428ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads fresh status concurrently without copying the shared database 490ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after refused reconciliation 451ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after dead driver reconciliation 437ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after expired legacy reconciliation 430ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after refused reconciliation 430ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after dead driver reconciliation 461ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after expired legacy reconciliation 468ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > projects distinct active and latest runs and reads persisted history in creation order 106ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rejects malformed identities, invalid limits, and unsupported query fields 58ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an expired legacy admission on Gateway watcher startup 458ms
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > watches a valid active update when newer terminal history is malformed 422ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionGroupCatalog
+
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes 2478ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  10:21:14
+   Duration  65.83s (transform 83%, tests 13%, import 3%)
+
+[test] starting test/vitest/vitest.commands.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > verifies remounted recovery before retirement (different content: false) 5251ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > verifies remounted recovery before retirement (different content: true) 9207ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps success and reports an actual retirement failure consistently (JSON: true) 1405ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps success and reports an actual retirement failure consistently (JSON: false) 1393ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > runs retirement in the owning Gateway worker while retaining pending recovery 2629ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > stops migration-original retirement when its physical owner is replaced after before-first-effect 5670ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > stops migration-original retirement when its physical owner is replaced after claim-publication 6266ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > stops migration-original retirement when its physical owner is replaced after first-unlink 6458ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > does not retire artifacts when another process owns live state 268ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps the entire mixed-proof recovery set when its legacy-store needs historical verification 1296ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps the entire mixed-proof recovery set when its transcript needs historical verification 1311ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > retires a failed update's own capture only when it never activated 1361ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps the triggering update's capture when the wall clock moves backward 835ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > defers cross-manifest disposal even for protected historical originals (completed: true) 3514ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > defers cross-manifest disposal even for protected historical originals (completed: false) 3513ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.pluginStatePublication
+
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps Gateway completion warnings visible when cleanup diagnostics cannot be persisted 2952ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > reports logical bytes and distinct eligibility counts by kind through status text 176ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at entry-limit without changing recovery files 32ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at metadata-byte-limit without changing recovery files 7ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at time-limit without changing recovery files 4ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.sessionStateNotices
+
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > includes the same read-only recovery inventory in Doctor lint JSON 4183ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > keeps originals protected after incomplete dependency discovery skips another manifest 15ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > reports retained archive reasons without opening the archived payloads 8ms
+
+ Test Files  2 passed (2)
+      Tests  23 passed (23)
+   Start at  10:22:21
+   Duration  73.60s (tests 79%, transform 16%, import 4%, worker 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 2 Vitest shards in 144.73s

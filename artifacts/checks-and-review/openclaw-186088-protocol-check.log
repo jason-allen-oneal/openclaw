@@ -1,0 +1,8 @@
+$ pnpm protocol-registry:check && pnpm protocol:gen && node scripts/prepare-native-protocol.mjs --check && node --import ./scripts/tsx.mjs scripts/check-protocol-since.mts
+$ node --import ./scripts/tsx.mjs scripts/check-protocol-registry.mts
+protocol registry check passed
+$ node --import ./scripts/tsx.mjs scripts/protocol-gen.ts
+[protocol-gen] wrote dist/protocol.schema.json
+[native-protocol] swift: contract and determinism checked
+[native-protocol] kotlin: contract and determinism checked
+protocol since guard passed: 0 new core methods use train 2026.10; 0 restored compatibility methods retain historical vintage

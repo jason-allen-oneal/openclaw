@@ -1,0 +1,92 @@
+{:candidates [
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/agent-via-gateway.ts", :start-line 256, :end-line 260}
+  :right {:file "src/commands/cleanup-utils.ts", :start-line 303, :end-line 307}
+  :left-nodes 20
+  :right-nodes 20}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/channels/account-selector.ts", :start-line 1, :end-line 8}
+  :right {:file "src/commands/channels/channel-selector.ts", :start-line 1, :end-line 8}
+  :left-nodes 78
+  :right-nodes 78}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/cleanup-command.test-support.ts", :start-line 80, :end-line 83}
+  :right {:file "src/commands/cleanup-command.test-support.ts", :start-line 85, :end-line 88}
+  :left-nodes 103
+  :right-nodes 103}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/daemon-install-plan.shared.ts", :start-line 116, :end-line 122}
+  :right {:file "src/commands/doctor-state-integrity.ts", :start-line 139, :end-line 145}
+  :left-nodes 53
+  :right-nodes 53}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/doctor-plugin-manifests.ts", :start-line 30, :end-line 36}
+  :right {:file "src/commands/doctor-session-sqlite.test-support.ts", :start-line 143, :end-line 149}
+  :left-nodes 55
+  :right-nodes 55}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/doctor-sandbox.ts", :start-line 422, :end-line 431}
+  :right {:file "src/commands/doctor-session-transcripts.ts", :start-line 168, :end-line 177}
+  :left-nodes 39
+  :right-nodes 39}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/doctor-session-delivery-state.ts", :start-line 55, :end-line 61}
+  :right {:file "src/commands/doctor-session-delivery-state.ts", :start-line 63, :end-line 69}
+  :left-nodes 35
+  :right-nodes 35}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/doctor-state-integrity.test-support.ts", :start-line 48, :end-line 53}
+  :right {:file "src/commands/doctor-state-integrity.test-support.ts", :start-line 55, :end-line 60}
+  :left-nodes 89
+  :right-nodes 89}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/doctor/shared/codex-native-assets.test-support.ts", :start-line 16, :end-line 20}
+  :right {:file "src/commands/doctor/shared/codex-route-session-repair.test-support.ts", :start-line 13, :end-line 17}
+  :left-nodes 45
+  :right-nodes 45}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/doctor/shared/codex-route-compaction-scan.ts", :start-line 127, :end-line 135}
+  :right {:file "src/commands/doctor/shared/codex-route-compaction-scan.ts", :start-line 137, :end-line 144}
+  :left-nodes 47
+  :right-nodes 47}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/doctor/shared/legacy-tool-name-migration.ts", :start-line 103, :end-line 111}
+  :right {:file "src/commands/doctor/shared/legacy-tool-name-migration.ts", :start-line 113, :end-line 121}
+  :left-nodes 73
+  :right-nodes 73}
+ {:score 1.0
+  :language "typescript"
+  :left {:file "src/commands/status.scan.test-helpers.ts", :start-line 118, :end-line 124}
+  :right {:file "src/commands/status.scan.test-helpers.ts", :start-line 138, :end-line 144}
+  :left-nodes 53
+  :right-nodes 53}
+ {:score 0.827586206897
+  :language "typescript"
+  :left {:file "src/commands/backup-sqlite.ts", :start-line 217, :end-line 225}
+  :right {:file "src/commands/doctor/shared/channel-plugin-blockers.ts", :start-line 298, :end-line 318}
+  :left-nodes 57
+  :right-nodes 122}
+ {:score 0.82
+  :language "typescript"
+  :left {:file "src/commands/doctor-config-audit-scrub.ts", :start-line 30, :end-line 43}
+  :right {:file "src/commands/doctor-config-audit-scrub.ts", :start-line 45, :end-line 53}
+  :left-nodes 89
+  :right-nodes 73}
+ {:score 0.818181818182
+  :language "typescript"
+  :left {:file "src/commands/channels/shared.ts", :start-line 87, :end-line 91}
+  :right {:file "src/commands/channels/shared.ts", :start-line 111, :end-line 115}
+  :left-nodes 83
+  :right-nodes 74}
+]}

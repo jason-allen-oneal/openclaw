@@ -1,0 +1,10 @@
+Head: 2dee5c7f729b5bf80193e8463c91b785ecc56ea1
+Job: https://github.com/openclaw/openclaw/actions/runs/41065017584/job/124094718033
+Selected complete failure diagnostic; no environment/setup output included.
+2026-10-30T13:44:28.9068311Z Madge import cycle check: 1 cycle(s).
+2026-10-30T13:44:28.9145515Z # cycle 1
+2026-10-30T13:44:28.9186040Z   src/commands/doctor-session-sqlite-recovery-inventory.ts
+2026-10-30T13:44:28.9243341Z   -> src/commands/update-capture-cleanup.ts
+2026-10-30T13:44:28.9243893Z   -> src/commands/update-cleanup-types.ts
+2026-10-30T13:44:28.9244285Z Break the cycle or extract a leaf contract instead of routing through a barrel.
+2026-10-30T13:44:28.9668910Z ##[error]madge-import-cycles failed (exit 1)

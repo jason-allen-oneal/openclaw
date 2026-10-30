@@ -1,0 +1,112 @@
+{
+  "stateDir": "/tmp/openclaw-186088-stable-proof/run/state",
+  "artifacts": [
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/state/openclaw.sqlite.pre-startup-migration-75865dcb-39a1-4899-a409-6d20614de969.scoped.bak",
+      "runs": [
+        "startup-migration-75865dcb-39a1-4899-a409-6d20614de969"
+      ],
+      "bytes": 24576,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad.bak",
+      "runs": [
+        "startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad"
+      ],
+      "bytes": 675840,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/state/openclaw.sqlite.pre-startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad.bak",
+      "runs": [
+        "startup-migration-3e52b0d6-956e-8e3e-81c1-5237ac462bad"
+      ],
+      "bytes": 1429504,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "kind": "update-capture",
+      "captureSource": "doctor",
+      "path": "/tmp/openclaw-186088-stable-proof/run/state.update-captures/doctor-2b8a7154-ecda-4ee9-ab91-5b288d33c0d7",
+      "runs": [
+        "doctor-2b8a7154-ecda-4ee9-ab91-5b288d33c0d7"
+      ],
+      "bytes": 2112471,
+      "outcome": "protected",
+      "reason": "retained-doctor-capture"
+    },
+    {
+      "kind": "update-capture",
+      "captureSource": "doctor",
+      "path": "/tmp/openclaw-186088-stable-proof/run/state.update-captures/doctor-8a956d7e-ab68-4878-89f9-d185c4b1b1cd",
+      "runs": [
+        "doctor-8a956d7e-ab68-4878-89f9-d185c4b1b1cd"
+      ],
+      "bytes": 10751072,
+      "outcome": "protected",
+      "reason": "retained-doctor-capture"
+    },
+    {
+      "kind": "update-capture",
+      "captureSource": "doctor",
+      "path": "/tmp/openclaw-186088-stable-proof/run/state.update-captures/doctor-ede83ca3-9897-4f8b-9f4a-ebd6c9123e50",
+      "runs": [
+        "doctor-ede83ca3-9897-4f8b-9f4a-ebd6c9123e50"
+      ],
+      "bytes": 2161728,
+      "outcome": "protected",
+      "reason": "retained-doctor-capture"
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683",
+      "runs": [
+        "session-sqlite-1793365513592-50afea5a"
+      ],
+      "bytes": 0,
+      "outcome": "disposed",
+      "reason": "explicit-history-retirement",
+      "detail": "Backup verified: /tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1793365514683; selected SHA-256: b6766734953e08fc46152976c0f4a17e8d3f4f0e6e2dcc998afa7b1a249b7605. No import proof is inferred.",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684",
+      "runs": [
+        "session-sqlite-1793365513592-50afea5a"
+      ],
+      "bytes": 0,
+      "outcome": "disposed",
+      "reason": "explicit-history-retirement",
+      "detail": "Backup verified: /tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1793365514684; selected SHA-256: 654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365. No import proof is inferred.",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original."
+    },
+    {
+      "path": "/tmp/openclaw-186088-stable-proof/run/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705",
+      "runs": [
+        "session-sqlite-1793365513592-50afea5a"
+      ],
+      "bytes": 0,
+      "outcome": "disposed",
+      "reason": "explicit-history-retirement",
+      "detail": "Backup verified: /tmp/openclaw-186088-stable-proof/run/backup/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1793365514705; selected SHA-256: f777b927bd5210033fe81203690fb91331d02ebcc5e22d54e1909e9860b1981a. No import proof is inferred.",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original."
+    }
+  ],
+  "totals": {
+    "candidateBytes": 0,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 17155191,
+    "blockedBytes": 0,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "complete",
+  "missingOriginals": 3,
+  "dryRun": false
+}

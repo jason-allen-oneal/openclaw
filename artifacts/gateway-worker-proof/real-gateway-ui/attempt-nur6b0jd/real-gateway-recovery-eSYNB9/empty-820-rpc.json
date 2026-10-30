@@ -1,0 +1,125 @@
+[
+  {
+    "direction": "request",
+    "id": "5:e4a9cc4b-47dd-427b-9dcd-bc75572e20cc",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "5:e4a9cc4b-47dd-427b-9dcd-bc75572e20cc",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "21:31a31599-126f-4a2a-8590-34358f5c1b01",
+    "method": "update.status",
+    "params": {
+      "refreshCheckout": true
+    }
+  },
+  {
+    "direction": "request",
+    "id": "22:fb6394ef-5c86-4c19-8c37-1a19528e9c97",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "21:31a31599-126f-4a2a-8590-34358f5c1b01",
+    "ok": true
+  },
+  {
+    "direction": "response",
+    "id": "22:fb6394ef-5c86-4c19-8c37-1a19528e9c97",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "23:a3065efc-b900-4820-bf9d-c36a52620864",
+    "method": "update.status",
+    "params": {
+      "includeRecoveryCopies": true
+    }
+  },
+  {
+    "direction": "response",
+    "id": "23:a3065efc-b900-4820-bf9d-c36a52620864",
+    "ok": true,
+    "recoveryCopies": {
+      "scope": "local",
+      "measurement": "partial",
+      "incomplete": true,
+      "incompleteReasons": [
+        "time-limit"
+      ],
+      "total": {
+        "count": 0,
+        "logicalBytes": 0,
+        "retirable": {
+          "count": 0,
+          "logicalBytes": 0
+        },
+        "protected": {
+          "count": 0,
+          "logicalBytes": 0
+        },
+        "unmanifestedOrOrphan": {
+          "count": 0,
+          "logicalBytes": 0
+        }
+      },
+      "byKind": {
+        "updateCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "doctorCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "migrationOriginals": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        }
+      },
+      "byReason": []
+    }
+  }
+]

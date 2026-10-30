@@ -1,0 +1,110 @@
+$ node ../scripts/run-node-package-bin.mts vitest run --config vitest.config.ts src/pages/chat/components/session-diff-panel.browser.test.ts --maxWorkers=1 --retry=0 --reporter=verbose
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./control-ui-i18n-config.json" without import attributes (../scripts/lib/control-ui-i18n-sync-plan.ts:2:41). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v5.0.5 <candidate-checkout>/ui
+
+ ✓ |chromium| src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > contains complete split lines with mobile=false 1212ms
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+[STRICT_READ_UNTRACKED] what it means and how to fix it: https://v2.solidjs.com/reference/solid-js/diagnostics/strict-read-untracked
+[STRICT_READ_UNTRACKED] agent repair guide: node_modules/solid-js/skills/reactivity-diagnostics/SKILL.md#strict_read_untracked — https://github.com/solidjs/solid/blob/next/packages/solid/skills/reactivity-diagnostics/SKILL.md#strict_read_untracked
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+ ✓ |chromium| src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > contains complete split lines with mobile=true 561ms
+ ✓ |chromium| src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps keyboard focus and activation when file edit eligibility settles 132ms
+ ✓ |chromium| src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > settles Review navigation before focusing and scrolling its destination 344ms
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > uses available width before truncating and preserves keyboard access to sync actions
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > uses available width before truncating and preserves keyboard access to sync actions
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > uses available width before truncating and preserves keyboard access to sync actions
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > uses available width before truncating and preserves keyboard access to sync actions
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > uses available width before truncating and preserves keyboard access to sync actions
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+stderr | src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes
+[STRICT_READ_UNTRACKED] Reactive value read directly in <Show> will not update. Move it into a tracking scope (JSX, a memo, or an effect's compute function).
+  in <SessionDiffPanel> › <Show> › value › <SessionDiffMenu> › <Show> › value
+  at http://<isolated-loopback>/src/pages/chat/components/session-diff-menus.tsx:553:7
+ ✓ |chromium| src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > uses available width before truncating and preserves keyboard access to sync actions 283ms
+ ✓ |chromium| src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps a disabled path copy mounted through clipboard fallback focus changes 207ms
+ ✓ |chromium| src/pages/chat/components/session-diff-panel.browser.test.ts > Review layout > keeps mobile Review menus reachable inside a translated dock and restores the real trigger 267ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  10:12:11
+   Duration  5.85s (tests 61%, import 27%, setup 9%, worker 3%)
+

@@ -1,0 +1,38 @@
+{
+  "stateDir": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state",
+  "artifacts": [
+    {
+      "path": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+      "runs": [
+        "session-sqlite-1793366107813-98a8e182"
+      ],
+      "bytes": 107,
+      "outcome": "candidate",
+      "reason": "explicit-history-retirement",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original.",
+      "detail": "Backup verified: /tmp/openclaw-186088-launcher-proof/run-au_ze1k2/independent-backup/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1; selected SHA-256: a2b6f8599469b31eb637efa077e44b1a15fb867c22c463a4551d6e0c62c0b526. No import proof is inferred."
+    },
+    {
+      "path": "/tmp/openclaw-186088-launcher-proof/run-au_ze1k2/state/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+      "runs": [
+        "session-sqlite-1793366107813-98a8e182"
+      ],
+      "bytes": 213,
+      "outcome": "candidate",
+      "reason": "explicit-history-retirement",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original.",
+      "detail": "Backup verified: /tmp/openclaw-186088-launcher-proof/run-au_ze1k2/independent-backup/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1; selected SHA-256: f3fd3bac86794cd1bf8302d87566f419c3d4dd908cbf8ebd61f116db77f3ac2b. No import proof is inferred."
+    }
+  ],
+  "totals": {
+    "candidateBytes": 320,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 0,
+    "blockedBytes": 0,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "preview",
+  "missingOriginals": 0,
+  "dryRun": true
+}

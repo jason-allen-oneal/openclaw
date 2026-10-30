@@ -1,0 +1,20 @@
+KILLED    src/commands/update-cleanup-session-archives.ts:165 !== -> ===
+SURVIVED  src/commands/update-cleanup-session-archives.ts:165 || -> &&
+KILLED    src/commands/update-cleanup-session-archives.ts:165 !== -> ===
+Function                             Namespace                                 Killed  Survived  Uncovered  Sites   Score
+-------------------------------------------------------------------------------------------------------------------------
+assertCompleteSelection              commands.update-cleanup-session-archives       0         0          0      9    n/a
+assertReferenceGroup                 commands.update-cleanup-session-archives       0         0          0     33    n/a
+assertSessionArchiveBackupsCurrent   commands.update-cleanup-session-archives       0         0          0      2    n/a
+assertSessionArchiveSelectionCurrent commands.update-cleanup-session-archives       0         0          0      1    n/a
+backedUpPath                         commands.update-cleanup-session-archives       0         0          0      1    n/a
+backupRoot                           commands.update-cleanup-session-archives       0         0          0      5    n/a
+isSettled                            commands.update-cleanup-session-archives       0         0          0      3    n/a
+recordSessionArchiveRetirement       commands.update-cleanup-session-archives       0         0          0     12    n/a
+selectSessionArchiveRetirement       commands.update-cleanup-session-archives       0         0          0     16    n/a
+selectedIdentity                     commands.update-cleanup-session-archives       0         0          0     19    n/a
+verifyManifestBackup                 commands.update-cleanup-session-archives       0         0          0     12    n/a
+verifyCopy                           commands.update-cleanup-session-archives       2         1          0      3  66.7%
+-------------------------------------------------------------------------------------------------------------------------
+Total                                                                               2         1          0    116   66.7%
+Wrote /tmp/openclaw-186088-mutator-scope-8p1kfcee/.metrics/mutate/commands.update-cleanup-session-archives.edn
