@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import fs from "node:fs";
 import path from "node:path";
 import { expectDefined } from "@openclaw/normalization-core";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
@@ -502,4 +503,26 @@ it("watches a valid active update when newer terminal history is malformed", asy
       expect.stringContaining("update run watcher stopped:"),
     );
   });
+});
+
+it("returns recovery storage only on an explicit status request", async () => {
+  const directory = path.join(home.home, ".openclaw", "state");
+  fs.mkdirSync(directory, { recursive: true });
+  const original = path.join(directory, "openclaw.sqlite.pre-startup-migration-old.bak");
+  fs.writeFileSync(original, "retained");
+  expectReply(await read("update.status"), emptyStatus);
+  expectPartial(await read("update.status", { includeRecoveryCopies: true }), {
+    recoveryCopies: expect.objectContaining({
+      total: expect.objectContaining({ count: 1, logicalBytes: 8 }),
+      byReason: [
+        {
+          reason: "unmanifested-recovery-original",
+          outcome: "protected",
+          count: 1,
+          logicalBytes: 8,
+        },
+      ],
+    }),
+  });
+  expect(fs.readFileSync(original, "utf8")).toBe("retained");
 });

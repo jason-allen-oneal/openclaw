@@ -147,6 +147,15 @@ export const updateStatusHandlers: GatewayRequestHandlers = {
           ? getGatewayUpdateSchedule(currentConfig, effectiveChannel)
           : undefined
         : getUpdateSchedule();
+      mark("recovery");
+      // Only explicit reads enumerate recovery metadata; progress polling stays cheap.
+      const recoveryCopies =
+        params.includeRecoveryCopies === true
+          ? (await import("../../commands/recovery-disk-usage.js")).collectRecoveryDiskUsage({
+              cfg: currentConfig ?? {},
+              env: process.env,
+            })
+          : undefined;
       mark("response");
       const result: UpdateStatusResult = {
         sentinel,
@@ -155,6 +164,7 @@ export const updateStatusHandlers: GatewayRequestHandlers = {
         updateAvailable: getUpdateAvailable(),
         ...(effectiveChannel ? { effectiveChannel } : {}),
         ...(schedule ? { schedule } : {}),
+        ...(recoveryCopies ? { recoveryCopies } : {}),
       };
       respond(true, result);
     } finally {
