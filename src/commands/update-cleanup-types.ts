@@ -1,5 +1,4 @@
 import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RecoveryCleanupReport } from "./doctor-session-sqlite-recovery-inventory.js";
 
 export type RecoveryCleanupProgress = {
   phase: "verifying" | "claiming" | "removing-capture" | "removing-unmanifested";
@@ -31,6 +30,22 @@ export type RecoveryCleanupArtifact = {
   consequence?: string;
   removedBytes?: number;
 };
+
+export type RecoveryCleanupReport = {
+  stateDir: string;
+  artifacts: RecoveryCleanupArtifact[];
+  totals: {
+    candidateBytes: number;
+    verificationRequiredBytes: number;
+    protectedBytes: number;
+    blockedBytes: number;
+    removedBytes: number;
+    removedFiles: number;
+  };
+  status: "preview" | "refused" | "complete" | "blocked";
+  missingOriginals: number;
+};
+
 export type RecoveryRetirementParams = {
   env: NodeJS.ProcessEnv;
   preview: RecoveryCleanupReport;
