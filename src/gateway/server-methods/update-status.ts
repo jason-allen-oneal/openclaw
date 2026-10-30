@@ -151,10 +151,11 @@ export const updateStatusHandlers: GatewayRequestHandlers = {
       // Only explicit reads enumerate recovery metadata; progress polling stays cheap.
       const recoveryCopies =
         params.includeRecoveryCopies === true
-          ? (await import("../../commands/recovery-disk-usage.js")).collectRecoveryDiskUsage({
-              cfg: currentConfig ?? {},
-              env: process.env,
-            })
+          ? await (
+              await import("../update-automatic-cleanup.js")
+            ).readGatewayRecoveryDiskUsage(currentConfig ?? {}, process.env, () =>
+              lifecycle.signal.throwIfAborted(),
+            )
           : undefined;
       mark("response");
       const result: UpdateStatusResult = {
