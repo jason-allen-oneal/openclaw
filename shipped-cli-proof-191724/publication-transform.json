@@ -1,0 +1,45 @@
+{
+  "note": "Public copies are redacted only where recorded; no rerun of redacted argv is implied. Portable driver bytes are unchanged from execution. Fixture contains no real credentials.",
+  "transforms": {
+    "build.log": {
+      "originalSha256": "b707aebc7ac2d71f54510e00097c18b83d83a9fba91610f5ea88d1768c81dacb",
+      "publicSha256": "f81a638ec67e6314f2d51b3236afdfcc9b1cedf472cc3da8c9e5d4f3218b7e8f",
+      "rule": "Absolute checkout path replaced with $CANDIDATE_CHECKOUT; all diagnostics retained."
+    },
+    "build-retry.log": {
+      "originalSha256": "2e4f3d6ade8d6ac743881990a42f2133ac1bb40711244b4ee9ad3763b6d52bbd",
+      "publicSha256": "e8f7f5fff73f3a363277e0c99580303a717511ed509b5bef4ccc0022159de2d8",
+      "rule": "Absolute checkout path replaced with $CANDIDATE_CHECKOUT; all diagnostics retained."
+    },
+    "candidate/sync-repaired/receipt.json": {
+      "originalSha256": "75e9c33062b19d2bf801a19557395ea7974173904a9a58668caf688743ecaebf",
+      "publicSha256": "2c9d513853569f3e9df745070fc3189243ac5c76074b97686bc7451b70d5c067",
+      "rule": "Only argv executable checkout path replaced; publication note added."
+    },
+    "candidate/async-repaired/receipt.json": {
+      "originalSha256": "4b532ea72208f723864e92ff2319531e12dd2d692c9e8dde46c2a2cde1efde8f",
+      "publicSha256": "07028a57d23691225c153c7c30d8fd3a151ed303dfc615ddf608ac3569bcdeea",
+      "rule": "Only argv executable checkout path replaced; publication note added."
+    },
+    "candidate/result-error/receipt.json": {
+      "originalSha256": "303cf4c367b1964e2a7075ca03c3255d87f75fdb0d07ad9e9b6f85e169c332af",
+      "publicSha256": "20ee66df5221744a4202d83ef1d77d96e1f01b289ecc10863abe6639c10eeca0",
+      "rule": "Only argv executable checkout path replaced; publication note added."
+    },
+    "installed-before/sync-repaired/receipt.json": {
+      "originalSha256": "2968e56f818f04136b76c01816c68d0f56befd44c29b7c86b5c431ee904d2fff",
+      "publicSha256": "72264cd497f760602c7e23227b5a2720adcb6358de9c655de42d1cff09f64021",
+      "rule": "Only argv executable checkout path replaced; publication note added."
+    },
+    "installed-before/async-repaired/receipt.json": {
+      "originalSha256": "41245d8774ba99b6e2e0cbd9cda4d1987e5d2ec4854d7b6ef7fa7c544412457e",
+      "publicSha256": "2508cf7e3e3d7875d4cffa3fd3d976fb5253babdc34d563073a9f0c708f4a390",
+      "rule": "Only argv executable checkout path replaced; publication note added."
+    },
+    "native-asset-download-receipt.json": {
+      "originalSha256": "f15c0f3faf3964f859316769789cef264bc433aa9dbec7cba5b17031ee960143",
+      "publicSha256": "c9235cdc2e2cab6936d03ce1faf9b73e05780bc5a9d37c0f063e070ad74acf84",
+      "rule": "Absolute cache paths replaced with $CANDIDATE_CHECKOUT; exact filenames/integrity unchanged."
+    }
+  }
+}

@@ -1,0 +1,53 @@
+$ node --import ./scripts/tsx.mjs scripts/build-all.mts runtime
+[build-all] native-protocol
+[native-protocol] swift: generated
+[native-protocol] kotlin: generated
+[build-all] native-protocol done in 890ms
+[build-all] runtime:scripts:check
+[build-all] runtime:scripts:check done in 3.97s
+[build-all] plugins:assets:build
+[clawrouter] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/clawrouter
+[knowledge] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/knowledge
+[mcp-relay] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/mcp-relay
+[memory-core] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/memory-core
+[nostr] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/nostr
+[whatsapp] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/whatsapp
+[workboard] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/workboard
+[x] build: cd ../.. && node --import ./scripts/tsx.mjs scripts/build-plugin-control-ui.mts extensions/x
+[build-all] plugins:assets:build done in 17.8s
+[build-all] tsdown
+[tsdown-build] invocation 1/2 finished in 0.7s
+
+ ERROR  Error: Build failed with 1 error:
+
+[plugin openclaw:worker-deploy]
+TypeError: fetch failed
+Caused by:
+  Error: Request was cancelled.
+      at new DOMException (node:internal/per_context/domexception:76:18)
+      at makeAppropriateNetworkError (node:internal/deps/undici/undici:11962:182)
+      at httpNetworkFetch (node:internal/deps/undici/undici:13856:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async httpNetworkOrCacheFetch (node:internal/deps/undici/undici:13715:33)
+      at async httpFetch (node:internal/deps/undici/undici:13537:37)
+      at async mainFetch (node:internal/deps/undici/undici:13298:24)
+  Caused by:
+    AbortError: Proxy response (403) !== 200 when HTTP Tunneling
+        at connect (node:internal/deps/undici/undici:10940:26)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at aggregateBindingErrorsIntoJsError (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/rolldown@1.2.15/node_modules/rolldown/dist/shared/error-D0SD8_tL.mjs:49:18)
+    at unwrapBindingResult (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/rolldown@1.2.15/node_modules/rolldown/dist/shared/error-D0SD8_tL.mjs:19:128)
+    at #build (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/rolldown@1.2.15/node_modules/rolldown/dist/shared/rolldown-CMhwwZPA.mjs:145:34)
+    at async build (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/rolldown@1.2.15/node_modules/rolldown/dist/index.mjs:46:22)
+    at async Promise.all (index 0)
+    at async Object.runBuild (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/tsdown@0.23.2_tsx@4.23.15_typescript@7.1.0-dev.20261016.1_unrun@0.3.1/node_modules/tsdown/dist/style-Cl932eax.mjs:57:11)
+    at async buildSingle (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/tsdown@0.23.2_tsx@4.23.15_typescript@7.1.0-dev.20261016.1_unrun@0.3.1/node_modules/tsdown/dist/build-B3hcYrTt.mjs:811:19)
+    at async Promise.all (index 71)
+    at async buildWithConfigs (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/tsdown@0.23.2_tsx@4.23.15_typescript@7.1.0-dev.20261016.1_unrun@0.3.1/node_modules/tsdown/dist/build-B3hcYrTt.mjs:758:18)
+    at async build$1 (file://$CANDIDATE_CHECKOUT/node_modules/.pnpm/tsdown@0.23.2_tsx@4.23.15_typescript@7.1.0-dev.20261016.1_unrun@0.3.1/node_modules/tsdown/dist/build-B3hcYrTt.mjs:713:9)
+
+[tsdown-build] child result pid=582960: {"status":1,"signal":null,"parentSignal":null,"timedOut":false,"cleanup":"none","observedProcessState":"dead","observationScope":"process-group","finalStatus":1}
+[tsdown-build] invocation 2/2 finished in 4.1s
+[build-all] tsdown failed after 11.5s
+[build-all] phase timings: total 35.2s; slowest plugins:assets:build 17.8s; tsdown (failed) 11.5s; runtime:scripts:check 3.97s; native-protocol 890ms
+[ELIFECYCLE] Command failed with exit code 1.

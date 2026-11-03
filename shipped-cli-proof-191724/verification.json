@@ -1,0 +1,27 @@
+{
+  "allPassed": true,
+  "boundary": "built shipped launcher -> plugin loader -> custom adapter -> completion -> CLI JSON",
+  "observations": [
+    {
+      "scenario": "sync-repaired",
+      "exitCode": 0,
+      "terminalText": "TERMINAL-ORIGINAL",
+      "observedCliResult": "RESULT-REPAIRED",
+      "passed": true
+    },
+    {
+      "scenario": "async-repaired",
+      "exitCode": 0,
+      "terminalText": "TERMINAL-ORIGINAL",
+      "observedCliResult": "RESULT-REPAIRED",
+      "passed": true
+    },
+    {
+      "scenario": "result-error",
+      "exitCode": 1,
+      "terminalText": "TERMINAL-ORIGINAL",
+      "observedCliResult": "Model run failed for provider \"readonly-proof\" model \"result-error\": SYNTHETIC-RESULT-ERROR.",
+      "passed": true
+    }
+  ]
+}

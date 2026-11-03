@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "node",
+    "$BASELINE_CHECKOUT/openclaw.mjs",
+    "infer",
+    "model",
+    "run",
+    "--local",
+    "--model",
+    "readonly-proof/async-repaired",
+    "--prompt",
+    "Return the deterministic fixture response.",
+    "--json"
+  ],
+  "exitCode": 0,
+  "elapsedSeconds": 4.015,
+  "scenario": "async-repaired",
+  "attributionPreserved": {
+    "OPENCLAW_SHELL": "exec",
+    "OPENCLAW_SUBAGENT_EXEC": "1"
+  },
+  "stdoutSha256": "b332cd6153f758cf6fbf4192169d213c24de826a5241dda73fe9dbce41f7b307",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "publicationNote": "Executable path redacted. Raw stdout/stderr/provider traces unchanged."
+}
