@@ -1,3 +1,67 @@
+# Current revision and assertion-ratchet follow-up
+
+PR: https://github.com/openclaw/openclaw/pull/191724
+Current remote head: `1613f8f2a6cb38b1468ca2ac5cc9b37d601ec035`.
+This follow-up removes only the obsolete one-count assertion allowance for `src/agents/custom-api-registry.ts`. No allowance was added, no check was weakened, and runtime/test/allocation bytes are unchanged.
+
+## Retained CI failure and targeted repair
+
+[Prior-head CI failure](https://github.com/openclaw/openclaw/actions/runs/41591397338/job/125769157484) on head `556ae2ab2ca052acab4f58ea1e0da98c910fa825` required shrinking `config/assertion-safety-baseline.txt`: `src/agents/custom-api-registry.ts: 0 < 1`. The CI ratchet tree was synthetic merge `0277107575701d5ce235a2a7584f79edffd095a5`. This failure is retained, not relabeled as a pass.
+
+The actual repository checker failed locally before the one-line deletion and passed afterward. Independent review verified the exact deletion and baseline hash. This was a targeted replay against the correctly identified local archive snapshot, not a reproduction of the hosted synthetic merge.
+
+```json
+{
+  "comparisonBase": "d2d9de6a92291c5752066239c671522aa26ce43d",
+  "comparisonBaseKind": "Local synthetic snapshot of authenticated upstream archive f107fd67bfee9b290311317e120c54509b19554b; not real upstream ancestry or CI merge replay.",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/tsx.mjs",
+    "scripts/check-assertion-safety-ratchet.mts",
+    "--base",
+    "d2d9de6a92291c5752066239c671522aa26ce43d",
+    "--no-merge-base"
+  ],
+  "before": {
+    "exitCode": 1,
+    "wallSeconds": 24.341,
+    "baselineSha256": "1d497fabcc4df63b7cd10da9d180f7511b3adb69d9d37f656b0905918e2fc78c"
+  },
+  "after": {
+    "exitCode": 0,
+    "wallSeconds": 25.331,
+    "baselineSha256": "e37b2286ce89ef95bbd600e43d4e4315d4ffa72bf27b4e75c8c209e6fcc2214b"
+  },
+  "diffCheckExitCode": 0
+}
+```
+
+## Exact remote-source binding
+
+All four immutable public raw files at `1613f8f2a6cb38b1468ca2ac5cc9b37d601ec035` were fetched anonymously and their SHA256 hashes match the approved manifest:
+
+```json
+{
+  "head": "1613f8f2a6cb38b1468ca2ac5cc9b37d601ec035",
+  "files": {
+    "src/agents/custom-api-registry.ts": "400c9c10fc3a020b7129f544856758e4dd1e00c8d38e0894bffa27b5de05d63a",
+    "src/agents/custom-api-registry.test.ts": "7319b3b6869d2106985c74cf90fe2581e52dbae73a4f0335716ae0e0dce967cb",
+    "config/test-lines-allocations/custom-readonly-stream-contract.txt": "52821dd30aba99490861b3768c11371bb4adc9fe120b4b0ca54412a7f0aa3b77",
+    "config/assertion-safety-baseline.txt": "e37b2286ce89ef95bbd600e43d4e4315d4ffa72bf27b4e75c8c209e6fcc2214b"
+  },
+  "patchSha256": "6a950c7baa673f44e524fcb8d20c09a43c2037fdbaafe8644e466c13f73b4df2"
+}
+```
+
+The new commit's delta is exactly one deleted baseline line. The three runtime/test/allocation files match the previously executed 11/11 focused and 45/45 sibling proof below. No redundant runtime replay was performed for this accounting-only change. Local proof remains byte-equivalent proof, not a claim that a synthetic local commit equals a remote Git commit. New-head hosted CI and ClawSweeper require their own observations and are not claimed passed here.
+
+[Original immutable evidence](https://github.com/jason-allen-oneal/openclaw/blob/7ad5d5fda70e13d27c1e0fd758a5250febff74b2/readonly-stream-evidence.md) is preserved. The following historical section is unchanged and describes the preceding runtime revision, its tested bytes, and the earlier adverse attempts. Its pending-hosted-gate statements describe publication time, not a final verdict.
+
+---
+
+# Historical runtime verification (unchanged)
+
 # Custom API readonly-stream contract verification
 
 Base: `openclaw/openclaw@f107fd67bfee9b290311317e120c54509b19554b`. Candidate file hashes and selected sanitized receipts appear below. This is local candidate evidence, not hosted CI or remote-head acceptance.
