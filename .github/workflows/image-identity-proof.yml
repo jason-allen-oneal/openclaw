@@ -1,0 +1,101 @@
+name: Image identity isolated proof
+on:
+  push:
+    branches: [proof/image-identity-192436]
+    paths:
+      - .github/workflows/image-identity-proof.yml
+      - .image-identity-proof/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: image-identity-proof-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  proof:
+    if: github.repository == 'jason-allen-oneal/openclaw'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PROOF_TARGET_SHA: 82928de42d294787c398466e288368d8654f3e5e
+      PROOF_RECEIPT_DIR: ${{ runner.temp }}/image-identity-proof
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - name: Check out exact reviewed source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: jason-allen-oneal/openclaw
+          ref: 82928de42d294787c398466e288368d8654f3e5e
+          persist-credentials: false
+
+      - name: Check out separate proof payload
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          path: .image-proof-input
+          sparse-checkout: .image-identity-proof
+          persist-credentials: false
+
+      - name: Verify source and proof identity
+        run: node .image-proof-input/.image-identity-proof/receipt.mjs source
+
+      - name: Provision normal owned dependencies
+        uses: ./.github/actions/setup-node-env
+        with:
+          node-version: "24.22.1"
+          semantic-checks: "true"
+          install-bun: "false"
+          frozen-lockfile: "true"
+          cache-mode: "off"
+          dependency-cache: "false"
+
+      - name: Verify frozen source after install
+        run: node .image-proof-input/.image-identity-proof/receipt.mjs dependencies
+
+      - name: Build public CI runtime
+        env:
+          OPENCLAW_BUILD_PRIVATE_QA: "0"
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm build:ci-artifacts 2>&1 | tee "$PROOF_RECEIPT_DIR/build-ci-artifacts.log"
+          node .image-proof-input/.image-identity-proof/receipt.mjs ci-build
+
+      - name: Build maintained private QA runtime overlay
+        env:
+          OPENCLAW_BUILD_PRIVATE_QA: "1"
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm build qaRuntime 2>&1 | tee "$PROOF_RECEIPT_DIR/build-qa-runtime.log"
+          node .image-proof-input/.image-identity-proof/receipt.mjs qa-build
+
+      - name: Stage external test overlay without changing production source
+        run: |
+          test ! -e test/e2e/qa-lab/media/vision-provider-identity.e2e.test.ts
+          cp .image-proof-input/.image-identity-proof/vision-provider-identity.e2e.test.ts test/e2e/qa-lab/media/
+          node .image-proof-input/.image-identity-proof/receipt.mjs staged
+
+      - name: Execute built channel ingress controls
+        env:
+          OPENCLAW_BUILD_PRIVATE_QA: "1"
+          OPENCLAW_ENABLE_PRIVATE_QA_CLI: "1"
+          OPENCLAW_E2E_USE_PREBUILT_DIST: "1"
+          IMAGE_IDENTITY_PROOF_RECEIPTS: ${{ runner.temp }}/image-identity-proof/channel-receipts.jsonl
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/run-vitest.mjs run --config test/vitest/vitest.e2e.config.ts test/e2e/qa-lab/media/vision-channel-offload.e2e.test.ts test/e2e/qa-lab/media/vision-provider-identity.e2e.test.ts --reporter=verbose 2>&1 | tee "$PROOF_RECEIPT_DIR/channel-test.log"
+          node .image-proof-input/.image-identity-proof/receipt.mjs completed
+
+      - name: Retain scoped proof receipts (never package the private QA overlay)
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: image-identity-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/image-identity-proof/
+          if-no-files-found: error
+          retention-days: 7
