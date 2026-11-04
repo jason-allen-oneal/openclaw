@@ -1,0 +1,79 @@
+
+ RUN  v5.0.5 <isolated-candidate>
+
+
+ RUN  v5.0.5 <isolated-candidate>
+
+[vitest-workers] local cache hit after 4170ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 2a9bca8a12b8 in 4247ms (18375 inputs, 23487 outputs)
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":6141,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":6143,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":17397,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":17420,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: false) 61121ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4302,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4307,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":5014,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":5019,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > model-only final image and credential owner (host image tool: false) 31401ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4255,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4259,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":5026,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":5031,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: false) 32195ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":7102,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":7107,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":6017,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":6022,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: true) 35303ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4874,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4878,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4959,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4963,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > model-only final image and credential owner (host image tool: true) 32759ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4587,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4591,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4747,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4751,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: true) 36461ms
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts (6 tests) 229255ms
+   ✓ built QA channel provider identity final effects (6)
+     ✓ native final image and credential owner (host image tool: false) 61121ms
+     ✓ model-only final image and credential owner (host image tool: false) 31401ms
+     ✓ legacy final image and credential owner (host image tool: false) 32195ms
+     ✓ native final image and credential owner (host image tool: true) 35303ms
+     ✓ model-only final image and credential owner (host image tool: true) 32759ms
+     ✓ legacy final image and credential owner (host image tool: true) 36461ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  23:43:05
+   Duration  248.55s (tests 92%, transform 5%, import 3%)
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  23:43:05
+   Duration  248.55s (tests 92%, transform 5%, import 3%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse

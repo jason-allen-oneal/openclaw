@@ -1,0 +1,8 @@
+[plugin-sdk boundary dts] emitted 14033 files
+test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:67:47: error eslint(curly): Expected { after 'if' condition. help: Replace `continue;` with `{continue;}`.
+test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:69:23: error eslint(curly): Expected { after 'if' condition. help: Replace `throw new Error("expected inline synthetic image at final provider boundary");` with `{throw new Error("expected inline synthetic image at final provider boundary");}`.
+test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:89:34: error eslint(curly): Expected { after 'if' condition. help: Replace `response.writeHead(400, { "content-type": "text/plain" });` with `{response.writeHead(400, { "content-type": "text/plain" });}`.
+test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:210:61: error eslint(curly): Expected { after 'if' condition. help: Replace `return [];` with `{return [];}`.
+test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:251:26: error eslint(curly): Expected { after 'if' condition. help: Replace `throw new Error("maintained QA active model missing");` with `{throw new Error("maintained QA active model missing");}`.
+test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:372:36: error eslint(curly): Expected { after 'if' condition. help: Replace `expect(nativeCalls).toEqual([]);` with `{expect(nativeCalls).toEqual([]);}`.
+[oxlint] FAILED (exit 1)

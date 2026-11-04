@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "pnpm",
+    "build",
+    "qaRuntime"
+  ],
+  "cwd": "<isolated-baseline>",
+  "envOverrides": {
+    "OPENCLAW_BUILD_PRIVATE_QA": "1"
+  },
+  "processUmask": "0077",
+  "exit": 0,
+  "seconds": 149.48,
+  "baseHead": "5756d032d1e7559338a9efaa378c100f6d263439",
+  "overlaySha256": "74647dd798d72e5a8cec9e13817336c095d2f8927b34f548d541008cb7d65f24",
+  "sourceUnchanged": true
+}

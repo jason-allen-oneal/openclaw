@@ -1,0 +1,202 @@
+
+ RUN  v5.0.5 <isolated-candidate>
+
+
+ RUN  v5.0.5 <isolated-candidate>
+
+[vitest-workers] local cache miss after 3986ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest-workers] prepared 81985eb5cdf5 in 54672ms (18375 inputs, 23487 outputs)
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4477,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4478,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4753,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4759,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: false) 33117ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4312,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4317,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4644,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4649,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > model-only final image and credential owner (host image tool: false) 34812ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4936,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4941,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4956,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4961,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: false) 35229ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":5110,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":5115,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4753,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4757,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: true) 31541ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":6072,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":6077,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":5078,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":5083,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+ ✓ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > model-only final image and credential owner (host image tool: true) 33145ms
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4237,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4241,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4947,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4952,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"gateway","event":"spawn"}
+ × test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: true) 29262ms
+   → competing owner must receive neither image nor credentials: expected [ { method: 'POST', …(4) } ] to deeply equal []
+ ❯ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts (6 tests | 1 failed) 197118ms
+   ❯ built QA channel provider identity final effects (6)
+     ✓ native final image and credential owner (host image tool: false) 33117ms
+     ✓ model-only final image and credential owner (host image tool: false) 34812ms
+     ✓ legacy final image and credential owner (host image tool: false) 35229ms
+     ✓ native final image and credential owner (host image tool: true) 31541ms
+     ✓ model-only final image and credential owner (host image tool: true) 33145ms
+     × legacy final image and credential owner (host image tool: true) 29262ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: true)
+AssertionError: competing owner must receive neither image nor credentials: expected [ { method: 'POST', …(4) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "credential": "gemini",
++     "images": [
++       {
++         "bytes": 85,
++         "mime": "image/png",
++         "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a",
++       },
++     ],
++     "method": "POST",
++     "model": "fixture-vision",
++     "path": "/v1/responses",
++   },
++ ]
+
+ ❯ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:361:11
+    359|           endpoints[competing].calls,
+    360|           "competing owner must receive neither image nor credentials",
+    361|         ).toEqual([]);
+       |           ^
+    362|         const inference = ownerCalls.filter(
+    363|           (call) => call.method === "POST" && call.path === "/v1/respo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  23:28:52
+   Duration  263.07s (tests 75%, transform 23%, import 2%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: true)
+AssertionError: competing owner must receive neither image nor credentials: expected [ { method: 'POST', …(4) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "credential": "gemini",
++     "images": [
++       {
++         "bytes": 85,
++         "mime": "image/png",
++         "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a",
++       },
++     ],
++     "method": "POST",
++     "model": "fixture-vision",
++     "path": "/v1/responses",
++   },
++ ]
+
+ ❯ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:361:11
+    359|           endpoints[competing].calls,
+    360|           "competing owner must receive neither image nor credentials",
+    361|         ).toEqual([]);
+       |           ^
+    362|         const inference = ownerCalls.filter(
+    363|           (call) => call.method === "POST" && call.path === "/v1/respo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  23:28:52
+   Duration  263.08s (tests 75%, transform 23%, import 2%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse

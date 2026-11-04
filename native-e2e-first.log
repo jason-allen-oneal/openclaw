@@ -1,0 +1,197 @@
+
+ RUN  v5.0.5 <isolated-candidate>
+
+
+ RUN  v5.0.5 <isolated-candidate>
+
+[vitest-workers] local cache miss after 3122ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest] still running with no output for 60000ms.
+[vitest-workers] prepared 0975808e6013 in 69038ms (18375 inputs, 23487 outputs)
+[vitest] still running with no output for 30000ms.
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":4989,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":4990,"processStopped":true,"pipesClosed":true}
+[qa-bootstrap] {"command":"mock-auth","event":"start","elapsedMs":0}
+[qa-bootstrap] {"command":"mock-auth","event":"exit","elapsedMs":5566,"exitCode":0,"signalled":false}
+[qa-bootstrap] {"command":"mock-auth","event":"settled","elapsedMs":5574,"processStopped":true,"pipesClosed":true}
+ × test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: false) 13287ms
+   → QA state initialization failed: OpenClaw CLI exited 1: file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44
+	if (!snapshot.valid) throw new Error("QA initializer requires a valid current-package fixture config");
+	                           ^
+
+Error: QA initializer requires a valid current-package fixture config
+    at Module.initializeQaRuntimeState (file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file://<isolated-candidate>/[eval1]:2:7
+
+Node.js v24.22.2
+QA gateway temp root preserved at /tmp/openclaw/openclaw-qa-suite-v6KUIw
+ · test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > model-only final image and credential owner (host image tool: false)
+ · test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: false)
+ · test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: true)
+ · test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > model-only final image and credential owner (host image tool: true)
+ · test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > legacy final image and credential owner (host image tool: true)
+ ❯ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts (6 tests | 1 failed) 13296ms
+   ❯ built QA channel provider identity final effects (6)
+     × native final image and credential owner (host image tool: false) 13287ms
+     · model-only final image and credential owner (host image tool: false)
+     · legacy final image and credential owner (host image tool: false)
+     · native final image and credential owner (host image tool: true)
+     · model-only final image and credential owner (host image tool: true)
+     · legacy final image and credential owner (host image tool: true)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: false)
+Error: QA state initialization failed: OpenClaw CLI exited 1: file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44
+	if (!snapshot.valid) throw new Error("QA initializer requires a valid current-package fixture config");
+	                           ^
+
+Error: QA initializer requires a valid current-package fixture config
+    at Module.initializeQaRuntimeState (file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file://<isolated-candidate>/[eval1]:2:7
+
+Node.js v24.22.2
+QA gateway temp root preserved at /tmp/openclaw/openclaw-qa-suite-v6KUIw
+ ❯ Module.initializeQaRuntimeState dist/qa-runtime-CqFJiZzN.mjs:44:29
+ ❯ [eval1]:2:7
+ ❯ run extensions/qa-lab/src/gateway-child-lifecycle.ts:151:13
+    149|         error instanceof QaSuiteInfraError
+    150|           ? new QaSuiteInfraError(error.code, message, { cause: error …
+    151|           : new Error(message, { cause: error });
+       |             ^
+    152|       if (result.errors.length) {
+    153|         // AggregateError retains the primary failure as cause and eve…
+ ❯ start test/e2e/qa-lab/media/media-gateway.test-support.ts:45:23
+ ❯ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:250:53
+
+Caused by: Error: QA state initialization failed: OpenClaw CLI exited 1: file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44
+	if (!snapshot.valid) throw new Error("QA initializer requires a valid current-package fixture config");
+	                           ^
+
+Error: QA initializer requires a valid current-package fixture config
+    at Module.initializeQaRuntimeState (file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file://<isolated-candidate>/[eval1]:2:7
+
+Node.js v24.22.2
+ ❯ Module.initializeQaRuntimeState dist/qa-runtime-CqFJiZzN.mjs:44:29
+ ❯ [eval1]:2:7
+ ❯ runQaPackagedBootstrap extensions/qa-lab/src/gateway-child-setup.ts:141:11
+ ❯ prepareAttempt extensions/qa-lab/src/gateway-child-setup.ts:570:9
+ ❯ startOwnedGatewayChild extensions/qa-lab/src/gateway-child.ts:189:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (6)
+   Start at  23:22:15
+   Duration  124.55s (transform 82%, tests 11%, import 6%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts > built QA channel provider identity final effects > native final image and credential owner (host image tool: false)
+Error: QA state initialization failed: OpenClaw CLI exited 1: file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44
+	if (!snapshot.valid) throw new Error("QA initializer requires a valid current-package fixture config");
+	                           ^
+
+Error: QA initializer requires a valid current-package fixture config
+    at Module.initializeQaRuntimeState (file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file://<isolated-candidate>/[eval1]:2:7
+
+Node.js v24.22.2
+QA gateway temp root preserved at /tmp/openclaw/openclaw-qa-suite-v6KUIw
+ ❯ Module.initializeQaRuntimeState dist/qa-runtime-CqFJiZzN.mjs:44:29
+ ❯ [eval1]:2:7
+ ❯ run extensions/qa-lab/src/gateway-child-lifecycle.ts:151:13
+    149|         error instanceof QaSuiteInfraError
+    150|           ? new QaSuiteInfraError(error.code, message, { cause: error …
+    151|           : new Error(message, { cause: error });
+       |             ^
+    152|       if (result.errors.length) {
+    153|         // AggregateError retains the primary failure as cause and eve…
+ ❯ start test/e2e/qa-lab/media/media-gateway.test-support.ts:45:23
+ ❯ test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts:250:53
+
+Caused by: Caused by: Error: QA state initialization failed: OpenClaw CLI exited 1: file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44
+	if (!snapshot.valid) throw new Error("QA initializer requires a valid current-package fixture config");
+	                           ^
+
+Error: QA initializer requires a valid current-package fixture config
+    at Module.initializeQaRuntimeState (file://<isolated-candidate>/dist/qa-runtime-CqFJiZzN.mjs:44:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file://<isolated-candidate>/[eval1]:2:7
+
+Node.js v24.22.2
+ ❯ Module.initializeQaRuntimeState dist/qa-runtime-CqFJiZzN.mjs:44:29
+ ❯ [eval1]:2:7
+ ❯ runQaPackagedBootstrap extensions/qa-lab/src/gateway-child-setup.ts:141:11
+ ❯ prepareAttempt extensions/qa-lab/src/gateway-child-setup.ts:570:9
+ ❯ startOwnedGatewayChild extensions/qa-lab/src/gateway-child.ts:189:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (6)
+   Start at  23:22:15
+   Duration  124.56s (transform 82%, tests 11%, import 6%, worker 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] FAILED (exit 1)

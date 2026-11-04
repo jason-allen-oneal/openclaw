@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "test/vitest/vitest.e2e.config.ts",
+    "test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts",
+    "--maxWorkers=1"
+  ],
+  "cwd": "<isolated-candidate>",
+  "envOverrides": {
+    "OPENCLAW_BUILD_PRIVATE_QA": "1",
+    "OPENCLAW_E2E_USE_PREBUILT_DIST": "1",
+    "IMAGE_IDENTITY_PROOF_RECEIPTS": "<proof-logs>/e2e-final-observations.jsonl",
+    "OPENCLAW_VITEST_FS_MODULE_CACHE_PATH": "<proof-logs>/vitest-fs-cache"
+  },
+  "processUmask": "0077",
+  "separateProcessSession": true,
+  "exit": 0,
+  "seconds": 252.82,
+  "baseHead": "ee4d7e1fc7da70993b7948b48b9b5b6f1267e765",
+  "overlaySha256": "08c1cd624fad2c2397d41fdfcbe197cf55047d5885fe9a923b676e1cc2b3214c",
+  "sourceUnchanged": true
+}

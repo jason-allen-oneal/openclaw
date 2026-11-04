@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "pnpm",
+    "install",
+    "--frozen-lockfile",
+    "--store-dir",
+    "<isolated-candidate>-store"
+  ],
+  "cwd": "<isolated-baseline>",
+  "exit": 0,
+  "seconds": 4.35,
+  "base": "5756d032d1e7559338a9efaa378c100f6d263439",
+  "reason": "task-owned baseline relocated after tmpfs inode exhaustion; original patch verified preserved"
+}

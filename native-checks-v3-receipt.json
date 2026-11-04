@@ -1,0 +1,53 @@
+[
+  {
+    "name": "format-v3",
+    "argv": [
+      "pnpm",
+      "exec",
+      "oxfmt",
+      "--check",
+      "test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts"
+    ],
+    "exit": 0,
+    "seconds": 0.13
+  },
+  {
+    "name": "lint-v3",
+    "argv": [
+      "node",
+      "scripts/run-oxlint.mjs",
+      "--tsconfig",
+      "test/tsconfig/tsconfig.test.root.e2e.json",
+      "test/e2e/qa-lab/runtime/vision-provider-identity.e2e.test.ts"
+    ],
+    "exit": 0,
+    "seconds": 14.31
+  },
+  {
+    "name": "budget-v3",
+    "argv": [
+      "node",
+      "--import",
+      "./scripts/tsx.mjs",
+      "scripts/check-test-lines-ratchet.mts",
+      "--base",
+      "5756d032d1e7559338a9efaa378c100f6d263439"
+    ],
+    "exit": 0,
+    "seconds": 1.45
+  },
+  {
+    "name": "test-types-v3",
+    "argv": [
+      "node",
+      "scripts/run-tsgo.mjs",
+      "-p",
+      "test/tsconfig/tsconfig.test.root.e2e.json",
+      "--incremental",
+      "--tsBuildInfoFile",
+      "<proof-logs>/e2e.tsbuildinfo"
+    ],
+    "exit": 0,
+    "seconds": 4.29
+  }
+]

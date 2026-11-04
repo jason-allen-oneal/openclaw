@@ -1,0 +1,208 @@
+{
+  "policy": "Local operator paths, literal IP addresses and ANSI escapes sanitized; raw originals retained privately. No result, exit, failure, assertion or test scope altered. Synthetic receiver credential fields are owner labels, not credentials.",
+  "files": [
+    {
+      "file": "native-execution-report.md",
+      "originalSha256": "efd5ce3d4e939898e1b09927a31662d52f3c5c57275843792914370110178042",
+      "publishedSha256": "8f842a1447b4e85316fb506cba3f0e6f341104a499a47d89e32e4a456c2744a2",
+      "publishedBytes": 7829,
+      "redacted": true
+    },
+    {
+      "file": "native-fixture-v3-review.md",
+      "originalSha256": "88ad2b74b5516412c857d28d1151df5d5d687deb353975f010566f64c732168c",
+      "publishedSha256": "88ad2b74b5516412c857d28d1151df5d5d687deb353975f010566f64c732168c",
+      "publishedBytes": 5389,
+      "redacted": false
+    },
+    {
+      "file": "native-final-manifest.json",
+      "originalSha256": "155000c41a4979f646e4b463a1c678d1a60fa4e1e64bf69a37554836750db8cc",
+      "publishedSha256": "155000c41a4979f646e4b463a1c678d1a60fa4e1e64bf69a37554836750db8cc",
+      "publishedBytes": 777,
+      "redacted": false
+    },
+    {
+      "file": "native-e2e-final-receipt.json",
+      "originalSha256": "d975ce6d674e54db0cd08a1d5384a474de9a8c4e68d81da598ed10c89d28fe06",
+      "publishedSha256": "e8b4215ca848ebcae09d9356d9ee319f136cf966ac9fc41c968467a5b33e8b86",
+      "publishedBytes": 780,
+      "redacted": true
+    },
+    {
+      "file": "native-e2e-final-observations.jsonl",
+      "originalSha256": "f8fdb370cbe742acdcb0997cac34d0e5cba92b61169caadf910341982103f255",
+      "publishedSha256": "f8fdb370cbe742acdcb0997cac34d0e5cba92b61169caadf910341982103f255",
+      "publishedBytes": 6092,
+      "redacted": false
+    },
+    {
+      "file": "native-e2e-final.log",
+      "originalSha256": "752ffde97ed6978bb40db2745d82707da7895b5bc1a41d62e9802d69223dc9e6",
+      "publishedSha256": "51f7cc0f089ce53b13f1d410c6c01e104d928120d9f684edf6f590fd6e507d2a",
+      "publishedBytes": 6189,
+      "redacted": true
+    },
+    {
+      "file": "native-baseline-e2e-receipt.json",
+      "originalSha256": "cec0c25b71122aa52e52896991cf12096233646be302314607bab11a2079016e",
+      "publishedSha256": "004f941664066fc0eaa7adcdbbf3d67946d9dfc5ca460689d7c29b0e83827eb1",
+      "publishedBytes": 674,
+      "redacted": true
+    },
+    {
+      "file": "native-baseline-e2e-observations.jsonl",
+      "originalSha256": "9fb1af2aaafa678920285045cdc44be53326ff80954850f0df47f78933c74258",
+      "publishedSha256": "9fb1af2aaafa678920285045cdc44be53326ff80954850f0df47f78933c74258",
+      "publishedBytes": 1755,
+      "redacted": false
+    },
+    {
+      "file": "native-baseline-e2e.log",
+      "originalSha256": "89fb1946ec82df32c0d4f0d439a22e58a6b31b2a52c6eca1ea1141e49574fbb7",
+      "publishedSha256": "517b10c9bf0a4a6ac7655e20bef64d8516aa87aeb0d4b898ecd5d4db0a2ac2ad",
+      "publishedBytes": 12297,
+      "redacted": true
+    },
+    {
+      "file": "native-baseline-qa-build-receipt.json",
+      "originalSha256": "b6e13fcf790f30b989f0d1724cec2e920957fd9420e854db5b43c028de4b6110",
+      "publishedSha256": "1079eb5a4baca22380e24354c42b562874b73a228bf52b666a4d7d99a138b191",
+      "publishedBytes": 387,
+      "redacted": true
+    },
+    {
+      "file": "native-qa-build-receipt.json",
+      "originalSha256": "9bed34180b7af868b71935c5cc7343103f54f295ea0b03fc72aee8950a86ccaf",
+      "publishedSha256": "165dc0f824bbe9a9f3860cd1b7edfbdea0ddb8a5441ca5d344776cc4cac62750",
+      "publishedBytes": 362,
+      "redacted": true
+    },
+    {
+      "file": "native-install-receipt.json",
+      "originalSha256": "b15c74f0766023512a80f9d044a3583eed6fcb0dfc0f533dad85ce7136b6992f",
+      "publishedSha256": "3c193f7d85f381205facfcabbdf1c000e7a85af73834c5222862a4bcb59af514",
+      "publishedBytes": 245,
+      "redacted": true
+    },
+    {
+      "file": "native-ci-manifest-receipt.json",
+      "originalSha256": "2d556878a71a68b8ea1a375005780e80b1f301555b3a7dce93583eef8989efcc",
+      "publishedSha256": "fc17202b84c59eb2b758caffaf39de43f4cf569a816b1c0441af76891a8a6a92",
+      "publishedBytes": 634,
+      "redacted": true
+    },
+    {
+      "file": "native-ci-manifest-output.txt",
+      "originalSha256": "818bb7901bbb347861177b949a635d82fffe6cc7f501396bccfbebb227eec2cb",
+      "publishedSha256": "818bb7901bbb347861177b949a635d82fffe6cc7f501396bccfbebb227eec2cb",
+      "publishedBytes": 27715,
+      "redacted": false
+    },
+    {
+      "file": "native-planner-final-receipt.json",
+      "originalSha256": "b46d0cda9b2f63f8672c63b3f29afbe142b5b7ccd9e5200fd71f52afd6d4a818",
+      "publishedSha256": "b46d0cda9b2f63f8672c63b3f29afbe142b5b7ccd9e5200fd71f52afd6d4a818",
+      "publishedBytes": 14102,
+      "redacted": false
+    },
+    {
+      "file": "native-checks-v3-receipt.json",
+      "originalSha256": "41654ad1b4ee8fe197e1246fa6d440b28ef6b64737536530ca9b2101102276b2",
+      "publishedSha256": "9ca67f6fcb2cc4ca51178f588a002cd8b0a040109678068faa0a780daf9b4cac",
+      "publishedBytes": 1045,
+      "redacted": true
+    },
+    {
+      "file": "native-checks-v2-receipt.json",
+      "originalSha256": "17ebb9b9df384e370e65d061c5a631ec1e5823d629ad0f4ea1b5e2b1bfac90be",
+      "publishedSha256": "e7039f432b88737a85199679ed833289b06130d810591eddc0c6511f19f995b6",
+      "publishedBytes": 1045,
+      "redacted": true
+    },
+    {
+      "file": "native-e2e-first-receipt.json",
+      "originalSha256": "9fe24c7b1be2cd16e40a2ac426726cae157bbc5a085ccf1793bd058ae5e65081",
+      "publishedSha256": "f9c299a5268194b3c8c6291719cf2a9dae4b93a4d7dedc2665440de03590546a",
+      "publishedBytes": 558,
+      "redacted": true
+    },
+    {
+      "file": "native-e2e-private.log",
+      "originalSha256": "b54fc5b6e83ec12c45416f261cc1d5d3a198ca3f6bf12f3a2be5d2a791e10c79",
+      "publishedSha256": "1d4931d2f020156278771a7cfa55ca93b8f3769f06afb15c95906f223e85123d",
+      "publishedBytes": 12373,
+      "redacted": true
+    },
+    {
+      "file": "native-e2e-private-observations.jsonl",
+      "originalSha256": "b8ab2bb0a4258b24209a13847c7954d7aa28f3c4375cdaa4a7e45452aac96c5a",
+      "publishedSha256": "b8ab2bb0a4258b24209a13847c7954d7aa28f3c4375cdaa4a7e45452aac96c5a",
+      "publishedBytes": 5819,
+      "redacted": false
+    },
+    {
+      "file": "native-acquisition-receipt.json",
+      "originalSha256": "b8df2058774099a7e1ef0d5bd039bc95c4a864f98ee6006213eaec06632d3bbd",
+      "publishedSha256": "4cf1f8eb2ec35992c20abd67f243dfc3cc5630d83be935d784b01a4109e1d173",
+      "publishedBytes": 743,
+      "redacted": true
+    },
+    {
+      "file": "native-checks-receipt.json",
+      "originalSha256": "fb8b183f9dcdee68e47cbef03f5434fc63a1f203a2274d44dd4311f9e92de84a",
+      "publishedSha256": "6d14a5fdaed654e077beeaf2d10291c3e24c57c38d8245e4c322422362cdd915",
+      "publishedBytes": 1035,
+      "redacted": true
+    },
+    {
+      "file": "native-e2e-first.log",
+      "originalSha256": "7fb73df9b271fba28a395831a9f23168efda6975c7dc4c3ed0b856ddb522f960",
+      "publishedSha256": "e2aec2bbbd2fe085136bd36f1c977fc91d2f0faf51d4d42a3ae532cdf3c6828b",
+      "publishedBytes": 12425,
+      "redacted": true
+    },
+    {
+      "file": "native-baseline-install-disk-receipt.json",
+      "originalSha256": "a29bf87841843c041335f0532c182df11b3abe4a0edc12ab8bda44e1b683d16c",
+      "publishedSha256": "77db4e84320c4baf5a033522618e822b51c11026e355f1ab058b7dd3ce58299d",
+      "publishedBytes": 351,
+      "redacted": true
+    },
+    {
+      "file": "native-baseline-install-receipt.json",
+      "originalSha256": "f2b856c61b6d06c9431df6173ea19677edfb9014edd2032194a3f595b694a022",
+      "publishedSha256": "e0abf02667f7bcefdf41e4c2a730954a0f7418b0051a17c45d2678902b8eae8d",
+      "publishedBytes": 252,
+      "redacted": true
+    },
+    {
+      "file": "native-budget-v3.log",
+      "originalSha256": "f2ac3f74e2f943e12b2c44539610803443e58a8248b4c3ead541453b6085afc9",
+      "publishedSha256": "f2ac3f74e2f943e12b2c44539610803443e58a8248b4c3ead541453b6085afc9",
+      "publishedBytes": 52,
+      "redacted": false
+    },
+    {
+      "file": "native-format.log",
+      "originalSha256": "a21353207ca1c19db813fd5be2c3c56a2b4e1d5844f787de1727c9ca6aa7abde",
+      "publishedSha256": "a21353207ca1c19db813fd5be2c3c56a2b4e1d5844f787de1727c9ca6aa7abde",
+      "publishedBytes": 110,
+      "redacted": false
+    },
+    {
+      "file": "native-lint.log",
+      "originalSha256": "6096e6dfa4e63163b7c47156d29b0f884a66d7466393585621c4da5466a0be6a",
+      "publishedSha256": "6096e6dfa4e63163b7c47156d29b0f884a66d7466393585621c4da5466a0be6a",
+      "publishedBytes": 1456,
+      "redacted": false
+    },
+    {
+      "file": "native-test-types.log",
+      "originalSha256": "38da045e2257a7f1e93f47b266a0ecce9efe663bd88d7714d6b346876dac92f8",
+      "publishedSha256": "38da045e2257a7f1e93f47b266a0ecce9efe663bd88d7714d6b346876dac92f8",
+      "publishedBytes": 231,
+      "redacted": false
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "argv": [
+      "git",
+      "init",
+      "<isolated-candidate>"
+    ],
+    "exit": 0,
+    "seconds": 0.0
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "<isolated-candidate>",
+      "remote",
+      "add",
+      "origin",
+      "https://github.com/openclaw/openclaw.git"
+    ],
+    "exit": 0,
+    "seconds": 0.0
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "<isolated-candidate>",
+      "fetch",
+      "--depth=2",
+      "origin",
+      "refs/pull/192436/head"
+    ],
+    "exit": 0,
+    "seconds": 341.71
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "<isolated-candidate>",
+      "checkout",
+      "--detach",
+      "ee4d7e1fc7da70993b7948b48b9b5b6f1267e765"
+    ],
+    "exit": 0,
+    "seconds": 3.72
+  }
+]

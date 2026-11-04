@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "node",
+    "--import",
+    "./scripts/tsx.mjs",
+    "scripts/ci-build-manifest.mjs"
+  ],
+  "syntheticEnv": {
+    "OPENCLAW_CI_EVENT_NAME": "pull_request",
+    "OPENCLAW_CI_REPOSITORY": "openclaw/openclaw",
+    "OPENCLAW_CI_CHANGED_PATHS_FILE": "<proof-logs>/changed-paths.json",
+    "OPENCLAW_CI_CHANGED_BASE": "5756d032d1e7559338a9efaa378c100f6d263439",
+    "OPENCLAW_CI_CHECKOUT_REVISION": "ee4d7e1fc7da70993b7948b48b9b5b6f1267e765",
+    "OPENCLAW_CI_WORKFLOW_REVISION": "ee4d7e1fc7da70993b7948b48b9b5b6f1267e765",
+    "GITHUB_OUTPUT": "<proof-logs>/ci-manifest-output.txt"
+  },
+  "exit": 0,
+  "seconds": 67.96
+}
