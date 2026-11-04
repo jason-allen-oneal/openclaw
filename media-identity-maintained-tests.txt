@@ -1,0 +1,163 @@
+[test] starting test/vitest/vitest.media-understanding.config.ts
+
+ RUN  v5.0.5 <maintained-checkout>
+
+[vitest-workers] local cache miss after 4421ms
+[vitest] still running with no output for 30000ms.
+../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ ../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ ../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ ../../../../../../openclaw/node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+../../../../../../openclaw/node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "../../../../../../openclaw/node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ ../../../../../../openclaw/node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+../../../../../../openclaw/node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "../../../../../../openclaw/node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ ../../../../../../openclaw/node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest] still running with no output for 60000ms.
+[vitest-workers] prepared cbf6b894a904 in 71377ms (18177 inputs, 23479 outputs)
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > resolves explicit image defaults when fallback discovery is unavailable 519ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > auto-selects hookless image providers from manifest 8ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > auto-selects hookless image providers from config 1ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > normalizes the active image provider alias 440ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > normalizes the active video provider alias 55ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > keeps a native alias owner's auth and image dispatch separate 10ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > keeps a model-only alias owner's auth and image dispatch separate 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > checks audio providers once in priority order until auth is available 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > skips imageModel fallback when MiniMax M3 supports vision 9ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > records native handoff and remote failures for selected and dropped images 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > runs explicit image models untouched by native-vision probe failure 4ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > keeps disabled outcomes precise and suppresses markers when the vision probe fails 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > uses explicit image models even when the active model supports vision 4ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > lets per-request image prompts override entry prompts 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > skips malformed image defaults and runs providerless fallbacks on their configured provider 5ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > routes legacy MiniMax chat models through VLM despite catalog image input 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > passes workspace and agent context to auth and writable catalog reads 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > auto-selects configured OpenRouter image providers with a resolved model 11ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > skips configured image providers without an auto-resolvable model 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference high 527ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference efficient 369ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference undefined 20ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the source byte cap before provider I/O 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the PNG byte cap before provider I/O 11ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the provider-owned byte cap before provider I/O 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for explicit image model 4ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for text-only model 1ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for mixed image and audio 26ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > rejects apply on registry failure without partially recording decisions 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > keeps native vision with no shared models 1ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > keeps native vision with audio and video shared models 1ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.stateSnapshotOwners
+
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (false) 4ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (true) 1ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > reserves model-only identities only for enabled owners (true) 2ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > reserves model-only identities only for enabled owners (false) 1ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > preserves historical aliases without a distinct provider owner 1ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > preserves partial native overrides for dispatch 2ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > auto-registers media-understanding for config providers with image-capable models (#51392) 2ms
+
+ Test Files  2 passed (2)
+      Tests  38 passed (38)
+   Start at  19:55:28
+   Duration  93.09s (transform 93%, import 3%, tests 2%, worker 1%)
+
+[test] starting test/vitest/vitest.agents-tools.config.ts
+
+ RUN  v5.0.5 <maintained-checkout>
+
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > exposes a model override only without native vision (false) 38ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > exposes a model override only without native vision (true) 3ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > registers config-only AWS SDK Bedrock image models 380ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > executes deferred fallback discovery with config-backed auth and runtime key resolution 365ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > still rejects the same fallback config when apiKey is missing 269ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > uses a prepared single-image owner alias for each image 182ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > prefers an exact prepared provider over a historical media alias 177ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (true) independent of ambient ownership (true) 6ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (true) independent of ambient ownership (false) 6ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (false) independent of ambient ownership (false) 5ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (false) independent of ambient ownership (true) 5ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > loads the next fallback owner only after the primary fails 181ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps config-backed generic image dispatch with an empty prepared family 263ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  19:57:02
+   Duration  27.24s (transform 75%, import 14%, tests 7%, worker 4%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 2 Vitest shards in 126.56s

@@ -1,0 +1,170 @@
+
+ RUN  v5.0.5 <original-checkout>
+
+stderr | unknown test
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.stateSnapshotOwners
+
+ ×  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (false) 9ms
+   → expected { id: 'gemini', …(7) } to deeply equal { id: 'gemini', …(2) }
+ ×  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (true) 1ms
+   → expected { id: 'google', …(7) } to deeply equal { id: 'gemini', …(2) }
+ ×  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > reserves model-only identities only for enabled owners (true) 2ms
+   → expected 'google' to be 'gemini' // Object.is equality
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > reserves model-only identities only for enabled owners (false) 1ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > preserves historical aliases without a distinct provider owner 0ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > preserves partial native overrides for dispatch 1ms
+ ✓  media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > auto-registers media-understanding for config providers with image-capable models (#51392) 1ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > resolves explicit image defaults when fallback discovery is unavailable 361ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > auto-selects hookless image providers from manifest 8ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > auto-selects hookless image providers from config 1ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > normalizes the active image provider alias 667ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > normalizes the active video provider alias 53ms
+ ×  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > keeps a registered alias owner's auth and image dispatch separate 3ms
+   → expected { provider: 'google', …(1) } to deeply equal { provider: 'gemini', …(1) }
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > checks audio providers once in priority order until auth is available 6ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > skips imageModel fallback when MiniMax M3 supports vision 7ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > records native handoff and remote failures for selected and dropped images 4ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > runs explicit image models untouched by native-vision probe failure 4ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > keeps disabled outcomes precise and suppresses markers when the vision probe fails 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > uses explicit image models even when the active model supports vision 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > lets per-request image prompts override entry prompts 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > skips malformed image defaults and runs providerless fallbacks on their configured provider 4ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > routes legacy MiniMax chat models through VLM despite catalog image input 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > passes workspace and agent context to auth and writable catalog reads 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > auto-selects configured OpenRouter image providers with a resolved model 21ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > skips configured image providers without an auto-resolvable model 3ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference high 1165ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference efficient 299ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference undefined 32ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the source byte cap before provider I/O 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the PNG byte cap before provider I/O 8ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the provider-owned byte cap before provider I/O 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for explicit image model 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for text-only model 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for mixed image and audio 37ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > rejects apply on registry failure without partially recording decisions 2ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > keeps native vision with no shared models 1ms
+ ✓  media-understanding  src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > keeps native vision with audio and video shared models 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL   media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (false)
+AssertionError: expected { id: 'gemini', …(7) } to deeply equal { id: 'gemini', …(2) }
+
+- Expected
++ Received
+
+  {
++   "autoPriority": undefined,
+    "capabilities": [
+      "image",
+    ],
++   "defaultModels": undefined,
+    "describeImage": [Function Mock],
++   "describeVideo": [Function Mock],
++   "documentModels": undefined,
+    "id": "gemini",
++   "nativeDocumentInputs": undefined,
+  }
+
+ ❯ src/media-understanding/provider-registry.test.ts:30:65
+     28|     const gemini = { id: "gemini", capabilities: ["image" as const], d…
+     29|     const registry = buildMediaUnderstandingRegistry(undefined, {}, re…
+     30|     expect(getMediaUnderstandingProvider(" GEMINI ", registry)).toEqua…
+       |                                                                 ^
+     31|     expect(getMediaUnderstandingProvider("google", registry)).toEqual(…
+     32|     expect(getMediaUnderstandingProvider("gemini", registry)?.describe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL   media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (true)
+AssertionError: expected { id: 'google', …(7) } to deeply equal { id: 'gemini', …(2) }
+
+- Expected
++ Received
+
+  {
++   "autoPriority": undefined,
+    "capabilities": [
+-     "image",
++     "video",
+    ],
++   "defaultModels": undefined,
+    "describeImage": [Function Mock],
+-   "id": "gemini",
++   "describeVideo": [Function Mock],
++   "documentModels": undefined,
++   "id": "google",
++   "nativeDocumentInputs": undefined,
+  }
+
+ ❯ src/media-understanding/provider-registry.test.ts:30:65
+     28|     const gemini = { id: "gemini", capabilities: ["image" as const], d…
+     29|     const registry = buildMediaUnderstandingRegistry(undefined, {}, re…
+     30|     expect(getMediaUnderstandingProvider(" GEMINI ", registry)).toEqua…
+       |                                                                 ^
+     31|     expect(getMediaUnderstandingProvider("google", registry)).toEqual(…
+     32|     expect(getMediaUnderstandingProvider("gemini", registry)?.describe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL   media-understanding  src/media-understanding/provider-registry.test.ts > media-understanding provider registry > reserves model-only identities only for enabled owners (true)
+AssertionError: expected 'google' to be 'gemini' // Object.is equality
+
+Expected: "gemini"
+Received: "google"
+
+ ❯ src/media-understanding/provider-registry.test.ts:45:28
+     43|     const selected = getMediaUnderstandingProvider("gemini", registry);
+     44|     if (enabled) {
+     45|       expect(selected?.id).toBe("gemini");
+       |                            ^
+     46|       expect(selected?.describeVideo).toBeUndefined();
+     47|       expect(selected?.capabilities).not.toContain("video");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL   media-understanding  src/media-understanding/runner.vision-skip.test.ts > automatic media selection > keeps a registered alias owner's auth and image dispatch separate
+AssertionError: expected { provider: 'google', …(1) } to deeply equal { provider: 'gemini', …(1) }
+
+- Expected
++ Received
+
+  {
+    "model": "synthetic-vision",
+-   "provider": "gemini",
++   "provider": "google",
+  }
+
+ ❯ src/media-understanding/runner.vision-skip.test.ts:294:22
+    292|       cfg: {}, activeModel: { provider: " GEMINI ", model: "synthetic-…
+    293|     });
+    294|     expect(selected).toEqual({ provider: "gemini", model: "synthetic-v…
+       |                      ^
+    295|     expect(selectionAuth).toHaveBeenCalledExactlyOnceWith(expect.objec…
+    296|     await withMediaFixture({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  4 failed | 33 passed (37)
+   Start at  18:55:54
+   Duration  9.10s (transform 35%, tests 32%, import 26%, worker 5%, setup 1%)
+

@@ -1,0 +1,99 @@
+[test] starting test/vitest/vitest.agents-tools.config.ts
+
+ RUN  v5.0.5 <original-checkout>
+
+[vitest-workers] local cache hit after 7488ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 769fc9d1c56f in 7673ms (18172 inputs, 23474 outputs)
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > exposes a model override only without native vision (false) 22ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > exposes a model override only without native vision (true) 5ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > registers config-only AWS SDK Bedrock image models 382ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > executes deferred fallback discovery with config-backed auth and runtime key resolution 325ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > still rejects the same fallback config when apiKey is missing 267ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > uses a prepared single-image owner alias for each image 178ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > prefers an exact prepared provider over a historical media alias 175ms
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (true) independent of ambient ownership (true) 7ms
+ ×  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (true) independent of ambient ownership (false) 9ms
+   → expected [ { type: 'text', text: 'google' } ] to deeply equal [ { type: 'text', …(1) } ]
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (false) independent of ambient ownership (false) 4ms
+ ×  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (false) independent of ambient ownership (true) 7ms
+   → expected [ { type: 'text', …(1) } ] to deeply equal [ { type: 'text', text: 'google' } ]
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > loads the next fallback owner only after the primary fails 212ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓  agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps config-backed generic image dispatch with an empty prepared family 182ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL   agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (true) independent of ambient ownership (false)
+AssertionError: expected [ { type: 'text', text: 'google' } ] to deeply equal [ { type: 'text', …(1) } ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "text": "generic image",
++     "text": "google",
+      "type": "text",
+    },
+  ]
+
+ ❯ src/agents/tools/image-tool.custom-provider-auth.regression.test.ts:365:30
+    363|         }),
+    364|       );
+    365|       expect(result.content).toEqual([
+       |                              ^
+    366|         { type: "text", text: capturedOwner ? "generic image" : "googl…
+    367|       ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL   agents-tools  src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (false) independent of ambient ownership (true)
+AssertionError: expected [ { type: 'text', …(1) } ] to deeply equal [ { type: 'text', text: 'google' } ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "text": "google",
++     "text": "generic image",
+      "type": "text",
+    },
+  ]
+
+ ❯ src/agents/tools/image-tool.custom-provider-auth.regression.test.ts:365:30
+    363|         }),
+    364|       );
+    365|       expect(result.content).toEqual([
+       |                              ^
+    366|         { type: "text", text: capturedOwner ? "generic image" : "googl…
+    367|       ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 11 passed (13)
+   Start at  19:25:58
+   Duration  18.03s (transform 72%, import 15%, tests 10%, worker 2%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 22.50s
+[test] FAILED (exit 1)
