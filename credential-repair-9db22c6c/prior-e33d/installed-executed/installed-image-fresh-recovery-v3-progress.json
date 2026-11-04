@@ -1,0 +1,72 @@
+{
+  "phase": "fresh-model-only-and-native-images-passed",
+  "receipts": [
+    {
+      "continuationOf": "installed-image-fresh-progress.json",
+      "note": "Model-only fresh image already passed; resume native plugin update after correcting owned HOME mode0775 to0700"
+    },
+    {
+      "name": "installed-fresh-workspace-recovery",
+      "args": [
+        "openclaw",
+        "doctor",
+        "--fix",
+        "--force",
+        "--non-interactive"
+      ],
+      "exit": 0,
+      "seconds": 77.442
+    },
+    {
+      "name": "installed-fresh-native-image-v3",
+      "args": [
+        "openclaw",
+        "agent",
+        "--local",
+        "--agent",
+        "main",
+        "--session-id",
+        "image-fresh-native",
+        "--message",
+        "Read the synthetic image through the native Gemini handler",
+        "--thinking",
+        "off",
+        "--json"
+      ],
+      "exit": 0,
+      "seconds": 27.64
+    }
+  ],
+  "calls": [
+    {
+      "phase": "installed-fresh-image",
+      "owner": "gemini",
+      "method": "POST",
+      "path": "/v1/responses",
+      "credential": "gemini",
+      "model": "fixture-vision",
+      "images": [
+        {
+          "mime": "image/png",
+          "bytes": 85,
+          "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+        }
+      ]
+    },
+    {
+      "phase": "installed-fresh-native-image-v3",
+      "owner": "gemini",
+      "method": "POST",
+      "path": "/v1/responses",
+      "credential": "gemini",
+      "model": "fixture-vision",
+      "images": [
+        {
+          "mime": "image/png",
+          "bytes": 85,
+          "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+        }
+      ]
+    }
+  ]
+}

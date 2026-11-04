@@ -1,0 +1,33 @@
+{
+  "path": "$PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite",
+  "count": 1,
+  "totalCount": 1,
+  "limitApplied": 100,
+  "hasMore": false,
+  "activeMinutes": null,
+  "sessions": [
+    {
+      "key": "agent:main:explicit:image-upgrade-retained",
+      "updatedAt": 1793769381185,
+      "ageMs": 1206288,
+      "sessionId": "image-upgrade-retained",
+      "sessionStartedAt": 1793769373874,
+      "lastInteractionAt": 1793769381177,
+      "visibility": "shared",
+      "abortedLastRun": false,
+      "thinkingLevel": "off",
+      "totalTokens": null,
+      "totalTokensFresh": false,
+      "model": "text-model",
+      "modelProvider": "synthetic-text",
+      "contextTokens": 8192,
+      "agentId": "main",
+      "acpRuntime": false,
+      "agentRuntime": {
+        "id": "installed-image-identity",
+        "source": "model"
+      },
+      "kind": "direct"
+    }
+  ]
+}

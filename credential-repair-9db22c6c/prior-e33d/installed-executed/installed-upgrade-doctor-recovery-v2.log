@@ -1,0 +1,178 @@
+Doctor: startup
+┌  OpenClaw doctor
+Doctor: archive preparation
+Doctor: maintenance begin
+Doctor: Preserve original state
+Doctor: schema admission
+Doctor: state database repair
+Doctor: database migrations
+Saved pre-migration SQLite backup: $PRIVATE_PROOF/installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-57f06950-604b-8855-82be-896859869277.bak
+Saved pre-migration SQLite backup: $PRIVATE_PROOF/installed/home/.openclaw/state/openclaw.sqlite.pre-startup-migration-57f06950-604b-8855-82be-896859869277.bak
+Doctor: heartbeat migration backups
+Reused pre-migration SQLite backup: $PRIVATE_PROOF/installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-57f06950-604b-8855-82be-896859869277.bak
+Reused pre-migration SQLite backup: $PRIVATE_PROOF/installed/home/.openclaw/state/openclaw.sqlite.pre-startup-migration-57f06950-604b-8855-82be-896859869277.bak
+Doctor: state schema
+Doctor: Agent deletion journal
+Doctor: UI protocol
+Doctor: Source install
+Doctor: CLI launcher
+Doctor: Plugin runtime links
+Doctor: config flow
+Doctor: state write admission
+Doctor: stale update runs
+Doctor: state migrations import
+Doctor: state dir migrations
+Doctor: legacy config migration
+Doctor: config snapshot
+Doctor: file
+Doctor: hash
+Doctor: parse
+Doctor: includes
+Doctor: env
+Doctor: validate
+Doctor: materialize
+Doctor: observe
+Doctor: file
+Doctor: hash
+Doctor: parse
+Doctor: includes
+Doctor: env
+Doctor: validate
+Doctor: materialize
+Doctor: observe
+Doctor: plugin metadata completion
+│
+◇  Doctor changes ─────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Persisted normalized meeting transcript start times                   │
+│  - Replaced retained task indexes with ordered cron history indexes      │
+│    (v24)                                                                 │
+│  - Required original operator authority for subagent recovery (v25)      │
+│  - Stored session state heads in their composite primary-key tree (v26)  │
+│  - Removed redundant replay and skill indexes and narrowed the           │
+│    lease-owner index (v27)                                               │
+│  - Retained the requested GitHub PR draft choice (v28)                   │
+│  - Moved client credentials and native socket material to the local      │
+│    owner (v29)                                                           │
+│  - Fenced ordinary automation timing and delivery policies from older    │
+│    schedulers (v30)                                                      │
+│  - Prepared resumable per-path local workspace baselines and checkpoint  │
+│    deltas (v31)                                                          │
+│  - Aligned PostgreSQL non-null index ordering (v32)                      │
+│  - Aligned PostgreSQL partial-index ordering (v33)                       │
+│  - Introduced durable default cron partition selection (v34)             │
+│  - Prepared shared content-addressed workspace trees and compact scan    │
+│    fingerprints (v35)                                                    │
+│  - Migrated released starter tables and provenance to canonical          │
+│    Template names (v36)                                                  │
+│  - Retained immutable worker provider resource receipts (v37)            │
+│  - Retained repository disk authority and original pending-result        │
+│    authority (v38)                                                       │
+│  - Retained worker acquisition policy, unfinished operation, and         │
+│    observations (v39)                                                    │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+Doctor: retired state repair
+Doctor: session entry state
+│
+◇  Session SQLite ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                │
+│  - Session entry inspection awaits database schema repair: OpenClaw                                            │
+│    agent database                                                                                              │
+│    $PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite  │
+│    uses schema version 27; stop active agents and run openclaw doctor                                          │
+│    --fix to upgrade it to schema version 40 before using it.                                                   │
+│                                                                                                                │
+├────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Doctor: plugin plan import
+Doctor: plugin plan
+Doctor: plugin convergence import
+Doctor: plugin convergence
+Doctor: config snapshot
+Doctor: file
+Doctor: hash
+Doctor: parse
+Doctor: includes
+Doctor: env
+Doctor: validate
+Doctor: materialize
+Doctor: observe
+Doctor: plugin metadata completion
+Doctor: cron repair import
+Doctor: cron repair
+Doctor: config flow (10s elapsed)
+Doctor: cron policy scan
+Doctor: legacy state migrations
+│
+◇  Session SQLite ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                │
+│  - Session entry inspection awaits media database preparation: OpenClaw                                        │
+│    agent database                                                                                              │
+│    $PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite  │
+│    uses schema version 27; stop active agents and run openclaw doctor                                          │
+│    --fix to upgrade it to schema version 40 before using it.                                                   │
+│                                                                                                                │
+├────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+[state/agent-db] agent database schema migration pending; verifying integrity first
+[state/agent-db] Rebuilt canonical agent SQLite indexes for main ($PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite): idx_agent_conversation_deliveries_source_session, idx_agent_session_input_completions_session_key
+[state/agent-db] agent database integrity gate
+[state/agent-db] agent database clean-close receipt: verification-missing; agent=main
+│
+◇  Workspace ───────────────────────────────────────────────────────────────╮
+│                                                                           │
+│  Workspace path $OPENCLAW_HOME/.openclaw/workspace now resolves to        │
+│  $PRIVATE_PROOF/installed/home/.openclaw/workspace,  │
+│  but its saved setup records belong to                                    │
+│  $OPENCLAW_HOME/.openclaw/workspace. No records were transferred. If      │
+│  the same workspace moved, run `openclaw doctor --fix` and confirm the    │
+│  move, or use `openclaw doctor --fix --force`. Otherwise restore the      │
+│  original link or configure the intended workspace directly.              │
+│                                                                           │
+├───────────────────────────────────────────────────────────────────────────╯
+[state-migrations] Auto-migrated legacy state:
+- Upgraded agent database schema in $PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite: v27 -> v40.
+[state-migrations] Legacy state migration warnings:
+- Workspace path $OPENCLAW_HOME/.openclaw/workspace now resolves to $PRIVATE_PROOF/installed/home/.openclaw/workspace, but its saved setup records belong to $OPENCLAW_HOME/.openclaw/workspace. Incoming messages cannot use this workspace until it is repaired. If the same workspace moved, run `openclaw doctor --fix` and confirm the move, or use `openclaw doctor --fix --force`. Otherwise restore the original link or configure the intended workspace directly.
+│
+◇  Doctor changes ────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                 │
+│  - Upgraded agent database schema in                                                                            │
+│    $PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent/openclaw-agent.sqlite:  │
+│    v27 -> v40.                                                                                                  │
+│                                                                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor warnings ───────────────────────────────────────────────────────────╮
+│                                                                             │
+│  - Workspace path $OPENCLAW_HOME/.openclaw/workspace now resolves to        │
+│    $PRIVATE_PROOF/installed/home/.openclaw/workspace,  │
+│    but its saved setup records belong to                                    │
+│    $OPENCLAW_HOME/.openclaw/workspace. Incoming messages cannot use         │
+│    this workspace until it is repaired. If the same workspace moved,        │
+│    run `openclaw doctor --fix` and confirm the move, or use `openclaw       │
+│    doctor --fix --force`. Otherwise restore the original link or            │
+│    configure the intended workspace directly.                               │
+│                                                                             │
+├─────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor warnings ─────────────────────────────────────────────────────────────────╮
+│                                                                                   │
+│  - WorkspaceAliasRepointedError: workspace path alias points to a                 │
+│    different current target:                                                      │
+│    $PROOF_CACHE/192436-installed/home/.openclaw/workspace   │
+│    now resolves to                                                                │
+│    $PRIVATE_PROOF/installed/home/.openclaw/workspace,        │
+│    but its stored workspace state belongs to                                      │
+│    $PROOF_CACHE/192436-installed/home/.openclaw/workspace.  │
+│    Run `openclaw doctor --fix` and confirm the move, or use `openclaw             │
+│    doctor --fix --force`.                                                         │
+│                                                                                   │
+├───────────────────────────────────────────────────────────────────────────────────╯
+Doctor: maintenance finish
+Doctor: maintenance release
+Doctor stopped because a state migration refused to continue. Resolve the reported migration failure before retrying. Later repairs were not run.
+Failing check workspace-state (step-threw): Workspace path $OPENCLAW_HOME/.openclaw/workspace now resolves to [redacted-path]
+Failing check web-push (blocked-by-prior-refusal): Migration step "web-push" was not run because prior step "workspace-state" refused execution.
+Failing check node-host (blocked-by-prior-refusal): Migration step "node-host" was not run because prior step "workspace-state" refused execution.
+Failing check rescue-pending (blocked-by-prior-refusal): Migration step "rescue-pending" was not run because prior step "workspace-state" refused execution.
+Failing check skill-workshop (blocked-by-prior-refusal): Migration step "skill-workshop" was not run because prior step "workspace-state" refused execution.

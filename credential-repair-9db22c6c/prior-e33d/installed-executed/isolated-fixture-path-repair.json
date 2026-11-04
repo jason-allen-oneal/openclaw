@@ -1,0 +1,18 @@
+{
+  "reason": "Inherited .cache has group write and cannot be changed under PR-only scope. Relocate only owned test state to private700 ancestry, retain configured path alias. No host guard disabled.",
+  "at": "2026-11-04T05:42:12.364979+00:00",
+  "roots": [
+    {
+      "alias": "$PROOF_CACHE/192436-installed",
+      "physicalRoot": "$PRIVATE_PROOF/installed",
+      "sameFilesystemRename": true,
+      "preservesConfiguredPathsAndBytes": true
+    },
+    {
+      "alias": "$PROOF_CACHE/192436-fresh",
+      "physicalRoot": "$PRIVATE_PROOF/fresh",
+      "sameFilesystemRename": true,
+      "preservesConfiguredPathsAndBytes": true
+    }
+  ]
+}

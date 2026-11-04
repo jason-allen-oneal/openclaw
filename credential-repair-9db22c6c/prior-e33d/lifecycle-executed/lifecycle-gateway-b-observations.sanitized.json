@@ -1,0 +1,115 @@
+[
+  {
+    "capturedGeminiOwner": true,
+    "phase": "cross-attempt-sdk-boundary",
+    "casePassed": false,
+    "events": [
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "captured",
+        "attempt": "A",
+        "sessionKey": "agent:qa:qa-channel:direct:dm:lifecycle-a",
+        "policyHash": "e9efc2a06dc5fa4b88f2d2a9ec789f7ca27f3d09322ce7931afc90af823d3dc0",
+        "geminiOwners": [
+          "image-lifecycle-provider"
+        ]
+      },
+      {
+        "event": "registered",
+        "generation": "B"
+      },
+      {
+        "event": "captured",
+        "attempt": "B",
+        "sessionKey": "agent:qa:lifecycle-b",
+        "policyHash": "e9efc2a06dc5fa4b88f2d2a9ec789f7ca27f3d09322ce7931afc90af823d3dc0",
+        "geminiOwners": []
+      },
+      {
+        "event": "before-cross-attempt",
+        "retainedHostActive": true
+      },
+      {
+        "event": "cross-attempt-result",
+        "rejected": true,
+        "error": "Plugin image-lifecycle-provider is retiring"
+      },
+      {
+        "event": "native",
+        "generation": "B",
+        "provider": "gemini"
+      },
+      {
+        "event": "current-control",
+        "summaryReceived": true
+      }
+    ],
+    "endpoints": {
+      "google": [],
+      "gemini": [
+        {
+          "method": "POST",
+          "path": "/v1/responses",
+          "images": [
+            {
+              "mime": "image/png",
+              "bytes": 85,
+              "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+            }
+          ],
+          "credential": "gemini",
+          "model": "fixture-vision"
+        }
+      ]
+    },
+    "endpointErrors": {
+      "google": [],
+      "gemini": []
+    },
+    "sameGatewayPid": true,
+    "cross": null,
+    "startedB": {
+      "runId": "lifecycle-b-true",
+      "status": "started"
+    },
+    "terminalB": {
+      "runId": "lifecycle-b-true",
+      "status": "ok",
+      "startedAt": 1793769379848,
+      "endedAt": 1793769380275,
+      "terminalReceipt": {
+        "runId": "lifecycle-b-true",
+        "sessionId": "bc34a4af-7e98-4406-8d92-7c5bc7e52af7",
+        "turnId": "lifecycle-b-true",
+        "requested": {
+          "provider": "mock-openai",
+          "model": "gpt-5.6-luna"
+        },
+        "effective": {
+          "provider": "mock-openai",
+          "model": "gpt-5.6-luna",
+          "responseModel": "gpt-5.6-luna"
+        },
+        "successfulToolNames": [],
+        "rerouted": false,
+        "terminalDisposition": "visible"
+      },
+      "terminalReply": {
+        "disposition": "visible",
+        "text": "LIFECYCLE_B_DONE"
+      }
+    },
+    "boundary": "genuine admitted generations; adversarial retained public tool invoked from B harness (not ordinary channel mismatch)"
+  }
+]

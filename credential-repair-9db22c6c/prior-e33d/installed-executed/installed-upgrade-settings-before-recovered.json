@@ -1,0 +1,103 @@
+{
+  "imageModel": {
+    "primary": "gemini/fixture-vision"
+  },
+  "media": {
+    "models": [
+      {
+        "provider": "gemini",
+        "model": "fixture-vision",
+        "capabilities": [
+          "image"
+        ]
+      }
+    ],
+    "image": {
+      "enabled": false
+    }
+  },
+  "providers": {
+    "google": {
+      "api": "openai-responses",
+      "baseUrl": "http://127.0.0.1:39315/v1",
+      "request": {
+        "allowPrivateNetwork": true
+      },
+      "models": [
+        {
+          "id": "fixture-vision",
+          "name": "google",
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": false,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 8192,
+          "maxTokens": 1024
+        }
+      ],
+      "apiKeySha256": "e328d016b0bfa81b5fb59f1abdda27582db8d03db0ff70c2d2d090378fee6840"
+    },
+    "gemini": {
+      "api": "openai-responses",
+      "baseUrl": "http://127.0.0.1:44275/v1",
+      "request": {
+        "allowPrivateNetwork": true
+      },
+      "models": [
+        {
+          "id": "fixture-vision",
+          "name": "gemini",
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": false,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 8192,
+          "maxTokens": 1024
+        }
+      ],
+      "apiKeySha256": "b4aa8fb2cec738121e2b946e6bab096243e96b043afff77d614c4ae35bb83fc8"
+    },
+    "synthetic-text": {
+      "api": "openai-responses",
+      "baseUrl": "http://127.0.0.1:44275/v1",
+      "request": {
+        "allowPrivateNetwork": true
+      },
+      "models": [
+        {
+          "id": "text-model",
+          "name": "synthetic-text",
+          "input": [
+            "text"
+          ],
+          "reasoning": false,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 8192,
+          "maxTokens": 1024
+        }
+      ],
+      "apiKeySha256": "b4aa8fb2cec738121e2b946e6bab096243e96b043afff77d614c4ae35bb83fc8"
+    }
+  },
+  "workspace": "$PROOF_CACHE/192436-installed/home/workspace",
+  "timeoutSeconds": 120
+}

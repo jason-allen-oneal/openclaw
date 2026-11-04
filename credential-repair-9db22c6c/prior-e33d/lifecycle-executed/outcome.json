@@ -1,0 +1,28 @@
+{
+  "verifiedUtc": "2026-11-04T05:21:32.049192+00:00",
+  "sourceHead": "e33d13d69b1447e7c4e402f8d6727431e67503a1",
+  "cases": [
+    {
+      "capturedGeminiOwner": true,
+      "actualCasePassed": true,
+      "receipt": "lifecycle-final-observations.jsonl",
+      "samePid": true,
+      "crossAttemptRefusedBeforeImageOrCredentialHttp": true,
+      "oldAndNewContextControlImages": 2,
+      "exactCanonicalPayloadSha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a",
+      "rawReceiptSha256": "d95f966c97d3487539089d9690ade2d29f5e3821179bb3ba69d45c04976d314b"
+    },
+    {
+      "capturedGeminiOwner": false,
+      "actualCasePassed": true,
+      "receipt": "lifecycle-reverse-observations.jsonl",
+      "samePid": true,
+      "crossAttemptRefusedBeforeImageOrCredentialHttp": true,
+      "oldAndNewContextControlImages": 2,
+      "exactCanonicalPayloadSha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a",
+      "rawReceiptSha256": "6ca6b3cb7b5c5754cb41e1118e0f04b36c08c5b59d747933a6312271b7a7f83c"
+    }
+  ],
+  "qualification": "first case passed in full suite whose reverse assertion failed; corrected reverse-only suite exit0. No claim original full suite passed.",
+  "productionChanges": false
+}

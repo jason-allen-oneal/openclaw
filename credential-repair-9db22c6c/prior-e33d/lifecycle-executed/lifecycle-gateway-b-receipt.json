@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "test/vitest/vitest.e2e.config.ts",
+    "test/e2e/qa-lab/runtime/vision-provider-lifecycle-proof.e2e.test.ts",
+    "--maxWorkers=1",
+    "--bail=1"
+  ],
+  "cwd": "<source-checkout>",
+  "envOverrides": {
+    "OPENCLAW_BUILD_PRIVATE_QA": "1",
+    "OPENCLAW_E2E_USE_PREBUILT_DIST": "1",
+    "IMAGE_LIFECYCLE_RECEIPTS": "<evidence-root>/lifecycle-gateway-b-observations.jsonl",
+    "OPENCLAW_VITEST_FS_MODULE_CACHE_PATH": "<evidence-root>/vitest-fs-cache"
+  },
+  "exit": 1,
+  "seconds": 82.69,
+  "publishedHead": "e33d13d69b1447e7c4e402f8d6727431e67503a1",
+  "sourceTreeBeforeLocalProof": "031da7a04c37fc29206ad8e7d6fa82b31f6be16f",
+  "proofSha256": "51d6da6fece913d4ea364f418e41004e136bb41ab4eb7cd79b02500ed5ff1c27",
+  "completedUtc": "2026-11-04T05:16:23.734630+00:00"
+}

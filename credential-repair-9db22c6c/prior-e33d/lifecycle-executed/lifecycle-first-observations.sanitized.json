@@ -1,0 +1,50 @@
+[
+  {
+    "capturedGeminiOwner": true,
+    "phase": "cross-attempt-sdk-boundary",
+    "casePassed": false,
+    "events": [
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "captured",
+        "attempt": "A",
+        "policyHash": "e9efc2a06dc5fa4b88f2d2a9ec789f7ca27f3d09322ce7931afc90af823d3dc0",
+        "geminiOwners": [
+          "image-lifecycle-provider"
+        ]
+      },
+      {
+        "event": "registered",
+        "generation": "B"
+      },
+      {
+        "event": "registered",
+        "generation": "B"
+      }
+    ],
+    "endpoints": {
+      "google": [],
+      "gemini": []
+    },
+    "endpointErrors": {
+      "google": [],
+      "gemini": []
+    },
+    "sameGatewayPid": true,
+    "cross": null,
+    "startedB": null,
+    "terminalB": null,
+    "boundary": "genuine admitted generations; adversarial retained public tool invoked from B harness (not ordinary channel mismatch)"
+  }
+]

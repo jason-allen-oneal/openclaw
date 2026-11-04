@@ -1,0 +1,42 @@
+{
+  "phase": "failed",
+  "receipts": [
+    {
+      "continuationOf": "installed-image-upgrade-progress.json",
+      "priorSha256": "cd53697a2f7e757cec4847fbc916861334a8a8e7becc2adbf641486239812fd1",
+      "priorTerminalPhase": "failed",
+      "note": "Packaging prerequisite timeout preserved; no baseline state or image execution recreated"
+    },
+    {
+      "name": "installed-baseline-gateway-transition",
+      "args": [
+        "bash",
+        "-c",
+        "set -euo pipefail\nsource scripts/lib/openclaw-e2e-instance.sh\nsource scripts/e2e/lib/external-package-transition.sh\npackage_root=\"$(openclaw_e2e_package_root)\"\nentry=\"$(openclaw_e2e_package_entrypoint \"$package_root\")\"\ngateway_pid=\"$(openclaw_e2e_start_gateway \"$entry\" 44931 \"$IMAGE_LOG_ROOT/installed-baseline-gateway.log\")\"\ntrap 'openclaw_e2e_terminate_gateways \"${gateway_pid:-}\"' EXIT\nopenclaw_e2e_wait_gateway_ready \"$gateway_pid\" \"$IMAGE_LOG_ROOT/installed-baseline-gateway.log\" 90 44931\nopenclaw sessions --json > \"$IMAGE_LOG_ROOT/installed-sessions-before.json\"\nopenclaw_e2e_terminate_gateways \"$gateway_pid\"\nstopped_pid=\"$gateway_pid\"; gateway_pid=\"\"\nopenclaw_e2e_external_package_transition 2026.10.10 2026.10.10 \"$IMAGE_LOG_ROOT/installed-transition\" \"$stopped_pid\""
+      ],
+      "exit": 1,
+      "seconds": 69.595
+    },
+    {
+      "error": "Error: installed-baseline-gateway-transition exit 1"
+    }
+  ],
+  "calls": [
+    {
+      "phase": "installed-baseline-image",
+      "owner": "gemini",
+      "method": "POST",
+      "path": "/v1/responses",
+      "credential": "gemini",
+      "model": "fixture-vision",
+      "images": [
+        {
+          "mime": "image/png",
+          "bytes": 85,
+          "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+        }
+      ],
+      "receiverEpoch": "baseline"
+    }
+  ]
+}

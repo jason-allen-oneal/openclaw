@@ -1,0 +1,52 @@
+{
+  "createdAt": "2026-11-04T05:36:30.044Z",
+  "archiveRoot": "2026-11-04T00-36-30.044-05-00-openclaw-backup",
+  "archivePath": "/tmp/openclaw-transition-backup.DfQu2N/before.tar.gz",
+  "dryRun": false,
+  "includeWorkspace": true,
+  "onlyConfig": false,
+  "verified": true,
+  "assets": [
+    {
+      "kind": "state",
+      "sourcePath": "$PROOF_CACHE/192436-installed/home/.openclaw",
+      "displayPath": "$OPENCLAW_HOME/.openclaw",
+      "archivePath": "2026-11-04T00-36-30.044-05-00-openclaw-backup/payload/posix$PROOF_CACHE/192436-installed/home/.openclaw"
+    }
+  ],
+  "agentRoots": [
+    {
+      "agentId": "main",
+      "sourcePath": "$PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent"
+    }
+  ],
+  "skipped": [
+    {
+      "kind": "workspace",
+      "sourcePath": "$PROOF_CACHE/192436-installed/home/.openclaw/workspace",
+      "displayPath": "$OPENCLAW_HOME/.openclaw/workspace",
+      "reason": "covered",
+      "coveredBy": "$OPENCLAW_HOME/.openclaw"
+    },
+    {
+      "kind": "agent",
+      "sourcePath": "$PROOF_CACHE/192436-installed/home/.openclaw/agents/main/agent",
+      "displayPath": "$OPENCLAW_HOME/.openclaw/agents/main/agent",
+      "reason": "covered",
+      "coveredBy": "$OPENCLAW_HOME/.openclaw"
+    },
+    {
+      "kind": "plugin skills",
+      "sourcePath": "$PROOF_CACHE/192436-installed/home/.openclaw/plugin-skills",
+      "displayPath": "$OPENCLAW_HOME/.openclaw/plugin-skills",
+      "reason": "regenerable"
+    },
+    {
+      "kind": "managed state",
+      "sourcePath": "$PROOF_CACHE/192436-installed/home/.openclaw/tmp",
+      "displayPath": "$OPENCLAW_HOME/.openclaw/tmp",
+      "reason": "regenerable"
+    }
+  ],
+  "skippedVolatileCount": 0
+}

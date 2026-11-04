@@ -1,0 +1,124 @@
+{
+  "sessionKey": "agent:main:explicit:image-upgrade-retained",
+  "sessionId": "image-upgrade-retained",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Read the synthetic image and retain this conversation",
+      "timestamp": 1793769378553,
+      "idempotencyKey": "5c3ae100-06e0-439e-90ec-011f0e9f8fcc:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "99c1b212-e909-467b-b675-fb87b4bb3d8e",
+        "idempotencyKey": "5c3ae100-06e0-439e-90ec-011f0e9f8fcc:user",
+        "recordTimestampMs": 1793769380047,
+        "transcriptPosition": {
+          "source": "ccx82dSrxLcPgGYtG-NiewUUsX0ZfvvmAfdXH77Cb3k",
+          "rawSeq": 1
+        },
+        "seq": 1
+      }
+    },
+    {
+      "role": "user",
+      "content": "Continue retained conversation and read the synthetic image again",
+      "timestamp": 1793771093894,
+      "idempotencyKey": "05941f2d-60a5-4d97-87a7-bb025ba53faf:user",
+      "__openclaw": {
+        "senderIsOwner": true,
+        "id": "cdf7d62f-2a4a-4739-8191-b1d30d2d2d71",
+        "idempotencyKey": "05941f2d-60a5-4d97-87a7-bb025ba53faf:user",
+        "recordTimestampMs": 1793771094566,
+        "transcriptPosition": {
+          "source": "ccx82dSrxLcPgGYtG-NiewUUsX0ZfvvmAfdXH77Cb3k",
+          "rawSeq": 2
+        },
+        "seq": 2
+      }
+    }
+  ],
+  "hasMore": false,
+  "totalMessages": 2,
+  "pendingInputs": {
+    "items": [],
+    "total": 0,
+    "queuedCount": 0
+  },
+  "deltaCursor": "eyJhZ2VudElkIjoibWFpbiIsImdlbmVyYXRpb24iOiI4MTlmOWNlYTVhZWQ0ZWJiYjVjNTllNjI3ZDFmY2M5YSIsImxhc3RTZXEiOjIsInNlc3Npb25JZCI6ImltYWdlLXVwZ3JhZGUtcmV0YWluZWQiLCJ2ZXJzaW9uIjoxfQ",
+  "defaults": {
+    "modelProvider": "synthetic-text",
+    "model": "text-model",
+    "contextTokens": 8192,
+    "agentRuntime": {
+      "id": "installed-image-identity",
+      "cloudPlacementSupported": false,
+      "devicePlacementSupported": false,
+      "source": "model"
+    },
+    "communication": {
+      "send": "always",
+      "receive": "always"
+    },
+    "modelSelectionTarget": "session"
+  },
+  "sessionInfo": {
+    "key": "agent:main:explicit:image-upgrade-retained",
+    "sessionModelRevision": "Ptz7asgOxjzUCZGARoNUH6cbEUQzvaTDRn6XJZPZ1iQ",
+    "visibility": "shared",
+    "effectiveCommunication": {
+      "send": "always",
+      "receive": "always"
+    },
+    "permissionModePending": false,
+    "kind": "direct",
+    "classification": "explicit",
+    "agentId": "main",
+    "isMain": false,
+    "isDock": false,
+    "isBackground": false,
+    "displayName": "Read the synthetic image and retain this conversation",
+    "updatedAt": 1793771095418,
+    "archived": false,
+    "pinned": false,
+    "sidebarRoot": false,
+    "unread": false,
+    "lastInteractionAt": 1793771095417,
+    "lastActivityAt": 1793771095417,
+    "sessionId": "image-upgrade-retained",
+    "abortedLastRun": false,
+    "thinkingLevel": "off",
+    "effectiveFastMode": false,
+    "effectiveFastModeSource": "default",
+    "fastAutoOnSeconds": 60,
+    "effectiveResponseUsage": "off",
+    "effectiveQueueMode": "steer",
+    "modelProvider": "synthetic-text",
+    "model": "text-model",
+    "modelOverrideSource": null,
+    "runtimeSelectionLocked": false,
+    "agentRuntime": {
+      "id": "installed-image-identity",
+      "cloudPlacementSupported": false,
+      "devicePlacementSupported": false,
+      "source": "model"
+    },
+    "contextTokens": 8192,
+    "snapshotAt": 1793771131425,
+    "totalTokensFresh": false,
+    "activitySummary": {
+      "state": "unavailable",
+      "canEnsure": true
+    },
+    "hasBoard": false,
+    "titlePending": false,
+    "childOwnerSessionKeys": [],
+    "hiddenFromInvolvingMe": false,
+    "sharingRole": "owner",
+    "sendDisabledReason": null,
+    "workspaceReadDisabledReason": null,
+    "hasActiveRun": false,
+    "activeRunIds": [],
+    "activeLeafEntryId": "cdf7d62f-2a4a-4739-8191-b1d30d2d2d71"
+  },
+  "thinkingLevel": "off"
+}

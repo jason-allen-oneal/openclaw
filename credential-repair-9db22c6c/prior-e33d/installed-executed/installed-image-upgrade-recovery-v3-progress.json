@@ -1,0 +1,108 @@
+{
+  "phase": "failed",
+  "receipts": [
+    {
+      "continuationOf": "installed-image-upgrade-progress.json",
+      "priorSha256": "cd53697a2f7e757cec4847fbc916861334a8a8e7becc2adbf641486239812fd1",
+      "priorTerminalPhase": "failed",
+      "note": "Packaging prerequisite timeout preserved; no baseline state or image execution recreated"
+    },
+    {
+      "continuationOf": "installed-image-upgrade-continuation-progress.json",
+      "note": "Candidate already installed; isolated HOME was 0775 and Doctor correctly refused. Corrected only owned fixture HOME to0700; resume postinstall/Doctor without reinstalling or recreating stable state."
+    },
+    {
+      "fixtureRecovery": "Confirm supported owned workspace migration after same-filesystem private-path relocation; no model configuration edits."
+    },
+    {
+      "name": "installed-upgrade-doctor-recovery-v3",
+      "args": [
+        "openclaw",
+        "doctor",
+        "--fix",
+        "--force",
+        "--non-interactive"
+      ],
+      "exit": 0,
+      "seconds": 77.557
+    },
+    {
+      "name": "installed-upgrade-transition-receipt",
+      "args": [
+        "node",
+        "scripts/e2e/lib/external-package-transition.mjs",
+        "receipt",
+        "2026.10.10",
+        "2026.10.10",
+        "$PROOF_LOG/installed-transition"
+      ],
+      "exit": 0,
+      "seconds": 0.049
+    },
+    {
+      "name": "installed-candidate-image",
+      "args": [
+        "openclaw",
+        "agent",
+        "--local",
+        "--agent",
+        "main",
+        "--session-id",
+        "image-upgrade-retained",
+        "--message",
+        "Continue retained conversation and read the synthetic image again",
+        "--thinking",
+        "off",
+        "--json"
+      ],
+      "exit": 0,
+      "seconds": 28.033
+    },
+    {
+      "name": "installed-candidate-retained-history",
+      "args": [
+        "bash",
+        "-c",
+        "set -euo pipefail\nsource scripts/lib/openclaw-e2e-instance.sh\nentry=\"$(openclaw_e2e_package_entrypoint \"$(openclaw_e2e_package_root)\")\"\ngateway_pid=\"$(openclaw_e2e_start_gateway \"$entry\" 44931 \"$IMAGE_LOG_ROOT/installed-candidate-gateway.log\")\"\ntrap 'openclaw_e2e_terminate_gateways \"${gateway_pid:-}\"' EXIT\nopenclaw_e2e_wait_gateway_ready \"$gateway_pid\" \"$IMAGE_LOG_ROOT/installed-candidate-gateway.log\" 90 44931\nopenclaw sessions --json > \"$IMAGE_LOG_ROOT/installed-sessions-after.json\"\nkey=\"$(node scripts/e2e/lib/external-package-transition.mjs session-key \"$IMAGE_LOG_ROOT/installed-sessions-after.json\" image-upgrade-retained)\"\nparams=\"$(node -e 'console.log(JSON.stringify({sessionKey:process.argv[1],limit:20}))' \"$key\")\"\nopenclaw gateway call chat.history --json --params \"$params\" > \"$IMAGE_LOG_ROOT/installed-retained-history.json\""
+      ],
+      "exit": 0,
+      "seconds": 36.379
+    },
+    {
+      "error": "Error: retained history semantic markers missing"
+    }
+  ],
+  "calls": [
+    {
+      "phase": "installed-baseline-image",
+      "owner": "gemini",
+      "method": "POST",
+      "path": "/v1/responses",
+      "credential": "gemini",
+      "model": "fixture-vision",
+      "images": [
+        {
+          "mime": "image/png",
+          "bytes": 85,
+          "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+        }
+      ],
+      "receiverEpoch": "baseline"
+    },
+    {
+      "phase": "installed-candidate-image",
+      "owner": "gemini",
+      "method": "POST",
+      "path": "/v1/responses",
+      "credential": "gemini",
+      "model": "fixture-vision",
+      "images": [
+        {
+          "mime": "image/png",
+          "bytes": 85,
+          "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+[
+  {
+    "capturedGeminiOwner": false,
+    "phase": "complete",
+    "casePassed": true,
+    "events": [
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "registered",
+        "generation": "A"
+      },
+      {
+        "event": "captured",
+        "attempt": "A",
+        "sessionKey": "agent:qa:qa-channel:direct:dm:lifecycle-a",
+        "metadataRoot": "<fixture-root>/provider-A",
+        "policyHash": "e9efc2a06dc5fa4b88f2d2a9ec789f7ca27f3d09322ce7931afc90af823d3dc0",
+        "geminiOwners": []
+      },
+      {
+        "event": "registered",
+        "generation": "B"
+      },
+      {
+        "event": "captured",
+        "attempt": "B",
+        "sessionKey": "agent:qa:lifecycle-b",
+        "metadataRoot": "<fixture-root>/provider-B",
+        "policyHash": "e9efc2a06dc5fa4b88f2d2a9ec789f7ca27f3d09322ce7931afc90af823d3dc0",
+        "geminiOwners": [
+          "image-lifecycle-provider"
+        ]
+      },
+      {
+        "event": "before-cross-attempt",
+        "retainedHostActive": true
+      },
+      {
+        "event": "native",
+        "generation": "A",
+        "provider": "gemini"
+      },
+      {
+        "event": "cross-attempt-result",
+        "rejected": true,
+        "error": "Plugin image-lifecycle-provider is retiring"
+      },
+      {
+        "event": "current-control",
+        "summaryReceived": true
+      },
+      {
+        "event": "native",
+        "generation": "A",
+        "provider": "gemini"
+      },
+      {
+        "event": "original-control",
+        "summaryReceived": true
+      },
+      {
+        "event": "released",
+        "attempt": "A"
+      }
+    ],
+    "endpoints": {
+      "google": [],
+      "gemini": [
+        {
+          "method": "POST",
+          "path": "/v1/responses",
+          "images": [
+            {
+              "mime": "image/png",
+              "bytes": 85,
+              "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+            }
+          ],
+          "credential": "gemini",
+          "model": "fixture-vision"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/responses",
+          "images": [
+            {
+              "mime": "image/png",
+              "bytes": 85,
+              "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+            }
+          ],
+          "credential": "gemini",
+          "model": "fixture-vision"
+        }
+      ]
+    },
+    "endpointErrors": {
+      "google": [],
+      "gemini": []
+    },
+    "sameGatewayPid": true,
+    "cross": {
+      "event": "cross-attempt-result",
+      "rejected": true,
+      "error": "Plugin image-lifecycle-provider is retiring"
+    },
+    "startedB": {
+      "runId": "lifecycle-b-false",
+      "status": "started"
+    },
+    "terminalB": {
+      "runId": "lifecycle-b-false",
+      "status": "ok",
+      "startedAt": 1793769666425,
+      "endedAt": 1793769666858,
+      "terminalReceipt": {
+        "runId": "lifecycle-b-false",
+        "sessionId": "570db2d7-0fb1-4b17-babf-1b037db46eb2",
+        "turnId": "lifecycle-b-false",
+        "requested": {
+          "provider": "mock-openai",
+          "model": "gpt-5.6-luna"
+        },
+        "effective": {
+          "provider": "mock-openai",
+          "model": "gpt-5.6-luna",
+          "responseModel": "gpt-5.6-luna"
+        },
+        "successfulToolNames": [],
+        "rerouted": false,
+        "terminalDisposition": "visible"
+      },
+      "terminalReply": {
+        "disposition": "visible",
+        "text": "LIFECYCLE_B_DONE"
+      }
+    },
+    "boundary": "genuine admitted generations; adversarial retained public tool invoked from B harness (not ordinary channel mismatch)"
+  }
+]

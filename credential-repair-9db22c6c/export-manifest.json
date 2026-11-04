@@ -1,0 +1,905 @@
+{
+  "policy": "Operator paths and ANSI redacted; fixed loopback constants and explicitly synthetic fixture keys retained for intelligible drivers. No auth/config database or raw Gateway log exported. Prior settings files are credential-hash-only selected projections, not complete config. Original source/export hashes are separate. Historical failures and limitations unchanged; exported drivers have path labels requiring environment substitution and have not been re-executed.",
+  "files": [
+    {
+      "file": "repair/installed-credential-repair-source.json",
+      "sourceLabel": "$PROOF/installed-credential-repair-source.json",
+      "originalSha256": "25a7336573d1d2d22ddcc38c9fa3c4e9800eb90c16f4486d234aa7630ae46cac",
+      "originalBytes": 1207,
+      "exportSha256": "25a7336573d1d2d22ddcc38c9fa3c4e9800eb90c16f4486d234aa7630ae46cac",
+      "exportBytes": 1207,
+      "redacted": false
+    },
+    {
+      "file": "repair/credential-authority-repair-commit.txt",
+      "sourceLabel": "$PROOF/credential-authority-repair-commit.txt",
+      "originalSha256": "265b87ca72d2629c73fa9e3870952a2c1e4c2d704f5b8ab789eed73d712d6261",
+      "originalBytes": 290,
+      "exportSha256": "265b87ca72d2629c73fa9e3870952a2c1e4c2d704f5b8ab789eed73d712d6261",
+      "exportBytes": 290,
+      "redacted": false
+    },
+    {
+      "file": "repair/installed-credential-repair-summary.json",
+      "sourceLabel": "$PROOF/installed-credential-repair-summary.json",
+      "originalSha256": "f05edaf9a4f1c2d61376f2148058b96829c951995b4089cf5f5cc44b7e2f7b6f",
+      "originalBytes": 3378,
+      "exportSha256": "f05edaf9a4f1c2d61376f2148058b96829c951995b4089cf5f5cc44b7e2f7b6f",
+      "exportBytes": 3378,
+      "redacted": false
+    },
+    {
+      "file": "repair/credential-public-package-build-receipt.json",
+      "sourceLabel": "$PROOF_LOGS/credential-public-package-build-receipt.json",
+      "originalSha256": "0997276c2281b26eb8cbadfc4cc1471d0f7dbe092d55331a09cff32a3f2a5949",
+      "originalBytes": 681,
+      "exportSha256": "2b52e78e8119da16e8c9a50e269eaf278778d76b3a0951c4f5ebd8504dd464bf",
+      "exportBytes": 605,
+      "redacted": true
+    },
+    {
+      "file": "repair/credential-package-identity.json",
+      "sourceLabel": "$PROOF_LOGS/credential-package-identity.json",
+      "originalSha256": "f433ea3133a3563cf237b7e1347194edd7447243642f8e3b540c4802b3f1b68b",
+      "originalBytes": 477,
+      "exportSha256": "3c637790faec9d3c2efe6a48838d67c9caefd0f5e9169d931425e306b625d520",
+      "exportBytes": 455,
+      "redacted": true
+    },
+    {
+      "file": "repair/credential-authority-repair-install-receipt.json",
+      "sourceLabel": "$PROOF_LOGS/credential-authority-repair-install-receipt.json",
+      "originalSha256": "1cb78bff67aa17807da389032c40b6a1c5be50d30d70740039dd8780071ea3fb",
+      "originalBytes": 586,
+      "exportSha256": "fd7c8f3ca30c948da1f0ec8e823fbeddda0ce3304d12c6df534736b55bc5fe7c",
+      "exportBytes": 500,
+      "redacted": true
+    },
+    {
+      "file": "repair/credential-installed-artifact-binding.json",
+      "sourceLabel": "$PROOF_LOGS/credential-installed-artifact-binding.json",
+      "originalSha256": "9973f57fe358ef0b1f645a8c58ed78d7f94f18fb5c74d2c0a2b1c7540541f6fd",
+      "originalBytes": 874,
+      "exportSha256": "288e5b6066bdb29dc8782a84a8249db5b6dad47126becf62e6386a073cecc730",
+      "exportBytes": 850,
+      "redacted": true
+    },
+    {
+      "file": "repair/credential-authority-repair-proof-driver-receipt.json",
+      "sourceLabel": "$PROOF_LOGS/credential-authority-repair-proof-driver-receipt.json",
+      "originalSha256": "f9c64a67c62ada71a022116b90be9e32f09d54ab70ad1838bda43db2ffb83a7c",
+      "originalBytes": 344,
+      "exportSha256": "5cf4c34611ee0d8dcfcbf5ae5f9d5cf8e814941369c4020bf9a4e627af3ea8ef",
+      "exportBytes": 326,
+      "redacted": true
+    },
+    {
+      "file": "repair/credential-authority-repair-proof-driver-v2-receipt.json",
+      "sourceLabel": "$PROOF_LOGS/credential-authority-repair-proof-driver-v2-receipt.json",
+      "originalSha256": "df72b09f6852b41856fd2cc5062eed3e5842abd7c689f80ce2ff7cd7b18555b3",
+      "originalBytes": 348,
+      "exportSha256": "03dc1dc557dd5dc264c4a9679c652715de40477a5e66937485eeed303e37dd1a",
+      "exportBytes": 330,
+      "redacted": true
+    },
+    {
+      "file": "repair/credential-proof-driver-v2-change.json",
+      "sourceLabel": "$PROOF_LOGS/credential-proof-driver-v2-change.json",
+      "originalSha256": "8610b56120c6e813ef0de39270aacfb28fb700ebc8d3a3fcdddb3bcf03fc29e0",
+      "originalBytes": 514,
+      "exportSha256": "8610b56120c6e813ef0de39270aacfb28fb700ebc8d3a3fcdddb3bcf03fc29e0",
+      "exportBytes": 514,
+      "redacted": false
+    },
+    {
+      "file": "repair/installed-credential-revocation-repair.mjs",
+      "sourceLabel": "$PROOF_LOGS/installed-credential-revocation-repair.mjs",
+      "originalSha256": "0d4f2ee90c19368013e11e498897dc660d700bdbb2e6a801b4e066e79e35beed",
+      "originalBytes": 14639,
+      "exportSha256": "0944b22ec95a3a9e96603c435f8a8b5411f753a7f01fc7775a79ef65030c0dad",
+      "exportBytes": 14567,
+      "redacted": true
+    },
+    {
+      "file": "repair/installed-credential-revocation-repair-v2.mjs",
+      "sourceLabel": "$PROOF_LOGS/installed-credential-revocation-repair-v2.mjs",
+      "originalSha256": "dc55370d695a2a85cdde67c40e968479a3149a0dea97aa40d6d76e9cf7d3d930",
+      "originalBytes": 14987,
+      "exportSha256": "08d76f5f7989c898e3f323f08de6f5a5abb0ca597644fcd3c7781802cb3f2d9e",
+      "exportBytes": 14915,
+      "redacted": true
+    },
+    {
+      "file": "repair/installed-credential-revocation-native-progress.json",
+      "sourceLabel": "$PROOF_LOGS/credential-authority-repair-proof-v2/installed-credential-revocation-native-progress.json",
+      "originalSha256": "09f2f639dcc2e64b2891fad90832678db6145f7f22bf9874ed3c6cb18728e38a",
+      "originalBytes": 29284,
+      "exportSha256": "09f2f639dcc2e64b2891fad90832678db6145f7f22bf9874ed3c6cb18728e38a",
+      "exportBytes": 29284,
+      "redacted": false
+    },
+    {
+      "file": "reports/credential-authority-repair.md",
+      "sourceLabel": "$PROOF/credential-authority-repair.md",
+      "originalSha256": "f32ae4f2ee2090a136e509ff53ea9ef07a7b0ef33c16edbbcefa1da0c2ad52c3",
+      "originalBytes": 6050,
+      "exportSha256": "fb2f5912e1cd6a83e607bb03edc7a1be948688ed08159b7da3f3da9c05ae41c7",
+      "exportBytes": 6000,
+      "redacted": true
+    },
+    {
+      "file": "reports/credential-authority-repair-review.md",
+      "sourceLabel": "$PROOF/credential-authority-repair-review.md",
+      "originalSha256": "0a55015377e47534e3f53b1630b08f3b84b62a6b79766f8aa6ad4d35ce3e8e63",
+      "originalBytes": 6387,
+      "exportSha256": "0a55015377e47534e3f53b1630b08f3b84b62a6b79766f8aa6ad4d35ce3e8e63",
+      "exportBytes": 6387,
+      "redacted": false
+    },
+    {
+      "file": "reports/credential-authority-repair-freeze.json",
+      "sourceLabel": "$PROOF/credential-authority-repair-freeze.json",
+      "originalSha256": "a8f705775a45f0a5375b59766059a8a9a342c0e9928540e3359caa0350fb5c07",
+      "originalBytes": 2069,
+      "exportSha256": "a8f705775a45f0a5375b59766059a8a9a342c0e9928540e3359caa0350fb5c07",
+      "exportBytes": 2069,
+      "redacted": false
+    },
+    {
+      "file": "reports/installed-credential-repair-results.md",
+      "sourceLabel": "$PROOF/installed-credential-repair-results.md",
+      "originalSha256": "41267b2cc60df615f9e060788b2d26e9d055db6c49be773beb21efbbaa587df5",
+      "originalBytes": 5556,
+      "exportSha256": "3681f9cee3fcfa321e0e937fac6248a52213b809e71aad934234af866d954850",
+      "exportBytes": 5500,
+      "redacted": true
+    },
+    {
+      "file": "reports/lifecycle-upgrade-results.md",
+      "sourceLabel": "$PROOF/lifecycle-upgrade-results.md",
+      "originalSha256": "17ff09eb6798930f97d168f30a9cfee22823070cc375514b482d9df461edef6f",
+      "originalBytes": 8373,
+      "exportSha256": "988aa1cbba5452479a7f3c9a3a612ab9094633442f69f593159345034c67379b",
+      "exportBytes": 8317,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-budget-final.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-budget-final.log",
+      "originalSha256": "75190bef1e889a7ca1ebd59e7c93df7e23ad524c77e22be8dfb12ad612bae7c0",
+      "originalBytes": 135,
+      "exportSha256": "75190bef1e889a7ca1ebd59e7c93df7e23ad524c77e22be8dfb12ad612bae7c0",
+      "exportBytes": 135,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-core-types.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-core-types.log",
+      "originalSha256": "e5a32b600068c0eb7cbb9ee371a17b1f02dfe9856ac634bd0d2736f1519bcfe0",
+      "originalBytes": 226,
+      "exportSha256": "bbd1af08e9fbf614cb2b064c0b6db6d223946db86c4377accce9e3d03952eacb",
+      "exportBytes": 212,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-final-checks-receipt.json",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-final-checks-receipt.json",
+      "originalSha256": "fc75593dd0813436f1ac86bc26fba1383d3cfa929bd325cca3124b92d3f5897f",
+      "originalBytes": 1047,
+      "exportSha256": "fc75593dd0813436f1ac86bc26fba1383d3cfa929bd325cca3124b92d3f5897f",
+      "exportBytes": 1047,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-format-final.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-format-final.log",
+      "originalSha256": "068710365cc2dcdba1e16fa78454779ce4f8693490847348fa184ef419595a6e",
+      "originalBytes": 110,
+      "exportSha256": "068710365cc2dcdba1e16fa78454779ce4f8693490847348fa184ef419595a6e",
+      "exportBytes": 110,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-lint-final-v2.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-lint-final-v2.log",
+      "originalSha256": "65ea5d43566d667e9333e9906db5d6bb3e6fa316268017a0de45a97429a20187",
+      "originalBytes": 42,
+      "exportSha256": "65ea5d43566d667e9333e9906db5d6bb3e6fa316268017a0de45a97429a20187",
+      "exportBytes": 42,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-lint-v2.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-lint-v2.log",
+      "originalSha256": "65ea5d43566d667e9333e9906db5d6bb3e6fa316268017a0de45a97429a20187",
+      "originalBytes": 42,
+      "exportSha256": "65ea5d43566d667e9333e9906db5d6bb3e6fa316268017a0de45a97429a20187",
+      "exportBytes": 42,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-lint.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-lint.log",
+      "originalSha256": "1571e2285af36953d6a975977021ceebe0d64878dcc4838d2f2f0cbff92ad0fe",
+      "originalBytes": 433,
+      "exportSha256": "1571e2285af36953d6a975977021ceebe0d64878dcc4838d2f2f0cbff92ad0fe",
+      "exportBytes": 433,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-regression-final-v2.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-regression-final-v2.log",
+      "originalSha256": "fd7a4332dd9047be1466e9f28ab9a86bc30852d71d43a077d8e2e11edd61cbd7",
+      "originalBytes": 1459,
+      "exportSha256": "8c7cee3c8f29f5da8711e704cf91773af90f110a9affe97eef225b8f5c0f2dd1",
+      "exportBytes": 1445,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-regression-final.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-regression-final.log",
+      "originalSha256": "249cb5b75044ce0e7d5548e94e1104f0327c7c14f3e7e13075480e09a13f0615",
+      "originalBytes": 1459,
+      "exportSha256": "3384a7f1550334e2632fb5ea6bd10638fb7c765db69a56724a983be2ae6aa4bb",
+      "exportBytes": 1445,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-regression-green-v1.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-regression-green-v1.log",
+      "originalSha256": "c7760e4e0345bdcbe06ee21f0a19ea830e168a835cad6f7bd68ebfb12618c5f3",
+      "originalBytes": 8909,
+      "exportSha256": "94bffc8617430d273c87113c16e9cae1c40327590902da12581ac75ec156dedd",
+      "exportBytes": 7936,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-regression-green-v2.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-regression-green-v2.log",
+      "originalSha256": "5859281ee0a4713358b3f196499996cfca9e642608ccd24c75819d64dd8e981a",
+      "originalBytes": 8524,
+      "exportSha256": "6c4acd66f68ff19a806682e05875adf016989683bd2ca12f22aee11b6fd21023",
+      "exportBytes": 8510,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-regression-red-v2.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-regression-red-v2.log",
+      "originalSha256": "8f77c76ca1f6138d8d5d3e519dacdc3f452bc0e558b5eaf13eabca845f29f49d",
+      "originalBytes": 2901,
+      "exportSha256": "01db311f7e475e0c664e7fcd9e9ce866bd0120e50c438bde6588346c52b4fd21",
+      "exportBytes": 2887,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-regression-red-v3.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-regression-red-v3.log",
+      "originalSha256": "2a42f52aa460de2ba5f2d0cf97a359f309f815a13a4c5f8e5b22886b873fa92f",
+      "originalBytes": 8037,
+      "exportSha256": "ae64cc9ff7d079113a3b724c0e35fc7e6dd26961a1cecfc8b9f66dd05842832f",
+      "exportBytes": 7078,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-regression-red.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-regression-red.log",
+      "originalSha256": "470ea0e25f82a9e2bca804563533c07a8829fec83945033c09e84fd18dbf88e8",
+      "originalBytes": 9608,
+      "exportSha256": "4eb17bd5cceb9a5fa8684e1fd63a2079fab72158dc8722a12034a5556ffd9551",
+      "exportBytes": 8649,
+      "redacted": true
+    },
+    {
+      "file": "scoped-checks/credential-test-types-final.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-test-types-final.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "exportSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exportBytes": 0,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-test-types-v2.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-test-types-v2.log",
+      "originalSha256": "e3b34691f21d9552c8d7bc464d6eacb3f089fbae8fe2ac19fa2f2427765e42de",
+      "originalBytes": 326,
+      "exportSha256": "e3b34691f21d9552c8d7bc464d6eacb3f089fbae8fe2ac19fa2f2427765e42de",
+      "exportBytes": 326,
+      "redacted": false
+    },
+    {
+      "file": "scoped-checks/credential-test-types.log",
+      "sourceLabel": "$PROOF/credential-authority-repair-evidence/credential-test-types.log",
+      "originalSha256": "15825685e317c9e08fea3a7efff748e14f87543c0cf045a5969d25f5dbf4cb39",
+      "originalBytes": 689,
+      "exportSha256": "94b5dbe811d9808e2aac170b4962c23c2c87b2e7b6ba6ad8df0789d70a6fc621",
+      "exportBytes": 675,
+      "redacted": true
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-final-observations.sanitized.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-final-observations.sanitized.json",
+      "originalSha256": "85ff4c5c04fd650131426947787e435dfa568124b1d077bad2afc7acebdf89e2",
+      "originalBytes": 7495,
+      "exportSha256": "85ff4c5c04fd650131426947787e435dfa568124b1d077bad2afc7acebdf89e2",
+      "exportBytes": 7495,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-final-receipt.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-final-receipt.json",
+      "originalSha256": "fce8003290b6b0b27dce565f49d681b13a99c0d8804824f726a774963ab861ed",
+      "originalBytes": 853,
+      "exportSha256": "fce8003290b6b0b27dce565f49d681b13a99c0d8804824f726a774963ab861ed",
+      "exportBytes": 853,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-first-observations.sanitized.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-first-observations.sanitized.json",
+      "originalSha256": "f267cd4d6a11371f16e92ca4de1bb29464e16d816b14639c3e7ab082052b8fd3",
+      "originalBytes": 1101,
+      "exportSha256": "f267cd4d6a11371f16e92ca4de1bb29464e16d816b14639c3e7ab082052b8fd3",
+      "exportBytes": 1101,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-first-receipt.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-first-receipt.json",
+      "originalSha256": "cbc06ec653712c774b4e3bdbb8432a68399f878495293e829d6edb3156096757",
+      "originalBytes": 853,
+      "exportSha256": "cbc06ec653712c774b4e3bdbb8432a68399f878495293e829d6edb3156096757",
+      "exportBytes": 853,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-gateway-b-observations.sanitized.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-gateway-b-observations.sanitized.json",
+      "originalSha256": "54a4c50d1fa91b14833450e252ef08a354b31181ad77ee282d90f41d1bc0fe94",
+      "originalBytes": 2948,
+      "exportSha256": "54a4c50d1fa91b14833450e252ef08a354b31181ad77ee282d90f41d1bc0fe94",
+      "exportBytes": 2948,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-gateway-b-receipt.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-gateway-b-receipt.json",
+      "originalSha256": "a8c28e9b977d5c4d1b010f4cdf58f7cd7c80771a589663ccac05951c95fb5903",
+      "originalBytes": 856,
+      "exportSha256": "a8c28e9b977d5c4d1b010f4cdf58f7cd7c80771a589663ccac05951c95fb5903",
+      "exportBytes": 856,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-reverse-observations.sanitized.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-reverse-observations.sanitized.json",
+      "originalSha256": "f8bba7b4059e41cd3a116b09c433b37dc293ac06148fe8538023626f1b6e9e5e",
+      "originalBytes": 3792,
+      "exportSha256": "f8bba7b4059e41cd3a116b09c433b37dc293ac06148fe8538023626f1b6e9e5e",
+      "exportBytes": 3792,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-reverse-receipt.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-reverse-receipt.json",
+      "originalSha256": "f6d7786e20fad9e9dc2ada55fcc8b4c0d1b95b0e821ddece3c6ba40e926c9c6e",
+      "originalBytes": 870,
+      "exportSha256": "f6d7786e20fad9e9dc2ada55fcc8b4c0d1b95b0e821ddece3c6ba40e926c9c6e",
+      "exportBytes": 870,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-separated-observations.sanitized.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-separated-observations.sanitized.json",
+      "originalSha256": "f8aba8d323f4f39ce424c21ac39626b8a57cae42e455348c994134a2a77fbcf5",
+      "originalBytes": 1168,
+      "exportSha256": "f8aba8d323f4f39ce424c21ac39626b8a57cae42e455348c994134a2a77fbcf5",
+      "exportBytes": 1168,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/lifecycle-separated-receipt.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/lifecycle-separated-receipt.json",
+      "originalSha256": "d12d1a546323a3b509d26094380cc8a567c3392f3d3fedf2c0cdf38a2b426ea1",
+      "originalBytes": 857,
+      "exportSha256": "d12d1a546323a3b509d26094380cc8a567c3392f3d3fedf2c0cdf38a2b426ea1",
+      "exportBytes": 857,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/outcome.json",
+      "sourceLabel": "$PROOF/lifecycle-executed/outcome.json",
+      "originalSha256": "b641cb7c09da317c3ee1b033afd5a5d98c83330c5aa59211f5f5e10731ce1a5f",
+      "originalBytes": 1245,
+      "exportSha256": "b641cb7c09da317c3ee1b033afd5a5d98c83330c5aa59211f5f5e10731ce1a5f",
+      "exportBytes": 1245,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/lifecycle-executed/vision-provider-lifecycle-proof.e2e.test.ts",
+      "sourceLabel": "$PROOF/lifecycle-executed/vision-provider-lifecycle-proof.e2e.test.ts",
+      "originalSha256": "c93c36fed0c90e55edf3170976357aacce1328f809befe07a1f50e06c95eb104",
+      "originalBytes": 19240,
+      "exportSha256": "c93c36fed0c90e55edf3170976357aacce1328f809befe07a1f50e06c95eb104",
+      "exportBytes": 19240,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/credential-after-targeted-logout-inventory.json",
+      "sourceLabel": "$PROOF/installed-executed/credential-after-targeted-logout-inventory.json",
+      "originalSha256": "d41401efaa530366f1eeed8652da7be6f1c64c8bf222dd623a51d9325ec4b77b",
+      "originalBytes": 343,
+      "exportSha256": "d41401efaa530366f1eeed8652da7be6f1c64c8bf222dd623a51d9325ec4b77b",
+      "exportBytes": 343,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/credential-base-installed-plugin.js",
+      "sourceLabel": "$PROOF/installed-executed/credential-base-installed-plugin.js",
+      "originalSha256": "8c9bde9b63d3dae5556603114d447ffd33a85c98468c0895ae1d73077d3dfe7f",
+      "originalBytes": 1913,
+      "exportSha256": "8c9bde9b63d3dae5556603114d447ffd33a85c98468c0895ae1d73077d3dfe7f",
+      "exportBytes": 1913,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/credential-fresh-after-removal-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/credential-fresh-after-removal-progress.json",
+      "originalSha256": "68b9e352488e9fd29d30bb7316ecf73fcab5e9235e6e2755215f2ec5beb92812",
+      "originalBytes": 1005,
+      "exportSha256": "68b9e352488e9fd29d30bb7316ecf73fcab5e9235e6e2755215f2ec5beb92812",
+      "exportBytes": 1005,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/credential-save-debug.log",
+      "sourceLabel": "$PROOF/installed-executed/credential-save-debug.log",
+      "originalSha256": "9ed65c0461d14b7f9e42f782c8b7d910f3411a525df0adf3ea3447af3711a4bc",
+      "originalBytes": 1955,
+      "exportSha256": "9ed65c0461d14b7f9e42f782c8b7d910f3411a525df0adf3ea3447af3711a4bc",
+      "exportBytes": 1955,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/credential-v3-events.jsonl",
+      "sourceLabel": "$PROOF/installed-executed/credential-v3-events.jsonl",
+      "originalSha256": "9aea2e3e82182a420475f67606325f95d87ac4473afecf62c631580ce7f0f7fc",
+      "originalBytes": 78,
+      "exportSha256": "9aea2e3e82182a420475f67606325f95d87ac4473afecf62c631580ce7f0f7fc",
+      "exportBytes": 78,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-candidate-artifact-binding.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-candidate-artifact-binding.json",
+      "originalSha256": "b7454495399471846beb18b9f388b2f9dc0d80aa6d6d6265189e3aa41af6aea6",
+      "originalBytes": 764,
+      "exportSha256": "b7454495399471846beb18b9f388b2f9dc0d80aa6d6d6265189e3aa41af6aea6",
+      "exportBytes": 764,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-native-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-native-progress.json",
+      "originalSha256": "d3528c99c31a3f95eb6af3d31d7434b23d3c59e379e553d39fc1554c41e6a44c",
+      "originalBytes": 7044,
+      "exportSha256": "d3528c99c31a3f95eb6af3d31d7434b23d3c59e379e553d39fc1554c41e6a44c",
+      "exportBytes": 7044,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-native.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-native.mjs",
+      "originalSha256": "210beac1afb8ab9a8ecafefd7f48fc40500b35dcc8470359765781ff88ceafc7",
+      "originalBytes": 13957,
+      "exportSha256": "210beac1afb8ab9a8ecafefd7f48fc40500b35dcc8470359765781ff88ceafc7",
+      "exportBytes": 13957,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-progress.json",
+      "originalSha256": "22310046d1ad97459167781c043aa3fade52f79f3b81590fed2912d692bf7d2b",
+      "originalBytes": 745,
+      "exportSha256": "22310046d1ad97459167781c043aa3fade52f79f3b81590fed2912d692bf7d2b",
+      "exportBytes": 745,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-v2-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-v2-progress.json",
+      "originalSha256": "6b8ceeeef082c161432fe6de5c151e744228b11a1589fc40505276e63e266429",
+      "originalBytes": 3350,
+      "exportSha256": "6b8ceeeef082c161432fe6de5c151e744228b11a1589fc40505276e63e266429",
+      "exportBytes": 3350,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-v3-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-v3-progress.json",
+      "originalSha256": "e6ab8b946807a804459038faaa3a0fbad98a838ce595f08b1a0376f5ed38e365",
+      "originalBytes": 4759,
+      "exportSha256": "e6ab8b946807a804459038faaa3a0fbad98a838ce595f08b1a0376f5ed38e365",
+      "exportBytes": 4759,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-v3.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-v3.mjs",
+      "originalSha256": "37a157f58efdafb77244198ae2145ca417d1a9d67c576dd2dd2a353f865d5c7f",
+      "originalBytes": 12258,
+      "exportSha256": "37a157f58efdafb77244198ae2145ca417d1a9d67c576dd2dd2a353f865d5c7f",
+      "exportBytes": 12258,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-v4-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-v4-progress.json",
+      "originalSha256": "20a5784cb88bbddbe9b33fc7d307b7d3fcc3b80a9ff7e45bb182aa3af6a08685",
+      "originalBytes": 4607,
+      "exportSha256": "20a5784cb88bbddbe9b33fc7d307b7d3fcc3b80a9ff7e45bb182aa3af6a08685",
+      "exportBytes": 4607,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-credential-revocation-v4.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-credential-revocation-v4.mjs",
+      "originalSha256": "6f6aedd01b5358b82f4c00ac610f6e1bd9f0e71096fe4898545a0e78e0a43ef4",
+      "originalBytes": 12999,
+      "exportSha256": "6f6aedd01b5358b82f4c00ac610f6e1bd9f0e71096fe4898545a0e78e0a43ef4",
+      "exportBytes": 12999,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-fresh-install-receipt.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-fresh-install-receipt.json",
+      "originalSha256": "ed06372b853b8d80161ff45a30c820ce2a079a884e2ac25f4de1a0fb7afb83e4",
+      "originalBytes": 501,
+      "exportSha256": "ed06372b853b8d80161ff45a30c820ce2a079a884e2ac25f4de1a0fb7afb83e4",
+      "exportBytes": 501,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-fresh-native-image.log",
+      "sourceLabel": "$PROOF/installed-executed/installed-fresh-native-image.log",
+      "originalSha256": "86de6419c44663ebe1fa52b471cbe1b8f2a7c228580b044257daa22afd1f6d6f",
+      "originalBytes": 514,
+      "exportSha256": "86de6419c44663ebe1fa52b471cbe1b8f2a7c228580b044257daa22afd1f6d6f",
+      "exportBytes": 514,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-fresh-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-fresh-progress.json",
+      "originalSha256": "d6dbe2cc1f2aaadc36c2747de47006b07e94cf87dd1f72758e140d9df17a477f",
+      "originalBytes": 2075,
+      "exportSha256": "d6dbe2cc1f2aaadc36c2747de47006b07e94cf87dd1f72758e140d9df17a477f",
+      "exportBytes": 2075,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-fresh-recovery-v3-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-fresh-recovery-v3-progress.json",
+      "originalSha256": "b789b87d0d28425faa8303a11dff64b3c00316a79e4c1030f55a106493837080",
+      "originalBytes": 1725,
+      "exportSha256": "b789b87d0d28425faa8303a11dff64b3c00316a79e4c1030f55a106493837080",
+      "exportBytes": 1725,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-fresh-recovery-v3.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-fresh-recovery-v3.mjs",
+      "originalSha256": "3aa2f657c9ef69d310f1a7bea6839c1d9be9090da95b2893c197f5aabc6d7f9a",
+      "originalBytes": 5789,
+      "exportSha256": "3aa2f657c9ef69d310f1a7bea6839c1d9be9090da95b2893c197f5aabc6d7f9a",
+      "exportBytes": 5789,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-fresh.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-fresh.mjs",
+      "originalSha256": "3563bf255021f6880566ecbc0588914f1c21ec33ce5f6a89b28fec645e4d4f0d",
+      "originalBytes": 11837,
+      "exportSha256": "3563bf255021f6880566ecbc0588914f1c21ec33ce5f6a89b28fec645e4d4f0d",
+      "exportBytes": 11837,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-upgrade-continuation-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-upgrade-continuation-progress.json",
+      "originalSha256": "94827fd82670b0df98f3057427140fd40186b5bdae061bc47ff1e54b75412a08",
+      "originalBytes": 1867,
+      "exportSha256": "94827fd82670b0df98f3057427140fd40186b5bdae061bc47ff1e54b75412a08",
+      "exportBytes": 1867,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-upgrade-continuation.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-upgrade-continuation.mjs",
+      "originalSha256": "5631fc6b9af9ff9978a2078c26d4d47bc1d0972595ff5100b4524ac04b7ad6d7",
+      "originalBytes": 8909,
+      "exportSha256": "5631fc6b9af9ff9978a2078c26d4d47bc1d0972595ff5100b4524ac04b7ad6d7",
+      "exportBytes": 8909,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-upgrade-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-upgrade-progress.json",
+      "originalSha256": "cd53697a2f7e757cec4847fbc916861334a8a8e7becc2adbf641486239812fd1",
+      "originalBytes": 1789,
+      "exportSha256": "cd53697a2f7e757cec4847fbc916861334a8a8e7becc2adbf641486239812fd1",
+      "exportBytes": 1789,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-upgrade-recovery-v3-progress.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-upgrade-recovery-v3-progress.json",
+      "originalSha256": "dc742b4a668221df82a613033c72369c2bb96a5ee64c21d628077f9587a264df",
+      "originalBytes": 3750,
+      "exportSha256": "dc742b4a668221df82a613033c72369c2bb96a5ee64c21d628077f9587a264df",
+      "exportBytes": 3750,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-upgrade-recovery-v3.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-upgrade-recovery-v3.mjs",
+      "originalSha256": "42faac9a6fd5d507998cb88053429d23ba2a538e830d4f97256cb55bdc6096fa",
+      "originalBytes": 8616,
+      "exportSha256": "42faac9a6fd5d507998cb88053429d23ba2a538e830d4f97256cb55bdc6096fa",
+      "exportBytes": 8616,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-image-upgrade.mjs",
+      "sourceLabel": "$PROOF/installed-executed/installed-image-upgrade.mjs",
+      "originalSha256": "5c97a92adf48457417c29cc1e81deb0c73d72f5b95240d783d535b1aff383ddb",
+      "originalBytes": 13135,
+      "exportSha256": "5c97a92adf48457417c29cc1e81deb0c73d72f5b95240d783d535b1aff383ddb",
+      "exportBytes": 13135,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-retained-history.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-retained-history.json",
+      "originalSha256": "c7f064f87d7a0d493cd851dda21e66f047fc2eb338edad81e2a185a6e3871d6c",
+      "originalBytes": 3895,
+      "exportSha256": "c7f064f87d7a0d493cd851dda21e66f047fc2eb338edad81e2a185a6e3871d6c",
+      "exportBytes": 3895,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-sessions-after.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-sessions-after.json",
+      "originalSha256": "a3b7aa317910bb0a6d931de9aaeb828ccb880cbc9a8cbd160ec866a61b35b7e4",
+      "originalBytes": 904,
+      "exportSha256": "a3b7aa317910bb0a6d931de9aaeb828ccb880cbc9a8cbd160ec866a61b35b7e4",
+      "exportBytes": 904,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-sessions-before.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-sessions-before.json",
+      "originalSha256": "822aa1ea0685d8ee4096daa2ebd84e16dddb60f3f9b8e652a8fb83690afc8d6a",
+      "originalBytes": 906,
+      "exportSha256": "822aa1ea0685d8ee4096daa2ebd84e16dddb60f3f9b8e652a8fb83690afc8d6a",
+      "exportBytes": 906,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-settings-recovery-receipt.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-settings-recovery-receipt.json",
+      "originalSha256": "9678bbd461e858e7c123c303f71c06a215a485fe16b323cd6978400a205a9d78",
+      "originalBytes": 466,
+      "exportSha256": "9678bbd461e858e7c123c303f71c06a215a485fe16b323cd6978400a205a9d78",
+      "exportBytes": 466,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-stable-integrity.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-stable-integrity.json",
+      "originalSha256": "d8bfa033125106084ec6b62c75217c05249a4f5e02afd57c5780a4aacdc5fd17",
+      "originalBytes": 356,
+      "exportSha256": "d8bfa033125106084ec6b62c75217c05249a4f5e02afd57c5780a4aacdc5fd17",
+      "exportBytes": 356,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-transition/backup.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-transition/backup.json",
+      "originalSha256": "945a92017d88ec72d2d2033da091214ffae617c32dc3356ce34f91d760d8f220",
+      "originalBytes": 1696,
+      "exportSha256": "945a92017d88ec72d2d2033da091214ffae617c32dc3356ce34f91d760d8f220",
+      "exportBytes": 1696,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-transition/doctor.log",
+      "sourceLabel": "$PROOF/installed-executed/installed-transition/doctor.log",
+      "originalSha256": "08a0e7a01adf5f3ab4f64774d8ddaa8bd54d0a09a121d0af46383a7ce516a0ae",
+      "originalBytes": 1018,
+      "exportSha256": "08a0e7a01adf5f3ab4f64774d8ddaa8bd54d0a09a121d0af46383a7ce516a0ae",
+      "exportBytes": 1018,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-transition/install.log",
+      "sourceLabel": "$PROOF/installed-executed/installed-transition/install.log",
+      "originalSha256": "71e86cc79a8b07be6d28726f8097d285d8edac4c4f89df1da007abec94f917a7",
+      "originalBytes": 693,
+      "exportSha256": "71e86cc79a8b07be6d28726f8097d285d8edac4c4f89df1da007abec94f917a7",
+      "exportBytes": 693,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-upgrade-doctor-recovery-v2.log",
+      "sourceLabel": "$PROOF/installed-executed/installed-upgrade-doctor-recovery-v2.log",
+      "originalSha256": "e9114f081e1b0368bbb1c9421c1c4577dda0ba110300de6cd70c7cf58b72d2fa",
+      "originalBytes": 14814,
+      "exportSha256": "e9114f081e1b0368bbb1c9421c1c4577dda0ba110300de6cd70c7cf58b72d2fa",
+      "exportBytes": 14814,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-upgrade-doctor-recovery-v3.log",
+      "sourceLabel": "$PROOF/installed-executed/installed-upgrade-doctor-recovery-v3.log",
+      "originalSha256": "a420e0107fc71ea0bf63a14db7917887d84aff401e7aea75fa5025a46448dace",
+      "originalBytes": 46761,
+      "exportSha256": "a420e0107fc71ea0bf63a14db7917887d84aff401e7aea75fa5025a46448dace",
+      "exportBytes": 46761,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-upgrade-observation-verification.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-upgrade-observation-verification.json",
+      "originalSha256": "38ffcd25f848a8ad01509f7ca92889258a6b141f324c2abf56a54f915b1fbb84",
+      "originalBytes": 740,
+      "exportSha256": "38ffcd25f848a8ad01509f7ca92889258a6b141f324c2abf56a54f915b1fbb84",
+      "exportBytes": 740,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-upgrade-settings-after.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-upgrade-settings-after.json",
+      "originalSha256": "ab86ad2fd292e802fb4ad6b35098a465b9d8a5c9687af7a7c9c7f9e51df80bd4",
+      "originalBytes": 2386,
+      "exportSha256": "ab86ad2fd292e802fb4ad6b35098a465b9d8a5c9687af7a7c9c7f9e51df80bd4",
+      "exportBytes": 2386,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-upgrade-settings-before-recovered.json",
+      "sourceLabel": "$PROOF/installed-executed/installed-upgrade-settings-before-recovered.json",
+      "originalSha256": "ab86ad2fd292e802fb4ad6b35098a465b9d8a5c9687af7a7c9c7f9e51df80bd4",
+      "originalBytes": 2386,
+      "exportSha256": "ab86ad2fd292e802fb4ad6b35098a465b9d8a5c9687af7a7c9c7f9e51df80bd4",
+      "exportBytes": 2386,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/installed-upgrade-transition-receipt.log",
+      "sourceLabel": "$PROOF/installed-executed/installed-upgrade-transition-receipt.log",
+      "originalSha256": "3e504060704a02b1b94d23c08363194a8a4856b72bc42b366d6e0c0dd35e4842",
+      "originalBytes": 247,
+      "exportSha256": "3e504060704a02b1b94d23c08363194a8a4856b72bc42b366d6e0c0dd35e4842",
+      "exportBytes": 247,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/isolated-fixture-path-repair.json",
+      "sourceLabel": "$PROOF/installed-executed/isolated-fixture-path-repair.json",
+      "originalSha256": "3edc210a27f6cb0cc19eac61e73ac9e09abe7ae1ca91d4318db3f02221e8303d",
+      "originalBytes": 644,
+      "exportSha256": "3edc210a27f6cb0cc19eac61e73ac9e09abe7ae1ca91d4318db3f02221e8303d",
+      "exportBytes": 644,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/latest-stable-package.json",
+      "sourceLabel": "$PROOF/installed-executed/latest-stable-package.json",
+      "originalSha256": "209e3be9441dfd8ce6220c40a27bff0ba27ee85bccf6f06dbdb8abdf50392a5d",
+      "originalBytes": 1121,
+      "exportSha256": "209e3be9441dfd8ce6220c40a27bff0ba27ee85bccf6f06dbdb8abdf50392a5d",
+      "exportBytes": 1121,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/lifecycle-upgrade-final-receipt.json",
+      "sourceLabel": "$PROOF/installed-executed/lifecycle-upgrade-final-receipt.json",
+      "originalSha256": "18624fea7310c0b8869048c0560cc2fb8f3be7bbceb5403acd146861bbe4315a",
+      "originalBytes": 685,
+      "exportSha256": "18624fea7310c0b8869048c0560cc2fb8f3be7bbceb5403acd146861bbe4315a",
+      "exportBytes": 685,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/native-credential-native-fresh-after-logout.log",
+      "sourceLabel": "$PROOF/installed-executed/native-credential-native-fresh-after-logout.log",
+      "originalSha256": "2dd237eefdcb3b3d52218c357827fc9977b91a450a34539439f46cb9f0f450f8",
+      "originalBytes": 1989,
+      "exportSha256": "2dd237eefdcb3b3d52218c357827fc9977b91a450a34539439f46cb9f0f450f8",
+      "exportBytes": 1989,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/native-credential-native-logout.log",
+      "sourceLabel": "$PROOF/installed-executed/native-credential-native-logout.log",
+      "originalSha256": "de392e3c9448482bf159824714de0e321e689498f4d24cf935a8506426904737",
+      "originalBytes": 97,
+      "exportSha256": "de392e3c9448482bf159824714de0e321e689498f4d24cf935a8506426904737",
+      "exportBytes": 97,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/native-credential-native-wait.log",
+      "sourceLabel": "$PROOF/installed-executed/native-credential-native-wait.log",
+      "originalSha256": "328de5b40a3979b85da2abf3385fb387d6906b0a902ab0feffa0d866132154dd",
+      "originalBytes": 334,
+      "exportSha256": "328de5b40a3979b85da2abf3385fb387d6906b0a902ab0feffa0d866132154dd",
+      "exportBytes": 334,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/public-package-build-receipt.json",
+      "sourceLabel": "$PROOF/installed-executed/public-package-build-receipt.json",
+      "originalSha256": "a7dcbfe159cdb2fd0c3c65327a641ff186713581c57b902f9356e4587a80433e",
+      "originalBytes": 659,
+      "exportSha256": "a7dcbfe159cdb2fd0c3c65327a641ff186713581c57b902f9356e4587a80433e",
+      "exportBytes": 659,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/public-package-identity.json",
+      "sourceLabel": "$PROOF/installed-executed/public-package-identity.json",
+      "originalSha256": "c336d944d0bcdd785b6e993c1deb958617779cdd546c54d54d6a446ae12b7f0e",
+      "originalBytes": 320,
+      "exportSha256": "c336d944d0bcdd785b6e993c1deb958617779cdd546c54d54d6a446ae12b7f0e",
+      "exportBytes": 320,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/source-exact-published-head.json",
+      "sourceLabel": "$PROOF/installed-executed/source-exact-published-head.json",
+      "originalSha256": "4c2f2af9babfe67cc6d3102c4f682d5e05fbe1429035e8e3da2603685556b7b7",
+      "originalBytes": 330,
+      "exportSha256": "4c2f2af9babfe67cc6d3102c4f682d5e05fbe1429035e8e3da2603685556b7b7",
+      "exportBytes": 330,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/v2-credential-model-only-logout.log",
+      "sourceLabel": "$PROOF/installed-executed/v2-credential-model-only-logout.log",
+      "originalSha256": "5eaca51ec16008756ba1d00be890d41ef786b5fe194e0a2cbdd6c8cea3cc87c4",
+      "originalBytes": 382,
+      "exportSha256": "5eaca51ec16008756ba1d00be890d41ef786b5fe194e0a2cbdd6c8cea3cc87c4",
+      "exportBytes": 382,
+      "redacted": false
+    },
+    {
+      "file": "prior-e33d/installed-executed/v4-credential-model-only-logout.log",
+      "sourceLabel": "$PROOF/installed-executed/v4-credential-model-only-logout.log",
+      "originalSha256": "771c5b27730bad156c1ca7048f65edd95abee9689f5295808029f20c3c8d8bc0",
+      "originalBytes": 119,
+      "exportSha256": "771c5b27730bad156c1ca7048f65edd95abee9689f5295808029f20c3c8d8bc0",
+      "exportBytes": 119,
+      "redacted": false
+    },
+    {
+      "file": "repair/first-attempt-progress.json",
+      "sourceLabel": "$PROOF_LOGS/credential-authority-repair-proof/installed-credential-revocation-native-progress.json",
+      "originalSha256": "289f5251953a44d59c7113dca40cb99fba6d7ed83e2b20d40c119bbb74f9e797",
+      "originalBytes": 4144,
+      "exportSha256": "289f5251953a44d59c7113dca40cb99fba6d7ed83e2b20d40c119bbb74f9e797",
+      "exportBytes": 4144,
+      "redacted": false
+    },
+    {
+      "file": "source-binding.json",
+      "sourceLabel": "$PROOF/credential-publication-source-binding.json",
+      "originalSha256": "3adc2a33e4b686923a7888dfb2e0a48fcb87b725e20242a1c71a77c2ac2a3cf6",
+      "originalBytes": 1357,
+      "exportSha256": "3adc2a33e4b686923a7888dfb2e0a48fcb87b725e20242a1c71a77c2ac2a3cf6",
+      "exportBytes": 1357,
+      "redacted": false
+    }
+  ]
+}

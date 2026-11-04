@@ -1,0 +1,156 @@
+{
+  "phase": "failed",
+  "receipts": [
+    {
+      "name": "credential-model-only-plugin-install",
+      "args": [
+        "bash",
+        "-c",
+        "source scripts/lib/openclaw-e2e-instance.sh\nopenclaw_e2e_fixture_plugin_command openclaw -- plugins install \"$IMAGE_PLUGIN_PATH\" --force"
+      ],
+      "exit": 0,
+      "seconds": 11.093
+    },
+    {
+      "name": "credential-model-only-save-key",
+      "args": [
+        "bash",
+        "-c",
+        "printf \"%s\" \"$IMAGE_SYNTHETIC_KEY\" | openclaw models auth paste-api-key --provider gemini --profile-id gemini:proof --agent main"
+      ],
+      "exit": 0,
+      "seconds": 6.761
+    },
+    {
+      "name": "credential-model-only-control",
+      "args": [
+        "openclaw",
+        "agent",
+        "--local",
+        "--agent",
+        "main",
+        "--session-id",
+        "credential-control-model-only",
+        "--message",
+        "Read the synthetic image before revocation",
+        "--thinking",
+        "off",
+        "--json"
+      ],
+      "exit": 0,
+      "seconds": 17.133
+    },
+    {
+      "mode": "model-only",
+      "controlNativeEvents": []
+    },
+    {
+      "name": "credential-model-only-gateway-start",
+      "args": [
+        "bash",
+        "-c",
+        "set -euo pipefail\nsource scripts/lib/openclaw-e2e-instance.sh\nentry=\"$(openclaw_e2e_package_entrypoint \"$(openclaw_e2e_package_root)\")\"\npid=\"$(openclaw_e2e_start_gateway \"$entry\" 44932 \"$IMAGE_GATEWAY_LOG\")\"\nprintf \"%s\" \"$pid\" > \"$IMAGE_GATEWAY_PID\"\nopenclaw_e2e_wait_gateway_ready \"$pid\" \"$IMAGE_GATEWAY_LOG\" 90 44932"
+      ],
+      "exit": 0,
+      "seconds": 18.486
+    },
+    {
+      "name": "credential-model-only-start-retained",
+      "args": [
+        "openclaw",
+        "gateway",
+        "call",
+        "chat.send",
+        "--json",
+        "--params",
+        "{\"sessionKey\":\"agent:main:credential-model-only-1793774370082\",\"message\":\"CREDENTIAL_REVOCATION_PROBE\",\"deliver\":false,\"idempotencyKey\":\"credential-model-only-1793774370082\"}"
+      ],
+      "exit": 0,
+      "seconds": 2.153
+    },
+    {
+      "mode": "model-only",
+      "captured": {
+        "event": "captured",
+        "mode": "model-only",
+        "hostActive": true,
+        "sessionKey": "agent:main:credential-model-only-1793774370082",
+        "sessionId": "0867f613-a0c5-4738-b8d3-9eafa5800e7a",
+        "policyHash": "d980ed60fe697e1c977d9b34ddc6162a385d9e0f5b594d0e07d3e489b4b16caf",
+        "geminiOwners": [
+          "installed-image-identity"
+        ]
+      }
+    },
+    {
+      "name": "credential-model-only-logout",
+      "args": [
+        "openclaw",
+        "gateway",
+        "call",
+        "models.authLogout",
+        "--json",
+        "--params",
+        "{\"provider\":\"gemini\",\"credentialType\":\"api_key\",\"agentId\":\"main\"}"
+      ],
+      "exit": 0,
+      "seconds": 2.17
+    },
+    {
+      "mode": "model-only",
+      "liveLogout": {
+        "provider": "gemini",
+        "removedProfiles": [
+          "gemini:proof"
+        ],
+        "abortedRunIds": []
+      }
+    },
+    {
+      "name": "credential-model-only-inventory-after-logout",
+      "args": [
+        "openclaw",
+        "models",
+        "auth",
+        "list",
+        "--provider",
+        "gemini",
+        "--agent",
+        "main",
+        "--json"
+      ],
+      "exit": 1,
+      "seconds": 2.906
+    },
+    {
+      "error": "Error: credential-model-only-inventory-after-logout exit 1"
+    },
+    {
+      "name": "credential-final-gateway-stop",
+      "args": [
+        "bash",
+        "-c",
+        "source scripts/lib/openclaw-e2e-instance.sh\nopenclaw_e2e_terminate_gateways \"$IMAGE_GATEWAY_PID\""
+      ],
+      "exit": 0,
+      "seconds": 1.767
+    }
+  ],
+  "calls": [
+    {
+      "phase": "credential-model-only-control",
+      "owner": "gemini",
+      "method": "POST",
+      "path": "/v1/responses",
+      "credential": "gemini",
+      "model": "fixture-vision",
+      "images": [
+        {
+          "mime": "image/png",
+          "bytes": 85,
+          "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+        }
+      ]
+    }
+  ]
+}
