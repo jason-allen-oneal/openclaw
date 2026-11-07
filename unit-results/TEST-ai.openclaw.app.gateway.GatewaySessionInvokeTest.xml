@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.gateway.GatewaySessionInvokeTest" tests="38" skipped="0" failures="0" errors="0" timestamp="2026-11-07T06:14:14.394Z" hostname="[redacted]" time="12.695">
+  <properties/>
+  <testcase name="bootstrapHandoff_cannotRetireAfterNewSetupOrDisconnectDuringRoleWrite" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="5.104"/>
+  <testcase name="sendNodeEvent_waitsForCompletedConnectHandshake" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.093"/>
+  <testcase name="canvasRoutePinsOnlyTheConnectedTlsEndpoint" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.05"/>
+  <testcase name="nodeInvokeRequest_doesNotSendResultAfterCancellation" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.454"/>
+  <testcase name="connect_advertisesCompatibleProtocolRange" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.065"/>
+  <testcase name="bootstrapHandoff_reconnectsAndRelaunchesOnlyAfterDurableRoles" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.098"/>
+  <testcase name="bootstrapHandoff_staleStoredOperatorHelloCannotOverwriteFreshOperatorToken" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.115"/>
+  <testcase name="connect_reusesStoredDeviceTokenScopes" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.041"/>
+  <testcase name="nodeInvokeRequest_mapsCodePrefixedErrorsIntoInvokeResult" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.097"/>
+  <testcase name="savedBootstrapRecovery_neverOverridesExplicitSetupOrMissingRole" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.122"/>
+  <testcase name="connect_rejectsChallengeWithoutTimestamp" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.059"/>
+  <testcase name="bootstrapHandoff_staleOperatorRetryMismatchCannotClearFreshOperatorToken" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.662"/>
+  <testcase name="sendNodeEventForEndpoint_canDelegateFailureLoggingToCaller" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.062"/>
+  <testcase name="connect_usesGatewayChallengeTimestamp" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.042"/>
+  <testcase name="bootstrapHandoff_retainsBootstrapForMissingOrFailedFinalRoleWrites" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.127"/>
+  <testcase name="nonBootstrapConnect_ignoresAdditionalBootstrapDeviceTokens" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.036"/>
+  <testcase name="connect_prefersFreshBootstrapTokenOverStoredDeviceToken" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.036"/>
+  <testcase name="bootstrapConnect_storesAdditionalBoundedDeviceTokensOnTrustedTransport" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.05"/>
+  <testcase name="sendNodeEventForEndpoint_sendsHostStatsAndAcceptsUnhandledAck" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.134"/>
+  <testcase name="connect_preservesStoredScopesOnlyWhenHelloReturnsSamePrimaryDeviceToken" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.106"/>
+  <testcase name="nodeInvokeRequest_cancelsHandlerWhenExecutionTimeoutExpires" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.19"/>
+  <testcase name="connect_usesBootstrapTokenWhenSharedAndDeviceTokensAreAbsent" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.038"/>
+  <testcase name="explicitNullPayloadsRemainPresentForResponsesAndEvents" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.08"/>
+  <testcase name="bootstrapConnect_requestsCanonicalLimitedOperatorHandoffScopes" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.039"/>
+  <testcase name="refreshCanvasHostUrl_usesOperatorRefreshMethod" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.382"/>
+  <testcase name="connect_requiresExplicitDeviceTokenRetryPermission" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.903"/>
+  <testcase name="talkCatalogRetriesOnlyTheCorrelatedWarmingResponse" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.735"/>
+  <testcase name="nodeInvokeRequest_sendsTimeoutWhileBlockingHandlerIsStillRunning" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.23"/>
+  <testcase name="eventsAreDispatchedInWebSocketFrameOrder" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.449"/>
+  <testcase name="refreshCanvasHostUrl_usesNodeRefreshMethod" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.32"/>
+  <testcase name="nodeInvokeRequest_usesParamsJsonWhenProvided" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.078"/>
+  <testcase name="disconnectReportsFireAndForgetErrorsAfterAcceptedFramesDrain" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.203"/>
+  <testcase name="disconnectFailsPendingRpcWithUnknownOutcomeWithoutWaitingForTimeout" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.156"/>
+  <testcase name="sendNodeEventDetailedForEndpoint_sendsPresenceAlivePayloadAndReturnsStructuredResponse" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.038"/>
+  <testcase name="sendNodeEvent_preservesCompletedRpcAsSuccessWhenGatewayReturnsError" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.136"/>
+  <testcase name="nodeInvokeRequest_sendsResultForHandlerOwnedTimeout" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.09"/>
+  <testcase name="refreshCanvasHostUrl_preservesExplicitSurfaceRoutes" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.04"/>
+  <testcase name="nodeInvokeRequest_roundTripsInvokeResult" classname="ai.openclaw.app.gateway.GatewaySessionInvokeTest" time="0.072"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

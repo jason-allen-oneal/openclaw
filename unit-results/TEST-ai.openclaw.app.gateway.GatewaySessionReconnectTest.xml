@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.gateway.GatewaySessionReconnectTest" tests="57" skipped="0" failures="0" errors="0" timestamp="2026-11-07T06:14:27.091Z" hostname="[redacted]" time="21.993">
+  <properties/>
+  <testcase name="retiredTransportFailureCannotOverwriteReplacementConnectionState" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.045"/>
+  <testcase name="protocolMismatchPausesReconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.012"/>
+  <testcase name="sequenceGapReconnectsWithoutAdmittingTheTriggeringEvent" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.081"/>
+  <testcase name="failureOrdersDisconnectAfterInFlightHandlerAndAcceptedConnectResponse" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.131"/>
+  <testcase name="tokenFailuresPauseUnlessOneDeviceTokenRetryIsPending" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.014"/>
+  <testcase name="disconnectAndJoinWaitsForNaturalFailureCallback" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.129"/>
+  <testcase name="nonBootstrapPairingRequiredStillPausesReconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.017"/>
+  <testcase name="connectedHelloKeepsMethodCatalogUnknownWhenHelloOmitsFeatures" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.053"/>
+  <testcase name="staleConnectionDrainCannotCancelReplacementRpc" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.25"/>
+  <testcase name="inboundOverloadClosesOnceAndDrainsTheAcceptedConnectToken" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.266"/>
+  <testcase name="bootstrapRoleUpgradeStillPausesReconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.012"/>
+  <testcase name="unknownChallengeCapabilitiesPreserveNativeConnectWithoutCatalogOptIn" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.031"/>
+  <testcase name="streamDeltasBecomeLocalSnapshotsAndMissingBaselinesReconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.189"/>
+  <testcase name="connectedCallbackFailureClosesSocketBeforeRetry" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.651"/>
+  <testcase name="replacementLeaseCannotObserveUnpublishedHelloMetadata" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.118"/>
+  <testcase name="definitelyUnsentNodeEventRemainsQueued" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.153"/>
+  <testcase name="readyCallbackSkipsReentrantDisconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.047"/>
+  <testcase name="bootstrapNodePairingRequiredKeepsReconnectActive" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.022"/>
+  <testcase name="readyCallbackSkipsReentrantReplacement" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.065"/>
+  <testcase name="networkAttachmentResetsTheSameRetryLadder" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.141"/>
+  <testcase name="preUpgradeDeadlinePublishesFailureWithoutWaitingForTheTransportCallback" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="2.07"/>
+  <testcase name="sequenceGapCallbackCannotAdmitAnEventAfterDisconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.079"/>
+  <testcase name="persistentFailuresGrowPastTheOldEightSecondTimerCap" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.071"/>
+  <testcase name="protocolMismatchFailurePreservesProtocolDetailsAndPausesReconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.032"/>
+  <testcase name="passwordMissingFromStoredDeviceTokenPausesAndExplicitReconnectSucceeds" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="8.041"/>
+  <testcase name="pairingRequiredFailureDropsUnsafeRequestId" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.035"/>
+  <testcase name="authRateLimitPausesDespiteRetryAdvice" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.02"/>
+  <testcase name="connectedHelloPublishesCanonicalAndLegacyApprovalMethods" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.046"/>
+  <testcase name="capturedRequestLeaseRejectsReplacementSocketBeforeEnqueue" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.256"/>
+  <testcase name="retiringConnectionRejectsQueuedRequestsBeforeSocketCancellation" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.058"/>
+  <testcase name="disconnectAndJoinWaitsForInFlightIssuedTokenPersistence" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.136"/>
+  <testcase name="inboundByteBudgetIsReusableAfterAHandlerFails" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.239"/>
+  <testcase name="manualReconnectResetsTheSameRetryLadder" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.061"/>
+  <testcase name="bootstrapNodePairingRequiredWithoutRetryHintPausesReconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.015"/>
+  <testcase name="retiredAuthenticationFailureCannotPauseReplacementConnection" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.032"/>
+  <testcase name="connectToNewGatewayClosesActiveConnectionAndStartsReplacement" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.037"/>
+  <testcase name="networkAttachmentPreservesReadyTransport" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.028"/>
+  <testcase name="sequenceGapReconnectsWithoutInvokingTheTriggeringCommand" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.077"/>
+  <testcase name="failedTalkDetachReconnectsOnlyItsOwningSocket" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.045"/>
+  <testcase name="replacementCleanupDeadlineIsVisibleUnlessExplicitlyDisconnected" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="4.533"/>
+  <testcase name="startupAdmissionRetryRequiresTheClosedWireContract" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.013"/>
+  <testcase name="pairingChangedCloseAutomaticallyReauthenticatesWithoutReplayingRejectedEvent" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.098"/>
+  <testcase name="methodFailurePreservesMissingScopeDetails" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.044"/>
+  <testcase name="realUpgradeThatNeverRespondsProducesTypedNetworkTimeout" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="2.046"/>
+  <testcase name="sequenceTrackingStartsFreshAfterReconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.173"/>
+  <testcase name="audioSendWaitsForAdmissionWithoutChangingExplicitRequestDeadlines" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.11"/>
+  <testcase name="retiredDisconnectCleanupCannotOverwriteReplacementConnectionState" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.12"/>
+  <testcase name="startupAdmissionWaitRetainsItsInputBeyondFiveMinutesAndStopsWithoutReplay" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.28"/>
+  <testcase name="serverAcknowledgesPeerCloseBeforeTeardown" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.056"/>
+  <testcase name="gappedChatTerminalsSettleBeforeRecoveryAndCanDisconnect" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.277"/>
+  <testcase name="pairingRequiredFailureNotifiesPauseReconnectProblem" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.029"/>
+  <testcase name="disconnectAndJoinWaitsForTerminalCallback" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.019"/>
+  <testcase name="reconnectDoesNotRetireConnectionBeforeIssuedTokenPersistenceFinishes" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.232"/>
+  <testcase name="connectedOperatorHelloPublishesServerCapabilitiesAndSessionCap" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.025"/>
+  <testcase name="structuredRecoveryAdviceControlsReconnectPause" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.016"/>
+  <testcase name="connectedHelloScopesGlobalSessionsOnlyForTheCurrentConnection" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.038"/>
+  <testcase name="disconnectDrainsConnectionCancelledBeforeInstallation" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.034"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

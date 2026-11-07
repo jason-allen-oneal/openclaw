@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.gateway.GatewaySessionReconnectTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-11-07T06:11:00.111Z" hostname="[redacted]" time="5.277">
+  <properties/>
+  <testcase name="inboundOverloadClosesOnceAndDrainsTheAcceptedConnectToken" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="4.145">
+    <failure message="java.util.NoSuchElementException: Collection is empty." type="java.util.NoSuchElementException">java.util.NoSuchElementException: Collection is empty.
+	at kotlin.collections.CollectionsKt___CollectionsKt.single(_Collections.kt:605)
+	at ai.openclaw.app.gateway.GatewaySessionReconnectTest$inboundOverloadClosesOnceAndDrainsTheAcceptedConnectToken$1.invokeSuspend(GatewaySessionReconnectTest.kt:2007)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)
+	at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:47)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+	at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+	at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+	at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+	at ai.openclaw.app.gateway.GatewaySessionReconnectTest.inboundOverloadClosesOnceAndDrainsTheAcceptedConnectToken(GatewaySessionReconnectTest.kt:1937)
+	Suppressed: org.robolectric.android.internal.AndroidTestEnvironment$UnExecutedRunnablesException: Main looper has queued unexecuted runnables. This might be the cause of the test failure. You might need a shadowOf(Looper.getMainLooper()).idle() call.
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

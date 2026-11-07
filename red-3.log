@@ -1,0 +1,116 @@
+> Task :app:generateGatewayProtocol UP-TO-DATE
+> Task :app:generateNativeI18n UP-TO-DATE
+
+> Task :app:generateMermaidAssets
+$ node ../../scripts/run-node-package-bin.mts vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 9 modules transformed.
+rendering chunks...
+computing gzip size...
+../../apps/shared/mermaid/assets/mermaid/frame.js                       4.62 kB
+../../apps/shared/mermaid/assets/mermaid/assets/pele.min-DHC_sxOM.js  703.20 kB
+../../apps/shared/mermaid/assets/mermaid/native.js                     36.41 kB │ gzip: 14.25 kB
+
+✓ built in 446ms
+
+> Task :app:validateThirdPartyLicenseAssets
+> Task :app:preBuild
+> Task :app:preThirdPartyDebugBuild
+> Task :app:generateThirdPartyDebugBuildConfig
+> Task :app:extractThirdPartyDebugSupportedLocales
+> Task :app:mapThirdPartyDebugSourceSetPaths
+> Task :wear-shared:preBuild UP-TO-DATE
+> Task :wear-shared:preDebugBuild UP-TO-DATE
+> Task :wear-shared:extractDebugSupportedLocales
+> Task :app:generateThirdPartyDebugResources
+> Task :wear-shared:processDebugNavigationResources
+> Task :app:generateThirdPartyDebugLocaleConfig
+> Task :app:processThirdPartyDebugNavigationResources
+> Task :app:packageThirdPartyDebugResources
+> Task :wear-shared:generateDebugResources
+> Task :wear-shared:packageDebugResources
+> Task :wear-shared:parseDebugLocalResources
+> Task :wear-shared:generateDebugRFile
+> Task :app:parseThirdPartyDebugLocalResources
+> Task :app:generateThirdPartyDebugRFile
+> Task :wear-shared:javaPreCompileDebug
+> Task :app:javaPreCompileThirdPartyDebug
+> Task :wear-shared:writeDebugAarMetadata
+> Task :app:checkThirdPartyDebugAarMetadata
+> Task :app:compileThirdPartyDebugNavigationResources
+> Task :wear-shared:compileDebugKotlin
+> Task :wear-shared:compileDebugJavaWithJavac NO-SOURCE
+> Task :wear-shared:bundleLibCompileToJarDebug
+> Task :app:mergeThirdPartyDebugResources
+> Task :app:createThirdPartyDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksThirdPartyDebug
+> Task :wear-shared:extractDeepLinksDebug
+> Task :wear-shared:processDebugManifest
+> Task :app:processThirdPartyDebugMainManifest
+> Task :app:processThirdPartyDebugManifest
+> Task :app:processThirdPartyDebugManifestForPackage
+> Task :wear-shared:mapDebugSourceSetPaths
+> Task :wear-shared:compileDebugLibraryResources
+> Task :app:processThirdPartyDebugResources
+> Task :app:preThirdPartyDebugUnitTestBuild
+> Task :app:javaPreCompileThirdPartyDebugUnitTest
+> Task :app:extractCloudflareSodiumTest
+> Task :app:generateThirdPartyDebugAssets UP-TO-DATE
+> Task :wear-shared:generateDebugAssets UP-TO-DATE
+> Task :wear-shared:mergeDebugAssets
+> Task :app:mergeThirdPartyDebugAssets
+> Task :app:packageThirdPartyDebugUnitTestForUnitTest
+> Task :app:mergeThirdPartyDebugUnitTestManifest
+> Task :app:processThirdPartyDebugUnitTestManifest
+> Task :wear-shared:bundleLibRuntimeToJarDebug
+> Task :wear-shared:compressDebugJavaRes
+> Task :app:kspThirdPartyDebugKotlin
+> Task :app:compileThirdPartyDebugKotlin
+> Task :app:compileThirdPartyDebugJavaWithJavac
+> Task :app:bundleThirdPartyDebugClassesToCompileJar
+> Task :app:bundleThirdPartyDebugClassesToRuntimeJar
+> Task :app:kspThirdPartyDebugUnitTestKotlin
+> Task :app:compressThirdPartyDebugJavaRes
+> Task :app:compileThirdPartyDebugUnitTestKotlin
+> Task :app:compileThirdPartyDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:compressThirdPartyDebugUnitTestJavaRes
+> Task :app:extractThirdPartyDebugUnitTestJavaRes
+> Task :app:generateThirdPartyDebugUnitTestConfig
+
+> Task :app:testThirdPartyDebugUnitTest
+
+GatewaySessionReconnectTest > inboundOverloadClosesOnceAndDrainsTheAcceptedConnectToken FAILED
+    java.util.NoSuchElementException: Collection is empty.
+        at kotlin.collections.CollectionsKt___CollectionsKt.single(_Collections.kt:605)
+        at ai.openclaw.app.gateway.GatewaySessionReconnectTest$inboundOverloadClosesOnceAndDrainsTheAcceptedConnectToken$1.invokeSuspend(GatewaySessionReconnectTest.kt:2007)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)
+        at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:47)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+        at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+        at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+        at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+        at ai.openclaw.app.gateway.GatewaySessionReconnectTest.inboundOverloadClosesOnceAndDrainsTheAcceptedConnectToken(GatewaySessionReconnectTest.kt:1937)
+
+1 test completed, 1 failed
+
+> Task :app:testThirdPartyDebugUnitTest FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:testThirdPartyDebugUnitTest'.
+> There were failing tests. See the report at: file:///checkout/apps/android/app/build/reports/tests/testThirdPartyDebugUnitTest/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 3m 10s
+58 actionable tasks: 56 executed, 2 up-to-date

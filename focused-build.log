@@ -1,0 +1,136 @@
+> Task :app:generateGatewayProtocol UP-TO-DATE
+> Task :app:generateNativeI18n
+> Task :app:generateMermaidAssets UP-TO-DATE
+> Task :app:validateThirdPartyLicenseAssets
+> Task :app:preBuild
+> Task :app:preThirdPartyDebugBuild
+> Task :app:generateThirdPartyDebugBuildConfig
+> Task :app:extractThirdPartyDebugSupportedLocales UP-TO-DATE
+> Task :app:mapThirdPartyDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:preBuild UP-TO-DATE
+> Task :wear-shared:preDebugBuild UP-TO-DATE
+> Task :wear-shared:extractDebugSupportedLocales UP-TO-DATE
+> Task :app:generateThirdPartyDebugLocaleConfig UP-TO-DATE
+> Task :app:generateThirdPartyDebugResources UP-TO-DATE
+> Task :app:packageThirdPartyDebugResources UP-TO-DATE
+> Task :wear-shared:processDebugNavigationResources UP-TO-DATE
+> Task :app:processThirdPartyDebugNavigationResources UP-TO-DATE
+> Task :app:parseThirdPartyDebugLocalResources UP-TO-DATE
+> Task :app:generateThirdPartyDebugRFile UP-TO-DATE
+> Task :wear-shared:generateDebugResources UP-TO-DATE
+> Task :wear-shared:packageDebugResources UP-TO-DATE
+> Task :wear-shared:parseDebugLocalResources UP-TO-DATE
+> Task :wear-shared:generateDebugRFile UP-TO-DATE
+> Task :wear-shared:compileDebugKotlin UP-TO-DATE
+> Task :wear-shared:javaPreCompileDebug UP-TO-DATE
+> Task :wear-shared:compileDebugJavaWithJavac NO-SOURCE
+> Task :wear-shared:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:javaPreCompileThirdPartyDebug UP-TO-DATE
+> Task :wear-shared:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkThirdPartyDebugAarMetadata UP-TO-DATE
+> Task :app:compileThirdPartyDebugNavigationResources UP-TO-DATE
+> Task :app:mergeThirdPartyDebugResources UP-TO-DATE
+> Task :app:createThirdPartyDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksThirdPartyDebug UP-TO-DATE
+> Task :wear-shared:extractDeepLinksDebug UP-TO-DATE
+> Task :wear-shared:processDebugManifest UP-TO-DATE
+> Task :app:processThirdPartyDebugMainManifest UP-TO-DATE
+> Task :app:processThirdPartyDebugManifest UP-TO-DATE
+> Task :app:processThirdPartyDebugManifestForPackage UP-TO-DATE
+> Task :wear-shared:mapDebugSourceSetPaths UP-TO-DATE
+> Task :wear-shared:compileDebugLibraryResources UP-TO-DATE
+> Task :app:processThirdPartyDebugResources UP-TO-DATE
+> Task :app:preThirdPartyDebugUnitTestBuild
+> Task :app:javaPreCompileThirdPartyDebugUnitTest UP-TO-DATE
+> Task :app:extractCloudflareSodiumTest UP-TO-DATE
+> Task :app:generateThirdPartyDebugAssets UP-TO-DATE
+> Task :wear-shared:generateDebugAssets UP-TO-DATE
+> Task :wear-shared:mergeDebugAssets UP-TO-DATE
+> Task :app:mergeThirdPartyDebugAssets UP-TO-DATE
+> Task :app:packageThirdPartyDebugUnitTestForUnitTest UP-TO-DATE
+> Task :app:mergeThirdPartyDebugUnitTestManifest UP-TO-DATE
+> Task :app:processThirdPartyDebugUnitTestManifest UP-TO-DATE
+> Task :wear-shared:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :wear-shared:compressDebugJavaRes UP-TO-DATE
+> Task :app:mergeThirdPartyDebugNativeDebugMetadata NO-SOURCE
+> Task :app:compressThirdPartyDebugAssets
+> Task :app:generateThirdPartyDebugGlobalSynthetics
+> Task :app:checkThirdPartyDebugDuplicateClasses
+> Task :app:desugarThirdPartyDebugFileDependencies
+> Task :app:kspThirdPartyDebugKotlin
+> Task :app:mergeExtDexThirdPartyDebug
+> Task :wear-shared:bundleLibRuntimeToDirDebug
+> Task :app:mergeLibDexThirdPartyDebug
+> Task :app:extractCloudflareSodium
+> Task :app:mergeThirdPartyDebugJniLibFolders
+> Task :wear-shared:mergeDebugJniLibFolders
+> Task :wear-shared:mergeDebugNativeLibs NO-SOURCE
+> Task :wear-shared:copyDebugJniLibsProjectOnly
+> Task :app:mergeThirdPartyDebugNativeLibs
+
+> Task :app:stripThirdPartyDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libbarhopper_v3.so, libimage_processing_util_jni.so, libjnidispatch.so, libsodium.so, libsurface_util_jni.so. Run with --info option to learn more.
+
+> Task :app:validateSigningThirdPartyDebug
+> Task :app:writeThirdPartyDebugAppMetadata
+> Task :app:writeThirdPartyDebugSigningConfigVersions
+> Task :app:preThirdPartyDebugAndroidTestBuild SKIPPED
+> Task :app:mergeThirdPartyDebugAndroidTestManifest
+> Task :app:processThirdPartyDebugAndroidTestManifest
+> Task :app:generateThirdPartyDebugAndroidTestBuildConfig
+> Task :app:generateThirdPartyDebugAndroidTestResources
+> Task :app:packageThirdPartyDebugAndroidTestResources
+> Task :app:processThirdPartyDebugAndroidTestNavigationResources
+> Task :app:parseThirdPartyDebugAndroidTestLocalResources
+> Task :app:generateThirdPartyDebugAndroidTestRFile
+> Task :app:javaPreCompileThirdPartyDebugAndroidTest
+> Task :app:generateThirdPartyDebugAndroidTestAssets UP-TO-DATE
+> Task :app:mergeThirdPartyDebugAndroidTestAssets
+> Task :app:compressThirdPartyDebugAndroidTestAssets
+> Task :app:generateThirdPartyDebugAndroidTestGlobalSynthetics
+> Task :app:checkThirdPartyDebugAndroidTestDuplicateClasses
+> Task :app:desugarThirdPartyDebugAndroidTestFileDependencies
+> Task :app:mergeExtDexThirdPartyDebugAndroidTest
+> Task :app:mergeLibDexThirdPartyDebugAndroidTest
+> Task :app:checkThirdPartyDebugAndroidTestAarMetadata
+> Task :app:mapThirdPartyDebugAndroidTestSourceSetPaths
+> Task :app:compileThirdPartyDebugAndroidTestNavigationResources
+> Task :app:mergeThirdPartyDebugAndroidTestResources
+> Task :app:processThirdPartyDebugAndroidTestResources
+> Task :app:mergeThirdPartyDebugAndroidTestJniLibFolders
+> Task :app:mergeThirdPartyDebugAndroidTestNativeLibs NO-SOURCE
+> Task :app:stripThirdPartyDebugAndroidTestDebugSymbols NO-SOURCE
+> Task :app:validateSigningThirdPartyDebugAndroidTest
+> Task :app:writeThirdPartyDebugAndroidTestSigningConfigVersions
+> Task :app:compileThirdPartyDebugKotlin
+> Task :app:compileThirdPartyDebugJavaWithJavac
+> Task :app:bundleThirdPartyDebugClassesToRuntimeJar
+> Task :app:compressThirdPartyDebugJavaRes UP-TO-DATE
+> Task :app:bundleThirdPartyDebugClassesToCompileJar
+> Task :app:dexBuilderThirdPartyDebug
+> Task :app:kspThirdPartyDebugUnitTestKotlin
+> Task :app:mergeProjectDexThirdPartyDebug
+> Task :app:mergeThirdPartyDebugJavaResource
+> Task :app:compileThirdPartyDebugUnitTestKotlin
+> Task :app:packageThirdPartyDebug
+> Task :app:compileThirdPartyDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:compressThirdPartyDebugUnitTestJavaRes UP-TO-DATE
+> Task :app:extractThirdPartyDebugUnitTestJavaRes UP-TO-DATE
+> Task :app:generateThirdPartyDebugUnitTestConfig UP-TO-DATE
+> Task :app:testThirdPartyDebugUnitTest
+> Task :app:createThirdPartyDebugApkListingFileRedirect
+> Task :app:assembleThirdPartyDebug
+> Task :app:kspThirdPartyDebugAndroidTestKotlin
+> Task :app:compileThirdPartyDebugAndroidTestKotlin
+> Task :app:compileThirdPartyDebugAndroidTestJavaWithJavac
+> Task :app:dexBuilderThirdPartyDebugAndroidTest
+> Task :app:compressThirdPartyDebugAndroidTestJavaRes
+> Task :app:mergeThirdPartyDebugAndroidTestJavaResource
+> Task :app:mergeProjectDexThirdPartyDebugAndroidTest
+> Task :app:packageThirdPartyDebugAndroidTest
+> Task :app:createThirdPartyDebugAndroidTestApkListingFileRedirect
+> Task :app:assembleThirdPartyDebugAndroidTest
+
+BUILD SUCCESSFUL in 2m 5s
+112 actionable tasks: 65 executed, 47 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html
