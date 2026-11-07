@@ -1,0 +1,15 @@
+{
+  "status": "not_executed",
+  "reason": "isolated checkout failed with ENOSPC; /tmp inode usage 98 percent even after cleanup",
+  "baselineExecuted": false,
+  "mutantExecuted": false,
+  "candidateModified": false,
+  "disposableCopyRemoved": true,
+  "sourceSha256": {
+    "src/gateway/server.node-pairing-replacement.test.ts": "d98b109575b1ed4124cb2efc03d46c1d087acf5678906d8e294db9c14570784b",
+    "src/gateway/server/ws-connection/authenticated-request-dispatch.ts": "8edafd6f36ed0a77d6729a087d50ac5b87e0192a95a1cdaf993423940d83e93b",
+    "src/gateway/server/ws-connection/authenticated-request-dispatch.test-support.ts": "33f7dddd1727cc22fd9a1d5f3c080c3538f5f8b079593a83b39b6054cc07c5e0",
+    "src/gateway/server/ws-connection/authenticated-request-dispatch.node-recovery.test.ts": "3e424ed073a08d6267e5f170b41417dfcf7ee3b77662fadb831cf0b3c3ff797f"
+  },
+  "limitation": "No mutation score or behavioral kill established. No shared checkout or dependency mutation attempted."
+}

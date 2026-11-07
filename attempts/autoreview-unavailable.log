@@ -1,0 +1,21 @@
+preparation: target selection
+autoreview target: local
+branch: fix/android-pairing-recovery-148693
+engine: codex
+model: [model identity omitted]
+fallback_model: [model identity omitted]
+thinking: medium
+codex_speed: service_tier="ultrafast"
+tools: on
+web_search: on
+ref: 7ab0143fc2288251377d0b355b1c78a30c1b55ac
+preparation: evidence selection
+preparation: initial source snapshot
+preparation: bundle/evidence preparation
+bundle: 13653 bytes; review passes: 1
+review plan: 1 passes; 104107 total prompt bytes
+preparation: pre-review verification
+preparation: evidence verification
+review still running: codex elapsed=60s pid=1469817
+review usage: {"attempts": 1, "complete": false, "partial_attempts": 0, "reported_attempts": 0, "tokens": null, "unknown_attempts": 1}
+codex engine failed: authentication; authentication diagnostics suppressed

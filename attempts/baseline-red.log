@@ -1,0 +1,68 @@
+[test] starting test/vitest/vitest.gateway-server.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 4920ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 82d6ad0e018d in 5038ms (18844 inputs, 23985 outputs)
+[gateway] startup phase: gateway.server-start-import starting total=14960.2ms
+[gateway] startup phase: gateway.server-start-import 0.8ms total=14961.0ms start=14960.2ms rssMb=694.4 heapUsedMb=250.6 workers=0 workerHeapSamples=0/0 workerHeapMb=0.0 workerHeapSource=cached
+ × |gateway-server (gateway-server-parallel)| src/gateway/server.node-pairing-replacement.test.ts > replaced node connection recovery > closes the obsolete socket while its same-device replacement remains usable 2855ms
+   → promise rejected "AbortError: The operation was aborted" instead of resolving
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |gateway-server (gateway-server-parallel)| src/gateway/server.node-pairing-replacement.test.ts > replaced node connection recovery > closes the obsolete socket while its same-device replacement remains usable
+AssertionError: promise rejected "AbortError: The operation was aborted" instead of resolving
+ ❯ src/gateway/server.node-pairing-replacement.test.ts:69:28
+     67|         error: { code: "UNAVAILABLE", details: { code: "PAIRING_CHANGE…
+     68|       });
+     69|       await expect(closed).resolves.toBe(4001);
+       |                            ^
+     70|       // The old request must not change the replacement's operational…
+     71|       expect(await readNode()).toMatchObject({ connected: true, hostSt…
+
+Caused by: AbortError: The operation was aborted
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ABORT_ERR' }
+Caused by: TimeoutError: The operation timed out.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 23, INDEX_SIZE_ERR: 1, DOMSTRING_SIZE_ERR: 2, HIERARCHY_REQUEST_ERR: 3, WRONG_DOCUMENT_ERR: 4, INVALID_CHARACTER_ERR: 5, NO_DATA_ALLOWED_ERR: 6, NO_MODIFICATION_ALLOWED_ERR: 7, NOT_FOUND_ERR: 8, NOT_SUPPORTED_ERR: 9, INUSE_ATTRIBUTE_ERR: 10, INVALID_STATE_ERR: 11, SYNTAX_ERR: 12, INVALID_MODIFICATION_ERR: 13, NAMESPACE_ERR: 14, INVALID_ACCESS_ERR: 15, VALIDATION_ERR: 16, TYPE_MISMATCH_ERR: 17, SECURITY_ERR: 18, NETWORK_ERR: 19, ABORT_ERR: 20, URL_MISMATCH_ERR: 21, QUOTA_EXCEEDED_ERR: 22, TIMEOUT_ERR: 23, INVALID_NODE_TYPE_ERR: 24, DATA_CLONE_ERR: 25 }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  22:16:18
+   Duration  22.48s (tests 48%, transform 42%, import 8%, worker 1%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 27.04s
+[test] FAILED (exit 1)

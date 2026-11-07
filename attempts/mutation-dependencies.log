@@ -1,0 +1,18 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+ui/config/control-ui-solid.ts (3:18) [UNRESOLVED_IMPORT] Could not resolve '@solidjs/vite-plugin' in ui/config/control-ui-solid.ts
+   ╭─[ ui/config/control-ui-solid.ts:3:19 ]
+   │
+ 3 │ import solid from "@solidjs/vite-plugin";
+   │                   ───────────┬──────────  
+   │                              ╰──────────── Module not found, treating it as an external dependency
+───╯
+
+failed to load config from <mutation-checkout>/test/vitest/vitest.gateway.config.ts
+
+⎯⎯⎯⎯⎯⎯⎯ Startup Error ⎯⎯⎯⎯⎯⎯⎯⎯
+error: Cannot find module '@solidjs/vite-plugin' from '<candidate-checkout>/node_modules/.vite-temp/vitest.gateway.config.ts.timestamp-1794021960772-33253d537f6ea.mjs'
+
+
+
+[test] failed 1 Vitest shard in 2.38s
+[test] FAILED (exit 1)

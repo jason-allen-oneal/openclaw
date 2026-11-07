@@ -1,0 +1,24 @@
+{
+  "status": "one_behavioral_mutant_killed",
+  "candidateSha": "13b077c8432ced4c058e11b9a792bc9d81e87a77",
+  "selection": "Invert only the registered connection comparison from !== to ===",
+  "baseline": {
+    "exitCode": 0,
+    "passed": 3,
+    "failed": 0,
+    "log": "baseline.log"
+  },
+  "mutant": {
+    "exitCode": 1,
+    "passed": 0,
+    "failed": 3,
+    "failureKind": "behavioral close/not-close assertions",
+    "log": "mutant.log",
+    "patch": "mutation.diff"
+  },
+  "limitations": [
+    "One selected guard mutant, not a suite-wide mutation score.",
+    "Initial /tmp copy hit inode exhaustion; first main-filesystem baseline missed workspace dependencies. Both setup attempts are retained and not counted as kills."
+  ],
+  "candidateModified": false
+}

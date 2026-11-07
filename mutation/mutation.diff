@@ -1,0 +1,13 @@
+diff --git a/src/gateway/server/ws-connection/authenticated-request-dispatch.ts b/src/gateway/server/ws-connection/authenticated-request-dispatch.ts
+index 0ee3e74094a..6ae50f83e30 100644
+--- a/src/gateway/server/ws-connection/authenticated-request-dispatch.ts
++++ b/src/gateway/server/ws-connection/authenticated-request-dispatch.ts
+@@ -409,7 +409,7 @@ export function createGatewayAuthenticatedRequestDispatcher(params: {
+             client.connect.role === "node" &&
+             asOptionalRecord(error?.details)?.code === "PAIRING_CHANGED" &&
+             context.nodeRegistry.get(client.connect.device?.id ?? client.connect.client.id)
+-              ?.connId !== client.connId
++              ?.connId === client.connId
+           ) {
+             // A failed lookup or same-connection promotion can also reject an RPC.
+             // Retire only a connection that no longer owns the registered node.

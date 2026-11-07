@@ -1,0 +1,211 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache miss after 4987ms
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest] still running with no output for 90000ms.
+[vitest-workers] prepared faf0e6e7bdf0 in 90655ms (18844 inputs, 23985 outputs)
+ ✓ |gateway-core| src/gateway/server/ws-connection/authenticated-request-dispatch.node-recovery.test.ts > retires only obsolete pairing rejections (registered: replacement) 37ms
+ ✓ |gateway-core| src/gateway/server/ws-connection/authenticated-request-dispatch.node-recovery.test.ts > retires only obsolete pairing rejections (registered: undefined) 4ms
+ ✓ |gateway-core| src/gateway/server/ws-connection/authenticated-request-dispatch.node-recovery.test.ts > retires only obsolete pairing rejections (registered: current) 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects registration without an authenticated pairing identity 16ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects dispatch through an invalidated node connection 10ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > reports connected nodes without session hosting as ineligible, not disconnected 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects a private worker command through the generic invoke surface 13ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > binds the private dialect to the exact connection generation 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > separates inventory topology from availability across proof mutations 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > keeps capacity admission separate from negotiated environment turn reuse (node-host) 9ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects dispatch when pairing resolution closes generation 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects dispatch when pairing resolution closes authority 3ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects dispatch when pairing resolution closes store 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rechecks prompt-context after the private launch pairing await 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rechecks authority after the private launch pairing await 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > revokes native workspace dispatch when the same connection withdraws ownership support 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles a dispatched maintenance response with current completion custody 12ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles a dispatched maintenance response with owner-revoked completion custody 12ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles a dispatched maintenance response with node-revoked completion custody 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles closed completion authority through result (false) 10ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles closed completion authority through result (throws) 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles closed completion authority through progress (false) 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles closed completion authority through input (false) 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles closed completion authority through continuation (false) 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles closed completion authority through current (false) 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > revalidates persistent pairing authority for inbound RPC 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > revalidates persistent pairing authority for connected lookup 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > revalidates persistent pairing authority for prompt projection 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > revalidates persistent pairing authority for unavailable publication 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > does not invalidate a session promoted while persistent generation is loading 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > routes ordered input to the pending invoke connection and rejects unknown invokes 14ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects a replaced websocket connectivity probe 8ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects a replaced polling connectivity probe 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > reports stale node websocket connectivity before invoke timeout 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles zero-timeout MCP calls without disconnecting the replacement node 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles system.run event authority after ok=true 8ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > settles system.run event authority after ok=false 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > bounds system.run authorization for timeout=0 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > bounds system.run authorization for timeout=9007199254740991 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > shares the invoke budget across pairing, serialization, and the pending response 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > bounds stalled pairing by an inherited positive fractional budget 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > keeps a fractional deadline open when the hard timer fires early 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > does not dispatch when serialization closes the deadline 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > does not dispatch when serialization closes the authority 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > does not dispatch when serialization closes the abort 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > preserves the post-pairing timeout contract for undefined 3ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > preserves the post-pairing timeout contract for 0.5 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > prefers an elapsed hard deadline when disconnect beats the timer callback 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > prefers an elapsed hard deadline when abort beats the timer callback 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rejects streamed input at the hard deadline before its timer callback runs 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > stops buffered progress when its consumer triggers deadline 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > stops buffered progress when its consumer triggers abort 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > stops buffered progress when its consumer triggers consumer failure 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > orders streamed invoke progress and drops state after the final result 7ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > starts and preserves streamed idle timeout with first progress sequence 0 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > starts and preserves streamed idle timeout with first progress sequence 1 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > bounds future progress behind a permanent sequence gap until idle teardown 9ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > resets streamed invoke idle timeout on progress 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > preserves negotiated non-streaming cancellation for node-host mcp.tools.call.v1 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > preserves negotiated non-streaming cancellation for openclaw-ios system.run 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > expires system.run authorization when the process clock is invalid 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > allows legacy run-id fallback only for a single matching event window 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > sends raw event payload JSON without changing the envelope shape 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > rate-limits failed event delivery warnings for registered nodes 55ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > drops a delayed snapshot when pairing generation changes 56ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > drops a delayed snapshot when pairing identity changes 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > drops a delayed snapshot when pairing connection changes 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > retires saturated node sockets after grace timeout 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > retires saturated node sockets after close event 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > refreshes effective live surface within the declared surface 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > preserves invoke generation binding across promotion (bound=true) 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > preserves invoke generation binding across promotion (bound=false) 4ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > does not promote a generation-less session from a retired pairing identity 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > keeps node-hosted plugin tools inside the approved command surface 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > enforces node skill count and total-content caps 54ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > gateway/node-registry > ignores node skills from a stale connection 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > node registry presence > recomputes active context when a same-id connection replaces reported presence 3ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > node registry presence > keeps requester presence separate from other people and shared computers 5ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > node registry presence > does not advance a bounded estimate on saturated idle keepalives 6ms
+ ✓ |gateway-core| src/gateway/node-registry.test.ts > node registry presence > clears presence only for the current connection and selects the next active Mac 5ms
+[gateway] startup phase: gateway.server-start-import starting total=9366.2ms
+[gateway] startup phase: gateway.server-start-import 1.2ms total=9367.4ms start=9366.2ms rssMb=683.9 heapUsedMb=235.3 workers=0 workerHeapSamples=0/0 workerHeapMb=0.0 workerHeapSource=cached
+ ✓ |gateway-server (gateway-server) (gateway-server-parallel)| src/gateway/server.node-pairing-publication.test.ts > delivers node commands and node requests across an unrelated missed pairing revision 562ms
+ ✓ |gateway-server (gateway-server) (gateway-server-parallel)| src/gateway/server.node-pairing-publication.test.ts > delivers node commands and node requests during an unrelated pending pairing write 153ms
+ ✓ |gateway-server (gateway-server) (gateway-server-parallel)| src/gateway/server.node-pairing-publication.test.ts > refuses a node whose pairing changes during dispatch preparation: token revoke 155ms
+ ✓ |gateway-server (gateway-server) (gateway-server-parallel)| src/gateway/server.node-pairing-publication.test.ts > refuses a node whose pairing changes during dispatch preparation: token rotate 79ms
+ ✓ |gateway-server (gateway-server) (gateway-server-parallel)| src/gateway/server.node-pairing-publication.test.ts > refuses a node whose pairing changes during dispatch preparation: unpair 93ms
+ ✓ |gateway-server (gateway-server) (gateway-server-parallel)| src/gateway/server.node-pairing-publication.test.ts > refuses a node whose pairing changes during dispatch preparation: node reapproval 95ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-publication.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+[gateway] startup phase: gateway.server-start-import starting total=19022.4ms
+[gateway] startup phase: gateway.server-start-import 0.4ms total=19022.8ms start=19022.4ms rssMb=1154.3 heapUsedMb=427.2 workers=0 workerHeapSamples=0/0 workerHeapMb=0.0 workerHeapSource=cached
+ ✓ |gateway-server (gateway-server) (gateway-server-parallel)| src/gateway/server.node-pairing-replacement.test.ts > replaced node connection recovery > closes the obsolete socket while its same-device replacement remains usable 293ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+
+ Test Files  4 passed (4)
+      Tests  87 passed (87)
+   Start at  22:20:07
+   Duration  121.57s (transform 81%, tests 12%, import 5%, worker 1%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 128.49s

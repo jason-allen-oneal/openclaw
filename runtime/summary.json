@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "candidateSha": "13b077c8432ced4c058e11b9a792bc9d81e87a77",
+  "startedAt": "2026-11-07T03:30:31.816Z",
+  "finishedAt": "2026-11-07T03:30:50.979Z",
+  "observations": {
+    "obsoleteResponse": {
+      "code": "UNAVAILABLE",
+      "message": "node pairing changed before request dispatch",
+      "retryable": true,
+      "details": {
+        "code": "PAIRING_CHANGED"
+      }
+    },
+    "obsoleteClose": {
+      "code": 4001,
+      "reason": "node pairing changed; reconnect"
+    },
+    "beforeStaleRequest": 4096,
+    "afterStaleRequest": 4096,
+    "replacementAfterClose": 6144,
+    "replacementConnected": true
+  },
+  "limits": [
+    "Simulated signed node clients, not a physical Android app.",
+    "Transient pairing-storage failure and same-connection promotion are separate regression tests, not fault-injected here.",
+    "No model request, external channel, deployment, merge, or live Gateway access."
+  ],
+  "cleanup": {
+    "clients": true,
+    "gatewayExitCode": 0,
+    "gatewaySignal": null,
+    "errors": []
+  }
+}

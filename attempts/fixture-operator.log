@@ -1,0 +1,69 @@
+[test] starting test/vitest/vitest.gateway-server.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 6401ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared b777053deddc in 6501ms (18844 inputs, 23985 outputs)
+[gateway] startup phase: gateway.server-start-import starting total=38396.4ms
+[gateway] startup phase: gateway.server-start-import 1.1ms total=38397.6ms start=38396.4ms rssMb=651.9 heapUsedMb=219.3 workers=0 workerHeapSamples=0/0 workerHeapMb=0.0 workerHeapSource=cached
+ × |gateway-server (gateway-server-parallel)| src/gateway/server.node-pairing-replacement.test.ts > replaced node connection recovery > closes the obsolete socket while its same-device replacement remains usable 740ms
+   → expected false to be true // Object.is equality
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server.node-pairing-replacement.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |gateway-server (gateway-server-parallel)| src/gateway/server.node-pairing-replacement.test.ts > replaced node connection recovery > closes the obsolete socket while its same-device replacement remains usable
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/gateway/server.node-pairing-replacement.test.ts:28:45
+     26|     await approveNodePairing(surface.request.requestId, { callerScopes…
+     27|     const { port, ws: operator } = getStarted();
+     28|     expect((await connectReq(operator)).ok).toBe(true);
+       |                                             ^
+     29|     const obsolete = await openTrackedWs(port);
+     30|     const replacement = await openTrackedWs(port);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  22:12:27
+   Duration  50.65s (tests 48%, transform 43%, import 6%, worker 2%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 55.38s
+[test] FAILED (exit 1)
