@@ -26,7 +26,7 @@ Build this committed candidate with `pnpm build:runtime`. The executed owner is 
 node --import ./scripts/tsx.mjs /path/to/driver.mjs "$PWD" 13b077c8432ced4c058e11b9a792bc9d81e87a77 dist/message-handler-gSU5j5BZ.mjs /path/to/new-output-directory
 ```
 
-[Executed driver](driver.mjs) uses the maintained signing helper. It verifies candidate/build identity and source cleanliness, hashes entry/owner/helper/driver before execution, and rechecks them after. Generated credentials and private runtime databases are intentionally not published. Driver bytes match the runtime manifest.
+[Executed driver](driver.mjs) uses the maintained signing helper. It verifies candidate/build identity and source cleanliness, hashes entry/owner/helper/driver before execution, and rechecks them after. Generated credentials and private runtime databases are intentionally not published. Driver bytes match the runtime manifest. The captured launch PATH was additionally redacted for local home-directory prefixes; no scenario was rerun or result changed.
 
 ## Focused verification and review
 
