@@ -1,0 +1,21 @@
+{
+  "head": "a0be996609f0b1c4f8a23ab7f2ab5883efbe79fa",
+  "command": [
+    "node",
+    "scripts/package-openclaw-for-docker.mjs",
+    "--source-dir",
+    "$CANDIDATE_REPO",
+    "--allow-unreleased-changelog",
+    "--output-dir",
+    "$PACKAGE_DIR",
+    "--output-name",
+    "openclaw-main-integrated.tgz",
+    "--pack-json",
+    "$PACKAGE_DIR/main-integrated-pack.json"
+  ],
+  "exitCode": 0,
+  "seconds": 1571.74,
+  "finishedAt": "2026-11-07T04:27:58.116455+00:00",
+  "tarball": "$PACKAGE_DIR/openclaw-main-integrated.tgz",
+  "sha256": "5b7fd94c051501ad61db20e4df5a030cfeadd77301debda259bbe435f0faf7d5"
+}

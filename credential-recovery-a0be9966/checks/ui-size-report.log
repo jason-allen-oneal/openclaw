@@ -1,0 +1,43 @@
+Control UI performance:
+  measurement: generated asset hashes normalized for budgets; served sizes retain sidecars with identity fallback; Node v24.22.2
+  document: 54702 B raw, 13830 B gzip (limit: 13893 B)
+  startup JS: 3 requests, 87.8 KiB gzip (89940 B), 78.1 KiB br normalized; served 90289 B gzip, 80262 B br, 282204 B raw (limits: 7 requests, 87.8 KiB gzip / 89946 B)
+  startup JS gzip vs baseline: 89940 B (baseline 89370 B + growth allowance 512 B = growth limit 89882 B; build-variance allowance 64 B; enforcement limit 89946 B; max committed baseline 325131 B)
+  startup CSS: 1 request, 36.7 KiB gzip (37535 B), 31.5 KiB br normalized; served 37758 B gzip, 32471 B br, 217383 B raw (limits: 1 request, advisory target 46080 B, hard ceiling 51200 B; headroom 13665 B)
+  largest ordinary JS: assets/control-ui-boot-shared-ETYAI8uC.js, 548.0 KiB gzip (limit: 547.4 KiB)
+  largest CSS: assets/control-ui-boot-shared-styles-CVQHdpUI.css, 54704 B gzip (hard ceiling 58315 B; headroom 3611 B)
+  all JS: 2682 requests, 17592.7 KiB gzip (18014939 B), 16683.0 KiB br normalized; served 18055552 B gzip, 17121504 B br, 39896034 B raw
+  all CSS: 123 requests, 317.2 KiB gzip (324805 B), 278.8 KiB br normalized; served 325071 B gzip, 285731 B br, 1671626 B raw (fixed ceilings: 325109 B gzip, 1675754 B raw)
+  route boot accounting: initial-entry assets plus measured immediate dynamic imports; existing initial-entry limits unchanged
+  chat boot JS: 20 requests, 1260.1 KiB gzip (1290304 B), 1069.0 KiB br normalized; served 1298096 B gzip, 1101172 B br, 4160650 B raw (1200364 B beyond initial-entry JS; limits: 20 requests, 1289030 B gzip)
+  chat boot CSS: 3 requests, 129.6 KiB gzip (132685 B), 110.0 KiB br normalized; served 132908 B gzip, 112836 B br, 814014 B raw (2 beyond initial-entry CSS; limit: 3 requests)
+  new boot JS: 15 requests, 780.3 KiB gzip (798976 B), 663.0 KiB br normalized; served 804036 B gzip, 683187 B br, 2602362 B raw (709036 B beyond initial-entry JS; limits: 17 requests, 797380 B gzip)
+  new boot CSS: 3 requests, 95.4 KiB gzip (97739 B), 81.4 KiB br normalized; served 97962 B gzip, 83494 B br, 594277 B raw (2 beyond initial-entry CSS; limit: 3 requests)
+  isolated Mermaid JS: 1 request, 240.6 KiB gzip (246340 B), 201.9 KiB br normalized; served 246345 B gzip, 206816 B br, 703248 B raw (limits: 1 deferred asset, 256.0 KiB gzip; forbidden at startup)
+  locale catalog JS: 44 requests, 2789.1 KiB gzip (2856079 B), 2406.9 KiB br normalized; served 2871108 B gzip, 2479249 B br, 11450640 B raw (largest pair: ru, 145.8 KiB gzip; limits: 1 base + 1 config-hint asset per locale, 300.0 KiB combined; forbidden at startup)
+    ar: 135004 B gzip (base 16866 B + config hints 118138 B; cap 307200 B; headroom 172196 B)
+    ca: 125824 B gzip (base 15960 B + config hints 109864 B; cap 307200 B; headroom 181376 B)
+    de: 131586 B gzip (base 16369 B + config hints 115217 B; cap 307200 B; headroom 175614 B)
+    es: 125179 B gzip (base 15812 B + config hints 109367 B; cap 307200 B; headroom 182021 B)
+    fa: 135905 B gzip (base 16860 B + config hints 119045 B; cap 307200 B; headroom 171295 B)
+    fr: 128828 B gzip (base 16185 B + config hints 112643 B; cap 307200 B; headroom 178372 B)
+    hi: 144819 B gzip (base 18279 B + config hints 126540 B; cap 307200 B; headroom 162381 B)
+    id: 115726 B gzip (base 14780 B + config hints 100946 B; cap 307200 B; headroom 191474 B)
+    it: 124488 B gzip (base 15680 B + config hints 108808 B; cap 307200 B; headroom 182712 B)
+    ja-JP: 132442 B gzip (base 16901 B + config hints 115541 B; cap 307200 B; headroom 174758 B)
+    ko: 122946 B gzip (base 15998 B + config hints 106948 B; cap 307200 B; headroom 184254 B)
+    nl: 124558 B gzip (base 15717 B + config hints 108841 B; cap 307200 B; headroom 182642 B)
+    pl: 132230 B gzip (base 16564 B + config hints 115666 B; cap 307200 B; headroom 174970 B)
+    pt-BR: 122363 B gzip (base 15611 B + config hints 106752 B; cap 307200 B; headroom 184837 B)
+    ru: 149307 B gzip (base 18597 B + config hints 130710 B; cap 307200 B; headroom 157893 B)
+    sv: 121965 B gzip (base 15481 B + config hints 106484 B; cap 307200 B; headroom 185235 B)
+    th: 144175 B gzip (base 17855 B + config hints 126320 B; cap 307200 B; headroom 163025 B)
+    tr: 126078 B gzip (base 15911 B + config hints 110167 B; cap 307200 B; headroom 181122 B)
+    uk: 147708 B gzip (base 18408 B + config hints 129300 B; cap 307200 B; headroom 159492 B)
+    vi: 124242 B gzip (base 16121 B + config hints 108121 B; cap 307200 B; headroom 182958 B)
+    zh-CN: 119702 B gzip (base 15659 B + config hints 104043 B; cap 307200 B; headroom 187498 B)
+    zh-TW: 121004 B gzip (base 15778 B + config hints 105226 B; cap 307200 B; headroom 186196 B)
+  violations:
+    - largest JS gzip: 548.0 KiB exceeds 547.4 KiB
+    - chat boot JS gzip: 1260.1 KiB exceeds 1258.8 KiB
+    - new boot JS gzip: 780.3 KiB exceeds 778.7 KiB

@@ -1,0 +1,137 @@
+{
+  "head": "a0be996609f0b1c4f8a23ab7f2ab5883efbe79fa",
+  "results": [
+    {
+      "mode": "model-only",
+      "positiveControlRequests": [
+        {
+          "phase": "credential-model-only-control",
+          "owner": "gemini",
+          "method": "POST",
+          "path": "/v1/responses",
+          "credential": "gemini",
+          "model": "fixture-vision",
+          "images": [
+            {
+              "mime": "image/png",
+              "bytes": 85,
+              "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+            }
+          ]
+        }
+      ],
+      "liveLogout": {
+        "provider": "gemini",
+        "removedProfiles": [
+          "gemini:proof"
+        ],
+        "abortedRunIds": []
+      },
+      "remainingApiKeyProfiles": 0,
+      "retainedToolRefused": true,
+      "zeroHttpAfterLogout": true,
+      "nativeEntries": [],
+      "refusal": "Per-entry apiKey \"gemini:proof\" for provider \"gemini\" matched a stored profile but failed to resolve: Auth profile \"gemini:proof\" was removed or replaced.. Fix the referenced profile or set apiKey to a literal bearer token.",
+      "freshDiagnostic": {
+        "requests": [
+          {
+            "phase": "credential-model-only-fresh-after-logout",
+            "owner": "gemini",
+            "method": "POST",
+            "path": "/v1/responses",
+            "credential": "custom-local",
+            "model": "fixture-vision",
+            "images": [
+              {
+                "mime": "image/png",
+                "bytes": 85,
+                "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+              }
+            ]
+          }
+        ],
+        "exitCode": 1,
+        "http401InOutput": true,
+        "removedKeyTransmitted": false,
+        "unknownCredentialObserved": false
+      }
+    },
+    {
+      "mode": "native",
+      "positiveControlRequests": [
+        {
+          "phase": "credential-native-control",
+          "owner": "gemini",
+          "method": "POST",
+          "path": "/v1/responses",
+          "credential": "gemini",
+          "model": "fixture-vision",
+          "images": [
+            {
+              "mime": "image/png",
+              "bytes": 85,
+              "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+            }
+          ]
+        }
+      ],
+      "liveLogout": {
+        "provider": "gemini",
+        "removedProfiles": [
+          "gemini:proof"
+        ],
+        "abortedRunIds": []
+      },
+      "remainingApiKeyProfiles": 0,
+      "retainedToolRefused": true,
+      "zeroHttpAfterLogout": true,
+      "nativeEntries": [
+        {
+          "event": "native-entry",
+          "handler": "gemini"
+        },
+        {
+          "event": "native-entry",
+          "handler": "gemini"
+        }
+      ],
+      "refusal": "Per-entry apiKey \"gemini:proof\" for provider \"gemini\" matched a stored profile but failed to resolve: Auth profile \"gemini:proof\" was removed or replaced.. Fix the referenced profile or set apiKey to a literal bearer token.",
+      "freshDiagnostic": {
+        "requests": [
+          {
+            "phase": "credential-native-fresh-after-logout",
+            "owner": "gemini",
+            "method": "POST",
+            "path": "/v1/responses",
+            "credential": "custom-local",
+            "model": "fixture-vision",
+            "images": [
+              {
+                "mime": "image/png",
+                "bytes": 85,
+                "sha256": "a86fd9b9eb25dcd6531ae4a19ec3e05bcfe08acb907a5154310d5df94b8e5d1a"
+              }
+            ]
+          }
+        ],
+        "exitCode": 1,
+        "http401InOutput": true,
+        "removedKeyTransmitted": false,
+        "unknownCredentialObserved": false
+      }
+    }
+  ],
+  "driverReceipt": {
+    "head": "a0be996609f0b1c4f8a23ab7f2ab5883efbe79fa",
+    "exitCode": 0,
+    "seconds": 204.88,
+    "finishedAt": "2026-11-07T04:39:28.582353+00:00",
+    "sourceCleanAfterProof": true
+  },
+  "limits": [
+    "Synthetic loopback receiver and API keys, not live Gemini OAuth.",
+    "Zero post-logout HTTP applies to the retained tool, not the separate fresh-call diagnostic.",
+    "Prior-head generation/upgrade sweeps are historical evidence, not rerun on this head.",
+    "No production deployment or merge."
+  ]
+}

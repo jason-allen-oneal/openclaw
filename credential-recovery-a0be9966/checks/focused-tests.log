@@ -1,0 +1,429 @@
+$ node scripts/test-projects.mts src/system-agent/inference-route-runtime.test.ts src/agents/auth-profiles/profiles.test.ts src/agents/auth-profiles/recovered-inheritance.test.ts src/agents/model-auth.credential-revocation.test.ts src/agents/auth-profiles/credential-authority.test.ts src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts src/agents/auth-profiles/inherited-store.test.ts src/agents/tools/image-tool.custom-provider-auth.regression.test.ts src/media-understanding/defaults.test.ts src/media-understanding/provider-capability-registry.loading.test.ts src/media-understanding/provider-registry.test.ts src/media-understanding/runner.vision-skip.test.ts --maxWorkers=1
+[vitest-workers] local cache miss after 2150ms
+../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m48 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m11 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../..$EXTERNAL_DEPENDENCY_STORE/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m6 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+../..$EXTERNAL_DEPENDENCY_STORE/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "../..$EXTERNAL_DEPENDENCY_STORE/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../..$EXTERNAL_DEPENDENCY_STORE/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m9 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+../..$EXTERNAL_DEPENDENCY_STORE/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "../..$EXTERNAL_DEPENDENCY_STORE/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../..$EXTERNAL_DEPENDENCY_STORE/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m12 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+[vitest-workers] prepared bf386d6c41a4 in 65384ms (18631 inputs, 23988 outputs)
+[test] starting test/vitest/vitest.unit-fast.config.ts
+
+ RUN  v5.0.5 $HISTORICAL_CANDIDATE_REPO
+
+ ✓ |unit-fast| src/media-understanding/provider-capability-registry.loading.test.ts > infers only untagged entries and lets runtime audio metadata override configured image fallback 2548ms
+ ✓ |unit-fast| src/media-understanding/provider-capability-registry.loading.test.ts > keeps shared entries and metadata on the declared model owner 33ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  22:49:27
+   Duration  19.54s (transform 72%, import 14%, tests 13%)
+
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.5 $HISTORICAL_CANDIDATE_REPO
+
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verify checks an uncreated agent's inherited primary without creating it: utility-only 1894ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > complete checks an uncreated agent's inherited primary without creating it: utility-only 1180ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verify checks an uncreated agent's inherited primary without creating it: primary success 1664ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > complete checks an uncreated agent's inherited primary without creating it: primary success 1473ms
+(node:1526250) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: upsertAuthProfile is deprecated; use upsertAuthProfileAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1526250) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreForLocalUpdate is deprecated; use ensureAuthProfileStoreForLocalUpdateAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1526250) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: saveAuthProfileStore is deprecated; use updateAuthProfileStoreWithLock from openclaw/plugin-sdk/provider-auth instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > scopes verified setup binding to its selected provider when fixture requires migration 1769ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > scopes verified setup binding to its selected provider when unrelated requires migration 1671ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > keeps a staged replacement credential authoritative after provider normalization 1619ms
+(node:1526250) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStore is deprecated; use ensureAuthProfileStoreAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: protected key 1811ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: key rotated during probe 1459ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: staged reference rotated during probe 1635ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: existing-model activation rotated during probe 1620ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: alternate profile available 1575ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: completion 1455ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: existing-model activation 1562ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: non-default fallback owner 1667ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing destination (saved: false) 1314ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing destination (saved: true) 1366ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing reference (saved: false) 1547ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing reference (saved: true) 1396ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing inactive runtime (saved: false) 1297ms
+(node:1527332) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: saveAuthProfileStore is deprecated; use updateAuthProfileStoreWithLock from openclaw/plugin-sdk/provider-auth instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1527332) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: loadAuthProfileStoreForRuntime is deprecated; use loadAuthProfileStoreForRuntimeAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1527332) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: replaceRuntimeAuthProfileStoreSnapshots is deprecated; use replaceRuntimeAuthProfileStoreSnapshotsAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |infra| src/agents/auth-profiles/recovered-inheritance.test.ts > refuses unpublished local shadows and unreadable owners 2053ms
+ ✓ |infra| src/agents/auth-profiles/recovered-inheritance.test.ts > fences recovered inherited credentials after local shadow while allowing unrelated recovery 1751ms
+ ✓ |infra| src/agents/auth-profiles/recovered-inheritance.test.ts > fences recovered inherited credentials after local malformed while allowing unrelated recovery 1731ms
+ ✓ |infra| src/agents/auth-profiles/recovered-inheritance.test.ts > fences recovered inherited credentials after local unknown-outcome while allowing unrelated recovery 1815ms
+ ✓ |infra| src/agents/auth-profiles/recovered-inheritance.test.ts > fences recovered inherited credentials after local retired while allowing unrelated recovery 1677ms
+ ✓ |infra| src/agents/auth-profiles/recovered-inheritance.test.ts > fences recovered inherited credentials after local closed while allowing unrelated recovery 1770ms
+ ✓ |infra| src/agents/auth-profiles/recovered-inheritance.test.ts > retains canonical shared SecretRef authority through materialized recovery 1660ms
+ ✓ |infra| src/agents/model-auth.credential-revocation.test.ts > rejects a retained api_key profile after its real owner removes it (inherited: false) 2684ms
+ ✓ |infra| src/agents/model-auth.credential-revocation.test.ts > rejects a retained api_key profile after its real owner removes it (inherited: true) 2332ms
+ ✓ |infra| src/agents/model-auth.credential-revocation.test.ts > rejects a retained token profile after its real owner removes it (inherited: false) 2348ms
+ ✓ |infra| src/agents/model-auth.credential-revocation.test.ts > rejects a retained token profile after its real owner removes it (inherited: true) 2251ms
+ ✓ |infra| src/agents/model-auth.credential-revocation.test.ts > keeps current profile replacement separate from retained credential authority 2547ms
+
+ Test Files  3 passed (3)
+      Tests  32 passed (32)
+   Start at  22:49:47
+   Duration  84.29s (tests 66%, transform 24%, import 9%, setup 1%)
+
+[test] starting test/vitest/vitest.media-understanding.config.ts
+
+ RUN  v5.0.5 $HISTORICAL_CANDIDATE_REPO
+
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > resolves explicit image defaults when fallback discovery is unavailable 376ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > auto-selects hookless image providers from manifest 7ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > auto-selects hookless image providers from config 1ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > normalizes the active image provider alias 430ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > normalizes the active video provider alias 83ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > keeps a native alias owner's auth and image dispatch separate 10ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > keeps a model-only alias owner's auth and image dispatch separate 4ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > automatic media selection > checks audio providers once in priority order until auth is available 3ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > skips imageModel fallback when MiniMax M3 supports vision 11ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > records native handoff and remote failures for selected and dropped images 3ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > runs explicit image models untouched by native-vision probe failure 4ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > keeps disabled outcomes precise and suppresses markers when the vision probe fails 3ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > uses explicit image models even when the active model supports vision 5ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > lets per-request image prompts override entry prompts 3ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > skips malformed image defaults and runs providerless fallbacks on their configured provider 4ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > routes legacy MiniMax chat models through VLM despite catalog image input 3ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > passes workspace and agent context to auth and writable catalog reads 6ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > auto-selects configured OpenRouter image providers with a resolved model 10ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > skips configured image providers without an auto-resolvable model 3ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference high 510ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference efficient 403ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > image resizing > respects model limits rather than the image-tool preference undefined 33ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the source byte cap before provider I/O 5ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the PNG byte cap before provider I/O 18ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > image resizing > enforces the provider-owned byte cap before provider I/O 3ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for explicit image model 5ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for text-only model 2ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > builds the registry once for mixed image and audio 35ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/media-understanding/runner.vision-skip.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > rejects apply on registry failure without partially recording decisions 7ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > keeps native vision with no shared models 2ms
+ ✓ |media-understanding| src/media-understanding/runner.vision-skip.test.ts > apply registry lifetime > keeps native vision with audio and video shared models 2ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/media-understanding/provider-registry.test.ts: retiring openclaw.stateSnapshotOwners
+
+ ✓ |media-understanding| src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (false) 4ms
+ ✓ |media-understanding| src/media-understanding/provider-registry.test.ts > media-understanding provider registry > keeps literal provider hooks separate regardless of order (true) 1ms
+ ✓ |media-understanding| src/media-understanding/provider-registry.test.ts > media-understanding provider registry > reserves model-only identities only for enabled owners (true) 3ms
+ ✓ |media-understanding| src/media-understanding/provider-registry.test.ts > media-understanding provider registry > reserves model-only identities only for enabled owners (false) 2ms
+ ✓ |media-understanding| src/media-understanding/provider-registry.test.ts > media-understanding provider registry > preserves historical aliases without a distinct provider owner 1ms
+ ✓ |media-understanding| src/media-understanding/provider-registry.test.ts > media-understanding provider registry > preserves partial native overrides for dispatch 2ms
+ ✓ |media-understanding| src/media-understanding/provider-registry.test.ts > media-understanding provider registry > auto-registers media-understanding for config providers with image-capable models (#51392) 1ms
+ ✓ |media-understanding| src/media-understanding/defaults.test.ts > media defaults > prefers configured image models before manifest defaults 1ms
+ ✓ |media-understanding| src/media-understanding/defaults.test.ts > media defaults > orders priorities without conflating declared capabilities and runtime hooks 0ms
+ ✓ |media-understanding| src/media-understanding/defaults.test.ts > media defaults > preserves configured MiniMax CN aliases for image auto discovery 0ms
+ ✓ |media-understanding| src/media-understanding/defaults.test.ts > media defaults > reads document model hints from provider metadata 0ms
+
+ Test Files  3 passed (3)
+      Tests  42 passed (42)
+   Start at  22:51:13
+   Duration  18.88s (transform 67%, import 15%, tests 11%, worker 5%)
+
+[test] starting test/vitest/vitest.agents-support.config.ts
+
+ RUN  v5.0.5 $HISTORICAL_CANDIDATE_REPO
+
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: saveAuthProfileStore is deprecated; use updateAuthProfileStoreWithLock from openclaw/plugin-sdk/provider-auth instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: loadAuthProfileStoreForRuntime is deprecated; use loadAuthProfileStoreForRuntimeAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: replaceRuntimeAuthProfileStoreSnapshots is deprecated; use replaceRuntimeAuthProfileStoreSnapshotsAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > refreshes inherited main selection state without advancing credential ownership 490ms
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreWithoutExternalProfiles is deprecated; use ensureAuthProfileStoreWithoutExternalProfilesAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > rebuilds a derived custom-agent snapshot after locked main OAuth rotation 1659ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > keeps inherited resolved credentials when publishing a locked custom-agent save 2992ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > isolates postcommit publication failure to the saving owner 285ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > converges unreadable derived owners on committed shared credentials 1806ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > preserves derived runtime snapshots on a caller-owned main-store no-op 279ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > drops caller-owned publication when a nested savepoint rolls back 108ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > preserves a runtime-only OAuth mutation before save 125ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > preserves a runtime-only OAuth mutation before publication 124ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > restores captured and rebuilds newer derived snapshots after main rollback 267ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > restores an exactly owned derived snapshot under its custom database key 240ms
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: loadAuthProfileStoreWithoutExternalProfiles is deprecated; use loadAuthProfileStoreWithoutExternalProfilesAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > normalizes copied secrets when using the locked upsert path 1479ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > keeps copied openai oauth profiles inline 153ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > promotes relogin with existing provider ordering 1749ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > promotes relogin with config-only provider ordering 1773ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > promotes relogin with implicit provider ordering 1696ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > clears lastGood only for the failed profile (matching=true) 1579ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > clears lastGood only for the failed profile (matching=false) 1509ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > clears only the main credential owners before replacing an expired login (selected=false) 3780ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > clears only the main credential owners before replacing an expired login (selected=true) 3203ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > clears only the secondary credential owners before replacing an expired login (selected=false) 3276ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > clears only the shared credential owners before replacing an expired login (selected=false) 2011ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > narrows provider removal to selected profiles 1764ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > does not materialize credentials while force-clearing a fresh main store 2896ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > does not rewrite the store when selected profiles are absent 1593ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > removes a legacy-main provider once after config cleanup (replacement=false) 3114ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > removes a legacy-main provider once after config cleanup (replacement=true) 3055ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > removes an inherited profile from the owning main store too 4320ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > promoteAuthProfileInOrder > retries removal when the OAuth generation changes while waiting for its lock 3098ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > setAuthProfileOrder > canonicalizes every alias-equivalent provider state mutation 2884ms
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > setAuthProfileOrder > preserves inherited main OAuth profile IDs in a secondary agent order without copying credentials 1592ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/auth-profiles/profiles.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |agents-support| src/agents/auth-profiles/profiles.test.ts > setAuthProfileOrder > clears a provider order without preserving any profile IDs 1597ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > persists a forced model-auth plugin refresh before returning 4019ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > fails closed for unchanged expired credentials 3239ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > rejects direct API-key routes before refreshing managed OAuth 612ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > surfaces frozen contention once without exposing the lock path 3193ms
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStore is deprecated; use ensureAuthProfileStoreAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > clears stale lastGood; locked=false, error=Error: provider rejected: REFRESH_TOKEN_REUSED (401) 3116ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > clears stale lastGood; locked=true, error=provider rejected: Refresh_Token_Reused (401) 3154ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > clears stale lastGood; locked=false, error=Error: provider rejected: REFRESH TOKEN HAS ALREADY BEEN USED (401) 4276ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > clears stale lastGood; locked=true, error=provider rejected: Refresh Token Has Already Been Used (401) 4128ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > clears stale lastGood; locked=false, error=Error: provider rejected: ALREADY BEEN USED TO GENERATE A NEW ACCESS TOKEN (401) 3586ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > clears stale lastGood; locked=true, error=provider rejected: Already Been Used To Generate A New Access Token (401) 3336ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > preserves lastGood for unrelated refresh failures 3785ms
+ ✓ |agents-support| src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts > resolveApiKeyForProfile fallback to main agent > preserves the refresh diagnosis when stale lastGood cleanup fails 3638ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state credential authority > releases a known rollback with its original credential and rejects an overtaken cold result 143ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state credential authority > preserves credential authority during usage, cooldown, and order-only writes 81ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state credential authority > publishes native prepared saves and exact-owned secret rollback through the same authority 100ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent credential authority > releases a known rollback with its original credential and rejects an overtaken cold result 126ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent credential authority > preserves credential authority during usage, cooldown, and order-only writes 97ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent credential authority > publishes native prepared saves and exact-owned secret rollback through the same authority 134ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > credential authority captured before local database creation > preserves absence through metadata creation and publishes a native credential before release 142ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > credential authority captured before local database creation > installs ordinary worker facts on the absent source before releasing denial 108ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > credential authority captured before local database creation > installs catalog worker facts on the absent source before releasing denial 95ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > credential authority captured before local database creation > refuses a catalog receipt overtaken by a native writer on its newly created source 173ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > keeps an unacknowledged native write denied after later commits (shared-state source) 128ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > keeps an unacknowledged native write denied after later commits (agent source) 112ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > keeps an unacknowledged native write denied after later commits (absent source) 166ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > saveAuthProfileStore retains offline custody through a confirmed commit 132ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > saveAuthProfileStore retains offline custody through a confirmed rollback 84ms
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: upsertAuthProfile is deprecated; use upsertAuthProfileAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreForLocalUpdate is deprecated; use ensureAuthProfileStoreForLocalUpdateAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > upsertAuthProfile retains offline custody through a confirmed commit 101ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > upsertAuthProfile retains offline custody through a confirmed rollback 94ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > preserves credential authority throughout an SDK metadata-only save 83ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > saveAuthProfileStore rejects a live foreign Gateway before mutating credentials 70ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > upsertAuthProfile rejects a live foreign Gateway before mutating credentials 69ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > saveAuthProfileStore accepts an admitted state-directory alias 73ms
+(node:1528560) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: sqlite-runtime.runSqliteImmediateTransactionSync is deprecated; use openOpenClawAgentSqliteWorkerStoreV2 or the owning domain's awaited operations instead. Native SQL and callbacks retain their current completion and transaction ordering. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > upsertAuthProfile accepts an admitted state-directory alias 75ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > rejects a supplied SDK write with an active worker admission and missing root facts 77ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > rejects a supplied SDK write with an active worker admission and wrong root facts 169ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > retains a supplied SDK connection's custody until the outer managed commit 154ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > retains a supplied SDK connection's custody until the outer managed rollback 192ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > saveAuthProfileStore retains offline custody after a lost commit acknowledgement 147ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > upsertAuthProfile retains offline custody after a lost commit acknowledgement 152ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > shared-state released SDK credential writes > matches the canonical worker's cold read after both released SDK writers 1613ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > saveAuthProfileStore retains offline custody through a confirmed commit 131ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > saveAuthProfileStore retains offline custody through a confirmed rollback 126ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > upsertAuthProfile retains offline custody through a confirmed commit 131ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > upsertAuthProfile retains offline custody through a confirmed rollback 147ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > preserves credential authority throughout an SDK metadata-only save 128ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > saveAuthProfileStore rejects a live foreign Gateway before mutating credentials 136ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > upsertAuthProfile rejects a live foreign Gateway before mutating credentials 119ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > saveAuthProfileStore accepts an admitted state-directory alias 143ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > upsertAuthProfile accepts an admitted state-directory alias 133ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > rejects a supplied SDK write with an active worker admission and missing root facts 117ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > rejects a supplied SDK write with an active worker admission and wrong root facts 204ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > retains a supplied SDK connection's custody until the outer managed commit 143ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > retains a supplied SDK connection's custody until the outer managed rollback 136ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > saveAuthProfileStore retains offline custody after a lost commit acknowledgement 144ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > upsertAuthProfile retains offline custody after a lost commit acknowledgement 140ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > agent released SDK credential writes > matches the canonical worker's cold read after both released SDK writers 373ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > prepared persisted credential readers > retains scoped credential dependencies through the main-agent lifecycle 467ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > prepared persisted credential readers > retains scoped credential dependencies through the empty-child lifecycle 223ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > prepared persisted credential readers > retains scoped credential dependencies through the populated-child lifecycle 423ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > prepared persisted credential readers > retains scoped credential dependencies through the scoped-child lifecycle 442ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > settles credential facts on a distinct connection anchor after commit 102ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > settles credential facts on a distinct connection anchor after rollback 107ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > settles machine-state worker credential receipts on the anchor after commit 108ms
+ ✓ |agents-support| src/agents/auth-profiles/credential-authority.test.ts > settles machine-state worker credential receipts on the anchor after rollback 95ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/agents/auth-profiles/credential-authority.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > omits only the current inherited owner's pending admission 10ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > preserves unreadable, schema and unexpected inherited-store failures 4ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > selects the scoped shared snapshot for shared-only auth reads 6ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > selects the scoped shared snapshot for local-and-shared auth reads 5ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via runtime 275ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via without-external 169ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via ensure 168ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via prepared-snapshot 139ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via local-update 164ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via local-update-async 430ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via model-runtime 445ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > keeps local credentials through a refused inherited store via model-snapshot 425ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > prepares model auth from explicit empty ids while preserving durable credentials and snapshot precedence 108ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > prepares model auth from authoritative empty while preserving durable credentials and snapshot precedence 88ms
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > prepares model auth from no overlay while preserving durable credentials and snapshot precedence 296ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/auth-profiles/inherited-store.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓ |agents-support| src/agents/auth-profiles/inherited-store.test.ts > prepares model auth from published overlay while preserving durable credentials and snapshot precedence 315ms
+
+ Test Files  4 passed (4)
+      Tests  113 passed (113)
+   Start at  22:51:33
+   Duration  152.02s (tests 72%, transform 22%, import 5%, worker 1%)
+
+[test] starting test/vitest/vitest.agents-tools.config.ts
+
+ RUN  v5.0.5 $HISTORICAL_CANDIDATE_REPO
+
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > exposes a model override only without native vision (false) 35ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > exposes a model override only without native vision (true) 4ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > registers config-only AWS SDK Bedrock image models 432ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > executes deferred fallback discovery with config-backed auth and runtime key resolution 358ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image custom provider auth regression > still rejects the same fallback config when apiKey is missing 249ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > uses a prepared single-image owner alias for each image 206ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > prefers an exact prepared provider over a historical media alias 166ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (true) independent of ambient ownership (true) 7ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (true) independent of ambient ownership (false) 5ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (false) independent of ambient ownership (false) 5ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps captured image ownership (false) independent of ambient ownership (true) 4ms
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > loads the next fallback owner only after the primary fails 195ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/tools/image-tool.custom-provider-auth.regression.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |agents-tools| src/agents/tools/image-tool.custom-provider-auth.regression.test.ts > image tool provider loading > keeps config-backed generic image dispatch with an empty prepared family 168ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  22:54:07
+   Duration  29.16s (transform 74%, import 14%, tests 6%, worker 5%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 5 Vitest shards in 379.73s

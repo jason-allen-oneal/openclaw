@@ -1,0 +1,42 @@
+[
+  {
+    "name": "focused-tests",
+    "command": [
+      "pnpm",
+      "test",
+      "src/system-agent/inference-route-runtime.test.ts",
+      "src/agents/auth-profiles/profiles.test.ts",
+      "src/agents/auth-profiles/recovered-inheritance.test.ts",
+      "src/agents/model-auth.credential-revocation.test.ts",
+      "src/agents/auth-profiles/credential-authority.test.ts",
+      "src/agents/auth-profiles/oauth.fallback-to-main-agent.test.ts",
+      "src/agents/auth-profiles/inherited-store.test.ts",
+      "src/agents/tools/image-tool.custom-provider-auth.regression.test.ts",
+      "src/media-understanding/defaults.test.ts",
+      "src/media-understanding/provider-capability-registry.loading.test.ts",
+      "src/media-understanding/provider-registry.test.ts",
+      "src/media-understanding/runner.vision-skip.test.ts",
+      "--maxWorkers=1"
+    ],
+    "head": "93e40061e983fecd13b71b8ba503c05e60c76014",
+    "exitCode": 0,
+    "seconds": 380.68,
+    "finishedAt": "2026-11-07T03:54:38.746591+00:00"
+  },
+  {
+    "name": "core-types",
+    "command": [
+      "node",
+      "scripts/run-tsgo.mjs",
+      "-p",
+      "tsconfig.core.json",
+      "--incremental",
+      "--tsBuildInfoFile",
+      "$HISTORICAL_FIXTURE_DIR/resume-core.tsbuildinfo"
+    ],
+    "head": "93e40061e983fecd13b71b8ba503c05e60c76014",
+    "exitCode": 1,
+    "seconds": 0.25,
+    "finishedAt": "2026-11-07T03:54:38.994806+00:00"
+  }
+]
