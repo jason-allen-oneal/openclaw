@@ -1,0 +1,39 @@
+{
+  "ok": true,
+  "status": "ok",
+  "final": "SCRIPTED_RUNTIME_PHASE_COMPLETE",
+  "payloads": [
+    {
+      "text": "SCRIPTED_RUNTIME_PHASE_COMPLETE",
+      "mediaUrl": null
+    }
+  ],
+  "usage": {
+    "usageReport": {
+      "state": "unavailable"
+    },
+    "contextUsage": {
+      "state": "unavailable"
+    }
+  },
+  "codeModeEngaged": false,
+  "assistantTurns": 5,
+  "bridgeCalls": {
+    "search": 0,
+    "describe": 0,
+    "call": 0
+  },
+  "toolSummary": {
+    "calls": 4,
+    "tools": [
+      "read",
+      "write",
+      "edit",
+      "apply_patch"
+    ],
+    "failures": 0
+  },
+  "model": "fixture-tool-model",
+  "provider": "fixture",
+  "sessionId": "8eb30238-d2d7-4fc3-bfdc-7cc205972eee"
+}

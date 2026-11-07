@@ -1,0 +1,187 @@
+[test] starting test/vitest/vitest.agents-core.config.ts
+
+ RUN  v5.0.5 <candidate-repo>
+
+[vitest-workers] local cache miss after 6604ms
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest] still running with no output for 90000ms.
+[vitest-workers] prepared 5f1253a84c1c in 101033ms (18850 inputs, 24023 outputs)
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > hints only the governing containment source: config 63ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > hints only the governing containment source: session 7ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > hints only the governing containment source: undefined 7ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/apply-patch.operator-hint.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > hints only the governing containment source: invalid patch 4ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > distinguishes the sandbox rejection owner: host path 8ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > distinguishes the sandbox rejection owner: bridge 10ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > distinguishes the sandbox rejection owner: declared mapping 10ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > hints host symlink escapes without treating in-root hardlinks as escapes 16ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > keeps the containment hint when a parent changes before delete 16ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > keeps the containment hint when a parent changes before provenance read 16ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > preserves the first failure and hint (frozen=false) 5ms
+ ✓ |agents-core| src/agents/apply-patch.operator-hint.test.ts > preserves the first failure and hint (frozen=true) 5ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > guards normalized path @/workspace/docs/readme.md</arg_value>> 17ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > guards normalized path file://attacker/share/readme.md 3ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > guards normalized path file:///workspace/%E0%A4%A 14ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > guards normalized path file:///workspace/%2FREADME.md 19ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > guards normalized path /workspace-two/secret.txt 6ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > adds a workspace-safe hint without executing a rejected path 7ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > normalizes traversal before selecting an overlapping mount 3ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > guards a file URL against its additional mount root 5ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > honors legacy bridge admission without inferring a namespace 5ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > honors miss bridge admission without inferring a namespace 4ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > honors mapped bridge admission without inferring a namespace 3ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/agent-tools.read.workspace-root-guard.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > guard rejects paths emptied by suffix stripping 6ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > read rejects paths emptied by suffix stripping 6ms
+ ✓ |agents-core| src/agents/agent-tools.read.workspace-root-guard.test.ts > repairs Office paths and strips XML suffixes before reading 5ms
+
+ Test Files  2 passed (2)
+      Tests  26 passed (26)
+   Start at  02:32:55
+   Duration  121.21s (transform 96%, worker 2%, import 2%)
+
+[test] starting test/vitest/vitest.extension-codex.config.ts
+
+ RUN  v5.0.5 <candidate-repo>
+
+[vitest] still running with no output for 30000ms.
+(node:1906026) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: createOpenClawCodingTools is deprecated; use await createOpenClawCodingToolsAsync() instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1906026) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreWithoutExternalProfiles is deprecated; use ensureAuthProfileStoreWithoutExternalProfilesAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1906026) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: resolveSandboxRuntimeStatus is deprecated; use resolveSandboxRuntimeStatusAsync instead. The legacy contract remains supported during its deprecation period. Removal requires an announced ordinary stable release window.
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > preserves Decision outcomes through the direct tool surface 2300ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > preserves Decision outcomes through the searchable tool surface 468ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > awaits execution policy before dispatch and refuses a stale policy 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > bounds high-cardinality validation errors returned to Codex 38ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > bounds oversized detail validation errors returned to Codex 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > prepares raw null arguments before native Codex schema validation 26ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > leaves external MCP tool argument validation to the MCP bridge 9ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > surfaces a rejected owner-backed memory write before a false final claim 19ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > keeps model-visible tools stable when plugin discovery order changes 9ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > can register a durable tool schema while denying execution for the current turn 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > publishes and executes a repaired schema with a literal prototype property 7ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > quarantines dynamic tools with unsupported input schemas 9ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > quarantines Codex-invalid dynamic tool name bad.name 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > quarantines Codex-invalid dynamic tool name  bad 15ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > quarantines Codex-invalid dynamic tool name     6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > quarantines Codex-invalid dynamic tool name aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa… 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > quarantines Codex-invalid dynamic tool name mcp__read 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > preserves the canonical cap for tiny contexts 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > shares weighted budget across mixed text blocks while preserving images 10ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > separates artifacts from committed tts effects (timeout: false) 15ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > separates artifacts from committed tts effects (timeout: true) 8ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > separates artifacts from committed sessions_spawn effects (timeout: true) 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > binds local media trust to the concrete tts plugin 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > binds local media trust to the concrete dir_fetch plugin 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > records the current provider and transport thread for implicit message sends 10ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > retains computer frame authority only for its delivered screenshot (replaced) 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > retains computer frame authority only for its delivered screenshot (failed) 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > retains computer frame authority only for its delivered screenshot (preserved) 12ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > retains computer frame authority only for its delivered screenshot (older) 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > preserves successful execution when its observer throws an unreadable error 8ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > classifies replay safety for async read results 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > keeps executed mutations replay-unsafe when middleware rewrites the result as blocked 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > uses raw tool provenance for media trust after middleware rewrites details 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > keeps config out of Codex tool-result contexts 22ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > retains the execution boundary through pending middleware (blocked: false) 264ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > retains the execution boundary through pending middleware (blocked: true) 35ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > does not recreate a retained snapshot after its timeout owner consumes it 57ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > rejects unavailable approval in report-only calls 22ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > rejects unavailable approval in scheduled calls 10ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > preserves delivery evidence when middleware fails (internal reply: false) 343ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > preserves delivery evidence when middleware fails (internal reply: true) 219ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > createCodexDynamicToolBridge > passes per-call abort signals into dynamic tool execution 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > preserves accepted child receipts when middleware strips their details 8ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > records the hook-selected file after remote Slack upload preparation 47ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex automation tool references > leaves unknown, wrong-namespace and non-string… unchanged for the automation validator 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex automation tool references > leaves a non-array allowlist unchanged for the automation validator 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex automation tool references > uses inherited native declarations instead of guessing namespaces from executable metadata 7ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex automation tool references > resolves references without rewriting the supported data-wrapped job shape 6ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex automation tool references > resolves references without rewriting the supported job-wrapped patch shape 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex automation tool references > resolves references without rewriting the supported recoverable padded field shape 5ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex automation tool references > resolves references without rewriting the supported recoverable concatenated payload shape 8ms
+ ✓ |extension-codex| extensions/codex/src/app-server/dynamic-tools.test.ts > Codex tool operator hints > keeps Codex apply_patch containment diagnostics operator-only 79ms
+
+ Test Files  1 passed (1)
+      Tests  52 passed (52)
+   Start at  02:34:58
+   Duration  56.87s (transform 78%, import 13%, tests 7%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 2 Vitest shards in 186.02s

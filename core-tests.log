@@ -1,0 +1,57 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./control-ui-i18n-config.json" without import attributes (scripts/lib/control-ui-i18n-sync-plan.ts:2:41). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./control-ui-i18n-config.json" without import attributes (scripts/lib/control-ui-i18n-sync-plan.ts:2:41). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./control-ui-i18n-config.json" without import attributes (scripts/lib/control-ui-i18n-sync-plan.ts:2:41). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./control-ui-i18n-config.json" without import attributes (scripts/lib/control-ui-i18n-sync-plan.ts:2:41). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v5.0.5 <candidate-repo>
+
+ ✓ |agents-core| src/agents/core-coding-tools.linked-worktrees.test.ts > explains how to bind file tools before accessing another repository's linked worktree 1340ms
+ ✓ |agents-core| src/agents/core-coding-tools.sandbox.test.ts > keeps literal backslash read/write/edit/patch targets distinct with workspaceOnly=true 1291ms
+ ✓ |agents-core| src/agents/core-coding-tools.sandbox.test.ts > keeps literal backslash read/write/edit/patch targets distinct with workspaceOnly=false 225ms
+ ✓ |agents-core| src/agents/core-coding-tools.sandbox.test.ts > reads mapped aliases through real access and queue checks with workspaceOnly=true 106ms
+ ✓ |agents-core| src/agents/core-coding-tools.linked-worktrees.test.ts > uses newly registered linked worktrees for host file tools and observes unregistration 400ms
+ ✓ |agents-core| src/agents/core-coding-tools.sandbox.test.ts > reads mapped aliases through real access and queue checks with workspaceOnly=false 273ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/core-coding-tools.linked-worktrees.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |agents-core| src/agents/core-coding-tools.linked-worktrees.test.ts > refuses forged registrations, foreign worktrees, Git metadata, and linked-worktree escapes 544ms
+ ✓ |agents-core| src/agents/core-coding-tools.sandbox.test.ts > preserves container execution paths with workspaceOnly=true 333ms
+ ✓ |agents-core| src/agents/core-coding-tools.sandbox.test.ts > preserves container execution paths with workspaceOnly=false 100ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/core-coding-tools.sandbox.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |agents-core| src/agents/core-coding-tools.sandbox.test.ts > prepares patch-only workspace admission and preserves the admitted container alias 79ms
+
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
+   Start at  02:32:05
+   Duration  30.65s (transform 68%, import 14%, worker 8%, tests 8%, setup 2%)
+

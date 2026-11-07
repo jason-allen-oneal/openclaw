@@ -1,0 +1,468 @@
+[
+  {
+    "phase": "rejected",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [],
+    "actualToolResults": []
+  },
+  {
+    "phase": "rejected",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "rejectedread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"read\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/read.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedread"
+      }
+    ]
+  },
+  {
+    "phase": "rejected",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "rejectedread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "rejectedwrite",
+          "type": "function",
+          "function": {
+            "name": "write",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/write.txt\",\"content\":\"written-by-worker-194473\\n\"}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"read\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/read.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedread"
+      },
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"write\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/write.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedwrite"
+      }
+    ]
+  },
+  {
+    "phase": "rejected",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "rejectedread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "rejectedwrite",
+          "type": "function",
+          "function": {
+            "name": "write",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/write.txt\",\"content\":\"written-by-worker-194473\\n\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "rejectededit",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/edit.txt\",\"edits\":[{\"oldText\":\"before-edit-194473\",\"newText\":\"after-edit-194473\"}]}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"read\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/read.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedread"
+      },
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"write\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/write.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedwrite"
+      },
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"edit\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/edit.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectededit"
+      }
+    ]
+  },
+  {
+    "phase": "rejected",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "rejectedread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "rejectedwrite",
+          "type": "function",
+          "function": {
+            "name": "write",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/write.txt\",\"content\":\"written-by-worker-194473\\n\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "rejectededit",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/edit.txt\",\"edits\":[{\"oldText\":\"before-edit-194473\",\"newText\":\"after-edit-194473\"}]}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "rejectedapplypatch",
+          "type": "function",
+          "function": {
+            "name": "apply_patch",
+            "arguments": "{\"input\":\"*** Begin Patch\\n*** Update File: <proof-root>/runtime/target/patch.txt\\n@@\\n-before-patch-194473\\n+after-patch-194473\\n*** End Patch\"}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"read\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/read.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedread"
+      },
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"write\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/write.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedwrite"
+      },
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"edit\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/edit.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectededit"
+      },
+      {
+        "role": "tool",
+        "content": "{\n  \"status\": \"error\",\n  \"tool\": \"apply_patch\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/patch.txt. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+        "tool_call_id": "rejectedapplypatch"
+      }
+    ]
+  },
+  {
+    "phase": "recovered",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [],
+    "actualToolResults": []
+  },
+  {
+    "phase": "recovered",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "recoveredread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "read-canary-194473\n",
+        "tool_call_id": "recoveredread"
+      }
+    ]
+  },
+  {
+    "phase": "recovered",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "recoveredread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "recoveredwrite",
+          "type": "function",
+          "function": {
+            "name": "write",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/write.txt\",\"content\":\"written-by-worker-194473\\n\"}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "read-canary-194473\n",
+        "tool_call_id": "recoveredread"
+      },
+      {
+        "role": "tool",
+        "content": "Successfully wrote 25 bytes to <proof-root>/runtime/target/write.txt",
+        "tool_call_id": "recoveredwrite"
+      }
+    ]
+  },
+  {
+    "phase": "recovered",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "recoveredread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "recoveredwrite",
+          "type": "function",
+          "function": {
+            "name": "write",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/write.txt\",\"content\":\"written-by-worker-194473\\n\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "recoverededit",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/edit.txt\",\"edits\":[{\"oldText\":\"before-edit-194473\",\"newText\":\"after-edit-194473\"}]}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "read-canary-194473\n",
+        "tool_call_id": "recoveredread"
+      },
+      {
+        "role": "tool",
+        "content": "Successfully wrote 25 bytes to <proof-root>/runtime/target/write.txt",
+        "tool_call_id": "recoveredwrite"
+      },
+      {
+        "role": "tool",
+        "content": "Successfully replaced 1 block(s) in <proof-root>/runtime/target/edit.txt.",
+        "tool_call_id": "recoverededit"
+      }
+    ]
+  },
+  {
+    "phase": "recovered",
+    "httpPath": "/v1/chat/completions",
+    "toolNames": [
+      "apply_patch",
+      "dispatch_action",
+      "edit",
+      "read",
+      "tool_describe",
+      "tool_search",
+      "write"
+    ],
+    "assistantToolCalls": [
+      [
+        {
+          "id": "recoveredread",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/read.txt\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "recoveredwrite",
+          "type": "function",
+          "function": {
+            "name": "write",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/write.txt\",\"content\":\"written-by-worker-194473\\n\"}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "recoverededit",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"<proof-root>/runtime/target/edit.txt\",\"edits\":[{\"oldText\":\"before-edit-194473\",\"newText\":\"after-edit-194473\"}]}"
+          }
+        }
+      ],
+      [
+        {
+          "id": "recoveredapplypatch",
+          "type": "function",
+          "function": {
+            "name": "apply_patch",
+            "arguments": "{\"input\":\"*** Begin Patch\\n*** Update File: <proof-root>/runtime/target/patch.txt\\n@@\\n-before-patch-194473\\n+after-patch-194473\\n*** End Patch\"}"
+          }
+        }
+      ]
+    ],
+    "actualToolResults": [
+      {
+        "role": "tool",
+        "content": "read-canary-194473\n",
+        "tool_call_id": "recoveredread"
+      },
+      {
+        "role": "tool",
+        "content": "Successfully wrote 25 bytes to <proof-root>/runtime/target/write.txt",
+        "tool_call_id": "recoveredwrite"
+      },
+      {
+        "role": "tool",
+        "content": "Successfully replaced 1 block(s) in <proof-root>/runtime/target/edit.txt.",
+        "tool_call_id": "recoverededit"
+      },
+      {
+        "role": "tool",
+        "content": "Success. Updated the following files:\nM patch.txt",
+        "tool_call_id": "recoveredapplypatch"
+      }
+    ]
+  }
+]

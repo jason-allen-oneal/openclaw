@@ -1,0 +1,51 @@
+{
+  "head": "45e8df9c1287e5d82b6f295b3c01b39c0d10faae",
+  "base": "e53d6574c0f781ed8e49aa4c7eab9b4316493a34",
+  "build": {
+    "version": "2026.11.1",
+    "commit": "45e8df9c1287e5d82b6f295b3c01b39c0d10faae",
+    "builtAt": "2026-11-07T07:31:28.068Z",
+    "buildId": "2026.11.1-45e8df9c1287-2026-11-07T07-31-28.068Z"
+  },
+  "files": {
+    "openclaw.mjs": "eebed013b2713107b1ff2bda6efac3a101b639c75db73a56d748255a6d39d05a",
+    "dist/index.js": "8262a4a3db9cd9dfb7b6d1713ec3ebf37a83bd642339c8dd105a19455b16c1dd",
+    "dist/build-info.json": "27d1f3726e4c2a8203cc7262f958ff13f646d567f822065f685a1b19fb65b620",
+    "dist/secrets-tool-CqmIy3P5.mjs": "858aa630f5f93263f0be2d808fbf472ebf3ea3e3d5350c3ee87f0c2eb9cc7670",
+    "src/agents/agent-tools.read.ts": "e430702fcbaa8a9aa64a6833410c9cc5c965fd13843d28901d3be94057cede0c",
+    "src/agents/apply-patch-containment-hint.ts": "65f076becb249bc31cc65168ef2d145da47e9974292ae3a45892ab1bf6b02636"
+  },
+  "executedDriverSha256": "bb7188d6f905dae0f33f88b387c9b16fb866341d7d12de257e37ad930a072d5e",
+  "inputFixture": {
+    "target/read.txt": {
+      "sha256": "44c8834a8fb937dffc93a870386c76999d8af6adc2f39a9bc2b700f45e2a5527",
+      "content": "read-canary-194473\n"
+    },
+    "target/patch.txt": {
+      "sha256": "fe89ccd48b86ec287df168d1e70a0e9dc0c28ff0100c193414e86a75df819b6d",
+      "content": "before-patch-194473\n"
+    },
+    "target/edit.txt": {
+      "sha256": "918440bd6b48dcfb65f7efb206184513168bec5df37301dfc7cbed6952d3d0cc",
+      "content": "before-edit-194473\n"
+    },
+    "coordinator/untouched.txt": {
+      "sha256": "3ff4dc14f318e31c110073f1282f66030e24aef1f62251504e8673fa88bd0faf",
+      "content": "coordinator-canary-194473\n"
+    }
+  },
+  "independentReview": {
+    "findings": [],
+    "scope": "complete7filedelta",
+    "diffSha256": "9f5e3afaac296fc1da3f3671c2194a4a2af83ae6e8409d83f2f4f886d8ac35b1"
+  },
+  "checks": {
+    "core-tests": 0,
+    "sibling-tests": 0,
+    "madge": 0,
+    "build": 0,
+    "lint": 0,
+    "types": 0,
+    "scripted-run": 0
+  }
+}

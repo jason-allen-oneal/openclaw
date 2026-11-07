@@ -1,0 +1,135 @@
+{
+  "head": "45e8df9c1287e5d82b6f295b3c01b39c0d10faae",
+  "scriptedModel": true,
+  "actualShippedCli": true,
+  "phases": [
+    {
+      "phase": "rejected",
+      "exitCode": 0,
+      "elapsedSeconds": 15.117140293121338,
+      "before": {
+        "target/read.txt": "44c8834a8fb937dffc93a870386c76999d8af6adc2f39a9bc2b700f45e2a5527",
+        "target/patch.txt": "fe89ccd48b86ec287df168d1e70a0e9dc0c28ff0100c193414e86a75df819b6d",
+        "target/edit.txt": "918440bd6b48dcfb65f7efb206184513168bec5df37301dfc7cbed6952d3d0cc",
+        "coordinator/untouched.txt": "3ff4dc14f318e31c110073f1282f66030e24aef1f62251504e8673fa88bd0faf"
+      },
+      "after": {
+        "target/read.txt": "44c8834a8fb937dffc93a870386c76999d8af6adc2f39a9bc2b700f45e2a5527",
+        "target/patch.txt": "fe89ccd48b86ec287df168d1e70a0e9dc0c28ff0100c193414e86a75df819b6d",
+        "target/edit.txt": "918440bd6b48dcfb65f7efb206184513168bec5df37301dfc7cbed6952d3d0cc",
+        "coordinator/untouched.txt": "3ff4dc14f318e31c110073f1282f66030e24aef1f62251504e8673fa88bd0faf"
+      },
+      "command": [
+        "node",
+        "openclaw.mjs",
+        "agent",
+        "exec",
+        "Exercise only the four synthetic file operations selected by the local fixture. Do not use any other tools.",
+        "--config",
+        "<proof-root>/scripted-config.private.json",
+        "--cwd",
+        "<proof-root>/runtime/coordinator",
+        "--state-dir",
+        "<proof-root>/runtime/state-rejected",
+        "--code-mode",
+        "direct",
+        "--thinking",
+        "off",
+        "--json",
+        "--timeout",
+        "180"
+      ]
+    },
+    {
+      "phase": "recovered",
+      "exitCode": 0,
+      "elapsedSeconds": 15.417211294174194,
+      "before": {
+        "target/read.txt": "44c8834a8fb937dffc93a870386c76999d8af6adc2f39a9bc2b700f45e2a5527",
+        "target/patch.txt": "fe89ccd48b86ec287df168d1e70a0e9dc0c28ff0100c193414e86a75df819b6d",
+        "target/edit.txt": "918440bd6b48dcfb65f7efb206184513168bec5df37301dfc7cbed6952d3d0cc",
+        "coordinator/untouched.txt": "3ff4dc14f318e31c110073f1282f66030e24aef1f62251504e8673fa88bd0faf"
+      },
+      "after": {
+        "target/read.txt": "44c8834a8fb937dffc93a870386c76999d8af6adc2f39a9bc2b700f45e2a5527",
+        "target/patch.txt": "805a9bf661030de6f998cd7f2445f6f99c6a6969300457db85c32b7b1835bab3",
+        "target/write.txt": "d10762ae5a58e46b692cf8fe74fbc77dad72313cbb93f0d2ffb85d6e0d18381b",
+        "target/edit.txt": "6382c43dc24f4196b040e1503df3e124840e7d8d5fb97d56fed0771d7505ecc2",
+        "coordinator/untouched.txt": "3ff4dc14f318e31c110073f1282f66030e24aef1f62251504e8673fa88bd0faf"
+      },
+      "command": [
+        "node",
+        "openclaw.mjs",
+        "agent",
+        "exec",
+        "Exercise only the four synthetic file operations selected by the local fixture. Do not use any other tools.",
+        "--config",
+        "<proof-root>/scripted-config.private.json",
+        "--cwd",
+        "<proof-root>/runtime/target",
+        "--state-dir",
+        "<proof-root>/runtime/state-recovered",
+        "--code-mode",
+        "direct",
+        "--thinking",
+        "off",
+        "--json",
+        "--timeout",
+        "180"
+      ]
+    }
+  ],
+  "passed": true,
+  "receipts": [
+    {
+      "phase": "rejected",
+      "toolResults": [
+        {
+          "role": "tool",
+          "content": "{\n  \"status\": \"error\",\n  \"tool\": \"read\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/read.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+          "tool_call_id": "rejectedread"
+        },
+        {
+          "role": "tool",
+          "content": "{\n  \"status\": \"error\",\n  \"tool\": \"write\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/write.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+          "tool_call_id": "rejectedwrite"
+        },
+        {
+          "role": "tool",
+          "content": "{\n  \"status\": \"error\",\n  \"tool\": \"edit\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/edit.txt. Use a relative path under `.openclaw/tmp/` inside the workspace for scratch/temp/meta files that file tools need to read or write later. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+          "tool_call_id": "rejectededit"
+        },
+        {
+          "role": "tool",
+          "content": "{\n  \"status\": \"error\",\n  \"tool\": \"apply_patch\",\n  \"error\": \"Path escapes sandbox root (<proof-root>/runtime/coordinator): <proof-root>/runtime/target/patch.txt. Keep file paths within the bound root. For an authorized task in another repository, use a worker bound to that repository; when starting one with sessions_spawn, set cwd to that repository. Changing exec workdir does not rebind file tools.\"\n}",
+          "tool_call_id": "rejectedapplypatch"
+        }
+      ]
+    },
+    {
+      "phase": "recovered",
+      "toolResults": [
+        {
+          "role": "tool",
+          "content": "read-canary-194473\n",
+          "tool_call_id": "recoveredread"
+        },
+        {
+          "role": "tool",
+          "content": "Successfully wrote 25 bytes to <proof-root>/runtime/target/write.txt",
+          "tool_call_id": "recoveredwrite"
+        },
+        {
+          "role": "tool",
+          "content": "Successfully replaced 1 block(s) in <proof-root>/runtime/target/edit.txt.",
+          "tool_call_id": "recoverededit"
+        },
+        {
+          "role": "tool",
+          "content": "Success. Updated the following files:\nM patch.txt",
+          "tool_call_id": "recoveredapplypatch"
+        }
+      ]
+    }
+  ]
+}
