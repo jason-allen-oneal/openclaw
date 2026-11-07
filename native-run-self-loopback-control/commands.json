@@ -1,0 +1,112 @@
+[
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "getprop",
+      "ro.hardware"
+    ],
+    "returncode": 0,
+    "stdout": "ranchu\n",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "install",
+      "-r",
+      "-g",
+      "<SMS_WORKTREE>/apps/android/app/build/outputs/apk/thirdParty/debug/openclaw-2026.8.2-debug-thirdParty-debug.apk"
+    ],
+    "returncode": 0,
+    "stdout": "Performing Streamed Install\nSuccess\n",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "install",
+      "-r",
+      "<SMS_WORKTREE>/apps/android/app/build/outputs/apk/androidTest/thirdParty/debug/app-thirdParty-debug-androidTest.apk"
+    ],
+    "returncode": 0,
+    "stdout": "Performing Streamed Install\nSuccess\n",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "pm",
+      "grant",
+      "ai.openclaw.app.debug",
+      "android.permission.SEND_SMS"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "pm",
+      "grant",
+      "ai.openclaw.app.debug",
+      "android.permission.READ_SMS"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "date",
+      "+%s"
+    ],
+    "returncode": 0,
+    "stdout": "1794035151\n",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "settings",
+      "get",
+      "global",
+      "hidden_api_policy"
+    ],
+    "returncode": 0,
+    "stdout": "null\n",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "settings",
+      "delete",
+      "global",
+      "hidden_api_policy"
+    ],
+    "returncode": 0,
+    "stdout": "Deleted 0 rows\n",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "settings",
+      "get",
+      "global",
+      "hidden_api_policy"
+    ],
+    "returncode": 0,
+    "stdout": "null\n",
+    "stderr": ""
+  }
+]

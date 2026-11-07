@@ -1,0 +1,21 @@
+{
+  "sourceSha": "6e7249c5248b08d8be1ff58e650c5a16868c9dff",
+  "appSha256": "1c7b2ab20e1326f85e871f672e73cded150f6398e0807e765a02d55f0c408bdb",
+  "testApkSha256": "56365d6ff0268acd24a03dc6ad674137296ce29ccd0a6b92d60d9bffc9bdfc81",
+  "marker": "sms1794035159",
+  "serials": [
+    "emulator-5580"
+  ],
+  "injection": "App-process EMS cache plus real context-bound TelephonyManager singleton; actual Binder phone-state denial; service state unchanged",
+  "physicalCarrierProof": false,
+  "passed": true,
+  "diagnosticOnly": false,
+  "fixtureSha256": "4e648bbb8ee942eadddea5c529f1b02263e9aaf46a35d2933effc274b5482ffd",
+  "transportAdapter": null,
+  "emulatorBackend": "modern ModemSimulator; official -phone-number5580; production submit through virtual radio self-loopback to Inbox, not two-emulator or carrier delivery",
+  "driverSha256": "b347589201a7dc85b29fc647a19bd8b3235aa20d6dd63f8e3743f2dda0b9c3dc",
+  "shortControl": false,
+  "senderExit": 0,
+  "receiverExit": 0,
+  "restoredHiddenApiPolicy": true
+}
