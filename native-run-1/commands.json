@@ -1,0 +1,25 @@
+[
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "shell",
+      "getprop",
+      "ro.hardware"
+    ],
+    "returncode": 0,
+    "stdout": "ranchu\n",
+    "stderr": ""
+  },
+  {
+    "serial": "emulator-5580",
+    "args": [
+      "install",
+      "-r",
+      "-g",
+      "<SMS_WORKTREE>/apps/android/app/build/outputs/apk/thirdParty/debug/openclaw-2026.8.2-debug-thirdParty-debug.apk"
+    ],
+    "returncode": 1,
+    "stdout": "Performing Streamed Install\n",
+    "stderr": "adb: failed to install <SMS_WORKTREE>/apps/android/app/build/outputs/apk/thirdParty/debug/openclaw-2026.8.2-debug-thirdParty-debug.apk: Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE: Existing package ai.openclaw.app.debug signatures do not match newer version; ignoring!]\n\n"
+  }
+]

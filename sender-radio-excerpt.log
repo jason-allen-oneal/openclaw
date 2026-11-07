@@ -1,0 +1,4 @@
+11-07 01:50:11.428   905  1090 D RILJ    : [0186]> SEND_SMS [PHONE0]
+11-07 01:50:11.428   446   446 D RIL     : onRequest: SEND_SMS, sState: 10
+11-07 01:50:11.428   446   446 D AT      : AT> AT+CMGS=26
+11-07 01:50:11.430   905  1090 D RILJ    : [0186]< SEND_SMS { mMessageRef = 2, mErrorCode = 0, mAckPdu = , {x-message-id:0}} [PHONE0]

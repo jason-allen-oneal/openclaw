@@ -1,0 +1,163 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:generateGatewayProtocol UP-TO-DATE
+> Task :app:generateNativeI18n UP-TO-DATE
+
+> Task :app:generateMermaidAssets
+$ node ../../scripts/run-node-package-bin.mts vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 9 modules transformed.
+rendering chunks...
+computing gzip size...
+../../apps/shared/mermaid/assets/mermaid/frame.js                       4.62 kB
+../../apps/shared/mermaid/assets/mermaid/assets/pele.min-DHC_sxOM.js  703.20 kB
+../../apps/shared/mermaid/assets/mermaid/native.js                     36.41 kB │ gzip: 14.25 kB
+
+✓ built in 495ms
+
+> Task :app:validateThirdPartyLicenseAssets
+> Task :app:preBuild
+> Task :app:preThirdPartyDebugBuild
+> Task :app:generateThirdPartyDebugBuildConfig
+> Task :app:extractThirdPartyDebugSupportedLocales
+> Task :app:mapThirdPartyDebugSourceSetPaths
+> Task :wear-shared:preBuild UP-TO-DATE
+> Task :wear-shared:preDebugBuild UP-TO-DATE
+> Task :wear-shared:extractDebugSupportedLocales
+> Task :app:generateThirdPartyDebugResources
+> Task :wear-shared:processDebugNavigationResources
+> Task :app:generateThirdPartyDebugLocaleConfig
+> Task :app:processThirdPartyDebugNavigationResources
+> Task :app:packageThirdPartyDebugResources
+> Task :wear-shared:generateDebugResources
+> Task :wear-shared:packageDebugResources
+> Task :wear-shared:parseDebugLocalResources
+> Task :wear-shared:generateDebugRFile
+> Task :app:parseThirdPartyDebugLocalResources
+> Task :app:generateThirdPartyDebugRFile
+> Task :wear-shared:javaPreCompileDebug
+> Task :app:javaPreCompileThirdPartyDebug
+> Task :wear-shared:writeDebugAarMetadata
+> Task :app:checkThirdPartyDebugAarMetadata
+> Task :app:compileThirdPartyDebugNavigationResources
+> Task :wear-shared:compileDebugKotlin
+> Task :wear-shared:compileDebugJavaWithJavac NO-SOURCE
+> Task :wear-shared:bundleLibCompileToJarDebug
+> Task :app:mergeThirdPartyDebugResources
+> Task :app:createThirdPartyDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksThirdPartyDebug
+> Task :wear-shared:extractDeepLinksDebug
+> Task :wear-shared:processDebugManifest
+> Task :app:processThirdPartyDebugMainManifest
+> Task :app:processThirdPartyDebugManifest
+> Task :app:processThirdPartyDebugManifestForPackage
+> Task :wear-shared:mapDebugSourceSetPaths
+> Task :wear-shared:compileDebugLibraryResources
+> Task :app:processThirdPartyDebugResources
+> Task :app:preThirdPartyDebugUnitTestBuild
+> Task :app:javaPreCompileThirdPartyDebugUnitTest
+> Task :app:extractCloudflareSodiumTest
+> Task :app:generateThirdPartyDebugAssets UP-TO-DATE
+> Task :wear-shared:generateDebugAssets UP-TO-DATE
+> Task :wear-shared:mergeDebugAssets
+> Task :app:mergeThirdPartyDebugAssets
+> Task :app:packageThirdPartyDebugUnitTestForUnitTest
+> Task :app:mergeThirdPartyDebugUnitTestManifest
+> Task :app:processThirdPartyDebugUnitTestManifest
+> Task :wear-shared:bundleLibRuntimeToJarDebug
+> Task :wear-shared:compressDebugJavaRes
+> Task :app:kspThirdPartyDebugKotlin
+> Task :app:compileThirdPartyDebugKotlin
+> Task :app:compileThirdPartyDebugJavaWithJavac
+> Task :app:bundleThirdPartyDebugClassesToRuntimeJar
+> Task :app:compressThirdPartyDebugJavaRes
+> Task :app:bundleThirdPartyDebugClassesToCompileJar
+> Task :app:kspThirdPartyDebugUnitTestKotlin
+> Task :app:compileThirdPartyDebugUnitTestKotlin
+> Task :app:compileThirdPartyDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:compressThirdPartyDebugUnitTestJavaRes
+> Task :app:extractThirdPartyDebugUnitTestJavaRes
+> Task :app:generateThirdPartyDebugUnitTestConfig
+> Task :app:testThirdPartyDebugUnitTest
+
+SmsSendTest > shortMessageAndSuccessfulPlatformDivisionKeepTheirExistingSendPaths FAILED
+    java.lang.AssertionError
+        at org.junit.Assert.fail(Assert.java:87)
+        at org.junit.Assert.assertTrue(Assert.java:42)
+        at org.junit.Assert.assertTrue(Assert.java:53)
+        at ai.openclaw.app.node.SmsSendTest$shortMessageAndSuccessfulPlatformDivisionKeepTheirExistingSendPaths$1.invokeSuspend(SmsSendTest.kt:74)
+        at ai.openclaw.app.node.SmsSendTest$shortMessageAndSuccessfulPlatformDivisionKeepTheirExistingSendPaths$1.invoke(SmsSendTest.kt)
+        at ai.openclaw.app.node.SmsSendTest$shortMessageAndSuccessfulPlatformDivisionKeepTheirExistingSendPaths$1.invoke(SmsSendTest.kt)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+        at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+        at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+        at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+        at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+        at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:159)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:1)
+        at ai.openclaw.app.node.SmsSendTest.shortMessageAndSuccessfulPlatformDivisionKeepTheirExistingSendPaths(SmsSendTest.kt:73)
+
+SmsSendTest > sendsLongMessagesWhenCarrierDividerCannotReadPhoneState FAILED
+    java.lang.AssertionError: SMS_PERMISSION_REQUIRED: getGroupIdLevel1
+        at org.junit.Assert.fail(Assert.java:89)
+        at org.junit.Assert.assertTrue(Assert.java:42)
+        at ai.openclaw.app.node.SmsSendTest$sendsLongMessagesWhenCarrierDividerCannotReadPhoneState$1.invokeSuspend(SmsSendTest.kt:55)
+        at ai.openclaw.app.node.SmsSendTest$sendsLongMessagesWhenCarrierDividerCannotReadPhoneState$1.invoke(SmsSendTest.kt)
+        at ai.openclaw.app.node.SmsSendTest$sendsLongMessagesWhenCarrierDividerCannotReadPhoneState$1.invoke(SmsSendTest.kt)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+        at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)
+        at kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)
+        at kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)
+        at kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)
+        at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:159)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0$default(TestBuilders.kt:1)
+        at ai.openclaw.app.node.SmsSendTest.sendsLongMessagesWhenCarrierDividerCannotReadPhoneState(SmsSendTest.kt:43)
+
+99 tests completed, 2 failed
+
+> Task :app:testThirdPartyDebugUnitTest FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:testThirdPartyDebugUnitTest'.
+> There were failing tests. See the report at: file://<SMS_WORKTREE>/apps/android/app/build/reports/tests/testThirdPartyDebugUnitTest/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 3m 32s
+58 actionable tasks: 56 executed, 2 up-to-date

@@ -1,0 +1,26 @@
+{
+  "sourceSha": "d9b05a54a020af17c3a226b2ef4f9cd3af8bec0d",
+  "appSha256": "e8a8375f6e4003c8b7f582295535a372ac1112f99de6a285c12ed700ad5f6215",
+  "testApkSha256": "c2a342a01bbfd9f3fba9923668c2acfea16824c3d6d7c30e7158a3daf480f25d",
+  "marker": "sms1794034207",
+  "serials": [
+    "emulator-5580",
+    "emulator-5582"
+  ],
+  "injection": "none; normal framework division and production SmsHandler send",
+  "physicalCarrierProof": false,
+  "passed": false,
+  "diagnosticOnly": false,
+  "fixtureSha256": "a72537f6cdd1a63e03903cf7778799af61518081130e0aff9d01f5449f423671",
+  "transportAdapter": {
+    "listen": "127.0.0.1:6521",
+    "target": "127.0.0.1:33345",
+    "mode": "unchanged-byte TCP forwarding to recipient remote-modem host listener; no generated/injected SMS or PDUs",
+    "senderGuestModemPort": 6520
+  },
+  "driverSha256": "80c513ee9bc8c888f49d6cd9bf29b4c6d53c7863cb081d86991730b47900a1e3",
+  "shortControl": true,
+  "senderExit": 0,
+  "receiverExit": 0,
+  "restoredHiddenApiPolicy": true
+}
