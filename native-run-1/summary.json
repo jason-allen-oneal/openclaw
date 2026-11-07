@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "candidateSha": "2afbb2ec0f0bbda0c317e6d6a940d2883fe270e5",
+  "startedAt": "2026-11-07T04:36:29.919Z",
+  "finishedAt": "2026-11-07T04:36:58.081Z",
+  "observations": {
+    "initialApproval": "public RPCs",
+    "androidInitiallyConnected": true,
+    "beforeStaleRequest": 4096,
+    "afterStaleRequest": 4096,
+    "recoveredStats": 6144,
+    "androidAuthenticatedConnections": 2,
+    "rejectedEventWireCount": 1,
+    "newEventWireCount": 1,
+    "rejection": {
+      "code": "UNAVAILABLE",
+      "message": "node pairing changed before request dispatch",
+      "retryable": true,
+      "details": {
+        "code": "PAIRING_CHANGED"
+      }
+    },
+    "obsoleteClose": {
+      "code": 4001,
+      "reason": "node pairing changed; reconnect"
+    },
+    "native": {
+      "candidateSha": "2afbb2ec0f0bbda0c317e6d6a940d2883fe270e5",
+      "sdk": 35,
+      "hardware": "ranchu",
+      "disconnect": {
+        "ready": false,
+        "oldLeaseCurrent": false,
+        "reason": "Gateway closed: node pairing changed; reconnect"
+      },
+      "oldLeaseCurrentAfterRecovery": false,
+      "replacementLeaseCurrent": true,
+      "freshEventAccepted": true
+    }
+  },
+  "limits": [
+    "Production Android GatewaySession on a native emulator, not a physical phone or full app UI.",
+    "Deterministic same-identity replacement; original historical initiating race was not reproduced.",
+    "Synthetic same-identity fixture receives the test-only Android key; no real user identity is accessed.",
+    "A transparent local WebSocket recorder forwards frames unmodified; it does not initiate recovery.",
+    "Authorization-denial pause is verified by focused Android regression tests separately.",
+    "No model request, external channel, deployment, merge, or live Gateway access."
+  ],
+  "cleanup": {
+    "clients": true,
+    "gatewayExitCode": 0,
+    "gatewaySignal": null,
+    "errors": []
+  }
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ai.openclaw.app.gateway.GatewaySessionReconnectTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-07T04:27:55.215Z" hostname="proof-host" time="0.583">
+  <properties/>
+  <testcase name="retiredTransportFailureCannotOverwriteReplacementConnectionState" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.149"/>
+  <testcase name="retiredAuthenticationFailureCannotPauseReplacementConnection" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.088"/>
+  <testcase name="pairingChangedCloseAutomaticallyReauthenticatesWithoutReplayingRejectedEvent" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.142"/>
+  <testcase name="retiredDisconnectCleanupCannotOverwriteReplacementConnectionState" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.093"/>
+  <testcase name="pairingRequiredFailureNotifiesPauseReconnectProblem" classname="ai.openclaw.app.gateway.GatewaySessionReconnectTest" time="0.098"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

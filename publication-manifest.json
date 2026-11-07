@@ -1,0 +1,264 @@
+{
+  "candidateSha": "2afbb2ec0f0bbda0c317e6d6a940d2883fe270e5",
+  "redactions": "Synthetic bearer token, machine-local paths/hostname, ANSI formatting. Private runtime state, signing keys, SDK, AVD, APK binaries and caches excluded. Driver fallback-home literal is redacted only; no rerun of public-adapted copy claimed.",
+  "files": [
+    {
+      "path": "driver.mjs",
+      "executedOrCapturedSha256": "e8a337c7e4dcd273a21f389489732037a81d859b01c723c2037e7202e5945d8a",
+      "publicSha256": "477d6b566fb5125ca24dc0f464338519efa044ccb1fabbc5a6c50df95a8d28e4",
+      "redacted": true
+    },
+    {
+      "path": "run-native.py",
+      "executedOrCapturedSha256": "dedccc6816be761f72535bac889a875dc59a4efc31a70bca5965fdd981acb4f5",
+      "publicSha256": "dedccc6816be761f72535bac889a875dc59a4efc31a70bca5965fdd981acb4f5",
+      "redacted": false
+    },
+    {
+      "path": "contract.md",
+      "executedOrCapturedSha256": "4313e01bccfbf9ab62713b5c4f389b561e2e1fdbcca76be197bf1cef676ad92e",
+      "publicSha256": "4313e01bccfbf9ab62713b5c4f389b561e2e1fdbcca76be197bf1cef676ad92e",
+      "redacted": false
+    },
+    {
+      "path": "commands.md",
+      "executedOrCapturedSha256": "ccb42995b36594b029658e1827fa9d892f115b67606e8387f2a3c08ea6d7f316",
+      "publicSha256": "ccb42995b36594b029658e1827fa9d892f115b67606e8387f2a3c08ea6d7f316",
+      "redacted": false
+    },
+    {
+      "path": "independent-review.json",
+      "executedOrCapturedSha256": "6dda994571aef7381348f3f02a9cbb37b9ab6fd562512a2ff3d6bbd96f8f35f0",
+      "publicSha256": "6dda994571aef7381348f3f02a9cbb37b9ab6fd562512a2ff3d6bbd96f8f35f0",
+      "redacted": false
+    },
+    {
+      "path": "cleanup-receipt.json",
+      "executedOrCapturedSha256": "e20a35e57bf83e18087d62ee332ec95e2fea087dcc505d57a69744e78c67633d",
+      "publicSha256": "e20a35e57bf83e18087d62ee332ec95e2fea087dcc505d57a69744e78c67633d",
+      "redacted": false
+    },
+    {
+      "path": "unit-attempt-1.log",
+      "executedOrCapturedSha256": "5db9fd2c0a6f40c0672e4571f728ac00c94a3f211eee91ccc8360c7e2f9b9acf",
+      "publicSha256": "a50622eeb6be2ff4b3afc8bd4a8a8872e3f027ee71f29abe12004aefe09b5219",
+      "redacted": true
+    },
+    {
+      "path": "unit-attempt-1.exit",
+      "executedOrCapturedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publicSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "redacted": false
+    },
+    {
+      "path": "native-compile-attempt-1.log",
+      "executedOrCapturedSha256": "4e4a04864712b6e3649c7275347b46803ea0023958881de44c6f1651124d5687",
+      "publicSha256": "4e4a04864712b6e3649c7275347b46803ea0023958881de44c6f1651124d5687",
+      "redacted": false
+    },
+    {
+      "path": "native-compile-attempt-1.exit",
+      "executedOrCapturedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publicSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "redacted": false
+    },
+    {
+      "path": "android-final-build.log",
+      "executedOrCapturedSha256": "e68642b40a4c30e076d1c3faabb649570aeab50f080d632b3f28422813123dd4",
+      "publicSha256": "e68642b40a4c30e076d1c3faabb649570aeab50f080d632b3f28422813123dd4",
+      "redacted": false
+    },
+    {
+      "path": "android-final-build.exit",
+      "executedOrCapturedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publicSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "redacted": false
+    },
+    {
+      "path": "gateway-final-build.log",
+      "executedOrCapturedSha256": "0ee693b0ff867eeb83795553a455e474e2bd7aa86a0f217aff560f0b8477a1f4",
+      "publicSha256": "627f19ac5b7b621c65d59b2b1cc348e9108b2a72f351532ab74d01e78a7773ff",
+      "redacted": true
+    },
+    {
+      "path": "gateway-final-build.exit",
+      "executedOrCapturedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publicSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "redacted": false
+    },
+    {
+      "path": "ktlint-check.log",
+      "executedOrCapturedSha256": "f97e6ea990214b0e25a3ddc34ed6b358407d459f9e865a23194466460af0b0c6",
+      "publicSha256": "57a2e3433904e71e484dc25cadd91de9af334d2c64d3c7a4493eb03205547e7c",
+      "redacted": true
+    },
+    {
+      "path": "ktlint-check.exit",
+      "executedOrCapturedSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "publicSha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "redacted": false
+    },
+    {
+      "path": "ktlint-format-native.log",
+      "executedOrCapturedSha256": "5b185271b9d789b943cea4ad456470522d8db66140515a884e35b44c782abee1",
+      "publicSha256": "c080436fee2219992eaa634bae1b6924a062c86adbcbc6c96a7d0b58654eb7f2",
+      "redacted": true
+    },
+    {
+      "path": "ktlint-format-unit.log",
+      "executedOrCapturedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publicSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "redacted": false
+    },
+    {
+      "path": "ktlint-final-2.log",
+      "executedOrCapturedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publicSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "redacted": false
+    },
+    {
+      "path": "ktlint-final-2.exit",
+      "executedOrCapturedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publicSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1-command.log",
+      "executedOrCapturedSha256": "37519500ecb14fa2ef3728e86f4cfb1022985c93b271280227ba32fb6f4884d9",
+      "publicSha256": "074fe7e2e12704ed21f79db48a973cea38ca11a48e9e23a3c024909e95f177ff",
+      "redacted": true
+    },
+    {
+      "path": "native-run-1-command.exit",
+      "executedOrCapturedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publicSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "redacted": false
+    },
+    {
+      "path": "emulator-cleanup.log",
+      "executedOrCapturedSha256": "c8688fc34ee1d36f2e975dad0607555ba84d8951ccb39e69b7ab7a5d159ec81f",
+      "publicSha256": "c8688fc34ee1d36f2e975dad0607555ba84d8951ccb39e69b7ab7a5d159ec81f",
+      "redacted": false
+    },
+    {
+      "path": "emulator-cleanup.exit",
+      "executedOrCapturedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publicSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "redacted": false
+    },
+    {
+      "path": "setup-logs/emulator-ready-receipts.json",
+      "executedOrCapturedSha256": "f26f4092a643118955046ac816478f463b2664bde15cf310ea77ac545ceb3e01",
+      "publicSha256": "f26f4092a643118955046ac816478f463b2664bde15cf310ea77ac545ceb3e01",
+      "redacted": false
+    },
+    {
+      "path": "setup-logs/sdk-input-manifest.json",
+      "executedOrCapturedSha256": "daa676a8f48a5a589d36b7a03963b883f7c771af4f71ba686b524194ad98e324",
+      "publicSha256": "daa676a8f48a5a589d36b7a03963b883f7c771af4f71ba686b524194ad98e324",
+      "redacted": false
+    },
+    {
+      "path": "unit-results/TEST-ai.openclaw.app.gateway.GatewaySessionReconnectTest.xml",
+      "executedOrCapturedSha256": "e9b630851235fde27d89409cb62bd50f080f51b2ccef9284b24bc24087eeaa50",
+      "publicSha256": "e29fe1aeaabf780bfd5231075e710184f28932d7e027e4b21302981ccaf2e879",
+      "redacted": true
+    },
+    {
+      "path": "unit-results/TEST-ai.openclaw.app.gateway.GatewaySessionInvokeTest.xml",
+      "executedOrCapturedSha256": "2d8934ac13936703646df497940845eab3c6382de0781b1ce8699ad55b6c7de5",
+      "publicSha256": "5f5e6e76cb8d984dff3a06262ae60328aab824e2b04a7e9f40476292e66d72ec",
+      "redacted": true
+    },
+    {
+      "path": "native-run-1/native-logcat.log",
+      "executedOrCapturedSha256": "bee0c3d466fa837a6ef08dfec9e6707489b364a583adb386a21aabfa8920c062",
+      "publicSha256": "bee0c3d466fa837a6ef08dfec9e6707489b364a583adb386a21aabfa8920c062",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/android-manifest.json",
+      "executedOrCapturedSha256": "a42a8c98f9bdd4a4f9f948a352a37b1c8192a625299d434511def13dd858c4c5",
+      "publicSha256": "a42a8c98f9bdd4a4f9f948a352a37b1c8192a625299d434511def13dd858c4c5",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/manifest.json",
+      "executedOrCapturedSha256": "04ec5cf42cb6980d6969b029aefc95e0b59ff55d497961628fe870b849cdd4c6",
+      "publicSha256": "04ec5cf42cb6980d6969b029aefc95e0b59ff55d497961628fe870b849cdd4c6",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/installed-app.log",
+      "executedOrCapturedSha256": "41661d56786e91897c379ab7eea5de38b5c170e97eec7d49c198625471f3229c",
+      "publicSha256": "41661d56786e91897c379ab7eea5de38b5c170e97eec7d49c198625471f3229c",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/installed-test.log",
+      "executedOrCapturedSha256": "8fb37ef80070f61d999cb516940a6d07ff0621118791a7e2059ef18548e81c77",
+      "publicSha256": "8fb37ef80070f61d999cb516940a6d07ff0621118791a7e2059ef18548e81c77",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/install-app.log",
+      "executedOrCapturedSha256": "781a31c82430c97897af612ece5e0ca2205e301cb5ff121ce2660541ea5182c7",
+      "publicSha256": "781a31c82430c97897af612ece5e0ca2205e301cb5ff121ce2660541ea5182c7",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/pull-app.log",
+      "executedOrCapturedSha256": "259de5697aa8db7fbc368affdb861b9ce83857467f20048e5555fbc1bf92085d",
+      "publicSha256": "259de5697aa8db7fbc368affdb861b9ce83857467f20048e5555fbc1bf92085d",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/summary.json",
+      "executedOrCapturedSha256": "9df36ff1413a914010c71a82bf83c7b316e3aded62a180ddfe23cb9a06848969",
+      "publicSha256": "9df36ff1413a914010c71a82bf83c7b316e3aded62a180ddfe23cb9a06848969",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/logcat-clear.log",
+      "executedOrCapturedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publicSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/command-exits.json",
+      "executedOrCapturedSha256": "63458fb50b91972afaadcf51dd2b091366ee5b19476fc76a6690c9df15d5422c",
+      "publicSha256": "9d366916f83520d2f56b37cf96814b1c44366ababbc8328a1a588df20b25d0da",
+      "redacted": true
+    },
+    {
+      "path": "native-run-1/wire-trace.jsonl",
+      "executedOrCapturedSha256": "db489c462c58c803b6a8ad8b22c93d48c9a65498b3c4c4d528feb198275c16b9",
+      "publicSha256": "db489c462c58c803b6a8ad8b22c93d48c9a65498b3c4c4d528feb198275c16b9",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/install-test.log",
+      "executedOrCapturedSha256": "781a31c82430c97897af612ece5e0ca2205e301cb5ff121ce2660541ea5182c7",
+      "publicSha256": "781a31c82430c97897af612ece5e0ca2205e301cb5ff121ce2660541ea5182c7",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/native-junit.log",
+      "executedOrCapturedSha256": "4ffe4a1fb421108cd09a6e31bf956542ebcd65cf5c0966faa933733c1a1a7d2d",
+      "publicSha256": "4ffe4a1fb421108cd09a6e31bf956542ebcd65cf5c0966faa933733c1a1a7d2d",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/gateway.log",
+      "executedOrCapturedSha256": "9485d7caf969f97cb30c64c49e9e461f274523554c987fc112bd6e8951763bb5",
+      "publicSha256": "9485d7caf969f97cb30c64c49e9e461f274523554c987fc112bd6e8951763bb5",
+      "redacted": false
+    },
+    {
+      "path": "native-run-1/pull-test.log",
+      "executedOrCapturedSha256": "d8cf1935aebc44f9a3d71f6874f28f4374d2dcf840ea46cd50fce17ebd4ab37b",
+      "publicSha256": "d8cf1935aebc44f9a3d71f6874f28f4374d2dcf840ea46cd50fce17ebd4ab37b",
+      "redacted": false
+    }
+  ]
+}

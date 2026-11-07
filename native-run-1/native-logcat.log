@@ -1,0 +1,23 @@
+--------- beginning of main
+11-06 23:36:52.431  2424  2424 W app_process: Unexpected CPU variant for x86: x86_64.
+11-06 23:36:52.431  2424  2424 W app_process: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default
+11-06 23:36:52.555  2437  2437 W nclaw.app.debug: Unexpected CPU variant for x86: x86_64.
+11-06 23:36:52.555  2437  2437 W nclaw.app.debug: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default
+--------- beginning of system
+11-06 23:36:52.615  2437  2437 W ActivityThread: Package uses different ABI(s) than its instrumentation: package[ai.openclaw.app.debug]: x86_64, null instrumentation[ai.openclaw.app.debug.test]: null, null
+11-06 23:36:52.620  2437  2437 W ziparchive: Unable to open '/data/app/~~OHuV1FNO8a8mvQa_6tQvFw==/ai.openclaw.app.debug.test-9JRHZX9CbtdyEOhU7-mbuw==/base.dm': No such file or directory
+11-06 23:36:52.620  2437  2437 W ziparchive: Unable to open '/data/app/~~OHuV1FNO8a8mvQa_6tQvFw==/ai.openclaw.app.debug.test-9JRHZX9CbtdyEOhU7-mbuw==/base.dm': No such file or directory
+11-06 23:36:52.634  2437  2437 W ziparchive: Unable to open '/data/app/~~IkYty3yuY-oW4ncdk6WPFg==/ai.openclaw.app.debug-O6zvc6ch4sLlWRNH5Eu2nw==/base.dm': No such file or directory
+11-06 23:36:52.634  2437  2437 W ziparchive: Unable to open '/data/app/~~IkYty3yuY-oW4ncdk6WPFg==/ai.openclaw.app.debug-O6zvc6ch4sLlWRNH5Eu2nw==/base.dm': No such file or directory
+11-06 23:36:53.209  2437  2437 W ziparchive: Unable to open '/data/app/~~OHuV1FNO8a8mvQa_6tQvFw==/ai.openclaw.app.debug.test-9JRHZX9CbtdyEOhU7-mbuw==/base.dm': No such file or directory
+11-06 23:36:53.210  2437  2437 W ziparchive: Unable to open '/data/app/~~OHuV1FNO8a8mvQa_6tQvFw==/ai.openclaw.app.debug.test-9JRHZX9CbtdyEOhU7-mbuw==/base.dm': No such file or directory
+11-06 23:36:53.223  2437  2437 W ziparchive: Unable to open '/data/app/~~IkYty3yuY-oW4ncdk6WPFg==/ai.openclaw.app.debug-O6zvc6ch4sLlWRNH5Eu2nw==/base.dm': No such file or directory
+11-06 23:36:53.223  2437  2437 W ziparchive: Unable to open '/data/app/~~IkYty3yuY-oW4ncdk6WPFg==/ai.openclaw.app.debug-O6zvc6ch4sLlWRNH5Eu2nw==/base.dm': No such file or directory
+11-06 23:36:54.094   573  1601 W PackageConfigPersister: App-specific configuration not found for packageName: ai.openclaw.app.debug and userId: 0
+11-06 23:36:54.151  2437  2452 I TestRunner: run started: 1 tests
+11-06 23:36:54.154  2437  2452 I TestRunner: started: obsoleteNodeSocketAutomaticallyRecoversWithoutReplayingItsRejectedEvent(ai.openclaw.app.gateway.GatewaySessionPairingRecoveryNativeTest)
+11-06 23:36:57.457  2437  2452 I TestRunner: finished: obsoleteNodeSocketAutomaticallyRecoversWithoutReplayingItsRejectedEvent(ai.openclaw.app.gateway.GatewaySessionPairingRecoveryNativeTest)
+11-06 23:36:57.460  2437  2452 I TestRunner: run finished: 1 tests, 0 failed, 0 ignored
+11-06 23:36:57.480   573  1601 E ActivityManager: Unable to freeze binder for 2437: -11
+--------- beginning of kernel
+11-06 23:36:57.678     0     0 W binder_debug: 56 callbacks suppressed

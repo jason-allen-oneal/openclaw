@@ -1,0 +1,83 @@
+{
+  "capturedAt": "2026-11-07T04:16:34.057002+00:00",
+  "receipts": [
+    {
+      "command": [
+        "/usr/bin/adb",
+        "devices",
+        "-l"
+      ],
+      "exit": 0,
+      "stdout": "List of devices attached\nemulator-5580          device product:sdk_phone64_x86_64 model:Android_SDK_built_for_x86_64 device:emu64x transport_id:1\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "getprop",
+        "sys.boot_completed"
+      ],
+      "exit": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "getprop",
+        "ro.build.version.sdk"
+      ],
+      "exit": 0,
+      "stdout": "35\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "getprop",
+        "ro.product.cpu.abi"
+      ],
+      "exit": 0,
+      "stdout": "x86_64\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "getprop",
+        "ro.build.fingerprint"
+      ],
+      "exit": 0,
+      "stdout": "Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "cmd",
+        "package",
+        "list",
+        "packages",
+        "ai.openclaw"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

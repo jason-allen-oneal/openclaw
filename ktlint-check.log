@@ -1,0 +1,19 @@
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:979:26: Body of when entry should be surrounded by braces if any when entry body is surrounded by braces or has a multiline body (standard:when-entry-bracing)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:980:1: Add a blank line between all when-conditions in case at least one multiline when-condition is found in the statement (standard:blank-line-between-when-conditions)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1019:42: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1019:61: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1019:72: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1019:91: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1021:40: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1021:62: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1021:84: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1025:26: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1025:45: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1025:56: Expected newline before '.' (standard:chain-method-continuation)
+<candidate-checkout>/apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt:1025:80: Expected newline before '.' (standard:chain-method-continuation)
+23:17:03.666 [main] WARN com.pinterest.ktlint.cli.internal.KtlintCommandLine -- Lint has found errors than can be autocorrected using 'ktlint --format'
+
+Summary error count (descending) by rule:
+  standard:chain-method-continuation: 11
+  standard:blank-line-between-when-conditions: 1
+  standard:when-entry-bracing: 1

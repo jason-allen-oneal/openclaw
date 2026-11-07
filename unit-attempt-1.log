@@ -1,0 +1,95 @@
+Starting a Gradle Daemon, 2 incompatible Daemons could not be reused, use --status for details
+Checking the license for package Android SDK Build-Tools 36 in <proof-root>/sdk/licenses
+License for package Android SDK Build-Tools 36 accepted.
+Preparing "Install Android SDK Build-Tools 36 v.36.0.0".
+"Install Android SDK Build-Tools 36 v.36.0.0" ready.
+Installing Android SDK Build-Tools 36 in <proof-root>/sdk/build-tools/36.0.0
+"Install Android SDK Build-Tools 36 v.36.0.0" complete.
+"Install Android SDK Build-Tools 36 v.36.0.0" finished.
+
+> Task :app:generateGatewayProtocol
+[native-protocol] kotlin: generated
+
+> Task :app:generateNativeI18n
+
+> Task :app:generateMermaidAssets
+$ node ../../scripts/run-node-package-bin.mts vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 9 modules transformed.
+rendering chunks...
+computing gzip size...
+../../apps/shared/mermaid/assets/mermaid/frame.js                       4.62 kB
+../../apps/shared/mermaid/assets/mermaid/assets/pele.min-DHC_sxOM.js  703.20 kB
+../../apps/shared/mermaid/assets/mermaid/native.js                     36.41 kB │ gzip: 14.25 kB
+
+✓ built in 715ms
+
+> Task :app:validateThirdPartyLicenseAssets
+> Task :app:preBuild
+> Task :app:preThirdPartyDebugBuild
+> Task :app:generateThirdPartyDebugBuildConfig
+> Task :app:extractThirdPartyDebugSupportedLocales
+> Task :app:mapThirdPartyDebugSourceSetPaths
+> Task :wear-shared:preBuild UP-TO-DATE
+> Task :wear-shared:preDebugBuild UP-TO-DATE
+> Task :wear-shared:extractDebugSupportedLocales
+> Task :app:generateThirdPartyDebugLocaleConfig
+> Task :app:generateThirdPartyDebugResources
+> Task :wear-shared:processDebugNavigationResources
+> Task :app:processThirdPartyDebugNavigationResources
+> Task :app:packageThirdPartyDebugResources
+> Task :wear-shared:generateDebugResources
+> Task :wear-shared:packageDebugResources
+> Task :wear-shared:javaPreCompileDebug
+> Task :wear-shared:parseDebugLocalResources
+> Task :app:parseThirdPartyDebugLocalResources
+> Task :app:javaPreCompileThirdPartyDebug
+> Task :wear-shared:writeDebugAarMetadata
+> Task :app:compileThirdPartyDebugNavigationResources
+> Task :wear-shared:generateDebugRFile
+> Task :app:generateThirdPartyDebugRFile
+> Task :app:checkThirdPartyDebugAarMetadata
+> Task :app:createThirdPartyDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksThirdPartyDebug
+> Task :wear-shared:extractDeepLinksDebug
+> Task :wear-shared:mapDebugSourceSetPaths
+> Task :wear-shared:compileDebugLibraryResources
+> Task :app:preThirdPartyDebugUnitTestBuild
+> Task :wear-shared:processDebugManifest
+> Task :app:javaPreCompileThirdPartyDebugUnitTest
+> Task :app:mergeThirdPartyDebugResources
+> Task :wear-shared:compileDebugKotlin
+> Task :app:processThirdPartyDebugMainManifest
+> Task :app:processThirdPartyDebugManifest
+> Task :app:extractCloudflareSodiumTest
+> Task :app:generateThirdPartyDebugAssets UP-TO-DATE
+> Task :app:processThirdPartyDebugManifestForPackage
+> Task :wear-shared:generateDebugAssets UP-TO-DATE
+> Task :wear-shared:mergeDebugAssets
+> Task :app:mergeThirdPartyDebugAssets
+> Task :app:processThirdPartyDebugResources
+> Task :app:mergeThirdPartyDebugUnitTestManifest
+> Task :wear-shared:compileDebugJavaWithJavac NO-SOURCE
+> Task :wear-shared:bundleLibCompileToJarDebug
+> Task :app:packageThirdPartyDebugUnitTestForUnitTest
+> Task :app:processThirdPartyDebugUnitTestManifest
+> Task :wear-shared:bundleLibRuntimeToJarDebug
+> Task :wear-shared:compressDebugJavaRes
+> Task :app:kspThirdPartyDebugKotlin
+> Task :app:compileThirdPartyDebugKotlin
+> Task :app:compileThirdPartyDebugJavaWithJavac
+> Task :app:compressThirdPartyDebugJavaRes
+> Task :app:bundleThirdPartyDebugClassesToCompileJar
+> Task :app:bundleThirdPartyDebugClassesToRuntimeJar
+> Task :app:kspThirdPartyDebugUnitTestKotlin
+> Task :app:compileThirdPartyDebugUnitTestKotlin
+> Task :app:compileThirdPartyDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:compressThirdPartyDebugUnitTestJavaRes
+> Task :app:extractThirdPartyDebugUnitTestJavaRes
+> Task :app:generateThirdPartyDebugUnitTestConfig
+> Task :app:testThirdPartyDebugUnitTest
+
+BUILD SUCCESSFUL in 14m 1s
+58 actionable tasks: 58 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html

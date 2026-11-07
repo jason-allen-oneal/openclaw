@@ -1,0 +1,27 @@
+{
+  "reviewer": "independent native child android_recovery_review",
+  "scope": "Android tests and isolated host proof driver, read-only P0-P2",
+  "finding": {
+    "priority": "P1",
+    "description": "Initial Connecting callback dereferenced absent original lease",
+    "resolution": "Guard callback with originalLease.get()?.let before reading lease; exact suggested fix applied"
+  },
+  "remainingReviewFindings": [],
+  "limits": [
+    "Review only, not execution",
+    "Native child follow-up relay failed; author verified exact suggested repair",
+    "Kotlin unsupported by installed UB metric tools; no metrics claimed"
+  ],
+  "driverSha256": "e8a337c7e4dcd273a21f389489732037a81d859b01c723c2037e7202e5945d8a",
+  "resolvedSnapshot": {
+    "apps/android/app/src/test/java/ai/openclaw/app/gateway/GatewaySessionReconnectTest.kt": "05da6ae135800deff8c37b01d5b0470b6a8df2b43dcbc53339557e4b8be175bf",
+    "apps/android/app/src/androidTest/java/ai/openclaw/app/gateway/GatewaySessionPairingRecoveryNativeTest.kt": "aebab20a2930be71984b36de2398ef38687916e0c3d19274577665ac50bcbee2"
+  },
+  "reviewedSnapshot": {
+    "GatewaySessionReconnectTest.kt": "88e7794d6aeac76b798c16465dd5dda7a1f59769c1bbd44ecbbb07f030a557c8",
+    "GatewaySessionPairingRecoveryNativeTest.kt": "aebab20a2930be71984b36de2398ef38687916e0c3d19274577665ac50bcbee2",
+    "driver.mjs": "e8a337c7e4dcd273a21f389489732037a81d859b01c723c2037e7202e5945d8a"
+  },
+  "resolutionVerification": "Author applied exact suggested null guard, ktlint formatting only afterward; six targeted tests and native compilation passed. No claim of a completed helper CLI review.",
+  "candidateSha": "2afbb2ec0f0bbda0c317e6d6a940d2883fe270e5"
+}

@@ -1,0 +1,139 @@
+{
+  "candidateSha": "2afbb2ec0f0bbda0c317e6d6a940d2883fe270e5",
+  "nativeJUnitPassed": true,
+  "hostExitCode": 0,
+  "commands": [
+    {
+      "name": "install-app",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "install",
+        "-r",
+        "-t",
+        "<candidate-checkout>/apps/android/app/build/outputs/apk/thirdParty/debug/openclaw-2026.8.2-debug-thirdParty-debug.apk"
+      ],
+      "exitCode": 0,
+      "seconds": 2.634
+    },
+    {
+      "name": "install-test",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "install",
+        "-r",
+        "-t",
+        "<candidate-checkout>/apps/android/app/build/outputs/apk/androidTest/thirdParty/debug/app-thirdParty-debug-androidTest.apk"
+      ],
+      "exitCode": 0,
+      "seconds": 0.644
+    },
+    {
+      "name": "installed-app",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "pm",
+        "path",
+        "ai.openclaw.app.debug"
+      ],
+      "exitCode": 0,
+      "seconds": 0.135
+    },
+    {
+      "name": "pull-app",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "pull",
+        "/data/app/~~IkYty3yuY-oW4ncdk6WPFg==/ai.openclaw.app.debug-O6zvc6ch4sLlWRNH5Eu2nw==/base.apk",
+        "<proof-root>/native-run-1/private-runtime/installed-app.apk"
+      ],
+      "exitCode": 0,
+      "seconds": 2.065
+    },
+    {
+      "name": "installed-test",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "pm",
+        "path",
+        "ai.openclaw.app.debug.test"
+      ],
+      "exitCode": 0,
+      "seconds": 0.049
+    },
+    {
+      "name": "pull-test",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "pull",
+        "/data/app/~~OHuV1FNO8a8mvQa_6tQvFw==/ai.openclaw.app.debug.test-9JRHZX9CbtdyEOhU7-mbuw==/base.apk",
+        "<proof-root>/native-run-1/private-runtime/installed-test.apk"
+      ],
+      "exitCode": 0,
+      "seconds": 0.023
+    },
+    {
+      "name": "logcat-clear",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "logcat",
+        "-c"
+      ],
+      "exitCode": 0,
+      "seconds": 0.118
+    },
+    {
+      "name": "native-junit",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5580",
+        "shell",
+        "am",
+        "instrument",
+        "-w",
+        "-r",
+        "-e",
+        "class",
+        "ai.openclaw.app.gateway.GatewaySessionPairingRecoveryNativeTest",
+        "-e",
+        "pairingRecoveryProof",
+        "true",
+        "-e",
+        "candidateSha",
+        "2afbb2ec0f0bbda0c317e6d6a940d2883fe270e5",
+        "-e",
+        "gatewayPort",
+        "43173",
+        "-e",
+        "controlPort",
+        "44523",
+        "-e",
+        "fixtureToken",
+        "[synthetic-token]",
+        "ai.openclaw.app.debug.test/androidx.test.runner.AndroidJUnitRunner"
+      ],
+      "exitCode": 0,
+      "seconds": 5.387
+    },
+    {
+      "name": "host-driver",
+      "exitCode": 0
+    }
+  ]
+}
