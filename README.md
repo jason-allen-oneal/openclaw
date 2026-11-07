@@ -1,6 +1,8 @@
 # File-tool workspace recovery: exact-head runtime evidence
 
-Candidate: `45e8df9c1287e5d82b6f295b3c01b39c0d10faae`.
+Final PR head: `d0c37b128383e05031f639ab5c5dd04acb9222ca`.
+
+Runtime execution head: `45e8df9c1287e5d82b6f295b3c01b39c0d10faae`. The only later change corrects one stale UI test heading to match unchanged production copy. The [reuse receipt](ui-heading-repair-receipt.json) verifies all recorded runtime/source hashes remain identical; no rebuild or runtime rerun on the final head is claimed. The affected production HTTP/browser suite passed all three tests ([log](ui-heading-repair-test.log)).
 
 This captures the **shipped CLI and unmodified production file tools**, with a
 **scripted loopback model transport** selecting deterministic calls. It is not
@@ -19,7 +21,7 @@ The two workers are separately launched through supported `agent exec --cwd`.
 The driver independently hashes the target and coordinator files before and
 after rejection, then checks complete final file contents after recovery. All
 four rejected calls leave both repositories unchanged. Both CLI invocations
-exit0; the rejected run correctly records four tool failures, while recovery
+exit 0; the rejected run correctly records four tool failures, while recovery
 records four successes. No shell tool, injected tool implementation, direct
 factory invocation, HTTP `/tools/invoke`, fabricated tool result, or manually
 written positive result is used.
@@ -43,12 +45,12 @@ are redacted. The synthetic provider key is not a credential.
 ## Verification
 
 - 88 targeted tests passed: [10 linked-worktree/container tests](core-tests.log)
-  plus [26 root-guard/patch and52 Codex bridge tests](sibling-tests.log).
+  plus [26 root-guard/patch and 52 Codex bridge tests](sibling-tests.log).
 - [Madge: zero cycles](madge.log), resolving the named CI failure after a
   conflict-free integration of current upstream main containing #194496.
-- Targeted core lint and agents-root typecheck exit0; the earlier unrelated
+- Targeted core lint and agents-root typecheck exit 0; the earlier unrelated
   type errors did not recur on this candidate.
-- [Runtime build exit0](build-receipt.json), metadata matches candidate SHA.
+- [Runtime build exit 0](build-receipt.json), metadata matches candidate SHA.
   The build reports existing Control UI performance-budget warnings; no UI
   change is included in this PR.
 - Fresh independent review of all seven PR files: no actionable P0–P3 findings.

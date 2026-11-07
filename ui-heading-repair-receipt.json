@@ -1,0 +1,25 @@
+{
+  "finalHead": "d0c37b128383e05031f639ab5c5dd04acb9222ca",
+  "runtimeExecutedHead": "45e8df9c1287e5d82b6f295b3c01b39c0d10faae",
+  "runtimeRebuiltOrRerun": false,
+  "reason": "Only one UI test assertion changed after runtime proof; all recorded executable, bundle, and source hashes remain byte-identical.",
+  "changedSinceRuntimeProof": [
+    "ui/src/e2e/gateway-fresh-visit.http.e2e.test.ts"
+  ],
+  "unchangedArtifactHashes": {
+    "openclaw.mjs": "eebed013b2713107b1ff2bda6efac3a101b639c75db73a56d748255a6d39d05a",
+    "dist/index.js": "8262a4a3db9cd9dfb7b6d1713ec3ebf37a83bd642339c8dd105a19455b16c1dd",
+    "dist/build-info.json": "27d1f3726e4c2a8203cc7262f958ff13f646d567f822065f685a1b19fb65b620",
+    "dist/secrets-tool-CqmIy3P5.mjs": "858aa630f5f93263f0be2d808fbf472ebf3ea3e3d5350c3ee87f0c2eb9cc7670",
+    "src/agents/agent-tools.read.ts": "e430702fcbaa8a9aa64a6833410c9cc5c965fd13843d28901d3be94057cede0c",
+    "src/agents/apply-patch-containment-hint.ts": "65f076becb249bc31cc65168ef2d145da47e9974292ae3a45892ab1bf6b02636"
+  },
+  "targetedBrowserTest": {
+    "command": "node scripts/run-vitest.mjs run --config test/vitest/vitest.ui-e2e.config.ts --configLoader runner ui/src/e2e/gateway-fresh-visit.http.e2e.test.ts --maxWorkers=1",
+    "testsPassed": 3,
+    "exitCode": 0,
+    "durationSeconds": 130.27,
+    "preCommitSnapshotMatchesCommittedFile": true
+  },
+  "independentReview": "Parent independently reviewed exact one-line heading replacement; no finding. Original seven-file review is retained separately."
+}
