@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {DatabaseSync} from 'node:sqlite';
+import {pathToFileURL} from 'node:url';
+const file = JSON.parse(fs.readFileSync(process.env.PROOF_ROOT+'/fixture.json','utf8')).sqlitePath;
+const sha256 = createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const db = new DatabaseSync(pathToFileURL(file).href+'?mode=ro&immutable=1',{readOnly:true});
+const tables = ['schema_meta','session_nodes','session_windows','transcript_events','session_transcript_index_state','session_transcript_active_events'];
+const rows=Object.fromEntries(tables.map(table=>[table,db.prepare(`SELECT * FROM "${table}"`).all()]));
+const result = {sha256,bytes:fs.statSync(file).size,integrity:db.prepare('PRAGMA integrity_check').all(),foreignKeys:db.prepare('PRAGMA foreign_key_check').all(),rows};
+db.close();
+console.log(JSON.stringify(result,null,2));

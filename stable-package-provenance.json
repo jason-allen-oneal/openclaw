@@ -1,0 +1,34 @@
+{
+  "name": "openclaw",
+  "version": "2026.11.1",
+  "dist": {
+    "shasum": "f518f4d7aa615e97f5bcc67934a5518567d1b971",
+    "tarball": "https://registry.npmjs.org/openclaw/-/openclaw-2026.11.1.tgz",
+    "fileCount": 15180,
+    "integrity": "sha512-2pSbt/taBKM/ofPXsiOEmVefgUdVHYRZOmcWNDyx67WUfeGFXqtfqLvtwYOiH4NcLolDSLMUgsno2oYhTVXptw==",
+    "signatures": [
+      {
+        "sig": "MEUCIQDbwpBS9YvOVToPcFTRdt0LcVLGJUtsV0xZk+fadI8MHAIgIS6w9esk22f/zdf8EiL+VVqOTQHC8Nvcj0uij2gkKNE=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "sig": "MEUCIQCXxq1nF2UquhqilDMr9C7nGHQRL7cVILQep6CIziZkwQIgTTapyEk88smsk6O11X/spIHaSx1QJcMQb1uP0U3HIpQ=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/openclaw@2026.11.1",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    },
+    "unpackedSize": 274712249
+  },
+  "exactInternalDependencies": {
+    "@openclaw/ai": "2026.11.1",
+    "@openclaw/fs-safe": "0.26.5",
+    "@openclaw/proc-safe": "0.4.2",
+    "@openclaw/proxyline": "0.4.0"
+  },
+  "otherDependencies": "Read-only links to candidate installed dependencies; not a clean standalone npm installation"
+}

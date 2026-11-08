@@ -1,0 +1,32 @@
+{
+  "candidateHead": "556fc60f228c8a2437effe2c89926dc0ba1d0483",
+  "base": "3df96dfc805b01d5d16e12040ab519ab67c8d61f",
+  "stagedDiffSha256": "3aeda9e293237e4fce8c1501a0aa7302c52c584d34c34201ac828508ec4cb158",
+  "focusedStorageCleanupTestsPassed": 144,
+  "uiUnitTestsPassed": 16,
+  "canonicalBuildExit": 0,
+  "normalCliExit": 0,
+  "stableUpgradeExit": 0,
+  "realGatewayUiExit": 0,
+  "gatewayUiScenarios": 9,
+  "servedAssetHashesVerified": 123,
+  "fullArtifactHashesUnchanged": 26549,
+  "sourceClean": true,
+  "screenshotsInspected": 9,
+  "modelCalls": 0,
+  "publication": "not performed",
+  "limitations": [
+    "Synthetic isolated fixtures, not original reporter installation",
+    "Storage/Doctor/cleanup upgrade, not package updater or service restart",
+    "Controlled interruption uses exact-candidate source owner progress callback, not OS kill",
+    "Stable package and exact internal dependencies integrity-verified; other stable dependencies linked read-only from candidate installation",
+    "No model/channel interaction",
+    "Small Update status text shift at820/1280 remains; no Recovery storage section shift, shell movement or document overflow",
+    "Build reports advisory UI gzip sizes above baseline; successful build is not final hosted CI",
+    "Console warnings/errors are retained, including service-worker blocking and401/404 responses; no clean-console claim."
+  ],
+  "retainedFailures": [
+    "Missing await in PR-only inventory test failed before correction; same assertions pass afterward",
+    "Initial normal/stable attempts were refused by secure-temp ancestor checks; TMPDIR alone was insufficient because SQLite uses home/XDG cache. Successful fresh attempts set a private XDG_CACHE_HOME under /tmp; no permissions/guards changed."
+  ]
+}

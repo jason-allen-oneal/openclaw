@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "candidateHead": "556fc60f228c8a2437effe2c89926dc0ba1d0483",
+  "stableVersion": "2026.11.1",
+  "stableAgentSchema": 27,
+  "candidateAgentSchema": 41,
+  "stableManifestVersion": 3,
+  "candidateManifestVersion": 5,
+  "sessionsPreserved": 1,
+  "eventsPreserved": 3,
+  "retiredFiles": 3,
+  "replayRemovedFiles": 0,
+  "replayOtherChangedPaths": [],
+  "databaseUnchangedByRetirement": true,
+  "backupFilesUnchanged": 11,
+  "pendingOlderReader": "PASS",
+  "disposedOlderReader": "PASS",
+  "exactShippedManifestReader": "PASS",
+  "limitations": [
+    "Synthetic data; not original reporter installation",
+    "Built candidate normal CLI, not package updater/service restart",
+    "Fault injection invokes exact-candidate source retirement owner using its progress callback; not OS kill",
+    "Official stable package and exact internal dependencies integrity-verified; other dependencies linked read-only from candidate install",
+    "No model/channel interaction; owning storage/update/Doctor boundaries only"
+  ]
+}

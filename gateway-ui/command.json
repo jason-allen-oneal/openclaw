@@ -1,0 +1,45 @@
+{
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "<proof-root>/real-gateway-ui/vitest.config.ts",
+    "--configLoader",
+    "runner",
+    "--maxWorkers=1",
+    "<proof-root>/real-gateway-ui/proof.test.ts"
+  ],
+  "cwd": "<candidate-checkout>",
+  "environment": {
+    "PATH": "<local-path>",
+    "HOME": "<ui-attempt>/home",
+    "OPENCLAW_HOME": "<ui-attempt>/home",
+    "OPENCLAW_STATE_DIR": "<ui-attempt>/bootstrap-state",
+    "OPENCLAW_CONFIG_PATH": "<ui-attempt>/bootstrap-state/openclaw.json",
+    "TMPDIR": "<isolated-temp>",
+    "NO_COLOR": "1",
+    "TERM": "dumb",
+    "PLAYWRIGHT_BROWSERS_PATH": "<user-cache>/ms-playwright",
+    "OPENCLAW_UI_E2E_ARTIFACT_DIR": "<ui-attempt>",
+    "OPENCLAW_VITEST_FS_MODULE_CACHE_PATH": "<ui-attempt>/vitest-module-cache",
+    "RECOVERY_PROOF_ATTEMPT": "<ui-attempt>"
+  },
+  "before": {
+    "head": "556fc60f228c8a2437effe2c89926dc0ba1d0483",
+    "sourceDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sourceStatus": "",
+    "builtEntrypointSha256": "ab8ec993b0824a66b6ffce0f29103eedce917d1a29a958dc39c32a7cb52b4f24",
+    "builtUiIndexSha256": "266d84c1f399ee577b550fcf4f8f7f11618394c2f2771338e59902b1c7e5a2f4"
+  },
+  "startedAt": "2026-11-08T19:49:07.898162+00:00",
+  "exitCode": 0,
+  "completedAt": "2026-11-08T19:53:10.483131+00:00",
+  "after": {
+    "head": "556fc60f228c8a2437effe2c89926dc0ba1d0483",
+    "sourceDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "builtEntrypointSha256": "ab8ec993b0824a66b6ffce0f29103eedce917d1a29a958dc39c32a7cb52b4f24",
+    "builtUiIndexSha256": "266d84c1f399ee577b550fcf4f8f7f11618394c2f2771338e59902b1c7e5a2f4"
+  },
+  "sourceAndBuildUnchanged": true
+}

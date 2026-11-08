@@ -1,0 +1,169 @@
+{
+  "stage": "empty",
+  "width": 400,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "13:f884ef26-d75d-43b7-9ffb-274dbdc7d11c",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "13:f884ef26-d75d-43b7-9ffb-274dbdc7d11c",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "27:274a1a74-8906-4a4f-ac5e-ed188fe54d3e",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "28:055c045d-6e0e-4801-98df-26981a571864",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "28:055c045d-6e0e-4801-98df-26981a571864",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "27:274a1a74-8906-4a4f-ac5e-ed188fe54d3e",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "29:0f22c000-93f2-45a0-ad90-f37d9413f442",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "29:0f22c000-93f2-45a0-ad90-f37d9413f442",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "logical",
+        "incomplete": false,
+        "incompleteReasons": [],
+        "total": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": []
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Observed recovery copies0.0 B in 0 copiesSafe recovery and retirement guidance",
+  "shifts": [],
+  "shellSelector": ".topbar-nav-toggle",
+  "chromeBefore": [
+    12,
+    8,
+    45,
+    45
+  ],
+  "chromeAfter": [
+    12,
+    8,
+    45,
+    45
+  ],
+  "layout": {
+    "documentWidth": 400,
+    "documentScrollWidth": 400,
+    "sectionWidth": 376,
+    "sectionScrollWidth": 376
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "warning",
+      "text": "OpenClaw service worker registration failed. TypeError: Cannot read properties of undefined (reading 'installing')\n    at _y (http://<isolated-loopback>/assets/control-ui-connection-Drof4Aji.js:5:28354)\n    at http://<isolated-loopback>/assets/control-ui-boot-shared-DsuXOP4e.js:135:44840"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "pageErrors": [],
+  "screenshot": "empty-400.png"
+}

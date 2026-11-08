@@ -1,0 +1,144 @@
+[
+  {
+    "name": "00-setup",
+    "argv": [
+      "node",
+      "--import",
+      "<candidate-checkout>/scripts/tsx.mjs",
+      "<proof-root>/normal-launcher/setup.mts"
+    ],
+    "exitCode": 0,
+    "stdout": "00-setup.stdout",
+    "stderr": "00-setup.stderr"
+  },
+  {
+    "name": "01-sqlite-before",
+    "argv": [
+      "node",
+      "--import",
+      "<candidate-checkout>/scripts/tsx.mjs",
+      "<proof-root>/normal-launcher/snapshot.mjs"
+    ],
+    "exitCode": 0,
+    "stdout": "01-sqlite-before.stdout",
+    "stderr": "01-sqlite-before.stderr"
+  },
+  {
+    "name": "02-doctor-inspect-before",
+    "argv": [
+      "node",
+      "<candidate-checkout>/openclaw.mjs",
+      "doctor",
+      "--session-sqlite",
+      "inspect",
+      "--session-sqlite-all-agents",
+      "--json"
+    ],
+    "exitCode": 0,
+    "stdout": "02-doctor-inspect-before.stdout",
+    "stderr": "02-doctor-inspect-before.stderr"
+  },
+  {
+    "name": "03-ordinary-cleanup",
+    "argv": [
+      "node",
+      "<candidate-checkout>/openclaw.mjs",
+      "update",
+      "cleanup",
+      "--yes",
+      "--json"
+    ],
+    "exitCode": 1,
+    "stdout": "03-ordinary-cleanup.stdout",
+    "stderr": "03-ordinary-cleanup.stderr"
+  },
+  {
+    "name": "04-explicit-dry-run",
+    "argv": [
+      "node",
+      "<candidate-checkout>/openclaw.mjs",
+      "update",
+      "cleanup",
+      "--json",
+      "--retire-session-archive",
+      "<normal-cli-run>/state/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+      "--retire-session-archive",
+      "<normal-cli-run>/state/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+      "--archive-backup",
+      "<normal-cli-run>/independent-backup",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "stdout": "04-explicit-dry-run.stdout",
+    "stderr": "04-explicit-dry-run.stderr"
+  },
+  {
+    "name": "05-explicit-apply",
+    "argv": [
+      "node",
+      "<candidate-checkout>/openclaw.mjs",
+      "update",
+      "cleanup",
+      "--json",
+      "--retire-session-archive",
+      "<normal-cli-run>/state/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+      "--retire-session-archive",
+      "<normal-cli-run>/state/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+      "--archive-backup",
+      "<normal-cli-run>/independent-backup",
+      "--accept-history-loss",
+      "--yes"
+    ],
+    "exitCode": 0,
+    "stdout": "05-explicit-apply.stdout",
+    "stderr": "05-explicit-apply.stderr"
+  },
+  {
+    "name": "06-explicit-second-apply",
+    "argv": [
+      "node",
+      "<candidate-checkout>/openclaw.mjs",
+      "update",
+      "cleanup",
+      "--json",
+      "--retire-session-archive",
+      "<normal-cli-run>/state/agents/main/session-sqlite-import-archive/history.trajectory.jsonl.imported-1",
+      "--retire-session-archive",
+      "<normal-cli-run>/state/agents/main/session-sqlite-import-archive/changed.jsonl.imported-1",
+      "--archive-backup",
+      "<normal-cli-run>/independent-backup",
+      "--accept-history-loss",
+      "--yes"
+    ],
+    "exitCode": 0,
+    "stdout": "06-explicit-second-apply.stdout",
+    "stderr": "06-explicit-second-apply.stderr"
+  },
+  {
+    "name": "07-sqlite-after",
+    "argv": [
+      "node",
+      "--import",
+      "<candidate-checkout>/scripts/tsx.mjs",
+      "<proof-root>/normal-launcher/snapshot.mjs"
+    ],
+    "exitCode": 0,
+    "stdout": "07-sqlite-after.stdout",
+    "stderr": "07-sqlite-after.stderr"
+  },
+  {
+    "name": "08-doctor-inspect-after",
+    "argv": [
+      "node",
+      "<candidate-checkout>/openclaw.mjs",
+      "doctor",
+      "--session-sqlite",
+      "inspect",
+      "--session-sqlite-all-agents",
+      "--json"
+    ],
+    "exitCode": 0,
+    "stdout": "08-doctor-inspect-after.stdout",
+    "stderr": "08-doctor-inspect-after.stderr"
+  }
+]

@@ -1,0 +1,214 @@
+{
+  "stage": "retained",
+  "width": 1280,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "13:bc15660c-81c3-4eee-b243-9010d94eba9c",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "13:bc15660c-81c3-4eee-b243-9010d94eba9c",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "27:14eb14b5-07e0-4800-ba05-b334a2bae5ef",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "28:782ec0d8-1cc9-454b-b634-be0dac73023a",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "27:14eb14b5-07e0-4800-ba05-b334a2bae5ef",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "28:782ec0d8-1cc9-454b-b634-be0dac73023a",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "29:ac9babc8-b8fd-46d2-bb67-3235e989dce7",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "29:ac9babc8-b8fd-46d2-bb67-3235e989dce7",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "logical",
+        "incomplete": false,
+        "incompleteReasons": [],
+        "total": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 2,
+            "logicalBytes": 320,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 2,
+              "logicalBytes": 320
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": [
+          {
+            "reason": "artifact-metadata-changed",
+            "outcome": "blocked",
+            "count": 1,
+            "logicalBytes": 213
+          },
+          {
+            "reason": "historical-manifest-without-import-proof",
+            "outcome": "verification-required",
+            "count": 1,
+            "logicalBytes": 107
+          }
+        ]
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Observed recovery copies320 B in 2 copiesBlocked: artifact-metadata-changedThe archive no longer matches its recorded identity. Preserve the current bytes and review the mismatch before considering retirement.213 B in 1 copiesVerification required: historical-manifest-without-import-proofImport proof is unavailable or has not been checked. Keep these archives until you have reviewed recovery dependencies and the retirement guidance.107 B in 1 copiesSafe recovery and retirement guidance",
+  "shifts": [
+    {
+      "value": 0.000024347305297851564,
+      "hadRecentInput": false,
+      "sources": [
+        {
+          "node": "DIV.settings-row__control",
+          "section": "Update status",
+          "text": "Update status unavailable",
+          "previousRect": {
+            "x": 1019.09375,
+            "y": 850.390625,
+            "width": 122.90625,
+            "height": 21.6875,
+            "top": 850.390625,
+            "right": 1142,
+            "bottom": 872.078125,
+            "left": 1019.09375
+          },
+          "currentRect": {
+            "x": 1004.640625,
+            "y": 850.390625,
+            "width": 138,
+            "height": 21.6875,
+            "top": 850.390625,
+            "right": 1142.640625,
+            "bottom": 872.078125,
+            "left": 1004.640625
+          }
+        }
+      ]
+    }
+  ],
+  "shellSelector": ".settings-sidebar__back",
+  "chromeBefore": [
+    12,
+    8,
+    285,
+    32
+  ],
+  "chromeAfter": [
+    12,
+    8,
+    285,
+    32
+  ],
+  "layout": {
+    "documentWidth": 1280,
+    "documentScrollWidth": 1280,
+    "sectionWidth": 728,
+    "sectionScrollWidth": 728
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "warning",
+      "text": "OpenClaw service worker registration failed. TypeError: Cannot read properties of undefined (reading 'installing')\n    at _y (http://<isolated-loopback>/assets/control-ui-connection-Drof4Aji.js:5:28354)\n    at http://<isolated-loopback>/assets/control-ui-boot-shared-DsuXOP4e.js:135:44840"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "pageErrors": [],
+  "screenshot": "retained-1280.png"
+}

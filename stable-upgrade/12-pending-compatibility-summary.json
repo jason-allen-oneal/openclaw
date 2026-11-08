@@ -1,0 +1,96 @@
+{
+  "result": "PASS",
+  "manifestVersion": 5,
+  "archiveFilesPreserved": 3,
+  "receiptUnchanged": true,
+  "liveDatabaseUnchanged": true,
+  "noRestoredSources": true,
+  "cleanupExitCode": 1,
+  "restoreExitCode": 2,
+  "restoreGate": "Invalid config at <stable-upgrade-run>/state/openclaw.json:\n- meta.migrations: Unrecognized key: \"skillLibraryToolSplit\"",
+  "otherChangedPaths": [
+    "plugin-skills/browser-automation/SKILL.md",
+    "plugin-skills/browser-automation/references/page-triage.md",
+    "plugin-skills/canvas/SKILL.md"
+  ],
+  "cleanup": {
+    "stateDir": "<stable-upgrade-run>/state",
+    "artifacts": [
+      {
+        "path": "<stable-upgrade-run>/state/session-sqlite-migration-runs/session-sqlite-1794166486065-26aaaebd.json",
+        "runs": [],
+        "bytes": 15614,
+        "outcome": "blocked",
+        "reason": "unreadable-manifest"
+      },
+      {
+        "path": "<stable-upgrade-run>/state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c.bak",
+        "runs": [
+          "startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c"
+        ],
+        "bytes": 675840,
+        "outcome": "protected",
+        "reason": "awaiting-later-completed-update",
+        "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+      },
+      {
+        "path": "<stable-upgrade-run>/state/state/openclaw.sqlite.pre-startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c.bak",
+        "runs": [
+          "startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c"
+        ],
+        "bytes": 1458176,
+        "outcome": "protected",
+        "reason": "awaiting-later-completed-update",
+        "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+      },
+      {
+        "path": "<stable-upgrade-run>/state/state/openclaw.sqlite.pre-startup-migration-c12c46c0-0563-4b60-8ca1-812a34718bf7.scoped.bak",
+        "runs": [
+          "startup-migration-c12c46c0-0563-4b60-8ca1-812a34718bf7"
+        ],
+        "bytes": 24576,
+        "outcome": "protected",
+        "reason": "awaiting-later-completed-update",
+        "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+      },
+      {
+        "path": "<stable-upgrade-run>/state/agents/main/session-sqlite-import-archive/.cleanup-19dd2f89-e471-4b2f-ad70-c1a70636fd62",
+        "runs": [],
+        "bytes": 651,
+        "outcome": "protected",
+        "reason": "unmanifested-artifact"
+      },
+      {
+        "path": "<stable-upgrade-run>/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1794166488960",
+        "runs": [],
+        "bytes": 100,
+        "outcome": "protected",
+        "reason": "unmanifested-artifact"
+      },
+      {
+        "path": "<stable-upgrade-run>/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794166489054",
+        "runs": [],
+        "bytes": 263,
+        "outcome": "protected",
+        "reason": "unmanifested-artifact"
+      }
+    ],
+    "totals": {
+      "candidateBytes": 0,
+      "verificationRequiredBytes": 0,
+      "protectedBytes": 2159606,
+      "blockedBytes": 15614,
+      "removedBytes": 0,
+      "removedFiles": 0
+    },
+    "status": "blocked",
+    "dryRun": false
+  },
+  "restore": {
+    "ok": false,
+    "error": {
+      "type": "cli_error",
+      "message": "Invalid config at <stable-upgrade-run>/state/openclaw.json:\n- meta.migrations: Unrecognized key: \"skillLibraryToolSplit\""
+    }
+  }
+}

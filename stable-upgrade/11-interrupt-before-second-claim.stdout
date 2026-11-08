@@ -1,0 +1,78 @@
+{
+  "stateDir": "<stable-upgrade-run>/state",
+  "artifacts": [
+    {
+      "path": "<stable-upgrade-run>/state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c.bak",
+      "runs": [
+        "startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c"
+      ],
+      "bytes": 675840,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-upgrade-run>/state/state/openclaw.sqlite.pre-startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c.bak",
+      "runs": [
+        "startup-migration-cf594e81-2c05-8981-80e5-8263e17bdd0c"
+      ],
+      "bytes": 1458176,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-upgrade-run>/state/state/openclaw.sqlite.pre-startup-migration-c12c46c0-0563-4b60-8ca1-812a34718bf7.scoped.bak",
+      "runs": [
+        "startup-migration-c12c46c0-0563-4b60-8ca1-812a34718bf7"
+      ],
+      "bytes": 24576,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-upgrade-run>/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1794166488959",
+      "runs": [
+        "session-sqlite-1794166486065-26aaaebd"
+      ],
+      "bytes": 651,
+      "outcome": "blocked",
+      "reason": "retirement-stopped",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original.",
+      "detail": "Backup verified: <stable-upgrade-run>/backup/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1794166488959; selected SHA-256: b6766734953e08fc46152976c0f4a17e8d3f4f0e6e2dcc998afa7b1a249b7605. No import proof is inferred."
+    },
+    {
+      "path": "<stable-upgrade-run>/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1794166488960",
+      "runs": [
+        "session-sqlite-1794166486065-26aaaebd"
+      ],
+      "bytes": 100,
+      "outcome": "failed",
+      "reason": "artifact-retirement-failed",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original.",
+      "detail": "Error: proof injection: interrupted before second claim"
+    },
+    {
+      "path": "<stable-upgrade-run>/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794166489054",
+      "runs": [
+        "session-sqlite-1794166486065-26aaaebd"
+      ],
+      "bytes": 263,
+      "outcome": "blocked",
+      "reason": "retirement-stopped",
+      "consequence": "Permanently relinquishes this recovery group, including unique or never-imported history. Changed bytes may not match the formerly recorded original.",
+      "detail": "Backup verified: <stable-upgrade-run>/backup/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794166489054; selected SHA-256: 8f26e00602eb5cd0071bdc3eaaa359d530ba1ea3ef15e9e45790fa411285c66c. No import proof is inferred."
+    }
+  ],
+  "totals": {
+    "candidateBytes": 0,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 2158592,
+    "blockedBytes": 1014,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "blocked",
+  "missingOriginals": 0
+}

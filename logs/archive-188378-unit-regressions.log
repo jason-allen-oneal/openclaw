@@ -1,0 +1,368 @@
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > retains original import evidence independently of retirement (proof=true) 128ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > retains original import evidence independently of retirement (proof=false) 5ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: older manifest 4ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: import classification 5ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: retained disposal 4ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: ordinary cleanup reason 3ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: relative backup 4ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: invalid digest 5ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > keeps operator retirement evidence when completed import manifests age out 20ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  14:33:10
+   Duration  2.66s (transform 72%, setup 18%, tests 8%, import 2%)
+
+[test] starting test/vitest/vitest.cli.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 6028ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 0eaef889ac75 in 6119ms (18882 inputs, 24090 outputs)
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > previews backup-backed retirement of both reported archive classes without changing receipts 104ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > retires only explicitly selected backed-up history and preserves the original evidence 95ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > does not let ordinary --yes consent retire unverified or changed archives 19ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > parses repeated archive selections and requires history-loss consent independently of --yes 53ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses missing backup without changing original files or manifests 24ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses conflicting selection without changing original files or manifests 21ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses orphan backup without changing original files or manifests 21ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses orphan consent without changing original files or manifests 26ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > requires every retained member of the selected session target 9ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > resumes shared-store retirement after a partial cross-manifest intent write 125ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > resumes shared-store retirement after a partial cross-manifest disposed write 130ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the archive after confirmation before retirement 18ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the backup after confirmation before retirement 17ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the manifest after confirmation before retirement 21ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks the archive inode after confirmation before retirement 22ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses unresolved configuration before explicit archive selection 14ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: missing archive 12ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: changed archive 9ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: same-size changed archive 12ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: missing manifest 13ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses an inadequate independent backup: inside state 11ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rejects a bind-mounted archive backup alias 23ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rejects a bind-mounted manifest backup alias 39ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > rechecks configured live files at the claim boundary after progress callbacks 26ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > protects archives referenced by pending recovery despite explicit history-loss consent 1315ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses a recreated original from an ordinary completed disposal 21ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > refuses conflicting pending claims across referencing manifests 22ms
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > preserves a pending claim that becomes a configured live store before retry 25ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/cli/update-cli/cleanup-session-archives.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+
+ ✓ |cli| src/cli/update-cli/cleanup-session-archives.test.ts > resumes an interrupted group claim with the original backup and durable retirement evidence 61ms
+
+ Test Files  1 passed (1)
+      Tests  29 passed (29)
+   Start at  14:33:14
+   Duration  25.77s (transform 76%, import 9%, tests 9%, worker 4%, setup 1%)
+
+[test] starting test/vitest/vitest.commands.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > does not replace operator-retired history with a later matching archive 84ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > retains growing duplicate archives and the restore refusal without leaking its descriptor 24ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > admits transcript-only retired agents through the public selector 2450ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > imports primary history without changing its logical owner (lineage) 2571ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > imports primary history without changing its logical owner (generated) 2237ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > recovers a completed old archive once, preserves bytes, and does not resurrect user-deleted history 6069ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > retires remounted recovery after its Gateway writes the destination 13460ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > recover settles identical repeated archives across retained manifests and names differing pairs 2816ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > imports renamed primary history (archived: false) 2083ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > manual cleanup retires a pre-reboot original from its archive 4216ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > imports renamed primary history (archived: true) 2042ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > keeps diagnostic, deleted, and ambiguous inputs out of searchable history 2205ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > manual cleanup retires a pre-reboot original from its interrupted claim 4245ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > uses a 2026.9.4 archived registry under current SQLite state: device changed 2195ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > uses a 2026.9.4 archived registry under current SQLite state: metadata changed 179ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps a pre-reboot original when its destination was restored as a new file 3221ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > recovers only a verified inode-only restored registry: restored 2526ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > recovers only a verified inode-only restored registry: bytes changed 1849ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > recovers only a verified inode-only restored registry: mtime changed 1878ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps an original when its destination reports another volume than the original beside it 4875ms
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > recovers only a verified inode-only restored registry: hard linked 1907ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.discovery.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |commands| src/commands/doctor-session-sqlite.discovery.test.ts > preserves retained shared aliases after the old migration cleared their filenames 141ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > records a rejected SQLite import (journal failure=false) 2351ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > records a rejected SQLite import (journal failure=true) 35ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > recovers the latest matching failed run and reports only current issues (explicit store=false) 3011ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps success and reports an actual retirement failure consistently (JSON: true) 9675ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > recovers the latest matching failed run and reports only current issues (explicit store=true) 3065ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > keeps clean recovery out of support reports despite previous evidence or work (empty-report) 2250ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > keeps clean recovery out of support reports despite previous evidence or work (restored) 2400ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > keeps clean recovery out of support reports despite previous evidence or work (completed) 2436ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > refuses a support claim when the saved report is replaced during consent 23ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > refuses a support claim when the saved report is missing during consent 17ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.failure-reports.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > persists one support issue receipt on a historical v3 manifest 15ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > persists one support issue receipt on a historical v5 manifest 8ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > derives private report paths instead of trusting persisted destinations 6ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > rewrites report paths once per target, not once per issue (#194621) 17ms
+ ✓ |commands| src/commands/doctor-session-sqlite.failure-reports.test.ts > runDoctorSessionSqlite > keeps bounded GitHub issue bodies on a valid UTF-16 boundary 18ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps success and reports an actual retirement failure consistently (JSON: false) 12249ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > runs retirement in the owning Gateway worker while retaining pending recovery 5197ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > resumes intent disposal without overclaiming bytes 11598ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > allows its current Gateway owner to mutate a recovery destination during retirement 6858ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps retiring when its current Gateway owner writes during a destination check 5178ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > resumes intent-sync disposal without overclaiming bytes 10495ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > stops owned retirement when its recovery destination file is replaced 6652ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > stops migration-original retirement when its physical owner is replaced after before-first-effect 6661ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > resumes claim disposal without overclaiming bytes 10555ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > stops migration-original retirement when its physical owner is replaced after claim-publication 9023ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > resumes unlink disposal without overclaiming bytes 10905ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > stops migration-original retirement when its physical owner is replaced after first-unlink 9137ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > does not retire artifacts when another process owns live state 530ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > resumes unlink-later disposal without overclaiming bytes 10484ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps the entire mixed-proof recovery set when its legacy-store needs historical verification 5283ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps the entire mixed-proof recovery set when its transcript needs historical verification 5185ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > resumes recreated disposal without overclaiming bytes 9747ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > retires a failed update's own capture only when it never activated 9185ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps the triggering update's capture when the wall clock moves backward 3749ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > resumes shared-receipt disposal without overclaiming bytes 10935ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > applies directory-sync policy for win32 unsupported 6643ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > defers cross-manifest disposal even for protected historical originals (completed: true) 9695ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > applies directory-sync policy for linux unsupported 6105ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > defers cross-manifest disposal even for protected historical originals (completed: false) 9392ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > applies directory-sync policy for win32 EIO 5849ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > refuses retirement while a peer maintenance operation holds the selected state 3581ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > keeps Gateway completion warnings visible when cleanup diagnostics cannot be persisted 4628ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > records a pre-reboot original that is already gone under a intent receipt 3807ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > protects invalid message and its recovery index 6194ms
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > records a pre-reboot original that is already gone under a unlink-pending receipt 3989ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > protects unknown event and its recovery index 5574ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/update-automatic-cleanup.test.ts: retiring openclaw.pluginStatePublication
+
+ ✓ |commands| src/commands/update-automatic-cleanup.test.ts > records a pre-reboot original that is already gone under a retained receipt 3651ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > protects duplicate divergent ID and its recovery index 3795ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > protects missing ancestor and its recovery index 5731ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > retains complete recovery when durable transcript verification is short 31ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > checks shared manifests once and preserves confirmation changes: false 8118ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > verifies duplicate replays against fresh destinations 2470ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > verifies duplicate replays against identical destinations 2924ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > verifies duplicate replays against divergent destinations 300ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > checks shared manifests once and preserves confirmation changes: true 7134ms
+(node:1242679) [DEP_SESSION_PERSISTENCE] DeprecationWarning: Plugin SDK: SessionManager.open is deprecated; use openAsync instead. Synchronous calls retain their return values and commit before returning. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1242679) [DEP_SESSION_PERSISTENCE] DeprecationWarning: Plugin SDK: SessionManager.appendMessage is deprecated; use appendMessageAsync instead. Synchronous calls retain their return values and commit before returning. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > blocks a same-size replacement recovery original during preview 6544ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > refuses a recovery ownership change during confirmation: new-manifest 6249ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-disposal.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-disposal.test.ts > retires verified originals after remount while preserving current SQLite and unknown archives 16098ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > reports logical bytes and distinct eligibility counts by kind through status text 1521ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at entry-limit without changing recovery files 51ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at metadata-byte-limit without changing recovery files 10ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at time-limit without changing recovery files 5ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > refuses a recovery ownership change during confirmation: replacement 6893ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > includes the same read-only recovery inventory in Doctor lint JSON 7459ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > keeps originals protected after incomplete dependency discovery skips another manifest 24ms
+ × |commands| src/commands/recovery-disk-usage.test.ts > reports retained archive reasons without opening the archived payloads 16ms
+   → expected undefined to deeply equal [ { …(4) }, { …(4) } ]
+ ✓ |commands| src/commands/doctor-session-sqlite.duplicate-lookup.test.ts > keeps the first matching artifact when copies precede or follow the original 26ms
+ ✓ |commands| src/commands/doctor-session-sqlite.duplicate-lookup.test.ts > settles many duplicates with linear artifacts visits 300ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.duplicate-lookup.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |commands| src/commands/doctor-session-sqlite.duplicate-lookup.test.ts > settles many duplicates with linear moves visits 194ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > refuses a recovery ownership change during confirmation: symlink 6749ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > refuses a recovery ownership change during confirmation: hardlink 6505ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-performance.test.ts > hashes each original three times and reports progress while retiring a large recovery set 7831ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > preserves every recovery dependency after a transcript replacement during confirmation 5733ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-performance.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-performance.test.ts > rehashes an original edited in place with restored mtime after initial verification 5811ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > preserves every recovery dependency after a transcript symlink during confirmation 4679ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > preserves every recovery dependency after a transcript hardlink during confirmation 4488ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > preserves every recovery dependency after a transcript same-size edit during confirmation 4444ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > retains originals after destination in-place edit during confirmation 4313ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > retains originals after destination WAL commit during confirmation 7053ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > retains originals after destination WAL commit during publication 7447ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > retains originals after destination WAL commit during unlink-intent 7782ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > preserves connected originals when a later transcript changes during intent-sync 8705ms
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > preserves connected originals when a later transcript changes during publication 11697ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/doctor-session-sqlite.retirement-mutations.test.ts: retiring openclaw.pluginStatePublication
+
+ ✓ |commands| src/commands/doctor-session-sqlite.retirement-mutations.test.ts > runDoctorSessionSqlite > preserves connected originals when a later transcript changes during unlink-intent 10929ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |commands| src/commands/recovery-disk-usage.test.ts > reports retained archive reasons without opening the archived payloads
+AssertionError: expected undefined to deeply equal [ { …(4) }, { …(4) } ]
+
+- Expected:
+[
+  {
+    "count": 1,
+    "logicalBytes": 16,
+    "outcome": "blocked",
+    "reason": "artifact-metadata-changed",
+  },
+  {
+    "count": 1,
+    "logicalBytes": 7,
+    "outcome": "verification-required",
+    "reason": "historical-manifest-without-import-proof",
+  },
+]
+
++ Received:
+undefined
+
+ ❯ src/commands/recovery-disk-usage.test.ts:265:28
+    263|     clock.mockReturnValue(0);
+    264|     const usage = collectRecoveryDiskUsage({ cfg: {}, env: state.env }…
+    265|     expect(usage.byReason).toEqual([
+       |                            ^
+    266|       { reason: "artifact-metadata-changed", outcome: "blocked", count…
+    267|       {
+ ❯ track src/shared/async-work-scope.ts:106:30
+ ❯ withOpenClawTestState src/test-utils/openclaw-test-state.ts:469:52
+ ❯ src/commands/recovery-disk-usage.test.ts:222:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 105 passed (106)
+   Start at  14:33:41
+   Duration  305.60s (tests 92%, transform 5%, import 2%, worker 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 3 Vitest shards in 341.63s
+[test] FAILED (exit 1)

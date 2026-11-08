@@ -1,0 +1,58 @@
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > retains original import evidence independently of retirement (proof=true) 53ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > retains original import evidence independently of retirement (proof=false) 4ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: older manifest 4ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: import classification 5ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: retained disposal 3ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: ordinary cleanup reason 3ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: relative backup 5ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > refuses an ambiguous retirement receipt: invalid digest 6ms
+ ✓ |infra| src/infra/session-sqlite-migration-manifest.retirement.test.ts > keeps operator retirement evidence when completed import manifests age out 23ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  14:39:02
+   Duration  1.17s (setup 43%, transform 40%, tests 12%, import 5%, worker 1%)
+
+[test] starting test/vitest/vitest.commands.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 5940ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 53473d8c904e in 6030ms (18882 inputs, 24090 outputs)
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > reports logical bytes and distinct eligibility counts by kind through status text 990ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at entry-limit without changing recovery files 37ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at metadata-byte-limit without changing recovery files 7ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > returns an honest incomplete result at time-limit without changing recovery files 7ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/commands/recovery-disk-usage.test.ts: retiring openclaw.pluginStateNamespaceOwner
+
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > includes the same read-only recovery inventory in Doctor lint JSON 2945ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > keeps originals protected after incomplete dependency discovery skips another manifest 24ms
+ ✓ |commands| src/commands/recovery-disk-usage.test.ts > reports retained archive reasons without opening the archived payloads 10ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  14:39:04
+   Duration  17.36s (transform 62%, tests 24%, import 11%, worker 3%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 2 Vitest shards in 23.62s

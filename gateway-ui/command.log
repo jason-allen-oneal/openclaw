@@ -1,0 +1,165 @@
+[openclaw] Staging pinned Bun fork openclaw-v1.4.4-20261026-191755ec11-webkit-b82bc917e9 (one-time download)…
+2:49:13 PM [vite] (inline) warning: 
+<candidate-checkout>/scripts/lib/tsx-cli-shim.mjs
+76 |  export async function registerToolingTsx() {
+77 |    configureToolingTsx();
+78 |    await import(resolveTsxImport(SHIM_CHECKOUT_ROOT));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+79 |  }
+80 |  
+The above dynamic import cannot be analyzed by Vite.
+See https://vite.dev/guide/features#dynamic-import for supported dynamic import formats. If this is intended to be left as-is, you can use the /* @vite-ignore */ comment inside the import() call to suppress this warning.
+
+  Plugin: vite:import-analysis
+  File: <candidate-checkout>/scripts/lib/tsx-cli-shim.mjs:8803:39
+
+ RUN  v5.0.5 <candidate-checkout>
+
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[1280340:1280340:1108/144914.419887:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[ui-e2e] Chromium setup 361 ms; launch 213 ms; available=true
+[vitest-workers] local cache miss after 6668ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest] still running with no output for 60000ms.
+[vitest-workers] prepared 54ed3b21483d in 80094ms (18882 inputs, 24090 outputs)
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <ui-proof>
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[control-ui-e2e] retained proof: <ui-proof>
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:117 > Recovery Storage actual built Gateway proof
+[state/agent-db] agent database clean-close receipt: written; agent=main
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/400
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/400
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/820
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/820
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/1280
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting empty/1280
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/400
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/400
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/820
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/820
+
+Warning: maxDynamicUniformBuffersPerPipelineLayout artificially reduced from 500000 to 16 to fit dynamic offset allocation limit.
+Warning: maxDynamicStorageBuffersPerPipelineLayout artificially reduced from 500000 to 16 to fit dynamic offset allocation limit.
+[1285267:1285267:1108/145214.471625:ERROR:services/on_device_model/ml/gpu_blocklist.cc:120] Unable to get gpu adapter
+[1285267:1285273:1108/145214.474510:ERROR:services/on_device_model/ml/gpu_blocklist.cc:120] Unable to get gpu adapter
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/1280
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting retained/1280
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting incomplete/400
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting incomplete/400
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting incomplete/820
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting incomplete/820
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting incomplete/1280
+
+stdout | ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths
+[recovery-proof] starting incomplete/1280
+
+ ✓ |recovery-storage-real-gateway-proof| ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts:118 > Recovery Storage actual built Gateway proof > renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths 118764ms
+ ✓ |recovery-storage-real-gateway-proof| ../../openclaw-proof/archive-188378/real-gateway-ui/proof.test.ts (1 test) 137498ms
+   ✓ Recovery Storage actual built Gateway proof (1)
+     ✓ renders empty, retained, and incomplete inventories through real RPC and measures three route-entry widths 118764ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  14:49:13
+   Duration  232.35s (tests 59%, transform 40%, import 1%)
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  14:49:13
+   Duration  232.35s (tests 59%, transform 40%, import 1%)
+
+[ui-e2e] Chromium exited (code=0, signal=null)
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse

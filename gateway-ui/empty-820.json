@@ -1,0 +1,201 @@
+{
+  "stage": "empty",
+  "width": 820,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "13:b28b6bef-dab2-45fb-9cd3-1bdd60a4ce66",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "13:b28b6bef-dab2-45fb-9cd3-1bdd60a4ce66",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "27:2638b504-fb8d-447e-b573-8499913f47e5",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "28:b140c2a7-62b0-40a3-b7b1-083427bd6baf",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "27:2638b504-fb8d-447e-b573-8499913f47e5",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "28:b140c2a7-62b0-40a3-b7b1-083427bd6baf",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "29:1140329f-920f-4a9c-8325-906b3ccfabca",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "29:1140329f-920f-4a9c-8325-906b3ccfabca",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "logical",
+        "incomplete": false,
+        "incompleteReasons": [],
+        "total": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": []
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Observed recovery copies0.0 B in 0 copiesSafe recovery and retirement guidance",
+  "shifts": [
+    {
+      "value": 0.000044224639689578714,
+      "hadRecentInput": false,
+      "sources": [
+        {
+          "node": "DIV.settings-row__control",
+          "section": "Update status",
+          "text": "Update status unavailable",
+          "previousRect": {
+            "x": 656.09375,
+            "y": 888.390625,
+            "width": 122.90625,
+            "height": 21.6875,
+            "top": 888.390625,
+            "right": 779,
+            "bottom": 910.078125,
+            "left": 656.09375
+          },
+          "currentRect": {
+            "x": 641.640625,
+            "y": 888.390625,
+            "width": 138,
+            "height": 21.6875,
+            "top": 888.390625,
+            "right": 779.640625,
+            "bottom": 910.078125,
+            "left": 641.640625
+          }
+        }
+      ]
+    }
+  ],
+  "shellSelector": ".topbar-nav-toggle",
+  "chromeBefore": [
+    12,
+    8.5,
+    40,
+    40
+  ],
+  "chromeAfter": [
+    12,
+    8.5,
+    40,
+    40
+  ],
+  "layout": {
+    "documentWidth": 820,
+    "documentScrollWidth": 820,
+    "sectionWidth": 772,
+    "sectionScrollWidth": 772
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "warning",
+      "text": "OpenClaw service worker registration failed. TypeError: Cannot read properties of undefined (reading 'installing')\n    at _y (http://<isolated-loopback>/assets/control-ui-connection-Drof4Aji.js:5:28354)\n    at http://<isolated-loopback>/assets/control-ui-boot-shared-DsuXOP4e.js:135:44840"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "pageErrors": [],
+  "screenshot": "empty-820.png"
+}

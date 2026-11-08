@@ -1,0 +1,214 @@
+{
+  "stage": "retained",
+  "width": 400,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "13:1e01d5f0-13d6-46f9-98ea-19683ef32507",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "13:1e01d5f0-13d6-46f9-98ea-19683ef32507",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "27:8a9338a9-c0fa-4946-90e4-e6c7d0a3280b",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "28:15f0bf09-9fbc-4c77-b6ea-bd204d2b07bf",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "28:15f0bf09-9fbc-4c77-b6ea-bd204d2b07bf",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "27:8a9338a9-c0fa-4946-90e4-e6c7d0a3280b",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "29:b00faafa-a445-4111-8467-f53ba0602a10",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "29:b00faafa-a445-4111-8467-f53ba0602a10",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "logical",
+        "incomplete": false,
+        "incompleteReasons": [],
+        "total": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 2,
+            "logicalBytes": 320,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 2,
+              "logicalBytes": 320
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": [
+          {
+            "reason": "artifact-metadata-changed",
+            "outcome": "blocked",
+            "count": 1,
+            "logicalBytes": 213
+          },
+          {
+            "reason": "historical-manifest-without-import-proof",
+            "outcome": "verification-required",
+            "count": 1,
+            "logicalBytes": 107
+          }
+        ]
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Observed recovery copies320 B in 2 copiesBlocked: artifact-metadata-changedThe archive no longer matches its recorded identity. Preserve the current bytes and review the mismatch before considering retirement.213 B in 1 copiesVerification required: historical-manifest-without-import-proofImport proof is unavailable or has not been checked. Keep these archives until you have reviewed recovery dependencies and the retirement guidance.107 B in 1 copiesSafe recovery and retirement guidance",
+  "shifts": [],
+  "shellSelector": ".topbar-nav-toggle",
+  "chromeBefore": [
+    12,
+    8,
+    45,
+    45
+  ],
+  "chromeAfter": [
+    12,
+    8,
+    45,
+    45
+  ],
+  "layout": {
+    "documentWidth": 400,
+    "documentScrollWidth": 400,
+    "sectionWidth": 376,
+    "sectionScrollWidth": 376
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "warning",
+      "text": "OpenClaw service worker registration failed. TypeError: Cannot read properties of undefined (reading 'installing')\n    at _y (http://<isolated-loopback>/assets/control-ui-connection-Drof4Aji.js:5:28354)\n    at http://<isolated-loopback>/assets/control-ui-boot-shared-DsuXOP4e.js:135:44840"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/plugins/workboard/c4a725f3a6270e094a887714646d3e37b5d0d20212478180aa093f0f57398959/index.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/plugins/memory-core/504d9518c597cc0e4413720917c0544ba87504ff510c23b17b936e6300dd8a03/index.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/control-ui-boot-chat-styles-DFGv6eaS.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/plugins/clawrouter/5a3c8bd5fc0c4ba8e5bf358867b0425a9c703158ae834c1e8a4b96fe75569853/index.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/plugins/knowledge/013d32716e71b317d2762262f63402d3fd5b01225ec6b3e0aca921b17c9a1d37/index.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/plugins/deep-research/a2cd7322cac5dd0f1865452ab31d7be979931db8a842ccd546291b6dfd05e8bd/index.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/plugins/x/0f2553133b7b2af4c6503ac0f5f2cba94ee4d27e7bc1ef0533804114b761601f/index.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    },
+    {
+      "type": "warning",
+      "text": "The resource http://<isolated-loopback>/assets/plugins/mcp-relay/b7f552e201ab3b9ca2cb0e493d4e69350c69dc881d85552d1343371d895bfae9/index.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    }
+  ],
+  "pageErrors": [],
+  "screenshot": "retained-400.png"
+}

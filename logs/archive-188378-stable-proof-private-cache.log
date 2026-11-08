@@ -1,0 +1,40 @@
+04-candidate-normal-doctor-upgrade 0
+05-upgraded-sqlite 0
+06-candidate-ordinary-cleanup 1
+10-upgraded-retirement-preview 0
+11-interrupt-before-second-claim 0
+12-pending-stable-cleanup 1
+12-pending-stable-restore 2
+13-candidate-resume 0
+14-candidate-replay 0
+15-disposed-stable-cleanup 1
+15-disposed-stable-restore 2
+16-exact-shipped-manifest-reader 0
+17-final-sqlite 0
+18-final-inspect 0
+{
+  "result": "PASS",
+  "candidateHead": "556fc60f228c8a2437effe2c89926dc0ba1d0483",
+  "stableVersion": "2026.11.1",
+  "stableAgentSchema": 27,
+  "candidateAgentSchema": 41,
+  "stableManifestVersion": 3,
+  "candidateManifestVersion": 5,
+  "sessionsPreserved": 1,
+  "eventsPreserved": 3,
+  "retiredFiles": 3,
+  "replayRemovedFiles": 0,
+  "replayOtherChangedPaths": [],
+  "databaseUnchangedByRetirement": true,
+  "backupFilesUnchanged": 11,
+  "pendingOlderReader": "PASS",
+  "disposedOlderReader": "PASS",
+  "exactShippedManifestReader": "PASS",
+  "limitations": [
+    "Synthetic data; not original reporter installation",
+    "Built candidate normal CLI, not package updater/service restart",
+    "Fault injection invokes exact-candidate source retirement owner using its progress callback; not OS kill",
+    "Official stable package and exact internal dependencies integrity-verified; other dependencies linked read-only from candidate install",
+    "No model/channel interaction; owning storage/update/Doctor boundaries only"
+  ]
+}

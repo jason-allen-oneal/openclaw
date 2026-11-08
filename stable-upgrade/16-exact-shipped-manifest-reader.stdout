@@ -1,0 +1,24 @@
+{
+  "result": "PASS",
+  "boundary": "Exact published 2026.11.1 manifest reader, independent of earlier shared-state schema gate",
+  "cases": [
+    {
+      "file": "stable-emitted-manifest.json",
+      "admittedVersion": 3,
+      "bytesUnchanged": true,
+      "sha256": "264e9515ca99fb092e32b39f16d5cd7628c1d94576ac6bdbb76ca339da3a3f1c"
+    },
+    {
+      "file": "candidate-pending-manifest.json",
+      "admittedVersion": null,
+      "bytesUnchanged": true,
+      "sha256": "7b453d39d02aedb85355983079d32ea90b703afa2b2db671326f041b2b89ff85"
+    },
+    {
+      "file": "candidate-disposed-manifest.json",
+      "admittedVersion": null,
+      "bytesUnchanged": true,
+      "sha256": "1930a9fb798bf978c73e3fcaf0f2cfcbcbd3ee217f368593246ed85f7029ed80"
+    }
+  ]
+}

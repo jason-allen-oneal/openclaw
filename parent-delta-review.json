@@ -1,0 +1,20 @@
+{
+  "base": "3df96dfc805b01d5d16e12040ab519ab67c8d61f",
+  "diffSha256": "3aeda9e293237e4fce8c1501a0aa7302c52c584d34c34201ac828508ec4cb158",
+  "review": "Parent independent delta review following independent full-snapshot review",
+  "fullReviewSnapshot": "ccbc3fef3518fb01f9613e7444a7a348455c92506f2e5233dabc86bcb2c12426",
+  "fullReviewFinding": "Missing await in new recovery disk usage test; corrected in current source. Rerun receipt still required.",
+  "deltaReviewed": [
+    "src/commands/recovery-inventory-scan.ts",
+    "src/commands/doctor-session-sqlite-recovery-inventory.ts",
+    "src/commands/recovery-disk-usage.test.ts"
+  ],
+  "outcome": "No actionable source finding in reviewed delta",
+  "evidenceInspected": [
+    "archive-188378-scan-regression.log: original unchanged real-ledger assertion fails with zero copies",
+    "archive-188378-scan-regression-lazy.log: same real-ledger assertion passes 1/1 without mocked clock",
+    "existing recovery-disk-usage.test.ts entry-limit, metadata-byte-limit, time-limit cases remain",
+    "lazy snapshot prepareSource retains admission/cancellation and is awaited before scanning"
+  ],
+  "limits": "Does not credit runtime proof or final CI; original reviewer result is not an unconditional clean final-head review. No publication or merge."
+}

@@ -1,0 +1,136 @@
+[
+  {
+    "direction": "request",
+    "id": "13:7730a63d-df04-4970-931c-3556b2532462",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "13:7730a63d-df04-4970-931c-3556b2532462",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "27:3bcaf221-3cb8-40b4-a600-33b3c96d7648",
+    "method": "update.status",
+    "params": {
+      "refreshCheckout": true
+    }
+  },
+  {
+    "direction": "request",
+    "id": "28:cc0b13f7-078b-417b-a49a-9b750cfd16d6",
+    "method": "update.status",
+    "params": {}
+  },
+  {
+    "direction": "response",
+    "id": "27:3bcaf221-3cb8-40b4-a600-33b3c96d7648",
+    "ok": true
+  },
+  {
+    "direction": "response",
+    "id": "28:cc0b13f7-078b-417b-a49a-9b750cfd16d6",
+    "ok": true
+  },
+  {
+    "direction": "request",
+    "id": "29:35931700-b533-4cb4-8eaa-62582e2b61eb",
+    "method": "update.status",
+    "params": {
+      "includeRecoveryCopies": true
+    }
+  },
+  {
+    "direction": "response",
+    "id": "29:35931700-b533-4cb4-8eaa-62582e2b61eb",
+    "ok": true,
+    "recoveryCopies": {
+      "scope": "local",
+      "measurement": "logical",
+      "incomplete": false,
+      "incompleteReasons": [],
+      "total": {
+        "count": 2,
+        "logicalBytes": 320,
+        "retirable": {
+          "count": 0,
+          "logicalBytes": 0
+        },
+        "protected": {
+          "count": 2,
+          "logicalBytes": 320
+        },
+        "unmanifestedOrOrphan": {
+          "count": 0,
+          "logicalBytes": 0
+        }
+      },
+      "byKind": {
+        "updateCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "doctorCaptures": {
+          "count": 0,
+          "logicalBytes": 0,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "migrationOriginals": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        }
+      },
+      "byReason": [
+        {
+          "reason": "artifact-metadata-changed",
+          "outcome": "blocked",
+          "count": 1,
+          "logicalBytes": 213
+        },
+        {
+          "reason": "historical-manifest-without-import-proof",
+          "outcome": "verification-required",
+          "count": 1,
+          "logicalBytes": 107
+        }
+      ]
+    }
+  }
+]

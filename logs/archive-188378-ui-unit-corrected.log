@@ -1,0 +1,29 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./control-ui-i18n-config.json" without import attributes (scripts/lib/control-ui-i18n-sync-plan.ts:2:41). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v5.0.5 <candidate-checkout>/ui
+
+ DEPRECATED  "vitest.cache.getFileTestResults" is deprecated. Use "getTestSpecificationResult(specification)" instead.
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > retains recovery storage across cheap polls and clears it on access changes 19ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > retains recovery storage across cheap polls and clears it on gateway changes 1ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > retains recovery storage across cheap polls and clears it on disconnect changes 1ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > keeps newer status when an older response is still formatting its failure 60ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > finishes a fresh target check after campaign reconciliation emits an availability event 2ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > settles a manual refresh when its administrator grant is renewed 1ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > keeps progress polling while checkout discovery exceeds the progress deadline 7ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > adopts a completed run from a manual status check 2ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > keeps checkout error ownership until its unchanged scope releases it 12ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > keeps checkout error ownership until its access scope releases it 2ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > keeps checkout error ownership until its gateway scope releases it 3ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > publishes new campaign state even when progress carries an older run 2ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > discovers a campaign after overlapping empty progress and starts polling it 2ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > keeps a late progress read without replacing a newer checkout comparison 1ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > recovers a run but rejects the check when progress remains unavailable 1ms
+ ✓ |unit| src/app/overlays-update-status-responses.test.ts > application update status response ownership > recovers a legacy sentinel but rejects the check when progress remains unavailable 2ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  14:41:00
+   Duration  2.17s (worker 65%, transform 23%, tests 7%, import 6%)
+

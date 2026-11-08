@@ -1,0 +1,216 @@
+{
+  "stage": "incomplete",
+  "width": 1280,
+  "height": 1100,
+  "rpc": [
+    {
+      "direction": "request",
+      "id": "13:5cea6925-0ce9-4f5d-b0b5-8f792a514768",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "13:5cea6925-0ce9-4f5d-b0b5-8f792a514768",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "27:83e54da8-2ce1-4bdc-ad6a-6f4b4edfcdd9",
+      "method": "update.status",
+      "params": {
+        "refreshCheckout": true
+      }
+    },
+    {
+      "direction": "request",
+      "id": "28:5988a47d-35f9-4b71-af38-db48b0f48ac7",
+      "method": "update.status",
+      "params": {}
+    },
+    {
+      "direction": "response",
+      "id": "27:83e54da8-2ce1-4bdc-ad6a-6f4b4edfcdd9",
+      "ok": true
+    },
+    {
+      "direction": "response",
+      "id": "28:5988a47d-35f9-4b71-af38-db48b0f48ac7",
+      "ok": true
+    },
+    {
+      "direction": "request",
+      "id": "29:c1ec111e-f95a-423c-be4e-cd42eb3d70ba",
+      "method": "update.status",
+      "params": {
+        "includeRecoveryCopies": true
+      }
+    },
+    {
+      "direction": "response",
+      "id": "29:c1ec111e-f95a-423c-be4e-cd42eb3d70ba",
+      "ok": true,
+      "recoveryCopies": {
+        "scope": "local",
+        "measurement": "partial",
+        "incomplete": true,
+        "incompleteReasons": [
+          "unreadable-manifest"
+        ],
+        "total": {
+          "count": 2,
+          "logicalBytes": 320,
+          "retirable": {
+            "count": 0,
+            "logicalBytes": 0
+          },
+          "protected": {
+            "count": 2,
+            "logicalBytes": 320
+          },
+          "unmanifestedOrOrphan": {
+            "count": 0,
+            "logicalBytes": 0
+          }
+        },
+        "byKind": {
+          "updateCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "doctorCaptures": {
+            "count": 0,
+            "logicalBytes": 0,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          },
+          "migrationOriginals": {
+            "count": 2,
+            "logicalBytes": 320,
+            "retirable": {
+              "count": 0,
+              "logicalBytes": 0
+            },
+            "protected": {
+              "count": 2,
+              "logicalBytes": 320
+            },
+            "unmanifestedOrOrphan": {
+              "count": 0,
+              "logicalBytes": 0
+            }
+          }
+        },
+        "byReason": [
+          {
+            "reason": "artifact-metadata-changed",
+            "outcome": "blocked",
+            "count": 1,
+            "logicalBytes": 213
+          },
+          {
+            "reason": "unreadable-recovery-dependencies",
+            "outcome": "blocked",
+            "count": 1,
+            "logicalBytes": 107
+          }
+        ]
+      }
+    }
+  ],
+  "text": "Recovery storageLocal recovery copies retained by this Gateway. Logical bytes are not physical space reclaimed.Incomplete inventory — observed copies onlySome recovery metadata could not be inspected. Totals may be lower than actual usage, and eligibility may be unverified.unreadable-manifestObserved recovery copies320 B in 2 copiesBlocked: artifact-metadata-changedThe archive no longer matches its recorded identity. Preserve the current bytes and review the mismatch before considering retirement.213 B in 1 copiesBlocked: unreadable-recovery-dependenciesInspect the recovery inventory and its dependencies before changing these copies.107 B in 1 copiesSafe recovery and retirement guidance",
+  "shifts": [
+    {
+      "value": 0.000024347305297851564,
+      "hadRecentInput": false,
+      "sources": [
+        {
+          "node": "DIV.settings-row__control",
+          "section": "Update status",
+          "text": "Update status unavailable",
+          "previousRect": {
+            "x": 1019.09375,
+            "y": 850.390625,
+            "width": 122.90625,
+            "height": 21.6875,
+            "top": 850.390625,
+            "right": 1142,
+            "bottom": 872.078125,
+            "left": 1019.09375
+          },
+          "currentRect": {
+            "x": 1004.640625,
+            "y": 850.390625,
+            "width": 138,
+            "height": 21.6875,
+            "top": 850.390625,
+            "right": 1142.640625,
+            "bottom": 872.078125,
+            "left": 1004.640625
+          }
+        }
+      ]
+    }
+  ],
+  "shellSelector": ".settings-sidebar__back",
+  "chromeBefore": [
+    12,
+    8,
+    285,
+    32
+  ],
+  "chromeAfter": [
+    12,
+    8,
+    285,
+    32
+  ],
+  "layout": {
+    "documentWidth": 1280,
+    "documentScrollWidth": 1280,
+    "sectionWidth": 728,
+    "sectionScrollWidth": 728
+  },
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "warning",
+      "text": "OpenClaw service worker registration failed. TypeError: Cannot read properties of undefined (reading 'installing')\n    at _y (http://<isolated-loopback>/assets/control-ui-connection-Drof4Aji.js:5:28354)\n    at http://<isolated-loopback>/assets/control-ui-boot-shared-DsuXOP4e.js:135:44840"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "pageErrors": [],
+  "screenshot": "incomplete-1280.png"
+}

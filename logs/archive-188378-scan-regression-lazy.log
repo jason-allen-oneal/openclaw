@@ -1,0 +1,111 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache miss after 4126ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+[vitest] still running with no output for 60000ms.
+[vitest-workers] prepared 85d990c7af9e in 62493ms (18882 inputs, 24090 outputs)
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against failed history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against running history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against unrelated history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an applying campaign against hidden-run retry history
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > does not clear a replacement campaign after an awaited ledger read
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > keeps private recovery receipts durable while status and history stay public
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into accepting
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rechecks root ownership after a lazy restart read resets into suspension
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart signal
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads recorded progress without reconciliation during restart drain
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads fresh status concurrently without copying the shared database
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.status history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after refused reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after dead driver reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > serves update.runs.get history after expired legacy reconciliation
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > projects distinct active and latest runs and reads persisted history in creation order
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > rejects malformed identities, invalid limits, and unsupported query fields
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reconciles an expired legacy admission on Gateway watcher startup
+ ↓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > watches a valid active update when newer terminal history is malformed
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server-methods/update-status.test.ts: retiring openclaw.sessionGroupCatalog
+
+ ✓ |gateway-methods| src/gateway/server-methods/update-status.test.ts > reads explicit recovery storage off the Gateway thread without changing retained bytes 4886ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 21 skipped (22)
+   Start at  14:31:21
+   Duration  76.25s (transform 89%, tests 6%, import 4%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 82.00s

@@ -1,0 +1,7 @@
+04-candidate-normal-doctor-upgrade 1
+Traceback (most recent call last):
+  File "<proof-root>/stable-upgrade/finish-current.py", line 19, in <module>
+    call('04-candidate-normal-doctor-upgrade',['doctor','--fix','--yes','--non-interactive'],runner=candidate,expect=0)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 17, in call
+AssertionError: ('04-candidate-normal-doctor-upgrade', 1)

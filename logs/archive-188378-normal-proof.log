@@ -1,0 +1,20 @@
+00-setup exit=0
+01-sqlite-before exit=0
+02-doctor-inspect-before exit=1
+[openclaw] OpenClaw needs a manual recovery step.
+[openclaw] Reason: Doctor cannot repair this state: shared state database is unreadable at <proof-root>/normal-launcher/run-w0nxu3rv/state/state/openclaw.sqlite: No safe OpenClaw temp root is available. Default root: Error: Temp workspace ancestor "<proof-root>" is group/world writable without sticky protection; have its owner run chmod +t '<proof-root>' for a shared temp directory or chmod go-w '<proof-root>' for a private ancestor. State fallback "<proof-root>/normal-launcher/run-w0nxu3rv/state": Error: Temp workspace ancestor "<proof-root>" is group/world writable without sticky protection; have its owner run chmod +t '<proof-root>' for a shared temp directory or chmod go-w '<proof-root>' for a private ancestor.. Stop OpenClaw processes, then restore this file from a verified backup; the unreadable database was left unchanged.
+ {
+  "ok": false,
+  "error": {
+    "type": "cli_error",
+    "message": "Doctor cannot repair this state: shared state database is unreadable at <proof-root>/normal-launcher/run-w0nxu3rv/state/state/openclaw.sqlite: No safe OpenClaw temp root is available. Default root: Error: Temp workspace ancestor \"<proof-root>\" is group/world writable without sticky protection; have its owner run chmod +t '<proof-root>' for a shared temp directory or chmod go-w '<proof-root>' for a private ancestor. State fallback \"<proof-root>/normal-launcher/run-w0nxu3rv/state\": Error: Temp workspace ancestor \"<proof-root>\" is group/world writable without sticky protection; have its owner run chmod +t '<proof-root>' for a shared temp directory or chmod go-w '<proof-root>' for a private ancestor.. Stop OpenClaw processes, then restore this file from a verified backup; the unreadable database was left unchanged."
+  }
+}
+
+Traceback (most recent call last):
+  File "<proof-root>/normal-launcher/proof.py", line 32, in <module>
+    inspect=run('02-doctor-inspect-before','cli.mts',['doctor','--session-sqlite','inspect','--session-sqlite-all-agents','--json'])
+  File "<proof-root>/normal-launcher/proof.py", line 22, in run
+    if p.returncode!=expected: print(p.stderr,p.stdout); raise AssertionError((name,p.returncode,expected))
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('02-doctor-inspect-before', 1, 0)
