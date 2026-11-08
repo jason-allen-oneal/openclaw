@@ -1,0 +1,831 @@
+{
+  "expectedHead": "556fc60f228c8a2437effe2c89926dc0ba1d0483",
+  "startedAt": "2026-11-08T20:23:43.888555+00:00",
+  "state": "observed",
+  "command": [
+    "gh",
+    "pr",
+    "checks",
+    "188378",
+    "--repo",
+    "openclaw/openclaw",
+    "--watch",
+    "--interval",
+    "150"
+  ],
+  "timeoutSeconds": 1200,
+  "log": "ci-final-followup.log",
+  "watchExit": 0,
+  "watchResult": "completed",
+  "prReadExit": 0,
+  "pr": {
+    "headRefOid": "556fc60f228c8a2437effe2c89926dc0ba1d0483",
+    "isDraft": false,
+    "mergeable": "MERGEABLE",
+    "state": "OPEN",
+    "url": "https://github.com/openclaw/openclaw/pull/188378"
+  },
+  "checksReadExit": 0,
+  "checks": [
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128851210189",
+      "name": "Seal full release child evidence",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128851180804",
+      "name": "openclaw/ci-gate",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128851182486",
+      "name": "pr-failure-report",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128850536572",
+      "name": "Intersect shared OpenClawKit dead code",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128850515560",
+      "name": "Scan shared kit from iOS",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128850517489",
+      "name": "Scan iOS dead code",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128850342905",
+      "name": "Scan shared kit from macOS",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128850344256",
+      "name": "Scan macOS dead code",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438674/job/128849525187",
+      "name": "label",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438672/job/128849492293",
+      "name": "PR context and evidence",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438657/job/128849492134",
+      "name": "dispatch",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438655/job/128849492220",
+      "name": "auto-response",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438730/job/128849493280",
+      "name": "resolve",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438730/job/128849493736",
+      "name": "reconcile-backlog",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438730/job/128849493933",
+      "name": "review",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438674/job/128849493226",
+      "name": "backfill-pr-labels",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42519438674/job/128849493263",
+      "name": "label-issues",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128847151066",
+      "name": "published-driver-update",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128847151256",
+      "name": "macos-swift (${{ matrix.phase }})",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845434994",
+      "name": "check-lint-core-1",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845434842",
+      "name": "check-lint-core-2",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845434927",
+      "name": "check-lint-core-3",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845434822",
+      "name": "check-lint-core-4",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845434813",
+      "name": "check-lint-core-5",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845436784",
+      "name": "check-lint-extensions-${{ matrix.stripe }}",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392303",
+      "name": "check-test-types-core-1",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392299",
+      "name": "check-prod-types",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392314",
+      "name": "check-bundled-channel-config-metadata",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392300",
+      "name": "check-lint",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392350",
+      "name": "check-test-types-core-2",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392375",
+      "name": "check-test-types-core-5",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392380",
+      "name": "check-test-types-core-4",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392302",
+      "name": "check-test-types-core-3",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392259",
+      "name": "check-npm-lock",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128845392246",
+      "name": "check-test-types",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/runs/128845104946",
+      "name": "CodeQL",
+      "state": "NEUTRAL"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890278",
+      "name": "checks-fast-bundled-protocol",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890801",
+      "name": "checks-node-changed-compact-large-3-2",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890828",
+      "name": "checks-node-changed-compact-small-10",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890337",
+      "name": "android-test-third-party",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890357",
+      "name": "android-test-wear",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890891",
+      "name": "checks-node-changed",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890808",
+      "name": "checks-node-changed-boundary",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890908",
+      "name": "checks-node-changed-compact-small-32",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890769",
+      "name": "checks-node-changed-compact-small-12",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890426",
+      "name": "check-guards-architecture",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890323",
+      "name": "check-guards",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890843",
+      "name": "checks-node-changed-compact-small-4",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890336",
+      "name": "check-additional-boundaries",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890397",
+      "name": "check-source-contracts",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890390",
+      "name": "check-prompt-snapshots",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890868",
+      "name": "checks-node-changed-compact-large-32-2",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890279",
+      "name": "android-test-play",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890735",
+      "name": "checks-node-changed-compact-large-9",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889749",
+      "name": "control-ui-performance",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890253",
+      "name": "android-ktlint",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889849",
+      "name": "checks-ui (3/3)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890368",
+      "name": "check-plan",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889897",
+      "name": "checks-ui-e2e (1/4)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889813",
+      "name": "build-artifacts",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889935",
+      "name": "checks-ui-e2e (2/4)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889986",
+      "name": "checks-ui-e2e (3/4)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890306",
+      "name": "check-additional-extension-package-boundary",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890763",
+      "name": "checks-node-changed-compact-large-7-1",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890840",
+      "name": "checks-node-changed-compact-large-37",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890936",
+      "name": "checks-node-compact-small-1",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890716",
+      "name": "checks-node-changed-compact-large-14",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889843",
+      "name": "checks-ui (1/3)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889780",
+      "name": "checks-fast-baseline-ratchets",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890846",
+      "name": "checks-node-changed-compact-small-2",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890761",
+      "name": "checks-node-changed-compact-small-3",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890766",
+      "name": "checks-node-changed-compact-large-3-1",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890738",
+      "name": "checks-node-changed-compact-large-30",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890804",
+      "name": "checks-node-changed-compact-large-7-2",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844889855",
+      "name": "checks-ui (2/3)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890254",
+      "name": "check-docs",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890019",
+      "name": "security-fast",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890396",
+      "name": "PostgreSQL conformance (3/3)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890443",
+      "name": "PostgreSQL conformance (2/3)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890234",
+      "name": "PostgreSQL conformance (1/3)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890300",
+      "name": "android-access-native (4096, google_apis)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844890287",
+      "name": "android-access-native (16384, google_apis_ps16k)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891517",
+      "name": "matrix.check_name || 'checks-windows'",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891930",
+      "name": "QA Smoke CI (${{ matrix.name }})",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891472",
+      "name": "ios-screenshots",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891605",
+      "name": "checks-node-compat-node24",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891622",
+      "name": "ios-release-e2e",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891657",
+      "name": "matrix.checkName",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844892876",
+      "name": "ios-screenshot-evidence",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891481",
+      "name": "ios-build (${{ matrix.phase }})",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891372",
+      "name": "native-i18n",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891697",
+      "name": "matrix.check_name || 'macos-node'",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891464",
+      "name": "skills-python",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891618",
+      "name": "control-ui-i18n",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891931",
+      "name": "android-release-e2e",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891343",
+      "name": "matrix.shard_count == 1 && 'checks-ui-e2e-real-gateway' || format('checks-ui-e2e-real-gateway ({0}/{1})', matrix.shard, matrix.shard_count)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891486",
+      "name": "docker-seed-e2e",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844891733",
+      "name": "android-screenshots",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800246/job/128844863937",
+      "name": "Security High (mcp-process-tool-boundary)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800246/job/128844863905",
+      "name": "Security High (plugin-trust-boundary)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800246/job/128844863820",
+      "name": "Security High (channel-runtime-boundary)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800246/job/128844863930",
+      "name": "Security High (core-auth-secrets)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800246/job/128844863871",
+      "name": "Security High (network-ssrf-boundary)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800246/job/128844864063",
+      "name": "Security High (process-exec-boundary)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/runs/128844857611",
+      "name": "Opengrep OSS",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128844779763",
+      "name": "Build iOS Periphery reports",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128844779729",
+      "name": "Build macOS Periphery reports",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517797843/job/128844596916",
+      "name": "review (188378, 556fc60f228c8a2437effe2c89926dc0ba1d0483)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844567774",
+      "name": "Critical Quality (session-diagnostics-boundary)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844567658",
+      "name": "Critical Quality (gateway-runtime-boundary)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568534",
+      "name": "Critical Quality (plugin-sdk-package-contract)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568577",
+      "name": "Critical Quality (mcp-process-runtime-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568640",
+      "name": "Critical Quality (channel-runtime-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844569260",
+      "name": "Critical Quality (network-runtime-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568740",
+      "name": "Critical Quality (agent-runtime-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568903",
+      "name": "Critical Quality (plugin-sdk-reply-runtime)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568917",
+      "name": "Critical Quality (config-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568897",
+      "name": "Critical Quality (core-auth-secrets)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844569150",
+      "name": "Critical Quality (provider-runtime-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844569304",
+      "name": "Critical Quality (memory-runtime-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800232/job/128844552063",
+      "name": "preflight",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844568435",
+      "name": "Critical Quality (plugin-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800246/job/128844549455",
+      "name": "scope",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800216/job/128844550314",
+      "name": "Detect macOS scan scope",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800198/job/128844549600",
+      "name": "actionlint",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800195/job/128844549326",
+      "name": "Scan changed paths (precise)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844550006",
+      "name": "Select Critical Quality shards",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844551065",
+      "name": "Critical Quality (web-media-runtime-boundary)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800285/job/128844551420",
+      "name": "Critical Quality (ui-control-plane)",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42517800198/job/128844550427",
+      "name": "generated-doc-baselines",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42520006986",
+      "name": "openclaw/ci-gate",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42520006986",
+      "name": "openclaw/dependency-review",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/openclaw/openclaw/actions/runs/42520006986",
+      "name": "openclaw/security-sensitive-review",
+      "state": "SUCCESS"
+    }
+  ],
+  "completedAt": "2026-11-08T20:26:26.106522+00:00",
+  "headUnchanged": true
+}

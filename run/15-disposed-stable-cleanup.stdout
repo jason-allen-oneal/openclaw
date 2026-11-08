@@ -1,0 +1,52 @@
+{
+  "stateDir": "<stable-11-2-run>/state",
+  "artifacts": [
+    {
+      "path": "<stable-11-2-run>/state/session-sqlite-migration-runs/session-sqlite-1794169652353-40f31e8a.json",
+      "runs": [],
+      "bytes": 14492,
+      "outcome": "blocked",
+      "reason": "unreadable-manifest"
+    },
+    {
+      "path": "<stable-11-2-run>/state/state/openclaw.sqlite.pre-startup-migration-dde5eef2-9827-4d16-bd9a-43d80f616742.scoped.bak",
+      "runs": [
+        "startup-migration-dde5eef2-9827-4d16-bd9a-43d80f616742"
+      ],
+      "bytes": 24576,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-11-2-run>/state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9.bak",
+      "runs": [
+        "startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9"
+      ],
+      "bytes": 675840,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-11-2-run>/state/state/openclaw.sqlite.pre-startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9.bak",
+      "runs": [
+        "startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9"
+      ],
+      "bytes": 1458176,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    }
+  ],
+  "totals": {
+    "candidateBytes": 0,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 2158592,
+    "blockedBytes": 14492,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "blocked",
+  "dryRun": false
+}

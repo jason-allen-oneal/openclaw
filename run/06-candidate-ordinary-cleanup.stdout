@@ -1,0 +1,76 @@
+{
+  "stateDir": "<stable-11-2-run>/state",
+  "artifacts": [
+    {
+      "path": "<stable-11-2-run>/state/state/openclaw.sqlite.pre-startup-migration-dde5eef2-9827-4d16-bd9a-43d80f616742.scoped.bak",
+      "runs": [
+        "startup-migration-dde5eef2-9827-4d16-bd9a-43d80f616742"
+      ],
+      "bytes": 24576,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-11-2-run>/state/agents/main/agent/openclaw-agent.sqlite.pre-startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9.bak",
+      "runs": [
+        "startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9"
+      ],
+      "bytes": 675840,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-11-2-run>/state/state/openclaw.sqlite.pre-startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9.bak",
+      "runs": [
+        "startup-migration-b5cd781a-1f23-836b-8754-b30eb91362e9"
+      ],
+      "bytes": 1458176,
+      "outcome": "protected",
+      "reason": "awaiting-later-completed-update",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1794169653776",
+      "runs": [
+        "session-sqlite-1794169652353-40f31e8a"
+      ],
+      "bytes": 651,
+      "outcome": "blocked",
+      "reason": "artifact-metadata-changed",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1794169653777",
+      "runs": [
+        "session-sqlite-1794169652353-40f31e8a"
+      ],
+      "bytes": 100,
+      "outcome": "protected",
+      "reason": "unreferenced-history",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    },
+    {
+      "path": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794169653835",
+      "runs": [
+        "session-sqlite-1794169652353-40f31e8a"
+      ],
+      "bytes": 314,
+      "outcome": "protected",
+      "reason": "retained-recovery-dependency",
+      "consequence": "Permanently loses rollback to this original, including pre-repair branches and metadata."
+    }
+  ],
+  "totals": {
+    "candidateBytes": 0,
+    "verificationRequiredBytes": 0,
+    "protectedBytes": 2159006,
+    "blockedBytes": 651,
+    "removedBytes": 0,
+    "removedFiles": 0
+  },
+  "status": "blocked",
+  "missingOriginals": 0,
+  "dryRun": false
+}

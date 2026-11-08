@@ -1,0 +1,12 @@
+{
+  "workspace": "<stable-11-2-run>/workspace",
+  "userTimezone": "Pacific/Auckland",
+  "maxConcurrent": 32,
+  "subagents": {
+    "maxConcurrent": 8,
+    "archiveAfterMinutes": 60
+  },
+  "compaction": {
+    "mode": "safeguard"
+  }
+}

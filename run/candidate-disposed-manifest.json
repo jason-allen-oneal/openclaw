@@ -1,0 +1,282 @@
+{
+  "completedAt": "2026-11-08T20:27:33.859Z",
+  "manifestVersion": 5,
+  "openClawVersion": "2026.11.2",
+  "runId": "session-sqlite-1794169652353-40f31e8a",
+  "startedAt": "2026-11-08T20:27:32.353Z",
+  "targets": [
+    {
+      "agentId": "main",
+      "completedMoves": [
+        {
+          "archivePath": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1794169653776",
+          "artifact": {
+            "identity": {
+              "dev": "66306",
+              "ino": "5246332",
+              "mtimeNs": "1794169653953406312",
+              "size": 651,
+              "sha256": "b6766734953e08fc46152976c0f4a17e8d3f4f0e6e2dcc998afa7b1a249b7605"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "disposed",
+              "disposedAt": "2026-11-08T20:30:01.627Z"
+            }
+          },
+          "retirement": {
+            "acceptedAt": "2026-11-08T20:29:46.865Z",
+            "backupPath": "<stable-11-2-run>/backup/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1794169653776",
+            "backupManifestPath": "<stable-11-2-run>/backup/session-sqlite-migration-runs/session-sqlite-1794169652353-40f31e8a.json",
+            "backupManifestSha256": "dfeffc1c21432fd8580b1c8092e660ea2af6174e7afb58df984d5a6f0c0499ee",
+            "previousArtifact": {
+              "identity": {
+                "dev": "66306",
+                "ino": "5246332",
+                "mtimeNs": "1794169648515362543",
+                "size": 496,
+                "sha256": "2ab1feb7c598924e6487e1b260aed20fbf1ce83b7870d40d8deacb6e318b568f"
+              },
+              "classification": "imported",
+              "reason": "verified-import-original",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          },
+          "kind": "transcript",
+          "sessionKey": "agent:main:proof",
+          "sourcePath": "<stable-11-2-run>/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+        },
+        {
+          "archivePath": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1794169653777",
+          "artifact": {
+            "identity": {
+              "dev": "66306",
+              "ino": "5246333",
+              "mtimeNs": "1794169648515411117",
+              "size": 100,
+              "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "disposed",
+              "disposedAt": "2026-11-08T20:30:01.627Z"
+            }
+          },
+          "retirement": {
+            "acceptedAt": "2026-11-08T20:29:46.865Z",
+            "backupPath": "<stable-11-2-run>/backup/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1794169653777",
+            "backupManifestPath": "<stable-11-2-run>/backup/session-sqlite-migration-runs/session-sqlite-1794169652353-40f31e8a.json",
+            "backupManifestSha256": "dfeffc1c21432fd8580b1c8092e660ea2af6174e7afb58df984d5a6f0c0499ee",
+            "previousArtifact": {
+              "identity": {
+                "dev": "66306",
+                "ino": "5246333",
+                "mtimeNs": "1794169648515411117",
+                "size": 100,
+                "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+              },
+              "classification": "protected",
+              "reason": "unreferenced-history",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          },
+          "kind": "unreferenced-jsonl",
+          "sourcePath": "<stable-11-2-run>/state/agents/main/sessions/history.trajectory.jsonl"
+        },
+        {
+          "archivePath": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794169653835",
+          "artifact": {
+            "identity": {
+              "dev": "66306",
+              "ino": "5246331",
+              "mtimeNs": "1794169648515294583",
+              "size": 314,
+              "sha256": "3966de0c670158eec62d57d5050c38a65b160f1a3a100e2e2e3f2929885a0f60"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [
+              "<stable-11-2-run>/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+            ],
+            "disposal": {
+              "state": "disposed",
+              "disposedAt": "2026-11-08T20:30:01.627Z"
+            }
+          },
+          "retirement": {
+            "acceptedAt": "2026-11-08T20:29:46.865Z",
+            "backupPath": "<stable-11-2-run>/backup/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794169653835",
+            "backupManifestPath": "<stable-11-2-run>/backup/session-sqlite-migration-runs/session-sqlite-1794169652353-40f31e8a.json",
+            "backupManifestSha256": "dfeffc1c21432fd8580b1c8092e660ea2af6174e7afb58df984d5a6f0c0499ee",
+            "previousArtifact": {
+              "identity": {
+                "dev": "66306",
+                "ino": "5246331",
+                "mtimeNs": "1794169648515294583",
+                "size": 314,
+                "sha256": "3966de0c670158eec62d57d5050c38a65b160f1a3a100e2e2e3f2929885a0f60"
+              },
+              "classification": "imported",
+              "reason": "verified-index-import",
+              "dependencies": [
+                "<stable-11-2-run>/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+              ],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          },
+          "kind": "legacy-store",
+          "sourcePath": "<stable-11-2-run>/state/agents/main/sessions/sessions.json"
+        }
+      ],
+      "issues": [],
+      "plannedMoves": [
+        {
+          "archivePath": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1794169653776",
+          "artifact": {
+            "identity": {
+              "dev": "66306",
+              "ino": "5246332",
+              "mtimeNs": "1794169653953406312",
+              "size": 651,
+              "sha256": "b6766734953e08fc46152976c0f4a17e8d3f4f0e6e2dcc998afa7b1a249b7605"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "disposed",
+              "disposedAt": "2026-11-08T20:30:01.627Z"
+            }
+          },
+          "retirement": {
+            "acceptedAt": "2026-11-08T20:29:46.865Z",
+            "backupPath": "<stable-11-2-run>/backup/agents/main/session-sqlite-import-archive/agent_main_proof.11111111-1111-4111-8111-111111111111.jsonl.imported-1794169653776",
+            "backupManifestPath": "<stable-11-2-run>/backup/session-sqlite-migration-runs/session-sqlite-1794169652353-40f31e8a.json",
+            "backupManifestSha256": "dfeffc1c21432fd8580b1c8092e660ea2af6174e7afb58df984d5a6f0c0499ee",
+            "previousArtifact": {
+              "identity": {
+                "dev": "66306",
+                "ino": "5246332",
+                "mtimeNs": "1794169648515362543",
+                "size": 496,
+                "sha256": "2ab1feb7c598924e6487e1b260aed20fbf1ce83b7870d40d8deacb6e318b568f"
+              },
+              "classification": "imported",
+              "reason": "verified-import-original",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          },
+          "kind": "transcript",
+          "sessionKey": "agent:main:proof",
+          "sourcePath": "<stable-11-2-run>/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+        },
+        {
+          "archivePath": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1794169653777",
+          "artifact": {
+            "identity": {
+              "dev": "66306",
+              "ino": "5246333",
+              "mtimeNs": "1794169648515411117",
+              "size": 100,
+              "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [],
+            "disposal": {
+              "state": "disposed",
+              "disposedAt": "2026-11-08T20:30:01.627Z"
+            }
+          },
+          "retirement": {
+            "acceptedAt": "2026-11-08T20:29:46.865Z",
+            "backupPath": "<stable-11-2-run>/backup/agents/main/session-sqlite-import-archive/archive-tier.history.trajectory.jsonl.imported-1794169653777",
+            "backupManifestPath": "<stable-11-2-run>/backup/session-sqlite-migration-runs/session-sqlite-1794169652353-40f31e8a.json",
+            "backupManifestSha256": "dfeffc1c21432fd8580b1c8092e660ea2af6174e7afb58df984d5a6f0c0499ee",
+            "previousArtifact": {
+              "identity": {
+                "dev": "66306",
+                "ino": "5246333",
+                "mtimeNs": "1794169648515411117",
+                "size": 100,
+                "sha256": "654d23155a38e408868b9204bf48f0934bff9061613adc168f1f984bfe604365"
+              },
+              "classification": "protected",
+              "reason": "unreferenced-history",
+              "dependencies": [],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          },
+          "kind": "unreferenced-jsonl",
+          "sourcePath": "<stable-11-2-run>/state/agents/main/sessions/history.trajectory.jsonl"
+        },
+        {
+          "archivePath": "<stable-11-2-run>/state/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794169653835",
+          "artifact": {
+            "identity": {
+              "dev": "66306",
+              "ino": "5246331",
+              "mtimeNs": "1794169648515294583",
+              "size": 314,
+              "sha256": "3966de0c670158eec62d57d5050c38a65b160f1a3a100e2e2e3f2929885a0f60"
+            },
+            "classification": "protected",
+            "reason": "explicit-history-retirement",
+            "dependencies": [
+              "<stable-11-2-run>/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+            ],
+            "disposal": {
+              "state": "disposed",
+              "disposedAt": "2026-11-08T20:30:01.627Z"
+            }
+          },
+          "retirement": {
+            "acceptedAt": "2026-11-08T20:29:46.865Z",
+            "backupPath": "<stable-11-2-run>/backup/agents/main/session-sqlite-import-archive/legacy-store.sessions.json.imported-1794169653835",
+            "backupManifestPath": "<stable-11-2-run>/backup/session-sqlite-migration-runs/session-sqlite-1794169652353-40f31e8a.json",
+            "backupManifestSha256": "dfeffc1c21432fd8580b1c8092e660ea2af6174e7afb58df984d5a6f0c0499ee",
+            "previousArtifact": {
+              "identity": {
+                "dev": "66306",
+                "ino": "5246331",
+                "mtimeNs": "1794169648515294583",
+                "size": 314,
+                "sha256": "3966de0c670158eec62d57d5050c38a65b160f1a3a100e2e2e3f2929885a0f60"
+              },
+              "classification": "imported",
+              "reason": "verified-index-import",
+              "dependencies": [
+                "<stable-11-2-run>/state/agents/main/sessions/11111111-1111-4111-8111-111111111111.jsonl"
+              ],
+              "disposal": {
+                "state": "retained"
+              }
+            }
+          },
+          "kind": "legacy-store",
+          "sourcePath": "<stable-11-2-run>/state/agents/main/sessions/sessions.json"
+        }
+      ],
+      "sqlitePath": "<stable-11-2-run>/state/agents/main/agent/openclaw-agent.sqlite",
+      "storePath": "<stable-11-2-run>/state/agents/main/sessions/sessions.json",
+      "validationBeforeArchive": "passed"
+    }
+  ]
+}
