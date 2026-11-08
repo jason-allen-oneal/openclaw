@@ -1,0 +1,19 @@
+{
+  "name": "ui-regression",
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "run",
+    "--config",
+    "test/vitest/vitest.ui-e2e.config.ts",
+    "--configLoader",
+    "runner",
+    "ui/src/e2e/gateway-fresh-visit.http.e2e.test.ts",
+    "--testNamePattern",
+    "does not call an unknown app-bundle failure an update or restart",
+    "--maxWorkers=1"
+  ],
+  "head": "a6e4d16bc6f3e03d44aed5d86f1a28e32e45b44c",
+  "exit": 0,
+  "wall_seconds": 134.56
+}

@@ -1,0 +1,14 @@
+{
+  "name": "authority-tests",
+  "command": [
+    "node",
+    "scripts/run-vitest.mjs",
+    "src/agents/agent-tools.retained-owner.test.ts",
+    "src/agents/agent-tools.prefix-stability.test.ts",
+    "src/gateway/server-methods/system-agent-owner-write.integration.test.ts",
+    "--maxWorkers=1"
+  ],
+  "head": "a6e4d16bc6f3e03d44aed5d86f1a28e32e45b44c",
+  "exit": 0,
+  "wall_seconds": 158.46
+}

@@ -1,0 +1,122 @@
+{
+  "historical_head": "37b5e053951bd8e60f187ff508a93d9787d070b0",
+  "candidate_head": "a6e4d16bc6f3e03d44aed5d86f1a28e32e45b44c",
+  "integrated_upstream": "e3a09aaba1f45ec3ff2eb4a0db4728286f53068d",
+  "scope": "Named boundary owners and regression files; not a claim that the entire runtime/dependency closure is unchanged. Historical live test was not rerun.",
+  "files": [
+    {
+      "path": "src/security/dangerous-tools.ts",
+      "historical_sha256": "04957dd9bf9466803fa7a7abb87833ce35413d2abfae3ef1bd105737674886ae",
+      "candidate_sha256": "04957dd9bf9466803fa7a7abb87833ce35413d2abfae3ef1bd105737674886ae",
+      "identical": true
+    },
+    {
+      "path": "src/agents/agent-tools.ts",
+      "historical_sha256": "eca88c09715b11eec25e3afd81b9e22782ac9e981fdeec74e168cc0206c7eb74",
+      "candidate_sha256": "eca88c09715b11eec25e3afd81b9e22782ac9e981fdeec74e168cc0206c7eb74",
+      "identical": true
+    },
+    {
+      "path": "src/agents/agent-tools.turn-authority.ts",
+      "historical_sha256": "eeff5119f86616e67ffcee867be7afa602a499e543a59957b58e006dfc81e012",
+      "candidate_sha256": "eeff5119f86616e67ffcee867be7afa602a499e543a59957b58e006dfc81e012",
+      "identical": true
+    },
+    {
+      "path": "src/agents/scheduled-owner-tool-guard.ts",
+      "historical_sha256": "536238ee12b2ec101d5bbe2605a79aff1deef6e126277f1503b495caf900fe1c",
+      "candidate_sha256": "536238ee12b2ec101d5bbe2605a79aff1deef6e126277f1503b495caf900fe1c",
+      "identical": true
+    },
+    {
+      "path": "src/agents/tools/session-portal-target.ts",
+      "historical_sha256": "5d46974c39f7b2a0439a987e3928af60ab0ff5668f24930b99a1ce1a6f9b8ffc",
+      "candidate_sha256": "5d46974c39f7b2a0439a987e3928af60ab0ff5668f24930b99a1ce1a6f9b8ffc",
+      "identical": true
+    },
+    {
+      "path": "src/agents/tools/gateway-caller-context.ts",
+      "historical_sha256": "ba1bc404badf8206e4dc7c622ba747e2cc2279c9d63558250e5595c98cd672e7",
+      "candidate_sha256": "ba1bc404badf8206e4dc7c622ba747e2cc2279c9d63558250e5595c98cd672e7",
+      "identical": true
+    },
+    {
+      "path": "src/agents/tools/openclaw-delegate-tool.ts",
+      "historical_sha256": "9a24e3e180b61a6c16e63733b476ac57e26732b761b6c375f3202de39d9444fa",
+      "candidate_sha256": "9a24e3e180b61a6c16e63733b476ac57e26732b761b6c375f3202de39d9444fa",
+      "identical": true
+    },
+    {
+      "path": "src/agents/tools/in-process-gateway.ts",
+      "historical_sha256": "614bf0ab58e5cea989f4e1d75e8e4ec88d9ce0004edf0d1b6049cd60a25721de",
+      "candidate_sha256": "614bf0ab58e5cea989f4e1d75e8e4ec88d9ce0004edf0d1b6049cd60a25721de",
+      "identical": true
+    },
+    {
+      "path": "src/gateway/server-methods/system-agent.ts",
+      "historical_sha256": "5a19a13820989a8f543aaac4e2d34a5dcf1ab8355c69a031fa6dbd62cff03941",
+      "candidate_sha256": "5a19a13820989a8f543aaac4e2d34a5dcf1ab8355c69a031fa6dbd62cff03941",
+      "identical": true
+    },
+    {
+      "path": "src/gateway/server-methods/system-agent-approval.ts",
+      "historical_sha256": "2f5edf2ffa51c978f61e0e768629d9b8d2cb15f6c9209e59a2b08af69848ea9e",
+      "candidate_sha256": "2f5edf2ffa51c978f61e0e768629d9b8d2cb15f6c9209e59a2b08af69848ea9e",
+      "identical": true
+    },
+    {
+      "path": "src/system-agent/chat-engine.ts",
+      "historical_sha256": "14f1f2ad408af44fa66222bdb9a79646f8640cfb70bb255c18208b56581dba85",
+      "candidate_sha256": "14f1f2ad408af44fa66222bdb9a79646f8640cfb70bb255c18208b56581dba85",
+      "identical": true
+    },
+    {
+      "path": "src/system-agent/operations-execute.ts",
+      "historical_sha256": "279f8faf5b4f71f77cb1ee8cad39b46ade7986be0a35747e94d5c0efa53f96f7",
+      "candidate_sha256": "279f8faf5b4f71f77cb1ee8cad39b46ade7986be0a35747e94d5c0efa53f96f7",
+      "identical": true
+    },
+    {
+      "path": "src/system-agent/operations-execution-helpers.ts",
+      "historical_sha256": "7a30357658074039b5e71d2bcc51acb672d51e680147ce96ade9ba00d40b7cdc",
+      "candidate_sha256": "7a30357658074039b5e71d2bcc51acb672d51e680147ce96ade9ba00d40b7cdc",
+      "identical": true
+    },
+    {
+      "path": "src/cli/config-cli.ts",
+      "historical_sha256": "22092a66b5e843a5d6de798811d40b22546b0496658e1d190d5b335cdc6b614e",
+      "candidate_sha256": "22092a66b5e843a5d6de798811d40b22546b0496658e1d190d5b335cdc6b614e",
+      "identical": true
+    },
+    {
+      "path": "src/cli/config-cli-runner.ts",
+      "historical_sha256": "01feefe7c72e039e311372b9f7688ae0ceff9cfafc47663635c4e59da563719f",
+      "candidate_sha256": "01feefe7c72e039e311372b9f7688ae0ceff9cfafc47663635c4e59da563719f",
+      "identical": true
+    },
+    {
+      "path": "src/cli/config-cli-validation.ts",
+      "historical_sha256": "84e09e6a71250ec67de52112fb68e191f4c222871a9b0017c3894d1577dac5c2",
+      "candidate_sha256": "84e09e6a71250ec67de52112fb68e191f4c222871a9b0017c3894d1577dac5c2",
+      "identical": true
+    },
+    {
+      "path": "src/agents/embedded-agent-runner/run/turn-taint-state.ts",
+      "historical_sha256": "3685abe27e46919da44134da30d0668da7682d4972b3169e5b66573759a20170",
+      "candidate_sha256": "3685abe27e46919da44134da30d0668da7682d4972b3169e5b66573759a20170",
+      "identical": true
+    },
+    {
+      "path": "src/agents/agent-tools.retained-owner.test.ts",
+      "historical_sha256": "89117df1b1442d0f8e643697001008f19e101d50856d4678137aee8856f954cb",
+      "candidate_sha256": "89117df1b1442d0f8e643697001008f19e101d50856d4678137aee8856f954cb",
+      "identical": true
+    },
+    {
+      "path": "src/gateway/server-methods/system-agent-owner-write.integration.test.ts",
+      "historical_sha256": "10f8c839d0a8030e2dd4e648bf4037593da8bc1cbfc137b2e0d76472b2f2c36d",
+      "candidate_sha256": "10f8c839d0a8030e2dd4e648bf4037593da8bc1cbfc137b2e0d76472b2f2c36d",
+      "identical": true
+    }
+  ]
+}

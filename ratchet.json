@@ -1,0 +1,15 @@
+{
+  "name": "ratchet",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/tsx.mjs",
+    "scripts/check-test-lines-ratchet.mts",
+    "--base",
+    "e3a09aaba1f45ec3ff2eb4a0db4728286f53068d",
+    "--no-merge-base"
+  ],
+  "head": "a6e4d16bc6f3e03d44aed5d86f1a28e32e45b44c",
+  "exit": 0,
+  "wall_seconds": 1.34
+}

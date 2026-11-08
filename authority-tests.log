@@ -1,0 +1,189 @@
+[test] starting test/vitest/vitest.gateway.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+[vitest-workers] local cache miss after 3924ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest-workers] prepared 840c5bddd90f in 56603ms (18879 inputs, 24087 outputs)
+[vitest] still running with no output for 30000ms.
+ ✓ |gateway-methods| src/gateway/server-methods/system-agent-owner-write.integration.test.ts > preserves the active source grant through delegated role persistence after a network read 6154ms
+ ✓ |gateway-methods| src/gateway/server-methods/system-agent-owner-write.integration.test.ts > preserves the revoked source grant through delegated role persistence after a network read 2168ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/gateway/server-methods/system-agent-owner-write.integration.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+ ✓ |gateway-methods| src/gateway/server-methods/system-agent-owner-write.integration.test.ts > preserves the non-owner source grant through delegated role persistence after a network read 1881ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  13:41:46
+   Duration  98.76s (transform 84%, tests 10%, import 5%, worker 1%)
+
+[test] starting test/vitest/vitest.agents-core.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for admin 2763ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for unowned 608ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for narrow 514ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for revoked 506ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for policy-denied 539ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for tainted 646ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for tainted-later 590ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for mobile_ui 569ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for openclaw 699ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for portal 618ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for owner-admin 574ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for owner-admin-already-tainted 550ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for owner-policy-denied 594ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for owner-narrow 517ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > owner-only tool preserves sender attribution and validates current admitted authority for owner-revoked 543ms
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > retained non-admin keeps independently authorized sessions execution through the real outer wrapper 759ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/agents/agent-tools.retained-owner.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+ ✓ |agents-core| src/agents/agent-tools.retained-owner.test.ts > retained non-admin keeps independently authorized portal execution through the real outer wrapper 629ms
+(node:1185588) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: createOpenClawCodingTools is deprecated; use await createOpenClawCodingToolsAsync() instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1185588) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreWithoutExternalProfiles is deprecated; use ensureAuthProfileStoreWithoutExternalProfilesAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1185588) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: resolveSandboxRuntimeStatus is deprecated; use resolveSandboxRuntimeStatusAsync instead. The legacy contract remains supported during its deprecation period. Removal requires an announced ordinary stable release window.
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps the browser WebChat catalog across wakes and recovery 1022ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps the cli WebChat catalog across wakes and recovery 800ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps the acp WebChat catalog across wakes and recovery 499ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps GitHub definitions and the catalog across operator and wake turns (publication=true) 434ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps GitHub definitions and the catalog across operator and wake turns (publication=false) 376ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > refuses a wake-turn screen call without a requesting UI through the execution gate 393ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > produces no raw dictionary findings for the default core tools 337ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the user turn's exact tool definitions on a subagent completion turn 301ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the user turn's exact tool definitions on a media completion turn 365ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the user turn's exact tool definitions on a scheduled turn 315ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the same message definition on a source-bound completion turn 253ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps message definitions stable across CLI, recovery, and announce sources in agent:main:operator-task 357ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps message definitions stable across CLI, recovery, and announce sources in agent:main:telegram:direct:owner 352ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the session's tool definitions and refuses tools outside the replayed authority 738ms
+
+ Test Files  2 passed (2)
+      Tests  31 passed (31)
+   Start at  13:43:25
+   Duration  51.96s (transform 47%, tests 37%, import 14%, worker 2%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 2 Vitest shards in 157.70s
