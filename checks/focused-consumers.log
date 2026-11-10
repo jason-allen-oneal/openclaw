@@ -1,0 +1,330 @@
+$ node scripts/test-projects.mts src/system-agent/inference-route-runtime.test.ts src/system-agent/setup-apply.test.ts src/config/runtime-source-projection.test.ts src/agents/system-prompt-config.test.ts src/agents/system-prompt-harness-base.test.ts src/agents/agent-tools.prefix-stability.test.ts src/agents/tools/openclaw-delegate-tool.test.ts --maxWorkers=1
+[vitest-workers] local cache miss after 9251ms
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m48 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m11 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m6 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m9 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m12 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+[vitest-workers] prepared 9cf34794e476 in 113248ms (18921 inputs, 29334 outputs)
+[test] starting test/vitest/vitest.unit.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a config created after the initial inference check before writing 267ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves the pre-roster verified route while creating a team 2501ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > reports an existing roster instead of silently skipping the requested first team 18ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > refuses a damaged pinned team before publishing setup configuration 35ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a specialist workspace outside the team receipt before committing setup 39ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves a configured workspace with existing state and no authored roster 24ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects invalid config before any setup mutation 8ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects the reserved user agent id case-insensitively 9ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed revision inside the final transform 7ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed default agent inside the final transform 457ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed default model inside the final transform 464ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed agent credential location inside the final transform 374ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects route drift before opening the transaction 396ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects resolved source drift before opening the transaction 443ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a setup candidate that changes the exact verified route identity 423ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rebuilds Gateway settings from the snapshot that wins a transaction retry 494ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > revalidates the verified route after the config write 550ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > accepts persisted plugin defaults that match the verified runtime route 480ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a materialized route that differs from the inference proof 386ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > returns visible post-commit workspace, approval, and service failures 16ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves the service owner's failed outcome after config commits 7ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves the service owner's skipped outcome after config commits 11ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > reports explicitly skipped service installation 9ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > uses the linux readiness budget after service installation 46ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > uses the win32 readiness budget after service installation 7ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > keeps setup incomplete when the installed gateway never becomes reachable 6ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > authenticates non-restarting trusted-proxy Gateway recovery with its password SecretRef 14ms
+
+ Test Files  1 passed (1)
+      Tests  27 passed (27)
+   Start at  21:39:09
+   Duration  16.81s (tests 46%, transform 31%, import 17%, worker 4%, setup 2%)
+
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+[vitest] still running with no output for 30000ms.
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verify checks an uncreated agent's inherited primary without creating it: utility-only 3089ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > complete checks an uncreated agent's inherited primary without creating it: utility-only 2175ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verify checks an uncreated agent's inherited primary without creating it: primary success 2848ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > complete checks an uncreated agent's inherited primary without creating it: primary success 1951ms
+(node:1541692) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: upsertAuthProfile is deprecated; use upsertAuthProfileAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1541692) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreForLocalUpdate is deprecated; use ensureAuthProfileStoreForLocalUpdateAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1541692) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: saveAuthProfileStore is deprecated; use updateAuthProfileStoreWithLock from openclaw/plugin-sdk/provider-auth instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > scopes verified setup binding to its selected provider when fixture requires migration 2962ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > scopes verified setup binding to its selected provider when unrelated requires migration 2186ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > keeps a staged replacement credential authoritative after provider normalization 2387ms
+(node:1541692) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStore is deprecated; use ensureAuthProfileStoreAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: protected key 2975ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: key rotated during probe 2553ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: staged reference rotated during probe 1970ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: existing-model activation rotated during probe 2268ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: alternate profile available 2283ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: completion 2051ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: existing-model activation 2379ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: non-default fallback owner 2289ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing destination (saved: false) 1853ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing destination (saved: true) 1891ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing reference (saved: false) 1906ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing reference (saved: true) 2158ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing inactive runtime (saved: false) 1930ms
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  21:39:28
+   Duration  82.08s (tests 56%, transform 37%, import 6%, setup 1%)
+
+[test] starting test/vitest/vitest.runtime-config.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > keeps publication captures independent of the standalone immutable capture memo 8ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > reuses an unchanged immutable publication capture but replaces rebound provenance 2ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > still captures mutable descendants and authored provenance on same-object publication 2ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > bounds full config copies across publications (aliased: false) 12ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > bounds full config copies across publications (aliased: true) 8ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > reuses a frozen source capture while preserving edits before freezing and provenance changes 1ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > captures authored values and provenance with one isolated runtime generation 2ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > projects runtime edits once while ordinary derived configs remain independent 2ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > keeps a source-free capture pinned when its mutable origin later matches the process source 1ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > keeps an older runtime generation on its own published source 1ms
+ ✓ |runtime-config| src/config/runtime-source-projection.test.ts > follows a newer source republished for the same runtime object 1ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  21:40:51
+   Duration  4.77s (transform 66%, worker 29%, import 3%, tests 1%, setup 1%)
+
+[test] starting test/vitest/vitest.agents-core.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+(node:1544207) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: createOpenClawCodingTools is deprecated; use await createOpenClawCodingToolsAsync() instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1544207) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreWithoutExternalProfiles is deprecated; use ensureAuthProfileStoreWithoutExternalProfilesAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1544207) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: resolveSandboxRuntimeStatus is deprecated; use resolveSandboxRuntimeStatusAsync instead. The legacy contract remains supported during its deprecation period. Removal requires an announced ordinary stable release window.
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps the browser WebChat catalog across wakes and recovery 2924ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps the cli WebChat catalog across wakes and recovery 897ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps the acp WebChat catalog across wakes and recovery 911ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps GitHub definitions and the catalog across operator and wake turns (publication=true) 953ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps GitHub definitions and the catalog across operator and wake turns (publication=false) 409ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > refuses a wake-turn screen call without a requesting UI through the execution gate 559ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > produces no raw dictionary findings for the default core tools 392ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the user turn's exact tool definitions on a subagent completion turn 404ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the user turn's exact tool definitions on a media completion turn 754ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the user turn's exact tool definitions on a scheduled turn 680ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the same message definition on a source-bound completion turn 399ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps message definitions stable across CLI, recovery, and announce sources in agent:main:operator-task 397ms
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > keeps message definitions stable across CLI, recovery, and announce sources in agent:main:telegram:direct:owner 722ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.devicePairSetupChanges
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.sessionGroupCatalog
+[sqlite-test-lifecycle] src/agents/agent-tools.prefix-stability.test.ts: retiring openclaw.stateDomainPublication.sandbox-registry
+
+ ✓ |agents-core| src/agents/agent-tools.prefix-stability.test.ts > offers the session's tool definitions and refuses tools outside the replayed authority 1378ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/system-prompt-harness-base.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+
+ ✓ |agents-core| src/agents/system-prompt-harness-base.test.ts > buildAgentHarnessBasePrompt > renders the regular prompt's policy sections byte for byte, without turn facts 259ms
+ ✓ |agents-core| src/agents/system-prompt-harness-base.test.ts > buildAgentHarnessBasePrompt > renders provider policy and gates capability guidance on the tool set 25ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > explains only configured reserved-ID collisions in both prompt surfaces (OpenClaw, configured=true) 13ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > explains only configured reserved-ID collisions in both prompt surfaces (crestodian, configured=true) 5ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > explains only configured reserved-ID collisions in both prompt surfaces (main, configured=true) 6ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > explains only configured reserved-ID collisions in both prompt surfaces (openclaw, configured=false) 6ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > renders reasoning command guidance for disabled routes 7ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > renders reasoning command guidance for channel disables native 9ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > renders reasoning command guidance for channel enables native 7ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > renders reasoning command guidance for native auto on 8ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > renders reasoning command guidance for native auto off 6ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > renders reasoning command guidance for text enabled 9ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > renders reasoning command guidance for text-only surface 6ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > does not recommend disabled update or restart commands with tools [] 8ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > does not recommend disabled update or restart commands with tools [ 'gateway' ] 18ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > skips full-only preparation in minimal mode and refreshes the next full prompt 631ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > skips full-only preparation in none mode and refreshes the next full prompt 175ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > publishes only the supported target for authored model alias 18ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > publishes only the supported target for authored provider alias 13ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > publishes only the supported target for unlisted custom alias 136ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > publishes only the supported target for agent-owned manual policy 13ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > publishes only the supported target for inherited manual policy 13ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > publishes only the supported target for shared bare alias 14ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/system-prompt-config.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > keeps admitted aliases when their borrowed snapshot retires without rediscovery 114ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > preserves owner display semantics with absent config 8ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > preserves owner display semantics with empty config 6ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > canonical main 7ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > channel session 4ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > custom main key 3ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > global main key 5ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > no session key 6ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > explicit prefer 4ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > explicit suggest 6ms
+ ✓ |agents-core| src/agents/system-prompt-config.test.ts > buildConfiguredAgentSystemPrompt > per-agent override 6ms
+
+ Test Files  3 passed (3)
+      Tests  48 passed (48)
+   Start at  21:40:57
+   Duration  51.89s (tests 53%, import 27%, transform 17%, setup 2%, worker 1%)
+
+[test] starting test/vitest/vitest.agents-tools.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+(node:1545051) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: resolveSandboxRuntimeStatus is deprecated; use resolveSandboxRuntimeStatusAsync instead. The legacy contract remains supported during its deprecation period. Removal requires an announced ordinary stable release window.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+ ✓ |agents-tools| src/agents/tools/openclaw-delegate-tool.test.ts > admits each delegated call outside its caller generation without dropping caller fences 286ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.sessionStateNotices
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.devicePairingPublications
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDomainPublication.exec-approvals
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/agents/tools/openclaw-delegate-tool.test.ts: retiring openclaw.sessionGroupCatalog
+
+ ✓ |agents-tools| src/agents/tools/openclaw-delegate-tool.test.ts > cancels a delegated Gateway wait while its handler remains unsettled 242ms
+ ✓ |agents-tools| src/agents/tools/openclaw-delegate-tool.test.ts > carries explicit full overrides configured prompting authority privately, not in RPC data 8ms
+ ✓ |agents-tools| src/agents/tools/openclaw-delegate-tool.test.ts > carries agent-restricted default authority privately, not in RPC data 9ms
+ ✓ |agents-tools| src/agents/tools/openclaw-delegate-tool.test.ts > carries turn-tightened full authority privately, not in RPC data 9ms
+ ✓ |agents-tools| src/agents/tools/openclaw-delegate-tool.test.ts > carries filesystem-restricted authority privately, not in RPC data 10ms
+ ✓ |agents-tools| src/agents/tools/openclaw-delegate-tool.test.ts > keeps setup self-delegation unavailable even when the configured user agent collides 7ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  21:41:51
+   Duration  16.58s (transform 57%, import 34%, worker 4%, tests 4%, setup 2%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 5 Vitest shards in 302.82s

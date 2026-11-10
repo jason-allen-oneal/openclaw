@@ -1,0 +1,34 @@
+{
+  "head": "1043c1921eac76482b2acec98a1668dea7960a6f",
+  "productionFilesVerifiedEqualHeadAtFinish": true,
+  "exit": 1,
+  "semanticRed": "healthy setup planner received false configured-agent collision diagnosis",
+  "assertion": "expect(systemText).not.toContain(DIAGNOSIS)",
+  "wallSeconds": 63.01,
+  "vitestSeconds": 37.4,
+  "requests": 3,
+  "commands": [
+    {
+      "kind": "authored-collision",
+      "code": 0,
+      "elapsedMs": 12448,
+      "ackInStdout": true
+    },
+    {
+      "kind": "healthy-managed",
+      "code": 0,
+      "elapsedMs": 12811,
+      "ackInStdout": true
+    }
+  ],
+  "prompts": {
+    "healthy-managed-system-prompt.txt": {
+      "sha256": "f0fe671f9cd4cbd438f8818bc897adbc1722482aafb8ce8e1e8f73092e735abc",
+      "hasCollisionDiagnosis": true
+    },
+    "authored-collision-system-prompt.txt": {
+      "sha256": "97a2d659214262556c3eed4a23a7d584eeb882eac5635f2b1b2bb72b64b3d8c4",
+      "hasCollisionDiagnosis": true
+    }
+  }
+}

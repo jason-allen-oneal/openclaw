@@ -1,0 +1,99 @@
+$ node scripts/test-projects.mts src/system-agent/inference-route.test.ts --maxWorkers=1
+[test] starting test/vitest/vitest.unit.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+[vitest-workers] local cache miss after 6029ms
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m48 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m11 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m6 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m12 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m9 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[vitest] still running with no output for 90000ms.
+[vitest] still running with no output for 120000ms.
+[vitest-workers] prepared b8b79083edc0 in 119461ms (18921 inputs, 29334 outputs)
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > does not directly load completion execution to select a configured route 20ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > preserves implicit catalog @ IDs (ACP=false) 618ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > preserves implicit catalog @ IDs (ACP=true) 392ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > invalidates the inherited primary verification when only utility separation changes 402ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > invalidates only the changed defaults utility 1084ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > invalidates only the changed agent utility 463ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > retires the first-run utility route without changing primary ownership 397ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > does not reuse a primary verification for the same model selected as utility 364ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > admits the requested owner and reserved agent in a multi-agent roster 443ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > admits an uncreated owner only for an explicit primary preflight 401ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > diagnoses authored collisions, not managed execution entries (undefined) 413ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > diagnoses authored collisions, not managed execution entries (openclaw) 369ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > diagnoses authored collisions, not managed execution entries (crestodian) 357ms
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > preserves explicit harness policy (undefined) 343ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/system-agent/inference-route.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+
+ ✓ |unit| src/system-agent/inference-route.test.ts > resolveSystemAgentConfiguredRouteFromConfig > preserves explicit harness policy (codex) 357ms
+
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+   Start at  21:34:44
+   Duration  137.96s (transform 92%, tests 5%, import 3%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 145.22s

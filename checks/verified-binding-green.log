@@ -1,0 +1,140 @@
+$ node scripts/test-projects.mts src/system-agent/verified-inference.test.ts src/system-agent/inference-route-runtime.test.ts --maxWorkers=1
+[vitest-workers] local cache miss after 4802ms
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m48 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m11 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m6 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m9 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m12 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+[vitest-workers] prepared a2e7b54512de in 106002ms (18921 inputs, 29334 outputs)
+[test] starting test/vitest/vitest.unit.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates an identity-less OAuth binding when its grant changes 82ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > rejects a binding when no credential fingerprint can be observed 691ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > reuses the successful model transport facts for owner re-resolution 76ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > fails closed when a credential-backed run omits its model transport facts 20ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > accepts and revalidates an opaque CLI owner emitted after a successful turn 733ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict CLI credential when its package artifact changes 22ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > keeps a verified cli owner when first-agent setup materializes the same credential directory 32ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > keeps a verified embedded owner when first-agent setup materializes the same credential directory 25ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict CLI binding when its forwarded SecretRef changes 42ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > requires a child runtime artifact for credential-backed plugin harness inference 20ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > freezes auto to the successful built-in harness 27ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > rejects an opaque harness with no trusted manifest owner 21ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a plugin-harness owner when its manifest-owned config drifts 26ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > keeps core-bootstrap plugin harnesses on exact raw-profile revalidation 21ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a plugin-harness binding when its forwarded SecretRef changes 22ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > accepts the executed Bedrock SDK owner with auth undefined and rejects credential drift 173ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > accepts the executed Bedrock SDK owner with auth aws-sdk and rejects credential drift 41ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict credential when an owner is removed 17ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict credential when its owning runtime is removed 18ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict credential after an in-place path/dev executable change with stable registry identity 83ms
+ ✓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > projects the provider-owner policy when plugins.allow excludes the owner 65ms
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  21:53:40
+   Duration  14.29s (transform 46%, import 30%, tests 20%, worker 3%, setup 1%)
+
+[test] starting test/vitest/vitest.infra.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verify checks an uncreated agent's inherited primary without creating it: utility-only 2435ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > complete checks an uncreated agent's inherited primary without creating it: utility-only 1779ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verify checks an uncreated agent's inherited primary without creating it: primary success 2246ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > complete checks an uncreated agent's inherited primary without creating it: primary success 2101ms
+(node:1562069) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: upsertAuthProfile is deprecated; use upsertAuthProfileAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(Use `bun --trace-warnings ...` to show where the warning was created)
+(node:1562069) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStoreForLocalUpdate is deprecated; use ensureAuthProfileStoreForLocalUpdateAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+(node:1562069) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: saveAuthProfileStore is deprecated; use updateAuthProfileStoreWithLock from openclaw/plugin-sdk/provider-auth instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > scopes verified setup binding to its selected provider when fixture requires migration 2577ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > scopes verified setup binding to its selected provider when unrelated requires migration 2502ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > keeps a staged replacement credential authoritative after provider normalization 2578ms
+(node:1562069) [DEP_PLUGIN_SDK] DeprecationWarning: Plugin SDK: ensureAuthProfileStore is deprecated; use ensureAuthProfileStoreAsync instead. The legacy contract remains supported during its deprecation period. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: protected key 2493ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: key rotated during probe 2176ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: staged reference rotated during probe 2083ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: existing-model activation rotated during probe 2148ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: alternate profile available 2358ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: completion 2048ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: existing-model activation 2353ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > verifies the actual setup entrypoint: non-default fallback owner 2340ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing destination (saved: false) 2035ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing destination (saved: true) 1837ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing reference (saved: false) 1887ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing reference (saved: true) 1865ms
+ ✓ |infra| src/system-agent/inference-route-runtime.test.ts > does not lend the active key after changing inactive runtime (saved: false) 1859ms
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  21:53:55
+   Duration  55.18s (tests 80%, transform 12%, import 7%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 2 Vitest shards in 183.33s

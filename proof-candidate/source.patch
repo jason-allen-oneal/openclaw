@@ -1,0 +1,46 @@
+diff --git a/src/system-agent/inference-route.ts b/src/system-agent/inference-route.ts
+index c24628f368d..a2b44c8379a 100644
+--- a/src/system-agent/inference-route.ts
++++ b/src/system-agent/inference-route.ts
+@@ -13,7 +13,9 @@ import {
+ import { resolveConfiguredSetupModelForAgent } from "../agents/utility-model.js";
+ import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
+ import { copyConfigResolutionFacts } from "../config/resolution-facts.js";
++import { captureRuntimeConfigWithSource } from "../config/runtime-config-capture-state.js";
+ import { createRuntimeConfigReader } from "../config/runtime-snapshot.js";
++import { projectConfigOntoRuntimeSourceSnapshot } from "../config/runtime-source-projection.js";
+ import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.js";
+ import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
+ import { normalizeAgentId } from "../routing/session-key.js";
+@@ -94,7 +96,7 @@ function projectSystemAgentExecutionConfig(
+     },
+   };
+   copyConfigResolutionFacts(config, projected);
+-  return projected;
++  return captureRuntimeConfigWithSource(projected, projectConfigOntoRuntimeSourceSnapshot(config));
+ }
+ 
+ export async function resolveSystemAgentConfiguredRouteFromConfig(
+diff --git a/src/system-agent/setup-config-snapshot.ts b/src/system-agent/setup-config-snapshot.ts
+index b61177fa8fe..4f4f71e0065 100644
+--- a/src/system-agent/setup-config-snapshot.ts
++++ b/src/system-agent/setup-config-snapshot.ts
+@@ -1,4 +1,5 @@
+ import { listAgentEntries } from "../agents/agent-roster.js";
++import { getRuntimeConfigCapture } from "../config/runtime-config-capture-state.js";
+ import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.js";
+ import { normalizeAgentId } from "../routing/session-key.js";
+ import { shortenHomePath } from "../utils.js";
+@@ -6,7 +7,11 @@ import { isReservedSystemAgentId } from "./agent-id.js";
+ 
+ /** Config-only diagnostic shared by setup admission and agent capability guidance. */
+ export function describeSystemAgentConfigConflict(config: OpenClawConfig): string | undefined {
+-  const reservedAgent = listAgentEntries(config).find((entry) => isReservedSystemAgentId(entry.id));
++  // The managed execution roster is not an authored user-agent collision.
++  const sourceConfig = getRuntimeConfigCapture(config)?.source ?? config;
++  const reservedAgent = listAgentEntries(sourceConfig).find((entry) =>
++    isReservedSystemAgentId(entry.id),
++  );
+   if (!reservedAgent) {
+     return undefined;
+   }

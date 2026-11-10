@@ -1,0 +1,37 @@
+{
+  "kind": "post-commit source-equivalence verification; not a rebuilt-runtime attestation",
+  "sourceMatches": [
+    {
+      "commit": "de0f5ff7168ee871967743a79d7dc69e0dd8687e",
+      "path": "src/system-agent/inference-route.ts",
+      "sha256": "5408e6910f02ff86a805466742704762cb327cc6c2373ae0848765dfdd1b63c8"
+    },
+    {
+      "commit": "0ab81856dbaee3b72c099266bc168a881214a551",
+      "path": "src/system-agent/inference-route.ts",
+      "sha256": "5408e6910f02ff86a805466742704762cb327cc6c2373ae0848765dfdd1b63c8"
+    },
+    {
+      "commit": "de0f5ff7168ee871967743a79d7dc69e0dd8687e",
+      "path": "src/system-agent/setup-config-snapshot.ts",
+      "sha256": "b4ee7f28d3ae8e373e79cc431b5be8ef301e4935de4e4150070cb2f595944a5f"
+    },
+    {
+      "commit": "0ab81856dbaee3b72c099266bc168a881214a551",
+      "path": "src/system-agent/setup-config-snapshot.ts",
+      "sha256": "b4ee7f28d3ae8e373e79cc431b5be8ef301e4935de4e4150070cb2f595944a5f"
+    },
+    {
+      "commit": "de0f5ff7168ee871967743a79d7dc69e0dd8687e",
+      "path": "src/system-agent/verified-inference.ts",
+      "sha256": "ee20836a387678fa129f10eba73f6a3063b09e0df28778246c6d1f3d808016a2"
+    },
+    {
+      "commit": "0ab81856dbaee3b72c099266bc168a881214a551",
+      "path": "src/system-agent/verified-inference.ts",
+      "sha256": "ee20836a387678fa129f10eba73f6a3063b09e0df28778246c6d1f3d808016a2"
+    }
+  ],
+  "fullPrPatchSha256": "9536b1fc1911bee848f7d2329d4da4f1005ee0de83e0e50a1c1b52af2766fb27",
+  "reviewedAndReconciledPrPatchesByteIdentical": true
+}

@@ -1,0 +1,115 @@
+$ node scripts/test-projects.mts src/system-agent/setup-apply.test.ts --maxWorkers=1
+[test] starting test/vitest/vitest.unit.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+[vitest-workers] local cache miss after 10034ms
+[vitest] still running with no output for 30000ms.
+[vitest] still running with no output for 60000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m48 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m6 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m11 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m9 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m12 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+[vitest] still running with no output for 90000ms.
+[vitest] still running with no output for 120000ms.
+[vitest-workers] prepared b42dfd6845c3 in 144114ms (18921 inputs, 29334 outputs)
+[vitest] still running with no output for 150000ms.
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a config created after the initial inference check before writing 197ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves the pre-roster verified route while creating a team 2355ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > reports an existing roster instead of silently skipping the requested first team 4ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > refuses a damaged pinned team before publishing setup configuration 10ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a specialist workspace outside the team receipt before committing setup 8ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves a configured workspace with existing state and no authored roster 8ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects invalid config before any setup mutation 4ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects the reserved user agent id case-insensitively 4ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed revision inside the final transform 5ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed default agent inside the final transform 410ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed default model inside the final transform 341ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rechecks the probed agent credential location inside the final transform 437ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects route drift before opening the transaction 364ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects resolved source drift before opening the transaction 398ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a setup candidate that changes the exact verified route identity 321ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rebuilds Gateway settings from the snapshot that wins a transaction retry 340ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > revalidates the verified route after the config write 362ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > accepts persisted plugin defaults that match the verified runtime route 305ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > rejects a materialized route that differs from the inference proof 300ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > returns visible post-commit workspace, approval, and service failures 8ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves the service owner's failed outcome after config commits 5ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > preserves the service owner's skipped outcome after config commits 4ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > reports explicitly skipped service installation 5ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > uses the linux readiness budget after service installation 31ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > uses the win32 readiness budget after service installation 6ms
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > keeps setup incomplete when the installed gateway never becomes reachable 6ms
+stderr | unknown test
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/system-agent/setup-apply.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ✓ |unit| src/system-agent/setup-apply.test.ts > applySystemAgentSetup transaction boundaries > authenticates non-restarting trusted-proxy Gateway recovery with its password SecretRef 14ms
+
+ Test Files  1 passed (1)
+      Tests  27 passed (27)
+   Start at  21:57:50
+   Duration  171.07s (transform 92%, tests 4%, import 3%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 179.07s

@@ -1,0 +1,132 @@
+$ node scripts/test-projects.mts src/system-agent/verified-inference.test.ts --maxWorkers=1 -t 'freezes auto to the successful built-in harness'
+[test] starting test/vitest/vitest.unit.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+[vitest-workers] local cache miss after 6133ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m48 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m11 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m6 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m9 │[0m ''
+ [38;5;240m  │[0m ─┬  
+ [38;5;240m  │[0m  ╰── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m12 │[0m ''
+ [38;5;240m   │[0m ─┬  
+ [38;5;240m   │[0m  ╰── module level directive may not be preserved
+ [38;5;240m   │[0m 
+ [38;5;240m   │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m────╯[0m
+
+[vitest] still running with no output for 60000ms.
+[vitest] still running with no output for 90000ms.
+[vitest-workers] prepared 2d84b76565ab in 92616ms (18921 inputs, 29334 outputs)
+stderr | unknown test
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/system-agent/verified-inference.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates an identity-less OAuth binding when its grant changes
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > rejects a binding when no credential fingerprint can be observed
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > reuses the successful model transport facts for owner re-resolution
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > fails closed when a credential-backed run omits its model transport facts
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > accepts and revalidates an opaque CLI owner emitted after a successful turn
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict CLI credential when its package artifact changes
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > keeps a verified cli owner when first-agent setup materializes the same credential directory
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > keeps a verified embedded owner when first-agent setup materializes the same credential directory
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict CLI binding when its forwarded SecretRef changes
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > requires a child runtime artifact for credential-backed plugin harness inference
+ × |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > freezes auto to the successful built-in harness 57ms
+   → expected 'Agent id "openclaw" is reserved for t…' to be undefined
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > rejects an opaque harness with no trusted manifest owner
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a plugin-harness owner when its manifest-owned config drifts
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > keeps core-bootstrap plugin harnesses on exact raw-profile revalidation
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a plugin-harness binding when its forwarded SecretRef changes
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > accepts the executed Bedrock SDK owner with auth undefined and rejects credential drift
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > accepts the executed Bedrock SDK owner with auth aws-sdk and rejects credential drift
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict credential when an owner is removed
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict credential when its owning runtime is removed
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > invalidates a strict credential after an in-place path/dev executable change with stable registry identity
+ ↓ |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > projects the provider-owner policy when plugins.allow excludes the owner
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/system-agent/verified-inference.test.ts > verified OpenClaw inference binding > freezes auto to the successful built-in harness
+AssertionError: expected 'Agent id "openclaw" is reserved for t…' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Agent id \"openclaw\" is reserved for the system agent. This configured agent conflicts with managed setup; Full Access or a tool allowlist does not resolve this collision. Ask the Gateway operator to migrate it to a non-reserved id, preserving its workspace, sessions, bindings, and credentials. Do not simply rename its config key or delete its state."
+
+ ❯ src/system-agent/verified-inference.test.ts:653:76
+    651|     expect(binding.execution).toMatchObject({ agentHarnessRuntimeOverr…
+    652|     expect(binding.auth.agentHarnessId).toBe("openclaw");
+    653|     expect(describeSystemAgentConfigConflict(binding.execution.runConf…
+       |                                                                            ^
+    654|   });
+    655|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 20 skipped (21)
+   Start at  21:49:43
+   Duration  106.78s (transform 96%, import 3%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 112.08s
+[test] FAILED (exit 1)
+[ELIFECYCLE] Test failed. See above for more details.
