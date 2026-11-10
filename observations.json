@@ -1,0 +1,142 @@
+[
+  {
+    "stage": "blocked",
+    "elapsedMs": 25616,
+    "requests": 0,
+    "broadcasts": [],
+    "notices": [],
+    "refusals": [
+      {
+        "name": "PreparedModelRuntimeOwnerNotPublishedError",
+        "admissionBlocked": true,
+        "operation": "runtime-proof-replacement"
+      },
+      {
+        "name": "PreparedModelRuntimeOwnerNotPublishedError",
+        "admissionBlocked": true,
+        "operation": "runtime-proof-replacement"
+      }
+    ],
+    "completionCalls": [
+      {
+        "at": 1794271601137,
+        "purpose": "session-observer",
+        "error": {
+          "type": "PreparedModelRuntimeOwnerNotPublishedError",
+          "admissionBlocked": true
+        }
+      },
+      {
+        "at": 1794271612969,
+        "purpose": "session-observer",
+        "error": {
+          "type": "PreparedModelRuntimeOwnerNotPublishedError",
+          "admissionBlocked": true
+        }
+      }
+    ]
+  },
+  {
+    "stage": "recovered",
+    "elapsedMs": 36701,
+    "requests": [
+      {
+        "path": "/v1/chat/completions",
+        "body": {
+          "model": "observer-fixture",
+          "messages": [
+            {
+              "role": "system",
+              "content": "You judge the trajectory of a running AI agent session for an operator status surface. Judge whether the agent is progressing, grinding through necessary work, stuck in a repeated failing loop, waiting on the user, wrapping up, done, or failed. Do not transcribe the activity log. Summarize what it is doing and how it is going. Use American English and present tense. Do not use markdown in string values. Set health to exactly one of \"on-track\", \"grinding\", \"stuck\", \"waiting-on-user\", \"wrapping-up\", \"done\", or \"failed\". Return one raw JSON object only, without Markdown fences or surrounding text, for example: {\"headline\":\"Checking the fix\",\"assessment\":\"Tests are passing.\",\"health\":\"on-track\",\"planProgress\":{\"completed\":2,\"total\":3}}. Omit optional fields instead of setting them to null."
+            },
+            {
+              "role": "user",
+              "content": "{\"previousDigest\":null,\"newNotes\":[\"Run started\",\"Tool read: {\\\"path\\\":\\\"fixture-0.txt\\\"}\",\"Tool read: {\\\"path\\\":\\\"fixture-1.txt\\\"}\",\"Tool read: {\\\"path\\\":\\\"fixture-2.txt\\\"}\",\"Tool read: {\\\"path\\\":\\\"fixture-3.txt\\\"}\"],\"planProgress\":null}"
+            }
+          ],
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          },
+          "temperature": 0.2,
+          "max_completion_tokens": 300
+        }
+      }
+    ],
+    "broadcasts": [
+      {
+        "name": "session.observer",
+        "payload": {
+          "sessionKey": "agent:main:runtime-recovery-proof",
+          "agentId": "main",
+          "sessionId": "synthetic-session",
+          "runId": "runtime-recovery-proof",
+          "revision": 1,
+          "updatedAt": 1794271625520,
+          "headline": "Recovered after replacement",
+          "health": "on-track"
+        }
+      }
+    ],
+    "persisted": [
+      {
+        "sessionKey": "agent:main:runtime-recovery-proof",
+        "agentId": "main",
+        "sessionId": "synthetic-session",
+        "runId": "runtime-recovery-proof",
+        "revision": 1,
+        "updatedAt": 1794271625520,
+        "headline": "Recovered after replacement",
+        "health": "on-track"
+      }
+    ],
+    "notices": [],
+    "completionCalls": [
+      {
+        "at": 1794271601137,
+        "purpose": "session-observer",
+        "error": {
+          "type": "PreparedModelRuntimeOwnerNotPublishedError",
+          "admissionBlocked": true
+        }
+      },
+      {
+        "at": 1794271612969,
+        "purpose": "session-observer",
+        "error": {
+          "type": "PreparedModelRuntimeOwnerNotPublishedError",
+          "admissionBlocked": true
+        }
+      },
+      {
+        "at": 1794271624970,
+        "purpose": "session-observer"
+      }
+    ]
+  },
+  {
+    "stage": "terminal-blocked",
+    "replacementStillBlocked": true,
+    "attempts": [
+      {
+        "at": 1794271625669,
+        "purpose": "session-observer",
+        "error": {
+          "type": "PreparedModelRuntimeOwnerNotPublishedError",
+          "admissionBlocked": true
+        }
+      }
+    ],
+    "storedDigest": {
+      "sessionKey": "agent:main:runtime-recovery-proof",
+      "agentId": "main",
+      "sessionId": "synthetic-session",
+      "runId": "runtime-recovery-proof",
+      "revision": 2,
+      "updatedAt": 1794271625673,
+      "headline": "Recovered after replacement",
+      "health": "done"
+    },
+    "providerRequests": 1
+  }
+]

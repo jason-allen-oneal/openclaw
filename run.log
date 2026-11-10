@@ -1,0 +1,54 @@
+[test] starting test/vitest/vitest.gateway-server.config.ts
+
+ RUN  v5.0.5 <checkout>
+
+[vitest-workers] local cache hit after 7267ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared f7141d705453 in 7402ms (18699 inputs, 29316 outputs)
+stdout | src/gateway/session-observer-runtime-proof.test.ts
+FIXTURE READY
+
+[vitest] still running with no output for 30000ms.
+stdout | src/gateway/session-observer-runtime-proof.test.ts > recovers the observer after actual plugin-held admission refuses twice
+{"stage":"blocked","elapsedMs":25616,"requests":0,"broadcasts":[],"notices":[],"refusals":[{"name":"PreparedModelRuntimeOwnerNotPublishedError","admissionBlocked":true,"operation":"runtime-proof-replacement"},{"name":"PreparedModelRuntimeOwnerNotPublishedError","admissionBlocked":true,"operation":"runtime-proof-replacement"}],"completionCalls":[{"at":1794271601137,"purpose":"session-observer","error":{"type":"PreparedModelRuntimeOwnerNotPublishedError","admissionBlocked":true}},{"at":1794271612969,"purpose":"session-observer","error":{"type":"PreparedModelRuntimeOwnerNotPublishedError","admissionBlocked":true}}]}
+
+stdout | src/gateway/session-observer-runtime-proof.test.ts > recovers the observer after actual plugin-held admission refuses twice
+{"stage":"recovered","elapsedMs":36701,"requests":[{"path":"/v1/chat/completions","body":{"model":"observer-fixture","messages":[{"role":"system","content":"You judge the trajectory of a running AI agent session for an operator status surface. Judge whether the agent is progressing, grinding through necessary work, stuck in a repeated failing loop, waiting on the user, wrapping up, done, or failed. Do not transcribe the activity log. Summarize what it is doing and how it is going. Use American English and present tense. Do not use markdown in string values. Set health to exactly one of \"on-track\", \"grinding\", \"stuck\", \"waiting-on-user\", \"wrapping-up\", \"done\", or \"failed\". Return one raw JSON object only, without Markdown fences or surrounding text, for example: {\"headline\":\"Checking the fix\",\"assessment\":\"Tests are passing.\",\"health\":\"on-track\",\"planProgress\":{\"completed\":2,\"total\":3}}. Omit optional fields instead of setting them to null."},{"role":"user","content":"{\"previousDigest\":null,\"newNotes\":[\"Run started\",\"Tool read: {\\\"path\\\":\\\"fixture-0.txt\\\"}\",\"Tool read: {\\\"path\\\":\\\"fixture-1.txt\\\"}\",\"Tool read: {\\\"path\\\":\\\"fixture-2.txt\\\"}\",\"Tool read: {\\\"path\\\":\\\"fixture-3.txt\\\"}\"],\"planProgress\":null}"}],"stream":true,"stream_options":{"include_usage":true},"temperature":0.2,"max_completion_tokens":300}}],"broadcasts":[{"name":"session.observer","payload":{"sessionKey":"agent:main:runtime-recovery-proof","agentId":"main","sessionId":"synthetic-session","runId":"runtime-recovery-proof","revision":1,"updatedAt":1794271625520,"headline":"Recovered after replacement","health":"on-track"}}],"persisted":[{"sessionKey":"agent:main:runtime-recovery-proof","agentId":"main","sessionId":"synthetic-session","runId":"runtime-recovery-proof","revision":1,"updatedAt":1794271625520,"headline":"Recovered after replacement","health":"on-track"}],"notices":[],"completionCalls":[{"at":1794271601137,"purpose":"session-observer","error":{"type":"PreparedModelRuntimeOwnerNotPublishedError","admissionBlocked":true}},{"at":1794271612969,"purpose":"session-observer","error":{"type":"PreparedModelRuntimeOwnerNotPublishedError","admissionBlocked":true}},{"at":1794271624970,"purpose":"session-observer"}]}
+
+stdout | src/gateway/session-observer-runtime-proof.test.ts > recovers the observer after actual plugin-held admission refuses twice
+{"stage":"terminal-blocked","replacementStillBlocked":true,"attempts":[{"at":1794271625669,"purpose":"session-observer","error":{"type":"PreparedModelRuntimeOwnerNotPublishedError","admissionBlocked":true}}],"storedDigest":{"sessionKey":"agent:main:runtime-recovery-proof","agentId":"main","sessionId":"synthetic-session","runId":"runtime-recovery-proof","revision":2,"updatedAt":1794271625673,"headline":"Recovered after replacement","health":"done"},"providerRequests":1}
+
+stdout | src/gateway/session-observer-runtime-proof.test.ts > recovers the observer after actual plugin-held admission refuses twice
+PROOF PASS
+
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.sqliteWorkerBroker
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.sharedStateWorkerOwner
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/session-observer-runtime-proof.test.ts: retiring openclaw.sessionStateNotices
+
+ ✓ |gateway-server (gateway-server-parallel)| src/gateway/session-observer-runtime-proof.test.ts > recovers the observer after actual plugin-held admission refuses twice 44158ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  19:46:07
+   Duration  58.50s (tests 99%, worker 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 63.11s
