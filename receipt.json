@@ -1,0 +1,17 @@
+{
+  "head": "5877ba1411b3a81f00e4df66a9649fd5d05ce0aa",
+  "command": "node scripts/run-vitest.mjs src/gateway/session-observer-http-proof.test.ts --maxWorkers=1",
+  "candidateExit": 0,
+  "parentControlExit": 1,
+  "logs": {
+    "green": {
+      "originalSha256": "583576e8d42d026b2d198f62bdbcadc745ec6f548962b2f372fd826a13004808",
+      "publishedSha256": "1e080c662fe8691842556bf2d318c4523e5c7aee14af9eed1375447e162ea6c9"
+    },
+    "red": {
+      "originalSha256": "2bcf6af0c31a9eac51d25641769cfcd47cb80f9b07e953848b87aed1b9437af9",
+      "publishedSha256": "9db31969fd6c2083fa263cc124de6c010a100eca19a4a341d47f54c842ef00fc"
+    }
+  },
+  "driverSha256": "f45e17c4ac18d509111836bc5fda0c53b72f0fac44ec6afb90fb345099f70aba"
+}

@@ -1,0 +1,119 @@
+[test] starting test/vitest/vitest.gateway-server.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache miss after 4918ms
+[vitest] still running with no output for 30000ms.
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js (48:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/resolve-evaluate-options.js:48:1 ]
+    │
+ 48 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js (11:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-is-declaration.js:11:1 ]
+    │
+ 11 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js (6:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/@mdx-js+mdx@3.1.1_supports-color@10.2.2/node_modules/@mdx-js/mdx/lib/util/estree-util-create.js:6:1 ]
+   │
+ 6 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js (9:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js" may not be preserved when bundling.
+   ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/text.js:9:1 ]
+   │
+ 9 │ ''
+   │ ─┬  
+   │  ╰── module level directive may not be preserved
+   │ 
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js (12:0) [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "" in "node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js" may not be preserved when bundling.
+    ╭─[ node_modules/.pnpm/hast-util-to-estree@3.1.3_supports-color@10.2.2/node_modules/hast-util-to-estree/lib/handlers/comment.js:12:1 ]
+    │
+ 12 │ ''
+    │ ─┬  
+    │  ╰── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[vitest] still running with no output for 60000ms.
+[vitest] still running with no output for 90000ms.
+[vitest-workers] prepared 5ab98b881f7e in 117366ms (18914 inputs, 29316 outputs)
+[vitest] still running with no output for 120000ms.
+stdout | src/gateway/session-observer-http-proof.test.ts > recovers invalid observer JSON through default preparation and real loopback HTTP fallback
+OBSERVER_HTTP_PROOF {"requests":[{"path":"/v1/chat/completions","model":"primary","stream":true,"hasTools":false,"maxTokens":300,"temperature":0.2},{"path":"/v1/chat/completions","model":"primary","stream":true,"hasTools":false,"maxTokens":300,"temperature":0.2}],"result":{"error":"session observer returned invalid JSON twice; last rejected output: {\"headline\":\"Invalid optional field\",\"health\":\"on-track\",\"planProgress\":null}"},"activeControllerCleared":true}
+
+ × |gateway-server (gateway-server-parallel)| src/gateway/session-observer-http-proof.test.ts > recovers invalid observer JSON through default preparation and real loopback HTTP fallback 5466ms
+   → expected [ 'primary', 'primary' ] to deeply equal [ 'primary', 'recovery' ]
+stderr | unknown test
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.agentDatabaseReaders
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateSnapshotOwners
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.sqliteWalCheckpointListeners
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateReadWorkers
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateDomainPublication.personal-model-credentials
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateDomainPublication.auth-profile-credentials
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.agentDatabaseLifecycle
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.agentDatabaseBorrowers
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateDomainPublication.plugin-state
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.pluginStatePublication
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.pluginStateNamespaceOwner
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateDomainPublication.workspace-state
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateDomainPublication.github-publication
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.stateDomainPublication.repository-workspace
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.sessionDiskBudgetWorkers
+[sqlite-test-lifecycle] src/gateway/session-observer-http-proof.test.ts: retiring openclaw.sessionStateNotices
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |gateway-server (gateway-server-parallel)| src/gateway/session-observer-http-proof.test.ts > recovers invalid observer JSON through default preparation and real loopback HTTP fallback
+AssertionError: expected [ 'primary', 'primary' ] to deeply equal [ 'primary', 'recovery' ]
+
+- Expected
++ Received
+
+  [
+    "primary",
+-   "recovery",
++   "primary",
+  ]
+
+ ❯ src/gateway/session-observer-http-proof.test.ts:<redacted len=5>
+     59|     const result = await request(observer, ["Read source and ran targe…
+     60|     console.log("OBSERVER_HTTP_PROOF " + JSON.stringify({ requests, re…
+     61|     expect(requests.map(({ model }) => model)).toEqual(["primary", "re…
+       |                                                ^
+     62|     expect(requests.every(({ path, stream, hasTools, maxTokens, temper…
+     63|     expect(result).toMatchObject({ headline: "Recovered via HTTP fallb…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  19:36:27
+   Duration  137.82s (transform 92%, tests 4%, import 3%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] failed 1 Vitest shard in 146.16s
+[test] FAILED (exit 1)
