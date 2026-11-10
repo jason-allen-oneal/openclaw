@@ -1,0 +1,87 @@
+{
+  "candidateHead": "16d08c5bc9b39a67aa539e2da12a646e98421fec",
+  "kind": "actual built Gateway + real SIWC grant + public provider",
+  "primary": {
+    "model": "openai/gpt-6-sol",
+    "runtime": "openclaw"
+  },
+  "utility": {
+    "model": "openai/gpt-6-luna",
+    "runtime": "codex"
+  },
+  "sessionId": "8f7cacb9-bde9-4541-8200-0191d5fcdfe0",
+  "runId": "1f33c34f-1c7d-4a20-9636-a253cc03c40b",
+  "promptSha256": "4d1471b2d125a04d906a93964b099f2d277ec7db8f5f85ce78d29cb4fa33a546",
+  "terminal": {
+    "runId": "1f33c34f-1c7d-4a20-9636-a253cc03c40b",
+    "status": "ok",
+    "startedAt": 1794288923756,
+    "endedAt": 1794288985534,
+    "terminalReceipt": {
+      "runId": "1f33c34f-1c7d-4a20-9636-a253cc03c40b",
+      "sessionId": "8f7cacb9-bde9-4541-8200-0191d5fcdfe0",
+      "turnId": "1f33c34f-1c7d-4a20-9636-a253cc03c40b",
+      "requested": {
+        "provider": "openai",
+        "model": "gpt-6-sol"
+      },
+      "effective": {
+        "provider": "openai",
+        "model": "gpt-6-sol",
+        "responseModel": "gpt-6-sol"
+      },
+      "successfulToolNames": [
+        "exec"
+      ],
+      "sourceReplyDelivered": true,
+      "rerouted": false,
+      "terminalDisposition": "visible"
+    },
+    "terminalReply": {
+      "disposition": "visible",
+      "text": "OBSERVER_PROOF_COMPLETE"
+    }
+  },
+  "digestCountDuringRun": 12,
+  "modelAssessmentCount": 4,
+  "assessments": [
+    {
+      "revision": 3,
+      "updatedAt": 1794288937803,
+      "headline": "Pausing at observer step one",
+      "assessment": "The agent is in a brief, planned pause; no signs of failure or repeated retries.",
+      "health": "on-track"
+    },
+    {
+      "revision": 6,
+      "updatedAt": 1794288949640,
+      "headline": "Pausing for the observer",
+      "assessment": "The first pause step is complete, and the second pause is still running. This appears to be a deliberate wait rather than a failure.",
+      "health": "on-track"
+    },
+    {
+      "revision": 9,
+      "updatedAt": 1794288962027,
+      "headline": "Pausing between observer steps",
+      "assessment": "The agent completes the requested pause and observer step two; no further progress details are available.",
+      "health": "on-track"
+    },
+    {
+      "revision": 12,
+      "updatedAt": 1794288973115,
+      "headline": "Completing observer pause step three",
+      "assessment": "The pause finishes successfully, and the observer step completes without errors.",
+      "health": "on-track"
+    }
+  ],
+  "freshPersistedTerminalDigest": {
+    "agentId": "main",
+    "runId": "1f33c34f-1c7d-4a20-9636-a253cc03c40b",
+    "headline": "OBSERVER_PROOF_COMPLETE",
+    "health": "done",
+    "updatedAt": 1794288986056,
+    "revision": 13
+  },
+  "historyMatchesDescribe": true,
+  "readbackAt": "2026-11-10T05:43:09.429Z"
+}

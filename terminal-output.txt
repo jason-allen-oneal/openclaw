@@ -1,0 +1,89 @@
+
+### stable-observe.stdout
+
+{"phase":"stable","hello":{"protocol":4,"version":"2026.11.2"},"runId":"3a85bcc2-924d-4f41-a90d-fecb02f7c41b","terminal":{"runId":"3a85bcc2-924d-4f41-a90d-fecb02f7c41b","status":"error","startedAt":1794288500691,"endedAt":1794288501047,"error":"⚠️ OpenClaw couldn't finish this reply. Check the conversation before trying again. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal."},"digests":0,"assessments":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: ordinary model run must complete
+
+'error' !== 'ok'
+
+    at file://<PROOF_ROOT>/observe-gateway.mjs:55:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'error',
+  expected: 'ok',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+
+
+### candidate-observe.stdout
+
+{"phase":"candidate","hello":{"protocol":4,"version":"2026.11.2"},"runId":"716db7c5-fab4-42f4-b27b-76c199df33e9","terminal":{"runId":"716db7c5-fab4-42f4-b27b-76c199df33e9","status":"error","startedAt":1794288769545,"endedAt":1794288770066,"error":"⚠️ OpenClaw couldn't finish this reply. Check the conversation before trying again. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal."},"digests":0,"assessments":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: ordinary model run must complete
+
+'error' !== 'ok'
+
+    at file://<PROOF_ROOT>/observe-gateway.mjs:64:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'error',
+  expected: 'ok',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+
+
+### observer-observe-2.stdout
+
+{"phase":"observer","hello":{"protocol":4,"version":"2026.11.2"},"runId":"1f33c34f-1c7d-4a20-9636-a253cc03c40b","terminal":{"runId":"1f33c34f-1c7d-4a20-9636-a253cc03c40b","status":"ok","startedAt":1794288923756,"endedAt":1794288985534,"terminalReceipt":{"runId":"1f33c34f-1c7d-4a20-9636-a253cc03c40b","sessionId":"8f7cacb9-bde9-4541-8200-0191d5fcdfe0","turnId":"1f33c34f-1c7d-4a20-9636-a253cc03c40b","requested":{"provider":"openai","model":"gpt-6-sol"},"effective":{"provider":"openai","model":"gpt-6-sol","responseModel":"gpt-6-sol"},"successfulToolNames":["exec"],"sourceReplyDelivered":true,"rerouted":false,"terminalDisposition":"visible"},"terminalReply":{"disposition":"visible","text":"OBSERVER_PROOF_COMPLETE"}},"digests":12,"assessments":4}
+
+
+### gateway-readback-initial-failure.stdout
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(original.assessments.some(a=>a.revision===described.session.observerDigest.revision&&a.headline===described.session.observerDigest.headline))
+
+    at file://<PROOF_ROOT>/readback-gateway.mjs:17:2
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+
+
+### gateway-readback-final.stdout
+
+{"status":"passed","sessionIdPreserved":true,"persistedTerminalDigestMatchesSuccessfulReply":true,"digest":{"agentId":"main","runId":"1f33c34f-1c7d-4a20-9636-a253cc03c40b","headline":"OBSERVER_PROOF_COMPLETE","health":"done","updatedAt":1794288986056,"revision":13}}
+
+
+### strict-real-control.stdout
+
+{"status":"passed","sourceHead":"16d08c5bc9b39a67aa539e2da12a646e98421fec","entrypoint":"built Codex harness runIsolatedCompletionV2","credentialSource":"same isolated persisted real SIWC grant used by Gateway","profileIdentitySha256":"484cf17841e66c8242919a0484e5e39131de11be5d6e8185605dc15956eb5637","authFlow":"chatgpt-token-sharing","provider":"openai","model":"gpt-6-luna","endpoint":"https://api.openai.com/v1","streamParams":{"maxTokens":37,"temperature":0},"streamParamsMode":"omitted (required by default)","error":"ChatGPT token sharing does not support explicit token or temperature limits; select an API-key model.","nativeLaunchMarkerPresent":false,"limitations":["Built harness owner boundary, not a public Gateway RPC caller.","A task-owned sentinel command detects unexpected native launch; no real provider inference is intended."],"recordedAt":"2026-11-10T05:40:51.036Z"}
+
+
+### controls/execution.log
+
+[agent/embedded] Codex app-server: using bundled 0.164.0 (no codex on PATH)
+{"status":"passed","results":[{"case":"preferred","status":"passed","max_output_tokens":300,"temperature":0.2,"output":"API_KEY_CONTROL_OK"},{"case":"required-default","status":"passed","max_output_tokens":37,"temperature":0,"output":"API_KEY_CONTROL_OK"}],"nativeProcesses":[],"artifactsUnchanged":true}

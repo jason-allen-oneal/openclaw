@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "sourceHead": "16d08c5bc9b39a67aa539e2da12a646e98421fec",
+  "entrypoint": "built Codex harness runIsolatedCompletionV2",
+  "credentialSource": "same isolated persisted real SIWC grant used by Gateway",
+  "profileIdentitySha256": "484cf17841e66c8242919a0484e5e39131de11be5d6e8185605dc15956eb5637",
+  "authFlow": "chatgpt-token-sharing",
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "endpoint": "https://api.openai.com/v1",
+  "streamParams": {
+    "maxTokens": 37,
+    "temperature": 0
+  },
+  "streamParamsMode": "omitted (required by default)",
+  "error": "ChatGPT token sharing does not support explicit token or temperature limits; select an API-key model.",
+  "nativeLaunchMarkerPresent": false,
+  "limitations": [
+    "Built harness owner boundary, not a public Gateway RPC caller.",
+    "A task-owned sentinel command detects unexpected native launch; no real provider inference is intended."
+  ],
+  "recordedAt": "2026-11-10T05:40:51.036Z"
+}

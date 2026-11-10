@@ -1,0 +1,59 @@
+{
+  "candidateHead": "16d08c5bc9b39a67aa539e2da12a646e98421fec",
+  "officialLatestStable": {
+    "version": "2026.11.2",
+    "npmIntegrity": "sha512-SgBml4WLp8V1DdAYkrTPLzVdA/iYo3iuHCtm4788GjaG83QZdd1VeOTlue0HBJGdn3SbFE06b6uPs+AM5ShMgg==",
+    "npmShasum": "4185b164092d40a2b49d5630808031a0b28632de"
+  },
+  "stateTransition": "same isolated named-profile directory; stable stopped and joined, candidate canonical Doctor migration, candidate restarted",
+  "schemaTransition": {
+    "from": 27,
+    "to": 41
+  },
+  "identity": {
+    "profileIdSha256": "484cf17841e66c8242919a0484e5e39131de11be5d6e8185605dc15956eb5637",
+    "profileIdEqual": true,
+    "accountLabelEqual": true,
+    "provider": "openai",
+    "credentialType": "oauth",
+    "authFlowVerifiedByRealStrictControl": "chatgpt-token-sharing",
+    "stableStatus": "expiring",
+    "candidateStatus": "expiring"
+  },
+  "utilityRoute": {
+    "model": "openai/gpt-6-luna",
+    "modelEqual": true,
+    "runtime": "codex",
+    "endpoint": "https://api.openai.com/v1",
+    "endpointBasis": "unchanged public Responses route in installed provider/runtime; no custom endpoint configured"
+  },
+  "retainedSessionFieldsEqual": {
+    "sessionId": true,
+    "modelProvider": true,
+    "model": true,
+    "agentRuntime.id": true
+  },
+  "transcriptPayloadsEqual": true,
+  "stablePayloadSha256": "0183fdc38bc57fc81ccd46a1823dd81380d6d717476c6d4c911babb30e07aef7",
+  "candidateBeforePayloadSha256": "0183fdc38bc57fc81ccd46a1823dd81380d6d717476c6d4c911babb30e07aef7",
+  "retainedMessages": 2,
+  "stableOrdinaryTurn": {
+    "runId": "3a85bcc2-924d-4f41-a90d-fecb02f7c41b",
+    "status": "error",
+    "startedAt": 1794288500691,
+    "endedAt": 1794288501047,
+    "error": "\u26a0\ufe0f OpenClaw couldn't finish this reply. Check the conversation before trying again. For details, open Settings \u2192 Logs in the Control UI or run `openclaw logs --follow` in your terminal."
+  },
+  "candidateRetainedOrdinaryTurn": {
+    "runId": "716db7c5-fab4-42f4-b27b-76c199df33e9",
+    "status": "error",
+    "startedAt": 1794288769545,
+    "endedAt": 1794288770066,
+    "error": "\u26a0\ufe0f OpenClaw couldn't finish this reply. Check the conversation before trying again. For details, open Settings \u2192 Logs in the Control UI or run `openclaw logs --follow` in your terminal."
+  },
+  "limitations": [
+    "Ordinary Codex primary was rejected by the same separate prepared-API-key supports gate on both builds. This is not the observer sampling red reproduction.",
+    "After verifying retained session and account state, a new session used OpenClaw/Sol primary with unchanged Codex/Luna utility to exercise the observer. This is not identical primary workload red/green across versions.",
+    "No packet capture of real provider Authorization headers or real request bodies was taken. Endpoint identity is configuration/source-backed; successful model assessments are real Gateway output."
+  ]
+}

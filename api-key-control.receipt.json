@@ -1,0 +1,2728 @@
+{
+  "sourceHead": "16d08c5bc9b39a67aa539e2da12a646e98421fec",
+  "build": {
+    "version": "2026.11.2",
+    "commit": "16d08c5bc9b39a67aa539e2da12a646e98421fec",
+    "builtAt": "2026-11-10T05:25:40.566Z",
+    "buildId": "2026.11.2-16d08c5bc9b3-2026-11-10T05-25-40.566Z"
+  },
+  "entrypoint": "dist/extensions/codex/harness.js:createCodexAppServerAgentHarness.runIsolatedCompletionV2",
+  "status": "passed",
+  "results": [
+    {
+      "case": "preferred",
+      "status": "passed",
+      "max_output_tokens": 300,
+      "temperature": 0.2,
+      "output": "API_KEY_CONTROL_OK"
+    },
+    {
+      "case": "required-default",
+      "status": "passed",
+      "max_output_tokens": 37,
+      "temperature": 0,
+      "output": "API_KEY_CONTROL_OK"
+    }
+  ],
+  "requests": [
+    {
+      "case": "preferred",
+      "transport": "websocket",
+      "path": "/v1/responses",
+      "body": {
+        "type": "response.create",
+        "model": "gpt-6-luna",
+        "stream": true,
+        "input": [
+          {
+            "type": "additional_tools",
+            "id": "at_01a1c3f9-2cb6-7ad1-add9-32409b48e4e7",
+            "role": "developer",
+            "tools": [
+              {
+                "type": "namespace",
+                "name": "functions",
+                "description": "",
+                "tools": [
+                  {
+                    "type": "custom",
+                    "name": "exec",
+                    "description": "Run JavaScript code to orchestrate/compose tool calls\n- Evaluates the provided JavaScript code in a fresh V8 isolate as an async module.\n- All nested tools are available on the global `tools` object, for example `await tools.exec_command(...)`. Tool names are exposed as normalized JavaScript identifiers, for example `await tools.mcp__ologs__get_profile(...)`.\n- Nested tool methods take either a string or an object as their input argument.\n- Nested tools return either an object or a string, based on the description.\n- Runs raw JavaScript -- no Node, no file system, no network access, no console.\n- Accepts raw JavaScript source text, not JSON, quoted strings, or markdown code fences.\n- You may optionally start the tool input with a first-line pragma like `// @exec: {\"yield_time_ms\": 10000, \"max_output_tokens\": 1000}`.\n- `yield_time_ms` asks `exec` to yield early if the script is still running. Defaults to 30000 ms.\n- `max_output_tokens` sets the token budget for direct `exec` results. Defaults to 10000 tokens.\n- When the JS code is fully evaluated, the isolate's lifetime ends and unawaited promises are silently discarded.\n\n- Global helpers:\n- `exit()`: Immediately ends the current script successfully (like an early return from the top level).\n- `text(value: string | number | boolean | undefined | null)`: Appends a text item. Non-string values are stringified with `JSON.stringify(...)` when possible.\n- `image(imageUrlOrItem: string | { image_url: string; detail?: \"auto\" | \"low\" | \"high\" | \"original\" | null } | ImageContent, detail?: \"auto\" | \"low\" | \"high\" | \"original\" | null)`: Appends an image item. `image_url` should be a base64-encoded `data:` URL. To forward an MCP tool image, pass an individual `ImageContent` block from `result.content`, for example `image(result.content[0])`. MCP image blocks may request detail with `_meta: { \"codex/imageDetail\": \"original\" }`. When provided, the second `detail` argument overrides any detail embedded in the first argument.\n- `audio(audioUrlOrItem: string | { audio_url: string } | AudioContent)`: Appends an audio item. `audio_url` should be a base64-encoded `data:` URL. To forward an MCP tool audio block, pass an individual `AudioContent` block from `result.content`, for example `audio(result.content[0])`.\n- `generatedImage(result: { image_url: string; output_hint?: string })`: Appends an image-generation result and its optional output hint. HTTP(S) URLs are not supported.\n- `store(key: string, value: any)`: stores a serializable value under a string key for later `exec` calls in the same session.\n- `load(key: string)`: returns the stored value for a string key, or `undefined` if it is missing.\n- `notify(value: string | number | boolean | undefined | null)`: immediately injects an extra `custom_tool_call_output` for the current `exec` call. Values are stringified like `text(...)`.\n- `setTimeout(callback: () => void, delayMs?: number)`: schedules a callback to run later and returns a timeout id. Pending timeouts do not keep `exec` alive by themselves; await an explicit promise if you need to wait for one.\n- `clearTimeout(timeoutId?: number)`: cancels a timeout created by `setTimeout`.\n- `ALL_TOOLS`: metadata for the enabled nested tools as `{ name, description }` entries.\n- `yield_control()`: yields the accumulated output to the model immediately while the script keeps running.\n\nSome deferred nested tools may be omitted from this description. They are still available on the global `tools` object and listed in `ALL_TOOLS`.\nTo find one, filter `ALL_TOOLS` by `name` and `description`.\n\nTool availability can change between calls.\n\nShared MCP Types:\n```ts\ntype Role = \"user\" | \"assistant\";\ntype MetaObject = Record<string, unknown>;\ntype Annotations = {\n  audience?: Role[];\n  priority?: number;\n  lastModified?: string;\n};\ntype Icon = {\n  src: string;\n  mimeType?: string;\n  sizes?: string[];\n  theme?: \"light\" | \"dark\";\n};\ntype TextResourceContents = {\n  uri: string;\n  mimeType?: string;\n  _meta?: MetaObject;\n  text: string;\n};\ntype BlobResourceContents = {\n  uri: string;\n  mimeType?: string;\n  _meta?: MetaObject;\n  blob: string;\n};\ntype TextContent = {\n  type: \"text\";\n  text: string;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype ImageContent = {\n  type: \"image\";\n  data: string;\n  mimeType: string;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype AudioContent = {\n  type: \"audio\";\n  data: string;\n  mimeType: string;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype ResourceLink = {\n  icons?: Icon[];\n  name: string;\n  title?: string;\n  uri: string;\n  description?: string;\n  mimeType?: string;\n  annotations?: Annotations;\n  size?: number;\n  _meta?: MetaObject;\n  type: \"resource_link\";\n};\ntype EmbeddedResource = {\n  type: \"resource\";\n  resource: TextResourceContents | BlobResourceContents;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype ContentBlock =\n  | TextContent\n  | ImageContent\n  | AudioContent\n  | ResourceLink\n  | EmbeddedResource;\ntype CallToolResult<TStructured = { [key: string]: unknown }> = {\n  _meta?: MetaObject;\n  content: ContentBlock[];\n  isError?: boolean;\n  structuredContent?: TStructured;\n  [key: string]: unknown;\n};\n```\n\n### `apply_patch`\nThe `apply_patch` tool can be used to edit files. This is a FREEFORM tool, so do not wrap the patch in JSON.\n\nexec tool declaration:\n```ts\ndeclare const tools: { apply_patch(input: string): Promise<unknown>; };\n```\n\n### `list_mcp_resource_templates`\nLists resource templates provided by MCP servers. Parameterized resource templates allow servers to share data that takes parameters and provides context to language models, such as files, database schemas, or application-specific information. Prefer resource templates over web search when possible.\n\nexec tool declaration:\n```ts\ndeclare const tools: { list_mcp_resource_templates(args: {\n  // Opaque cursor from a previous list_mcp_resource_templates call; omit for the first page.\n  cursor?: string;\n  // MCP server name. Omit to list resource templates from every configured server.\n  server?: string;\n}): Promise<unknown>; };\n```\n\n### `list_mcp_resources`\nLists resources provided by MCP servers. Resources allow servers to share data that provides context to language models, such as files, database schemas, or application-specific information. Prefer resources over web search when possible.\n\nexec tool declaration:\n```ts\ndeclare const tools: { list_mcp_resources(args: {\n  // Opaque cursor from a previous list_mcp_resources call; omit for the first page.\n  cursor?: string;\n  // MCP server name. Omit to list resources from every configured server.\n  server?: string;\n}): Promise<unknown>; };\n```\n\n### `read_mcp_resource`\nRead a specific resource from an MCP server given the server name and resource URI.\n\nexec tool declaration:\n```ts\ndeclare const tools: { read_mcp_resource(args: {\n  // MCP server name exactly as configured. Must match the 'server' field returned by list_mcp_resources.\n  server: string;\n  // Resource URI to read. Must be one of the URIs returned by list_mcp_resources.\n  uri: string;\n}): Promise<unknown>; };\n```\n\n## clock\nTools for reading and waiting on time.\n\n### `clock__curr_time`\nReturn the current time in UTC.\n\nexec tool declaration:\n```ts\ndeclare const tools: { clock__curr_time(args: {}): Promise<{\n  // Current UTC time formatted as YYYY-MM-DD HH:MM:SS UTC.\n  current_time: string;\n}>; };\n```",
+                    "format": {
+                      "type": "grammar",
+                      "syntax": "lark",
+                      "definition": "\nstart: pragma_source | plain_source\npragma_source: PRAGMA_LINE NEWLINE SOURCE\nplain_source: SOURCE\n\nPRAGMA_LINE: /[ \\t]*\\/\\/ @exec:[^\\r\\n]*/\nNEWLINE: /\\r?\\n/\nSOURCE: /[\\s\\S]+/\n"
+                    }
+                  },
+                  {
+                    "type": "function",
+                    "name": "wait",
+                    "description": "Waits on a yielded `exec` cell and returns new output or completion.\n- Use `wait` only after `exec` returns `Script running with cell ID ...`.\n- `cell_id` identifies the running `exec` cell to resume.\n- `yield_time_ms` controls how long to wait for more output before yielding again. Defaults to 10000 ms.\n- `max_tokens` limits how much new output this wait call returns. Defaults to 10000 tokens.\n- `terminate: true` stops the running cell; false or omitted waits for output.\n- `wait` returns only the new output since the last yield, or the final completion or termination result for that cell.\n- If the cell is still running, `wait` may yield again with the same `cell_id`.\n- If the cell has already finished, `wait` returns the completed result and closes the cell.",
+                    "strict": false,
+                    "parameters": {
+                      "type": "object",
+                      "properties": {
+                        "cell_id": {
+                          "type": "string",
+                          "description": "Identifier of the running exec cell."
+                        },
+                        "max_tokens": {
+                          "type": "number",
+                          "description": "Output token budget for this wait call. Defaults to 10000 tokens."
+                        },
+                        "terminate": {
+                          "type": "boolean",
+                          "description": "True stops the running exec cell; false or omitted waits for output."
+                        },
+                        "yield_time_ms": {
+                          "type": "number",
+                          "description": "Wait before yielding more output. Defaults to 10000 ms."
+                        }
+                      },
+                      "required": [
+                        "cell_id"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "namespace",
+                "name": "clock",
+                "description": "Tools for reading and waiting on time.",
+                "tools": [
+                  {
+                    "type": "function",
+                    "name": "sleep",
+                    "description": "Pause execution for a specified duration. The sleep ends early when new input arrives for the active turn. Returns the elapsed wall-clock time.",
+                    "strict": false,
+                    "parameters": {
+                      "type": "object",
+                      "properties": {
+                        "duration_ms": {
+                          "type": "number",
+                          "description": "How long to sleep in milliseconds. Must be between 1 and 43200000."
+                        }
+                      },
+                      "required": [
+                        "duration_ms"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "message",
+            "id": "msg_01a1c3f9-2cb6-7ad1-add9-325cf32cc5bf",
+            "role": "developer",
+            "content": [
+              {
+                "type": "input_text",
+                "text": "Reply only API_KEY_CONTROL_OK. No tools."
+              },
+              {
+                "type": "input_text",
+                "text": "<permissions instructions>\nFilesystem sandboxing defines which files can be read or written. `sandbox_mode` is `read-only`: The sandbox only permits reading files. Network access is restricted.\n# Escalation Requests\n\nCommands are run outside the sandbox if they are approved by the user, or match an existing rule that allows it to run unrestricted. The command string is split into independent command segments at shell control operators, including but not limited to:\n\n- Pipes: |\n- Logical operators: &&, ||\n- Command separators: ;\n- Subshell boundaries: (...), $(...)\n\nEach resulting segment is evaluated independently for sandbox restrictions and approval requirements.\n\nExample:\n\ngit pull | tee output.txt\n\nThis is treated as two command segments:\n\n[\"git\", \"pull\"]\n\n[\"tee\", \"output.txt\"]\n\nCommands that use more advanced shell features like redirection (>, >>, <), substitutions ($(...), ...), environment variables (FOO=bar), or wildcard patterns (*, ?) will not be evaluated against rules, to limit the scope of what an approved rule allows.\n\n## How to request escalation\n\nIMPORTANT: To request approval to execute a command that will require escalated privileges:\n\n- Provide the `sandbox_permissions` parameter with the value `\"require_escalated\"`\n- Include a short question asking the user if they want to allow the action in `justification` parameter. e.g. \"Do you want to download and install dependencies for this project?\"\n- Optionally suggest a `prefix_rule` - this will be shown to the user with an option to persist the rule approval for future sessions.\n\nIf you run a command that is important to solving the user's query, but it fails because of sandboxing or with a likely sandbox-related network error (for example DNS/host resolution, registry/index access, or dependency download failure), rerun the command with \"require_escalated\". ALWAYS proceed to use the `justification` parameter - do not message the user before requesting approval for the command.\n\n## When to request escalation\n\nWhile commands are running inside the sandbox, here are some scenarios that will require escalation outside the sandbox:\n\n- You need to run a command that writes to a directory that requires it (e.g. running tests that write to /var)\n- You need to run a GUI app (e.g., open/xdg-open/osascript) to open browsers or files.\n- If you run a command that is important to solving the user's query, but it fails because of sandboxing or with a likely sandbox-related network error (for example DNS/host resolution, registry/index access, or dependency download failure), rerun the command with `require_escalated`. ALWAYS proceed to use the `sandbox_permissions` and `justification` parameters. do not message the user before requesting approval for the command.\n- You are about to take a potentially destructive action such as an `rm` or `git reset` that the user did not explicitly ask for.\n- Be judicious with escalating, but if completing the user's request requires it, you should do so - don't try and circumvent approvals by using other tools.\n\n## prefix_rule guidance\n\nWhen choosing a `prefix_rule`, request one that will allow you to fulfill similar requests from the user in the future without re-requesting escalation. It should be categorical and reasonably scoped to similar capabilities. You should rarely pass the entire command into `prefix_rule`.\n\n### Banned prefix_rules \nAvoid requesting overly broad prefixes that the user would be ill-advised to approve. For example, do not request [\"python3\"], [\"python\", \"-\"], or other similar prefixes that would allow arbitrary scripting.\nNEVER provide a prefix_rule argument for destructive commands like rm.\nNEVER provide a prefix_rule if your command uses a heredoc or herestring. \n\n### Examples\nGood examples of prefixes:\n- [\"npm\", \"run\", \"dev\"]\n- [\"gh\", \"pr\", \"check\"]\n- [\"cargo\", \"test\"]\n</permissions instructions>"
+              },
+              {
+                "type": "input_text",
+                "text": "<collaboration_mode># Collaboration Mode: Default\n\nYou are now in Default mode. Any previous instructions for other modes (e.g. Plan mode) are no longer active.\n\nYour active mode changes only when new developer instructions with a different `<collaboration_mode>...</collaboration_mode>` change it; user requests or tool descriptions do not change mode by themselves. Known mode names are Default and Plan.\n\n## request_user_input availability\n\nUse the `request_user_input` tool only when it is listed in the available tools for this turn.\n\nUse the `request_user_input` tool only for optional questions where the answer would materially improve the quality of the work.\n\nIf `request_user_input` returns no answers, continue with best judgment instead of asking again or treating the turn as blocked.\n\nNever use the `request_user_input` tool for permission requests or permission-related escalations.\n</collaboration_mode>"
+              }
+            ],
+            "internal_chat_message_metadata_passthrough": {
+              "turn_id": "01a1c3f9-20ac-7972-ade2-f762cf05f406",
+              "create_time": 1794289249.4627619,
+              "content_item_kinds": [
+                "generic.developer_instructions",
+                "permissions.instructions",
+                "collaboration_mode.instructions"
+              ],
+              "content_item_metadata": [
+                {
+                  "provenance": {
+                    "type": "developer_instructions",
+                    "from_additional_requirements": false
+                  }
+                },
+                {
+                  "provenance": {
+                    "type": "harness",
+                    "hook": false
+                  }
+                },
+                {
+                  "provenance": {
+                    "type": "harness",
+                    "hook": false
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "message",
+            "id": "msg_01a1c3f9-2cb6-7ad1-add9-3277038d5962",
+            "role": "user",
+            "content": [
+              {
+                "type": "input_text",
+                "text": "Run the bounded sampling control."
+              }
+            ],
+            "internal_chat_message_metadata_passthrough": {
+              "turn_id": "01a1c3f9-20ac-7972-ade2-f762cf05f406",
+              "create_time": 1794289249.4629319,
+              "content_item_kinds": [
+                "user.text"
+              ],
+              "content_item_metadata": [
+                {
+                  "provenance": {
+                    "type": "user"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "tool_choice": "none",
+        "parallel_tool_calls": false,
+        "reasoning": {
+          "effort": "low",
+          "context": "all_turns"
+        },
+        "store": false,
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "prompt_cache_key": "01a1c3f9-154f-7123-a99d-54396cdc439f",
+        "text": {
+          "verbosity": "low"
+        },
+        "client_metadata": {
+          "mcp_attribution": "{\"status\":\"none\"}",
+          "ws_request_header_x_openai_internal_codex_responses_lite": "true",
+          "thread_id": "01a1c3f9-154f-7123-a99d-54396cdc439f",
+          "x-codex-window-id": "01a1c3f9-154f-7123-a99d-54396cdc439f:0",
+          "x-codex-ws-stream-request-start-ms": "1794289249480",
+          "x-codex-installation-id": "d2bc0e3d-98ea-4747-82f7-000eb26f78af",
+          "session_id": "01a1c3f9-154f-7123-a99d-54396cdc439f",
+          "turn_id": "01a1c3f9-20ac-7972-ade2-f762cf05f406",
+          "root_turn_id": "01a1c3f9-20ac-7972-ade2-f762cf05f406",
+          "x-codex-turn-metadata": "{\"installation_id\":\"d2bc0e3d-98ea-4747-82f7-000eb26f78af\",\"session_id\":\"01a1c3f9-154f-7123-a99d-54396cdc439f\",\"thread_id\":\"01a1c3f9-154f-7123-a99d-54396cdc439f\",\"agent_name\":\"/root\",\"turn_id\":\"01a1c3f9-20ac-7972-ade2-f762cf05f406\",\"window_id\":\"01a1c3f9-154f-7123-a99d-54396cdc439f:0\",\"window_number\":0,\"context_window_id\":\"01a1c3f9-2098-73d0-a0e6-2f19a096b7d0\",\"request_kind\":\"turn\",\"history_initialization\":\"new\",\"root_turn_id\":\"01a1c3f9-20ac-7972-ade2-f762cf05f406\",\"sandbox\":\"seccomp\",\"sandbox_mode\":\"read-only\",\"auto_review_enabled\":false,\"node_repl_auto_review_required\":false,\"node_repl_disabled\":false,\"turn_started_at_unix_ms\":1794289249461,\"analytics_enabled\":true,\"model\":\"gpt-6-luna\",\"openclaw_inference_generation\":\"2888d983-c518-4b04-afd4-8a5f714b0b5c\",\"reasoning_effort\":\"low\"}"
+        },
+        "max_output_tokens": 300,
+        "temperature": 0.2
+      },
+      "syntheticAuthorizationMatched": true
+    },
+    {
+      "case": "required-default",
+      "transport": "websocket",
+      "path": "/v1/responses",
+      "body": {
+        "type": "response.create",
+        "model": "gpt-6-luna",
+        "stream": true,
+        "input": [
+          {
+            "type": "additional_tools",
+            "id": "at_01a1c3f9-527f-7700-91fb-94f8260e9fe4",
+            "role": "developer",
+            "tools": [
+              {
+                "type": "namespace",
+                "name": "functions",
+                "description": "",
+                "tools": [
+                  {
+                    "type": "custom",
+                    "name": "exec",
+                    "description": "Run JavaScript code to orchestrate/compose tool calls\n- Evaluates the provided JavaScript code in a fresh V8 isolate as an async module.\n- All nested tools are available on the global `tools` object, for example `await tools.exec_command(...)`. Tool names are exposed as normalized JavaScript identifiers, for example `await tools.mcp__ologs__get_profile(...)`.\n- Nested tool methods take either a string or an object as their input argument.\n- Nested tools return either an object or a string, based on the description.\n- Runs raw JavaScript -- no Node, no file system, no network access, no console.\n- Accepts raw JavaScript source text, not JSON, quoted strings, or markdown code fences.\n- You may optionally start the tool input with a first-line pragma like `// @exec: {\"yield_time_ms\": 10000, \"max_output_tokens\": 1000}`.\n- `yield_time_ms` asks `exec` to yield early if the script is still running. Defaults to 30000 ms.\n- `max_output_tokens` sets the token budget for direct `exec` results. Defaults to 10000 tokens.\n- When the JS code is fully evaluated, the isolate's lifetime ends and unawaited promises are silently discarded.\n\n- Global helpers:\n- `exit()`: Immediately ends the current script successfully (like an early return from the top level).\n- `text(value: string | number | boolean | undefined | null)`: Appends a text item. Non-string values are stringified with `JSON.stringify(...)` when possible.\n- `image(imageUrlOrItem: string | { image_url: string; detail?: \"auto\" | \"low\" | \"high\" | \"original\" | null } | ImageContent, detail?: \"auto\" | \"low\" | \"high\" | \"original\" | null)`: Appends an image item. `image_url` should be a base64-encoded `data:` URL. To forward an MCP tool image, pass an individual `ImageContent` block from `result.content`, for example `image(result.content[0])`. MCP image blocks may request detail with `_meta: { \"codex/imageDetail\": \"original\" }`. When provided, the second `detail` argument overrides any detail embedded in the first argument.\n- `audio(audioUrlOrItem: string | { audio_url: string } | AudioContent)`: Appends an audio item. `audio_url` should be a base64-encoded `data:` URL. To forward an MCP tool audio block, pass an individual `AudioContent` block from `result.content`, for example `audio(result.content[0])`.\n- `generatedImage(result: { image_url: string; output_hint?: string })`: Appends an image-generation result and its optional output hint. HTTP(S) URLs are not supported.\n- `store(key: string, value: any)`: stores a serializable value under a string key for later `exec` calls in the same session.\n- `load(key: string)`: returns the stored value for a string key, or `undefined` if it is missing.\n- `notify(value: string | number | boolean | undefined | null)`: immediately injects an extra `custom_tool_call_output` for the current `exec` call. Values are stringified like `text(...)`.\n- `setTimeout(callback: () => void, delayMs?: number)`: schedules a callback to run later and returns a timeout id. Pending timeouts do not keep `exec` alive by themselves; await an explicit promise if you need to wait for one.\n- `clearTimeout(timeoutId?: number)`: cancels a timeout created by `setTimeout`.\n- `ALL_TOOLS`: metadata for the enabled nested tools as `{ name, description }` entries.\n- `yield_control()`: yields the accumulated output to the model immediately while the script keeps running.\n\nSome deferred nested tools may be omitted from this description. They are still available on the global `tools` object and listed in `ALL_TOOLS`.\nTo find one, filter `ALL_TOOLS` by `name` and `description`.\n\nTool availability can change between calls.\n\nShared MCP Types:\n```ts\ntype Role = \"user\" | \"assistant\";\ntype MetaObject = Record<string, unknown>;\ntype Annotations = {\n  audience?: Role[];\n  priority?: number;\n  lastModified?: string;\n};\ntype Icon = {\n  src: string;\n  mimeType?: string;\n  sizes?: string[];\n  theme?: \"light\" | \"dark\";\n};\ntype TextResourceContents = {\n  uri: string;\n  mimeType?: string;\n  _meta?: MetaObject;\n  text: string;\n};\ntype BlobResourceContents = {\n  uri: string;\n  mimeType?: string;\n  _meta?: MetaObject;\n  blob: string;\n};\ntype TextContent = {\n  type: \"text\";\n  text: string;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype ImageContent = {\n  type: \"image\";\n  data: string;\n  mimeType: string;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype AudioContent = {\n  type: \"audio\";\n  data: string;\n  mimeType: string;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype ResourceLink = {\n  icons?: Icon[];\n  name: string;\n  title?: string;\n  uri: string;\n  description?: string;\n  mimeType?: string;\n  annotations?: Annotations;\n  size?: number;\n  _meta?: MetaObject;\n  type: \"resource_link\";\n};\ntype EmbeddedResource = {\n  type: \"resource\";\n  resource: TextResourceContents | BlobResourceContents;\n  annotations?: Annotations;\n  _meta?: MetaObject;\n};\ntype ContentBlock =\n  | TextContent\n  | ImageContent\n  | AudioContent\n  | ResourceLink\n  | EmbeddedResource;\ntype CallToolResult<TStructured = { [key: string]: unknown }> = {\n  _meta?: MetaObject;\n  content: ContentBlock[];\n  isError?: boolean;\n  structuredContent?: TStructured;\n  [key: string]: unknown;\n};\n```\n\n### `apply_patch`\nThe `apply_patch` tool can be used to edit files. This is a FREEFORM tool, so do not wrap the patch in JSON.\n\nexec tool declaration:\n```ts\ndeclare const tools: { apply_patch(input: string): Promise<unknown>; };\n```\n\n### `list_mcp_resource_templates`\nLists resource templates provided by MCP servers. Parameterized resource templates allow servers to share data that takes parameters and provides context to language models, such as files, database schemas, or application-specific information. Prefer resource templates over web search when possible.\n\nexec tool declaration:\n```ts\ndeclare const tools: { list_mcp_resource_templates(args: {\n  // Opaque cursor from a previous list_mcp_resource_templates call; omit for the first page.\n  cursor?: string;\n  // MCP server name. Omit to list resource templates from every configured server.\n  server?: string;\n}): Promise<unknown>; };\n```\n\n### `list_mcp_resources`\nLists resources provided by MCP servers. Resources allow servers to share data that provides context to language models, such as files, database schemas, or application-specific information. Prefer resources over web search when possible.\n\nexec tool declaration:\n```ts\ndeclare const tools: { list_mcp_resources(args: {\n  // Opaque cursor from a previous list_mcp_resources call; omit for the first page.\n  cursor?: string;\n  // MCP server name. Omit to list resources from every configured server.\n  server?: string;\n}): Promise<unknown>; };\n```\n\n### `read_mcp_resource`\nRead a specific resource from an MCP server given the server name and resource URI.\n\nexec tool declaration:\n```ts\ndeclare const tools: { read_mcp_resource(args: {\n  // MCP server name exactly as configured. Must match the 'server' field returned by list_mcp_resources.\n  server: string;\n  // Resource URI to read. Must be one of the URIs returned by list_mcp_resources.\n  uri: string;\n}): Promise<unknown>; };\n```\n\n## clock\nTools for reading and waiting on time.\n\n### `clock__curr_time`\nReturn the current time in UTC.\n\nexec tool declaration:\n```ts\ndeclare const tools: { clock__curr_time(args: {}): Promise<{\n  // Current UTC time formatted as YYYY-MM-DD HH:MM:SS UTC.\n  current_time: string;\n}>; };\n```",
+                    "format": {
+                      "type": "grammar",
+                      "syntax": "lark",
+                      "definition": "\nstart: pragma_source | plain_source\npragma_source: PRAGMA_LINE NEWLINE SOURCE\nplain_source: SOURCE\n\nPRAGMA_LINE: /[ \\t]*\\/\\/ @exec:[^\\r\\n]*/\nNEWLINE: /\\r?\\n/\nSOURCE: /[\\s\\S]+/\n"
+                    }
+                  },
+                  {
+                    "type": "function",
+                    "name": "wait",
+                    "description": "Waits on a yielded `exec` cell and returns new output or completion.\n- Use `wait` only after `exec` returns `Script running with cell ID ...`.\n- `cell_id` identifies the running `exec` cell to resume.\n- `yield_time_ms` controls how long to wait for more output before yielding again. Defaults to 10000 ms.\n- `max_tokens` limits how much new output this wait call returns. Defaults to 10000 tokens.\n- `terminate: true` stops the running cell; false or omitted waits for output.\n- `wait` returns only the new output since the last yield, or the final completion or termination result for that cell.\n- If the cell is still running, `wait` may yield again with the same `cell_id`.\n- If the cell has already finished, `wait` returns the completed result and closes the cell.",
+                    "strict": false,
+                    "parameters": {
+                      "type": "object",
+                      "properties": {
+                        "cell_id": {
+                          "type": "string",
+                          "description": "Identifier of the running exec cell."
+                        },
+                        "max_tokens": {
+                          "type": "number",
+                          "description": "Output token budget for this wait call. Defaults to 10000 tokens."
+                        },
+                        "terminate": {
+                          "type": "boolean",
+                          "description": "True stops the running exec cell; false or omitted waits for output."
+                        },
+                        "yield_time_ms": {
+                          "type": "number",
+                          "description": "Wait before yielding more output. Defaults to 10000 ms."
+                        }
+                      },
+                      "required": [
+                        "cell_id"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "namespace",
+                "name": "clock",
+                "description": "Tools for reading and waiting on time.",
+                "tools": [
+                  {
+                    "type": "function",
+                    "name": "sleep",
+                    "description": "Pause execution for a specified duration. The sleep ends early when new input arrives for the active turn. Returns the elapsed wall-clock time.",
+                    "strict": false,
+                    "parameters": {
+                      "type": "object",
+                      "properties": {
+                        "duration_ms": {
+                          "type": "number",
+                          "description": "How long to sleep in milliseconds. Must be between 1 and 43200000."
+                        }
+                      },
+                      "required": [
+                        "duration_ms"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "message",
+            "id": "msg_01a1c3f9-527f-7700-91fb-950a1915741e",
+            "role": "developer",
+            "content": [
+              {
+                "type": "input_text",
+                "text": "Reply only API_KEY_CONTROL_OK. No tools."
+              },
+              {
+                "type": "input_text",
+                "text": "<permissions instructions>\nFilesystem sandboxing defines which files can be read or written. `sandbox_mode` is `read-only`: The sandbox only permits reading files. Network access is restricted.\n# Escalation Requests\n\nCommands are run outside the sandbox if they are approved by the user, or match an existing rule that allows it to run unrestricted. The command string is split into independent command segments at shell control operators, including but not limited to:\n\n- Pipes: |\n- Logical operators: &&, ||\n- Command separators: ;\n- Subshell boundaries: (...), $(...)\n\nEach resulting segment is evaluated independently for sandbox restrictions and approval requirements.\n\nExample:\n\ngit pull | tee output.txt\n\nThis is treated as two command segments:\n\n[\"git\", \"pull\"]\n\n[\"tee\", \"output.txt\"]\n\nCommands that use more advanced shell features like redirection (>, >>, <), substitutions ($(...), ...), environment variables (FOO=bar), or wildcard patterns (*, ?) will not be evaluated against rules, to limit the scope of what an approved rule allows.\n\n## How to request escalation\n\nIMPORTANT: To request approval to execute a command that will require escalated privileges:\n\n- Provide the `sandbox_permissions` parameter with the value `\"require_escalated\"`\n- Include a short question asking the user if they want to allow the action in `justification` parameter. e.g. \"Do you want to download and install dependencies for this project?\"\n- Optionally suggest a `prefix_rule` - this will be shown to the user with an option to persist the rule approval for future sessions.\n\nIf you run a command that is important to solving the user's query, but it fails because of sandboxing or with a likely sandbox-related network error (for example DNS/host resolution, registry/index access, or dependency download failure), rerun the command with \"require_escalated\". ALWAYS proceed to use the `justification` parameter - do not message the user before requesting approval for the command.\n\n## When to request escalation\n\nWhile commands are running inside the sandbox, here are some scenarios that will require escalation outside the sandbox:\n\n- You need to run a command that writes to a directory that requires it (e.g. running tests that write to /var)\n- You need to run a GUI app (e.g., open/xdg-open/osascript) to open browsers or files.\n- If you run a command that is important to solving the user's query, but it fails because of sandboxing or with a likely sandbox-related network error (for example DNS/host resolution, registry/index access, or dependency download failure), rerun the command with `require_escalated`. ALWAYS proceed to use the `sandbox_permissions` and `justification` parameters. do not message the user before requesting approval for the command.\n- You are about to take a potentially destructive action such as an `rm` or `git reset` that the user did not explicitly ask for.\n- Be judicious with escalating, but if completing the user's request requires it, you should do so - don't try and circumvent approvals by using other tools.\n\n## prefix_rule guidance\n\nWhen choosing a `prefix_rule`, request one that will allow you to fulfill similar requests from the user in the future without re-requesting escalation. It should be categorical and reasonably scoped to similar capabilities. You should rarely pass the entire command into `prefix_rule`.\n\n### Banned prefix_rules \nAvoid requesting overly broad prefixes that the user would be ill-advised to approve. For example, do not request [\"python3\"], [\"python\", \"-\"], or other similar prefixes that would allow arbitrary scripting.\nNEVER provide a prefix_rule argument for destructive commands like rm.\nNEVER provide a prefix_rule if your command uses a heredoc or herestring. \n\n### Examples\nGood examples of prefixes:\n- [\"npm\", \"run\", \"dev\"]\n- [\"gh\", \"pr\", \"check\"]\n- [\"cargo\", \"test\"]\n</permissions instructions>"
+              },
+              {
+                "type": "input_text",
+                "text": "<collaboration_mode># Collaboration Mode: Default\n\nYou are now in Default mode. Any previous instructions for other modes (e.g. Plan mode) are no longer active.\n\nYour active mode changes only when new developer instructions with a different `<collaboration_mode>...</collaboration_mode>` change it; user requests or tool descriptions do not change mode by themselves. Known mode names are Default and Plan.\n\n## request_user_input availability\n\nUse the `request_user_input` tool only when it is listed in the available tools for this turn.\n\nUse the `request_user_input` tool only for optional questions where the answer would materially improve the quality of the work.\n\nIf `request_user_input` returns no answers, continue with best judgment instead of asking again or treating the turn as blocked.\n\nNever use the `request_user_input` tool for permission requests or permission-related escalations.\n</collaboration_mode>"
+              }
+            ],
+            "internal_chat_message_metadata_passthrough": {
+              "turn_id": "01a1c3f9-4673-7473-803d-d7f08abbd0ff",
+              "create_time": 1794289259.1354725,
+              "content_item_kinds": [
+                "generic.developer_instructions",
+                "permissions.instructions",
+                "collaboration_mode.instructions"
+              ],
+              "content_item_metadata": [
+                {
+                  "provenance": {
+                    "type": "developer_instructions",
+                    "from_additional_requirements": false
+                  }
+                },
+                {
+                  "provenance": {
+                    "type": "harness",
+                    "hook": false
+                  }
+                },
+                {
+                  "provenance": {
+                    "type": "harness",
+                    "hook": false
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "message",
+            "id": "msg_01a1c3f9-527f-7700-91fb-952ddab8c956",
+            "role": "user",
+            "content": [
+              {
+                "type": "input_text",
+                "text": "Run the bounded sampling control."
+              }
+            ],
+            "internal_chat_message_metadata_passthrough": {
+              "turn_id": "01a1c3f9-4673-7473-803d-d7f08abbd0ff",
+              "create_time": 1794289259.1356494,
+              "content_item_kinds": [
+                "user.text"
+              ],
+              "content_item_metadata": [
+                {
+                  "provenance": {
+                    "type": "user"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "tool_choice": "none",
+        "parallel_tool_calls": false,
+        "reasoning": {
+          "effort": "low",
+          "context": "all_turns"
+        },
+        "store": false,
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "prompt_cache_key": "01a1c3f9-3a99-7bf0-9517-24e71ab19bca",
+        "text": {
+          "verbosity": "low"
+        },
+        "client_metadata": {
+          "session_id": "01a1c3f9-3a99-7bf0-9517-24e71ab19bca",
+          "x-codex-turn-metadata": "{\"installation_id\":\"9ffd0f23-96a7-4288-83a8-746be32f21ae\",\"session_id\":\"01a1c3f9-3a99-7bf0-9517-24e71ab19bca\",\"thread_id\":\"01a1c3f9-3a99-7bf0-9517-24e71ab19bca\",\"agent_name\":\"/root\",\"turn_id\":\"01a1c3f9-4673-7473-803d-d7f08abbd0ff\",\"window_id\":\"01a1c3f9-3a99-7bf0-9517-24e71ab19bca:0\",\"window_number\":0,\"context_window_id\":\"01a1c3f9-4661-7de1-91c7-6a89e0e34e24\",\"request_kind\":\"turn\",\"history_initialization\":\"new\",\"root_turn_id\":\"01a1c3f9-4673-7473-803d-d7f08abbd0ff\",\"sandbox\":\"seccomp\",\"sandbox_mode\":\"read-only\",\"auto_review_enabled\":false,\"node_repl_auto_review_required\":false,\"node_repl_disabled\":false,\"turn_started_at_unix_ms\":1794289259131,\"analytics_enabled\":true,\"model\":\"gpt-6-luna\",\"openclaw_inference_generation\":\"4f658fef-3fdb-4511-9dcb-f443f8ae1f5b\",\"reasoning_effort\":\"low\"}",
+          "ws_request_header_x_openai_internal_codex_responses_lite": "true",
+          "x-codex-ws-stream-request-start-ms": "1794289259153",
+          "x-codex-window-id": "01a1c3f9-3a99-7bf0-9517-24e71ab19bca:0",
+          "turn_id": "01a1c3f9-4673-7473-803d-d7f08abbd0ff",
+          "mcp_attribution": "{\"status\":\"none\"}",
+          "x-codex-installation-id": "9ffd0f23-96a7-4288-83a8-746be32f21ae",
+          "root_turn_id": "01a1c3f9-4673-7473-803d-d7f08abbd0ff",
+          "thread_id": "01a1c3f9-3a99-7bf0-9517-24e71ab19bca"
+        },
+        "max_output_tokens": 37,
+        "temperature": 0
+      },
+      "syntheticAuthorizationMatched": true
+    }
+  ],
+  "connections": [
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "api.openai.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "api.openai.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "api.openai.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "chatgpt.com:443"
+    },
+    {
+      "kind": "connect",
+      "destination": "api.openai.com:443"
+    }
+  ],
+  "nativeProcesses": [],
+  "artifacts": [
+    {
+      "file": "dist/extensions/codex/.setup/access-program-Twst85tr.mjs",
+      "sha256": "a117a3e28a3434a6b2f88a0d0d890602a1b68bc2ab9f1791ac9fb2675aab4f54"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/account-usage-runtime-IbG93_Jb.mjs",
+      "sha256": "5f0ffee8804ada3c23c4bddd602e4deaa7f9d3b118337d002490217e43800243"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/app-server-policy-CGCRCLNw.mjs",
+      "sha256": "695a70dc9f402bddec61b274709cf1def07906d27cb07e2346f6b918632b8bbb"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/apply-DnNcwM0c.mjs",
+      "sha256": "bce2c45accb2fa46c2bd04f92f3ed73589cd097fdb260d8e3d3f660e0831eaed"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/async-questions-DdQ1tWW7.mjs",
+      "sha256": "2336d3c4c3e6cda9e2ef9d894198b5d8bef83aa35000cafb92697ccb53913c61"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/attempt-client-cleanup-BxjKZLT_.mjs",
+      "sha256": "6a59191322527532be1e5a7cf019fb9b5735129dbe7935396265e6973a645531"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/attempt-terminal-sZutF0WY.mjs",
+      "sha256": "0b4f6ca41e88d3cceba0c12041c2d02f0177cc32bd749ebcfa801de618d31bc6"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/attempt-timeouts-m7WOwoeF.mjs",
+      "sha256": "5529165d69a468c3a7c3a166588625222bad14eb151885ae377927073a47bd13"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/auth-binding-B6eynOvR.mjs",
+      "sha256": "f8b2cd5b78b63074c32dace2d780bdcff3d5dd6f1724b1aa1bf5ee8ca1006528"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/auth-cache-key-saQWPYKK.mjs",
+      "sha256": "6398dc9f5b0a64909557ac78b06f2fd83ad63c1f2990a72cd8323da656626019"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/auth-profile-TZnVUd6M.mjs",
+      "sha256": "61296a1cd50af39787c57ca588c5275c05123db4145af18ff03e15a0b2368917"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/auth-profile-health-C-RDFJxy.mjs",
+      "sha256": "bcc0a7dea3ee2ae0341196a7b13d452c314055cca1aaf94ab4936794ee1a246a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/auth-profile-recovery-I7mguW-7.mjs",
+      "sha256": "d587ad336f922648e1aaa31d045c61428734f72da9aa5ec300be9f9f7bef6f98"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/auth-profile-selection-Z1V3YnNJ.mjs",
+      "sha256": "73ebd08f6cbf4acd2b3b4bb8708d23b7108c9bbb643cb0062150f50db3a9733b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/binding-connection--iDCZX1j.mjs",
+      "sha256": "e5530c4f98077e98695bffdfa84c0e39413cfec8477feefee219fbbdbfd49d51"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/binding-connection.runtime-BT8jKB_q.mjs",
+      "sha256": "878df6eb11c1b2a9d839ee042b8c537f28ea6a96f6ed48317b7c69ebed0bdd77"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/bounded-turn-DAQiioyV.mjs",
+      "sha256": "7bf9e0b51a953776744fdd5a8b715310491611836bad47845dc1f77e53d9a0cf"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/bounded-turn-isolation-B6ON7wm3.mjs",
+      "sha256": "60717235fe502c15bf63ac2822b1a123bdd09f2c906059cac13f8a63e4feb55a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/build-state-DodTuxkt.mjs",
+      "sha256": "39264d0a91597c38fc40fe4e07e928c0580761aa1081a16b21280974ccbe037c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/capabilities-C1G_nNP7.mjs",
+      "sha256": "531ecd64b1ebcaadf87fd963e6f55dd94ecdff9a34d3d20ef9e04406faa22d8a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/client-DTqH5ytZ.mjs",
+      "sha256": "e9ea56228b612ccd6217a1c66b0644fad15542e68e0c3577f066cef1b6dbe212"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/client-initialize-Bp_tOJ_4.mjs",
+      "sha256": "37e512cb5424ce3515ed22eabda39d4dd098b7d92ca0bff4aa7eace9b03688b2"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/command-authorization-BXepiRbD.mjs",
+      "sha256": "ee9c4011762fb31d69cf5ef3ce21011f5c06b1e6d87db083c6063b327716328c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/command-dispatch-B9NsT-oR.mjs",
+      "sha256": "9c735153fa7d5197c014bc7983c255f1eaf7256092d6b4bce9b3d732e06f2751"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/command-formatters-mFi_5Il0.mjs",
+      "sha256": "737cdc21f2793eea6e1371a7776d954dc7495d817743f177c9c5d84901920203"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/command-handlers-5jmeisPa.mjs",
+      "sha256": "53eb3e358d29fd18b6f972daceba823da2e841f520118d03b3c962cf7ba8e154"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/command-rpc--EcS4eNy.mjs",
+      "sha256": "3ac0cb866b88cc64778ab80ebefae1f29502d477cbc6121a9c5f810f5882df4c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/compact-i8-42urm.mjs",
+      "sha256": "fa1b127f3a1b6d53367c2995635205b7be5d95a39093026647e99f01eb0a547d"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/computer-use-CGxnjcyE.mjs",
+      "sha256": "ce18b048af0168c382eaeee6365ee7f1e4e7f8b4fe973ce39ad09c7542efa8f6"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/config-VQRDHhYs.mjs",
+      "sha256": "ed8f98cbae93b2ed7d6b26f03c008300e05e4d2d7574b449e22ad47fe6604223"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/config-contracts.shared-D9wZYYmh.mjs",
+      "sha256": "ce4e4bfcf3c2ff4f8d7b312355be9498c43222415df4c5b933394e552a170366"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/config-options-kF-XNXt9.mjs",
+      "sha256": "074b6739be42e5097484da2828b364cffbbf4c7ef71acf1490675a3dad4c8755"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/config-parsing-CWV4err4.mjs",
+      "sha256": "63953ed4547ca307a84a7c054a88cd87fcecbf7934053146fc599d52827fc603"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/config-runtime-BlJ7TLgp.mjs",
+      "sha256": "2804933f370d99687184888d166b585f357f4d411b3efe3c65d635b4ef627fd3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/config-utils-QUqoHnvX.mjs",
+      "sha256": "d5342804b77237eea4a644c4a9ed58372512ebe3fa7e54db15da2c738fb1be6b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/context-compaction-activity-BhXHei6c.mjs",
+      "sha256": "555beabbf9c04aeb098157fa3af14b30f41b2e388053595135bc31ecc2954bd9"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/context-engine-projection-5yabohED.mjs",
+      "sha256": "fa0e77e62f1470ef2401250109c68326e96ec91869fccf33ef3e1bc47ddd9898"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/conversation-binding-Dk_5jE4G.mjs",
+      "sha256": "dc3bc200d239700065b2c8816daf74e7ff6e0989336f9ea4e86c4f0801b638e7"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/conversation-binding-data-DY8euqHX.mjs",
+      "sha256": "99502c9f8038755648ac0523cb553b02a4dba161b927510c9c2ceccb3f440329"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/conversation-control-DNNyuiIn.mjs",
+      "sha256": "cb665091142a8a2b363d193e9ddd8e39c29c6284f793f475784881a960a6ace3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/cyber-failover-COL4CH0J.mjs",
+      "sha256": "8270a35464c86d7d0598ab4ebb3f2f89adacf7f7d48ff5039f8fc122874e7640"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/cyber-failover-notice-CsWdUycm.mjs",
+      "sha256": "99f1575fed436145fa40c339a0242cf7e4410f9ec8ffee1dc9887e40fb4bc2c5"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/doctor-start-options-CRCs4skK.mjs",
+      "sha256": "3ceafa2003ade5ca1abdcf373c19c66015c29294acead1389258e731d4e161fe"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/dynamic-tool-profile-Cl_HKG4m.mjs",
+      "sha256": "0022a8921eb8701245865601d9cef59ceac524e0cea8708ffb9bb3bff971114b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/dynamic-tools-BdORHU0B.mjs",
+      "sha256": "9f9978a6f8f7fdf4e5c05bd827e8483d46780f08bda5b994e458251860db895c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/effective-mcp-catalog-DR9pX5Ih.mjs",
+      "sha256": "af5cdccb9d3c79019b6282071ba7f971b1015e33601f6818aa4205c1a248627c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/elicitation-input-CVrZ1jmV.mjs",
+      "sha256": "c25397bc4244a6d4fe0c845fff920ffb1ed6f6318dca0d0db677e248b65b96d3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/ephemeral-turn-5T9Oa3XA.mjs",
+      "sha256": "3b27f4b19fca9c3c5a04d39d5bd614ed77be2a4c70deb93b2fbeacfc5ddd1dc7"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/event-projector-assistant-message-CuRZwTNY.mjs",
+      "sha256": "8724179c27c242a119fe31eed70824b13f4360c4bf2ae792005f9f51a4b8dcd6"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/event-projector-items-BCAkXl87.mjs",
+      "sha256": "f1cc88f633472d3932286e4a762aa29505c7b0bbb040194362d30b245f432e0f"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/event-projector-tool-items-CyRqzykW.mjs",
+      "sha256": "2fd3300f3128ed7cee87bb2a47d8e012f194d3e3b05342089439098ed1d22334"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/event-projector-usage-Frhdr4S6.mjs",
+      "sha256": "530ed9ae08f9fab984743707c2bfaae6920bb341f7a0a916deeb523f0795b7f6"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/event-projector-values-BxTVI6kj.mjs",
+      "sha256": "68458cda4055d3c879eb19553d5a8a0c440970e627f5bb30b9cd7fa61b5d49cf"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/experimental-features-BgfF6pWZ.mjs",
+      "sha256": "d4abc2917b0744c7b0ae6b82aed472e16fc4494d2c5ab3d3a9d7fef93068f7ee"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/harness-BHhhMiIp.mjs",
+      "sha256": "81824adc7010158cebdeeabf690e2cecc853eb221095ac7ff65426d34fe26bb4"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/history-rejection-BsCZa2cl.mjs",
+      "sha256": "475441a76391ce3b6229912d262205d4f3f8597e9a429ebe7c67539b0c6a858a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/inference-context-CgMbjcpk.mjs",
+      "sha256": "08993eaf800ca28c42c4d05f96ae48666b882da0f5167b0439f100052ff5c895"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/inference-dispatch-sUoyqVK4.mjs",
+      "sha256": "774e2f25089eb2c98256f2f45b191656300ee268de21c9c9d139942864512f9a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/inference-metadata-BLz9LKvW.mjs",
+      "sha256": "d05aee857d3fedc4984c1d8caf1aa3d5a528b487197a4c8efdc50a37bd79e45a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/inference-proxy-BUXoB5ZZ.mjs",
+      "sha256": "29c7057fcd17b78ebfb46b58ef69659140248a277c0152f876a48f393e882458"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/inference-transport-CEu6bcj7.mjs",
+      "sha256": "b438225499d8dae5b46aa30a01341f29af86ed1addb78851d24b31d9ca8b20ca"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/installed-probe-A5BB9nmK.mjs",
+      "sha256": "58aa832a27521f55ddffa31ca1468e62cb824c3367fe6512da79071cb9320670"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/isolated-completion-DFapihs-.mjs",
+      "sha256": "84630c2feb4a94976d4cbd7bc55a70b25aeffe690f38d63534b64e2c6234c2f3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/json-schema-b_akzFi4.mjs",
+      "sha256": "67cdd7c1a76880e99b572a35b1d44bdd2c4c4527ce93699ca9b301e54fae6118"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/launch-args-DWBRnfHh.mjs",
+      "sha256": "cc3bf67a725f054611353eabbdc1495507b7f7efa706dbd6053f3334e6dd2704"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/local-runtime-attribution-yAS2KyDP.mjs",
+      "sha256": "7bb29705f1cdb49e7d5fd51d50565bb71a1bfa12fd80321524ce52b24cde79fe"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/managed-binary-2LzTcChz.mjs",
+      "sha256": "16d247a7d81a7f5428fd74d81ceb6ce102ecf77c5147c4443846009dce905cd8"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/mcp-app-session-preparation-DLGrg5hz.mjs",
+      "sha256": "91956d2b692eedb37ec9599dd7d04bad67263ccbb78b8b2f79300194e142f736"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/mcp-server-status-BupwuCb2.mjs",
+      "sha256": "da8a1cf53fa7864d3a274516b8999f92b9f9713b47848a6321c7ac13f8267634"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/mcp-tool-metadata-dZb30ybZ.mjs",
+      "sha256": "ac70de681f9edbc668be0046ec3538ae2b44d0aceed95f4f66c4667d109cbbab"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/model-catalog-wxuCBveB.mjs",
+      "sha256": "d4fa3a9d1c86aecdcbec8ad70bb240c4fbbbcf2276a6f8f079a4c4766db1d04f"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/models-BKcNymOe.mjs",
+      "sha256": "c47463c21ec234b6aeaf69f9498fd3bd6a70c59058ed555719ab13f50b85725f"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-assignment-repair-CK9Qi-kl.mjs",
+      "sha256": "47db1e35da7513392b7ca74f461236856278232b33c1368e91c8781fb4730483"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-auth-D94dWMyb.mjs",
+      "sha256": "10c39b7e54306eeddd4bd4766834df88118ed0875d5e4c05ff205794a0ca7e06"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-execution-policy-KOi5iEvw.mjs",
+      "sha256": "d05f3df90540c2ba1ba28d417813c6c8e8aada9887648316ac96b374e85e951d"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-hook-relay-C1JxQz_i.mjs",
+      "sha256": "c8b50df617eddc2a0752d99f22af6e0511aaa02abc53a0dd6959d80a009393bc"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-mcp-app-CN7LuXOY.mjs",
+      "sha256": "0093194835932972e024b4e1b5990b70eb598e8c62339f7ef858e397a05626e4"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-skill-isolation-BEFuGMvY.mjs",
+      "sha256": "871afb00a0010731a01b928cdb664616334d1bf4828a16c0ee900b0f57d15bf7"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-subagent-monitor-DnhnfoCI.mjs",
+      "sha256": "d03364fc0507dbc5ef466d5fba6290f9c0d53684faa1e058cac6913c27e19950"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-subagent-pending-assignments-4pHbxy_i.mjs",
+      "sha256": "72e079fb90c2909a74c8b679ddaaed204332265edd2971d47bca88db0a159428"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-subagent-roster-BgkvhCpG.mjs",
+      "sha256": "24f3b9bd4990686ea51d510a9193f8302f836179ad58c2376abb36a46b72de5f"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/native-task-assignments-DwAV3GDo.mjs",
+      "sha256": "ba40267b665cf84227cb774b55d4a6bdd1ab460e84254dca135db0df5aec0e6a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/node-app-server-command-L0wPsY9S.mjs",
+      "sha256": "8ea56e1c27b7c61e9dff45fa7d74b3b5d65a8a744b590b872626ed5508472d6c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/node-app-server.runtime-2OMjQN06.mjs",
+      "sha256": "fac8e9c4bc3a32666c56b7c43528cbed0e1175aa4ad023cbef0c44cb839013e2"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/node-cli-sessions-CfArRhEn.mjs",
+      "sha256": "eaaee591fb7dc4c870c8d5f8b438f6c634b7a66070045d0baa2e059b57f114a2"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/node-exec-server.runtime-CyVyTh9J.mjs",
+      "sha256": "9f0187b1f091fc5aaa4a71d384ba074faa3ef2915ba732cec5f49a5c1ace2dd9"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/plan-DWPEFI2M.mjs",
+      "sha256": "ee91e90eb198ca06368af83f3046c44f4fd9cf8965abdc23dc5008a6d6fa8caa"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/plugin-activation-CB2X-1Yp.mjs",
+      "sha256": "5b5e4eebca089fe409afd739cc389d8107b4d24637a1a807203c19e8f8a5137c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/plugin-app-cache-key-w0YzfUfp.mjs",
+      "sha256": "ea4b5db7f2053670ee18cb0d41fe245bcaf5129db6828197499bf83105a73d95"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/plugin-approval-roundtrip-BPoxfiPu.mjs",
+      "sha256": "0da5482a1f8341912f83c437b4a12672258327c39ae9aaa4de8164ecf3598ddf"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/plugin-inventory-B0SExDgp.mjs",
+      "sha256": "86b9add3c3187b29b54d6526fd648dc48179332ba4b9c10754b76fbdbadf97b1"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/plugin-marketplace-discovery-BeDQuz1r.mjs",
+      "sha256": "9f48618f562896b8708fd67771c3bf7acbb36ac5abe38717aad496a39695a4a2"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/plugin-metadata-cache-D6D-dZvs.mjs",
+      "sha256": "7155ad0330247e31a95b67afe414786b4bf6b7a2fa5c8bb51337b2f0267c13f5"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/project-doc-thread-config-4p08O7NO.mjs",
+      "sha256": "665c02f173ac6ea2e30b2b4ea762ab26692d1e1bcf5fd96c2756114fd2f8d368"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/protocol-NX-eGZn-.mjs",
+      "sha256": "566536268e3d2961d272d729f722142487206c5840b3a3f50dc49539c9d89272"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/provider-Cg7VY0jH.mjs",
+      "sha256": "a8e42956886860b3995a07a59f1b0866493551e589c6e68e9610ec787acc69fb"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/provider-capabilities-CSgenr_Z.mjs",
+      "sha256": "dc6e523cab4d63b87766e3581fe4df88dc4613f666a11a7ad9d74072c84aaa55"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/rate-limits-CxQSuv4b.mjs",
+      "sha256": "7b0556e5b8460f069ce545c7e77ba7875f8545be98a28fea5e666b2ec52ce2d3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/reasoning-effort-pEObIH2V.mjs",
+      "sha256": "21203d7cd200766582775760cb9fb6298f9fb37fca9de0afb58d06116724a3ea"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/request-SQbZjUM6.mjs",
+      "sha256": "483d1ab548198408a54cb3882d77d408441df56bc195d9c0334728abac7d8c7e"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/responses-oauth-Cocl-M9v.mjs",
+      "sha256": "bd0f9cc1fb84a2e15d7dc615f608c551816d5faa53ac14dde796bd43cddd0068"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/run-attempt-lifecycle-UvtxM-Ln.mjs",
+      "sha256": "2b1db4b204e83d075a7b9f8abe00e684afcbf56b4357f5b17956c0bcb44aa730"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/run-attempt-yo1rQCfZ.mjs",
+      "sha256": "fdccfb7cc36d52a00e704ea9eb4bfc9f142da7ff1f3e41de2ec5d3b369cee93f"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/runtime-artifact-BoRjWBWs.mjs",
+      "sha256": "90239cae93beb1d1b8bb6a252b75f9ef677905c61d42534e05c4888a78d4b6bc"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/runtime-artifact-connection-BT7pKxmf.mjs",
+      "sha256": "81539d0de9692653b7dc205b76c5ebf2b0048711204ea5f697db6dff1a200be7"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/sandbox-guard-npVrxXbI.mjs",
+      "sha256": "c791f29746bb6f7df475ac74a4f7aa7f6170f3dc6187795354409f078db527e6"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/service-tier-normalization-DWyZfcYp.mjs",
+      "sha256": "114fe97e40c9445624f3f2c2fb10249521e3b242a6a577a2ffd044ae8411313b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-binding-_y0fotvm.mjs",
+      "sha256": "efd49027d3bef405a06438dc0f42091ce4931b9b46c939dffb1842bdfacba4b3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-binding-meta-BczSY5Qt.mjs",
+      "sha256": "3a03a90b6e41af280821e62cf741ac92565970d2cdd1bd2361a4ae9e0c17dae8"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-binding-record-BiLa2g9Y.mjs",
+      "sha256": "6a8fdafda87710abca86feb64b40cb89e32dbef84b5757200d0d599ea84d1c0c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-binding-record-codec-I8YXPEq3.mjs",
+      "sha256": "e7790cb3bad99cfcb6e70836c84f1fa19284e7f42b63f55bf6ba9a2f18a4ded3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-binding-sidecars-DPQAWL9D.mjs",
+      "sha256": "5efacb4694dd1bb643f64213067dcd6a5b236b0c738bcbff69f4b75f79fe6f08"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-cancellation-Bhysqi14.mjs",
+      "sha256": "3ae619ff436ddb5b11dabd686cb8149465c8d6ee701016b0cadb03060f2178ef"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-adoption-C-xTFk8B.mjs",
+      "sha256": "1b8d2d8d0072161a812c1aa6250086e0f248938b721f8420f590d5d33a111916"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-archive-BO8q02ED.mjs",
+      "sha256": "6a174809df98b966a97a520fbefa036d040c91aab7cfcd232552408f7ae05e32"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-index-DoejJ1iS.mjs",
+      "sha256": "099d98ce42b74525d5e2db8a3234c62c1c5232b660181028a36578aafdbb0f98"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-index-order-81wnNreq.mjs",
+      "sha256": "7e24e3a51eeff1b8b614bc950c41426486b8ffb15538d19ce5ab808201a41fad"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-list-request-hgVCcg4S.mjs",
+      "sha256": "5eede370b60df3e478b8fcbaa2315354932741ae25869372fad8263f28cf8eba"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-native-projection-Bn6KyC2n.mjs",
+      "sha256": "45b6604be94e20788f4320d1ad990f0673fee5f99a552650069739bd6c3d762b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-node-adoption-C6kwqBxS.mjs",
+      "sha256": "fff5e3389d7c377e226d86ccebcdb678d22d8612832b59b5519146bac429e66e"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-node-continue-B6oc5veW.mjs",
+      "sha256": "94a2898a442b5e82b10593f757c3c1f05244d92e5c655576e0392f9908e3acda"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-node-lookup-BAohJO0r.mjs",
+      "sha256": "30aeb35ce87c79493e3bbf9a4fb5d05967e419bd3a565be75100483cda84015b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-parsing-DGAt4o-a.mjs",
+      "sha256": "b4d8fb9f201e685541df5ffb09a4afab64293f12def5af55dc4aaa0e5b9008d4"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-projection-DQhEQxJP.mjs",
+      "sha256": "eda548bedc609cda0963ccd5818912994f9383834a93506e0ebded9c5108a1ec"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-catalog-transcript-D1SSFdaN.mjs",
+      "sha256": "8f15691e810d93de531a6f56f14a44d6fa4fc37bc8caf52ad4c5f8a60190fe2d"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-cli-Bnds-oJH.mjs",
+      "sha256": "ac43355b4891e9695c4a5ee3523246b4658bd04e7e92fdf73ad210cc0abea6cc"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-history-CB8B2I46.mjs",
+      "sha256": "3f70c4b84ad0cc9e4504bcca0f242e8e2817d7f0fedc7cea55caf8881c854195"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-history-import-7MJz_doX.mjs",
+      "sha256": "63ad147ed73d9a7133311e41985ed3221056a41d4ee54f472d2b361cfe187754"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-history-read-D9RviVHp.mjs",
+      "sha256": "87888489e4766c3f900cf4522e2b8c413ea394bbfbcb6ca083da934cdb9c1a85"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-initialization-C5__f5vZ.mjs",
+      "sha256": "31ad3d0e76fe51f2f5ddc3b094d434a0a84e32f04889c0dbc483ced1fe06c16e"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-permission-policy-DzBiXI9U.mjs",
+      "sha256": "29b22a96f2e887b9a8d7739873c623f9ed99e305dcacce88cf888b25e72d5703"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-retirement-BYWfqyRT.mjs",
+      "sha256": "3b074e0ccf3efd8929e9c441e924c5f15e93f9636d05b94644265c4f5f5ced55"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/session-upstream-marker-B7xSMlQS.mjs",
+      "sha256": "bab3d010e5df20421dcd28bdda5d41a5b81d32a88ac065f8994bbc8720e408f8"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/settled-turn-context-Pv0F4xiK.mjs",
+      "sha256": "29f0cb266bc6f68378f3f4107f255f1c968ed385b01c48f2761109e543778076"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/settled-turn-evidence-CVDQfMYm.mjs",
+      "sha256": "241255e48f692af43b639af2cd8705cb7388e51d247ad8bbd330f1ea1d50b745"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/settled-turn-finalizer-BKuMMlNz.mjs",
+      "sha256": "b98c81c64cd957cb3dcd65188be85aa23861cf4be159278b60781e2472ad05de"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/shared-client-B0mP8C9Z.mjs",
+      "sha256": "6ccf2fb0b623a161e128aae120c10298dbb007a56e56cb979344edbb235e2aeb"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/shared-client-usage-Ccu2WJ9q.mjs",
+      "sha256": "d0f83b9b69818c74543c9df8896d4eef77432cefff8eaf8dba854cd9cd45b7c9"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/side-question-UvdRVhpP.mjs",
+      "sha256": "38a6bb1365792dacb98856c421391d7defd9f238c9e18dc44b5cb03418172172"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/source-DRC9oMNA.mjs",
+      "sha256": "fbc6982f3f4aa40baa1693d1ad0cc916f727390514f965fcb7b3ad0ce8f42165"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/spawn-error-DnFx1wgz.mjs",
+      "sha256": "820fdb9620ff2c13bb93cba2c33fd124e0d59bce80653b3fdb5e454a231b7b52"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-archive-guard-D76dWQQQ.mjs",
+      "sha256": "eca44158f3d6b9df8c56e8f09ce722433db370768f536bdb63a93fe2a2e15880"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-lifecycle-run-CvSapRgV.mjs",
+      "sha256": "e5a999d1e96baa40283f3b02b1c59de4ba6e2c9cd33826cf19f51f01db525a1d"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-model-selection-20muBXj9.mjs",
+      "sha256": "21bda3a1c2affe9ed22ed9f704d1e98cd2bf8b72664e0137ce7283269437b89e"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-ownership-DjszGClR.mjs",
+      "sha256": "4cafafdc38697054f89849120346c003f22d1ef0819dbc1d27d3349e13130b3b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-ownership-queue-DB4PT1q1.mjs",
+      "sha256": "ffa3b48dafc892cf20c62054b5c61ffe83233287a142a43e8252adde81c318c0"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-policy-DEIPQl5M.mjs",
+      "sha256": "6b982ca4adf880e9741a4f6bf58c95208c4eefbfa2bd1be2b86574c8348776f3"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-requests-DL-ZO64d.mjs",
+      "sha256": "e51e172fd76cdc0a8c787de1c75788e9b6d6fd75628c8744bfdbb64753ed99fd"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/thread-resume-B6FhpjQ3.mjs",
+      "sha256": "28bda2498e22667631980e738e57ce550855c42b300857f513aecd6e4e274e0a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/timeout-5P9AqqoE.mjs",
+      "sha256": "90a5df37b2eb2ab1940965621ef9835f75619196ec1ff57b15cbf943ad5c49cf"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/transcript-history-projection-CDmsRTvT.mjs",
+      "sha256": "1102f21fd08fcf382ce71f1191ea0688c18d22ccce211e7cc1b3bb786052c013"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/transcript-mirror-DJK8DI5o.mjs",
+      "sha256": "de6db211be4f6f95e461556f7db62844df7f637463010b6320ad45f945185b6b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/transcript-mirror-attestation-QI138plD.mjs",
+      "sha256": "569c503870f6f24c4ce1e75452c4eb55dc29d201d81565cfb445cc2671249e11"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/transport-stdio-DwjJCkWK.mjs",
+      "sha256": "3339a6405e7196dfa20e4743e727071ede14c0591c732c02c11e5f0f2e71db2c"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/transport-websocket-hKozaa1r.mjs",
+      "sha256": "da849eda7c936ea85248f9b2199014cf804535e93ba4fe014786bcb8aed7b31e"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/turn-router-40BBQwG0.mjs",
+      "sha256": "fce691c18e8a76363bc2a3046f39a6e92199e291d4a5a414a60c6ecfe474153a"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/upstream-prompt-provenance-BIMHDbR8.mjs",
+      "sha256": "697e627b7b75d943f8701c10142ac42408eb45fc37ea77b4f23e6035bc917ff2"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/upstream-session-fork-C-djdOZC.mjs",
+      "sha256": "f1004cff5897952f5fec6abe900f2a87d04a7fa63af70e7c692683e4cf0b4283"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/usage-CFrua2km.mjs",
+      "sha256": "300d5b7b30243d0ff953ed8afee7d6fe04bad7be6f7dbdf470d8d7280f0147b2"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/usage-limit-error-CMQSMZpg.mjs",
+      "sha256": "10ceaa7c1ef47d42af02d6633a892ccb5b33d29e9080d3b97612ceed33982a88"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/user-input-D-ymgiVM.mjs",
+      "sha256": "323af014973d73e5ec9c3b0c246fd9b9e648fbfba0bb37a1e5210033c15363b6"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/web-search-item-Bdzc0S8B.mjs",
+      "sha256": "8e4468ea9b5ce512283860a16997f92d35236cc91e292aa5df1359e6eded4b80"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/web-search-provider.runtime-CuvFPXW7.mjs",
+      "sha256": "d9c04e9b58d1070ac3b2785af7437c8474659323b61fc0d2c550975b4cfa132b"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/web-search-provider.shared-CICsH-KY.mjs",
+      "sha256": "d150f24043f730f2811298eca833a536d62d50f8cb6e167f71f4014ba0d0b241"
+    },
+    {
+      "file": "dist/extensions/codex/.setup/workspace-write-sandbox-probe-D1UQQC9G.mjs",
+      "sha256": "a9643220261afce70866a0e2342ab09be2d6c21baa01f1b714d54dfd181d842b"
+    },
+    {
+      "file": "dist/plugin-sdk/access-groups.js",
+      "sha256": "dba9ea95cb36e668f19b57a95b3eb2dc74b2a2c5be132de8a9afc9928cfc5850"
+    },
+    {
+      "file": "dist/plugin-sdk/account-core.js",
+      "sha256": "1e1f458a0c1ca141965c172173b263775acbc1d79f22fc94bdbb251637e0067e"
+    },
+    {
+      "file": "dist/plugin-sdk/account-helpers.js",
+      "sha256": "f5e38cbabc2bc8dc5aebf0b0408e32751dcb3735d6dfeaf25cec9025e6f03ab4"
+    },
+    {
+      "file": "dist/plugin-sdk/account-id.js",
+      "sha256": "f07eece24eecc6e8d7db6bfd4b51a3eb34fa35c44d063bc858d4fe5a386d8851"
+    },
+    {
+      "file": "dist/plugin-sdk/account-resolution-runtime.js",
+      "sha256": "3ecec66a4201fa078bbba280c61abad22911b52f6543a4fed143d0a6d6868d17"
+    },
+    {
+      "file": "dist/plugin-sdk/account-resolution.js",
+      "sha256": "d8eabd8c77ca197bf5c4e91e750581c546b0f69b61d9a194d0a70e06f7a0a8b0"
+    },
+    {
+      "file": "dist/plugin-sdk/acp-binding-resolve-runtime.js",
+      "sha256": "1ea196859c7c8b147a4dacbf2a29823e6b41cc03f427abdb147db5e247d7c6a8"
+    },
+    {
+      "file": "dist/plugin-sdk/acp-binding-runtime.js",
+      "sha256": "d26f64230388bea5d5a758450d3ea323c3c5edf1f27632a7ec96e57b4230479e"
+    },
+    {
+      "file": "dist/plugin-sdk/acp-runtime-backend.js",
+      "sha256": "b2818582f7d0fd3844e16291590852ce9389158113f46c7bd310588800e0f2ad"
+    },
+    {
+      "file": "dist/plugin-sdk/acp-runtime.js",
+      "sha256": "14c3f771f8f0f3ef8da4873b6a5f4a161d3271593afa80676fe5d0e8306396f3"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-core.js",
+      "sha256": "6bfe2dc0d7d384c89e99f17fbbbdbfdec2eae0e0f349b971546b5a00c1d73c96"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness-attempt-runtime.js",
+      "sha256": "1813512193fac934cbdc33b25b2b2a4a4061d1e22e470eceaab1b213b97650d3"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness-completion.js",
+      "sha256": "f1d10bf4c1e188a2490c5fdb9e13fdb34b6890fe90bf6184194230eedcd573a5"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness-exec-review-runtime.js",
+      "sha256": "59dc097d3dc7129e2140a1310e33ad2dc16f2ecfc71cf886951cc54e0275a8d5"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness-registration.js",
+      "sha256": "e5f9f5f56fb348984ca74a1e90c9644b79268dcfe7fda0ee57950c9bf73e5cd9"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness-runtime.js",
+      "sha256": "9759292c5b9f95af4d07a83f1ef45c8c151859de74ea176aac16c4c23fe05c06"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness-session-runtime.js",
+      "sha256": "37d0a5b9c35eb978552f2cea8840b9af48993fa797581b7a9712cfcea3d82612"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness-tool-runtime.js",
+      "sha256": "5a7bea2779ca3fe95a1c210ea4c31d21e8c6312883a78a785d37b8e0cec18a3d"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-harness.js",
+      "sha256": "5704c9675fea98b80da5daf259065e9e349ec3d699bb2c778e463c24c8853cf3"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-lifecycle.js",
+      "sha256": "433643d272cdbf155b30773227e429625d13aa302ffc6e37830380b411ccbada"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-media-payload.js",
+      "sha256": "58de70626ca15efe73b6700a38c073753720511047a018067031264b2de1544c"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-runtime.js",
+      "sha256": "76d3097b6440e48d57948adad23f9133d2b8207c1b9a238f002c6d07594f81d6"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-scope-runtime.js",
+      "sha256": "3f357ee2fd668c285b896d5efafaec88161f3c7f6ad53be4ec7d4805c1d26d5b"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-sessions.js",
+      "sha256": "fc9e8516bcc13a0683526f659d9f1046ca9245f02801148eb073bf843ddd9d5f"
+    },
+    {
+      "file": "dist/plugin-sdk/agent-workspace-runtime.js",
+      "sha256": "8a44b4414952b9e29e9ae74ba5b9af0c41f5179b630b9c0ca439b4e989ac9ff0"
+    },
+    {
+      "file": "dist/plugin-sdk/allow-from.js",
+      "sha256": "a659359ed57f77acc870628d58c280df1e072445ab96b6e8477ce3dec546e4a0"
+    },
+    {
+      "file": "dist/plugin-sdk/allowlist-config-edit.js",
+      "sha256": "44a271221526b234a9d3b434357b5cddaf8031de333f411a5df3f58bb1daf3f6"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-auth-runtime.js",
+      "sha256": "4c59e7cf48bf2304e943be8a5e1d77b07b74c1371f1e15496d23b6a326181c7a"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-client-runtime.js",
+      "sha256": "dbb99841cd4b7618d6f1a36d5d2e9da85ae9bb2358a72106768bc9f399f6ffdb"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-delivery-runtime.js",
+      "sha256": "8a97b582790899c25e1e1202cf22fd95fc0bdb0d32bf204c634aa7ebab1ff748"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-gateway-runtime.js",
+      "sha256": "9594b92fb025533db5934dc3a3dfbeeb0975ffb55aa18673997cb52239fba939"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-handler-adapter-runtime.js",
+      "sha256": "16810282ca8ca87f3ca6242bf0042164094e99ce623cd8355fc6ef95e55958d8"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-handler-runtime.js",
+      "sha256": "a2bf22bb47b8436bcd667685e529bc11beb92208b746338bd5efbed981398b4a"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-native-runtime.js",
+      "sha256": "7b47e6308d9388ded8e217fe9027ace551c5fc1189df0488bd166903aa7d0209"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-reaction-runtime.js",
+      "sha256": "6404ebe3a2e207a693d79fe8b1c877697a5697864b8a4df55374e3c94bd30ae8"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-reference-runtime.js",
+      "sha256": "d57ccb4c2f55ef94ba53c9b6509dbd3f7755cd29d8748fff67e7c20dfdadee2d"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-reply-runtime.js",
+      "sha256": "65e746a972b8f95e2eed98fc3a4bc0d86a3139bfa119d9bc4c10f41b4c4d7a6d"
+    },
+    {
+      "file": "dist/plugin-sdk/approval-runtime.js",
+      "sha256": "f2bc6d9b4fb495e096329ee28cf467b1704fe2a4e491e984b8340b53e26df9e6"
+    },
+    {
+      "file": "dist/plugin-sdk/archive.js",
+      "sha256": "c82eda0bad910e30e58c991b06afdae0941862f18ca3b2bb59637e33d7f7c925"
+    },
+    {
+      "file": "dist/plugin-sdk/async-lock-runtime.js",
+      "sha256": "3816917693e2d85890d9c3a74907387a05274f3e13b2877d8ebcfbba4f5d2fc4"
+    },
+    {
+      "file": "dist/plugin-sdk/blob-runtime.js",
+      "sha256": "981e9bb427f9d0171aac620d50776e5584dc84f5f8da6d7a8495ca914efcb0f3"
+    },
+    {
+      "file": "dist/plugin-sdk/boolean-param.js",
+      "sha256": "7408a7b6cfd440e5375b4a64689bc3663f97f97e74e1d3de611539412d95822a"
+    },
+    {
+      "file": "dist/plugin-sdk/browser-cdp.js",
+      "sha256": "37ca58e704ea1bc37c259b43c120b92eb43461f0e0e54a3072d952704192d61f"
+    },
+    {
+      "file": "dist/plugin-sdk/browser-config.js",
+      "sha256": "71f698d068575e574a85eff1e1e3c0adba0d5c5fe7dabeb08652d61ca50936da"
+    },
+    {
+      "file": "dist/plugin-sdk/bundled-channel-config-schema.js",
+      "sha256": "d94f51facccf6f5d6fd802b5d237bfa3104f9dfba301d273f8a80a4620fbe03a"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-actions.js",
+      "sha256": "aa8a1a355e081d9662286bc7194b96957f1a974fc68a5f741513ca00483d5c8a"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-activity-runtime.js",
+      "sha256": "25d985103e7624d5705877058de528c324123c372f5364945dca2e03b3acdbb3"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-config-helpers.js",
+      "sha256": "49edac8c82571f4e1ab60f7dfce3a753dc4400f3579120807753441cb3009d11"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-config-primitives.js",
+      "sha256": "ad3dbfe5a69e2504b1d09a1319a321f4ac783a1ea2cf1d46cb59626366e94287"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-config-schema.js",
+      "sha256": "78b2184df8db876683cac173f0df54ad66639b40316104df1cbfdffdd759c9d2"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-config-ui-hints.js",
+      "sha256": "f1c04dd31d47183d603436273abf55fe27d4f824f786a7ce511eb023e4b607ff"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-config-writes.js",
+      "sha256": "26e09fc17f1ecbbdb9b4da198ade4788b1cf0639043de195c8138c3ded35564a"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-contract.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-core.js",
+      "sha256": "c2b393925369f7ed5c878d7f9457b499a62b10e901aee6c96ffbe8c74c5661b1"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-dm-policy.js",
+      "sha256": "57e806bc0c0e85b5aac533aa7e124064cd58727e982214d167d673d490e8569a"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-entry-contract.js",
+      "sha256": "9c963bd09ef586181e07175cec49eb303615ee2eae75de7ecbf79cd2607120cb"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-feedback.js",
+      "sha256": "4dc9f1bcaf10f4c389e87318d274b7db8acb7a475a00265e87664ec2774393d1"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-inbound-debounce.js",
+      "sha256": "73dca6af755eb80fc30577778c5276cbd5fe246e34d4ca5225631902a34a9916"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-inbound.js",
+      "sha256": "1d0295d5e6b4de8d849f3a808dd95b60d2f37a95173b73e81de21850988fb5a5"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-ingress-runtime.js",
+      "sha256": "9284ed8279a76449eb26439d07a794c826e78ab5cff48810f5f5f710dcd6ca3e"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-join-intro-runtime.js",
+      "sha256": "2434bc77ab24bc7dd792f504859fca91f8f3e3878782db26c4b2f55a95b4865b"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-mention-gating.js",
+      "sha256": "ffed7d6f0da82c6d4513215b5391a126776c1c44c282a4c21b7e6e0e2aa8f712"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-outbound.js",
+      "sha256": "12d9b2fcc127ee2005a008731bffb7b90a6b16b526f04e74f0c82045f50dc051"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-pairing.js",
+      "sha256": "dab33f9557d2c1103392b09d37679773db0a72ee9d7d82ae3475e0d0998d974b"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-plugin-common.js",
+      "sha256": "94693aa3f6c9e5a390df4373152b4a97251501a3c0cdef01131365b5015b6902"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-policy.js",
+      "sha256": "fd1d504392393b6988b4ed2f3c543a4213959f6e99863726b2121a6be2c11a08"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-route.js",
+      "sha256": "d513624066ab76152adfb1fc3fa2bef9ce4f3ede3d4ef731d9cce8bc9d88d509"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-runtime-context.js",
+      "sha256": "d8780a23901da06e250061dbcc85c5368b8401c5d31862040a4b1e35d263e9a3"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-secret-basic-runtime.js",
+      "sha256": "4e92f3a3cc6a850393d104af9c694690dc76ee68ac2016159e13b31b919ee5d1"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-secret-owner-runtime.js",
+      "sha256": "ed0c82ba9bb9cf12202cafe37e313cb7085a0600ade530bd7fd174affaa13203"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-secret-tts-runtime.js",
+      "sha256": "0f3b9568631a24792ab7baeb48589f09d1a621be231a40f2c88b8491b7bb7e57"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-send-result.js",
+      "sha256": "35e4a6d7886f14dad495d3b0da4646ba68862717d7ff0548f596f4ddc8ee2a7b"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-setup.js",
+      "sha256": "13eb9c75648399b217de515756f45cdfcd6ec8c1d4cf2e509077a872938e54ed"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-status.js",
+      "sha256": "08c2afa4ff7ebe79efc04817c01069112a30361be46cc08beaaaf4b38d18f4da"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-streaming-config.js",
+      "sha256": "e1779618ba983db8ffe7ea1f3d451a27082f4a431d7e6dc2e88f1b7c5ab45ba4"
+    },
+    {
+      "file": "dist/plugin-sdk/channel-targets.js",
+      "sha256": "aa1469759bce829a4de8813a8913fbef15e0fbea45ae46f16ec99e37b6c260f2"
+    },
+    {
+      "file": "dist/plugin-sdk/chat-channel-ids.js",
+      "sha256": "d604f9f3962eb7c42a241c1cb24c6aeaacd6fcce376aee93c828cfc93da81a8a"
+    },
+    {
+      "file": "dist/plugin-sdk/claude-model-runtime.js",
+      "sha256": "9eb32cec41482cdb0fbe18fc501a230caae9eb94a662ecf113511b7e35691344"
+    },
+    {
+      "file": "dist/plugin-sdk/cli-argv.js",
+      "sha256": "28c0a7e8d35a2d2d3028afc28ae246cfc8a464b7ba59d6214ee5fe10da708397"
+    },
+    {
+      "file": "dist/plugin-sdk/cli-backend.js",
+      "sha256": "711fdc0aeb2ba4ef92f0c764a15dc3370328f726a60026477f7a28e212cacf01"
+    },
+    {
+      "file": "dist/plugin-sdk/cli-runtime.js",
+      "sha256": "a6cef7d73caaf7f3a78d106229c81e35b4d15b4e2afd9582d26dcf033fa023da"
+    },
+    {
+      "file": "dist/plugin-sdk/cli-state-owner.js",
+      "sha256": "69e2339b9975e59684fe2acab10977bb9a3c60c26ad974d0f35d6773d8472e2b"
+    },
+    {
+      "file": "dist/plugin-sdk/code-mode-executor-runtime.js",
+      "sha256": "7f8396cd911433495d6e8d21a729ec48cf1c3f26d59b3437fbbf1443312718bd"
+    },
+    {
+      "file": "dist/plugin-sdk/codex-client-version-runtime.js",
+      "sha256": "87f69120837261cb6ac035d7787a937a0723c9e5790ba74bee1a27475cc73a1e"
+    },
+    {
+      "file": "dist/plugin-sdk/codex-mcp-projection.js",
+      "sha256": "9a929692bf222cf37354dd02296faf19e4dfad8fcd56856c8334054f37b689c6"
+    },
+    {
+      "file": "dist/plugin-sdk/codex-session-transcript-runtime.js",
+      "sha256": "f31f3470690ae079066f06801649f20fe84a08624445d2e35e67626cc36a0111"
+    },
+    {
+      "file": "dist/plugin-sdk/collection-input-runtime.js",
+      "sha256": "679e87a8b49e46f3acd6b59f1ab2ac133520a0ad775be86e6fd8bbc840c21f39"
+    },
+    {
+      "file": "dist/plugin-sdk/collection-runtime.js",
+      "sha256": "60d8280b89e4f94bdb0c9b6b99db23e7a413a28447392cce3474ddf965cea1a5"
+    },
+    {
+      "file": "dist/plugin-sdk/command-auth-native.js",
+      "sha256": "45fcc5b1a3d1ac59d503ffd335a96c9dbaf08a868543e3ed0dbc251caea36212"
+    },
+    {
+      "file": "dist/plugin-sdk/command-detection.js",
+      "sha256": "98e1ecc69c45dc2e3ead841a5348e6a6e131dff0638c5614ac4ba4708ec01901"
+    },
+    {
+      "file": "dist/plugin-sdk/command-primitives-runtime.js",
+      "sha256": "37fca45f7cb766e12188bef75a843246056f3df7a8d9ad5dba997c09f7928514"
+    },
+    {
+      "file": "dist/plugin-sdk/command-status-runtime.js",
+      "sha256": "b2366624ea1021e93a208ce1ebfa59dbcbbcc627e9e935cd0880ffd141958a84"
+    },
+    {
+      "file": "dist/plugin-sdk/command-status.js",
+      "sha256": "9547200e864d7b6fcb511515fc995869b7189b49902428b073643c9f5da6d64e"
+    },
+    {
+      "file": "dist/plugin-sdk/command-surface.js",
+      "sha256": "575e4a9c7a7971f8e491c02395773a13da60c824193dfa2eac332391d5b17e2d"
+    },
+    {
+      "file": "dist/plugin-sdk/computer-use.js",
+      "sha256": "3f1a2d7fb2abd5b83c2c6d5615d7ab6343c772ef72b3b106014862b3e44f9ef3"
+    },
+    {
+      "file": "dist/plugin-sdk/concurrency-runtime.js",
+      "sha256": "2e07eb1f0e5dab3d10e3ae3612f9000278d8b839259d0fda3bec5587f2979101"
+    },
+    {
+      "file": "dist/plugin-sdk/config-contracts.js",
+      "sha256": "ad625a1a1056cc4dd14197baedb1d5ea44cc1a12f905d162afb3347985b8da6a"
+    },
+    {
+      "file": "dist/plugin-sdk/config-mutation.js",
+      "sha256": "3868bdc3f363fdc330f4575f2fe669c99d5e54c6bde5e1cc44716bc28f9bb9f5"
+    },
+    {
+      "file": "dist/plugin-sdk/context-engine-transcript-runtime.js",
+      "sha256": "ce8cfa23f4ad69be65c66fb2bef4b30bc601f8610e851533e732724ca5e235a7"
+    },
+    {
+      "file": "dist/plugin-sdk/context-visibility-runtime.js",
+      "sha256": "6a83b2ee7f8206baa62ae0a9a49eb0e050e6662cbb29c4fcebafb948a6700749"
+    },
+    {
+      "file": "dist/plugin-sdk/control-ui-link-reader.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "file": "dist/plugin-sdk/control-ui.js",
+      "sha256": "7ea96d9799f8a8b1b947b3bcdf5ba0d7bff4a6e19d9ca229545f0db0ca2105f9"
+    },
+    {
+      "file": "dist/plugin-sdk/conversation-binding-inspection-runtime.js",
+      "sha256": "a6602cac1cf654bc2b27552b00f1a3515d55128a11ff3923f8dc0a2e8a7dbd8d"
+    },
+    {
+      "file": "dist/plugin-sdk/conversation-binding-runtime.js",
+      "sha256": "aa78da74b17ecf9255305dcf50e41b840dbc5b34a0bdf25a68d8b5ad482ee0c4"
+    },
+    {
+      "file": "dist/plugin-sdk/conversation-runtime.js",
+      "sha256": "152c8fa98c3e716083d151f0970f945fde7a31490518a48a8b2592e0646cac1f"
+    },
+    {
+      "file": "dist/plugin-sdk/core.js",
+      "sha256": "1a4a8d066e3b0e80cb95467ac8301329fdbacabaf489ed2fc78d34e87382f2cb"
+    },
+    {
+      "file": "dist/plugin-sdk/cron-store-runtime.js",
+      "sha256": "57fb7c91582f702758d97fcfe72dcdf50000512f1634241dd960cd71a80a1426"
+    },
+    {
+      "file": "dist/plugin-sdk/cron-tool-defaults.js",
+      "sha256": "a5cfa8bc144169f0f02b97cc58a418eb9776a2bbe410ad113157f1ab0ac12eae"
+    },
+    {
+      "file": "dist/plugin-sdk/dangerous-name-runtime.js",
+      "sha256": "177c93afbed9d0b6a9a8823c34ab18b16a31909ef31630726868d7b7df349107"
+    },
+    {
+      "file": "dist/plugin-sdk/database-engine-runtime.js",
+      "sha256": "24696a9c07e612924b6137cfb64600b34bd57941a26714e184eb95e9667d4955"
+    },
+    {
+      "file": "dist/plugin-sdk/database-engine-worker-runtime.js",
+      "sha256": "f1f14e41987a617fba9d98b8241f52659a01ab01b10a6fb73f3d9655139a3c89"
+    },
+    {
+      "file": "dist/plugin-sdk/decisions-openai-runtime.js",
+      "sha256": "82934d9017b48c3fb389bd5393fd9e59fc4f41a4d5e1202c8cdba9487e4b9d45"
+    },
+    {
+      "file": "dist/plugin-sdk/decisions.js",
+      "sha256": "0b5b03de336a6077eb0afc76752b6243f95d63599910236eb6af40beead73933"
+    },
+    {
+      "file": "dist/plugin-sdk/dedupe-runtime.js",
+      "sha256": "5976ff9eda1132915a60c9dbc784d04c2e957346baebf224a1369a1705cb511f"
+    },
+    {
+      "file": "dist/plugin-sdk/delivery-queue-runtime.js",
+      "sha256": "fa9dff4f660235af912f64514ee19b65311cedd9ca94995e74adc7147bd1056d"
+    },
+    {
+      "file": "dist/plugin-sdk/device-bootstrap.js",
+      "sha256": "67d4e0cd869c794ab23cddd38b6ddd30fed30cb47aff5c13be893922784fcd4e"
+    },
+    {
+      "file": "dist/plugin-sdk/diagnostic-flags.js",
+      "sha256": "c711d9551475c4bfac26b7927c20d3b2e5b07a2cd80f91f1bbdefd2b8ee9cf16"
+    },
+    {
+      "file": "dist/plugin-sdk/diagnostic-runtime.js",
+      "sha256": "cb10d39795b226983bf232dc11a63aa7474a6ee096c45d0c21aa2cf27e5c99ff"
+    },
+    {
+      "file": "dist/plugin-sdk/direct-dm-guard-policy.js",
+      "sha256": "ddf0f599da4794c29ce8d8aaad3b31163d255ea18ee57d3dd5839e6340304544"
+    },
+    {
+      "file": "dist/plugin-sdk/directory-config-runtime.js",
+      "sha256": "e8814f03a1bfedb7e257ad9b1039ccbc18793bd766d15a04cf310c5caa34ddd6"
+    },
+    {
+      "file": "dist/plugin-sdk/directory-runtime.js",
+      "sha256": "5d6bb795160894db20bcd97492274c416cd8481149306492ffaaa80d63d3b309"
+    },
+    {
+      "file": "dist/plugin-sdk/doctor-repair-runtime.js",
+      "sha256": "8ce8c1cc5b6124baa93ed601735802bb4a42735ef289c67b729eb817f04e8e64"
+    },
+    {
+      "file": "dist/plugin-sdk/document-extractor.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "file": "dist/plugin-sdk/embedding-provider-adapter.js",
+      "sha256": "b69fa7590610e7c4d98ccdd2ef50eaa28b71f0e4d4d27972eb168766ce52c4a0"
+    },
+    {
+      "file": "dist/plugin-sdk/embedding-provider-runtime-contract.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "file": "dist/plugin-sdk/embedding-providers.js",
+      "sha256": "40e1d9a0169a36b2b9bb8ce79da2379dd720a0a7959854b25320fed638da1db7"
+    },
+    {
+      "file": "dist/plugin-sdk/error-runtime.js",
+      "sha256": "db3d606a56335be136eb3cc0374c2711e0ad57f0eda0fd71614e82a31a00da0e"
+    },
+    {
+      "file": "dist/plugin-sdk/exec-approvals-runtime.js",
+      "sha256": "a7e16c8b6cb51d56cedfa3629778353ddd9da6b6f8ca5b5cb6879d0bbccf87da"
+    },
+    {
+      "file": "dist/plugin-sdk/expect-runtime.js",
+      "sha256": "57ceb6fa233f6a7d2415b4eb5a77c415c0770f0333800aaa4d146b1d91a3f7a0"
+    },
+    {
+      "file": "dist/plugin-sdk/extension-shared.js",
+      "sha256": "a6de823b958f7878d1d05d8409264c9ae59bb1217c0c59c7202de94c610d5a0a"
+    },
+    {
+      "file": "dist/plugin-sdk/feature-contract.js",
+      "sha256": "75ad1eb00b26ab89c773818f58dba2fd29de54a69100705e937bcd5d577001af"
+    },
+    {
+      "file": "dist/plugin-sdk/feature-plugin.js",
+      "sha256": "2fa7d5281d944381d56fd115ae140f7d5e8c68d6ea9fbfcc2d78ab466deebbda"
+    },
+    {
+      "file": "dist/plugin-sdk/fetch-runtime.js",
+      "sha256": "928acf7d09d95c2193a9a5f26734b0166f87f794ffbbf83e05c0c3637085652d"
+    },
+    {
+      "file": "dist/plugin-sdk/file-access-runtime.js",
+      "sha256": "f218765b1e61e7c65f018e3581ca04425eb8a599fe93a66749d5222be617885b"
+    },
+    {
+      "file": "dist/plugin-sdk/file-lock.js",
+      "sha256": "8ce5222aa12f24dad42ba923cea421f465b48593a1a1e150db5d1efe17f007af"
+    },
+    {
+      "file": "dist/plugin-sdk/gateway-config-runtime.js",
+      "sha256": "18c1e7af37b38a181d98bccf51e8b6a2f80dd49f5d09b5f83b209e3fcbc035bc"
+    },
+    {
+      "file": "dist/plugin-sdk/gateway-ingress.js",
+      "sha256": "dd482f03ed9f358551498c500cabaf45005b3f07de39706f9e5512d46cfaa49c"
+    },
+    {
+      "file": "dist/plugin-sdk/gateway-method-runtime.js",
+      "sha256": "b8c8f65464ec86538295fe5a56755d7e0f28941ca331880e52a238fefed30148"
+    },
+    {
+      "file": "dist/plugin-sdk/gateway-runtime.js",
+      "sha256": "e347bfd26aefe71858dee37502a4a0e082a7291fc5fa5aed5da668fdc413e9a2"
+    },
+    {
+      "file": "dist/plugin-sdk/global-singleton.js",
+      "sha256": "652a098110ef4d758245c7a4daceba4d17c155b650ef9ee5a806e2ddbc0f27d5"
+    },
+    {
+      "file": "dist/plugin-sdk/group-activation.js",
+      "sha256": "c08842a026800fc3fdb4548ebdd8a64c0272b28252e0a52aad3bddb7ed10d561"
+    },
+    {
+      "file": "dist/plugin-sdk/health.js",
+      "sha256": "8f47d026b6eb084d4143720ada2748ddb4905b54dba3e76f8470c9f55aa5ba7a"
+    },
+    {
+      "file": "dist/plugin-sdk/hook-runtime.js",
+      "sha256": "98137107f77f5026f0c4d2f783dc09eedb907352f138ca7d1e14af4c8f8f8d62"
+    },
+    {
+      "file": "dist/plugin-sdk/host-runtime.js",
+      "sha256": "04b73f059d306bc623cec80d3feed2d20e69bfe0989a5552745274c59a29f853"
+    },
+    {
+      "file": "dist/plugin-sdk/html-entity-runtime.js",
+      "sha256": "6fd60f533ee69e4b4991db6079965af2b8bc0805f978be40361283c4f8b20b03"
+    },
+    {
+      "file": "dist/plugin-sdk/http-response-runtime.js",
+      "sha256": "a561ea062c2d90f1e4c496caea2b5abf04570db333bd33ceeed1ce0d602c94b1"
+    },
+    {
+      "file": "dist/plugin-sdk/image-generation-core.js",
+      "sha256": "1f5836158ed6e5a3f217a704fce4c50c370e1f0d0989efabf43311ebafed10de"
+    },
+    {
+      "file": "dist/plugin-sdk/image-generation-runtime.js",
+      "sha256": "1b767e1f10e9f8a65e919acf18624a627287eafc2b2fa4578ed4bf25148bf041"
+    },
+    {
+      "file": "dist/plugin-sdk/image-generation.js",
+      "sha256": "62140b7a6f9c786310733e9f5f463bf533a24229e5891ba5b2473a71e7f67d58"
+    },
+    {
+      "file": "dist/plugin-sdk/inbound-envelope.js",
+      "sha256": "d7f80c26a2a2f39b08408b62e7fb1e85f5851906d7fb03b4ba2917693f5b7108"
+    },
+    {
+      "file": "dist/plugin-sdk/inbound-event-delivery.js",
+      "sha256": "9b83c09276809ab82ea115f362111307346154db05804786feb15984f235813b"
+    },
+    {
+      "file": "dist/plugin-sdk/inbound-reply-dispatch.js",
+      "sha256": "571c118e27c2c437878cce166cbd7b17cb680cfc527abc5583d0a75f2e03664c"
+    },
+    {
+      "file": "dist/plugin-sdk/ingress-effect-once.js",
+      "sha256": "e023d71563828ef6f8c57ec2ed32e959baa2917c87b42346aa34a24670ea954f"
+    },
+    {
+      "file": "dist/plugin-sdk/inline-image-data-url-runtime.js",
+      "sha256": "6e5c1fe6064621b292a612e8e1f1cb46072920c4dcffd8921b25a3e276aa41f4"
+    },
+    {
+      "file": "dist/plugin-sdk/interactive-runtime.js",
+      "sha256": "16d0b14a195fbb5f047f6fceedfefd68b0d825a9d0a1f00b07436780cc18558e"
+    },
+    {
+      "file": "dist/plugin-sdk/json-schema-runtime.js",
+      "sha256": "3c8fed9dc30864d624cffbdd5044dbc73043326f709072a13feaedd185ce67ad"
+    },
+    {
+      "file": "dist/plugin-sdk/json-schema-validator.js",
+      "sha256": "d843a4c35cf1ce7445c491f5ddd5656833852171df3e44d0e346bf3b287dd90c"
+    },
+    {
+      "file": "dist/plugin-sdk/json-store.js",
+      "sha256": "473da11cf5e68ed11dca2f40afa7c326a7429b00653f9a0e25975e145cc39acc"
+    },
+    {
+      "file": "dist/plugin-sdk/json-unsafe-integers.js",
+      "sha256": "125a57dd04ddebbb84580cab2076b9f34523f9acb0e730d5d20ab92e568a99d1"
+    },
+    {
+      "file": "dist/plugin-sdk/keyed-async-queue.js",
+      "sha256": "919cce53383f9c1a0c48dcc966a56e5ed0c0f4e06d9a1777d4609948b14084a7"
+    },
+    {
+      "file": "dist/plugin-sdk/lazy-runtime.js",
+      "sha256": "389333ac2004aed12f63dd5184b1da968a22579745c5b6c3818362be5670276e"
+    },
+    {
+      "file": "dist/plugin-sdk/llm.js",
+      "sha256": "bc0a9f28b7fac12c5bd62742eb6201478a1aa46d448529003e6d5c6543e21e03"
+    },
+    {
+      "file": "dist/plugin-sdk/logging-core.js",
+      "sha256": "92a512e4b5bd82702891dc797dd6a376e4ff3a0162f3f60c534973548bf8bc4a"
+    },
+    {
+      "file": "dist/plugin-sdk/markdown-table-runtime.js",
+      "sha256": "1bfea7ae76ef1c48e64596429cd2f434c5d672dd9f86876617211b8d370302e4"
+    },
+    {
+      "file": "dist/plugin-sdk/media-ffmpeg.js",
+      "sha256": "867ad1673dadca7d3b57d4114b8d0c4e9b4a488e383621736d247906821c1b75"
+    },
+    {
+      "file": "dist/plugin-sdk/media-generation-runtime.js",
+      "sha256": "2f046f0994902cc3a83393d28be9484e7126b9a6e7a4991cde128d45cf2ab8c1"
+    },
+    {
+      "file": "dist/plugin-sdk/media-local-roots.js",
+      "sha256": "f501ad0115baf67e5f1cbd50fe2c9b34c7653d9fd7ba481967fbe49f897b69f3"
+    },
+    {
+      "file": "dist/plugin-sdk/media-mime.js",
+      "sha256": "5f054cec45bc17f077cb4c4a5fc767b660d3de9ad46751caf8e31f23d818112e"
+    },
+    {
+      "file": "dist/plugin-sdk/media-runtime.js",
+      "sha256": "27f16e39c0ff45a6ea743b44b6cdb5c0347ad94f29fc60f1617a4cfe111d431e"
+    },
+    {
+      "file": "dist/plugin-sdk/media-store.js",
+      "sha256": "452a18db09933373ebd6de3b8ade53c7a90e9f24c3e667bbdd315a38feea3d60"
+    },
+    {
+      "file": "dist/plugin-sdk/media-understanding-runtime.js",
+      "sha256": "a65f3f67f594d28d492cbf3d23656b7baaeda84b5983cccfd189a9232496869a"
+    },
+    {
+      "file": "dist/plugin-sdk/media-understanding.js",
+      "sha256": "390826219099c2bcb379c328ba6a63024eebbb41b075820ce3b861ed773fdd11"
+    },
+    {
+      "file": "dist/plugin-sdk/meeting-config.js",
+      "sha256": "896472a2410a7db6af8f9da02612aeeb9eb92693f6aa9ee21cf7aa9c82f5f7de"
+    },
+    {
+      "file": "dist/plugin-sdk/meeting-page-script-runtime.js",
+      "sha256": "742a13577ada0d2a16d7791343d058bf7f9eb68ab22cd7f15e7e6852e0b3c030"
+    },
+    {
+      "file": "dist/plugin-sdk/meeting-runtime.js",
+      "sha256": "19f99f7e25410bb6f6a5f6261a3d10f776b45300f6a315e4b020941c13513743"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-embedding-registry.js",
+      "sha256": "1f05c78c4a285875720c5b61dec401596e22155d7b5d0ea05422f53b13e460e6"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-curated.js",
+      "sha256": "d2cb2e123c695a3bf4bdcc455b9b23eedc6733859b9bc26229d3be2216a32ecb"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-embeddings.js",
+      "sha256": "3e3868b1c27719187a1fbbbd1d2720b1c42eecd32b943e6e8de548b10ac736e5"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-foundation.js",
+      "sha256": "7f18d406a98ef3c1dc1859ed6d3515e212c89d7e2f14115c609894f74f421a47"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-fs.js",
+      "sha256": "ff2d45c25b55beced6abab5a9675ff4a0c0e15542b4276e2980c8331bf2594ce"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-indexing.js",
+      "sha256": "851f2cb4d8dc7bca02ed7d5ccf33f02a3eebbfb6fb445010eef9ff5f7fa92339"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-knn.js",
+      "sha256": "b3bbe45cc8a823fc86b54041196a69dc315eae14f8a048acbc7237515f4fbc6e"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-schema.js",
+      "sha256": "3e47ac79ed8df4df542a43a5159f48fa48f79fe511e49a5f2556d19f9db2296d"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-sessions.js",
+      "sha256": "2fa99d0fd93bb8e97d87c598a1c0c99db5b506d86762a71b83570c6e31e39e26"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-engine-storage.js",
+      "sha256": "af18691baca4360a54a888212f64892cc44f9418eeda6592dbc8fc6f851ea975"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-runtime-cli.js",
+      "sha256": "8ea92b3102e7abad08e9ef7c16456c4ceb747613496524de9d51ab7f99643ec5"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-runtime-core.js",
+      "sha256": "2abe3628739aeb8c093112688b93a032faaeb20e588c321e2a0bf369a2d9c291"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-runtime-files.js",
+      "sha256": "bade1d76e8703d25b7a16816988e386fed154f6095e9d6490359f41e64a2b330"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-secret.js",
+      "sha256": "a550107ebd7dde1e66d2e584b9b600d2b395ce6a9dbc1b6c9009a446a0fa3b79"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-status.js",
+      "sha256": "32adb3782c086262e99dcff9f4878e16d3bdfe9b3c48a29418bf98274d4bacc7"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-core-host-transcript-stats.js",
+      "sha256": "e96f425e6c3561cb7347e4ec08fb67936f005d94ce3b86b3ee584a82c3ac0701"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-host-core.js",
+      "sha256": "e69ab10b1412404a9a90cb7a68e20dfe089fd3e7570d8bcb8658ad066e9d5d2f"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-host-events.js",
+      "sha256": "6ee91a6650205fe5da5cc6a9c1255827dead9a22a6ae26613de6fedf478bb97a"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-host-markdown.js",
+      "sha256": "29d6802a7789db8134f88875f5d584b8d7308552b49695ed6f8b5e28151b150b"
+    },
+    {
+      "file": "dist/plugin-sdk/memory-host-search.js",
+      "sha256": "9ad8ca7c0a98fb884248048c99554648e471ab46c0df97c8a3ce5c56856d2290"
+    },
+    {
+      "file": "dist/plugin-sdk/message-tool-delivery-hints.js",
+      "sha256": "80e3f2023be90e8a6b9221b0291e07dcb7b40c3823a816b5f0fc9e09bc05a72c"
+    },
+    {
+      "file": "dist/plugin-sdk/migration-runtime.js",
+      "sha256": "9c775ad353af267210ccfe0ec539a96e5b95899d628c18c1f854ceff4002dcd7"
+    },
+    {
+      "file": "dist/plugin-sdk/migration.js",
+      "sha256": "6cfac4f0037ad61b7b0948e72765684f4e7eef4d10cbecb639c394de7ca66078"
+    },
+    {
+      "file": "dist/plugin-sdk/model-catalog-pricing.js",
+      "sha256": "2723c7beccf14263dd1b96f4c51c0d155b301fae479dae959f2949df82e564ee"
+    },
+    {
+      "file": "dist/plugin-sdk/model-ref-parse.js",
+      "sha256": "8a4773d25538999e2789ad3971e644f7d07737819416e3b3f664a6e746e1c901"
+    },
+    {
+      "file": "dist/plugin-sdk/model-session-runtime.js",
+      "sha256": "37dc800ce539302c988ff081f8d6591b987b332e1782bf65f68ea832567a1dee"
+    },
+    {
+      "file": "dist/plugin-sdk/models-provider-runtime.js",
+      "sha256": "31621294fdc71aad382a80a8dc76a518d33de33c608fc289225a41ddfe53985c"
+    },
+    {
+      "file": "dist/plugin-sdk/music-generation.js",
+      "sha256": "174f1b797390b8ac1ded878961d7364e97ea9ff5c8ac6149bb36557a4c6e8f51"
+    },
+    {
+      "file": "dist/plugin-sdk/native-command-config-runtime.js",
+      "sha256": "82851d234452f34702b589dd49fb123d279cf23c645f02501d78d7acdb5d6c0d"
+    },
+    {
+      "file": "dist/plugin-sdk/native-command-registry.js",
+      "sha256": "5859e26ca8b728f303d0f00f7f8392b085d5ea52eef078162b889a50f35a5e2d"
+    },
+    {
+      "file": "dist/plugin-sdk/native-hook-relay-runtime.js",
+      "sha256": "18149e88836d7545de0ee82e7af003c1612a72af0396af95846496eb82e26a00"
+    },
+    {
+      "file": "dist/plugin-sdk/node-cli-runtime.js",
+      "sha256": "fb2e049f2bb9db32402b168ca8e18264b24be2ca5582e6010d886e3397b6b948"
+    },
+    {
+      "file": "dist/plugin-sdk/node-crypto-runtime.js",
+      "sha256": "f0bf083f03c33d368017d5e3e698436ba54c8499b4a12db058a6dd6885241189"
+    },
+    {
+      "file": "dist/plugin-sdk/node-host.js",
+      "sha256": "dc16f72a6b854bb5ce6c4791fb0dcf117a319df90ce7d704cb6c0936ec1405e7"
+    },
+    {
+      "file": "dist/plugin-sdk/node-selection-runtime.js",
+      "sha256": "4a81339acd04f5c497207f6cb4f7bf2a12f8a7b437f03fe3577b30b3f10ff597"
+    },
+    {
+      "file": "dist/plugin-sdk/number-runtime.js",
+      "sha256": "a167ca236ac4c6a43c1c9b7fba5440ec5078b15cae50d3db72141738f0375bca"
+    },
+    {
+      "file": "dist/plugin-sdk/outbound-echo-runtime.js",
+      "sha256": "202c0f86cf4a380e4f71a2b8d0164925e4edfee4682c681bf2399e196edc27dd"
+    },
+    {
+      "file": "dist/plugin-sdk/outbound-media.js",
+      "sha256": "5364dc77038e5854f9a0b2e0a82db35be90ca850acb80e42e689c711089883fd"
+    },
+    {
+      "file": "dist/plugin-sdk/pair-loop-guard-runtime.js",
+      "sha256": "336453636aac56d374e2ebcd54ee1a3218a6bc3516c94f60b3183f3993dd8d16"
+    },
+    {
+      "file": "dist/plugin-sdk/param-readers.js",
+      "sha256": "0ccaf3550220139726031e3513563c8fb41b370cf9351030c508a0f7c28b13fd"
+    },
+    {
+      "file": "dist/plugin-sdk/path-existence-runtime.js",
+      "sha256": "4ca6ecc3e5603fa79367eec4c720e2211f0e7cb5c72658c14817d06c146af2b6"
+    },
+    {
+      "file": "dist/plugin-sdk/persistent-dedupe.js",
+      "sha256": "04e2865c51df6832fd26570394cade4582a982b13feaf929370505420dd8806c"
+    },
+    {
+      "file": "dist/plugin-sdk/plugin-command-runtime.js",
+      "sha256": "9f7294f352e38d643830641e4d8de90adf58f6608b476bb39f11a4ca805c3e1f"
+    },
+    {
+      "file": "dist/plugin-sdk/plugin-config-runtime.js",
+      "sha256": "babf0eda7c4beb8c26c7522ddef8470bdf2436e987a6b97ec44751856b7e4a2a"
+    },
+    {
+      "file": "dist/plugin-sdk/plugin-entry.js",
+      "sha256": "599e403ed69c9fc80c4a90e526ee77afa3b71bbd6062b1bc9e35c65c0214fd0c"
+    },
+    {
+      "file": "dist/plugin-sdk/plugin-runtime.js",
+      "sha256": "eefeaa92666888526f7c2b95e1e2cf84ee100ff28103df0e354371cc27fb112f"
+    },
+    {
+      "file": "dist/plugin-sdk/plugin-state-runtime.js",
+      "sha256": "435c11aec6d13a3e59c626faf2cdb78389b5186b3723d9e70d3201ce4a4bc06c"
+    },
+    {
+      "file": "dist/plugin-sdk/plugin-state-store-runtime.js",
+      "sha256": "91f505a69771224045f537152c1f5f6a5408a7aee6a7e837cca0049b1cf7f445"
+    },
+    {
+      "file": "dist/plugin-sdk/poll-runtime.js",
+      "sha256": "66cbb9de334e4817eb6a9740cc00267f1968c27cf67cdb26080d813eda869d41"
+    },
+    {
+      "file": "dist/plugin-sdk/process-runtime.js",
+      "sha256": "698accfa9fb0d654a946336f276dde40ea48f7c1252bcc8f68971fb33069c757"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-auth-aliases.js",
+      "sha256": "6f184c52df87e8bc015e64b898e330a1cea891e674087e4e0ef7c15cfdb91040"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-auth-api-key.js",
+      "sha256": "6f98be782771c359af87e37cbba27944a636a24bc0968da97e676c509edaa838"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-auth-login-flow-runtime.js",
+      "sha256": "55802a537a2c494e594c6a176d6e968fec313dbb054f1ae2bc6fe3685780bca5"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-auth-markers.js",
+      "sha256": "fc570fc08244ad869a814b6c9c0abe3399eb05e156d4ae2856cc2a208b9f2449"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-auth-result.js",
+      "sha256": "ebcf3aa650e10eb1ab95bb34e9c657e28f9f48f167c039f4d86029078db6d193"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-auth-runtime.js",
+      "sha256": "d285951920bd0667f08053eb1a6a403cccfcc23b90c00f45daa5546774c5c619"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-auth.js",
+      "sha256": "48b184d37bed1c91a2f9cc98e58a90df136675976b7a7d8ec1ee50d2aa076197"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-binary-stream.js",
+      "sha256": "aaf61b2efcb3827ef98cd73cd6c363d4049ef5ebbc50881e049e05bfd88e4e88"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-catalog-live-runtime.js",
+      "sha256": "fba012d9d89ac5a433198eddf5cd9bd7f7cdb8e82da2067004ed847db6dd682b"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-catalog-runtime.js",
+      "sha256": "ce8150e68a7ef9e3145713c69775d6a8a65ce0d366f39c21b4511dfe48b21417"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-catalog-shared.js",
+      "sha256": "b333a82fea7bf9706e17a7e56814b8113ae6fc04d3ca52124534f0359f9df3e7"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-entry.js",
+      "sha256": "5c0945d0e384d21f3967373c93b5f4a1f2aa6967750d92f9bed09ab7fb1257f2"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-env-vars.js",
+      "sha256": "eb277b474820d2e542e5bf410190ada88fc7ee6e09a85d7e0c2e0d2aebdf2578"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-http.js",
+      "sha256": "4ac22014dd9a74d32d0a8ffa208f80cbb041981b3c136c0cfb7a9652f4c301cd"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-model-metadata.js",
+      "sha256": "b3be22596f241f9aaf8bb579fbf1129d389ff51cf33bd6815344e8f41b48f25c"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-model-shared.js",
+      "sha256": "e9cc7380ca851f339c9d755d7f774d0950be0854fbcfd38947cf88a6ba40c14e"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-model-types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-oauth-runtime.js",
+      "sha256": "a65d9ff692f07271820add1af6494c4337478a3f6475e2c3e0c3d7212bdea8fc"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-onboard.js",
+      "sha256": "3ebb71592ace39088d28c931d18c483a31c23d9debf5079c9099befbb5688281"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-request-headers.js",
+      "sha256": "e555bcc1136a7aa07bb2a6699a8096d911319b442c3b5ef440c465f39e454413"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-selection-runtime.js",
+      "sha256": "f0e436fad5c36fb38ad01b102de929e6b1db6ce2aaf4e329b9376590d2d5efe9"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-setup.js",
+      "sha256": "eb1db536f5d258facaa2de482fbab3ebbcbeb61176fc3aec8e4e2ee8b7658000"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-stream-family.js",
+      "sha256": "d1d2fbb13ef0243da79421180e9a76dd753cc90837fe7cb0881c1e3042e03cb5"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-stream-shared.js",
+      "sha256": "66c195f0a6683cf85ff870d5ad0876b26d46caa5685558ea380f06252f3d10a0"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-stream.js",
+      "sha256": "c37ba4a5bd2db8c057074b13fb78ea5254025128de439c479af7e0c09637b52c"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-thinking-runtime.js",
+      "sha256": "3171927dca4120c96883a27ab6ae659eba2678630108771cd5260feac95c616e"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-tools.js",
+      "sha256": "0bb2116c46d6447442fdea3c9f6fb78450eb921f6a1df2f3bc86ba74376d5bef"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-transport-runtime.js",
+      "sha256": "683da3bc60d14cc028c9197d445d750f7910d46a9166127713848f6e1c2a6777"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-usage.js",
+      "sha256": "b43aeabf6e97a8669ddb645d909c794c1e810741cd550cbb8ee1ac66594ace03"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-web-fetch-contract.js",
+      "sha256": "154a8881a95b4c34a38ed2ab5a12e489ed7715b8b74ba741ad1190ba04ec7a3a"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-web-fetch.js",
+      "sha256": "0e5e69a0e7ea80bab0f329bd94df99b48a825fdf6e3b4e0261e0476ff04b90e8"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-web-search-config-contract.js",
+      "sha256": "04aa1e86b8c326060285e26ef851a7a7052e63cc4a6cbd820a0f17ad8fc228b7"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-web-search-contract.js",
+      "sha256": "c9d83b4d1b1e6caabfe002d7036754d8f91f6a0524e228a4570b7ae5143a4004"
+    },
+    {
+      "file": "dist/plugin-sdk/provider-web-search.js",
+      "sha256": "86aa34d13476e5ac198fa06436704910910014ff524eb4c77f905ff185db6dc9"
+    },
+    {
+      "file": "dist/plugin-sdk/proxy-capture.js",
+      "sha256": "3bfc0ba03c0992e29ca30821ae5bf5ecef0044e0c27a85dd1f2d4cee78be12be"
+    },
+    {
+      "file": "dist/plugin-sdk/qa-runner-runtime.js",
+      "sha256": "19b856ecdaae7206f4df450348e9a33c7fe2e7d7d5b7434b9dc3a425af5bbd22"
+    },
+    {
+      "file": "dist/plugin-sdk/question-gateway-runtime.js",
+      "sha256": "3eb1b549fe42a88e8586144fd78e1c05e26c4e72d1a78ef006223b43fa030518"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-bootstrap-context.js",
+      "sha256": "4dd0d27af084a0237a9a7bce80e6733fda4280db057077cf82875d8bba369573"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-transcription-provider.js",
+      "sha256": "ff8df97d44707052dd514b5287198185bd18b9e3ca0e8ae49df1688cf7c29a4d"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-transcription-session.js",
+      "sha256": "5ac1c4667b0b2756fc90c316f75606b153ce98a4deeb8e59b40b389d6b8c6604"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-transcription.js",
+      "sha256": "03d4412c348d2eefd325427882270d3d8b174e7044b85d2616adaa877b5c1a3c"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-voice-activation.js",
+      "sha256": "52802f1adde76842090ec0d1c2f59f1b9541cbba504dd07736049cc8d61640ab"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-voice-audio-queue.js",
+      "sha256": "cab721be2356b4f47cd3d8e846525753677a478d7996a1ffd11844d6501d1407"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-voice-playback.js",
+      "sha256": "dbe11022f0d2f3def617def7721d15977bf90c8dfcdde9366f9504221aac7a36"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-voice-provider.js",
+      "sha256": "3dbad9f3895b37a11c0d5285c4b44b8c3d293cde271b8d86f4bc05d9aef94236"
+    },
+    {
+      "file": "dist/plugin-sdk/realtime-voice.js",
+      "sha256": "4713bed82014e661d1974a40345226460a28159a76816d84852e013e2ffa46a1"
+    },
+    {
+      "file": "dist/plugin-sdk/reply-chunking.js",
+      "sha256": "a62dbfc1eb941f6571118ec20f106aa435718d2c5b306a760a09fc16a5303108"
+    },
+    {
+      "file": "dist/plugin-sdk/reply-dispatch-runtime.js",
+      "sha256": "ccf00ac3dcc8ce1f4e0da6de48a22bcd6eef1cc96abb3694e3f108d5b1e1b5ea"
+    },
+    {
+      "file": "dist/plugin-sdk/reply-history.js",
+      "sha256": "86184af3e7ec4a823e44af1b533ef8518c7a71e86704475d30f11c1680c8d7e8"
+    },
+    {
+      "file": "dist/plugin-sdk/reply-payload.js",
+      "sha256": "5a0f593197163673b8cfef951cd0d5eab68a25cb520a31dee01d416911da5969"
+    },
+    {
+      "file": "dist/plugin-sdk/reply-reference.js",
+      "sha256": "773c10bb086f4c01d595995fcf140aab6c14523e0a914ebdcfc203b1ef620c8e"
+    },
+    {
+      "file": "dist/plugin-sdk/reply-runtime.js",
+      "sha256": "83de5b3d337a4801ec389a53d4a54b9f303f82133a87ac2e95e15ee4e8c1aa09"
+    },
+    {
+      "file": "dist/plugin-sdk/request-url.js",
+      "sha256": "c8298ac581bf5b6c94feccbb645a5c7fa19714e33f4b2a6733828ef8287218f9"
+    },
+    {
+      "file": "dist/plugin-sdk/response-limit-runtime.js",
+      "sha256": "9409c01f88406c81e5fef092475217ef20a4be2c4a47590a3e68a944ff978280"
+    },
+    {
+      "file": "dist/plugin-sdk/retry-runtime.js",
+      "sha256": "cd1255d716d2da8590fb5073e2a9ecbcefe343594843d19fab4da0948ed97a43"
+    },
+    {
+      "file": "dist/plugin-sdk/root-walk.js",
+      "sha256": "bc6693ceb02cb1667644821717be5179c2b0d84d2c029aec4ab036faf848d892"
+    },
+    {
+      "file": "dist/plugin-sdk/routing.js",
+      "sha256": "6d96d4970c596b530af827266572ed44f244ac865217d06d4ea4a025284f93e3"
+    },
+    {
+      "file": "dist/plugin-sdk/run-command.js",
+      "sha256": "0f544fd47b1a03bade9d6a9a5cff4714607ce588c1db5e689cdc21a5ef61d230"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-config-snapshot.js",
+      "sha256": "4198f5fa143f6e6b0299136f81855f48ca7d23a7a553c1c50949671c9cda2bef"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-doctor-migrations.js",
+      "sha256": "58e31a6eae2edefc8a7b422ed91884a27f008e0ce8b6b6a2034162ae2b991a1d"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-doctor.js",
+      "sha256": "982c0525ecc986318c1add2f8165bffdbce81cd47d6c74e4d955e7b9b4043717"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-env.js",
+      "sha256": "a48f45d0a902742e0d5bf88d5324658b11b7317d014815aab09deff2bf2da89a"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-fetch.js",
+      "sha256": "8e7870bb040d0691781bd3c8404258765d333412763523ed80839e5c7386b876"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-group-policy.js",
+      "sha256": "09eebc3987ba87a0273a866509bac86e251ea0204340875d38ef63321199c2ca"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-profile.js",
+      "sha256": "8c4407c90f1fc40097ac8689a547e6cb2f1667bfce886418f71add47bdaef762"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime-store.js",
+      "sha256": "d3a435c006d796bc28f3ef3554b3acdc72bd1c032ab37a0ed41b969460b1a4a1"
+    },
+    {
+      "file": "dist/plugin-sdk/runtime.js",
+      "sha256": "ccad30d9e3a26da949a0b7d390cc81798e99f5e31001d02718d09257b9eff0bb"
+    },
+    {
+      "file": "dist/plugin-sdk/sandbox.js",
+      "sha256": "a6fbc320cf6bdae7bbb12596bd25190c9373e575509676b986118a6b0d0648d8"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-egress-runtime.js",
+      "sha256": "4ed43fba5b8e9cd16b1765190cb5789da69d5e58996701543f9da57a75127f18"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-file-runtime.js",
+      "sha256": "4f81da10d05cbcd954e06dc8154f38aa9e889a886a9f2ff1302b9b1dc2b7a66d"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-file.js",
+      "sha256": "30250812a1e03be9f45c845a8086424897bf0e99cc7d8215f34b2457fe37e43f"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-input-runtime.js",
+      "sha256": "d9287c61a60dbae3af8c3e10144dcb0c22267890a297325a54ff8e7baa693590"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-input.js",
+      "sha256": "c167ab1351fb5c3a6acdac234b4249d29b4e41e41046b30ba21e62162d422a8d"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-provider-alias.js",
+      "sha256": "1c078217aa92959eebb8e0247739485f5b01f5c8e630a57b8572547837c8e4a0"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-ref-readonly.js",
+      "sha256": "c57db06598426df7dc715c4bff678af13c2aa37998895db2224b2ef4e54d78b5"
+    },
+    {
+      "file": "dist/plugin-sdk/secret-ref-runtime.js",
+      "sha256": "c08aa70100047dc2b7915f91f2044a54aa94ada1d0d44d3513f8b97bda3c1a40"
+    },
+    {
+      "file": "dist/plugin-sdk/secure-random-runtime.js",
+      "sha256": "7e43300913adc762bbefb42789cf4a63d0df0621e8a240c915e8a6814718ba56"
+    },
+    {
+      "file": "dist/plugin-sdk/security-runtime.js",
+      "sha256": "9e664079635b892e0a4f9e097aa73a50a2d0fdb3decc4bfb374e557052b506e3"
+    },
+    {
+      "file": "dist/plugin-sdk/session-binding-runtime.js",
+      "sha256": "5c6aeff07c8f0c2911e819bb8bf1aa1e444dd53b067f8f247e189134c30b5a41"
+    },
+    {
+      "file": "dist/plugin-sdk/session-catalog-paging.js",
+      "sha256": "9df9e3501df0818da6acba2c4fb61856e31b824ff65cf6cb47769c4f0070f556"
+    },
+    {
+      "file": "dist/plugin-sdk/session-catalog-runtime.js",
+      "sha256": "090ba5213efe715d37e421db8d38e9e2a5f59e6553cda2fc4def21404973bfb7"
+    },
+    {
+      "file": "dist/plugin-sdk/session-catalog.js",
+      "sha256": "0603a5b7444f8b0748e3d32a0f37cec38c51ea757723c60d385f0f776dacb4b4"
+    },
+    {
+      "file": "dist/plugin-sdk/session-discussion.js",
+      "sha256": "b6274be2cb5073fb8466aa7bf9d340c5c14957db07ef8c5417858a161559d8f5"
+    },
+    {
+      "file": "dist/plugin-sdk/session-key-runtime.js",
+      "sha256": "3a4bee0d0fa6ce41e3788910be0c721c20d2c7f30575ebcbc2112123a68c7c8d"
+    },
+    {
+      "file": "dist/plugin-sdk/session-store-paths.js",
+      "sha256": "1f8c405afcff81a3c2e2e376de11109144fea863638590fd8211c257bd1e1ad9"
+    },
+    {
+      "file": "dist/plugin-sdk/session-store-runtime.js",
+      "sha256": "f26f8a5f50dec3090fd2a5b4e4bab5bfcd64f8ebbcd35afd3e77af5da1d6483d"
+    },
+    {
+      "file": "dist/plugin-sdk/session-transcript-hit.js",
+      "sha256": "4bd9cb12ed4c43fa4e37d51b12489a24de445666add163343f273343ead7f5ac"
+    },
+    {
+      "file": "dist/plugin-sdk/session-transcript-runtime.js",
+      "sha256": "e71869f57c14e8c776dd212646abfef17c77b2acf8a530c02099aa2dee64ff3a"
+    },
+    {
+      "file": "dist/plugin-sdk/session-visibility.js",
+      "sha256": "d50d5f22c3472df38d6923979937d1bf165fb6f44bac2459124f47659d633425"
+    },
+    {
+      "file": "dist/plugin-sdk/setup-runtime.js",
+      "sha256": "56794140187e3e162785c96f5c2d1e4aa36aeb8b271f94c637530f251a3069d8"
+    },
+    {
+      "file": "dist/plugin-sdk/setup-tools.js",
+      "sha256": "98a3e908924e3089097c1f1bcbb527bbb859f41f047cdb4a8263b77ec4263e35"
+    },
+    {
+      "file": "dist/plugin-sdk/setup.js",
+      "sha256": "21642571fb29200b9ee66333937fe713bbe70450168ed19aa15e6d0df36720c7"
+    },
+    {
+      "file": "dist/plugin-sdk/simple-completion-runtime.js",
+      "sha256": "01a10ebd9b863f54dc1b06299aed975c09ed634db0443ee05e83b6445369c16d"
+    },
+    {
+      "file": "dist/plugin-sdk/skill-authoring-runtime.js",
+      "sha256": "de23d4578116897fd2f6e9d5cf6caa635e40f920b98e1a99034e42a2bd13e386"
+    },
+    {
+      "file": "dist/plugin-sdk/skill-commands-runtime.js",
+      "sha256": "e8a38c3e164271420d9a9378c737e2e15220b70e00a0730c3892fc1e6abc02ce"
+    },
+    {
+      "file": "dist/plugin-sdk/skill-workshop-host-cli.js",
+      "sha256": "6dc9b5a3431f1d7e6cba4699a60e6ecf8230e182cb893f5f6c3495d99f1ed133"
+    },
+    {
+      "file": "dist/plugin-sdk/skill-workshop-host-runtime.js",
+      "sha256": "080ef886f2430b8fd4da6dc4ebc3e3de825911755321117ee5cf7b38e4ca25ff"
+    },
+    {
+      "file": "dist/plugin-sdk/speech-core.js",
+      "sha256": "05bfb050c8d07363102fc0038d0c1e1023e84dd25c0effaa02c44b2d9a607e04"
+    },
+    {
+      "file": "dist/plugin-sdk/speech-provider.js",
+      "sha256": "bdd6af6c9c7b695b77ad5ff47f9a67d8721033811d51eb663315f60023a7bcc7"
+    },
+    {
+      "file": "dist/plugin-sdk/speech-settings.js",
+      "sha256": "16de79bc45d8c9993bc5411fce0ebab9aa4a8029106155f32a5f41ada1b596f0"
+    },
+    {
+      "file": "dist/plugin-sdk/speech.js",
+      "sha256": "4238bc75a65b7149a9d4ae8b14643ef757de561dc4005e693aa41dd1ab98f14d"
+    },
+    {
+      "file": "dist/plugin-sdk/sqlite-runtime.js",
+      "sha256": "f6e9e5d9611045090e91e21c14a8894fd164a05d6d16318ff06d10c54a66fa37"
+    },
+    {
+      "file": "dist/plugin-sdk/sqlite-worker-runtime.js",
+      "sha256": "78b4ce35c7f371b7551e8fcc731243cf39b55e455bfa6ba21ad71cbfbe621f18"
+    },
+    {
+      "file": "dist/plugin-sdk/ssrf-dispatcher.js",
+      "sha256": "8b7fafc0e6bae82ef30d8ff68ca2ece93ee4b1dd653fea773700423a3226a3ff"
+    },
+    {
+      "file": "dist/plugin-sdk/ssrf-policy.js",
+      "sha256": "f6338156912b222b0ca550e7e9166b91cfb30777f253deca0f66e90e3394a6c4"
+    },
+    {
+      "file": "dist/plugin-sdk/ssrf-runtime-internal.js",
+      "sha256": "287434ddf0d8e045f5db017b0c5ea6fb819fcc51ac59307683ce33290ece7aab"
+    },
+    {
+      "file": "dist/plugin-sdk/ssrf-runtime.js",
+      "sha256": "825d7cf6de6ee14692fb6e35908ab2ced080e5f2eecacaa5d5d693186c8efa4e"
+    },
+    {
+      "file": "dist/plugin-sdk/state-paths.js",
+      "sha256": "c6153fcd1292841e5e467608278c289043e4b36ff4b353162d47cf813e3d964a"
+    },
+    {
+      "file": "dist/plugin-sdk/status-helpers.js",
+      "sha256": "12ed882bb6f9ce89023b5457b56e6a94dffac35d81d89f5e0c72a2b4df32d578"
+    },
+    {
+      "file": "dist/plugin-sdk/string-coerce-runtime.js",
+      "sha256": "2fad4622b4949a562727e034739a75ecff54cb80978aee4f2f739a7254420474"
+    },
+    {
+      "file": "dist/plugin-sdk/string-normalization-runtime.js",
+      "sha256": "6e321a2108aa1c75c6c37a1396c9e3d65995a53479adf0ae597b8e8651477c64"
+    },
+    {
+      "file": "dist/plugin-sdk/system-event-runtime.js",
+      "sha256": "89b62c7c2779f54168ddb373411cbccb1d881cbaa8795b4c6053b3bf706e87e2"
+    },
+    {
+      "file": "dist/plugin-sdk/talk-config-runtime.js",
+      "sha256": "d6d2b309b4aa10346c4f80a4a501dc3512e027f9b3811d5f48159db7bb075db4"
+    },
+    {
+      "file": "dist/plugin-sdk/target-resolver-runtime.js",
+      "sha256": "348966819420122dbb69e4e8c2854da889230bc8881ffbce4a229fa9614778ea"
+    },
+    {
+      "file": "dist/plugin-sdk/temp-path.js",
+      "sha256": "c5fd4207c59352c4aa077dabf5a0510aebf041305cc62b6b99856a496f9d5137"
+    },
+    {
+      "file": "dist/plugin-sdk/terminal-safe-text.js",
+      "sha256": "7dacf08c43115a494cc5c5406ebebe6278fc424dcdce782338f60ab4b116f584"
+    },
+    {
+      "file": "dist/plugin-sdk/text-autolink-runtime.js",
+      "sha256": "6e1bd2ec7961bf56fa44e7a8935d295a9be6e339d3c6fcead6bc2129807651cb"
+    },
+    {
+      "file": "dist/plugin-sdk/text-chunking.js",
+      "sha256": "9de3bcc0c1340dfa35eff0ccac8f6f1ae5d996a0dce487d5035570696bb05805"
+    },
+    {
+      "file": "dist/plugin-sdk/text-grapheme.js",
+      "sha256": "7f16f6c3bd3c6dee5a69b6a6b9be21a4e07a51c2ad9e0dda052c7097962d28f5"
+    },
+    {
+      "file": "dist/plugin-sdk/text-utility-runtime.js",
+      "sha256": "02fd3e3f61c660faf2353410a5188c36544b14fdb904defa8f45712fee64ffee"
+    },
+    {
+      "file": "dist/plugin-sdk/thread-bindings-runtime.js",
+      "sha256": "b63047582de279fee0e5047f3d145bd8e20f5276e1f757f194cfc27010e3d944"
+    },
+    {
+      "file": "dist/plugin-sdk/thread-bindings-session-runtime.js",
+      "sha256": "2aeddb98050cd9a2cc913ac37a476726034a9441c46d19285b7662afe62d5264"
+    },
+    {
+      "file": "dist/plugin-sdk/time-runtime.js",
+      "sha256": "52215a209fd1399be7b44b2ae133deac5738c769240315d83600fbc72a23d53c"
+    },
+    {
+      "file": "dist/plugin-sdk/tool-payload.js",
+      "sha256": "4bc87b43bdc363b23ff04071bd03c64f53be439d04b5c8dbe7806f792c1f6342"
+    },
+    {
+      "file": "dist/plugin-sdk/tool-plugin.js",
+      "sha256": "9cfe7cf014919d66a16ff4ac075e72986ba9d598a18f5a6299355b0df88d0c18"
+    },
+    {
+      "file": "dist/plugin-sdk/tool-results.js",
+      "sha256": "de2e815aab71e2ad89e05e71d17fd4ea1ca888708df384e8f05d5a94f710bab8"
+    },
+    {
+      "file": "dist/plugin-sdk/tool-send.js",
+      "sha256": "67d37db19a13337815ab1cd37d88bbfa40d317c59b029757b42e91b86c39d6e0"
+    },
+    {
+      "file": "dist/plugin-sdk/transcripts.js",
+      "sha256": "ffb2a432942c6c87cc337466cd6f33893feeed37f328e95a5510a0df8d65e78d"
+    },
+    {
+      "file": "dist/plugin-sdk/transport-ready-runtime.js",
+      "sha256": "67479e09d7ecd424fe603f10ae265057e04302fcb3d612eb1cac41b0b2051bd3"
+    },
+    {
+      "file": "dist/plugin-sdk/tts-runtime.js",
+      "sha256": "fdb14546115665cd66a559fc8e7b1214fde7b92b3c223d3bf18b8e50464e365a"
+    },
+    {
+      "file": "dist/plugin-sdk/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "file": "dist/plugin-sdk/video-generation-runtime.js",
+      "sha256": "5d3f1cbd00f6c04ba13d39817e413d5cfe7113a729655f0dfe080837f8451824"
+    },
+    {
+      "file": "dist/plugin-sdk/video-generation.js",
+      "sha256": "debbe8eddc39532660dd64d8e5ec03a95d891cf27bede5870ab99b01ea802538"
+    },
+    {
+      "file": "dist/plugin-sdk/web-content-extractor.js",
+      "sha256": "2836a3ae94c635521bc8401659260a89cb01a53e51c0b9aa434e1358c1a09eff"
+    },
+    {
+      "file": "dist/plugin-sdk/web-media.js",
+      "sha256": "e723240107e9c583dc45169c536fc0157ed9e6178f6f92a8ec63eade1a19aa5c"
+    },
+    {
+      "file": "dist/plugin-sdk/webhook-ingress.js",
+      "sha256": "df9e12fbf9b6904e0b1fe02b974be1be6086434ae90616ff916aa2393f3b84bb"
+    },
+    {
+      "file": "dist/plugin-sdk/webhook-request-guards.js",
+      "sha256": "41a8d03f73c86569bacdab36a37fedb7f879a6858df552f3e6f42abbad75a594"
+    },
+    {
+      "file": "dist/plugin-sdk/webhook-targets.js",
+      "sha256": "373609e368c56b37ead9f40de162c794ec1652974bedbdd46cb5134bf74fc1a0"
+    },
+    {
+      "file": "dist/plugin-sdk/websocket-runtime.js",
+      "sha256": "2d1333e1edfdde6ecab01bfb77e8406add9aeb491faf6cea26de3a8c6c7d3e1d"
+    },
+    {
+      "file": "dist/plugin-sdk/widget-html.js",
+      "sha256": "156a9f9bf4079337410ad87261fcb31420eb5d48c899f5e163a0fc2eb818662f"
+    },
+    {
+      "file": "dist/plugin-sdk/windows-spawn.js",
+      "sha256": "9a10c9c2a4127eaf0d502fa5139c3a535c79d06834e0e0bb92614190a5a26761"
+    },
+    {
+      "file": "dist/plugin-sdk/worker-task-server.js",
+      "sha256": "d5a20a91ccd60ff79adeb8503329f3fd73c7654ce22f22468b9d602c00f2878f"
+    },
+    {
+      "file": "node_modules/.pnpm/@openai+codex@0.164.0-linux-x64/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/bin/codex",
+      "sha256": "b93f6811d3f653f0fb83be4050d857fb9abbb111dfa2ce160563327daff7f306"
+    }
+  ],
+  "artifactsUnchanged": true,
+  "nativeVersion": "codex-cli 0.164.0",
+  "limitations": [
+    "Synthetic API key and synthetic provider WebSocket responses; no provider service called.",
+    "Built harness API entrypoint, not a Gateway caller; built plugin-root setter initialized as plugin registration does.",
+    "Only API-key controls; no SIWC credential read or copied."
+  ],
+  "recordedAt": "2026-11-10T05:40:59.642Z",
+  "command": "env -i PATH=/usr/bin:/bin /usr/bin/node <PROOF_ROOT>/controls/api-key-control.mjs <CANDIDATE>",
+  "exit": {
+    "code": 0,
+    "signal": null,
+    "finishedAt": "2026-11-10T05:40:59.711Z"
+  },
+  "driverSha256": "c649db7d2f65ad8796cef5b105a0125e9d55438cd9a129c8bf599f501eaeecab",
+  "executedReceiptSha256": "54489a2dcc49cd5a1268b1d61ce4bd2354bdf60296bdfd073d913ab8efcbb65f",
+  "processObservation": {
+    "status": "missed",
+    "nativeProcesses": [],
+    "limitation": "The driver sampled only each process main-thread children file, not child ownership under all /proc/<pid>/task/<tid>/children entries. No native PID lifecycle coverage is claimed. Native execution is established by the unmocked built managed harness/transport and physical provider-protocol capture, not the empty PID sampler."
+  },
+  "cleanupCheck": {
+    "checkedAt": "2026-11-10T05:41:49.938931+00:00",
+    "method": "Current native codex processes matched against control-owned cwd or argv path; no environment or auth files read.",
+    "matchingControlOwnedNativeProcesses": [],
+    "otherNativeProcessCount": 5
+  },
+  "priorFailedAttempts": [
+    "attempt-1-model-unavailable",
+    "attempt-2-wrapper-not-owned",
+    "attempt-3-explicit-command-not-managed",
+    "attempt-4-receiver-http-only"
+  ],
+  "publicationNotes": [
+    "Transport description corrected from stale SSE wording to WebSocket; executed receipt hash retained. Loopback literals are non-private and preserved."
+  ]
+}

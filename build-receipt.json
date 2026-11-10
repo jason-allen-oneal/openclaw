@@ -1,0 +1,23 @@
+{
+  "buildInfo": {
+    "version": "2026.11.2",
+    "commit": "16d08c5bc9b39a67aa539e2da12a646e98421fec",
+    "builtAt": "2026-11-10T05:25:40.566Z",
+    "buildId": "2026.11.2-16d08c5bc9b3-2026-11-10T05-25-40.566Z"
+  },
+  "command": "pnpm build:runtime",
+  "exit": 0,
+  "durationSeconds": 275.8,
+  "provenance": "Operator-recorded transcription of completed exec/write_stdin receipts, not parsed from these logs: build session9110 exit0; stable Gateway session70994 exit0; candidate session49972 exit0. Elapsed build duration recorded from terminal output. These are not independently machine-signed lifecycle receipts.",
+  "sourceTrackedDiff": "",
+  "sourceHead": "16d08c5bc9b39a67aa539e2da12a646e98421fec",
+  "sourceUntracked": [
+    "extensions/codex/src/app-server/observer-token-sharing.native-proof.test.ts (pre-existing prior synthetic proof, not part of runtime build)"
+  ],
+  "gatewayShutdown": {
+    "stableExit": 0,
+    "candidateExit": 0,
+    "candidateSignal": "SIGTERM",
+    "ownIsolatedHomeVerifiedBeforeSignal": true
+  }
+}
