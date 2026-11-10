@@ -1,0 +1,20 @@
+[test] starting test/vitest/vitest.extension-codex.config.ts
+
+ RUN  v5.0.5 <candidate-checkout>
+
+[vitest-workers] local cache hit after 5442ms
+[vitest-workers] reused local compiler outputs
+[vitest-workers] prepared 87881beb6a4e in 5521ms (18699 inputs, 29316 outputs)
+stdout | extensions/codex/src/app-server/observer-token-sharing.native-proof.test.ts > passes observer preferred sampling through real native Codex and physical TLS receiver
+{"proof":"observer-auth-real-native","sourceHead":"16d08c5bc9b39a67aa539e2da12a646e98421fec","native":[{"pid":1385982,"version":"0.164.0","exited":true,"methods":["model/list","config/read","config/read","hooks/list","configRequirements/read","config/read","account/read","thread/start","mcpServerStatus/list","turn/start"]}],"requestCount":1,"selectedEndpoint":"https://api.openai.com/v1/responses","output":"OBSERVER_NATIVE_OK","samplingFieldsOmitted":true,"explicitLimitsRejectedBeforeSpawn":true,"joinedCleanup":true,"externalSubstitutions":["synthetic scoped OAuth resolver","provider URL redirected to physical loopback TLS receiver with synthetic SSE response"]}
+
+ ✓ |extension-codex| extensions/codex/src/app-server/observer-token-sharing.native-proof.test.ts > passes observer preferred sampling through real native Codex and physical TLS receiver 11414ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  19:45:48
+   Duration  28.20s (transform 43%, tests 41%, import 14%, setup 1%)
+
+[vitest-workers] verifying completed generation before cleanup
+[vitest-workers] retained completed compiler outputs for reuse
+[test] passed 1 Vitest shard in 33.79s
